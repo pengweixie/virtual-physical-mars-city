@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jezero Crater — Mars VR</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #1a0f08; }
+  #hud {
+    position: fixed; top: 12px; left: 12px; z-index: 10;
+    color: #f3d9bf; font: 13px/1.5 system-ui, sans-serif;
+    background: rgba(26, 15, 8, .55); padding: 10px 14px; border-radius: 8px;
+    pointer-events: none; max-width: 340px;
+  }
+  #hud h1 { font-size: 15px; margin: 0 0 4px; font-weight: 600; }
+  #hud .dim { opacity: .7; font-size: 12px; }
+  #pos { font-variant-numeric: tabular-nums; margin-top: 4px; }
+  #hint {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+    color: #f3d9bf; font: 14px system-ui, sans-serif; z-index: 10;
+    background: rgba(26, 15, 8, .55); padding: 8px 16px; border-radius: 8px;
+  }
+  #loading {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: #e8b48a; font: 16px system-ui, sans-serif; z-index: 20;
+    background: #1a0f08; flex-direction: column; gap: 10px;
+  }
+  #orbitBtn {
+    position: fixed; top: 12px; right: 12px; z-index: 10;
+    color: #f3d9bf; font: 14px system-ui, sans-serif;
+    background: rgba(26, 15, 8, .65); border: 1px solid rgba(243, 217, 191, .35);
+    padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  }
+  #orbitBtn:hover { background: rgba(60, 35, 18, .8); }
+  #colonyBtn {
+    position: fixed; top: 58px; right: 12px; z-index: 10;
+    color: #f3d9bf; font: 14px system-ui, sans-serif;
+    background: rgba(26, 15, 8, .65); border: 1px solid rgba(243, 217, 191, .35);
+    padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  }
+  #colonyBtn:hover { background: rgba(60, 35, 18, .8); }
+  #magicBtn {
+    position: fixed; top: 104px; right: 12px; z-index: 10;
+    color: #f3d9bf; font: 14px system-ui, sans-serif;
+    background: rgba(26, 15, 8, .65); border: 1px solid rgba(243, 217, 191, .35);
+    padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  }
+  #magicBtn:hover { background: rgba(60, 35, 18, .8); }
+  #timePanel {
+    position: fixed; bottom: 18px; right: 12px; z-index: 10;
+    color: #f3d9bf; font: 13px/1.6 system-ui, sans-serif;
+    background: rgba(26, 15, 8, .55); padding: 10px 14px; border-radius: 8px;
+    display: flex; flex-direction: column; gap: 6px; min-width: 240px;
+  }
+  #timeInfo { font-variant-numeric: tabular-nums; }
+  #timeRow { display: flex; align-items: center; gap: 8px; }
+  #timeSlider { flex: 1; accent-color: #e8b48a; }
+  #timeNow {
+    color: #f3d9bf; font: 12px system-ui, sans-serif; cursor: pointer;
+    background: rgba(60, 35, 18, .6); border: 1px solid rgba(243, 217, 191, .35);
+    padding: 3px 10px; border-radius: 6px;
+  }
+  #timeNow.active { background: rgba(140, 80, 40, .8); }
+  #poiCard {
+    position: fixed; left: 12px; bottom: 64px; z-index: 10; display: none;
+    color: #f3e6d8; font: 13px/1.55 system-ui, sans-serif;
+    background: rgba(20, 14, 10, .78); border: 1px solid rgba(159, 220, 255, .35);
+    padding: 12px 15px; border-radius: 10px; max-width: 380px;
+    pointer-events: none; backdrop-filter: blur(4px);
+  }
+  #poiCard h3 { margin: 0 0 2px; font-size: 15px; color: #bfe8ff; }
+  #poiCard .u { font-size: 11px; opacity: .6; margin-bottom: 6px; }
+  #poiCard p { margin: 6px 0; }
+  #poiCard table { border-collapse: collapse; margin: 6px 0; }
+  #poiCard td { padding: 1px 10px 1px 0; font-size: 12px;
+    font-variant-numeric: tabular-nums; }
+  #poiCard td:first-child { opacity: .65; }
+  #poiCard .phys { font-size: 12px; opacity: .85; color: #d8d0f0;
+    border-top: 1px dashed rgba(216, 208, 240, .25); padding-top: 6px; }
+  #poiCard .sim { font-size: 12px; opacity: .85; color: #cfe9d8;
+    border-top: 1px dashed rgba(207, 233, 216, .25); padding-top: 6px; }
+  #fade {
+    position: fixed; inset: 0; z-index: 30; background: #000; opacity: 0;
+    pointer-events: none; transition: opacity .28s ease;
+  }
+  #portalPrompt {
+    position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%);
+    z-index: 12; display: none; color: #f3e6d8;
+    font: 15px system-ui, sans-serif; padding: 10px 20px; border-radius: 10px;
+    background: rgba(20, 14, 10, .8); border: 1px solid rgba(159, 220, 255, .5);
+  }
+  #actionBar {
+    position: fixed; bottom: 64px; left: 50%; transform: translateX(-50%);
+    z-index: 11; display: none; gap: 10px;
+  }
+  #actionBar button {
+    color: #fff; font: 15px system-ui, sans-serif; cursor: pointer;
+    background: rgba(150, 60, 30, .82); border: 1px solid rgba(255, 200, 150, .5);
+    padding: 9px 20px; border-radius: 8px;
+  }
+  #actionBar button:hover { background: rgba(200, 90, 45, .92); }
+</style>
+</head>
+<body>
+<div id="loading">正在载入火星地形…</div>
+<div id="hud">
+  <h1>耶泽罗撞击坑 · 毅力号着陆区</h1>
+  <div class="dim">Jezero Crater 18.4°N 77.4°E — HiRISE 1 m/px 真实地形<br>
+  数据：NASA/JPL/University of Arizona</div>
+  <div id="pos"></div>
+  <div id="missionInfo" class="dim"></div>
+</div>
+<div id="timePanel">
+  <div id="timeInfo">火星时间计算中…</div>
+  <div id="timeRow">
+    <input id="timeSlider" type="range" min="0" max="24" step="0.05" value="12">
+    <button id="timeNow" class="active">实时</button>
+  </div>
+</div>
+<div id="poiCard"></div>
+<div id="actionBar"></div>
+<div id="fade"></div>
+<div id="portalPrompt"></div>
+<button id="orbitBtn">↑ 轨道视角</button>
+<button id="colonyBtn">🌱 未来火星：关</button>
+<button id="magicBtn">🔮 魔幻火星：关</button>
+<div id="hint">点击进入 · WASD 移动 · Shift 加速 · F 飞行/行走 · V 环视设备 · M 轨道视角 · P 传送到毅力号 · 头显点 Enter VR</div>
+<script type="importmap">
+{
+  "imports": {
+    "three": "../node_modules/three/build/three.module.js",
+    "three/addons/": "../node_modules/three/examples/jsm/"
+  }
+}
+</script>
+<script>
+  function showFail(msg) {
+    const el = document.getElementById('loading');
+    if (!el) return;
+    el.dataset.failed = '1';
+    el.style.textAlign = 'center';
+    el.innerHTML = `<div>加载失败：${msg}</div>` + (
+      /webgl/i.test(msg)
+        ? '<div style="font-size:13px;opacity:.8;max-width:520px">浏览器拿不到 WebGL（常见于无显卡的远程桌面/虚拟机）。' +
+          '解决办法：用命令行参数启动浏览器开启软件渲染，例如<br>' +
+          '<code>msedge --enable-unsafe-swiftshader</code></div>'
+        : '<div style="font-size:13px;opacity:.8">按 F12 打开控制台可以看到完整错误。</div>');
+  }
+  addEventListener('error', (e) => showFail(
+    e.message || ('资源加载失败: ' + (e.target?.src || e.target?.href || ''))), true);
+  addEventListener('unhandledrejection', (e) => showFail(
+    e.reason && e.reason.message ? e.reason.message : String(e.reason)));
+  setTimeout(() => {
+    const el = document.getElementById('loading');
+    if (el && !el.dataset.failed) {
+      el.textContent = '载入超时——多半是网络取不到依赖或数据文件，按 F12 看控制台。';
+    }
+  }, 25000);
+</script>
+<script type="module" src="main.js"></script>
+</body>
+</html>

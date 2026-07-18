@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>资源与算力</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #060b08; color: #dfeae2;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .poster { width: 1600px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #0a140d 0%, #060b08 45%, #050806 100%); }
+  header { text-align: center; padding: 54px 0 16px; }
+  header h1 { font-size: 58px; letter-spacing: 12px; color: #eaf4ec; font-weight: 800; }
+  header h1 .accent { color: #3ee06a; }
+  header .sub { margin-top: 13px; font-size: 21px; letter-spacing: 4px; color: #7c9a85; }
+  header .rule { width: 640px; height: 2px; margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #3ee06a, transparent); }
+
+  .half-title { display: flex; align-items: baseline; gap: 14px;
+    width: 1540px; margin: 26px auto 12px; }
+  .half-title .t { font-size: 30px; font-weight: 800; color: #eef6f0; letter-spacing: 3px; }
+  .half-title .d { font-size: 15.5px; color: #6fae83; letter-spacing: 1px; }
+  .half-title .ln { flex: 1; height: 1px; background: #1c3524; }
+
+  .compute { display: flex; justify-content: center; gap: 20px; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid #1c3524; box-shadow: 0 14px 40px rgba(0,0,0,.55); }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cp-a { width: 744px; height: 452px; }
+  .cp-b { width: 388px; height: 452px; }
+  .cp-b img { object-position: 50% 40%; }
+  .cp-c { width: 388px; height: 452px; }
+  .cp-c img { object-position: 22% 55%; transform: scale(1.35); }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #cfe2d4; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(4,8,5,.93) 55%); }
+
+  .chiprow { display: flex; justify-content: center; gap: 20px; margin-top: 14px; }
+  .chipcol { width: 760px; display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px;
+    background: #0b140e; border: 1px solid #17281c; border-radius: 8px; }
+  .row .k { flex: 0 0 116px; font-size: 15.5px; color: #6fae83; letter-spacing: .5px; }
+  .row .v { font-size: 16px; color: #e2eee6; line-height: 1.45; }
+  .row .v b { color: #55e07f; font-weight: 700; }
+  .row.sim { border-left: 3px solid #4f9d5f; }
+
+  .res { display: flex; justify-content: center; gap: 22px; margin-top: 10px; }
+  .rcol { width: 498px; display: flex; flex-direction: column; gap: 10px; }
+  .rname { font-size: 24px; font-weight: 800; color: #eef6f0; letter-spacing: 2px;
+    padding: 0 4px; }
+  .rname small { font-size: 14.5px; color: #6fae83; margin-left: 10px; font-weight: 400; }
+  .rp { width: 498px; height: 300px; }
+  .r-rod img { transform: scale(1.75); transform-origin: 50% 60%; }
+  .r-isru img { transform: scale(1.7); transform-origin: 50% 56%; }
+  .r-prn img { transform: scale(1.62); transform-origin: 49% 58%; }
+
+  footer { margin-top: 44px; padding: 28px 70px 34px;
+    background: #050806; border-top: 1px solid #14251a; }
+  footer .line { text-align: center; font-size: 18px; color: #7c9a85; letter-spacing: 1px; }
+  footer .line b { color: #55e07f; }
+  footer .src { margin-top: 11px; text-align: center; font-size: 14px; color: #47604f;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>资源与<span class="accent">算力</span></h1>
+    <div class="sub">冰变水 · 气变燃料 · 土变房 · 沙变硅 —— 城的新陈代谢</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="half-title"><span class="t">计算站</span>
+    <span class="d">ops-compute-01 · 大屏跑着 bigram，硅片插在楼下机架</span><span class="ln"></span></div>
+  <div class="compute">
+    <div class="panel cp-a">
+      <img src="mb1_3d_board_closeup_night.png" alt="MB-1 blade">
+      <div class="cap">RACK-2 夜巡：MB-1 评估板刀片在位 · SPI OK · 正在喂 nanogpt.py</div>
+    </div>
+    <div class="panel cp-b">
+      <img src="mb1_u1_zoom.png" alt="U1 fanout">
+      <div class="cap">U1（LQFP-48）扇出布线 —— 真实版图，非示意</div>
+    </div>
+    <div class="panel cp-c">
+      <img src="compute-in-A.png" alt="compute hall">
+      <div class="cap">机房：数据缆从 2 号机架跨向大屏（引擎内实拍 21:00）</div>
+    </div>
+  </div>
+  <div class="chiprow">
+    <div class="chipcol">
+      <div class="row"><span class="k">芯片 MB-1</span><span class="v">char-bigram 推理 ASIC · <b>sky130 全流程 GDS 26.3 MB</b> · route DRC <b>0</b></span></div>
+      <div class="row sim"><span class="k">📐 验证</span><span class="v">RTL 13 文件 · iverilog+xsim 双仿真器对拍 · SRAM 等价 <b>11069 读 0 失配</b></span></div>
+      <div class="row sim"><span class="k">📐 硬件</span><span class="v">FPGA Arty 比特流实测 · 心跳 LED 按 HEARTBEAT 语义闪烁</span></div>
+    </div>
+    <div class="chipcol">
+      <div class="row"><span class="k">PCB</span><span class="v">2 层 · <b>467 段走线</b> · A* 自动布线 ≥13 轮 · DRC 5 轮清零 · Gerber 出厂 2 版（BOM/CPL 齐）</span></div>
+      <div class="row sim"><span class="k">📐 闭环</span><span class="v">大屏 JS bigram（软件孪生）↔ 机架硅片本体——<b>同一个算法，两种存在</b></span></div>
+      <div class="row"><span class="k">城内</span><span class="v">板 3D 直接绘自 EasyEDA 导出真实铜线 · 插 2 号机架 · poi_mb1 知识卡在位</span></div>
+    </div>
+  </div>
+
+  <div class="half-title" style="margin-top:34px"><span class="t">资源链</span>
+    <span class="d">水冰 → 推进剂 → 城建 —— 全部就地取材</span><span class="ln"></span></div>
+  <div class="res">
+    <div class="rcol">
+      <div class="rname">Rodwell 水冰井<small>res-rodwell-01 + 双罐水银行</small></div>
+      <div class="panel rp r-rod">
+        <img src="rodwell-shot.png" alt="rodwell">
+      </div>
+      <div class="row sim"><span class="k">📐 井寿</span><span class="v">Stefan 移动边界校核：15 kWe 井寿 <b>&gt;669 sol</b>（整一个火星年）</span></div>
+      <div class="row sim"><span class="k">📐 水银行</span><span class="v">双罐 26 m³ = 60 sol 全球尘暴需求 ×114% · 压力包线 <b>700 sol 零断供</b></span></div>
+      <div class="row"><span class="k">管线</span><span class="v">DN25 + 5 cm 气凝胶 · 火星重力 12 m 扬程仅需 <b>44.5 kPa</b></span></div>
+    </div>
+    <div class="rcol">
+      <div class="rname">ISRU 推进剂厂<small>res-isru-01 · Sabatier</small></div>
+      <div class="panel rp r-isru">
+        <img src="isru-shot.png" alt="isru">
+      </div>
+      <div class="row"><span class="k">工艺</span><span class="v">大气 CO₂ + 电解 H₂（水源=隔壁 Rodwell）→ <b>CH₄ / O₂</b></span></div>
+      <div class="row sim"><span class="k">📐 火箭账本</span><span class="v">长十乙每发 <b>215 t</b> 推进剂 / 1174 MWh · 200 kWe → <b>3.3 发/窗口</b></span></div>
+      <div class="row"><span class="k">交付</span><span class="v">36.2 m 工艺线 · Rodin 管线 GLB 自动入库落位</span></div>
+    </div>
+    <div class="rcol">
+      <div class="rname">Regolith 打印工地<small>ops-printer-01 · 龙门</small></div>
+      <div class="panel rp r-prn">
+        <img src="printer-shot.png" alt="printer">
+      </div>
+      <div class="row"><span class="k">整机</span><span class="v"><b>26 m</b> 龙门打印机 · 半成穹顶 0.5 m 层高螺旋堆叠</span></div>
+      <div class="row"><span class="k">上墙</span><span class="v">同工艺已用于<b>地下城入口挡土墙与玄关气闸厅</b>——打印层脊肉眼可见</span></div>
+      <div class="row sim"><span class="k">📐 同门</span><span class="v">工地机器人与矿场共享感知管线（CIS 成像模型 · 5 Hz 自主避障）</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">这半页是城的胃，那半页是城的脑——<b>大屏上跑的模型，就刻在楼下机架的硅片里</b></div>
+    <div class="src">Stefan 校核 · Sabatier 物料账 · sky130 GDS + EasyEDA 真实版图 · 引擎内实拍 · Mars City Digital Twin v0</div>
+  </footer>
+</div>
+</body>
+</html>

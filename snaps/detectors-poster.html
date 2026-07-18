@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>粒子探测三重奏</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #0a0810; color: #e4dfea;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .poster { width: 1600px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #120e1c 0%, #0a0810 45%, #070509 100%); }
+  header { text-align: center; padding: 56px 0 18px; }
+  header h1 { font-size: 60px; letter-spacing: 12px; color: #efe9f5; font-weight: 800; }
+  header h1 .accent { color: #b487e8; }
+  header .sub { margin-top: 13px; font-size: 21px; letter-spacing: 4px; color: #8d7fa4; }
+  header .rule { width: 640px; height: 2px; margin: 24px auto 0;
+    background: linear-gradient(90deg, transparent, #b487e8, transparent); }
+
+  .cols { display: flex; justify-content: center; gap: 30px; margin-top: 24px; }
+  .col { width: 496px; display: flex; flex-direction: column; gap: 12px; }
+  .tag { display: flex; align-items: baseline; gap: 10px; padding: 0 4px; }
+  .tag .name { font-size: 30px; font-weight: 800; color: #f0eaf8; letter-spacing: 2px; }
+  .tag .loc { font-size: 15.5px; color: #a58ed0; letter-spacing: 1px; }
+  .panel { position: relative; width: 496px; border-radius: 12px; overflow: hidden;
+    border: 1px solid #2c2340; box-shadow: 0 14px 40px rgba(0,0,0,.55); }
+  .panel img { width: 100%; display: block; }
+  .hero { height: 330px; }
+  .hero img { height: 100%; object-fit: cover; }
+  .white { background: #fff; }
+  .h-pmt img { object-fit: contain; background: #fff; padding: 6px; }
+  .h-pan img { object-fit: cover; object-position: 62% 62%; transform: scale(1.12); }
+  .h-pet img { object-fit: cover; object-position: 62% 68%; transform: scale(1.52);
+    filter: brightness(1.28); }
+  .inset { height: 252px; }
+  .i-band img { height: 100%; object-fit: contain; background: #fff; padding: 6px; }
+  .i-field img { height: 100%; object-fit: cover; object-position: 50% 38%; }
+  .i-robot img { height: 100%; object-fit: cover; object-position: 82% 76%;
+    transform: scale(1.9); transform-origin: 82% 76%; background: #fff; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #cfc6de; letter-spacing: .5px;
+    background: linear-gradient(180deg, transparent, rgba(8,5,12,.92) 55%); }
+  .white .cap, .i-band .cap, .h-pmt .cap { color: #3a3348;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,.95) 55%); }
+
+  .specs { display: flex; flex-direction: column; gap: 7px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 9px 13px;
+    background: #141021; border: 1px solid #241c38; border-radius: 8px; }
+  .row .k { flex: 0 0 96px; font-size: 15px; color: #a58ed0; letter-spacing: .5px; }
+  .row .v { font-size: 15.5px; color: #e5def0; line-height: 1.42; }
+  .row .v b { color: #c9a2ff; font-weight: 700; }
+  .row.sim { border-left: 3px solid #4f9d5f; }
+
+  footer { margin-top: 44px; padding: 28px 70px 34px;
+    background: #070509; border-top: 1px solid #1c1530; }
+  footer .line { text-align: center; font-size: 17.5px; color: #8d7fa4;
+    letter-spacing: 1px; }
+  footer .line b { color: #c9a2ff; }
+  footer .src { margin-top: 11px; text-align: center; font-size: 14px; color: #574d68;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>粒子探测<span class="accent">三重奏</span></h1>
+    <div class="sub">深地 3000 m · 静止轨道 17,032 km · 地下城医务室 —— 同一门手艺：把每一个光子数清楚</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="cols">
+    <div class="col">
+      <div class="tag"><span class="name">PandaX</span><span class="loc">深地暗物质实验室 · −3000 m</span></div>
+      <div class="panel hero h-pmt white">
+        <img src="4_pmt_hitmap.png" alt="PMT hitmap">
+        <div class="cap">20 keVnr WIMP-like 事例：S2 光池点亮顶阵，毫米级重建落点</div>
+      </div>
+      <div class="panel inset i-band white">
+        <img src="2_discrimination_band.png" alt="discrimination band">
+        <div class="cap">S1/S2 分辨带 —— 核反冲与电子反冲在此分家</div>
+      </div>
+      <div class="specs">
+        <div class="row"><span class="k">靶体</span><span class="v"><b>100 t</b> 液氙 · TPC <b>Ø3.55 m</b> · 水屏蔽罐 Ø14×15 m</span></div>
+        <div class="row sim"><span class="k">📐 光读出</span><span class="v">顶 1521 + 底 1791 只 PMT，单事例 S1/S2 双信号定位 + 定能</span></div>
+        <div class="row sim"><span class="k">📐 蒙卡</span><span class="v">Geant4 系模块化框架 <b>49 个源码模块</b>（几何/物理/探测器 4 大件）</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="tag"><span class="name">MiniPAN</span><span class="loc">静止轨道中继星载荷 · +17,032 km</span></div>
+      <div class="panel hero h-pan">
+        <img src="pan-hero2.png" alt="MiniPAN cutaway">
+        <div class="cap">剖视：TOF（绿）→ TPX3（紫）→ 硅微条（蓝）→ 双 NdFeB 环磁体（橙）</div>
+      </div>
+      <div class="panel inset i-field">
+        <img src="pan_bfield.png" alt="B field">
+        <div class="cap">双环磁体子午面场线（电流环解析近似）—— 磁谱仪的弯折区</div>
+      </div>
+      <div class="specs">
+        <div class="row"><span class="k">构型</span><span class="v"><b>200×200×250 mm</b> 磁谱望远镜 · 磁铁×2 + TOF×2 + TPX3×2 + 硅微条×8</span></div>
+        <div class="row sim"><span class="k">📐 重建</span><span class="v">Geant4 PANSim：1 GeV e⁻/p 弯折径迹 → 刚度/能量分辨已跑通</span></div>
+        <div class="row"><span class="k">挂载</span><span class="v">已随 <b>com-relay-01 主星</b>入轨（天顶甲板，几何按 PANSim 移植，只建模不改动力学）</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="tag"><span class="name">TOF-PET</span><span class="loc">地下城医务室 · −12 m</span></div>
+      <div class="panel hero h-pet">
+        <img src="interior-clinic3.png" alt="PET-CT suite">
+        <div class="cap">医务室 PET-CT 整机：Ø700 孔径 · 37 模块 PET 环（引擎内实拍）</div>
+      </div>
+      <div class="panel inset i-robot white">
+        <img src="robot_petct_scan.png" alt="robot PET/CT scan">
+        <div class="cap">机器人受检者一次扫描：AC-MLEM 活度重建 + PET/CT 融合（GATE 蒙卡）</div>
+      </div>
+      <div class="specs">
+        <div class="row"><span class="k">整机</span><span class="v">PET+CT 双模 · <b>Ø700 mm</b> 孔径 · 两级升降病床（真机参数复刻）</span></div>
+        <div class="row sim"><span class="k">📐 TOF 增益</span><span class="v">飞行时间信息入重建：本底波动 <b>11.5%→5.0%</b>，CNR 最高提升 <b>~1.8×</b></span></div>
+        <div class="row sim"><span class="k">📐 前端</span><span class="v">自研 TOF ASIC 读出链（TIA + CSA + ToT，SPICE 全链仿真）</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">三台仪器一条家谱：<b>PandaX 在岩下等一次反冲，MiniPAN 在轨道数宇宙线，TOF-PET 在病房里给人体计数</b>——探测器物理是这座城的通用语言</div>
+    <div class="src">Geant4 / GATE / CASToR / PANSim 蒙卡 · 电流环解析场图 · 引擎内实拍 · Mars City Digital Twin v0</div>
+  </footer>
+</div>
+</body>
+</html>

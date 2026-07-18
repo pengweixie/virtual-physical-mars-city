@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>veh-raptor-01 dev preview</title>
+<style>html,body{margin:0;height:100%;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { meta, build } from './viewer/units/veh-raptor-01.js';
+
+const q = new URLSearchParams(location.search);
+const night = q.get('mode') === 'night';
+const cam = q.get('cam') || 'iso';
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(night ? 0x0a0708 : 0xc9906b);
+const ground = new THREE.Mesh(new THREE.CircleGeometry(12, 48),
+  new THREE.MeshStandardMaterial({ color: 0x9c5535, roughness: 1 }));
+ground.rotation.x = -Math.PI / 2;
+scene.add(ground);
+const sun = new THREE.DirectionalLight(0xffe0c0, night ? 0.05 : 1.2);
+sun.position.set(4, 6, 5);
+scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xd7a183, 0x5a3524, night ? 0.07 : 0.55));
+
+const unit = build(THREE);
+scene.add(unit);
+if (night) {
+  for (const m of unit.userData.nightMats) m.emissiveIntensity = 1;
+  for (const L of unit.userData.lights) {
+    const p = new THREE.PointLight(L.color, 2.5, L.range, 1.2);
+    p.position.set(...L.pos);
+    scene.add(p);
+  }
+}
+let tris = 0;
+unit.traverse(o => { if (o.isMesh) { const g = o.geometry; tris += (g.index ? g.index.count : g.attributes.position.count) / 3; } });
+console.log('CONTRACT', JSON.stringify({ meta, triangles: Math.round(tris) }));
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(1000, 1000);
+document.body.appendChild(renderer.domElement);
+const camera = new THREE.PerspectiveCamera(42, 1, 0.05, 100);
+const CAMS = {
+  iso:   [[3.4, 2.6, 3.8], [0, 1.5, 0]],   // 3/4 全景
+  front: [[0, 1.6, 4.6], [0, 1.5, 0]],     // 正面(工作台阶侧)
+  pumps: [[3.2, 2.3, 1.4], [0, 2.1, 0]],   // 顶部泵组/预燃器/管路
+  bell:  [[2.0, 0.7, 2.6], [0, 1.0, 0]],   // 喷管冷却肋近景
+  back:  [[0, 2.1, -4.2], [0, 1.9, 0]],    // 背面电气/接线
+};
+const [pos, tgt] = CAMS[cam] || CAMS.iso;
+camera.position.set(...pos);
+camera.lookAt(...tgt);
+renderer.render(scene, camera);
+document.title = 'ready:' + cam + (night ? ':night' : ':day');
+window.SNAP = async (name) => {
+  renderer.render(scene, camera);
+  const r = await fetch('/snap?name=' + name, { method: 'POST', body: renderer.domElement.toDataURL('image/png') });
+  return await r.text();
+};
+</script>
+</body>
+</html>

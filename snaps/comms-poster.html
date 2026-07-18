@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>火星通讯链</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #050a0a; color: #dceae8;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .poster { width: 1600px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #081312 0%, #050a0a 45%, #040707 100%); }
+  header { text-align: center; padding: 58px 0 20px; }
+  header h1 { font-size: 64px; letter-spacing: 14px; color: #e6f2f0; font-weight: 800; }
+  header h1 .accent { color: #3ec8b4; }
+  header .sub { margin-top: 14px; font-size: 22px; letter-spacing: 5px; color: #6f948e; }
+  header .rule { width: 620px; height: 2px; margin: 26px auto 0;
+    background: linear-gradient(90deg, transparent, #3ec8b4, transparent); }
+
+  .cols { display: flex; justify-content: center; gap: 44px; margin-top: 26px; }
+  .col { width: 700px; }
+  .panel { position: relative; width: 700px; height: 640px; border-radius: 14px;
+    overflow: hidden; border: 1px solid #16302c;
+    box-shadow: 0 18px 50px rgba(0,0,0,.6); }
+  .panel img { width: 100%; height: 100%; object-fit: cover; }
+  .p1 img { transform: scale(1.18); transform-origin: 44% 52%;
+    filter: brightness(1.42) contrast(1.05); }
+  .p2 img { transform: scale(1.16); transform-origin: 60% 58%;
+    filter: brightness(1.12); }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 26px 16px;
+    background: linear-gradient(180deg, transparent, rgba(4,8,8,.94) 46%); }
+  .cap .name { font-size: 34px; font-weight: 800; color: #eef6f4; letter-spacing: 3px; }
+  .cap .name small { font-size: 18px; color: #63c0ae; margin-left: 12px; letter-spacing: 1px; }
+  .cap .role { margin-top: 6px; font-size: 17px; color: #7f9a95; letter-spacing: 1px; }
+
+  .specs { margin-top: 22px; display: flex; flex-direction: column; gap: 9px; }
+  .row { display: flex; align-items: baseline; gap: 12px; padding: 11px 16px;
+    background: #091311; border: 1px solid #142622; border-radius: 9px; }
+  .row .k { flex: 0 0 150px; font-size: 16.5px; color: #63c0ae; letter-spacing: 1px; }
+  .row .v { font-size: 17.2px; color: #dfeeea; }
+  .row .v b { color: #55e0c8; font-weight: 700; }
+  .row.sim { border-left: 3px solid #4f9d5f; }
+  .row.phy { border-left: 3px solid #9a6fd8; }
+
+  footer { margin-top: 48px; padding: 30px 70px 36px;
+    background: #040707; border-top: 1px solid #102019; }
+  footer .line { display: flex; justify-content: center; gap: 34px;
+    font-size: 17.5px; color: #7f9a95; letter-spacing: 1px; }
+  footer .line b { color: #55e0c8; }
+  footer .src { margin-top: 12px; text-align: center; font-size: 14.5px; color: #44605a;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>火星<span class="accent">通讯链</span></h1>
+    <div class="sub">JEZERO 地面站 ⇄ 静止轨道星座 ⇄ 地球 · 链路预算的每一格都是仿真填的</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="cols">
+    <div class="col">
+      <div class="panel p1">
+        <img src="comsta-clean.png" alt="通讯基站">
+        <div class="cap">
+          <div class="name">深空地面站<small>com-station-01</small></div>
+          <div class="role">12 m 卡塞格林 · 20 K 低温前端 · 相干双向测轨</div>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="row"><span class="k">天线</span><span class="v"><b>12 m</b> · Ka 32 GHz 增益 <b>70.5 dBi</b> · <b>0.05°</b> 铅笔束</span></div>
+        <div class="row phy"><span class="k">🔬 前端</span><span class="v">LNA 制冷至 <b>20 K</b> → Tsys 75 K · G/T <b>51.8 dB/K</b>（Friis：第一级丢的信噪比永远补不回）</span></div>
+        <div class="row sim"><span class="k">📐 下行</span><span class="v">C/N₀ <b>117 dB-Hz</b> → 600 Mbps 余量 24.7 dB · 满尘暴吃掉 9.5 dB <b>仍不掉线</b></span></div>
+        <div class="row sim"><span class="k">📐 上行</span><span class="v">EIRP <b>98 dBW</b>（800 W）→ 100 Mbps 余量 45 dB——地面站是大炮</span></div>
+        <div class="row phy"><span class="k">🔬 频标</span><span class="v">氢钟 Allan <b>1×10⁻¹⁵</b> @1000 s——相干测距/多普勒的精度天花板</span></div>
+        <div class="row"><span class="k">工程</span><span class="v">3 m 应急碟上合 2.5 AU 守 <b>500 bps</b> · LNA 偏置板 rev B <b>Gerber 已出厂</b></span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="panel p2">
+        <img src="relay-close2.png" alt="中继星">
+        <div class="cap">
+          <div class="name">静止轨道中继星<small>com-relay-01</small></div>
+          <div class="role">17,032 km 定点 · 3 主 + 1 备 · 全城仿真最深的资产</div>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="row"><span class="k">星座</span><span class="v">±71° 连续覆盖 · 干重 <b>1265 kg</b> · 4 星 5.4 t <b>一发入轨</b></span></div>
+        <div class="row sim"><span class="k">📐 HFSS 全波</span><span class="v">Ø3 m Ka 增益 <b>58.2 dBi</b> · 波束 <b>0.226°</b> · S11 −26.6 dB</span></div>
+        <div class="row sim"><span class="k">📐 Geant4</span><span class="v">2×10⁵ 质子蒙卡 → 4 mm 铝 15 年仅 <b>7.1 krad</b>（无俘获带，比地球 GEO 温和 ~10×）</span></div>
+        <div class="row sim"><span class="k">📐 COMSOL</span><span class="v">太阳翼每轨 −25→−152 °C（<b>127 °C</b> ×1350 次）· 热弹判死铝碗 → <b>CFRP 反射面</b></span></div>
+        <div class="row sim"><span class="k">📐 位保</span><span class="v">DOP853 轨道积分：Jezero 槽位 <b>5.1 m/s/yr</b>，15 年 109 m/s——选对经度省 5× 推进剂</span></div>
+        <div class="row sim"><span class="k">📐 任务级</span><span class="v">780 天会合仿真：每周期交付 <b>65 Tb</b> · 日凌全断 14.4 天自然涌现 · LDPC 蒙卡距香农 <b>1.8 dB</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">
+      <span><b>0.05° 的铅笔束</b>，从地面钉住 17,032 km 上一颗"静止"的星</span>
+      <span>六线仿真闭环：<b>HFSS · Geant4 · COMSOL · 轨道积分 · 排队论 · 编码蒙卡</b></span>
+    </div>
+    <div class="src">NASA HiRISE 1 m/px 真实地形 · 耶泽罗撞击坑 18.4°N 77.4°E · 地面站黄昏实拍 + 轨道视角实拍（引擎内） · Mars City Digital Twin v0</div>
+  </footer>
+</div>
+</body>
+</html>

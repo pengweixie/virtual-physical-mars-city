@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>veh-rocket-01 dev preview</title>
+<style>html,body{margin:0;height:100%;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { meta, build } from './viewer/units/veh-rocket-01.js';
+
+const q = new URLSearchParams(location.search);
+const night = q.get('mode') === 'night';
+const cam = q.get('cam') || 'full';
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(night ? 0x0a0708 : 0xc9906b);
+const ground = new THREE.Mesh(new THREE.CircleGeometry(120, 48),
+  new THREE.MeshStandardMaterial({ color: 0x9c5535, roughness: 1 }));
+ground.rotation.x = -Math.PI / 2;
+scene.add(ground);
+const sun = new THREE.DirectionalLight(0xffe0c0, night ? 0.05 : 1.2);
+sun.position.set(50, 60, 40);
+scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xd7a183, 0x5a3524, night ? 0.07 : 0.5));
+
+const unit = build(THREE);
+scene.add(unit);
+const CUT = q.get('cut') === '1';
+if (CUT) {                            // 剖视验证:全模型 x>0 剖切
+  const plane = new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0);
+  unit.traverse(o => {
+    if (o.isMesh) {
+      o.material = o.material.clone();
+      o.material.clippingPlanes = [plane];
+      o.material.side = THREE.DoubleSide;
+    }
+  });
+}
+if (night) {
+  for (const m of unit.userData.nightMats) m.emissiveIntensity = 1;   // 模拟引擎夜间拉满
+  for (const L of unit.userData.lights) {
+    const p = new THREE.PointLight(L.color, 2.5, L.range, 1.2);
+    p.position.set(...L.pos);
+    scene.add(p);
+  }
+}
+let tris = 0;
+unit.traverse(o => { if (o.isMesh) { const g = o.geometry; tris += (g.index ? g.index.count : g.attributes.position.count) / 3; } });
+console.log('CONTRACT', JSON.stringify({ meta, triangles: Math.round(tris) }));
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.localClippingEnabled = CUT;
+renderer.setSize(1280, 720);
+document.body.appendChild(renderer.domElement);
+const camera = new THREE.PerspectiveCamera(45, 1280 / 720, 0.1, 500);
+const CAMS = {
+  full:  [[38, 28, 55], [0, 24, 0]],    // 正面全身(+Z 舷窗面)
+  tiles: [[-62, 34, -30], [0, 24, 0]],  // 背面防热瓦 + 翼面(斜角)
+  base:  [[16, 6, 22], [0, 6, 0]],      // 裙部:发动机/着陆腿/QD
+  nose:  [[14, 42, 20], [0, 43, 0]],    // 鼻锥:前翼/舷窗/舱门
+  cut:   [[72, 28, 6], [0, 25, 0]],     // 剖面全身(配 &cut=1)
+  cutcrew: [[26, 39, 3], [0, 38.5, 0]], // 剖面乘员段(配 &cut=1)
+  eng:   [[7.5, 0.7, 8.5], [0, 1.8, 0]],  // 发动机舱低角度仰视
+  cuteng: [[13, 3.5, 2], [0, 2.2, 0]],    // 剖面推力段(配 &cut=1)
+};
+const [pos, tgt] = CAMS[cam] || CAMS.full;
+camera.position.set(...pos);
+camera.lookAt(...tgt);
+renderer.render(scene, camera);
+document.title = 'ready:' + cam + (night ? ':night' : ':day');
+window.SNAP = async (name) => {
+  renderer.render(scene, camera);
+  const r = await fetch('/snap?name=' + name, { method: 'POST', body: renderer.domElement.toDataURL('image/png') });
+  return await r.text();
+};
+</script>
+</body>
+</html>

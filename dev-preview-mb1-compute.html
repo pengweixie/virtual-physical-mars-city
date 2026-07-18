@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ops-compute-01 (含 MB-1 刀片) dev preview</title>
+<style>html,body{margin:0;height:100%;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { build } from './viewer/units/ops-compute-01.js';   // MB-1 刀片现为单元内建
+
+const q = new URLSearchParams(location.search);
+const night = q.get('mode') === 'night';
+const cam = q.get('cam') || 'full';
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(night ? 0x0a0708 : 0xc9906b);
+const ground = new THREE.Mesh(new THREE.CircleGeometry(120, 48),
+  new THREE.MeshStandardMaterial({ color: 0x9c5535, roughness: 1 }));
+ground.rotation.x = -Math.PI / 2; scene.add(ground);
+const sun = new THREE.DirectionalLight(0xffe0c0, night ? 0.05 : 1.2);
+sun.position.set(50, 60, 40); scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xd7a183, 0x5a3524, night ? 0.07 : 0.5));
+
+const unit = build(THREE);
+scene.add(unit);
+
+if (night) {
+  for (const m of unit.userData.nightMats || []) m.emissiveIntensity = 1;
+  for (const L of unit.userData.lights || []) {
+    const p = new THREE.PointLight(L.color, 2.5, L.range, 1.2);
+    p.position.set(...L.pos); scene.add(p);
+  }
+}
+
+const camera = new THREE.PerspectiveCamera(46, innerWidth / innerHeight, 0.05, 400);
+const CAMS = {
+  full:  { pos: [16, 9, 20], look: [0, 2.5, 0] },
+  board: { pos: [-3.6, 3.0, 3.8], look: [-6.4, 2.0, 0.8] },   // MB-1 刀片特写
+  screen:{ pos: [-4.5, 2.6, 6.5], look: [2, 3.3, -8] },
+};
+const cc = CAMS[cam] || CAMS.full;
+camera.position.set(...cc.pos); camera.lookAt(...cc.look);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+document.body.appendChild(renderer.domElement);
+Object.assign(window, { __scene: scene, __unit: unit, __renderer: renderer, __camera: camera, __THREE: THREE });
+window.__snap = (w, h, tt) => {
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h; camera.updateProjectionMatrix();
+  const T = tt === undefined ? 8 : tt;
+  for (let i = 0; i < 260; i++) unit.userData.animate && unit.userData.animate(T + i * 0.05, 0.05);
+  renderer.render(scene, camera);
+  return renderer.domElement.toDataURL('image/png');
+};
+
+const clock = new THREE.Clock();
+let t = 0;
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), 0.1); t += dt;
+  unit.userData.animate && unit.userData.animate(t, dt);
+  renderer.render(scene, camera);
+});
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+</body>
+</html>

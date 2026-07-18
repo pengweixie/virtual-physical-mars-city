@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>火星双箭</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #0d0a08; color: #e8ddd0;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .poster { width: 1600px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #17100b 0%, #0d0a08 45%, #0a0705 100%); }
+  header { text-align: center; padding: 58px 0 20px; }
+  header h1 { font-size: 64px; letter-spacing: 14px; color: #f2e6d5; font-weight: 800; }
+  header h1 .accent { color: #e0703a; }
+  header .sub { margin-top: 14px; font-size: 22px; letter-spacing: 5px; color: #a8927a; }
+  header .rule { width: 620px; height: 2px; margin: 26px auto 0;
+    background: linear-gradient(90deg, transparent, #e0703a, transparent); }
+
+  .cols { display: flex; justify-content: center; gap: 44px; margin-top: 26px; }
+  .col { width: 700px; }
+  .panel { position: relative; width: 700px; height: 940px; border-radius: 14px;
+    overflow: hidden; border: 1px solid #3a2a1c;
+    box-shadow: 0 18px 50px rgba(0,0,0,.55); }
+  .panel img { width: 100%; height: 100%; object-fit: cover; }
+  .p1 img { transform: scale(1.24); transform-origin: 47% 38%; }
+  .p2 img { transform: scale(1.28); transform-origin: 46% 40%; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 26px 16px;
+    background: linear-gradient(180deg, transparent, rgba(10,7,5,.94) 42%); }
+  .cap .name { font-size: 34px; font-weight: 800; color: #f2e6d5; letter-spacing: 3px; }
+  .cap .name small { font-size: 18px; color: #c8a37a; margin-left: 12px; letter-spacing: 1px; }
+  .cap .role { margin-top: 6px; font-size: 17px; color: #b09a82; letter-spacing: 1px; }
+
+  .specs { margin-top: 22px; display: flex; flex-direction: column; gap: 9px; }
+  .row { display: flex; align-items: baseline; gap: 12px; padding: 11px 16px;
+    background: #171009; border: 1px solid #2e2115; border-radius: 9px; }
+  .row .k { flex: 0 0 168px; font-size: 16.5px; color: #c8a37a; letter-spacing: 1px; }
+  .row .v { font-size: 17.5px; color: #efe3d2; }
+  .row .v b { color: #f0a05c; font-weight: 700; }
+  .row.sim { border-left: 3px solid #4f9d5f; }
+  .row.hot { border-left: 3px solid #e0703a; }
+
+  footer { margin-top: 48px; padding: 30px 70px 36px;
+    background: #080503; border-top: 1px solid #241a10; }
+  footer .line { display: flex; justify-content: center; gap: 34px;
+    font-size: 17px; color: #a8927a; letter-spacing: 1px; }
+  footer .line b { color: #e0a06c; }
+  footer .src { margin-top: 12px; text-align: center; font-size: 14.5px; color: #6f5f4e;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>火星<span class="accent">双箭</span></h1>
+    <div class="sub">JEZERO 发射场 · 发射与回收全链 · 每个数字都有仿真背书</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="cols">
+    <div class="col">
+      <div class="panel p1">
+        <img src="poster-rocket01.png" alt="星舰">
+        <div class="cap">
+          <div class="name">星舰<small>veh-rocket-01 · 着陆状态</small></div>
+          <div class="role">重型货运 · 6×猛禽 · 动力着陆回收</div>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="row"><span class="k">箭体</span><span class="v">高 <b>50 m</b> · 返回带载 <b>133 t</b> · 全程总 Δv <b>6.43 km/s</b></span></div>
+        <div class="row sim"><span class="k">📐 升轨</span><span class="v">火星表面 → LMO Δv <b>4.02 km/s</b></span></div>
+        <div class="row sim"><span class="k">📐 再入走廊</span><span class="v">γe <b>−12°∼−13°</b>（跳出/过载双约束，峰值 4.9 g₀）</span></div>
+        <div class="row hot"><span class="k">🔥 防热</span><span class="v">驻点 376 kW/m² · <b>3 cm</b> 瓦后钢壁 <b>~300 K</b>（COMSOL×有限差分双验）</span></div>
+        <div class="row sim"><span class="k">📐 着陆</span><span class="v">翻转点火下限 <b>≥4.0 km</b> · 反推 ~38 t · 倒伏坡度极限 <b>11°</b></span></div>
+        <div class="row sim"><span class="k">📐 羽流</span><span class="v">着陆坪载 <b>~1.4 MPa</b> · 喷砂半径 ~3 km（着陆坪选址依据）</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="panel p2">
+        <img src="poster-rocket02b.png" alt="长十乙">
+        <div class="cap">
+          <div class="name">长十乙<small>veh-rocket-02 · 竖立待发</small></div>
+          <div class="role">中型运载 · 7×YF-100K · 无腿网捕回收</div>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="row"><span class="k">箭体</span><span class="v">高 <b>67 m</b> · Ø5 m · 火星 RTLS 构型 GLOW <b>298 t</b></span></div>
+        <div class="row sim"><span class="k">📐 运力</span><span class="v">升轨 Δv <b>4.13 km/s</b> · LMO <b>18∼24 t</b></span></div>
+        <div class="row sim"><span class="k">📐 网捕</span><span class="v">蒙特卡洛 N=500 捕获率 <b>100%</b>（落点 σ=0.55 m）</span></div>
+        <div class="row hot"><span class="k">🔥 挂缆</span><span class="v">缓冲单钩峰值 <b>95 kN</b> · 结构裕度 <b>2.6×</b></span></div>
+        <div class="row sim"><span class="k">📐 返场</span><span class="v">推进剂储备裕度 <b>13%</b> · 栅格舵舵效包线占用 <b>&lt;20%</b></span></div>
+        <div class="row sim"><span class="k">📐 补给</span><span class="v">ISRU <b>215 t</b> 推进剂/发 · 200 kWe 电力 → <b>3.3 发/窗口</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">
+      <span>回收路线对比：<b>动力着陆（着陆腿）</b> vs <b>网捕上岸（零着陆腿干重）</b></span>
+      <span>例行任务：每火星日 LTST 14:00 长十乙定点发射</span>
+    </div>
+    <div class="src">NASA HiRISE 1 m/px 真实地形 · 耶泽罗撞击坑 18.4°N 77.4°E · 动力学仿真 ×14 + COMSOL 交叉验证 · Mars City Digital Twin v0</div>
+  </footer>
+</div>
+</body>
+</html>

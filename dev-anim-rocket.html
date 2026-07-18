@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>veh-rocket-01 launch/landing animation</title>
+<style>html,body{margin:0;height:100%;overflow:hidden;background:#000}canvas{display:block}
+#hud{position:fixed;left:10px;top:8px;color:#e8e8e8;font:13px/1.5 monospace;text-shadow:0 0 4px #000;pointer-events:none}</style>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<div id="hud"></div>
+<script type="module">
+import * as THREE from 'three';
+import { meta, build } from './viewer/units/veh-rocket-01.js';
+
+// L2 时间线锚点(源自 sim_ascent / sim_descent),做成压缩电影时序(循环 26s)
+// 阶段:降落反推(0-6) → 触地(6) → 坐地夜停(6.5-11) → 点火(11-12.5) → 起飞爬升(12.5-22) → 复位(22-26)
+const T_LOOP = 26.0;
+const SEQ = {
+  descendStart: 0.0, touchdown: 6.0, sit0: 6.5, sit1: 11.0,
+  ignite: 11.0, liftoff: 12.5, ascendEnd: 22.0, reset: 24.0,
+};
+const H_DESCENT = 220;   // 降落起始视觉高度(压缩)
+const H_ASCEND  = 320;   // 爬升终止视觉高度
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x3a2416);          // 火星黄昏
+scene.fog = new THREE.Fog(0x3a2416, 260, 620);
+const ground = new THREE.Mesh(new THREE.CircleGeometry(400, 64),
+  new THREE.MeshStandardMaterial({ color: 0x8a4a2c, roughness: 1 }));
+ground.rotation.x = -Math.PI / 2;
+scene.add(ground);
+const sun = new THREE.DirectionalLight(0xffdcb0, 0.95); sun.position.set(60, 55, 40); scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xc89878, 0x3a2010, 0.5));
+
+const unit = build(THREE);
+scene.add(unit);
+
+// —— 收集动画钩子 ——
+const flames = unit.userData.flames || [];
+const nightMats = unit.userData.nightMats || [];
+const flaps = [];
+unit.traverse(o => { if (o.name && o.name.startsWith('flap-')) flaps.push({ obj: o, rest: o.rotation.z }); });
+const raptors = [];
+unit.traverse(o => { if (o.name === 'raptor-sl' || o.name === 'raptor-vac') raptors.push({ obj: o, rx: o.rotation.x, rz: o.rotation.z }); });
+
+// —— 为每个喷管挂点生成喷焰(外橙 + 内蓝白,附加混合,自发光) ——
+const plumes = [];
+for (const f of flames) {
+  const g = new THREE.Group();
+  g.position.set(f.pos[0], f.pos[1], f.pos[2]);
+  const outer = new THREE.Mesh(new THREE.ConeGeometry(f.r * 1.05, 1, 16, 1, true),
+    new THREE.MeshBasicMaterial({ color: 0xff8a3c, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+  const inner = new THREE.Mesh(new THREE.ConeGeometry(f.r * 0.5, 1, 12, 1, true),
+    new THREE.MeshBasicMaterial({ color: 0xbfe0ff, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+  outer.rotation.x = Math.PI; inner.rotation.x = Math.PI;   // 锥尖朝下
+  g.add(outer); g.add(inner);
+  g.visible = false;
+  unit.add(g);
+  plumes.push({ g, outer, inner, r: f.r, type: f.type });
+}
+// 发动机羽流辉光点光源(随节流变化)
+const plumeLight = new THREE.PointLight(0xffb060, 0, 60, 2);
+scene.add(plumeLight);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(1280, 720); document.body.appendChild(renderer.domElement);
+const camera = new THREE.PerspectiveCamera(42, 1280 / 720, 0.1, 2000);
+
+const smooth = (a, b, t) => a + (b - a) * (t < 0 ? 0 : t > 1 ? 1 : (t * t * (3 - 2 * t)));
+const hud = document.getElementById('hud');
+
+// —— 时间线求值:返回该时刻的车辆状态 ——
+function stateAt(t) {
+  let phase, alt = 0, throttle = 0, flapAng = 0, gimbal = 0, night = 0;
+  if (t < SEQ.touchdown) {                       // 降落反推
+    phase = '① 动力下降 · 反推着陆(L2: Δv360 m/s, 3台74-82%)';
+    const k = t / SEQ.touchdown;
+    alt = smooth(H_DESCENT, 0, k);               // 速度剖面:先快后慢清零
+    throttle = 0.78 + 0.06 * Math.sin(t * 6);    // 74-82% 区间
+    flapAng = 0.35 * Math.sin(t * 1.2);          // 翼面配平微动
+    gimbal = 0.04 * Math.sin(t * 3);
+    night = smooth(0, 1, (t - 3) / 3);
+  } else if (t < SEQ.sit1) {                      // 坐地
+    phase = '② 着陆完成 · 夜停(倾覆判据: 坡度极限11°, 侧速<2m/s)';
+    alt = 0; throttle = 0; night = 1;
+  } else if (t < SEQ.liftoff) {                   // 点火
+    phase = '③ 点火 · 推力建立(6台猛禽, 起飞T/W 2.6)';
+    const k = (t - SEQ.ignite) / (SEQ.liftoff - SEQ.ignite);
+    alt = 0; throttle = smooth(0, 1, k); night = 1; gimbal = 0.02 * Math.sin(t * 8);
+  } else if (t < SEQ.ascendEnd) {                 // 爬升
+    phase = '④ 上升 · 重力转弯(L2: Δv4.02 km/s, 引力损失274 m/s)';
+    const k = (t - SEQ.liftoff) / (SEQ.ascendEnd - SEQ.liftoff);
+    alt = smooth(0, H_ASCEND, k * k);            // 加速上升
+    throttle = 1.0; night = smooth(1, 0, k);
+    gimbal = 0.03 * Math.sin(t * 4);
+    flapAng = 0.1 * Math.sin(t * 0.8);
+  } else {                                        // 复位(渐隐上移)
+    phase = '↻ 复位';
+    alt = H_ASCEND + (t - SEQ.ascendEnd) * 40; throttle = 0; night = 0;
+  }
+  return { phase, alt, throttle, flapAng, gimbal, night };
+}
+
+function apply(s) {
+  unit.position.y = s.alt;
+  for (const f of flaps) f.obj.rotation.z = f.rest + s.flapAng;
+  for (const r of raptors) { r.obj.rotation.z = r.rz + s.gimbal; r.obj.rotation.x = r.rx + s.gimbal * 0.5; }
+  for (const m of nightMats) m.emissiveIntensity = s.night;
+  // 喷焰
+  const on = s.throttle > 0.02;
+  for (const p of plumes) {
+    p.g.visible = on;
+    if (on) {
+      const base = p.type === 'rvac' ? 5.5 : 4.0;
+      const len = base * (0.6 + 0.4 * s.throttle) * (0.92 + 0.08 * Math.sin(performance.now() * 0.03 + p.r));
+      p.outer.scale.set(1, len, 1); p.outer.position.y = -len / 2;
+      p.inner.scale.set(1, len * 0.7, 1); p.inner.position.y = -len * 0.35;
+      p.outer.material.opacity = 0.5 * s.throttle;
+      p.inner.material.opacity = 0.85 * s.throttle;
+    }
+  }
+  plumeLight.intensity = on ? 6 * s.throttle : 0;
+  plumeLight.position.set(unit.position.x, s.alt + 1.5, unit.position.z);
+}
+
+// 相机:缓慢环绕 + 跟随高度
+function placeCam(t, alt) {
+  const a = t * 0.12 + 0.6;
+  const rad = 62, cy = Math.min(alt * 0.5 + 22, 120);
+  camera.position.set(Math.sin(a) * rad, cy, Math.cos(a) * rad);
+  camera.lookAt(0, Math.min(alt + 6, 90), 0);
+}
+
+let paused = false, manualT = null;
+function frame() {
+  const t = manualT != null ? manualT : (performance.now() / 1000) % T_LOOP;
+  const s = stateAt(t);
+  apply(s);
+  placeCam(t, s.alt);
+  renderer.render(scene, camera);
+  hud.textContent = `t=${t.toFixed(1)}s / ${T_LOOP}s\n${s.phase}\n高度 ${s.alt.toFixed(0)}m · 节流 ${(s.throttle*100).toFixed(0)}%`;
+  if (!paused) requestAnimationFrame(frame);
+}
+frame();
+
+// 截图接口:设定某时刻并渲染
+window.SNAP = async (name, t) => {
+  paused = true; manualT = t;
+  const s = stateAt(t); apply(s); placeCam(t, s.alt); renderer.render(scene, camera);
+  const r = await fetch('/snap?name=' + name, { method: 'POST', body: renderer.domElement.toDataURL('image/png') });
+  const txt = await r.text();
+  manualT = null; paused = false; requestAnimationFrame(frame);
+  return txt;
+};
+document.title = 'anim-ready';
+</script>
+</body>
+</html>

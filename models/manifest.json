@@ -1,0 +1,349 @@
+{
+  "assets": [
+    {
+      "id": "pwr-fusion-01",
+      "name": "托卡马克聚变电站",
+      "type": "code",
+      "module": "units/pwr-fusion-01.js",
+      "size_m": 62,
+      "size_axis": "width",
+      "pos": [
+        -140,
+        40
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "pwr-radiator-01",
+      "name": "废热散热阵",
+      "type": "code",
+      "module": "units/pwr-radiator-01.js",
+      "size_m": 429,
+      "size_axis": "width",
+      "pos": [
+        -80,
+        370
+      ],
+      "rotation_deg": 20,
+      "sink_m": 0.2,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "pwr-storage-01",
+      "name": "储能场（电池阵+再生燃料电池）",
+      "type": "code",
+      "module": "units/pwr-storage-01.js",
+      "size_m": 60,
+      "size_axis": "width",
+      "pos": [
+        -230,
+        90
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.2,
+      "effects": [
+        "glow_windows",
+        "spinners"
+      ]
+    },
+    {
+      "id": "res-isru-01",
+      "name": "ISRU 推进剂工厂（Sabatier 甲烷厂）",
+      "type": "model",
+      "size_m": 36.2,
+      "size_axis": "width",
+      "pos": [
+        40,
+        25
+      ],
+      "rotation_deg": 180,
+      "sink_m": 0.4,
+      "effects": []
+    },
+    {
+      "id": "ops-printer-01",
+      "name": "regolith 3D打印工地（龙门打印机+半成穹顶）",
+      "type": "model",
+      "size_m": 26,
+      "size_axis": "width",
+      "pos": [
+        95,
+        5
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.4,
+      "effects": []
+    },
+    {
+      "id": "res-rodwell-01",
+      "name": "Rodwell 水冰取水井架（钻塔+储罐+尾料堆）",
+      "type": "code",
+      "module": "units/res-rodwell-01.js",
+      "size_m": 12.0,
+      "size_axis": "height",
+      "pos": [
+        -5,
+        110
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
+      "effects": []
+    },
+    {
+      "id": "res-tank-02",
+      "name": "备用储水罐（尘暴水银行，13 m³）",
+      "type": "code",
+      "module": "units/res-tank-02.js",
+      "size_m": 4.7,
+      "size_axis": "width",
+      "pos": [
+        -16,
+        118
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.1,
+      "effects": []
+    },
+    {
+      "id": "sci-lidar-01",
+      "name": "大气激光雷达站",
+      "type": "code",
+      "module": "units/sci-lidar-01.js",
+      "size_m": 3.47,
+      "size_axis": "height",
+      "pos": [
+        -480,
+        -80
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.05,
+      "effects": [
+        "beam_nir"
+      ]
+    },
+    {
+      "id": "sci-obs-01",
+      "name": "光学天文台",
+      "type": "model",
+      "size_m": 5.8,
+      "size_axis": "height",
+      "pos": [
+        -560,
+        -220
+      ],
+      "rotation_deg": 25,
+      "sink_m": 0.35,
+      "effects": [
+        "observatory"
+      ]
+    },
+    {
+      "id": "veh-rocket-01",
+      "name": "星舰（着陆状态）",
+      "type": "code",
+      "module": "units/veh-rocket-01.js",
+      "size_m": 50,
+      "size_axis": "height",
+      "pos": [
+        120,
+        200
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.15,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "veh-raptor-01",
+      "name": "猛禽发动机（检修展示台）",
+      "type": "code",
+      "module": "units/veh-raptor-01.js",
+      "size_m": 3.0,
+      "size_axis": "height",
+      "pos": [
+        138,
+        188
+      ],
+      "rotation_deg": -30,
+      "sink_m": 0.08,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "ops-compute-01",
+      "name": "计算中心",
+      "type": "code",
+      "module": "units/ops-compute-01.js",
+      "size_m": 26,
+      "size_axis": "width",
+      "pos": [
+        -90,
+        120
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.2,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "env-scatter-01",
+      "name": "荒野散件包",
+      "type": "code",
+      "kind": "scatter",
+      "module": "units/env-scatter-01.js",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": [
+        "blink"
+      ]
+    },
+    {
+      "id": "hab-tunnel-01",
+      "name": "地下城入口",
+      "type": "code",
+      "module": "units/hab-tunnel-01.js",
+      "size_m": 60,
+      "size_axis": "width",
+      "pos": [
+        -330,
+        -30
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "ops-spaceport-02",
+      "name": "长十乙发射工位",
+      "type": "code",
+      "module": "units/ops-spaceport-02.js",
+      "size_m": 140,
+      "size_axis": "width",
+      "pos": [
+        750,
+        250
+      ],
+      "rotation_deg": -108,
+      "sink_m": 0.15,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "veh-rocket-02",
+      "name": "长十乙运载火箭",
+      "type": "code",
+      "module": "units/veh-rocket-02.js",
+      "mate": "ops-spaceport-02",
+      "size_m": 67,
+      "size_axis": "height",
+      "pos": [
+        750,
+        250
+      ],
+      "rotation_deg": -108,
+      "sink_m": -7.14,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "res-mine-01",
+      "name": "土壤矿场",
+      "type": "code",
+      "module": "units/res-mine-01.js",
+      "size_m": 79,
+      "size_axis": "width",
+      "pos": [
+        180,
+        -120
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "hab-lift-01",
+      "name": "地下城人员电梯站",
+      "type": "code",
+      "module": "units/hab-lift-01.js",
+      "size_m": 8,
+      "size_axis": "width",
+      "pos": [
+        -372,
+        -18
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.15,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "hab-foyer-01",
+      "name": "地下城玄关",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/hab-foyer-01.js",
+      "size_m": 45,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "hab-clinic-01",
+      "name": "地下城医务室",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/hab-clinic-01.js",
+      "size_m": 10,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "com-station-01",
+      "name": "通讯基站",
+      "type": "code",
+      "module": "units/com-station-01.js",
+      "size_m": 17.7,
+      "size_axis": "width",
+      "pos": [
+        -350,
+        -280
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.15,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    }
+  ]
+}

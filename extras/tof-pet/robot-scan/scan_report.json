@@ -1,0 +1,73 @@
+{
+  "CT_HU": {
+    "note": "16排轴扫; mono=60keV单色, poly=120kVp多色+bowtie+噪声+水BHC",
+    "N0_photons_per_cell": 300000.0,
+    "parts": {
+      "head_shell_Al": {
+        "mono_HU": 2635.7,
+        "poly_HU": 1360.0,
+        "poly_noise_sd": 59.4,
+        "truth_HU": 2641.5
+      },
+      "head_interior": {
+        "mono_HU": 297.8,
+        "poly_HU": -36.0,
+        "poly_noise_sd": 540.2,
+        "truth_HU": 310.8
+      },
+      "reactor_core": {
+        "mono_HU": 10742.5,
+        "poly_HU": 6967.3,
+        "poly_noise_sd": 114.6,
+        "truth_HU": 10741.9
+      },
+      "torso_plastic": {
+        "mono_HU": 0.5,
+        "poly_HU": 255.1,
+        "poly_noise_sd": 82.8,
+        "truth_HU": -0.0
+      },
+      "arm_Al": {
+        "mono_HU": 2642.5,
+        "poly_HU": 1948.7,
+        "poly_noise_sd": 38.2,
+        "truth_HU": 2641.5
+      },
+      "eye_sensor": {
+        "mono_HU": 4871.4,
+        "poly_HU": 3392.4,
+        "poly_noise_sd": 40.5,
+        "truth_HU": 4871.0
+      },
+      "view_window_air": {
+        "mono_HU": -1000.0,
+        "poly_HU": -1089.0,
+        "poly_noise_sd": 14.1,
+        "truth_HU": -1000.0
+      }
+    }
+  },
+  "PET_counts": {
+    "total_prompts": 11101576,
+    "scatter_random_frac": 0.08,
+    "attenuation_correction": "CT-derived mu@511 (bilinear CTAC)"
+  },
+  "PET_recovery": {
+    "reactor_core": {
+      "true": 9.0,
+      "recon": 9.02
+    },
+    "antenna_beacon": {
+      "true": 5.0,
+      "recon": 5.21
+    },
+    "eye_L": {
+      "true": 4.0,
+      "recon": 3.96
+    },
+    "torso_bg": {
+      "true": 0.8,
+      "recon": 0.79
+    }
+  }
+}

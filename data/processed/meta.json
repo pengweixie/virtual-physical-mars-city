@@ -1,0 +1,18 @@
+{
+  "grid": 1024,
+  "size_m": 3780.1794958053983,
+  "elev_min_m": -2616.61181640625,
+  "elev_max_m": -2463.3876953125,
+  "meters_per_px": 1.0096633268711,
+  "source_dtm": "DTEEC_045994_1985_046060_1985_U01.IMG",
+  "source_ortho": "ESP_045994_1985_RED_C_01_ORTHO.JP2",
+  "bounds_proj": [
+    -1836.5775915786319,
+    1090080.9915297295,
+    1943.6019042267667,
+    1093861.1710255349
+  ],
+  "crs_wkt": "PROJCS[\"EQUIRECTANGULAR MARS\",GEOGCS[\"GCS_MARS\",DATUM[\"D_MARS\",SPHEROID[\"MARS_localRadius\",3394839.8133163,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",15],PARAMETER[\"central_meridian\",77.44],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+  "site": "Jezero crater, Mars 2020 landing site (18.4N, 77.4E)",
+  "credit": "NASA/JPL/University of Arizona (HiRISE), public domain"
+}

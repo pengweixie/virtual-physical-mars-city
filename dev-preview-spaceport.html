@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ops-spaceport-02 dev preview</title>
+<style>html,body{margin:0;height:100%;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">
+{ "imports": { "three": "./node_modules/three/build/three.module.js" } }
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { meta, build } from './viewer/units/ops-spaceport-02.js';
+
+const q = new URLSearchParams(location.search);
+const night = q.get('mode') === 'night';
+const cam = q.get('cam') || 'full';
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(night ? 0x0a0708 : 0xc9906b);
+const ground = new THREE.Mesh(new THREE.CircleGeometry(220, 48),
+  new THREE.MeshStandardMaterial({ color: 0x9c5535, roughness: 1 }));
+ground.rotation.x = -Math.PI / 2;
+scene.add(ground);
+const sun = new THREE.DirectionalLight(0xffe0c0, night ? 0.05 : 1.2);
+sun.position.set(80, 100, 60);
+scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xd7a183, 0x5a3524, night ? 0.07 : 0.5));
+
+const unit = build(THREE);
+scene.add(unit);
+if (night) {
+  for (const m of unit.userData.nightMats) m.emissiveIntensity = 1;
+  for (const m of unit.userData.blinkMats) m.emissiveIntensity = 1.4;
+  for (const L of unit.userData.lights) {
+    const p = new THREE.PointLight(L.color, 2.5, L.range, 1.2);
+    p.position.set(...L.pos);
+    scene.add(p);
+  }
+}
+// 动画调试: ?open=1 触发'发射准备'并快进 20 s
+if (q.get('open') === '1') {
+  unit.userData.actions['发射准备']();
+  for (let i = 0; i < 200; i++) unit.userData.animate(i * 0.1, 0.1);
+}
+let tris = 0;
+unit.traverse(o => { if (o.isMesh) { const g = o.geometry; tris += (g.index ? g.index.count : g.attributes.position.count) / 3; } });
+console.log('CONTRACT', JSON.stringify({ meta, triangles: Math.round(tris) }));
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(1280, 720);
+document.body.appendChild(renderer.domElement);
+const camera = new THREE.PerspectiveCamera(45, 1280 / 720, 0.1, 800);
+const CAMS = {
+  full:   [[120, 85, 150], [-5, 30, -5]],   // 全景(+X+Z 高角)
+  tower:  [[45, 45, 55], [0, 42, -16]],     // 勤务塔+回转平台
+  trench: [[-75, 30, 55], [-25, 3, 0]],     // 导流槽出口
+  tank:   [[-80, 22, 10], [-50, 4, -25]],   // 加注区
+  landing:[[104, 32, 66], [58, 16, 12]],    // 网式回收阵位
+  pad:    [[28, 14, 32], [0, 6, 0]],        // 发射台托架近景
+};
+const [pos, tgt] = CAMS[cam] || CAMS.full;
+camera.position.set(...pos);
+camera.lookAt(...tgt);
+renderer.render(scene, camera);
+document.title = 'ready:' + cam + (night ? ':night' : ':day');
+window.SNAP = async (name) => {
+  renderer.render(scene, camera);
+  const r = await fetch('/snap?name=' + name, { method: 'POST', body: renderer.domElement.toDataURL('image/png') });
+  return await r.text();
+};
+</script>
+</body>
+</html>

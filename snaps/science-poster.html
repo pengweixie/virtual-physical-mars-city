@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>火星科学双站</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #07070d; color: #dfe4ec;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .poster { width: 1600px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #0b0d16 0%, #07070d 45%, #050508 100%); }
+  header { text-align: center; padding: 58px 0 20px; }
+  header h1 { font-size: 64px; letter-spacing: 14px; color: #e8edf5; font-weight: 800; }
+  header h1 .accent { color: #6da8e8; }
+  header .sub { margin-top: 14px; font-size: 22px; letter-spacing: 5px; color: #7d8aa0; }
+  header .rule { width: 620px; height: 2px; margin: 26px auto 0;
+    background: linear-gradient(90deg, transparent, #6da8e8, transparent); }
+
+  .cols { display: flex; justify-content: center; gap: 44px; margin-top: 26px; }
+  .col { width: 700px; }
+  .panel { position: relative; width: 700px; height: 640px; border-radius: 14px;
+    overflow: hidden; border: 1px solid #1e2738;
+    box-shadow: 0 18px 50px rgba(0,0,0,.6); }
+  .panel img { width: 100%; height: 100%; object-fit: cover; }
+  .p1 img { transform: scale(1.12); transform-origin: 52% 42%; }
+  .p2 img { transform: scale(1.14); transform-origin: 50% 55%;
+    filter: brightness(1.32) contrast(1.04); }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 26px 16px;
+    background: linear-gradient(180deg, transparent, rgba(5,5,10,.94) 46%); }
+  .cap .name { font-size: 34px; font-weight: 800; color: #eef2f8; letter-spacing: 3px; }
+  .cap .name small { font-size: 18px; color: #7fa9d8; margin-left: 12px; letter-spacing: 1px; }
+  .cap .role { margin-top: 6px; font-size: 17px; color: #8b97ab; letter-spacing: 1px; }
+
+  .specs { margin-top: 22px; display: flex; flex-direction: column; gap: 9px; }
+  .row { display: flex; align-items: baseline; gap: 12px; padding: 11px 16px;
+    background: #0d1119; border: 1px solid #1a2233; border-radius: 9px; }
+  .row .k { flex: 0 0 156px; font-size: 16.5px; color: #7fa9d8; letter-spacing: 1px; }
+  .row .v { font-size: 17.3px; color: #e2e8f1; }
+  .row .v b { color: #7cc4ff; font-weight: 700; }
+  .row.sim { border-left: 3px solid #4f9d5f; }
+  .row.phy { border-left: 3px solid #9a6fd8; }
+
+  footer { margin-top: 48px; padding: 30px 70px 36px;
+    background: #050508; border-top: 1px solid #141b2a; }
+  footer .line { display: flex; justify-content: center; gap: 34px;
+    font-size: 17.5px; color: #8b97ab; letter-spacing: 1px; }
+  footer .line b { color: #7cc4ff; }
+  footer .src { margin-top: 12px; text-align: center; font-size: 14.5px; color: #4d576a;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>火星科学<span class="accent">双站</span></h1>
+    <div class="sub">JEZERO 科学区 · 夜班开工 · 同一条自研 SPAD 工艺线的两种用法</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="cols">
+    <div class="col">
+      <div class="panel p1">
+        <img src="lidar-final.png" alt="大气激光雷达站">
+        <div class="cap">
+          <div class="name">大气激光雷达<small>sci-lidar-01</small></div>
+          <div class="role">905 nm 微脉冲 · 光子计数 · 尘埃/冰云垂直廓线</div>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="row"><span class="k">发射</span><span class="v"><b>905 nm</b> · 3 µJ @ 9.5 kHz · 平均光功率仅 <b>30 mW</b></span></div>
+        <div class="row sim"><span class="k">📐 几何重叠</span><span class="v">双轴盲区 <b>&lt;0.29 km</b> · 0.64 km 全重叠 · 15 km 处 O=0.999</span></div>
+        <div class="row sim"><span class="k">📐 链路预算</span><span class="v">白天 <b>5.1 km</b>（60 s 积分）· 夜间 −40 °C <b>14∼15 km</b> 吃满量程窗</span></div>
+        <div class="row phy"><span class="k">🔬 探测器</span><span class="v">自研 NIR SPAD：PDE@905 <b>40.3%</b> · 两轮剂量修整暗计数地板 <b>↓79×</b></span></div>
+        <div class="row sim"><span class="k">📐 分辨率</span><span class="v">100 ns bin = <b>15 m</b> × 1000 bin = <b>15 km</b> 量程（FPGA MCS 实时直方图）</span></div>
+        <div class="row"><span class="k">工程</span><span class="v">三块 PCB 已出 Gerber · Vivado 时序收敛 · MEDA 式裸线热电偶测温</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="panel p2">
+        <img src="obs-final.png" alt="光学天文台">
+        <div class="cap">
+          <div class="name">光学天文台<small>sci-obs-01</small></div>
+          <div class="role">200 mm f/5 RC · SPAD 光子计数焦面 · 夜间开缝巡天</div>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="row"><span class="k">光学</span><span class="v"><b>200 mm f/5</b> RC · 大气密度仅地球 0.6%，视宁度接近太空</span></div>
+        <div class="row sim"><span class="k">📐 主动调焦</span><span class="v">昼夜 ΔT 120 K → CFRP 失焦 <b>306 µm</b> ≫ 焦深 ±35 µm → 副镜 <b>1 µm 步进</b>强制项</span></div>
+        <div class="row phy"><span class="k">🔬 焦面</span><span class="v"><b>512×512 SPAD</b> @1 kHz 二值帧 · 暗计数 <b>0.383 Hz/px</b>（88 V 全温区免调）</span></div>
+        <div class="row sim"><span class="k">📐 制冷</span><span class="v">夜间热负荷 127 mW → 173 K 焦面仅需 <b>64 cm²</b> 被动辐射板（天空 150 K）</span></div>
+        <div class="row phy"><span class="k">🔬 高压安全</span><span class="v">88 V 比 CO₂ 帕邢最小击穿低 <b>4.8×</b> —— 物理上放不了电，免承压舱</span></div>
+        <div class="row sim"><span class="k">📐 读出</span><span class="v">λ = −ln(1−2·p̄₁)/2T_f 光子率反演 · 读出 ASIC <b>DRC 0</b> + LVS + 提取后仿</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">
+      <span>同一条 spad40 工艺线：<b>一颗打出去数回波，一颗不出光数星光</b></span>
+      <span>器件账本：TCAD 结构迭代 60 · 器件仿真落盘 109 次</span>
+    </div>
+    <div class="src">NASA HiRISE 1 m/px 真实地形 · 耶泽罗撞击坑 18.4°N 77.4°E · 真太阳时 22:30 夜景实拍（引擎内） · Mars City Digital Twin v0</div>
+  </footer>
+</div>
+</body>
+</html>
