@@ -1,83 +1,85 @@
-# Mars VR — Jezero Crater
+# Virtual-Physical Mars City
 
-基于真实 NASA HiRISE 数据的火星地形 VR 查看器。地点是耶泽罗撞击坑
-（Jezero Crater，18.4°N 77.4°E）——毅力号 Mars 2020 的着陆区，
-覆盖古河流三角洲，1 m/像素真实高程与影像。
+*A Mars city digital twin closing the loop: real HiRISE terrain → WebXR city →
+simulation-backed engineering → a real chip running the city's AI.*
 
-浏览器里即可漫游；接上 VR 头显（支持 WebXR 的浏览器）可点 Enter VR
-进入沉浸模式。
+![火星城全景](snaps/panorama.png)
+
+从 NASA HiRISE 真实地形(耶泽罗撞击坑,1 m/px)出发,在浏览器里建起一座
+火星城数字孪生:20+ 座程序化建模的建筑装备、124 张带仿真背书的知识卡、
+毅力号实时任务层、火星真太阳时驱动的昼夜——以及一个完成
+**真实世界 → 数字孪生 → AI → 芯片** 闭环的计算中心:大屏上跑着字符级
+bigram 语言模型,同一个算法被做成真芯片(sky130 全流程 GDS + 出厂 PCB),
+插在旁边的机架里。
 
 ## 快速开始
 
-日常使用：双击项目根目录的 **启动火星VR.bat**，会自动启动服务器并打开浏览器。
-关闭那个黑色命令行窗口即停止服务器。
-
-首次搭建（数据和依赖就绪后不再需要）：
-
 ```
-pip install rasterio numpy pillow
-npm install                          # 本地安装 three.js（不依赖 CDN）
-python scripts/download_data.py      # 下载 DTM + 正射影像（约 415 MB，可断点续传）
-python scripts/process_terrain.py    # 生成 data/processed/ 下的地形资产
-python -m http.server 8123           # 在项目根目录启动
-# 打开 http://localhost:8123/viewer/
+python -m http.server 8123        # 仓库根目录
+# 浏览器打开 http://localhost:8123/viewer/
 ```
 
-## 操作
+Windows 可直接双击 `启动火星VR.bat`(自动入库新模型 + 更新毅力号任务数据 +
+开服 + 开浏览器)。three.js 已随仓库附带(MIT)。支持 WebXR 的浏览器可
+点 Enter VR 进入沉浸模式。
 
-| 输入 | 动作 |
+按键:`WASD` 移动 · `F` 飞行 · `V` 环视设备(含发射等动作按钮)·
+`M` 轨道视角 · `E` 进入地下城 · `P` 传送到毅力号 · 右下滑块调火星时。
+
+## 城里有什么
+
+| 系统 | 亮点 |
 |---|---|
-| 点击画面 | 锁定鼠标视角 |
-| WASD / Shift | 移动 / 加速 |
-| F | 切换行走（贴地）/ 飞行模式 |
-| M / 右上角按钮 | 切换轨道视角（整颗火星）与地表视角 |
-| P | 传送到毅力号（轨迹终点 + 最新照片墙） |
-| C / 右上角按钮 | "未来火星"科技城：掩土居住舱、温室绿植、道路、着陆场、巡逻车，夜晚亮灯 |
-| X / 右上角按钮 | "魔幻火星"城：螺旋塔、水晶林、悬浮岩岛、发光蘑菇、传送门（`?magic=1`）；首次开启会加载 models/crystal 的水晶王城模型（50MB，按钮显示进度） |
+| 能源 | 托卡马克聚变电站(390 MWe)+ 429 m 废热散热阵(600 K 辐射平衡闭合)+ 储能场 L0~L3 仿真链 |
+| 火箭 | 星舰(再入走廊/羽流/防热瓦双验)+ 长十乙(网捕回收蒙卡 N=500 捕获率 100%),每火星日定点发射 |
+| 科学 | SPAD 激光雷达(白天 5.1 km/夜 15 km 链路预算)+ 光学天文台(512×512 SPAD 焦面)+ 挂在中继星上的 MiniPAN 磁谱望远镜 |
+| 通讯 | 3+1 静止轨道星座(全波天线/辐射输运/热弹/轨道积分/排队论/编码蒙卡六线闭环)+ 12 m 深空地面站 |
+| 资源 | Rodwell 水冰井(Stefan 校核 669 sol 井寿)+ Sabatier 推进剂厂 + regolith 3D 打印工地 |
+| 地下城 | 穿门加载的玄关(城市空腔 diorama)+ PET/CT 医务室(GATE 蒙卡重建,受检者是一台机器人) |
+| 感知 | 矿场机器人用声明式传感器通道自主避障——引擎离屏渲染 → CIS CMOS 成像模型 → 5 Hz 感知控制闭环 |
 
-轨道视角中常驻显示通信基础设施：3 颗火星静止轨道（17,000 km）中继星
-（其一定点悬停在耶泽罗上空，画有对地波束）+ 1 颗 400 km 低轨科学轨道器（动画运行）。
-| 右下角滑块 | 调整火星当地时间（日出/黄昏/夜晚），"实时"回到真实时间 |
-| VR 左手摇杆 | 移动（跟随视线方向） |
-| VR 右手摇杆 | 快速转身（30° snap turn） |
+## 海报
 
-URL 参数可指定视点：`?x=0&z=600&y=900&yaw=0&pitch=-0.55&fly=1`（米 / 弧度）；
-轨道视角：`?view=orbit&lat=-8&lon=290`（如水手谷上空）；`?t=18.2` 锁定火星时刻；
-`?colony=1` 直接开启未来火星模式。
+| | |
+|---|---|
+| ![双箭](snaps/rockets-poster.png) | ![科学双站](snaps/science-poster.png) |
+| ![通讯链](snaps/comms-poster.png) | ![粒子探测三重奏](snaps/detectors-poster.png) |
+| ![资源与算力](snaps/resources-poster.png) | ![轨道视角](snaps/orbit-city.png) |
 
-## 结构
+## 目录
 
-```
-scripts/download_data.py    从 HiRISE PDS 归档下载原始数据（公有领域）
-scripts/process_terrain.py  PDS .IMG DTM + JP2 正射影像 → heights.bin / texture.jpg / meta.json
-scripts/update_mission.py   拉取毅力号最新轨迹/位置/照片（启动脚本自动运行）
-viewer/                     Three.js + WebXR 查看器（无构建步骤，直接静态服务）
-data/raw/                   原始下载（git 忽略）
-data/processed/             生成的地形资产（git 忽略）
-data/mission/               毅力号任务数据缓存（git 忽略）
-```
+- `viewer/` — 引擎(main.js)+ 21 个程序化资产模块 + 知识卡 info.json
+- `scripts/` — 数据管线(HiRISE 下载/地形处理/任务更新/模型入库)+
+  14 个火箭动力学仿真 + 布局审计/契约校验工具
+- `models/` — GLB 资产与 manifest
+- `data/processed/` — 地形成品(原始 HiRISE 由 `scripts/download_data.py` 重新获取)
+- `snaps/` — 海报与实拍(HTML 源随附,可重渲)
+- `extras/tof-pet/` — PET 外壳模型 + GATE→MLEM 重建链 + 机器人扫描
+- 协作契约与进度:`MODELS.md` · `CHECKLIST.md` · `STATUS.md` ·
+  `SENSOR_SPEC.md` · `EQUIPMENT.md`
 
-## 项目状态
+本项目由多个 AI session 并行协作建成:总控维护引擎与契约(MODELS.md),
+各设计 session 按契约交付资产模块与知识卡,布局与质量由工具把关
+(SAT 重叠审计、契约校验、运行时验证)。
 
-进度快照与待办清单见 [STATUS.md](STATUS.md)（收尾/交接从这份读起）。
+## 收录边界(刻意为之)
 
-## 模型资产
+1. **商业软件仿真(Sentaurus TCAD / COMSOL / ANSYS HFSS 等)**:只收录
+   最终的 Python 绘图脚本与导出数据,不含商业工具的工程/模型文件。
+   免费/开源工具链(Blender、EasyEDA、Geant4/GATE、CASToR、
+   Yosys/OpenROAD 等)的产物按原样收录。
+2. **TOF-PET**:只保留外壳模型、重建算法与机器人受检者扫描;
+   探测器与前端电子学设计不在本仓库范围。
+3. **暗物质实验与 MiniPAN**:蒙卡/仿真源码均不在本仓库(另册项目),
+   城内仅含 3D 资产模块与结果图。
 
-外部模型（Rodin 等生成）的命名、目录与接入规范见 [MODELS.md](MODELS.md)。
+## 数据来源与致谢
 
-## 数据来源
+- 地形:NASA/JPL/University of Arizona — HiRISE DTM & 正射影像
+- 任务数据:NASA Mars 2020 (Perseverance) 公开 API,启动脚本每日拉取
+- 火星时间:Allison & McEwen (2000) 星历自实现
 
-- DTM 立体对：ESP_045994_1985 / ESP_046060_1985，产品
-  `DTEEC_045994_1985_046060_1985_U01`
-- NASA/JPL/University of Arizona HiRISE，公有领域
-- https://www.uahirise.org/dtm/ESP_045994_1985
-- 轨道视角全球纹理：Solar System Scope（CC BY 4.0）
-- 毅力号轨迹与原始照片：NASA/JPL-Caltech Mars 2020 公开接口，每次启动自动更新
-- 火星太阳时：Allison & McEwen (2000) 近似算法
+## 许可
 
-## 已知限制（v1）
-
-- 单块 3.8 km × 3.8 km 地形，1024² 高度网格（约 4 m/顶点）——近地面
-  细节偏平滑，站定环顾时无沙粒级细节
-- 纹理为 RED 波段灰度图着色，非真彩色
-- 天空为简单渐变着色器，无大气散射模拟、无时间系统
+代码:MIT · 资产/文档:CC BY 4.0 —— 见 [LICENSE](LICENSE)。
+第三方组件见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
