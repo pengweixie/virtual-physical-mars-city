@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>土壤矿场</title>
+<title>Regolith Mine</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1600px; background: #0d0a05; }
@@ -50,44 +50,44 @@
 <body>
 <div class="poster">
   <header>
-    <h1>土壤<span class="accent">矿场</span></h1>
-    <div class="sub">res-mine-01 · 城里第一个"睁着眼干活"的资产 · 感知 → 决策 → 运动 5 Hz 闭环</div>
+    <h1>REGOLITH <span class="accent">MINE</span></h1>
+    <div class="sub">res-mine-01 · the first asset in town that works with its eyes open · perceive → decide → move, a 5 Hz loop</div>
     <div class="rule"></div>
   </header>
 
   <div class="heroes">
     <div class="panel hp-a">
       <img src="mine-aerial.png" alt="mine aerial">
-      <div class="cap">引擎内航拍:79 m 螺旋露天矿 · RASSOR 机器人在坑心作业 · 背景是科学城</div>
+      <div class="cap">In-engine aerial: the 79 m spiral open pit · RASSOR robot working the floor · the city behind</div>
     </div>
     <div class="panel hp-b">
       <img src="mine-report.jpg" alt="robot POV">
-      <div class="cap">机器人实时所见:CIS 导航相机 64×64 · 10-bit · 曝光 67 ms(现场报告)</div>
+      <div class="cap">What the robot actually sees: CIS nav camera, 64×64 · 10-bit · 67 ms exposure (field report)</div>
     </div>
   </div>
   <div class="sims">
     <div class="panel sp-w"><img src="mine-qe.png" alt="QE spectrum">
-      <div class="cap">FDTD 光学仿真:像素量子效率光谱 —— QE 0.60 @ 可见光(自研 CMOS)</div></div>
+      <div class="cap">FDTD optics: pixel quantum-efficiency spectrum — QE 0.60 in the visible (home-grown CMOS)</div></div>
     <div class="panel sp-w"><img src="mine-noise.png" alt="noise breakdown">
-      <div class="cap">系统噪声分解:散粒/读出/暗电流 —— 动态范围 69.5 dB 的来历</div></div>
+      <div class="cap">System noise breakdown: shot / read / dark — where the 69.5 dB dynamic range comes from</div></div>
   </div>
 
   <div class="chips">
     <div class="col">
-      <div class="row sim"><span class="k">📐 感知闭环</span><span class="v">桅杆相机 <b>5 Hz</b> → CIS 成像模型 → 亮度避障 → 状态机(挖掘/运土/卸料)——引擎离屏渲染,资产不碰 renderer</span></div>
-      <div class="row hot"><span class="k">🔬 CIS 底层</span><span class="v">自研 CMOS 五阶段验证:TCAD / FDTD / Virtuoso / RTL——QE <b>0.60</b> · 满阱 <b>17,880 e⁻</b> · 读噪 <b>1.76 e⁻</b> · DR <b>69.5 dB</b></span></div>
-      <div class="row sim"><span class="k">📐 动力学</span><span class="v">MuJoCo 烘焙:火星重力 <b>3.71 m/s²</b> · 空心斗筒对转 <b>±8 rpm</b>——过冲与下垂都是白送的真实感</span></div>
+      <div class="row sim"><span class="k">📐 The loop</span><span class="v">mast camera at <b>5 Hz</b> → CIS imaging model → brightness-based avoidance → state machine (dig / haul / dump) — engine renders offscreen, the asset never touches the renderer</span></div>
+      <div class="row hot"><span class="k">🔬 CIS core</span><span class="v">home-grown CMOS, five-stage verified: TCAD / FDTD / Virtuoso / RTL — QE <b>0.60</b> · full well <b>17,880 e⁻</b> · read noise <b>1.76 e⁻</b> · DR <b>69.5 dB</b></span></div>
+      <div class="row sim"><span class="k">📐 Dynamics</span><span class="v">MuJoCo-baked: Mars gravity <b>3.71 m/s²</b> · counter-rotating bucket drums <b>±8 rpm</b> — overshoot and sag come for free</span></div>
     </div>
     <div class="col">
-      <div class="row sim"><span class="k">📐 长测</span><span class="v"><b>150 s</b> 连续运行:完整采掘循环 ×3 · 视觉避障最小间距 <b>2.4 m</b> · 航位推算 + 地理围栏</span></div>
-      <div class="row sim"><span class="k">📐 缺陷实验</span><span class="v">传感器缺陷-任务联合基准:死点 <b>15%</b> 达避障失效线 · 亮点 <b>12%</b> 断崖失效——芯片指标直接换算成任务风险</span></div>
-      <div class="row"><span class="k">城内</span><span class="v">26,752 三角形 · 5 张知识卡 · 无传感器通道的旧引擎自动退回烘焙动画(优雅降级)</span></div>
+      <div class="row sim"><span class="k">📐 Soak test</span><span class="v"><b>150 s</b> continuous: 3 full dig cycles · closest visual-avoidance pass <b>2.4 m</b> · dead reckoning + geofence</span></div>
+      <div class="row sim"><span class="k">📐 Defects</span><span class="v">sensor-defect vs mission benchmark: <b>15%</b> dead pixels hit the avoidance limit · <b>12%</b> hot pixels fail at the cliff — chip specs converted straight into mission risk</span></div>
+      <div class="row"><span class="k">In town</span><span class="v">26,752 triangles · 5 knowledge cards · engines without the sensor channel fall back to baked animation (graceful degradation)</span></div>
     </div>
   </div>
 
   <footer>
-    <div class="line">从 TCAD 里的一个电子,到 MuJoCo 里的一斗土——<b>这台机器人的每一眼,都有五阶段仿真背书</b></div>
-    <div class="src">TCAD/FDTD/Virtuoso/RTL 五阶段 · MuJoCo 动力学烘焙 · 传感器通道 MODELS.md §4c · 引擎内实拍 · Mars City Digital Twin v0</div>
+    <div class="line">From one electron in TCAD to one drum of dirt in MuJoCo — <b>every glance this robot takes is backed by five stages of simulation</b></div>
+    <div class="src">TCAD/FDTD/Virtuoso/RTL five stages · MuJoCo dynamics bake · sensor channel per MODELS.md §4c · in-engine captures · Mars City Digital Twin v0</div>
   </footer>
 </div>
 </body>

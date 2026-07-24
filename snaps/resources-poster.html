@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>资源与算力</title>
+<title>Resources and Compute</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1600px; background: #060b08; color: #dfeae2;
@@ -65,75 +65,75 @@
 <body>
 <div class="poster">
   <header>
-    <h1>资源与<span class="accent">算力</span></h1>
-    <div class="sub">冰变水 · 气变燃料 · 土变房 · 沙变硅 —— 城的新陈代谢</div>
+    <h1>RESOURCES &amp; <span class="accent">COMPUTE</span></h1>
+    <div class="sub">ice to water · air to fuel · dirt to housing · sand to silicon — the city's metabolism</div>
     <div class="rule"></div>
   </header>
 
-  <div class="half-title"><span class="t">计算站</span>
-    <span class="d">ops-compute-01 · 大屏跑着 bigram，硅片插在楼下机架</span><span class="ln"></span></div>
+  <div class="half-title"><span class="t">Compute Station</span>
+    <span class="d">ops-compute-01 · a bigram runs on the big screen; its silicon sits in the rack below</span><span class="ln"></span></div>
   <div class="compute">
     <div class="panel cp-a">
       <img src="mb1_3d_board_closeup_night.png" alt="MB-1 blade">
-      <div class="cap">RACK-2 夜巡：MB-1 评估板刀片在位 · SPI OK · 正在喂 nanogpt.py</div>
+      <div class="cap">RACK-2 night watch: MB-1 eval blade seated · SPI OK · feeding nanogpt.py</div>
     </div>
     <div class="panel cp-b">
       <img src="mb1_u1_zoom.png" alt="U1 fanout">
-      <div class="cap">U1（LQFP-48）扇出布线 —— 真实版图，非示意</div>
+      <div class="cap">U1 (LQFP-48) fanout routing — the real layout, not an illustration</div>
     </div>
     <div class="panel cp-c">
       <img src="compute-in-A.png" alt="compute hall">
-      <div class="cap">机房：数据缆从 2 号机架跨向大屏（引擎内实拍 21:00）</div>
+      <div class="cap">Machine hall: the data cable arcs from rack 2 to the big screen (in-engine, 21:00)</div>
     </div>
   </div>
   <div class="chiprow">
     <div class="chipcol">
-      <div class="row"><span class="k">芯片 MB-1</span><span class="v">char-bigram 推理 ASIC · <b>sky130 全流程 GDS 26.3 MB</b> · route DRC <b>0</b></span></div>
-      <div class="row sim"><span class="k">📐 验证</span><span class="v">RTL 13 文件 · iverilog+xsim 双仿真器对拍 · SRAM 等价 <b>11069 读 0 失配</b></span></div>
-      <div class="row sim"><span class="k">📐 硬件</span><span class="v">FPGA Arty 比特流实测 · 心跳 LED 按 HEARTBEAT 语义闪烁</span></div>
+      <div class="row"><span class="k">Chip MB-1</span><span class="v">char-bigram inference ASIC · <b>sky130 full-flow GDS, 26.3 MB</b> · route DRC <b>0</b></span></div>
+      <div class="row sim"><span class="k">📐 Verify</span><span class="v">13 RTL files · dual-simulator cross-check (iverilog + xsim) · SRAM equivalence <b>11,069 reads, 0 mismatch</b></span></div>
+      <div class="row sim"><span class="k">📐 Hardware</span><span class="v">FPGA Arty bitstream proven · heartbeat LED blinks per HEARTBEAT semantics</span></div>
     </div>
     <div class="chipcol">
-      <div class="row"><span class="k">PCB</span><span class="v">2 层 · <b>467 段走线</b> · A* 自动布线 ≥13 轮 · DRC 5 轮清零 · Gerber 出厂 2 版（BOM/CPL 齐）</span></div>
-      <div class="row sim"><span class="k">📐 闭环</span><span class="v">大屏 JS bigram（软件孪生）↔ 机架硅片本体——<b>同一个算法，两种存在</b></span></div>
-      <div class="row"><span class="k">城内</span><span class="v">板 3D 直接绘自 EasyEDA 导出真实铜线 · 插 2 号机架 · poi_mb1 知识卡在位</span></div>
+      <div class="row"><span class="k">PCB</span><span class="v">2 layers · <b>467 tracks</b> · A* autoroute ≥13 rounds · DRC cleared in 5 · Gerber shipped ×2 (BOM/CPL)</span></div>
+      <div class="row sim"><span class="k">📐 The loop</span><span class="v">JS bigram on screen (software twin) ↔ silicon in the rack — <b>one algorithm, two existences</b></span></div>
+      <div class="row"><span class="k">In town</span><span class="v">board 3D drawn from real EasyEDA copper · seated in rack 2 · poi_mb1 card live</span></div>
     </div>
   </div>
 
-  <div class="half-title" style="margin-top:34px"><span class="t">资源链</span>
-    <span class="d">水冰 → 推进剂 → 城建 —— 全部就地取材</span><span class="ln"></span></div>
+  <div class="half-title" style="margin-top:34px"><span class="t">Resource Chain</span>
+    <span class="d">water ice → propellant → construction — all in-situ</span><span class="ln"></span></div>
   <div class="res">
     <div class="rcol">
-      <div class="rname">Rodwell 水冰井<small>res-rodwell-01 + 双罐水银行</small></div>
+      <div class="rname">Rodwell Ice Well<small>res-rodwell-01 + twin-tank water bank</small></div>
       <div class="panel rp r-rod">
         <img src="rodwell-shot.png" alt="rodwell">
       </div>
-      <div class="row sim"><span class="k">📐 井寿</span><span class="v">Stefan 移动边界校核：15 kWe 井寿 <b>&gt;669 sol</b>（整一个火星年）</span></div>
-      <div class="row sim"><span class="k">📐 水银行</span><span class="v">双罐 26 m³ = 60 sol 全球尘暴需求 ×114% · 压力包线 <b>700 sol 零断供</b></span></div>
-      <div class="row"><span class="k">管线</span><span class="v">DN25 + 5 cm 气凝胶 · 火星重力 12 m 扬程仅需 <b>44.5 kPa</b></span></div>
+      <div class="row sim"><span class="k">📐 Well life</span><span class="v">Stefan moving-boundary check: 15 kWe keeps the well alive <b>&gt;669 sol</b> (a full Mars year)</span></div>
+      <div class="row sim"><span class="k">📐 Water bank</span><span class="v">twin tanks, 26 m³ = 114% of a 60-sol global dust storm · <b>700 sol zero-outage</b> envelope</span></div>
+      <div class="row"><span class="k">Pipeline</span><span class="v">DN25 + 5 cm aerogel · a 12 m head needs only <b>44.5 kPa</b> in Mars gravity</span></div>
     </div>
     <div class="rcol">
-      <div class="rname">ISRU 推进剂厂<small>res-isru-01 · Sabatier</small></div>
+      <div class="rname">ISRU Propellant Plant<small>res-isru-01 · Sabatier</small></div>
       <div class="panel rp r-isru">
         <img src="isru-shot.png" alt="isru">
       </div>
-      <div class="row"><span class="k">工艺</span><span class="v">大气 CO₂ + 电解 H₂（水源=隔壁 Rodwell）→ <b>CH₄ / O₂</b></span></div>
-      <div class="row sim"><span class="k">📐 火箭账本</span><span class="v">长十乙每发 <b>215 t</b> 推进剂 / 1174 MWh · 200 kWe → <b>3.3 发/窗口</b></span></div>
-      <div class="row"><span class="k">交付</span><span class="v">36.2 m 工艺线 · Rodin 管线 GLB 自动入库落位</span></div>
+      <div class="row"><span class="k">Process</span><span class="v">atmospheric CO₂ + electrolytic H₂ (water from next door) → <b>CH₄ / O₂</b></span></div>
+      <div class="row sim"><span class="k">📐 Ledger</span><span class="v">CZ-10B: <b>215 t</b> propellant / 1174 MWh per launch · 200 kWe → <b>3.3 launches/window</b></span></div>
+      <div class="row"><span class="k">Delivery</span><span class="v">36.2 m process line · GLB auto-ingested and placed</span></div>
     </div>
     <div class="rcol">
-      <div class="rname">Regolith 打印工地<small>ops-printer-01 · 龙门</small></div>
+      <div class="rname">Regolith Print Site<small>ops-printer-01 · gantry</small></div>
       <div class="panel rp r-prn">
         <img src="printer-shot.png" alt="printer">
       </div>
-      <div class="row"><span class="k">整机</span><span class="v"><b>26 m</b> 龙门打印机 · 半成穹顶 0.5 m 层高螺旋堆叠</span></div>
-      <div class="row"><span class="k">上墙</span><span class="v">同工艺已用于<b>地下城入口挡土墙与玄关气闸厅</b>——打印层脊肉眼可见</span></div>
-      <div class="row sim"><span class="k">📐 同门</span><span class="v">工地机器人与矿场共享感知管线（CIS 成像模型 · 5 Hz 自主避障）</span></div>
+      <div class="row"><span class="k">Machine</span><span class="v"><b>26 m</b> gantry printer · half-built dome in 0.5 m spiral layers</span></div>
+      <div class="row"><span class="k">On walls</span><span class="v">the same print layers now hold up the <b>undercity gate and airlock foyer</b> — ridges visible to the eye</span></div>
+      <div class="row sim"><span class="k">📐 Kin</span><span class="v">site rovers share the mine's perception pipeline (CIS imaging model · 5 Hz autonomy)</span></div>
     </div>
   </div>
 
   <footer>
-    <div class="line">这半页是城的胃，那半页是城的脑——<b>大屏上跑的模型，就刻在楼下机架的硅片里</b></div>
-    <div class="src">Stefan 校核 · Sabatier 物料账 · sky130 GDS + EasyEDA 真实版图 · 引擎内实拍 · Mars City Digital Twin v0</div>
+    <div class="line">This half is the city's stomach, that half its brain — <b>the model on the screen is etched into the silicon below</b></div>
+    <div class="src">Stefan check · Sabatier mass ledger · sky130 GDS + real EasyEDA layout · in-engine captures · Mars City Digital Twin v0</div>
   </footer>
 </div>
 </body>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>TES 与 CMB 巡天站</title>
+<title>TES and the CMB Survey Station</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1600px; background: #06080d; }
@@ -51,48 +51,48 @@
 <body>
 <div class="poster">
   <header>
-    <h1>TES 与 <span class="accent">CMB 巡天站</span></h1>
-    <div class="sub">日-火 L2 晕轨道 · 距火星 108 万 km · 听宇宙的第一缕偏振</div>
+    <h1>TES &amp; THE <span class="accent">CMB STATION</span></h1>
+    <div class="sub">Sun–Mars L2 halo orbit · 1.08 million km out · listening for the universe's first polarization</div>
     <div class="rule"></div>
   </header>
 
   <div class="heroes">
     <div class="panel hp-a">
       <img src="tes-device.png" alt="TES device 3D">
-      <div class="cap">探测器 3D 建模:MFT 140/166 GHz 双色 TES 像素 · 悬空岛微桥 + 片上滤波</div>
+      <div class="cap">Detector 3-D model: MFT 140/166 GHz dual-band TES pixel · suspended-island microbridge + on-chip filters</div>
     </div>
     <div class="panel hp-b">
       <img src="tes-array.png" alt="TES array layout">
-      <div class="cap">自研流片版图:TES 阵列(gdstk 掩模,含 µMUX 读出)</div>
+      <div class="cap">Home-grown mask layout: TES array (gdstk, with µMUX readout)</div>
     </div>
     <div class="panel hp-c">
       <img src="tes-l2.png" alt="L2 halo">
-      <div class="cap">引擎内:L2 晕轨道上的巡天站(轨道视角 ?view=cmb)</div>
+      <div class="cap">In-engine: the station on its L2 halo (orbit view, ?view=cmb)</div>
     </div>
   </div>
   <div class="sims">
     <div class="panel sp-w"><img src="tes-mapsq.png" alt="Q maps">
-      <div class="cap">巡天仿真:Stokes Q 偏振天图(扫描航迹 → 命中图 → 成图管线)</div></div>
+      <div class="cap">Survey sim: Stokes-Q polarization maps (scan track → hit map → map-making pipeline)</div></div>
     <div class="panel sp-w"><img src="tes-bb.png" alt="BB forecast">
-      <div class="cap">B 模功率谱预测——这台望远镜为之而生的那条曲线</div></div>
+      <div class="cap">The B-mode power-spectrum forecast — the one curve this telescope was born for</div></div>
   </div>
 
   <div class="chips">
     <div class="col">
-      <div class="row hot"><span class="k">🔥 热学 FEM</span><span class="v">COMSOL 无头批求解 <b>~22 次</b>:悬空岛非线性热闭环 → <b>6 器件热学基线</b>(150 µm 腿长定 G/P_sat)</span></div>
-      <div class="row sim"><span class="k">📐 全波电磁</span><span class="v">HFSS <b>~48 次</b>:天线方向图 · 片上滤波器 · 带外抑制联合曲线——全链 ~70 落库求解</span></div>
-      <div class="row"><span class="k">读出</span><span class="v">µMUX 64 通道微波复用 · SQUID 单元版图 · 见证片校准结构</span></div>
+      <div class="row hot"><span class="k">🔥 Thermal FEM</span><span class="v">COMSOL headless batch, <b>~22 solves</b>: nonlinear suspended-island loop → <b>6 device thermal baselines</b> (150 µm legs set G / P_sat)</span></div>
+      <div class="row sim"><span class="k">📐 Full-wave EM</span><span class="v">HFSS <b>~48 solves</b>: antenna patterns · on-chip filters · joint out-of-band rejection — ~70 archived solves in all</span></div>
+      <div class="row"><span class="k">Readout</span><span class="v">64-channel µMUX microwave multiplexing · SQUID cell layout · witness calibration structures</span></div>
     </div>
     <div class="col">
-      <div class="row sim"><span class="k">📐 巡天链</span><span class="v">扫描航迹 → 交叉链接命中图 → T/Q/U 成图 → 前景分量分离 → <b>B 模谱预测</b>(19 张管线图)</span></div>
-      <div class="row sim"><span class="k">📐 选址</span><span class="v">L2 而非火星轨道:单侧遮阳 · 热稳定 · 避开行星微波前景——三者近火轨道都不成立</span></div>
-      <div class="row"><span class="k">城内</span><span class="v">轨道视角拉近 L2 即弹知识卡 · 晕轨道动画 · ?view=cmb 直达</span></div>
+      <div class="row sim"><span class="k">📐 Survey chain</span><span class="v">scan track → cross-linked hit maps → T/Q/U map-making → foreground separation → <b>B-mode forecast</b> (19 pipeline figures)</span></div>
+      <div class="row sim"><span class="k">📐 Siting</span><span class="v">L2, not Mars orbit: single-sided sunshade · thermal stability · clear of planetary microwave foregrounds — none of the three hold near Mars</span></div>
+      <div class="row"><span class="k">In town</span><span class="v">pan toward L2 in orbit view and the knowledge card pops · animated halo orbit · ?view=cmb deep-link</span></div>
     </div>
   </div>
 
   <footer>
-    <div class="line">100 mK 的冰冷小岛,测 138 亿年前的第一缕光——<b>从腿长 150 µm 到功率谱,一条链算穿</b></div>
-    <div class="src">COMSOL ×22 · HFSS ×48 · gdstk 掩模 · 巡天管线 ×19 图 · 引擎内实拍 · Mars City Digital Twin v0</div>
+    <div class="line">A 100 mK island measuring light from 13.8 billion years ago — <b>one chain computed through, from 150 µm legs to the power spectrum</b></div>
+    <div class="src">COMSOL ×22 · HFSS ×48 · gdstk masks · survey pipeline ×19 figures · in-engine captures · Mars City Digital Twin v0</div>
   </footer>
 </div>
 </body>

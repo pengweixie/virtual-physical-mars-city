@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>托卡马克</title>
+<title>Tokamak Fusion Plant</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1600px; background: #0d0709; }
@@ -50,48 +50,48 @@
 <body>
 <div class="poster">
   <header>
-    <h1>托卡马克<span class="accent">聚变电站</span></h1>
-    <div class="sub">pwr-fusion-01 · 把太阳装进 62 米的平台 · 975 MW 热 → 390 MWe</div>
+    <h1>TOKAMAK <span class="accent">FUSION PLANT</span></h1>
+    <div class="sub">pwr-fusion-01 · a sun on a 62-metre platform · 975 MWth → 390 MWe</div>
     <div class="rule"></div>
   </header>
 
   <div class="heroes">
     <div class="panel hp-a">
       <img src="tok-render.png" alt="tokamak render">
-      <div class="cap">Blender 全尺寸建模渲染:恒温器 Ø14.3 m · 18 D 形 TF 肋 · 火星站址</div>
+      <div class="cap">Full-scale Blender model: cryostat Ø14.3 m · 18 D-shaped TF ribs · Mars site</div>
     </div>
     <div class="panel hp-b">
       <img src="tok-eq.png" alt="FreeGS equilibrium">
-      <div class="cap">FreeGS 磁面平衡 · 长腿偏滤器位形</div>
+      <div class="cap">FreeGS flux-surface equilibrium · long-leg divertor configuration</div>
     </div>
     <div class="panel hp-c">
       <img src="tok-city.png" alt="in-city">
-      <div class="cap">城内实拍:午后的电站与辅助散热排(引擎内)</div>
+      <div class="cap">In-engine: the plant and its auxiliary radiators, mid-afternoon</div>
     </div>
   </div>
   <div class="sims">
     <div class="panel sp"><img src="tok-comsol.png" alt="COMSOL normB">
-      <div class="cap">COMSOL 三维磁体 |B| 切片 —— 线圈系统全场校核</div></div>
+      <div class="cap">COMSOL 3-D magnet |B| slice — full-field check of the coil system</div></div>
     <div class="panel sp"><img src="tok-neutron.png" alt="neutronics">
-      <div class="cap">Geant4 包层中子学三轮扫描:TBR · Be 倍增 · LiPb 置换(14.06 MeV 源中子,18 run)</div></div>
+      <div class="cap">Geant4 blanket neutronics, 3-round scan: TBR · Be multiplier · LiPb swap (14.06 MeV source neutrons, 18 runs)</div></div>
   </div>
 
   <div class="chips">
     <div class="col">
-      <div class="row"><span class="k">功率账本</span><span class="v"><b>975 MW</b> 热 × sCO₂ ~40% = <b>390 MWe</b> · 余 <b>585 MW</b> 交北带散热阵——两资产数字互为校验</span></div>
-      <div class="row sim"><span class="k">📐 平衡/输运</span><span class="v">FreeGS 平衡 + 1.5D 输运 + 偏滤器两点模型(Lengyel 杂质辐射)</span></div>
-      <div class="row sim"><span class="k">📐 安全链</span><span class="v">失超 · 破裂 VDE · 氚循环 · ISRU 耦合——<b>19 脚本 + 28 图</b>落库,8 份报告</span></div>
+      <div class="row"><span class="k">Power ledger</span><span class="v"><b>975 MWth</b> × sCO₂ ~40% = <b>390 MWe</b> · the remaining <b>585 MW</b> goes to the north radiator field — the two assets cross-check each other</span></div>
+      <div class="row sim"><span class="k">📐 Physics</span><span class="v">FreeGS equilibrium + 1.5-D transport + two-point divertor model (Lengyel impurity radiation)</span></div>
+      <div class="row sim"><span class="k">📐 Safety</span><span class="v">quench · disruption VDE · tritium cycle · ISRU coupling — <b>19 scripts + 28 figures</b> archived, 8 reports</span></div>
     </div>
     <div class="col">
-      <div class="row hot"><span class="k">🔥 三维场</span><span class="v">COMSOL 磁体 |B| 全场 ×2 项 · HFSS LHCD 波导全波 ×1</span></div>
-      <div class="row sim"><span class="k">📐 中子学</span><span class="v">Geant4 输运 <b>18 run</b>:包层沉积 / 屏蔽剂量——恒温器外的火星夜是安全的</span></div>
-      <div class="row"><span class="k">城内</span><span class="v">62 m 平台 · 18 D 肋 + 9 窗口 + LHCD ×2 · 8 张知识卡(距离 LOD 弹出)</span></div>
+      <div class="row hot"><span class="k">🔥 3-D fields</span><span class="v">COMSOL magnet |B| full-field ×2 studies · HFSS LHCD waveguide full-wave ×1</span></div>
+      <div class="row sim"><span class="k">📐 Neutronics</span><span class="v">Geant4 transport, <b>18 runs</b>: blanket deposition / shield dose — the Martian night outside the cryostat is safe</span></div>
+      <div class="row"><span class="k">In town</span><span class="v">62 m platform · 18 D-ribs + 9 ports + 2 LHCD halls · 8 knowledge cards (distance-LOD pop-ups)</span></div>
     </div>
   </div>
 
   <footer>
-    <div class="line">恒温器里是一亿度,恒温器外是零下六十度——<b>中间只隔 14 米,和一整条仿真链</b></div>
-    <div class="src">FreeGS · 1.5D 输运 · COMSOL/HFSS · Geant4 ×18 · Blender 建模 · 引擎内实拍 · Mars City Digital Twin v0</div>
+    <div class="line">A hundred million degrees inside the cryostat, minus sixty outside — <b>separated by 14 metres, and one full simulation chain</b></div>
+    <div class="src">FreeGS · 1.5-D transport · COMSOL/HFSS · Geant4 ×18 · Blender model · in-engine captures · Mars City Digital Twin v0</div>
   </footer>
 </div>
 </body>

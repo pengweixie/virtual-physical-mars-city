@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>粒子探测三重奏</title>
+<title>Particle Detector Trio</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1600px; background: #0a0810; color: #e4dfea;
@@ -62,67 +62,67 @@
 <body>
 <div class="poster">
   <header>
-    <h1>粒子探测<span class="accent">三重奏</span></h1>
-    <div class="sub">深地 3000 m · 静止轨道 17,032 km · 地下城医务室 —— 同一门手艺：把每一个光子数清楚</div>
+    <h1>PARTICLE DETECTOR <span class="accent">TRIO</span></h1>
+    <div class="sub">3000 m underground · 17,032 km on orbit · the undercity clinic — one craft: counting every photon</div>
     <div class="rule"></div>
   </header>
 
   <div class="cols">
     <div class="col">
-      <div class="tag"><span class="name">PandaX</span><span class="loc">深地暗物质实验室 · −3000 m</span></div>
+      <div class="tag"><span class="name">PandaX</span><span class="loc">deep dark-matter lab · −3000 m</span></div>
       <div class="panel hero h-pmt white">
         <img src="4_pmt_hitmap.png" alt="PMT hitmap">
-        <div class="cap">20 keVnr WIMP-like 事例：S2 光池点亮顶阵，毫米级重建落点</div>
+        <div class="cap">A 20 keVnr WIMP-like event: the S2 pool lights the top array — mm-level position reconstruction</div>
       </div>
       <div class="panel inset i-band white">
         <img src="2_discrimination_band.png" alt="discrimination band">
-        <div class="cap">S1/S2 分辨带 —— 核反冲与电子反冲在此分家</div>
+        <div class="cap">S1/S2 discrimination band — nuclear and electron recoils part ways here</div>
       </div>
       <div class="specs">
-        <div class="row"><span class="k">靶体</span><span class="v"><b>100 t</b> 液氙 · TPC <b>Ø3.55 m</b> · 水屏蔽罐 Ø14×15 m</span></div>
-        <div class="row sim"><span class="k">📐 光读出</span><span class="v">顶 1521 + 底 1791 只 PMT，单事例 S1/S2 双信号定位 + 定能</span></div>
-        <div class="row sim"><span class="k">📐 蒙卡</span><span class="v">Geant4 系模块化框架 <b>49 个源码模块</b>（几何/物理/探测器 4 大件）</span></div>
+        <div class="row"><span class="k">Target</span><span class="v"><b>100 t</b> LXe · TPC <b>Ø3.55 m</b> · water shield Ø14×15 m</span></div>
+        <div class="row sim"><span class="k">📐 Readout</span><span class="v">1521 top + 1791 bottom PMTs · per-event S1/S2 position + energy</span></div>
+        <div class="row sim"><span class="k">📐 MC</span><span class="v">Geant4-family modular framework, <b>49 source modules</b> (geometry / physics / detectors)</span></div>
       </div>
     </div>
 
     <div class="col">
-      <div class="tag"><span class="name">MiniPAN</span><span class="loc">静止轨道中继星载荷 · +17,032 km</span></div>
+      <div class="tag"><span class="name">MiniPAN</span><span class="loc">relay-satellite payload · +17,032 km</span></div>
       <div class="panel hero h-pan">
         <img src="pan-hero2.png" alt="MiniPAN cutaway">
-        <div class="cap">剖视：TOF（绿）→ TPX3（紫）→ 硅微条（蓝）→ 双 NdFeB 环磁体（橙）</div>
+        <div class="cap">Cutaway: TOF (green) → TPX3 (purple) → Si strips (blue) → twin NdFeB ring magnets (orange)</div>
       </div>
       <div class="panel inset i-field">
         <img src="pan_bfield.png" alt="B field">
-        <div class="cap">双环磁体子午面场线（电流环解析近似）—— 磁谱仪的弯折区</div>
+        <div class="cap">Meridian-plane field lines of the magnet pair (current-loop analytic) — the spectrometer bending region</div>
       </div>
       <div class="specs">
-        <div class="row"><span class="k">构型</span><span class="v"><b>200×200×250 mm</b> 磁谱望远镜 · 磁铁×2 + TOF×2 + TPX3×2 + 硅微条×8</span></div>
-        <div class="row sim"><span class="k">📐 重建</span><span class="v">Geant4 PANSim：1 GeV e⁻/p 弯折径迹 → 刚度/能量分辨已跑通</span></div>
-        <div class="row"><span class="k">挂载</span><span class="v">已随 <b>com-relay-01 主星</b>入轨（天顶甲板，几何按 PANSim 移植，只建模不改动力学）</span></div>
+        <div class="row"><span class="k">Layout</span><span class="v"><b>200×200×250 mm</b> magnetic telescope · 2 magnets + 2 TOF + 2 TPX3 + 8 Si-strip layers</span></div>
+        <div class="row sim"><span class="k">📐 Reco</span><span class="v">Geant4 PANSim: 1 GeV e⁻/p bent tracks → rigidity / energy resolution demonstrated</span></div>
+        <div class="row"><span class="k">Mount</span><span class="v">flying on the <b>com-relay-01 primary</b> (zenith deck; geometry ported from PANSim — model only)</span></div>
       </div>
     </div>
 
     <div class="col">
-      <div class="tag"><span class="name">TOF-PET</span><span class="loc">地下城医务室 · −12 m</span></div>
+      <div class="tag"><span class="name">TOF-PET</span><span class="loc">undercity clinic · −12 m</span></div>
       <div class="panel hero h-pet">
         <img src="interior-clinic3.png" alt="PET-CT suite">
-        <div class="cap">医务室 PET-CT 整机：Ø700 孔径 · 37 模块 PET 环（引擎内实拍）</div>
+        <div class="cap">Clinic PET-CT: Ø700 bore · 37-module PET ring (in-engine capture)</div>
       </div>
       <div class="panel inset i-robot white">
         <img src="robot_petct_scan.png" alt="robot PET/CT scan">
-        <div class="cap">机器人受检者一次扫描：AC-MLEM 活度重建 + PET/CT 融合（GATE 蒙卡）</div>
+        <div class="cap">Robot patient, one scan: AC-MLEM activity reconstruction + PET/CT fusion (GATE MC)</div>
       </div>
       <div class="specs">
-        <div class="row"><span class="k">整机</span><span class="v">PET+CT 双模 · <b>Ø700 mm</b> 孔径 · 两级升降病床（真机参数复刻）</span></div>
-        <div class="row sim"><span class="k">📐 TOF 增益</span><span class="v">飞行时间信息入重建：本底波动 <b>11.5%→5.0%</b>，CNR 最高提升 <b>~1.8×</b></span></div>
-        <div class="row sim"><span class="k">📐 前端</span><span class="v">自研 TOF ASIC 读出链（TIA + CSA + ToT，SPICE 全链仿真）</span></div>
+        <div class="row"><span class="k">System</span><span class="v">PET+CT dual-modality · <b>Ø700 mm</b> bore · two-stage patient bed (real-machine parameters)</span></div>
+        <div class="row sim"><span class="k">📐 TOF gain</span><span class="v">time-of-flight in reconstruction: background swing <b>11.5%→5.0%</b>, CNR up to <b>~1.8×</b></span></div>
+        <div class="row sim"><span class="k">📐 Front-end</span><span class="v">home-grown TOF ASIC chain (TIA + CSA + ToT, full-chain SPICE)</span></div>
       </div>
     </div>
   </div>
 
   <footer>
-    <div class="line">三台仪器一条家谱：<b>PandaX 在岩下等一次反冲，MiniPAN 在轨道数宇宙线，TOF-PET 在病房里给人体计数</b>——探测器物理是这座城的通用语言</div>
-    <div class="src">Geant4 / GATE / CASToR / PANSim 蒙卡 · 电流环解析场图 · 引擎内实拍 · Mars City Digital Twin v0</div>
+    <div class="line">One family tree: <b>PandaX waits under rock for a recoil, MiniPAN counts cosmic rays on orbit, TOF-PET counts inside a patient</b> — detector physics is this city's lingua franca</div>
+    <div class="src">Geant4 / GATE / CASToR / PANSim Monte Carlo · current-loop analytic field map · in-engine captures · Mars City Digital Twin v0</div>
   </footer>
 </div>
 </body>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>火星双箭</title>
+<title>Mars Twin Rockets</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1600px; background: #0d0a08; color: #e8ddd0;
@@ -51,8 +51,8 @@
 <body>
 <div class="poster">
   <header>
-    <h1>火星<span class="accent">双箭</span></h1>
-    <div class="sub">JEZERO 发射场 · 发射与回收全链 · 每个数字都有仿真背书</div>
+    <h1>MARS TWIN <span class="accent">ROCKETS</span></h1>
+    <div class="sub">JEZERO SPACEPORT · full launch-and-recovery chain · every number backed by simulation</div>
     <div class="rule"></div>
   </header>
 
@@ -61,17 +61,17 @@
       <div class="panel p1">
         <img src="poster-rocket01.png" alt="星舰">
         <div class="cap">
-          <div class="name">星舰<small>veh-rocket-01 · 着陆状态</small></div>
-          <div class="role">重型货运 · 6×猛禽 · 动力着陆回收</div>
+          <div class="name">Starship<small>veh-rocket-01 · landed</small></div>
+          <div class="role">Heavy cargo · 6× Raptor · propulsive-landing recovery</div>
         </div>
       </div>
       <div class="specs">
-        <div class="row"><span class="k">箭体</span><span class="v">高 <b>50 m</b> · 返回带载 <b>133 t</b> · 全程总 Δv <b>6.43 km/s</b></span></div>
-        <div class="row sim"><span class="k">📐 升轨</span><span class="v">火星表面 → LMO Δv <b>4.02 km/s</b></span></div>
-        <div class="row sim"><span class="k">📐 再入走廊</span><span class="v">γe <b>−12°∼−13°</b>（跳出/过载双约束，峰值 4.9 g₀）</span></div>
-        <div class="row hot"><span class="k">🔥 防热</span><span class="v">驻点 376 kW/m² · <b>3 cm</b> 瓦后钢壁 <b>~300 K</b>（COMSOL×有限差分双验）</span></div>
-        <div class="row sim"><span class="k">📐 着陆</span><span class="v">翻转点火下限 <b>≥4.0 km</b> · 反推 ~38 t · 倒伏坡度极限 <b>11°</b></span></div>
-        <div class="row sim"><span class="k">📐 羽流</span><span class="v">着陆坪载 <b>~1.4 MPa</b> · 喷砂半径 ~3 km（着陆坪选址依据）</span></div>
+        <div class="row"><span class="k">Vehicle</span><span class="v"><b>50 m</b> tall · returns carrying <b>133 t</b> · total mission Δv <b>6.43 km/s</b></span></div>
+        <div class="row sim"><span class="k">📐 Ascent</span><span class="v">Mars surface → LMO, Δv <b>4.02 km/s</b></span></div>
+        <div class="row sim"><span class="k">📐 Entry</span><span class="v">corridor γe <b>−12°~−13°</b> (skip-out / g-load bounded, peak 4.9 g₀)</span></div>
+        <div class="row hot"><span class="k">🔥 TPS</span><span class="v">stagnation 376 kW/m² · <b>3 cm</b> tile keeps the steel wall at <b>~300 K</b> (COMSOL × FD cross-check)</span></div>
+        <div class="row sim"><span class="k">📐 Landing</span><span class="v">flip-burn floor <b>≥4.0 km</b> · retro thrust ~38 t · tip-over slope limit <b>11°</b></span></div>
+        <div class="row sim"><span class="k">📐 Plume</span><span class="v">pad load <b>~1.4 MPa</b> · sandblast radius ~3 km (pad-siting basis)</span></div>
       </div>
     </div>
 
@@ -79,27 +79,27 @@
       <div class="panel p2">
         <img src="poster-rocket02b.png" alt="长十乙">
         <div class="cap">
-          <div class="name">长十乙<small>veh-rocket-02 · 竖立待发</small></div>
-          <div class="role">中型运载 · 7×YF-100K · 无腿网捕回收</div>
+          <div class="name">CZ-10B<small>veh-rocket-02 · on the pad</small></div>
+          <div class="role">Medium lift · 7× YF-100K · leg-less net-catch recovery</div>
         </div>
       </div>
       <div class="specs">
-        <div class="row"><span class="k">箭体</span><span class="v">高 <b>67 m</b> · Ø5 m · 火星 RTLS 构型 GLOW <b>298 t</b></span></div>
-        <div class="row sim"><span class="k">📐 运力</span><span class="v">升轨 Δv <b>4.13 km/s</b> · LMO <b>18∼24 t</b></span></div>
-        <div class="row sim"><span class="k">📐 网捕</span><span class="v">蒙特卡洛 N=500 捕获率 <b>100%</b>（落点 σ=0.55 m）</span></div>
-        <div class="row hot"><span class="k">🔥 挂缆</span><span class="v">缓冲单钩峰值 <b>95 kN</b> · 结构裕度 <b>2.6×</b></span></div>
-        <div class="row sim"><span class="k">📐 返场</span><span class="v">推进剂储备裕度 <b>13%</b> · 栅格舵舵效包线占用 <b>&lt;20%</b></span></div>
-        <div class="row sim"><span class="k">📐 补给</span><span class="v">ISRU <b>215 t</b> 推进剂/发 · 200 kWe 电力 → <b>3.3 发/窗口</b></span></div>
+        <div class="row"><span class="k">Vehicle</span><span class="v"><b>67 m</b> · Ø5 m · Mars RTLS configuration, GLOW <b>298 t</b></span></div>
+        <div class="row sim"><span class="k">📐 Payload</span><span class="v">ascent Δv <b>4.13 km/s</b> · LMO <b>18–24 t</b></span></div>
+        <div class="row sim"><span class="k">📐 Net catch</span><span class="v">Monte-Carlo N=500, capture rate <b>100%</b> (touchdown σ = 0.55 m)</span></div>
+        <div class="row hot"><span class="k">🔥 Cable</span><span class="v">single-hook peak <b>95 kN</b> during arrest · structural margin <b>2.6×</b></span></div>
+        <div class="row sim"><span class="k">📐 RTLS</span><span class="v">propellant reserve margin <b>13%</b> · grid-fin authority used <b>&lt;20%</b></span></div>
+        <div class="row sim"><span class="k">📐 ISRU</span><span class="v"><b>215 t</b> propellant per launch · 200 kWe → <b>3.3 launches/window</b></span></div>
       </div>
     </div>
   </div>
 
   <footer>
     <div class="line">
-      <span>回收路线对比：<b>动力着陆（着陆腿）</b> vs <b>网捕上岸（零着陆腿干重）</b></span>
-      <span>例行任务：每火星日 LTST 14:00 长十乙定点发射</span>
+      <span>Two recovery doctrines: <b>propulsive landing (legs)</b> vs <b>net catch (zero leg dry-mass)</b></span>
+      <span>Routine ops: CZ-10B lifts off every sol at LTST 14:00</span>
     </div>
-    <div class="src">NASA HiRISE 1 m/px 真实地形 · 耶泽罗撞击坑 18.4°N 77.4°E · 动力学仿真 ×14 + COMSOL 交叉验证 · Mars City Digital Twin v0</div>
+    <div class="src">NASA HiRISE 1 m/px real terrain · Jezero Crater 18.4°N 77.4°E · 14 dynamics sims + COMSOL cross-check · Mars City Digital Twin v0</div>
   </footer>
 </div>
 </body>

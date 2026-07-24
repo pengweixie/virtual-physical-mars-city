@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>火星科学双站</title>
+<title>Mars Science Duo</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1600px; background: #07070d; color: #dfe4ec;
@@ -52,8 +52,8 @@
 <body>
 <div class="poster">
   <header>
-    <h1>火星科学<span class="accent">双站</span></h1>
-    <div class="sub">JEZERO 科学区 · 夜班开工 · 同一条自研 SPAD 工艺线的两种用法</div>
+    <h1>MARS SCIENCE <span class="accent">DUO</span></h1>
+    <div class="sub">JEZERO science quarter · night shift · two uses of one home-grown SPAD process line</div>
     <div class="rule"></div>
   </header>
 
@@ -62,17 +62,17 @@
       <div class="panel p1">
         <img src="lidar-final.png" alt="大气激光雷达站">
         <div class="cap">
-          <div class="name">大气激光雷达<small>sci-lidar-01</small></div>
-          <div class="role">905 nm 微脉冲 · 光子计数 · 尘埃/冰云垂直廓线</div>
+          <div class="name">Atmospheric LiDAR<small>sci-lidar-01</small></div>
+          <div class="role">905 nm micro-pulse · photon counting · dust / ice-cloud vertical profiles</div>
         </div>
       </div>
       <div class="specs">
-        <div class="row"><span class="k">发射</span><span class="v"><b>905 nm</b> · 3 µJ @ 9.5 kHz · 平均光功率仅 <b>30 mW</b></span></div>
-        <div class="row sim"><span class="k">📐 几何重叠</span><span class="v">双轴盲区 <b>&lt;0.29 km</b> · 0.64 km 全重叠 · 15 km 处 O=0.999</span></div>
-        <div class="row sim"><span class="k">📐 链路预算</span><span class="v">白天 <b>5.1 km</b>（60 s 积分）· 夜间 −40 °C <b>14∼15 km</b> 吃满量程窗</span></div>
-        <div class="row phy"><span class="k">🔬 探测器</span><span class="v">自研 NIR SPAD：PDE@905 <b>40.3%</b> · 两轮剂量修整暗计数地板 <b>↓79×</b></span></div>
-        <div class="row sim"><span class="k">📐 分辨率</span><span class="v">100 ns bin = <b>15 m</b> × 1000 bin = <b>15 km</b> 量程（FPGA MCS 实时直方图）</span></div>
-        <div class="row"><span class="k">工程</span><span class="v">三块 PCB 已出 Gerber · Vivado 时序收敛 · MEDA 式裸线热电偶测温</span></div>
+        <div class="row"><span class="k">TX</span><span class="v"><b>905 nm</b> · 3 µJ @ 9.5 kHz · mean optical power just <b>30 mW</b></span></div>
+        <div class="row sim"><span class="k">📐 Overlap</span><span class="v">biaxial blind zone <b>&lt;0.29 km</b> · full overlap at 0.64 km · O=0.999 @ 15 km</span></div>
+        <div class="row sim"><span class="k">📐 Link budget</span><span class="v">daytime <b>5.1 km</b> (60 s) · night at −40 °C <b>14–15 km</b>, filling the range window</span></div>
+        <div class="row phy"><span class="k">🔬 Detector</span><span class="v">home-grown NIR SPAD: PDE@905 <b>40.3%</b> · dark-count floor <b>↓79×</b> after two dose-trim rounds</span></div>
+        <div class="row sim"><span class="k">📐 Resolution</span><span class="v">100 ns bin = <b>15 m</b> × 1000 bins = <b>15 km</b> range (FPGA MCS live histogram)</span></div>
+        <div class="row"><span class="k">Hardware</span><span class="v">three PCBs at Gerber · Vivado timing closed · MEDA-style bare-wire thermocouples</span></div>
       </div>
     </div>
 
@@ -80,27 +80,27 @@
       <div class="panel p2">
         <img src="obs-final.png" alt="光学天文台">
         <div class="cap">
-          <div class="name">光学天文台<small>sci-obs-01</small></div>
-          <div class="role">200 mm f/5 RC · SPAD 光子计数焦面 · 夜间开缝巡天</div>
+          <div class="name">Optical Observatory<small>sci-obs-01</small></div>
+          <div class="role">200 mm f/5 RC · SPAD photon-counting focal plane · slit opens at night</div>
         </div>
       </div>
       <div class="specs">
-        <div class="row"><span class="k">光学</span><span class="v"><b>200 mm f/5</b> RC · 大气密度仅地球 0.6%，视宁度接近太空</span></div>
-        <div class="row sim"><span class="k">📐 主动调焦</span><span class="v">昼夜 ΔT 120 K → CFRP 失焦 <b>306 µm</b> ≫ 焦深 ±35 µm → 副镜 <b>1 µm 步进</b>强制项</span></div>
-        <div class="row phy"><span class="k">🔬 焦面</span><span class="v"><b>512×512 SPAD</b> @1 kHz 二值帧 · 暗计数 <b>0.383 Hz/px</b>（88 V 全温区免调）</span></div>
-        <div class="row sim"><span class="k">📐 制冷</span><span class="v">夜间热负荷 127 mW → 173 K 焦面仅需 <b>64 cm²</b> 被动辐射板（天空 150 K）</span></div>
-        <div class="row phy"><span class="k">🔬 高压安全</span><span class="v">88 V 比 CO₂ 帕邢最小击穿低 <b>4.8×</b> —— 物理上放不了电，免承压舱</span></div>
-        <div class="row sim"><span class="k">📐 读出</span><span class="v">λ = −ln(1−2·p̄₁)/2T_f 光子率反演 · 读出 ASIC <b>DRC 0</b> + LVS + 提取后仿</span></div>
+        <div class="row"><span class="k">Optics</span><span class="v"><b>200 mm f/5</b> RC · atmosphere at 0.6% of Earth — near-space seeing</span></div>
+        <div class="row sim"><span class="k">📐 Focus</span><span class="v">day-night ΔT 120 K → CFRP defocus <b>306 µm</b> ≫ ±35 µm depth → active secondary at <b>1 µm steps</b>, mandatory</span></div>
+        <div class="row phy"><span class="k">🔬 Focal plane</span><span class="v"><b>512×512 SPAD</b> @ 1 kHz binary frames · dark counts <b>0.383 Hz/px</b> (fixed 88 V, all temperatures)</span></div>
+        <div class="row sim"><span class="k">📐 Cooling</span><span class="v">night load 127 mW → 173 K plane needs only <b>64 cm²</b> of passive radiator (150 K sky)</span></div>
+        <div class="row phy"><span class="k">🔬 HV safety</span><span class="v">88 V sits <b>4.8×</b> below the CO₂ Paschen minimum — discharge physically impossible, no pressure vessel</span></div>
+        <div class="row sim"><span class="k">📐 Readout</span><span class="v">rate inversion λ = −ln(1−2·p̄₁)/2T_f · readout ASIC <b>DRC 0</b> + LVS + post-layout sim</span></div>
       </div>
     </div>
   </div>
 
   <footer>
     <div class="line">
-      <span>同一条 spad40 工艺线：<b>一颗打出去数回波，一颗不出光数星光</b></span>
-      <span>器件账本：TCAD 结构迭代 60 · 器件仿真落盘 109 次</span>
+      <span>One spad40 process line: <b>one fires and counts echoes, one stays dark and counts starlight</b></span>
+      <span>Device ledger: 60 TCAD structure iterations · 109 archived device runs</span>
     </div>
-    <div class="src">NASA HiRISE 1 m/px 真实地形 · 耶泽罗撞击坑 18.4°N 77.4°E · 真太阳时 22:30 夜景实拍（引擎内） · Mars City Digital Twin v0</div>
+    <div class="src">NASA HiRISE 1 m/px real terrain · Jezero Crater 18.4°N 77.4°E · true solar time 22:30 night captures (in-engine) · Mars City Digital Twin v0</div>
   </footer>
 </div>
 </body>

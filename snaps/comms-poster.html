@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>火星通讯链</title>
+<title>Mars Comm Chain</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1600px; background: #050a0a; color: #dceae8;
@@ -53,8 +53,8 @@
 <body>
 <div class="poster">
   <header>
-    <h1>火星<span class="accent">通讯链</span></h1>
-    <div class="sub">JEZERO 地面站 ⇄ 静止轨道星座 ⇄ 地球 · 链路预算的每一格都是仿真填的</div>
+    <h1>MARS <span class="accent">COMM CHAIN</span></h1>
+    <div class="sub">Jezero ground station ⇄ areostationary constellation ⇄ Earth · every cell of the link budget filled by simulation</div>
     <div class="rule"></div>
   </header>
 
@@ -63,17 +63,17 @@
       <div class="panel p1">
         <img src="comsta-clean.png" alt="通讯基站">
         <div class="cap">
-          <div class="name">深空地面站<small>com-station-01</small></div>
-          <div class="role">12 m 卡塞格林 · 20 K 低温前端 · 相干双向测轨</div>
+          <div class="name">Deep-Space Station<small>com-station-01</small></div>
+          <div class="role">12 m Cassegrain · 20 K cryo front-end · coherent two-way tracking</div>
         </div>
       </div>
       <div class="specs">
-        <div class="row"><span class="k">天线</span><span class="v"><b>12 m</b> · Ka 32 GHz 增益 <b>70.5 dBi</b> · <b>0.05°</b> 铅笔束</span></div>
-        <div class="row phy"><span class="k">🔬 前端</span><span class="v">LNA 制冷至 <b>20 K</b> → Tsys 75 K · G/T <b>51.8 dB/K</b>（Friis：第一级丢的信噪比永远补不回）</span></div>
-        <div class="row sim"><span class="k">📐 下行</span><span class="v">C/N₀ <b>117 dB-Hz</b> → 600 Mbps 余量 24.7 dB · 满尘暴吃掉 9.5 dB <b>仍不掉线</b></span></div>
-        <div class="row sim"><span class="k">📐 上行</span><span class="v">EIRP <b>98 dBW</b>（800 W）→ 100 Mbps 余量 45 dB——地面站是大炮</span></div>
-        <div class="row phy"><span class="k">🔬 频标</span><span class="v">氢钟 Allan <b>1×10⁻¹⁵</b> @1000 s——相干测距/多普勒的精度天花板</span></div>
-        <div class="row"><span class="k">工程</span><span class="v">3 m 应急碟上合 2.5 AU 守 <b>500 bps</b> · LNA 偏置板 rev B <b>Gerber 已出厂</b></span></div>
+        <div class="row"><span class="k">Antenna</span><span class="v"><b>12 m</b> · Ka 32 GHz gain <b>70.5 dBi</b> · <b>0.05°</b> pencil beam</span></div>
+        <div class="row phy"><span class="k">🔬 Front-end</span><span class="v">LNA cooled to <b>20 K</b> → Tsys 75 K · G/T <b>51.8 dB/K</b> (Friis: SNR lost in stage one never comes back)</span></div>
+        <div class="row sim"><span class="k">📐 Downlink</span><span class="v">C/N₀ <b>117 dB-Hz</b> → 600 Mbps with 24.7 dB margin · a full dust storm takes 9.5 dB and <b>the link holds</b></span></div>
+        <div class="row sim"><span class="k">📐 Uplink</span><span class="v">EIRP <b>98 dBW</b> (800 W) → 100 Mbps, margin 45 dB — the ground station is the cannon</span></div>
+        <div class="row phy"><span class="k">🔬 Freq. std</span><span class="v">H-maser Allan <b>1×10⁻¹⁵</b> @ 1000 s — the precision ceiling of coherent ranging / Doppler</span></div>
+        <div class="row"><span class="k">Hardware</span><span class="v">3 m emergency dish holds <b>500 bps</b> at 2.5 AU conjunction · LNA bias board rev B <b>Gerber shipped</b></span></div>
       </div>
     </div>
 
@@ -81,27 +81,27 @@
       <div class="panel p2">
         <img src="relay-close2.png" alt="中继星">
         <div class="cap">
-          <div class="name">静止轨道中继星<small>com-relay-01</small></div>
-          <div class="role">17,032 km 定点 · 3 主 + 1 备 · 全城仿真最深的资产</div>
+          <div class="name">Areostationary Relay<small>com-relay-01</small></div>
+          <div class="role">parked at 17,032 km · 3 primaries + 1 spare · the most deeply simulated asset in town</div>
         </div>
       </div>
       <div class="specs">
-        <div class="row"><span class="k">星座</span><span class="v">±71° 连续覆盖 · 干重 <b>1265 kg</b> · 4 星 5.4 t <b>一发入轨</b></span></div>
-        <div class="row sim"><span class="k">📐 HFSS 全波</span><span class="v">Ø3 m Ka 增益 <b>58.2 dBi</b> · 波束 <b>0.226°</b> · S11 −26.6 dB</span></div>
-        <div class="row sim"><span class="k">📐 Geant4</span><span class="v">2×10⁵ 质子蒙卡 → 4 mm 铝 15 年仅 <b>7.1 krad</b>（无俘获带，比地球 GEO 温和 ~10×）</span></div>
-        <div class="row sim"><span class="k">📐 COMSOL</span><span class="v">太阳翼每轨 −25→−152 °C（<b>127 °C</b> ×1350 次）· 热弹判死铝碗 → <b>CFRP 反射面</b></span></div>
-        <div class="row sim"><span class="k">📐 位保</span><span class="v">DOP853 轨道积分：Jezero 槽位 <b>5.1 m/s/yr</b>，15 年 109 m/s——选对经度省 5× 推进剂</span></div>
-        <div class="row sim"><span class="k">📐 任务级</span><span class="v">780 天会合仿真：每周期交付 <b>65 Tb</b> · 日凌全断 14.4 天自然涌现 · LDPC 蒙卡距香农 <b>1.8 dB</b></span></div>
+        <div class="row"><span class="k">Fleet</span><span class="v">±71° continuous coverage · dry mass <b>1265 kg</b> · 4 sats, 5.4 t, <b>one launch</b></span></div>
+        <div class="row sim"><span class="k">📐 HFSS</span><span class="v">Ø3 m Ka dish gain <b>58.2 dBi</b> · beam <b>0.226°</b> · S11 −26.6 dB (full-wave)</span></div>
+        <div class="row sim"><span class="k">📐 Geant4</span><span class="v">2×10⁵ proton MC → just <b>7.1 krad</b> in 15 yr behind 4 mm Al (no trapped belts — ~10× milder than GEO)</span></div>
+        <div class="row sim"><span class="k">📐 COMSOL</span><span class="v">solar wing −25→−152 °C per eclipse (<b>127 °C</b> × 1350 cycles) · thermoelastics killed the Al dish → <b>CFRP reflector</b></span></div>
+        <div class="row sim"><span class="k">📐 Stat-keep</span><span class="v">DOP853 integration: the Jezero slot costs <b>5.1 m/s/yr</b>, 109 m/s in 15 yr — the right longitude saves 5× propellant</span></div>
+        <div class="row sim"><span class="k">📐 Mission</span><span class="v">780-day synodic sim: <b>65 Tb</b> delivered per cycle · the 14.4-day conjunction blackout emerges naturally · LDPC MC <b>1.8 dB</b> from Shannon</span></div>
       </div>
     </div>
   </div>
 
   <footer>
     <div class="line">
-      <span><b>0.05° 的铅笔束</b>，从地面钉住 17,032 km 上一颗"静止"的星</span>
-      <span>六线仿真闭环：<b>HFSS · Geant4 · COMSOL · 轨道积分 · 排队论 · 编码蒙卡</b></span>
+      <span>A <b>0.05° pencil beam</b> pinning a "stationary" star 17,032 km up</span>
+      <span>Six-track sim loop: <b>HFSS · Geant4 · COMSOL · orbit integration · queueing · coding MC</b></span>
     </div>
-    <div class="src">NASA HiRISE 1 m/px 真实地形 · 耶泽罗撞击坑 18.4°N 77.4°E · 地面站黄昏实拍 + 轨道视角实拍（引擎内） · Mars City Digital Twin v0</div>
+    <div class="src">NASA HiRISE 1 m/px real terrain · Jezero Crater 18.4°N 77.4°E · dusk & orbit-view captures (in-engine) · Mars City Digital Twin v0</div>
   </footer>
 </div>
 </body>
