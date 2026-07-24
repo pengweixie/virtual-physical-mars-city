@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>TES 与 CMB 巡天站</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #06080d; }
+  .poster { width: 1600px; position: relative; overflow: hidden; color: #dfe6ec;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #0a1017 0%, #06080d 50%, #05070a 100%); }
+  header { text-align: center; padding: 52px 0 16px; }
+  header h1 { font-size: 58px; letter-spacing: 12px; color: #ecf2f6; font-weight: 800; }
+  header h1 .accent { color: #8ab8ff; }
+  header .sub { margin-top: 12px; font-size: 21px; letter-spacing: 4px; color: #7f92a9; }
+  header .rule { width: 620px; height: 2px; margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #8ab8ff, transparent); }
+  .heroes { display: flex; justify-content: center; gap: 18px; margin-top: 26px; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid #20303a; box-shadow: 0 16px 44px rgba(0,0,0,.6); background: #0a0f14; }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #d2e0e8; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(4,6,8,.93) 55%); }
+  .hp-a { width: 780px; height: 470px; }
+  .hp-a img { object-position: 50% 45%; }
+  .hp-b { width: 372px; height: 470px; background: #fff; }
+  .hp-b img { object-fit: contain; background: #fff; }
+  .hp-c { width: 372px; height: 470px; }
+  .hp-c img { object-position: 42% 24%; transform: scale(1.7); }
+  .sims { display: flex; justify-content: center; gap: 18px; margin-top: 18px; }
+  .sp-w { width: 762px; height: 300px; background: #fff; }
+  .sp-w img { object-fit: contain; background: #fff; }
+  .chips { display: flex; justify-content: center; gap: 20px; margin-top: 16px; }
+  .col { width: 762px; display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px;
+    background: #0c1218; border: 1px solid #1a2833; border-radius: 8px; }
+  .row .k { flex: 0 0 118px; font-size: 15.5px; color: #7fa6c8; letter-spacing: .5px; }
+  .row .v { font-size: 16px; color: #e0e9ef; line-height: 1.45; }
+  .row .v b { color: #9cc4ff; font-weight: 700; }
+  .row.sim { border-left: 3px solid #4f9d5f; }
+  .row.hot { border-left: 3px solid #8ab8ff; }
+  footer { margin-top: 34px; padding: 24px 70px 30px; background: #05070a;
+    border-top: 1px solid #131e26; }
+  footer .line { text-align: center; font-size: 18px; color: #7f92a9; letter-spacing: 1px; }
+  footer .line b { color: #a8c8ec; }
+  footer .src { margin-top: 10px; text-align: center; font-size: 14px; color: #445260;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>TES 与 <span class="accent">CMB 巡天站</span></h1>
+    <div class="sub">日-火 L2 晕轨道 · 距火星 108 万 km · 听宇宙的第一缕偏振</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="heroes">
+    <div class="panel hp-a">
+      <img src="tes-device.png" alt="TES device 3D">
+      <div class="cap">探测器 3D 建模:MFT 140/166 GHz 双色 TES 像素 · 悬空岛微桥 + 片上滤波</div>
+    </div>
+    <div class="panel hp-b">
+      <img src="tes-array.png" alt="TES array layout">
+      <div class="cap">自研流片版图:TES 阵列(gdstk 掩模,含 µMUX 读出)</div>
+    </div>
+    <div class="panel hp-c">
+      <img src="tes-l2.png" alt="L2 halo">
+      <div class="cap">引擎内:L2 晕轨道上的巡天站(轨道视角 ?view=cmb)</div>
+    </div>
+  </div>
+  <div class="sims">
+    <div class="panel sp-w"><img src="tes-mapsq.png" alt="Q maps">
+      <div class="cap">巡天仿真:Stokes Q 偏振天图(扫描航迹 → 命中图 → 成图管线)</div></div>
+    <div class="panel sp-w"><img src="tes-bb.png" alt="BB forecast">
+      <div class="cap">B 模功率谱预测——这台望远镜为之而生的那条曲线</div></div>
+  </div>
+
+  <div class="chips">
+    <div class="col">
+      <div class="row hot"><span class="k">🔥 热学 FEM</span><span class="v">COMSOL 无头批求解 <b>~22 次</b>:悬空岛非线性热闭环 → <b>6 器件热学基线</b>(150 µm 腿长定 G/P_sat)</span></div>
+      <div class="row sim"><span class="k">📐 全波电磁</span><span class="v">HFSS <b>~48 次</b>:天线方向图 · 片上滤波器 · 带外抑制联合曲线——全链 ~70 落库求解</span></div>
+      <div class="row"><span class="k">读出</span><span class="v">µMUX 64 通道微波复用 · SQUID 单元版图 · 见证片校准结构</span></div>
+    </div>
+    <div class="col">
+      <div class="row sim"><span class="k">📐 巡天链</span><span class="v">扫描航迹 → 交叉链接命中图 → T/Q/U 成图 → 前景分量分离 → <b>B 模谱预测</b>(19 张管线图)</span></div>
+      <div class="row sim"><span class="k">📐 选址</span><span class="v">L2 而非火星轨道:单侧遮阳 · 热稳定 · 避开行星微波前景——三者近火轨道都不成立</span></div>
+      <div class="row"><span class="k">城内</span><span class="v">轨道视角拉近 L2 即弹知识卡 · 晕轨道动画 · ?view=cmb 直达</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">100 mK 的冰冷小岛,测 138 亿年前的第一缕光——<b>从腿长 150 µm 到功率谱,一条链算穿</b></div>
+    <div class="src">COMSOL ×22 · HFSS ×48 · gdstk 掩模 · 巡天管线 ×19 图 · 引擎内实拍 · Mars City Digital Twin v0</div>
+  </footer>
+</div>
+</body>
+</html>

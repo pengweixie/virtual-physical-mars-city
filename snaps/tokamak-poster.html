@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>托卡马克</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #0d0709; }
+  .poster { width: 1600px; position: relative; overflow: hidden; color: #ecdfe2;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #170a0e 0%, #0d0709 50%, #0a0507 100%); }
+  header { text-align: center; padding: 52px 0 16px; }
+  header h1 { font-size: 58px; letter-spacing: 14px; color: #f4e9ec; font-weight: 800; }
+  header h1 .accent { color: #e0556a; }
+  header .sub { margin-top: 12px; font-size: 21px; letter-spacing: 4px; color: #a97f8a; }
+  header .rule { width: 620px; height: 2px; margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #e0556a, transparent); }
+  .heroes { display: flex; justify-content: center; gap: 18px; margin-top: 26px; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid #3a2028; box-shadow: 0 16px 44px rgba(0,0,0,.6); background: #120a0d; }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #e6d2d8; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(8,4,6,.93) 55%); }
+  .hp-a { width: 780px; height: 470px; }
+  .hp-b { width: 372px; height: 470px; }
+  .hp-b img { object-position: 60% 45%; }
+  .hp-c { width: 372px; height: 470px; }
+  .hp-c img { object-position: 50% 60%; transform: scale(1.25); }
+  .sims { display: flex; justify-content: center; gap: 18px; margin-top: 18px; }
+  .sp { width: 508px; height: 300px; background: #fff; }
+  .sp img { object-fit: contain; background: #fff; }
+  .chips { display: flex; justify-content: center; gap: 20px; margin-top: 16px; }
+  .col { width: 762px; display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px;
+    background: #160c10; border: 1px solid #2c1720; border-radius: 8px; }
+  .row .k { flex: 0 0 118px; font-size: 15.5px; color: #c88a99; letter-spacing: .5px; }
+  .row .v { font-size: 16px; color: #efe0e4; line-height: 1.45; }
+  .row .v b { color: #f08a9a; font-weight: 700; }
+  .row.sim { border-left: 3px solid #4f9d5f; }
+  .row.hot { border-left: 3px solid #e0556a; }
+  footer { margin-top: 34px; padding: 24px 70px 30px; background: #0a0507;
+    border-top: 1px solid #241118; }
+  footer .line { text-align: center; font-size: 18px; color: #a97f8a; letter-spacing: 1px; }
+  footer .line b { color: #e0a0ae; }
+  footer .src { margin-top: 10px; text-align: center; font-size: 14px; color: #5f434c;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>托卡马克<span class="accent">聚变电站</span></h1>
+    <div class="sub">pwr-fusion-01 · 把太阳装进 62 米的平台 · 975 MW 热 → 390 MWe</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="heroes">
+    <div class="panel hp-a">
+      <img src="tok-render.png" alt="tokamak render">
+      <div class="cap">Blender 全尺寸建模渲染:恒温器 Ø14.3 m · 18 D 形 TF 肋 · 火星站址</div>
+    </div>
+    <div class="panel hp-b">
+      <img src="tok-eq.png" alt="FreeGS equilibrium">
+      <div class="cap">FreeGS 磁面平衡 · 长腿偏滤器位形</div>
+    </div>
+    <div class="panel hp-c">
+      <img src="tok-city.png" alt="in-city">
+      <div class="cap">城内实拍:午后的电站与辅助散热排(引擎内)</div>
+    </div>
+  </div>
+  <div class="sims">
+    <div class="panel sp"><img src="tok-comsol.png" alt="COMSOL normB">
+      <div class="cap">COMSOL 三维磁体 |B| 切片 —— 线圈系统全场校核</div></div>
+    <div class="panel sp"><img src="tok-neutron.png" alt="neutronics">
+      <div class="cap">Geant4 包层中子学三轮扫描:TBR · Be 倍增 · LiPb 置换(14.06 MeV 源中子,18 run)</div></div>
+  </div>
+
+  <div class="chips">
+    <div class="col">
+      <div class="row"><span class="k">功率账本</span><span class="v"><b>975 MW</b> 热 × sCO₂ ~40% = <b>390 MWe</b> · 余 <b>585 MW</b> 交北带散热阵——两资产数字互为校验</span></div>
+      <div class="row sim"><span class="k">📐 平衡/输运</span><span class="v">FreeGS 平衡 + 1.5D 输运 + 偏滤器两点模型(Lengyel 杂质辐射)</span></div>
+      <div class="row sim"><span class="k">📐 安全链</span><span class="v">失超 · 破裂 VDE · 氚循环 · ISRU 耦合——<b>19 脚本 + 28 图</b>落库,8 份报告</span></div>
+    </div>
+    <div class="col">
+      <div class="row hot"><span class="k">🔥 三维场</span><span class="v">COMSOL 磁体 |B| 全场 ×2 项 · HFSS LHCD 波导全波 ×1</span></div>
+      <div class="row sim"><span class="k">📐 中子学</span><span class="v">Geant4 输运 <b>18 run</b>:包层沉积 / 屏蔽剂量——恒温器外的火星夜是安全的</span></div>
+      <div class="row"><span class="k">城内</span><span class="v">62 m 平台 · 18 D 肋 + 9 窗口 + LHCD ×2 · 8 张知识卡(距离 LOD 弹出)</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">恒温器里是一亿度,恒温器外是零下六十度——<b>中间只隔 14 米,和一整条仿真链</b></div>
+    <div class="src">FreeGS · 1.5D 输运 · COMSOL/HFSS · Geant4 ×18 · Blender 建模 · 引擎内实拍 · Mars City Digital Twin v0</div>
+  </footer>
+</div>
+</body>
+</html>

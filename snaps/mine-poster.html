@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>土壤矿场</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #0d0a05; }
+  .poster { width: 1600px; position: relative; overflow: hidden; color: #ece5d6;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #171008 0%, #0d0a05 50%, #0a0704 100%); }
+  header { text-align: center; padding: 52px 0 16px; }
+  header h1 { font-size: 58px; letter-spacing: 14px; color: #f4ecdc; font-weight: 800; }
+  header h1 .accent { color: #e0a03a; }
+  header .sub { margin-top: 12px; font-size: 21px; letter-spacing: 4px; color: #a9946a; }
+  header .rule { width: 620px; height: 2px; margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #e0a03a, transparent); }
+  .heroes { display: flex; justify-content: center; gap: 18px; margin-top: 26px; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid #3a2f18; box-shadow: 0 16px 44px rgba(0,0,0,.6); background: #120d06; }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #e8dcc2; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(8,6,3,.93) 55%); }
+  .hp-a { width: 1000px; height: 470px; }
+  .hp-a img { object-position: 50% 55%; transform: scale(1.12); }
+  .hp-b { width: 524px; height: 470px; background: #0a0704; }
+  .hp-b img { width: 2206px; height: auto; max-width: none; object-fit: unset;
+    position: absolute; left: -41px; top: -758px; }
+  .sims { display: flex; justify-content: center; gap: 18px; margin-top: 18px; }
+  .sp-w { width: 762px; height: 300px; background: #fff; }
+  .sp-w img { object-fit: contain; background: #fff; }
+  .chips { display: flex; justify-content: center; gap: 20px; margin-top: 16px; }
+  .col { width: 762px; display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px;
+    background: #16110a; border: 1px solid #2c2312; border-radius: 8px; }
+  .row .k { flex: 0 0 118px; font-size: 15.5px; color: #c8a86a; letter-spacing: .5px; }
+  .row .v { font-size: 16px; color: #efe6d2; line-height: 1.45; }
+  .row .v b { color: #f0b95c; font-weight: 700; }
+  .row.sim { border-left: 3px solid #4f9d5f; }
+  .row.hot { border-left: 3px solid #e0a03a; }
+  footer { margin-top: 34px; padding: 24px 70px 30px; background: #0a0704;
+    border-top: 1px solid #241c0e; }
+  footer .line { text-align: center; font-size: 18px; color: #a9946a; letter-spacing: 1px; }
+  footer .line b { color: #e0c08a; }
+  footer .src { margin-top: 10px; text-align: center; font-size: 14px; color: #5f5340;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>土壤<span class="accent">矿场</span></h1>
+    <div class="sub">res-mine-01 · 城里第一个"睁着眼干活"的资产 · 感知 → 决策 → 运动 5 Hz 闭环</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="heroes">
+    <div class="panel hp-a">
+      <img src="mine-aerial.png" alt="mine aerial">
+      <div class="cap">引擎内航拍:79 m 螺旋露天矿 · RASSOR 机器人在坑心作业 · 背景是科学城</div>
+    </div>
+    <div class="panel hp-b">
+      <img src="mine-report.jpg" alt="robot POV">
+      <div class="cap">机器人实时所见:CIS 导航相机 64×64 · 10-bit · 曝光 67 ms(现场报告)</div>
+    </div>
+  </div>
+  <div class="sims">
+    <div class="panel sp-w"><img src="mine-qe.png" alt="QE spectrum">
+      <div class="cap">FDTD 光学仿真:像素量子效率光谱 —— QE 0.60 @ 可见光(自研 CMOS)</div></div>
+    <div class="panel sp-w"><img src="mine-noise.png" alt="noise breakdown">
+      <div class="cap">系统噪声分解:散粒/读出/暗电流 —— 动态范围 69.5 dB 的来历</div></div>
+  </div>
+
+  <div class="chips">
+    <div class="col">
+      <div class="row sim"><span class="k">📐 感知闭环</span><span class="v">桅杆相机 <b>5 Hz</b> → CIS 成像模型 → 亮度避障 → 状态机(挖掘/运土/卸料)——引擎离屏渲染,资产不碰 renderer</span></div>
+      <div class="row hot"><span class="k">🔬 CIS 底层</span><span class="v">自研 CMOS 五阶段验证:TCAD / FDTD / Virtuoso / RTL——QE <b>0.60</b> · 满阱 <b>17,880 e⁻</b> · 读噪 <b>1.76 e⁻</b> · DR <b>69.5 dB</b></span></div>
+      <div class="row sim"><span class="k">📐 动力学</span><span class="v">MuJoCo 烘焙:火星重力 <b>3.71 m/s²</b> · 空心斗筒对转 <b>±8 rpm</b>——过冲与下垂都是白送的真实感</span></div>
+    </div>
+    <div class="col">
+      <div class="row sim"><span class="k">📐 长测</span><span class="v"><b>150 s</b> 连续运行:完整采掘循环 ×3 · 视觉避障最小间距 <b>2.4 m</b> · 航位推算 + 地理围栏</span></div>
+      <div class="row sim"><span class="k">📐 缺陷实验</span><span class="v">传感器缺陷-任务联合基准:死点 <b>15%</b> 达避障失效线 · 亮点 <b>12%</b> 断崖失效——芯片指标直接换算成任务风险</span></div>
+      <div class="row"><span class="k">城内</span><span class="v">26,752 三角形 · 5 张知识卡 · 无传感器通道的旧引擎自动退回烘焙动画(优雅降级)</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">从 TCAD 里的一个电子,到 MuJoCo 里的一斗土——<b>这台机器人的每一眼,都有五阶段仿真背书</b></div>
+    <div class="src">TCAD/FDTD/Virtuoso/RTL 五阶段 · MuJoCo 动力学烘焙 · 传感器通道 MODELS.md §4c · 引擎内实拍 · Mars City Digital Twin v0</div>
+  </footer>
+</div>
+</body>
+</html>
