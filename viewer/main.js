@@ -1421,6 +1421,10 @@ addEventListener('keydown', (e) => {
     }
     if (bu) enterInspect(bu);
   }
+  if (e.code === 'KeyE' && inInterior && nearDoor) {
+    switchInterior(nearDoor);
+    return;
+  }
   if (e.code === 'KeyE' && nearPortal && !inInterior) {
     enterInterior(nearPortal.interior, nearPortal);
   }
@@ -1445,6 +1449,15 @@ const PORTALS = [
   { pos: [-330, -12], radius: 7, interior: 'hab-foyer-01', label: '地下城' },
   { pos: [-372, -18], radius: 5, interior: 'hab-foyer-01', label: '地下城（电梯）' },
 ];
+// interior-to-interior doors (E-gated, no auto-trigger): the foyer's inner
+// personnel door leads to the clinic; the clinic's +Z opening leads back
+const INTERIOR_DOORS = [
+  { from: 'hab-foyer-01', pos: [3.9, -18.8], radius: 1.7, to: 'hab-clinic-01',
+    label: '医务室', entry: { pos: [0, 0, -1.6], yaw: 0 } },
+  { from: 'hab-clinic-01', pos: [0, -0.1], radius: 1.5, to: 'hab-foyer-01',
+    label: '玄关', entry: { pos: [3.9, 0, -18.2], yaw: Math.PI } },
+];
+let nearDoor = null;
 const fadeEl = document.getElementById('fade');
 const portalPromptEl = document.getElementById('portalPrompt');
 
@@ -1470,6 +1483,8 @@ async function getInterior(id) {
   // interior): residents mounted inside the scene at host_pos; their motion
   // registers into a per-interior registry driven only while inside
   const anims = [];
+  const pois = [];
+  await loadInteriorPois(pois, group, id, mod.meta?.name || id);
   for (const c of (await manifestP).assets || []) {
     if (c.kind !== 'interior-companion' || c.host !== id) continue;
     try {
@@ -1480,13 +1495,104 @@ async function getInterior(id) {
       registerMotion(cg, anims);
       for (const m of cg.userData?.nightMats || [])   // interiors: lights always on
         m.emissiveIntensity = Math.max(m.emissiveIntensity, 1.6);
+      await loadInteriorPois(pois, cg, c.id, cm.meta?.name || c.id);
       console.info('[interior-companion] mounted', c.id, 'in', id);
     } catch (err) { console.warn('[interior-companion] failed', c.id, err); }
   }
-  const rec = { id, group, meta: mod.meta, lights, anims,
+  const rec = { id, group, meta: mod.meta, lights, anims, pois,
     entry: group.userData.entry || { pos: [0, 0, 0], yaw: 0 },
     exitZone: group.userData.exitZone || { pos: [0, 0], radius: 3 } };
   return (interiorCache[id] = rec);
+}
+
+// interior knowledge cards: sprites ride the poi_ anchor nodes themselves
+// (companions move — a bot's cards walk with it); proximity handled per frame
+async function loadInteriorPois(pois, g, id, unitName) {
+  let info;
+  try {
+    const r = await fetch(`units/${id}.info.json`);
+    if (!r.ok) return;
+    info = await r.json();
+  } catch { return; }
+  for (const p of info.pois || []) {
+    let node = p.id && g.getObjectByName('poi_' + p.id);
+    if (!node && p.pos) {
+      node = new THREE.Object3D();
+      node.position.set(...p.pos);
+      g.add(node);
+    }
+    if (!node) continue;
+    const dot = new THREE.Sprite(new THREE.SpriteMaterial(
+      { map: poiDotTex, transparent: true, depthWrite: false }));
+    dot.scale.set(0.22, 0.22, 1);
+    dot.visible = false;
+    node.add(dot);
+    const tag = textSprite(p.label, 40, '#dff2ff');
+    tag.scale.set(2.6, 0.33, 1);
+    tag.position.y = 0.32;
+    tag.visible = false;
+    node.add(tag);
+    pois.push({ node, dot, tag, label: p.label, detail: p.detail || '',
+      specs: p.specs, physics: p.physics, sim: p.sim, unit: unitName,
+      range: Math.min(p.range ?? 8, 10) });
+  }
+}
+
+const _ipTmp = new THREE.Vector3();
+function updateInteriorPois() {
+  let best = null, bd = 2.6;
+  for (const p of inInterior.pois) {
+    const wp = p.node.getWorldPosition(_ipTmp);
+    const d = Math.hypot(wp.x - rig.position.x, wp.z - rig.position.z);
+    const show = d < p.range;
+    p.dot.visible = show && d >= 2.6;
+    p.tag.visible = show && d < 6;
+    if (d < bd) { bd = d; best = p; }
+  }
+  const cid = best ? 'int:' + best.label : '';
+  if (best && poiCardEl.dataset.id !== cid) {
+    const lines = (icon, val, cls) => (Array.isArray(val) ? val : [val])
+      .map((s) => `<p class="${cls}">${icon} ${s}</p>`).join('');
+    let h = `<h3>${best.label}</h3><div class="u">${best.unit}</div>`;
+    if (best.detail) h += `<p>${best.detail}</p>`;
+    if (best.specs) h += '<table>' + Object.entries(best.specs).map(
+      ([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') + '</table>';
+    if (best.physics) h += lines('🔬', best.physics, 'phys');
+    if (best.sim) h += lines('📐', best.sim, 'sim');
+    poiCardEl.dataset.id = cid;
+    poiCardEl.innerHTML = h;
+    poiCardEl.style.display = 'block';
+  } else if (!best && poiCardEl.dataset.id.startsWith('int:')) {
+    poiCardEl.style.display = 'none';
+    poiCardEl.dataset.id = '';
+  }
+}
+
+// hop between interiors through a declared door (keeps savedEnv: Esc still
+// returns to the original surface spot)
+async function switchInterior(door) {
+  if (!inInterior || interiorExiting) return;
+  const from = inInterior;
+  interiorExiting = true;                     // block exit-zone races during fade
+  await fade(1);
+  from.group.visible = false;
+  for (const pl of from.lights) pl.intensity = 0;
+  const rec = await getInterior(door.to);
+  rec.exitArmed = false;
+  rec.group.visible = true;
+  for (const pl of rec.lights) pl.intensity = pl.userData.base;
+  const en = door.entry || rec.entry;
+  rig.position.set(en.pos[0], 0, en.pos[2]);
+  yaw = en.yaw || 0; pitch = 0;
+  inInterior = rec;
+  interiorExiting = false;
+  nearDoor = null;
+  portalPromptEl.style.display = 'none';
+  if (poiCardEl.dataset.id.startsWith('int:')) {
+    poiCardEl.style.display = 'none'; poiCardEl.dataset.id = '';
+  }
+  hintEl.textContent = `${rec.meta.name} · WASD 走动 · 走到出口或按 Esc 返回地表`;
+  await fade(0);
 }
 
 function fade(to) {
@@ -1538,6 +1644,11 @@ async function exitInterior() {
   yaw = savedEnv.yaw; pitch = savedEnv.pitch; flying = savedEnv.fly;
   inInterior = null;
   interiorExiting = false;
+  nearDoor = null;
+  portalPromptEl.style.display = 'none';
+  if (poiCardEl.dataset.id.startsWith('int:')) {
+    poiCardEl.style.display = 'none'; poiCardEl.dataset.id = '';
+  }
   hintEl.textContent = hintDefault;
   await fade(0);
 }
@@ -1554,7 +1665,19 @@ function updateInterior(dt) {
   const inZone =
     Math.hypot(rig.position.x - ez.pos[0], rig.position.z - ez.pos[1]) < ez.radius;
   if (!inZone) inInterior.exitArmed = true;
-  else if (inInterior.exitArmed) exitInterior();
+  else if (inInterior.exitArmed) { exitInterior(); return; }
+  // interior doors: E-gated, so standing in the zone just shows the prompt
+  let dbest = null;
+  for (const d of INTERIOR_DOORS) {
+    if (d.from !== inInterior.id) continue;
+    if (Math.hypot(rig.position.x - d.pos[0], rig.position.z - d.pos[1]) < d.radius)
+      { dbest = d; break; }
+  }
+  if (dbest !== nearDoor) {
+    nearDoor = dbest;
+    portalPromptEl.textContent = dbest ? `按 E 进入 ${dbest.label}` : '';
+    portalPromptEl.style.display = dbest ? 'block' : 'none';
+  }
 }
 
 function updatePortals() {                    // surface: detect nearby door
@@ -2353,6 +2476,7 @@ renderer.setAnimationLoop(() => {
     if (inInterior) {                         // may have exited during update
       if (!renderer.xr.isPresenting) driveSensors(clock.elapsedTime);
       for (const f of inInterior.anims || []) f(clock.elapsedTime, dt, 1);
+      updateInteriorPois();
       posEl.textContent = `${inInterior.meta.name} · 室内`;
     }
   } else {
