@@ -7,7 +7,7 @@ bigram 语言模型（nanoGPT 教程的起点模型），live 生成火星文本
 
 **★ 硅片合拢（07-18 · mars-bigram session）**：大屏跑的这个 bigram 算法已被做成真芯片
 **MB-1**（char-level bigram 推理 ASIC，RTL→FPGA→sky130 GDS 全流程 + 出厂 PCB，见
-`mars-bigram`）。一块 MB-1 评估板作为刀片插进 ops-compute-01 的 2 号机架、
+`E:\Claude\mars-bigram`）。一块 MB-1 评估板作为刀片插进 ops-compute-01 的 2 号机架、
 数据缆连向大屏——**软件孪生在屏上，硅片本体在架里，同一个 bigram 两种实现**。板 3D 是
 `viewer/units/mb1-demo-board.js`（纹理绘自真实版图 467 段走线，不 import three，契约合规），
 被 ops-compute-01.js 复用；info.json 加了 `mb1` POI 知识卡；预览
@@ -82,7 +82,7 @@ sensors 的资产是纯旁路，13 项既有资产零影响（回归通过）。
 
 **res-mine-01 土壤矿场已交付落位**（180,-120，size_m 79 实测免缩放，模块 + info.json 5 张
 知识卡 + manifest + CHECKLIST 已更新）。挖矿机器人为城内首个**感知自主资产**：桅杆导航
-相机（64×64@5Hz）→ CIS 传感器成像模型（自研 CMOS 项目 CIS 的验证参数：QE 0.60、
+相机（64×64@5Hz）→ CIS 传感器成像模型（自研 CMOS 项目 E:\Claude\CIS 的验证参数：QE 0.60、
 满阱 17.9ke⁻、读噪 1.76e⁻、10-bit ADC，含散粒/暗电流/量化噪声与自动曝光）→ 亮度阈值
 避障 → 状态机自主采掘循环。引擎无传感器通道时同文件自动退回烘焙动画（优雅降级）。
 城内实测：15s 泵帧 70 传感器帧、自动曝光 12→57ms 收敛于城内真实光照、机器人完成
@@ -120,20 +120,22 @@ driveSensors 等，真浏览器验证用）。注：隐藏标签页 rAF 挂起�
 | 机制层推导 | 34 条 🔬 进卡 | sim 数字背后的定律层 |
 | CIS 成像模型 | 1 套参数，5 Hz 持续运行 | 矿场机器人相机全链噪声（唯一"在跑"的仿真） |
 | MuJoCo 动力学（火星重力+等效切削载荷） | 1 MJCF 模型 · 4 轮全循环仿真 · 3 通道×192 样本曲线烘焙 | 矿场 RASSOR 臂角/俯仰/起伏（sim/rassor-01，mars_soil session） |
+| MuJoCo 动力学（火星重力，平面化人形双足） | 1 MJCF 模型 · 3 循环烘焙落库（walk/turn/idle 12 通道，units/hab-bot-01.gait.json）· 5 轮参数迭代（radian 陷阱 / 平脚闭链死锁→圆底足+柔顺踝 / 极限环收敛+末端闭合混合） | hab-bot-01 步态回放（mars-bot session，sim/run_gait.py + hab_bot.xml） |
+| CIS 成像模型（第二部署）+ Raycaster 闪光 LiDAR | 同套 CIS 参数 1 部署（室内 AE 收敛 117–260 ms 与矿场 12 ms 互证）· LiDAR 链路预算 1 条进卡（5.5e3 光电子/脉冲@20m，SNR 74）· 预览页行为验证 11 截图落库 | hab-bot-01 感知链（mars-bot/shots/，_preview.html） |
 | Sentaurus TCAD | **~18 战役 · 器件变体 ~18 个**（T10/iproc10/iw1–6/iwG97/iwJ14/iwK 系列/iwK115/iwL20）· 宽倍增工艺迭代 **7 轮**收敛 iwK115 · 每变体 McIntyre BP 击穿扫描 **8 偏压点** · BV(T) 173–293 K 温度扫 · DCR/B2B 分层扫（多 T×多偏压）· Geiger 瞬态 **1 次**（8h CPU 收敛）· 边缘环 iwL20 **1 轮** · iwK115 终验 BV(T) 4 温 + PDE(λ) 4 带 · 落库 1 套焦面参数 + ~20 图；**mars_lidar SPAD(spad40_nir/sci-lidar-01,另一器件系)**：结构 4 版 p10c→p10h→p10i→p10j(TCAD VM 自跑 2 轮剂量修整定版 p10j@60V) · pre-tapeout 5 项全关(dBV/dT +9.3mV·K / V_sus 45.8V / PDE(V) 52–76V 平坦 / AP<0.1% / DTI 版图铁律) · McIntyre 击穿+PDE 重构+DCR+Geiger 瞬态 · 交付 PDE@905 40.3% · B2B 253 cps·cell⁻¹ · 阵列 DCR 2.65e5@-40℃（详尽逐轮 chain 数在 spad40_nir 项目册）；**复核**（07-18 扫 spad40_mars/nir/sentaurus 三仓落盘）：SDE 结构脚本 **60** · sdevice deck **104** / 落盘 .plt **109** · sprocess **42** · 后处理 py **74** + 图 **70** | spad40 → 天文台卡（88 V / 0.383 Hz/px）；spad40_nir → sci-lidar-01 探测器（60 V / 905 nm 微脉冲） |
 | Geant4 系 MC | com-relay：**1 次生产输运**（spe_dose.mac，2×10⁵ 质子，QGSP_BIC_EMY，40 层剂量-深度，一次过零返工）→ TID 曲线；深地：**几何提取 1 表**（8 个 G4 探测器源文件 → 40+ 实测尺寸，GEOMETRY_REF.md）· **信号链响应模型 1 套**（G4 本体未实跑：gate941 缺 yaml-cpp/jsoncpp，经批准改 NEST 风格 Python）→ JSON 1（348 KB，PMT 1521+1791 坐标+3 事件波形）+ 图 4 · 尺度/事件可视化 3 脚本 → GIF 2 + 静图 3 · viewer 事件动画 2 接口（playNeutrinoEvent/playEntryCutscene，浏览器实测 0 错）· Fable review 1 轮 12 findings 全修 + 复查抓 1 残留（回灌 1 份 BUILD_SPEC） | 中继星 bus 卡 TID（2/4/10 mm→11.2/7.1/2.9 krad）+ solar EOL 5.4 kW + 质量预算屏蔽 23 kg；深地暗物质实验室 |
 | Ansys HFSS（com-relay） | **2 次落库求解**（32 GHz 锥喇叭全波方向图 ffgain.csv；28–36 GHz S11 扫频 s11rep.csv）；SBR+ 整碗 3 试受阻未落库（脚本留档 hfss_sbr_dish.py，非图形 AnalyzeAll 挂死） | ka 卡 58.2 dBi/0.226°/S11 −26.6 dB + artifact §04/§06 |
 | Python/NumPy 数值仿真（com-relay） | **6 脚本 + 6 图落库**：PO 口径积分、位保 J2+C22/S22 传播（先 GEO 验证 1.76 m/s/yr）、780 d 会合周期数据流 DES、LDPC min-sum 自研蒙卡、M/G/2 调度 DES、质量预算 | skeep/dte/rf/bus 卡 + artifact §12–§16（65 Tb/周期、109 m/s/15 yr、距香农 1.8 dB、湿重 1362 kg） |
 | Cadence Virtuoso | **版图单元 12 个**（SKILL nograph 批绘于 cen618）· **Calibre DRC 迭代 ~29 轮**（sense_inv 5→0 / div2 2 / cnt2 1 / fe_ls 4 / px_pixel 3 / px15 3→2→0 / arr4 51→0 / rowdrv 1 / collatch 2 / hbpad 3 / tile 25→6→0）· **LVS CORRECT 11 次**（全 0 差异）· **xRC PEX 提取 3 次**（px_pixel / px15 / px_arr4）· **后仿 4 次**（px15 3/3 光子 · arr4 列复用 0101 · 全链 SI→COL）· 前仿 Spectre ~10 TB（全角含 ss/−100 °C）· 落库 1 条读出链；**复核**（07-18 扫 mars_spad_rox 落盘）：GDS **29**（含 div2 v1–v7 等迭代版，去重 12 cell）· 仿真 psfascii **10** + MC trip-point **40** · 版图/波形图 **12**（DRC/LVS 报告在 VM，本地文档口径与自报一致） | SPAD 像素/阵列/瓦片 DRC+LVS+后仿 |
 | RTL 仿真/FPGA 验证 | 7 RTL 模块 · 自检 TB 5 组(含 12×随机回归) · iverilog+xsim 双仿真器逐拍一致(1134185ns) · Python 金标准 6 项自测 · 4 工具位级对拍 · 抓修 2 RTL bug(+review 4) · FPGA Arty A7-35T bitstream 时序 MET(WNS+3.29ns)；**mars_lidar MCS(sci-lidar-01)**：4 RTL 模块(axil_mcs/mcs_histogram/trigger_gen/pulse_sync) · 自检 TB 2 组 12 用例(tb_mcs T0–T6 / tb_axil A1–A5) · iverilog 全绿 · Vivado synth+P&R 1 轮收敛(496 LUT/447 FF/1 BRAM36,WNS+1.39ns) · 抓修 2 真 bug(BRAM 模板爆 95k LUT / 2 拍间隔丢计数) · MCU 固件主机测试 2 套 12 用例(test_mcs 7 / test_tec 5,对同源热模型闭环) | MB-1 char-level bigram ASIC（mars-bigram）；mars_lidar MCS 直方图 → sci-lidar-01 采集 |
-| Python/FreeGS 0D-系统（mars-tokamak 另册 `tokamak`） | **19 脚本 + 28 图落库**（0D 系统设计/1.5D 输运/偏滤器 2 点+Lengyel/氚循环/失超/破裂 VDE/ISRU/质量/寿命，8 报告 + 12 章 artifact）· FreeGS **2 自由边界 GS 平衡**（双零基准 + X 点靶长腿 fx≥20，各含 q95 校准重解） | pwr-fusion/pwr-radiator 设计（v4 基线：R0 3.70 m/B0 8.85 T/Pfus 848 MW/净电 176 MWe） |
+| Python/FreeGS 0D-系统（mars-tokamak 另册 `E:\Claude\tokamak`） | **19 脚本 + 28 图落库**（0D 系统设计/1.5D 输运/偏滤器 2 点+Lengyel/氚循环/失超/破裂 VDE/ISRU/质量/寿命，8 报告 + 12 章 artifact）· FreeGS **2 自由边界 GS 平衡**（双零基准 + X 点靶长腿 fx≥20，各含 q95 校准重解） | pwr-fusion/pwr-radiator 设计（v4 基线：R0 3.70 m/B0 8.85 T/Pfus 848 MW/净电 176 MWe） |
 | COMSOL（mars-tokamak） | **2 求解研究**（TF 磁体跑道→D 形，J×B 体载荷+固体力学，~667 s/次）+ 膜应力后处理 + **3 云图导出**（5 java） | 峰值应力 3361→999 MPa（D 形消弯矩）→ pwr-fusion TF 加强肋 |
 | Geant4 系 MC（mars-tokamak） | **18 生产输运落库**（2×10⁵ 源中子/次 @14.06 MeV，Shielding 物理表）跨 4 轮（FLiBe 厚度/Be 增倍/LiPb/屏蔽）+ 能谱双档 TF 计数 → scan_report.md 4 章 + 5 图（Ubuntu VM，conda 工具链） | 净 TBR 1.10@88% / REBCO 屏蔽寿命 / 磁体核热 → pwr-fusion 包层 |
 | Ansys HFSS（mars-tokamak） | **1 落库求解**（40×8.5 mm 矩形波导 TE10，3–8 GHz 频扫 101 点，43 s）→ sparams.csv | LHCD 截止 3.75 GHz 验证↔解析 c/2a 吻合 → pwr-fusion RF 模块 |
-| COMSOL（TES/CMB 探测器，另册 `TES`） | **~22 batch 求解**（纯 Java 无头流 comsolcompile→comsolbatch 自建）· 悬空岛非线性热 FEM 定 **6 器件热学基线腿长**（150 基线 117μm→MFT140/166 886/967.5→方案A 135.7/171.7 1096/1024→P_sat 回填 745.7/709.7→非均匀腿 dual140/166 742.6/953.4）· 每基线 **2–4 轮细网格夹逼收敛**（抓真缺陷：裸 SiN 岛 +5.6 mK 扩散热阻→加 Au 热扩展层+缩腿；粗网格假收敛→autoMeshSize(2) 复验）· 落库 6 腿长 + results.txt | TES 热学基线（G=15.7 pW/K@140、Tc 171 mK、τ_eff 2.6 ms）→ cosmic_microwave 探测器层 → CMB L2 巡天站 |
+| COMSOL（TES/CMB 探测器，另册 `E:\Claude\TES`） | **~22 batch 求解**（纯 Java 无头流 comsolcompile→comsolbatch 自建）· 悬空岛非线性热 FEM 定 **6 器件热学基线腿长**（150 基线 117μm→MFT140/166 886/967.5→方案A 135.7/171.7 1096/1024→P_sat 回填 745.7/709.7→非均匀腿 dual140/166 742.6/953.4）· 每基线 **2–4 轮细网格夹逼收敛**（抓真缺陷：裸 SiN 岛 +5.6 mK 扩散热阻→加 Au 热扩展层+缩腿；粗网格假收敛→autoMeshSize(2) 复验）· 落库 6 腿长 + results.txt | TES 热学基线（G=15.7 pW/K@140、Tc 171 mK、τ_eff 2.6 ms）→ cosmic_microwave 探测器层 → CMB L2 巡天站 |
 | Ansys HFSS / pyaedt（TES/CMB 探测器） | **~48 落库求解**（pyaedt 无头全流程自建）：Nb 微带 Z0 收敛(S11 −15→−34 dB) · 双缝天线 4 版(560→684μm) · BPF140/166 定稿 + 方案A 重综合(9 变体网格+高收敛判定 MaxPasses 20) · 宽扫 450 GHz 抓 3f0 谐波重入(407/515) · μMUX 单谐振器 13 solve+2 本征模定 f0=3.718 GHz/Qc 耦合器 · **天线-匹配-双工-BPF 级联全波 4 版收敛 77/78%**(=任务 0.80 链路预算，审计抓 4 处集成缺陷) · 119+195 级联负结果 72.6/**42.0%**(天线 76% 带宽墙，救回坏决策) | MFT 140/166 双色像素微波链定稿 + μMUX 读出 + 频段配对可行边界 |
 | gdstk GDS + 电路综合 + 容差 MC（TES） | **GDS 掩模 ~10**（像素 150/140/166/dualband v1-v2 + 4×8 与 8×8 阵列 + μMUX 64 谐振器 + witness 标定片 + rf-SQUID 单元）· BPF 电路综合 4 频段(ABCD+差分进化) · 双工物理拓扑优化多轮 · **蒙特卡洛容差**(P_sat 裕量 2.50±0.07 / μMUX 频梳 σf-vs-通道良率) · Neumann 细丝互感验证 · **回执 6 版**应答任务评审 5 项 | 流片级掩模 + PDK 询价包(JJ_PDK_MAPPING) + witness n_eff 标定流程 → cosmic_microwave 器件侧闭环 |
-| 电池储能仿真链（pwr-storage 另册 `mars_pwr_storage`） | L0~L3 五层闭环：**5 脚本**(Python 4 + COMSOL java 1) · **PyBaMM 电化学 6 解**(SPMe+集总热/Prada2013 LFP：sol 循环 1 + 倍率扫描 5×) · **COMSOL L2 稳态传热 6 工况**(3 冷却×2 产热,1 .mph) · **L3 调度 3 场景**(晴 sol / 60-sol 尘暴 / 生存包线 5 点) · **L0v2 闭环校准 2 PCS 方案** → 落库 **4 design_point JSON + 5 图** | 储能场 pwr-storage-01（设计点 833 kW）+ info.json 7 POI 卡数字全部背书 |
+| 电池储能仿真链（pwr-storage 另册 `E:\Claude\mars_pwr_storage`） | L0~L3 五层闭环：**5 脚本**(Python 4 + COMSOL java 1) · **PyBaMM 电化学 6 解**(SPMe+集总热/Prada2013 LFP：sol 循环 1 + 倍率扫描 5×) · **COMSOL L2 稳态传热 6 工况**(3 冷却×2 产热,1 .mph) · **L3 调度 3 场景**(晴 sol / 60-sol 尘暴 / 生存包线 5 点) · **L0v2 闭环校准 2 PCS 方案** → 落库 **4 design_point JSON + 5 图** | 储能场 pwr-storage-01（设计点 833 kW）+ info.json 7 POI 卡数字全部背书 |
 | PET/CT 重建扫描（复用 pet-ct-design projector/recon，GPU/cupy） | 1 次机器人扫描 = 2 CT-FDK（单色 60 keV + 多色 120 kVp bowtie/噪声/水BHC）+ 1 CTAC（HU→μ@511 双线性）+ 1 PET AC-MLEM（40 it）· 定量 CT 7 部位 HU vs 真值、PET 4 热源恢复 → 落库 1 六联图 + 1 JSON | 医疗室 PET/CT 机器人受检者演示（mars_medical/out/scan，07-18 · mars_medical session）|
 
 ### 设计
@@ -198,7 +200,7 @@ beam_nir）作等价物。**迁移提示**：现有手写转动的模块（及 p
 ## Review 与修复（07-13 · Fable 审阅）
 
 审计结论与已执行修复：
-- ✅ **git 已建库**：首次提交 b6507cb（58 文件），仓库本地 `.git`。
+- ✅ **git 已建库**：首次提交 b6507cb（58 文件），仓库本地 `E:\Claude\mars\.git`。
   .gitignore 已改为排除大文件但**追踪 models/manifest.json 与全部 info.json**。
   bat 为 GBK+CRLF，repo 配置 core.autocrlf=false 保字节精确。
 - ✅ **beam_nir 契约修复**：引擎现优先读模块的 `userData.beams=[{pos,dir}]`

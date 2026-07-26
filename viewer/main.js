@@ -1126,6 +1126,7 @@ const unitNightMats = [];                    // window/indicator mats, night-dri
 const unitLights = [];                       // PointLights from userData.lights
 const unitAnims = [];                        // (t, dt, night) animators
 const orbitAnims = [];                       // same, for orbit-view assets (relay sats)
+const playerPos = [0, 0, 0];                 // rig position handed to animate ctx.player
 const unitSensors = [];                      // perception cameras (userData.sensors)
 const pois = [];                             // sub-device knowledge points
 const units = [];                            // placed units, for inspect mode
@@ -1207,12 +1208,13 @@ function registerMotion(g, anims = unitAnims) {
   }
   if (typeof ud.animate === 'function') {       // custom logic
     const fn = ud.animate;
-    anims.push((t, dt, night) => fn(t, dt, { t, dt, night }));
+    anims.push((t, dt, night) => fn(t, dt, { t, dt, night, player: playerPos }));
   }
   for (const s of ud.sensors || []) {           // perception cameras (MODELS.md §4c)
     const cam = resolveNode(g, s.camera);
     if (!cam || !cam.isCamera) continue;
     s._cam = cam;
+    s._root = g;                                // for visibility gating
     s.width = s.width || 64;
     s.height = s.height || 64;
     cam.aspect = s.width / s.height;
@@ -1235,6 +1237,9 @@ function driveSensors(t) {
   for (let k = 0; k < n; k++) {
     const i = (sensorRR + k) % n;
     const s = unitSensors[i];
+    let vo = s._root, hidden = false;          // skip sensors on hidden branches
+    while (vo) { if (!vo.visible) { hidden = true; break; } vo = vo.parent; }
+    if (hidden) continue;
     if (t < s._next) continue;
     s._next = t + 1 / (s.hz || 5);
     if (!s._rt) {
@@ -1461,7 +1466,24 @@ async function getInterior(id) {
     group.add(pl);
     lights.push(pl);
   }
-  const rec = { id, group, meta: mod.meta, lights,
+  // interior-companion assets (manifest kind:'interior-companion', host=this
+  // interior): residents mounted inside the scene at host_pos; their motion
+  // registers into a per-interior registry driven only while inside
+  const anims = [];
+  for (const c of (await manifestP).assets || []) {
+    if (c.kind !== 'interior-companion' || c.host !== id) continue;
+    try {
+      const cm = await import(`./${c.module || `units/${c.id}.js`}`);
+      const cg = cm.build(THREE);
+      if (c.host_pos) cg.position.set(...c.host_pos);
+      group.add(cg);
+      registerMotion(cg, anims);
+      for (const m of cg.userData?.nightMats || [])   // interiors: lights always on
+        m.emissiveIntensity = Math.max(m.emissiveIntensity, 1.6);
+      console.info('[interior-companion] mounted', c.id, 'in', id);
+    } catch (err) { console.warn('[interior-companion] failed', c.id, err); }
+  }
+  const rec = { id, group, meta: mod.meta, lights, anims,
     entry: group.userData.entry || { pos: [0, 0, 0], yaw: 0 },
     exitZone: group.userData.exitZone || { pos: [0, 0], radius: 3 } };
   return (interiorCache[id] = rec);
@@ -2278,6 +2300,8 @@ const clock = new THREE.Clock();
 
 renderer.setAnimationLoop(() => {
   const dt = Math.min(clock.getDelta(), 0.1);
+  playerPos[0] = rig.position.x; playerPos[1] = rig.position.y;
+  playerPos[2] = rig.position.z;
   if (orbitMode) {
     orbitControls.update();
     loSpin.rotation.y -= dt * (Math.PI * 2 / 45);   // ~2h orbit, sped up
@@ -2326,7 +2350,11 @@ renderer.setAnimationLoop(() => {
   } else if (inInterior) {                    // underground/indoor scene
     moveDesktop(dt);                          // walk; y is pinned in updateInterior
     updateInterior(dt);
-    posEl.textContent = `${inInterior.meta.name} · 室内`;
+    if (inInterior) {                         // may have exited during update
+      if (!renderer.xr.isPresenting) driveSensors(clock.elapsedTime);
+      for (const f of inInterior.anims || []) f(clock.elapsedTime, dt, 1);
+      posEl.textContent = `${inInterior.meta.name} · 室内`;
+    }
   } else {
     updateSun();
     if (magicGroup.visible) {
@@ -2356,7 +2384,7 @@ if (q.get('interior')) enterInterior(q.get('interior'), null);
 // ?debug=1 暴露内窥句柄（真浏览器验证用，STATUS「已知事项」约定）
 if (q.has('debug')) {
   window.__mars = { units, unitSensors, unitAnims, colonyGroup, scene, renderer, camera, rig,
-    driveSensors, clock };
+    driveSensors, clock, get inInterior() { return inInterior; } };
 }
 if (q.get('view') === 'orbit') setOrbitMode(true);
 if (q.get('view') === 'cmb' && cmbAnchor) {  // jump to the L2 station

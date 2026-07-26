@@ -7,6 +7,8 @@
 //   ③ 冷却主回路挂 PCS 橇（热主角） ④ SOC 灯柱数据化（userData.socCurve）
 //   ⑤ 辐射板 6 块维持（散热瓶颈解除）
 // 子设备标注：7 个 poi_ 空节点锚点，知识卡在 pwr-storage-01.info.json
+// 运动：userData.spinners=[{node,axis,rpm}]（引擎 registerMotion 统一驱动，
+//   4 个：泵轮 ×2 @90rpm + 飞轮桶 ×2 @240rpm）
 // 四个被挖开的核心：
 //   ① 存了多少电 —— 掀盖电池柜 + 模组抽屉 + SOC 灯柱（nightMats）
 //   ② 电往哪流   —— 裸母线桥（电池阵 → 变压器），充/放端子蓝进橙出
@@ -19,7 +21,7 @@ export const meta = {
   id: 'pwr-storage-01',
   name: '储能场',
   size_m: 60,             // 场区长边，1 单位 = 1 米，禁止整体缩放
-  effects: ['glow_windows', 'spinners'],
+  effects: ['glow_windows'],   // 旋转由 userData.spinners 驱动（引擎 registerMotion），非 effect 钩子
 };
 
 export function build(THREE) {
@@ -74,7 +76,7 @@ export function build(THREE) {
     color: 0xffd94f, emissive: 0xf0c43a, emissiveIntensity: 1.0, roughness: 0.4,
   });
   group.userData.nightMats = [stripMat, windowMat, socGreen, socYellow];
-  group.userData.spinners = [];   // { obj, axis: 'y'(局部), rpm }
+  group.userData.spinners = [];   // { node, axis:'y'(局部), rpm } —— 引擎 registerMotion 契约
 
   // ---------- 几何助手（y0 = 底面高度，所有 y0 ≥ 0.2） ----------
   const box = (w, h, d, mat, x, y0, z, ry = 0) => {
@@ -221,7 +223,7 @@ export function build(THREE) {
     fw.rotation.x = Math.PI / 2;                         // 轴指向 +Z
     fw.position.set(px, 1.0, -20.7);
     group.add(fw);
-    group.userData.spinners.push({ obj: fw, axis: 'y', rpm: 90 });
+    group.userData.spinners.push({ node: fw, axis: 'y', rpm: 90 });
   }
   // 辐射板阵：6 块黑色平板（4 × 2），V 形支架，后仰 15°
   // （L0v2 复核：平均废热 31.4 kW < 37 kW 持续散热能力，维持 6 块不扩）
@@ -319,7 +321,7 @@ export function build(THREE) {
     s2.position.y = 0.16; rotor.add(s2);
     rotor.position.set(-23, 2.65, fz);
     group.add(rotor);
-    group.userData.spinners.push({ obj: rotor, axis: 'y', rpm: 240 });
+    group.userData.spinners.push({ node: rotor, axis: 'y', rpm: 240 });
   }
 
   // ============================================================

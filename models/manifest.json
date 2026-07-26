@@ -49,8 +49,7 @@
       "rotation_deg": 0,
       "sink_m": 0.2,
       "effects": [
-        "glow_windows",
-        "spinners"
+        "glow_windows"
       ]
     },
     {
@@ -326,6 +325,21 @@
       "effects": [
         "glow_windows"
       ]
+    },
+    {
+      "id": "hab-bot-01",
+      "name": "室内服务机器人",
+      "type": "code",
+      "kind": "interior-companion",
+      "host": "hab-foyer-01",
+      "host_pos": [0, 0.3, -9.5],
+      "module": "units/hab-bot-01.js",
+      "size_m": 1.65,
+      "size_axis": "height",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
     },
     {
       "id": "com-station-01",
