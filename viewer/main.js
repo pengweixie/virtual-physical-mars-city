@@ -11,6 +11,67 @@ const loadingEl = document.getElementById('loading');
 const status = (msg) => { if (loadingEl) loadingEl.textContent = msg; };
 const q = new URLSearchParams(location.search);
 
+// ---- language (zh / en) -----------------------------------------------------
+// Fixed per page-load: everything (UI chrome, tags, cards) localizes at
+// creation time; the corner button just persists the choice and reloads.
+// Content fields support optional *_en twins (labels, details, meta names).
+const LANG = (q.get('lang') || localStorage.getItem('mars_lang') || 'zh')
+  .toLowerCase() === 'en' ? 'en' : 'zh';
+const pick = (obj, key) =>
+  (LANG === 'en' && obj && obj[key + '_en']) ? obj[key + '_en'] : obj?.[key];
+const T = LANG === 'en' ? {
+  hudTitle: 'Jezero Crater · Perseverance Landing Site',
+  hudSub: 'Jezero Crater 18.4°N 77.4°E — real HiRISE terrain, 1 m/px<br>Data: NASA/JPL/University of Arizona',
+  hint: 'Click to enter · WASD move · Shift sprint · F fly/walk · V inspect · M orbit · U undercity · P to Perseverance · headset: Enter VR',
+  orbit: '↑ Orbit view', orbitBack: '↓ Back to surface',
+  colony: (on) => `🌱 Future Mars: ${on ? 'ON' : 'OFF'}`,
+  magic: (on) => `🔮 Magic Mars: ${on ? 'ON' : 'OFF'}`,
+  under: '⬇ Undercity', now: 'Live', langBtn: '中文',
+  mission: (sol, utc, n) => `Perseverance sol ${sol} · data ${utc} UTC · ${n} new photos`,
+  timeInfo: (hh, mm, live, ls) => `Jezero true solar time ${hh}:${mm}${live ? ' (live)' : ''} · Ls ${ls}°`,
+  posSurface: (x, z, e, fly) => `${x}, ${z} m · elev ${e} m · ${fly ? 'flying' : 'walking'}`,
+  posOrbit: (alt) => `Orbit altitude ${alt} km · drag to rotate · scroll to zoom`,
+  posInterior: (n) => `${n} · indoors`,
+  inspectHint: (n) => `Inspect: ${n} · drag to rotate · scroll to zoom · V to exit`,
+  interiorHint: (n) => `${n} · WASD to walk · reach the exit or press Esc to return`,
+  pressE: (l) => `Press E — enter ${l}`,
+} : {
+  hudTitle: '耶泽罗撞击坑 · 毅力号着陆区',
+  hudSub: 'Jezero Crater 18.4°N 77.4°E — HiRISE 1 m/px 真实地形<br>数据：NASA/JPL/University of Arizona',
+  hint: '点击进入 · WASD 移动 · Shift 加速 · F 飞行/行走 · V 环视设备 · M 轨道视角 · U 地下城 · P 传送到毅力号 · 头显点 Enter VR',
+  orbit: '↑ 轨道视角', orbitBack: '↓ 返回地表',
+  colony: (on) => `🌱 未来火星：${on ? '开' : '关'}`,
+  magic: (on) => `🔮 魔幻火星：${on ? '开' : '关'}`,
+  under: '⬇ 地下城', now: '实时', langBtn: 'EN',
+  mission: (sol, utc, n) => `毅力号任务日 Sol ${sol} · 数据更新 ${utc} UTC · 最新照片 ${n} 张`,
+  timeInfo: (hh, mm, live, ls) => `耶泽罗真太阳时 ${hh}:${mm}${live ? '（实时）' : ''} · Ls ${ls}°`,
+  posSurface: (x, z, e, fly) => `坐标 ${x}, ${z} m · 海拔 ${e} m · ${fly ? '飞行' : '行走'}模式`,
+  posOrbit: (alt) => `轨道高度 ${alt} km · 拖动旋转 · 滚轮缩放`,
+  posInterior: (n) => `${n} · 室内`,
+  inspectHint: (n) => `环视：${n} · 拖动旋转 · 滚轮缩放 · V 退出`,
+  interiorHint: (n) => `${n} · WASD 走动 · 走到出口或按 Esc 返回地表`,
+  pressE: (l) => `按 E 进入 ${l}`,
+};
+{
+  document.querySelector('#hud h1').textContent = T.hudTitle;
+  document.querySelector('#hud .dim').innerHTML = T.hudSub;
+  document.getElementById('hint').textContent = T.hint;
+  document.getElementById('orbitBtn').textContent = T.orbit;
+  document.getElementById('underBtn').textContent = T.under;
+  document.getElementById('colonyBtn').textContent = T.colony(false);
+  document.getElementById('magicBtn').textContent = T.magic(false);
+  document.getElementById('timeNow').textContent = T.now;
+  const lb = document.getElementById('langBtn');
+  lb.textContent = T.langBtn;
+  lb.addEventListener('click', () => {
+    const next = LANG === 'en' ? 'zh' : 'en';
+    localStorage.setItem('mars_lang', next);
+    const u = new URL(location.href);
+    u.searchParams.set('lang', next);
+    location.href = u.toString();
+  });
+}
+
 status('正在下载地形数据…');
 const meta = await (await fetch('../data/processed/meta.json')).json();
 const heightsRaw = new Uint16Array(
@@ -305,8 +366,11 @@ if (mission) {
     missionGroup.add(beacon);
 
     const tag = mission.rover.in
-      ? `毅力号 · Sol ${mission.rover.sol}`
-      : `毅力号 Sol ${roverAt.sol} 曾经过此处 · 现距此 ${mission.rover.dist_km} km`;
+      ? (LANG === 'en' ? `Perseverance · Sol ${mission.rover.sol}`
+        : `毅力号 · Sol ${mission.rover.sol}`)
+      : (LANG === 'en'
+        ? `Perseverance passed here on Sol ${roverAt.sol} · now ${mission.rover.dist_km} km away`
+        : `毅力号 Sol ${roverAt.sol} 曾经过此处 · 现距此 ${mission.rover.dist_km} km`);
     const label = textSprite(tag);
     label.scale.set(26, 3.2, 1);
     label.position.set(roverAt.x, ry + 7.5, roverAt.z);
@@ -336,8 +400,7 @@ if (mission) {
   }
 
   document.getElementById('missionInfo').textContent =
-    `毅力号任务日 Sol ${mission.rover.sol} · 数据更新 ${mission.updated_utc} UTC` +
-    ` · 最新照片 ${mission.photos.length} 张`;
+    T.mission(mission.rover.sol, mission.updated_utc, mission.photos.length);
 }
 
 // teleport next to the rover / photo wall
@@ -933,7 +996,7 @@ const cityPbrMats = [];                      // crystal city materials, glow at 
     } catch (err) {
       console.error('crystal city load failed:', err);
     } finally {
-      btn.textContent = '🔮 魔幻火星：开';
+      btn.textContent = T.magic(true);
     }
   };
 
@@ -1106,7 +1169,7 @@ const cityPbrMats = [];                      // crystal city materials, glow at 
 function toggleMagic(force) {
   magicGroup.visible = force ?? !magicGroup.visible;
   const btn = document.getElementById('magicBtn');
-  btn.textContent = magicGroup.visible ? '🔮 魔幻火星：开' : '🔮 魔幻火星：关';
+  btn.textContent = T.magic(magicGroup.visible);
   if (magicGroup.visible) magicGroup.userData.loadCity?.();
 }
 document.getElementById('magicBtn').addEventListener('click', () => toggleMagic());
@@ -1118,7 +1181,7 @@ if (q.get('magic') === '1') toggleMagic(true);
 function toggleColony(force) {
   colonyGroup.visible = force ?? !colonyGroup.visible;
   const btn = document.getElementById('colonyBtn');
-  btn.textContent = colonyGroup.visible ? '🌱 未来火星：开' : '🌱 未来火星：关';
+  btn.textContent = T.colony(colonyGroup.visible);
 }
 document.getElementById('colonyBtn').addEventListener('click', () => toggleColony());
 if (q.get('colony') === '1') toggleColony(true);
@@ -1294,14 +1357,15 @@ async function loadPois(g, a) {
     dot.position.copy(wp);
     dot.visible = false;
     colonyGroup.add(dot);
-    const tag = textSprite(p.label, 40, '#dff2ff');
+    const tag = textSprite(pick(p, 'label'), 40, '#dff2ff');
     tag.scale.set(10, 1.25, 1);
     tag.position.copy(wp).add(new THREE.Vector3(0, 0.9, 0));
     tag.visible = false;
     colonyGroup.add(tag);
-    pois.push({ wp, dot, tag, g, range: p.range ?? 25, label: p.label,
-      detail: p.detail || '', specs: p.specs, physics: p.physics, sim: p.sim,
-      unit: a.name });
+    pois.push({ wp, dot, tag, g, range: p.range ?? 25, label: pick(p, 'label'),
+      detail: pick(p, 'detail') || '', specs: (LANG === 'en' && p.specs_en) || p.specs,
+      physics: pick(p, 'physics'), sim: pick(p, 'sim'),
+      unit: pick(a, 'name') });
   }
 }
 
@@ -1374,7 +1438,7 @@ function enterInspect(u) {
   orbitControls.minDistance = u.radius * 1.15;
   orbitControls.maxDistance = u.radius * 8;
   orbitControls.enabled = true;
-  hintEl.textContent = `环视：${u.name} · 拖动旋转 · 滚轮缩放 · V 退出`;
+  hintEl.textContent = T.inspectHint(u.name);
   buildActionBar(u);
 }
 
@@ -1453,16 +1517,22 @@ let nearPortal = null;                        // surface portal in range (for 'E
 const savedEnv = {};
 // surface trigger zones: walk near -> press E to enter (tied to hab-tunnel door)
 const PORTALS = [
-  { pos: [-330, -12], radius: 7, interior: 'hab-foyer-01', label: '地下城' },
-  { pos: [-372, -18], radius: 5, interior: 'hab-foyer-01', label: '地下城（电梯）' },
+  { pos: [-330, -12], radius: 7, interior: 'hab-foyer-01', label: '地下城', label_en: 'Undercity' },
+  { pos: [-372, -18], radius: 5, interior: 'hab-foyer-01', label: '地下城（电梯）', label_en: 'Undercity (lift)' },
 ];
 // interior-to-interior doors (E-gated, no auto-trigger): the foyer's inner
 // personnel door leads to the clinic; the clinic's +Z opening leads back
 const INTERIOR_DOORS = [
   { from: 'hab-foyer-01', pos: [3.9, -18.8], radius: 1.7, to: 'hab-clinic-01',
-    label: '医务室', entry: { pos: [0, 0, -1.6], yaw: 0 } },
+    label: '医务室', label_en: 'Clinic', entry: { pos: [0, 0, -1.6], yaw: 0 } },
   { from: 'hab-clinic-01', pos: [0, -0.1], radius: 1.5, to: 'hab-foyer-01',
-    label: '玄关', entry: { pos: [3.9, 0, -18.2], yaw: Math.PI } },
+    label: '玄关', label_en: 'Foyer', entry: { pos: [3.9, 0, -18.2], yaw: Math.PI } },
+  // foyer lift doors descend 3000 m to the deep dark-matter lab
+  { from: 'hab-foyer-01', pos: [5.4, -15.5], radius: 1.6, to: 'sci-deeplab-01',
+    label: '深地实验室（电梯 −3000 m）', label_en: 'Deep lab (lift, −3000 m)' },
+  { from: 'sci-deeplab-01', pos: [0, 3.2], radius: 1.6, to: 'hab-foyer-01',
+    label: '玄关（电梯 ↑）', label_en: 'Foyer (lift up)',
+    entry: { pos: [4.6, 0, -15.5], yaw: Math.PI } },
 ];
 let nearDoor = null;
 const fadeEl = document.getElementById('fade');
@@ -1490,8 +1560,9 @@ async function getInterior(id) {
   // interior): residents mounted inside the scene at host_pos; their motion
   // registers into a per-interior registry driven only while inside
   const anims = [];
+  registerMotion(group, anims);   // interior's own animate/spinners (e.g. deeplab event FSM)
   const pois = [];
-  await loadInteriorPois(pois, group, id, mod.meta?.name || id);
+  await loadInteriorPois(pois, group, id, pick(mod.meta || {}, 'name') || id);
   for (const c of (await manifestP).assets || []) {
     if (c.kind !== 'interior-companion' || c.host !== id) continue;
     try {
@@ -1502,13 +1573,13 @@ async function getInterior(id) {
       registerMotion(cg, anims);
       for (const m of cg.userData?.nightMats || [])   // interiors: lights always on
         m.emissiveIntensity = Math.max(m.emissiveIntensity, 1.6);
-      await loadInteriorPois(pois, cg, c.id, cm.meta?.name || c.id);
+      await loadInteriorPois(pois, cg, c.id, pick(cm.meta || {}, 'name') || c.id);
       console.info('[interior-companion] mounted', c.id, 'in', id);
     } catch (err) { console.warn('[interior-companion] failed', c.id, err); }
   }
   const rec = { id, group, meta: mod.meta, lights, anims, pois,
-    entry: group.userData.entry || { pos: [0, 0, 0], yaw: 0 },
-    exitZone: group.userData.exitZone || { pos: [0, 0], radius: 3 } };
+    entry: a?.entry || group.userData.entry || { pos: [0, 0, 0], yaw: 0 },
+    exitZone: a?.exitZone || group.userData.exitZone || { pos: [0, 0], radius: 3 } };
   return (interiorCache[id] = rec);
 }
 
@@ -1534,13 +1605,14 @@ async function loadInteriorPois(pois, g, id, unitName) {
     dot.scale.set(0.22, 0.22, 1);
     dot.visible = false;
     node.add(dot);
-    const tag = textSprite(p.label, 40, '#dff2ff');
+    const tag = textSprite(pick(p, 'label'), 40, '#dff2ff');
     tag.scale.set(2.6, 0.33, 1);
     tag.position.y = 0.32;
     tag.visible = false;
     node.add(tag);
-    pois.push({ node, dot, tag, label: p.label, detail: p.detail || '',
-      specs: p.specs, physics: p.physics, sim: p.sim, unit: unitName,
+    pois.push({ node, dot, tag, label: pick(p, 'label'), detail: pick(p, 'detail') || '',
+      specs: (LANG === 'en' && p.specs_en) || p.specs, physics: pick(p, 'physics'),
+      sim: pick(p, 'sim'), unit: unitName,
       range: Math.min(p.range ?? 8, 10) });
   }
 }
@@ -1598,7 +1670,7 @@ async function switchInterior(door) {
   if (poiCardEl.dataset.id.startsWith('int:')) {
     poiCardEl.style.display = 'none'; poiCardEl.dataset.id = '';
   }
-  hintEl.textContent = `${rec.meta.name} · WASD 走动 · 走到出口或按 Esc 返回地表`;
+  hintEl.textContent = T.interiorHint(pick(rec.meta, 'name'));
   await fade(0);
 }
 
@@ -1632,7 +1704,7 @@ async function enterInterior(id, portal) {
   inInterior = rec;
   nearPortal = null;
   portalPromptEl.style.display = 'none';
-  hintEl.textContent = `${rec.meta.name} · WASD 走动 · 走到出口或按 Esc 返回地表`;
+  hintEl.textContent = T.interiorHint(pick(rec.meta, 'name'));
   await fade(0);
 }
 
@@ -1682,7 +1754,7 @@ function updateInterior(dt) {
   }
   if (dbest !== nearDoor) {
     nearDoor = dbest;
-    portalPromptEl.textContent = dbest ? `按 E 进入 ${dbest.label}` : '';
+    portalPromptEl.textContent = dbest ? T.pressE(pick(dbest, 'label')) : '';
     portalPromptEl.style.display = dbest ? 'block' : 'none';
   }
 }
@@ -1699,7 +1771,7 @@ function updatePortals() {                    // surface: detect nearby door
   }
   if (p !== nearPortal) {
     nearPortal = p;
-    portalPromptEl.textContent = p ? `按 E 进入 ${p.label}` : '';
+    portalPromptEl.textContent = p ? T.pressE(pick(p, 'label')) : '';
     portalPromptEl.style.display = p ? 'block' : 'none';
   }
 }
@@ -1968,9 +2040,7 @@ function updateClockText(s, ltst) {
   if (realTime) timeSlider.value = ltst.toFixed(2);
   const hh = String(Math.floor(ltst)).padStart(2, '0');
   const mm = String(Math.floor((ltst % 1) * 60)).padStart(2, '0');
-  timeInfoEl.textContent =
-    `耶泽罗真太阳时 ${hh}:${mm}${realTime ? '（实时）' : ''}` +
-    ` · Ls ${s.Ls.toFixed(0)}°`;
+  timeInfoEl.textContent = T.timeInfo(hh, mm, realTime, s.Ls.toFixed(0));
 }
 
 // relay constellation: 3 areostationary sats + 1 low science orbiter
@@ -2474,9 +2544,7 @@ renderer.setAnimationLoop(() => {
         poiCardEl.dataset.id = '';
       }
     }
-    posEl.textContent =
-      `轨道高度 ${(camera.position.length() - ORBIT_R).toFixed(0)} km · ` +
-      `拖动旋转 · 滚轮缩放`;
+    posEl.textContent = T.posOrbit((camera.position.length() - ORBIT_R).toFixed(0));
   } else if (inInterior) {                    // underground/indoor scene
     moveDesktop(dt);                          // walk; y is pinned in updateInterior
     updateInterior(dt);
@@ -2484,7 +2552,7 @@ renderer.setAnimationLoop(() => {
       if (!renderer.xr.isPresenting) driveSensors(clock.elapsedTime);
       for (const f of inInterior.anims || []) f(clock.elapsedTime, dt, 1);
       updateInteriorPois();
-      posEl.textContent = `${inInterior.meta.name} · 室内`;
+      posEl.textContent = T.posInterior(pick(inInterior.meta, 'name'));
     }
   } else {
     updateSun();
@@ -2502,10 +2570,8 @@ renderer.setAnimationLoop(() => {
     if (inspectUnit) orbitControls.update();
     else if (renderer.xr.isPresenting) moveVR(dt);
     else moveDesktop(dt);
-    posEl.textContent =
-      `坐标 ${rig.position.x.toFixed(0)}, ${rig.position.z.toFixed(0)} m · ` +
-      `海拔 ${(meta.elev_min_m + rig.position.y).toFixed(1)} m · ` +
-      `${flying ? '飞行' : '行走'}模式`;
+    posEl.textContent = T.posSurface(rig.position.x.toFixed(0),
+      rig.position.z.toFixed(0), (meta.elev_min_m + rig.position.y).toFixed(1), flying);
   }
   renderer.render(scene, camera);
 });

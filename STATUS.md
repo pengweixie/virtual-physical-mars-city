@@ -35,7 +35,7 @@ bigram 语言模型（nanoGPT 教程的起点模型），live 生成火星文本
 - 魔幻城开关（X 键）：法师塔（螺旋坡道+水晶冠）/水晶簇（自写菲涅尔着色器）
   /悬浮岩岛/符文石环传送门/发光蘑菇/光路，+ Rodin 水晶王城
   （models/crystal/2/base_tex.glb，280 m，PBR + 夜间自发光）
-- 启动：双击"启动火星VR.bat"（自动 ingest + 任务数据更新 + 开服 8123 + 开浏览器）
+- 启动：双击"start-mars-vr.bat"（自动 ingest + 任务数据更新 + 开服 8123 + 开浏览器）
 
 **工作流约定**
 - Rodin 资产（魔幻城）：丢 models/_inbox/<资产ID>/，启动自动入库

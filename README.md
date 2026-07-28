@@ -21,13 +21,13 @@ python -m http.server 8123        # from the repo root
 # open http://localhost:8123/viewer/
 ```
 
-On Windows, double-click `启动火星VR.bat` (auto-ingests new models, refreshes
+On Windows, double-click `start-mars-vr.bat` (auto-ingests new models, refreshes
 Perseverance mission data, starts the server, opens the browser). three.js is
 bundled (MIT). A WebXR-capable browser can hit Enter VR for immersive mode.
 
 Keys: `WASD` move · `F` fly · `V` inspect a facility (with action buttons,
 e.g. Launch) · `M` orbit view · `E` enter the undercity (`U` jumps straight there) · `P` teleport to
-Perseverance · bottom-right slider scrubs Martian time.
+Perseverance · bottom-right slider scrubs Martian time. The corner button switches the UI between English and Chinese.
 
 ## What's in town
 

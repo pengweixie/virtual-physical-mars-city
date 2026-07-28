@@ -31,7 +31,7 @@ GLB 资产=丢 models/_inbox/ 跑一次启动脚本）。
 | ✅ | res-isru-01 | ISRU 推进剂工厂 | model | ⬜ | ✅ (40,25) | GLB 已交付并落位 |
 | ✅ | res-rodwell-01 | Rodwell 水冰井架 | code | ✅ 7卡 | ✅ (-5,110) | 07-13 交付（模块+info.json 7 卡，GLB 留档 models/） |
 | ✅ | res-tank-02 | 备用储水罐 13m³ | code | ✅ 3卡 | ✅ (-16,118) | 07-13 交付（模块+info.json 3 卡，GLB 留档 models/） |
-| ✅ | res-mine-01 | 土壤矿场 | code | ✅ | ✅ (180,-120) | 07-17 交付（模块+info.json 5 卡）；机器人=感知自主（传感器通道 MODELS.md §4c，引擎无通道时退回烘焙循环） |
+| ✅ | res-mine-01 | 土壤矿场 | code | ✅ | ✅ (180,-120) | 07-17 交付（模块+info.json 5 卡）；机器人=感知自主（传感器通道 MODELS.md §4c，引擎无通道时退回烘焙循环）；动图 ✓ ×2：res-mine-01.gif（白天全场作业 12s）+ res-mine-01-night.gif（夜景坑内灯光/充电棚 8s），机位 x212 z-77 y66 yaw0.682 pitch-0.354 |
 
 ## 科学 sci
 
@@ -54,8 +54,8 @@ GLB 资产=丢 models/_inbox/ 跑一次启动脚本）。
 
 | 交付 | 资产ID | 名称 | 类型 | 知识卡 | 落位 | 日期/备注 |
 |---|---|---|---|---|---|---|
-| ✅ | veh-rocket-01 | 星舰（着陆状态） | code | 🔶 6 POI + L1/L2 推进仿真（升轨+着陆轨迹/T-W/ISRU耦合） | ✅ (120,200) | 07-12 交付；07-13 深挖外形/表面/内构/6猛禽 + info.json 6卡；L2 仿真×6(升轨Δv4.02km/s / 再入走廊[-13°,-12°] / 翻转≥4km点火 / 反推~38t / 倾覆坡度极限11° / 羽流冲刷~1.4MPa坪载+3km喷砂) + L3 防热瓦传热(COMSOL+FD交叉验证，3cm瓦钢壁仅300K) + 返回任务账本(总Δv6.43带133t)，发射/回收全链闭环见 EQUIPMENT.md §9 |
-| ✅ | veh-rocket-02 | 长十乙运载火箭（竖立待发） | code | ✅ 5卡 + 仿真×7 | ✅ (750,250) 发射台托架 sink-6.95 | 07-17 交付（mars_rocket2 session）：Ø5m×67m 单芯+梦舟飞船+逃逸塔、7×YF-100K、栅格舵/着陆腿收放 actions、CanvasTexture 铭牌、stage1/upper 分离子组+上面级真空机；actions{发射}+schedule ltst14.0（升空自动复位，日更例行发射）；07-18 仿真套件×7（scripts/sim_*_veh_rocket_02.py）：RTLS 构型 GLOW 298t 升轨Δv4.13、返场 41.6/48t 裕度13%、挂缆缓冲单钩95kN裕度2.6×、MC N=500 捕获率100%（σ0.55m）、舵效包线<20%（栅格舵=网捕挂钩）、ISRU 每发215t/1174MWh 200kWe→3.3发/窗口、SSTO旁证可行；发射回收演示弹道 veh-rocket-02.flight.json + dev-demo-recovery.html（mars_rocket2） |
+| ✅ | veh-rocket-01 | 星舰（着陆状态） | code | 🔶 6 POI + L1/L2 推进仿真（升轨+着陆轨迹/T-W/ISRU耦合） | ✅ (120,200) | 07-12 交付；07-13 深挖外形/表面/内构/6猛禽 + info.json 6卡；L2 仿真×6(升轨Δv4.02km/s / 再入走廊[-13°,-12°] / 翻转≥4km点火 / 反推~38t / 倾覆坡度极限11° / 羽流冲刷~1.4MPa坪载+3km喷砂) + L3 防热瓦传热(COMSOL+FD交叉验证，3cm瓦钢壁仅300K) + 返回任务账本(总Δv6.43带133t)，发射/回收全链闭环见 EQUIPMENT.md §9；07-18 加发射回收动作：actions{'发射回收'}(10s 点火→45m跳跃→着陆燃烧→触地复位，一次性非循环)+schedule ltst15.5 每日例行+喷焰常驻网格(待机 scale 0.001 防 Box3 抬高)，动图 ✓ snaps/anim/veh-rocket-01.gif(12s/1.5MB，首尾坐地可循环) |
+| ✅ | veh-rocket-02 | 长十乙运载火箭（竖立待发） | code | ✅ 5卡 + 仿真×7 | ✅ (750,250) 发射台托架 sink-6.95 | 07-17 交付（mars_rocket2 session）：Ø5m×67m 单芯+梦舟飞船+逃逸塔、7×YF-100K、栅格舵/着陆腿收放 actions、CanvasTexture 铭牌、stage1/upper 分离子组+上面级真空机；actions{发射}+schedule ltst14.0（升空自动复位，日更例行发射）；07-18 仿真套件×7（scripts/sim_*_veh_rocket_02.py）：RTLS 构型 GLOW 298t 升轨Δv4.13、返场 41.6/48t 裕度13%、挂缆缓冲单钩95kN裕度2.6×、MC N=500 捕获率100%（σ0.55m）、舵效包线<20%（栅格舵=网捕挂钩）、ISRU 每发215t/1174MWh 200kWe→3.3发/窗口、SSTO旁证可行；发射回收演示弹道 veh-rocket-02.flight.json + dev-demo-recovery.html（mars_rocket2）；动图 ✓ snaps/anim/veh-rocket-02.gif（发射→分离→网捕全链，变速压缩 10s） |
 | ✅ | veh-raptor-01 | 猛禽发动机（检修展示台） | code | 🔶 4 POI + Raptor2 性能卡 | ✅ (138,188) | 07-13 交付；单台猛禽检修展示台 11.4k面，info.json 4卡（室压/膨胀比/Isp/全流量循环）|
 
 ## 居住 hab

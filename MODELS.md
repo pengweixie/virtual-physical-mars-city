@@ -9,7 +9,7 @@ models/_inbox/<资产ID>/     ← Rodin 导出的所有东西直接扔这里
 ```
 
 例：把天文台的全部导出（zip、glb、obj、贴图，混着都行）丢进
-`models/_inbox/sci-obs-01/`，然后**双击"启动火星VR.bat"**——启动时自动：
+`models/_inbox/sci-obs-01/`，然后**双击"start-mars-vr.bat"**——启动时自动：
 解压 → 选最优源（pbr.glb > glb > obj+贴图 > stl）→ 需要时转换并烤入贴图 →
 归档到 `models/sci-obs-01/`（原始文件进 src/）→ 登记进 manifest.json。
 

@@ -327,6 +327,21 @@
       ]
     },
     {
+      "id": "sci-deeplab-01",
+      "name": "深地暗物质实验室（100t 液氙）",
+      "name_en": "Deep Underground Dark-Matter Lab (100 t LXe)",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/sci-deeplab-01.js",
+      "entry": { "pos": [0, 0, 6], "yaw": 0 },
+      "size_m": 32,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
       "id": "hab-bot-01",
       "name": "室内服务机器人",
       "type": "code",
