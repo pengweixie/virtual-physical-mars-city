@@ -106,7 +106,13 @@ renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.xr.enabled = true;
 document.body.appendChild(renderer.domElement);
-document.body.appendChild(VRButton.createButton(renderer));
+// only surface the VR entry when WebXR is actually available — otherwise
+// three.js renders a permanent "VR NOT SUPPORTED" badge over the page
+if (navigator.xr) {
+  navigator.xr.isSessionSupported('immersive-vr').then((ok) => {
+    if (ok) document.body.appendChild(VRButton.createButton(renderer));
+  }).catch(() => {});
+}
 
 const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 30000);
 const rig = new THREE.Group();               // player: rig sits on the ground
