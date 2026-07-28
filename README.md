@@ -51,6 +51,24 @@ Perseverance · bottom-right slider scrubs Martian time. The corner button switc
 | ![Tokamak](snaps/tokamak-poster.png) | ![Regolith mine](snaps/mine-poster.png) |
 | ![TES and the CMB station](snaps/tes-poster.png) | ![MiniPAN](snaps/pan-hero2.png) |
 
+## In motion
+
+| | |
+|---|---|
+| ![CZ-10B launch](snaps/anim/veh-rocket-02.gif)<br>CZ-10B: launch → staging → net catch (time-compressed) | ![Starship](snaps/anim/veh-rocket-01.gif)<br>Starship: the launch/landing loop from the L2 sims |
+| ![Mine robot](snaps/anim/res-mine-01.gif)<br>The mine robot digging by sight (CIS vision, 5 Hz) | ![Mine at night](snaps/anim/res-mine-01-night.gif)<br>Night shift at the spiral pit |
+| ![Humanoid patrol](snaps/anim/hab-bot-01.gif)<br>The humanoid on patrol in the foyer, chest lidar fanning | ![Deep lab event](snaps/anim/sci-deeplab-01.gif)<br>Deep lab: an event lights the PMT array |
+
+## The origin
+
+The whole city traces back to a single notebook page (July 19, 2026):
+Worlds A & B — build a world, rebuild the world inside it, hunt for the
+source-code cracks, and ask which side is real.
+
+![The idea, as a seven-panel comic](idea/manga-en.png)
+
+[中文版 / Chinese version](idea/manga-cn.png)
+
 ## Layout
 
 - `viewer/` — the engine (main.js) + 21 procedural asset modules + knowledge-card info.json
