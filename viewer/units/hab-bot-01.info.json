@@ -4,8 +4,10 @@
     {
       "id": "visor",
       "label": "AI 眼镜面罩（表情屏 + 导航相机）",
+      "label_en": "AI-glasses visor (expression screen + nav camera)",
       "range": 10,
       "detail": "机器人的\"脸\"是一副 AI 眼镜造型的面罩：小屏显示状态表情（待机 ◡ / 巡逻 → / 避障 ! / 迎宾 ◠ / 充电 z）与电量条，左镜腿前端是 64×64 导航相机窗。相机走引擎感知通道（5 Hz 离屏渲染回填像素），像素先过 CIS 成像模型再进亮度自适应阈值分割——与矿场机器人同一条感知链、同一套自研 CMOS 参数。右镜腿外侧丝印一行小字：WORLD-B RESIDENT。",
+      "detail_en": "The robot's \"face\" is a visor shaped like a pair of AI glasses: a small screen shows status expressions (idle ◡ / patrol → / avoid ! / greet ◠ / charging z) plus a battery bar, and the left temple carries the 64×64 nav-camera window. The camera runs on the engine's sensor channel (5 Hz offscreen renders handed back as pixels); frames pass through the CIS imaging model before adaptive-brightness threshold segmentation — the same perception chain and the same home-grown CMOS parameters as the mine robot. Silk-screened on the right temple: WORLD-B RESIDENT.",
       "specs": {
         "阵列": "64×64 4T PPD @5 µm，滚动快门",
         "量子效率": "0.60（并入曝光标定）",
@@ -15,20 +17,39 @@
         "ADC": "10-bit 单斜率，LSB 16.5 e⁻",
         "采样率": "5 Hz（感知低频，控制每帧）"
       },
+      "specs_en": {
+        "Array": "64×64 4T PPD @ 5 µm, rolling shutter",
+        "Quantum efficiency": "0.60 (folded into exposure calibration)",
+        "Full well": "17,880 e⁻",
+        "Read noise": "1.76 e⁻ (column CDS)",
+        "Dark current": "170 e⁻/s",
+        "ADC": "10-bit single-slope, LSB 16.5 e⁻",
+        "Sample rate": "5 Hz (perception slow, control every frame)"
+      },
       "sim": [
         "自动曝光在地下城暗环境实测收敛 117~260 ms（扫描带均值 DN 稳到 400/1023≈45% 量程）；同一套模型在矿场白天收敛 12 ms——光照差 ~20 倍，曝光比对应，物理自洽",
         "暗区分割幻影基准：面向开阔地坪时误报 hazL+hazR ≈ 0.03（失效线 0.5），自适应阈值(均值×0.72)把散粒噪声与光照漂移一并吸收"
       ],
+      "sim_en": [
+        "Auto-exposure converges to 117–260 ms in the dim undercity (scan-band mean DN settles at 400/1023 ≈ 45% of range); the same model converges to 12 ms in the daylight mine — a ~20× illumination gap with a matching exposure ratio, physically self-consistent",
+        "Dark-region phantom benchmark: facing open floor, false alarms hazL+hazR ≈ 0.03 (failure line 0.5); the adaptive threshold (mean × 0.72) absorbs both shot noise and illumination drift"
+      ],
       "physics": [
         "散粒噪声 σ=√Ne 是光子计数的泊松本性；10-bit 量化再叠加 LSB/√12≈4.8 e⁻ 量化噪声——两者都随信号自然产生，不是加的\"特效\"",
         "905 nm LiDAR 对这颗可见光相机不可见（硅 QE 在 NIR 截止边），所以调试射线可视化必须从导航相机的渲染里剔除——否则机器人会怕自己的激光"
+      ],
+      "physics_en": [
+        "Shot noise σ=√Ne is the Poisson nature of photon counting; 10-bit quantization adds LSB/√12 ≈ 4.8 e⁻ on top — both arise from the signal itself, they are not added \"effects\"",
+        "The 905 nm LiDAR is invisible to this visible-light camera (silicon QE cuts off in the NIR), so the debug ray visualization must be excluded from the nav-camera render — otherwise the robot would fear its own laser"
       ]
     },
     {
       "id": "lidar",
       "label": "905 nm 微型闪光 LiDAR（胸窗）",
+      "label_en": "905 nm micro flash-LiDAR (chest window)",
       "range": 10,
       "detail": "地下城有纯黑区域，纯视觉会瞎——胸口横缝里是一台 905 nm 微型闪光 LiDAR：单脉冲照亮 90° 前扇区，15 个探测方向同时回波测距，20 m 量程。引擎实现为 Raycaster 扇形求交（工程近似），但链路账按真的算（见 📐）。近距 <1.2 m 触发转向避障，<0.5 m 急停。SPAD 接收端参数继承自 spad40_nir 905 nm 探测器项目。",
+      "detail_en": "The undercity has pitch-black spots where vision alone goes blind — the chest slit houses a 905 nm micro flash-LiDAR: one pulse floods a 90° forward sector, 15 detection directions range simultaneously, 20 m reach. The engine implements it as a Raycaster fan (an engineering approximation), but the link budget is computed for real (see 📐). Ranges <1.2 m trigger avoidance turns, <0.5 m an emergency stop. SPAD receiver parameters inherit from the spad40_nir 905 nm detector project.",
       "specs": {
         "波长": "905 nm（Class 1 人眼安全）",
         "脉冲能量": "3 µJ",
@@ -38,19 +59,37 @@
         "接收孔径": "Ø10 mm",
         "SPAD PDE": "40.3% @905 nm"
       },
+      "specs_en": {
+        "Wavelength": "905 nm (Class 1 eye-safe)",
+        "Pulse energy": "3 µJ",
+        "Sector": "90° × 15 beams",
+        "Range": "20 m",
+        "Scan rate": "6 Hz",
+        "Receive aperture": "Ø10 mm",
+        "SPAD PDE": "40.3% @ 905 nm"
+      },
       "sim": [
         "迷你链路预算：3 µJ ÷ 2.20e-19 J/光子 = 1.37e13 光子/脉冲，15 向分摊 9.1e11/向；20 m 处朗伯墙面（反照率 0.3）反射进 Ø10 mm 孔径的分数 ρA/(πR²)=1.9e-8 → 1.7e4 光子回波；×光学 0.8 ×PDE 0.403 ≈ 5,500 光电子/脉冲，散粒极限 SNR=√5500≈74——20 m 满量程仍有巨大裕度",
         "平均光功率 = 3 µJ × 15 束 × 6 Hz = 0.27 mW，远低于 Class 1 限值；室内墙面即使反照率降到 0.1，SNR 仍 >40"
       ],
+      "sim_en": [
+        "Mini link budget: 3 µJ ÷ 2.20e-19 J/photon = 1.37e13 photons/pulse, split 15 ways → 9.1e11 per direction; the fraction a Lambertian wall at 20 m (albedo 0.3) reflects into a Ø10 mm aperture is ρA/(πR²)=1.9e-8 → 1.7e4 return photons; × optics 0.8 × PDE 0.403 ≈ 5,500 photoelectrons/pulse, shot-limited SNR = √5500 ≈ 74 — huge margin even at full range",
+        "Mean optical power = 3 µJ × 15 beams × 6 Hz = 0.27 mW, far below the Class 1 limit; even if wall albedo drops to 0.1, SNR stays >40"
+      ],
       "physics": [
         "扩展朗伯目标的回波按 1/R² 衰减（不是点目标的 1/R⁴）：闪光照明下每个探测方向看到的墙面元与其照明份额同尺度缩放，距离项只剩接收立体角一项"
+      ],
+      "physics_en": [
+        "Returns from an extended Lambertian target fall off as 1/R² (not the 1/R⁴ of point targets): under flash illumination each detection direction sees a wall patch that scales with its illumination share, leaving only the receive solid angle as the distance term"
       ]
     },
     {
       "id": "gait",
       "label": "MuJoCo 烘焙步态（火星重力）",
+      "label_en": "MuJoCo-baked gait (Mars gravity)",
       "range": 10,
       "detail": "走路不是手调动画：按视觉几何 1:1 建 MuJoCo 平面化双足模型（髋 0.84 / 大腿 0.38 / 小腿 0.38 m，圆底足点接触 + 柔顺踝），火星重力 3.71 m/s² 下位置伺服跟踪步态指令，烘出 walk/turn/idle 三条循环曲线（12 通道）随资产回放。伺服过冲、触地膝弯、躯干俯仰点头、垂向起伏全部来自动力学而非手调。回放按 (v,ω) 相位混合三循环，步幅与位移严格同步不滑步。",
+      "detail_en": "The walk is not hand-keyed animation: a planar MuJoCo biped is built 1:1 from the visual geometry (hip 0.84 / thigh 0.38 / shank 0.38 m, round-soled point feet + compliant ankles); position servos track gait commands under Mars gravity 3.71 m/s², and three loop curves (walk/turn/idle, 12 channels) are baked and shipped with the asset for deterministic playback. Servo overshoot, knee flex at touchdown, torso pitch nod and vertical bob all come from dynamics, not by hand. Playback phase-blends the three loops by (v, ω); stride and displacement stay locked — no foot sliding.",
       "specs": {
         "行走周期": "1.8 s（30 样本 @60 ms）",
         "步速": "0.75 m/s（步幅 1.35 m/周期）",
@@ -58,55 +97,100 @@
         "伺服": "kp 300 / kv 18，力矩限幅 ±150 N·m",
         "仿真出处": "hab-bot-01.gait.json（sim/run_gait.py）"
       },
+      "specs_en": {
+        "Walk cycle": "1.8 s (30 samples @ 60 ms)",
+        "Speed": "0.75 m/s (stride 1.35 m per cycle)",
+        "Patrol path": "figure-eight lemniscate 5.2×2.6 m, pure t-parameterized",
+        "Servos": "kp 300 / kv 18, torque cap ±150 N·m",
+        "Sim provenance": "hab-bot-01.gait.json (sim/run_gait.py)"
+      },
       "sim": [
         "火星摆频账：腿长 0.84 m 的倒立摆固有频率 ω=√(g/L)，火星 2.10 rad/s vs 地球 3.42 rad/s——自然步频慢 38%，这就是烘焙周期取 1.8 s（地球同型机 ~1.1 s）的依据；Froude 数 v²/(gL)=0.18 < 0.5，严格处于步行域",
         "动力学的免费真实感：髋伺服过冲到 0.405 rad（指令 0.34）、触地瞬间膝弯 0.97 rad、俯仰点头 ±0.077 rad——全是仿真长出来的；三循环烘焙曲线相邻样本步长 <0.26 rad（0.3 验收线内）、循环首尾零闭合误差"
       ],
+      "sim_en": [
+        "Mars pendulum ledger: an inverted pendulum with 0.84 m legs has natural frequency ω=√(g/L) — 2.10 rad/s on Mars vs 3.42 rad/s on Earth, a 38% slower natural cadence; hence the baked 1.8 s cycle (an Earth twin would run ~1.1 s). Froude number v²/(gL)=0.18 < 0.5, firmly in the walking regime",
+        "Free realism from dynamics: hip servo overshoots to 0.405 rad (command 0.34), knee flexes 0.97 rad at touchdown, pitch nods ±0.077 rad — all grown by the sim; adjacent baked samples step <0.26 rad (within the 0.3 gate) and loops close with zero end-to-end error"
+      ],
       "physics": [
         "ZMP 稳定性：单脚支撑时零力矩点须落在脚掌支撑多边形内。仿真俯仰摆动 ±0.077 rad × 质心高 0.9 m ≈ ±7 cm 水平偏移，仍在 20 cm 足长的半长（10 cm）以内；低重力下同样的关节力矩产生更大角加速度，所以火星行走反而要放慢步频、压低步幅"
+      ],
+      "physics_en": [
+        "ZMP stability: in single support the zero-moment point must stay inside the foot's support polygon. The simulated pitch sway ±0.077 rad × 0.9 m CoM height ≈ ±7 cm horizontal offset — within the 10 cm half-length of a 20 cm foot. Under low gravity the same joint torque produces more angular acceleration, which is why Mars walking slows the cadence and shortens the stride"
       ]
     },
     {
       "id": "hand",
       "label": "简化三指手",
+      "label_en": "Simplified three-finger hand",
       "range": 8,
       "detail": "两指对置 + 一枚对握拇指，共 2 个驱动自由度。为什么室内服务不需要五指：门厅任务清单是托盘、水杯、扶手、快递箱——全部是圆柱面/平面的力闭合抓取，三个摩擦接触点已构成力闭合；五指仿人手要多 12+ 个执行器和同样多的密封转轴，质量、功耗与维护点翻倍，而多出来的只有\"精细对指\"能力——那类任务（采样、医疗）由医务室的专用设备承担。",
+      "detail_en": "Two opposed fingers plus one opposing thumb, 2 actuated DOF in total. Why indoor service needs no five-finger hand: the foyer task list is trays, cups, handrails, parcels — all cylinder/plane force-closure grasps, and three friction contacts already achieve force closure. A five-finger anthropomorphic hand adds 12+ actuators and as many sealed joints, doubling mass, power and maintenance points, and buys only fine opposition — tasks of that kind (sampling, medical) belong to the clinic's dedicated equipment.",
       "specs": {
         "构型": "2 对置指 + 1 拇指",
         "驱动": "2 DOF（欠驱动联动）",
         "抓取": "圆柱 Ø30~120 mm / 平板 ≤15 mm"
       },
+      "specs_en": {
+        "Configuration": "2 opposed fingers + 1 thumb",
+        "Actuation": "2 DOF (underactuated linkage)",
+        "Grasp": "cylinders Ø30–120 mm / plates ≤15 mm"
+      },
       "physics": [
         "力闭合最小接触数：带摩擦的点接触在平面内 2 个、空间中 3 个即可实现力闭合（Nguyen 定理）——三指是空间力闭合的下限构型，再少就只能推不能握"
+      ],
+      "physics_en": [
+        "Minimum contacts for force closure: with friction, 2 point contacts suffice in the plane and 3 in space (Nguyen's theorem) — three fingers is the lower-bound configuration for spatial force closure; any fewer can push but never hold"
       ]
     },
     {
       "id": "battery",
       "label": "电池背包与边缘计算",
+      "label_en": "Battery backpack & edge compute",
       "range": 8,
       "detail": "背包上舱是 260 Wh 锂电池组（橙色提手可整包快换），下舱是边缘感知计算板与通讯模块。机器人只带感知与反射层——LiDAR 急停、视觉分割、步态回放在本地跑；行为规划与语义理解的重推理跑在城内计算中心（ops-compute-01，MB-1 生态）：边缘 5 Hz 感知 + 城内推理回传，断链时降级为本地烘焙巡逻路线，与引擎感知通道的优雅降级契约同构。",
+      "detail_en": "The upper backpack bay holds a 260 Wh lithium pack (orange handle, whole-pack quick swap); the lower bay carries the edge-perception board and comms module. The robot carries only perception and reflexes — LiDAR e-stop, visual segmentation and gait playback run locally; heavy inference for planning and language runs at the city compute center (ops-compute-01, the MB-1 ecosystem). Edge 5 Hz perception + city inference over the link; on link loss it degrades to the locally baked patrol loop — the same graceful-degradation contract as the engine's sensor channel.",
       "specs": {
         "电池": "260 Wh（48 V 5.4 Ah，~1.3 kg @200 Wh/kg）",
         "行走功耗": "80 W（执行器 52 + 边缘感知 18 + 通讯 10）",
         "待机功耗": "12 W",
         "班次": "4 h（60% 行走占空）"
       },
+      "specs_en": {
+        "Battery": "260 Wh (48 V 5.4 Ah, ~1.3 kg @ 200 Wh/kg)",
+        "Walking power": "80 W (actuators 52 + edge perception 18 + comms 10)",
+        "Standby power": "12 W",
+        "Shift": "4 h (60% walking duty)"
+      },
       "sim": [
         "功率预算闭合：0.6×80 + 0.4×12 = 52.8 W 班次均值 → 4 h 班次耗电 211 Wh，260 Wh 电池组裕度 23%；150 W 充电 1.7 h 回满——两班一充，夜间低谷充电与城市储能场错峰"
+      ],
+      "sim_en": [
+        "Power budget closes: 0.6×80 + 0.4×12 = 52.8 W shift average → a 4 h shift uses 211 Wh, leaving 23% margin on the 260 Wh pack; 150 W charging refills in 1.7 h — one charge per two shifts, timed off-peak against the city storage farm"
       ]
     },
     {
       "id": "dock",
       "label": "壁挂充电座（0.6 m）",
+      "label_en": "Wall charging dock (0.6 m)",
       "range": 8,
       "detail": "右墙壁挂式 0.6 m 充电座：两条铜触点条对准机器人背部触点高度，琥珀指示灯充电时呼吸闪烁，地面橙色角标标出停机位。电量低于 25% 时机器人自主返桩：航位推算导航到位、原地对准触点、贴桩充电，充到 95% 自动离桩复巡。",
+      "detail_en": "A wall-mounted 0.6 m dock on the right wall: two copper contact strips aligned to the robot's back contacts, an amber lamp breathing while charging, orange floor markers outlining the parking spot. Below 25% charge the robot returns on its own: dead-reckons to the dock, aligns in place, docks and charges, then undocks at 95% and resumes patrol.",
       "specs": {
         "充电功率": "150 W（触点式）",
         "触发阈值": "SOC <25% 返桩 / >95% 离桩",
         "对接方式": "航位推算 + 原地对准（LiDAR 近距豁免）"
       },
+      "specs_en": {
+        "Charge power": "150 W (contact strips)",
+        "Thresholds": "SOC <25% return / >95% undock",
+        "Docking": "dead reckoning + in-place alignment (LiDAR near-range exempt)"
+      },
       "sim": [
         "返桩全流程实测（预览页，演示时间加速 ×60）：从触发到贴桩对准 14.1 s，对接位置误差 <0.1 m、朝向误差 <0.1 rad；充满离桩后无缝回到 8 字巡逻路线"
+      ],
+      "sim_en": [
+        "Full return-to-dock run (preview page, demo time ×60): 14.1 s from trigger to docked alignment, position error <0.1 m, heading error <0.1 rad; after charging it rejoins the figure-eight patrol seamlessly"
       ]
     }
   ]

@@ -299,6 +299,7 @@
     {
       "id": "hab-foyer-01",
       "name": "地下城玄关",
+      "name_en": "Undercity Foyer",
       "type": "code",
       "kind": "interior",
       "module": "units/hab-foyer-01.js",
@@ -314,6 +315,7 @@
     {
       "id": "hab-clinic-01",
       "name": "地下城医务室",
+      "name_en": "Undercity Clinic",
       "type": "code",
       "kind": "interior",
       "module": "units/hab-clinic-01.js",
@@ -344,6 +346,7 @@
     {
       "id": "hab-bot-01",
       "name": "室内服务机器人",
+      "name_en": "Indoor Service Robot",
       "type": "code",
       "kind": "interior-companion",
       "host": "hab-foyer-01",

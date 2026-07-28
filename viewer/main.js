@@ -1568,7 +1568,8 @@ async function getInterior(id) {
   const anims = [];
   registerMotion(group, anims);   // interior's own animate/spinners (e.g. deeplab event FSM)
   const pois = [];
-  await loadInteriorPois(pois, group, id, pick(mod.meta || {}, 'name') || id);
+  await loadInteriorPois(pois, group, id,
+    pick({ ...mod.meta, name_en: mod.meta?.name_en || a?.name_en }, 'name') || id);
   for (const c of (await manifestP).assets || []) {
     if (c.kind !== 'interior-companion' || c.host !== id) continue;
     try {
@@ -1579,11 +1580,13 @@ async function getInterior(id) {
       registerMotion(cg, anims);
       for (const m of cg.userData?.nightMats || [])   // interiors: lights always on
         m.emissiveIntensity = Math.max(m.emissiveIntensity, 1.6);
-      await loadInteriorPois(pois, cg, c.id, pick(cm.meta || {}, 'name') || c.id);
+      await loadInteriorPois(pois, cg, c.id,
+        pick({ ...cm.meta, name_en: cm.meta?.name_en || c.name_en }, 'name') || c.id);
       console.info('[interior-companion] mounted', c.id, 'in', id);
     } catch (err) { console.warn('[interior-companion] failed', c.id, err); }
   }
-  const rec = { id, group, meta: mod.meta, lights, anims, pois,
+  const rec = { id, group, lights, anims, pois,
+    meta: { ...mod.meta, name_en: mod.meta?.name_en || a?.name_en },
     entry: a?.entry || group.userData.entry || { pos: [0, 0, 0], yaw: 0 },
     exitZone: a?.exitZone || group.userData.exitZone || { pos: [0, 0], radius: 3 } };
   return (interiorCache[id] = rec);

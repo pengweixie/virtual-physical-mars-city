@@ -3,77 +3,120 @@
     {
       "id": "water",
       "label": "外水屏蔽罐 ⌀14×15 m",
+      "label_en": "Outer water shield tank ⌀14×15 m",
       "range": 14,
       "detail": "立式不锈钢罐装超纯水，把洞室岩壁的 γ/中子本底在到达探测器前衰减掉；兼作水切伦科夫缪子否决层——宇宙线 μ 穿水发切伦科夫光被标记，其诱发的假信号整体丢弃。",
+      "detail_en": "A vertical stainless tank of ultrapure water attenuates the cavern rock's γ/neutron background before it reaches the detector, and doubles as a water-Cherenkov muon veto — cosmic-ray muons crossing the water emit Cherenkov light, get tagged, and every signal they induce is discarded wholesale.",
       "specs": { "内径": "⌀14 m × 15 m 高", "介质": "超纯水（连续循环净化）", "结构": "20 mm 壁 + 6 道环向加强筋 + 顶盖法兰" },
-      "physics": "水对 MeV 级 γ 的衰减长度 ~0.3 m，3.5 m 水层压低外部 γ 通量 >10⁴；中子被氢慢化俘获。缪子在水中的切伦科夫阈 ~160 MeV/c，深地残余 μ 全部远超阈值，标记效率接近 1。"
+      "specs_en": { "Inner size": "⌀14 m × 15 m tall", "Medium": "ultrapure water (continuous recirculation)", "Structure": "20 mm wall + 6 hoop stiffeners + top flange" },
+      "physics": "水对 MeV 级 γ 的衰减长度 ~0.3 m，3.5 m 水层压低外部 γ 通量 >10⁴；中子被氢慢化俘获。缪子在水中的切伦科夫阈 ~160 MeV/c，深地残余 μ 全部远超阈值，标记效率接近 1。",
+      "physics_en": "Water attenuates MeV-scale γ with ~0.3 m length — 3.5 m of it suppresses the external γ flux by >10⁴; neutrons are moderated and captured on hydrogen. The Cherenkov threshold for muons in water is ~160 MeV/c, and every residual deep-site muon is far above it, so tagging efficiency approaches 1."
     },
     {
       "id": "muveto",
       "label": "Gd-液闪反符合层",
+      "label_en": "Gd-doped scintillator veto layer",
       "range": 10,
       "detail": "包住低温罐的薄壁反符合容器：掺钆液体闪烁体对中子俘获瞬发 γ 敏感，与水切伦科夫联合把 μ 诱发中子的否决效率再抬一档。",
+      "detail_en": "A thin-walled veto vessel wrapped around the cryostat: gadolinium-doped liquid scintillator is sensitive to the prompt γ cascade from neutron capture, and together with the water Cherenkov lifts the veto efficiency for muon-induced neutrons another notch.",
       "specs": { "形式": "薄壁同轴筒（⌀6.8 m × 8.2 m）", "介质": "Gd 掺杂液闪", "联动": "与水 veto 同时读出、联合否决" },
-      "physics": "Gd 热中子俘获截面 ~49000 barn（天然混合），俘获后放 ~8 MeV γ 级联——中子在丢失到探测器之前先在这层被'点名'。"
+      "specs_en": { "Form": "thin coaxial shell (⌀6.8 m × 8.2 m)", "Medium": "Gd-doped liquid scintillator", "Coupling": "read out with the water veto, joint rejection" },
+      "physics": "Gd 热中子俘获截面 ~49000 barn（天然混合），俘获后放 ~8 MeV γ 级联——中子在丢失到探测器之前先在这层被'点名'。",
+      "physics_en": "Natural Gd has a thermal-neutron capture cross-section of ~49,000 barn and releases an ~8 MeV γ cascade on capture — neutrons get \"named\" in this layer before they can sneak into the detector."
     },
     {
       "id": "cryo",
       "label": "低温双层真空罐",
+      "label_en": "Double-walled vacuum cryostat",
       "range": 10,
       "detail": "外罐 ⌀5.15×7.15 m + 内罐 ⌀4.05×5.3 m 同轴嵌套，夹层抽真空隔热，把 100 余吨液氙稳在 178 K；罐顶低温头接外部循环纯化橇，氙持续提纯维持电子寿命。",
+      "detail_en": "Outer vessel ⌀5.15×7.15 m nested over an inner ⌀4.05×5.3 m vessel with a vacuum jacket between, holding 100-plus tonnes of liquid xenon at 178 K; the top cryo head connects to the external purification skid that continuously cleans the xenon to keep the electron lifetime up.",
       "specs": { "外罐": "⌀5.15 × 7.15 m + 顶穹 1.1 m", "内罐": "⌀4.05 × 5.3 m + 穹 0.85 m", "工作点": "液氙 ~178 K", "纯化": "连续循环，电子寿命 τₑ ≳ 15 ms" },
-      "physics": "双层真空 + 多层绝热抑制漏热；电子寿命由电负性杂质（O₂ 当量 <0.1 ppb）决定——τₑ 必须远大于最大漂移时间（~2.6 ms），否则深处事件的电离信号在漂移途中被吃掉。"
+      "specs_en": { "Outer vessel": "⌀5.15 × 7.15 m + 1.1 m dome", "Inner vessel": "⌀4.05 × 5.3 m + 0.85 m dome", "Operating point": "LXe ~178 K", "Purification": "continuous loop, electron lifetime τₑ ≳ 15 ms" },
+      "physics": "双层真空 + 多层绝热抑制漏热；电子寿命由电负性杂质（O₂ 当量 <0.1 ppb）决定——τₑ 必须远大于最大漂移时间（~2.6 ms），否则深处事件的电离信号在漂移途中被吃掉。",
+      "physics_en": "The vacuum jacket plus MLI suppresses heat leak; electron lifetime is set by electronegative impurities (O₂-equivalent <0.1 ppb) — τₑ must far exceed the maximum drift time (~2.6 ms), or the ionization signal from deep events gets eaten on the way up."
     },
     {
       "id": "tpc",
       "label": "双相氙 TPC 场笼",
+      "label_en": "Dual-phase xenon TPC field cage",
       "range": 8,
       "detail": "白色 PTFE 反射筒（24 面棱柱）⌀3.55 m × 漂移 3.55 m，内壁叠 58 层铜场整形环建立均匀漂移场；顶部薄气氙层是电离信号的放大区。这是整座实验室的心脏。",
+      "detail_en": "A white PTFE reflector barrel (24-sided prism), ⌀3.55 m with a 3.55 m drift, lined with 58 stacked copper field-shaping rings for a uniform drift field; the thin gaseous xenon layer at the top is the amplification region for the ionization signal. This is the heart of the whole laboratory.",
       "specs": { "场笼": "⌀3.55 m × 漂移 3.55 m，PTFE 24 面", "漂移场": "~100 V/cm（阴极-门极）", "场整形": "58 层铜环叠环", "漂移速度": "1.35 mm/µs，满程 ~2.6 ms" },
+      "specs_en": { "Field cage": "⌀3.55 m × 3.55 m drift, 24-facet PTFE", "Drift field": "~100 V/cm (cathode–gate)", "Field shaping": "58 stacked copper rings", "Drift speed": "1.35 mm/µs, full drift ~2.6 ms" },
       "sim": [
         "信号链响应模型（NEST 风格产额 + 漂移衰减 + S2 电致发光展宽）：ER 10 keV → S1≈22 pe、S2≈9300 pe；NR 20 keVnr → S1≈20 pe、S2≈1800 pe",
         "ER/NR 甄别带：log₁₀(S2/S1) ER≈2.4–2.8 与 NR≈1.6–2.0 清晰分离，电子反冲抑制 99.7%"
       ],
-      "physics": "双相原理：粒子在液氙中沉积能量 → 直接闪烁光 S1（ns 级）；电离电子被场拉着向上漂移，穿过液面进入气相，在强场下电致发光成 S2（µs 级）。S1-S2 时间差给深度 z，S2 顶阵列光斑给 (x,y)——三维定位把探测器变成自屏蔽的洋葱。"
+      "sim_en": [
+        "Signal-chain response model (NEST-style yields + drift attenuation + S2 electroluminescence broadening): ER 10 keV → S1≈22 pe, S2≈9300 pe; NR 20 keVnr → S1≈20 pe, S2≈1800 pe",
+        "ER/NR discrimination band: log₁₀(S2/S1) separates cleanly, ER≈2.4–2.8 vs NR≈1.6–2.0, with 99.7% electron-recoil rejection"
+      ],
+      "physics": "双相原理：粒子在液氙中沉积能量 → 直接闪烁光 S1（ns 级）；电离电子被场拉着向上漂移，穿过液面进入气相，在强场下电致发光成 S2（µs 级）。S1-S2 时间差给深度 z，S2 顶阵列光斑给 (x,y)——三维定位把探测器变成自屏蔽的洋葱。",
+      "physics_en": "The dual-phase principle: a particle deposits energy in liquid xenon → prompt scintillation S1 (ns scale); ionization electrons drift upward under the field, cross the liquid surface into the gas, and electroluminesce into S2 (µs scale). The S1–S2 time difference gives depth z, the S2 hit pattern on the top array gives (x, y) — 3-D positioning turns the detector into a self-shielding onion."
     },
     {
       "id": "lxe",
       "label": "液氙靶 100 t",
+      "label_en": "Liquid-xenon target, 100 t",
       "range": 8,
       "detail": "场笼内 100 t 活性液氙（总装量 ~130 t），密度 2.86 t/m³，气液界面在场笼顶。液氙既是靶又是探测介质——重核、高密度、可纯化、自屏蔽，暗物质直接探测的黄金材料。",
+      "detail_en": "100 t of active liquid xenon inside the field cage (~130 t total inventory), density 2.86 t/m³, with the liquid–gas interface at the cage top. Xenon is both target and detection medium — heavy nuclei, high density, purifiable, self-shielding: the gold-standard material for direct dark-matter detection.",
       "specs": { "活性质量": "100.5 t（⌀3.55 × 3.55 m 实算）", "有效靶（fiducial）": "70.2 t", "密度": "2.86 t/m³ @ 178 K", "曝光": "70.2 t·yr / 年" },
+      "specs_en": { "Active mass": "100.5 t (computed from ⌀3.55 × 3.55 m)", "Fiducial mass": "70.2 t", "Density": "2.86 t/m³ @ 178 K", "Exposure": "70.2 t·yr per year" },
       "sim": [
         "本底预算（响应模型，70 t·yr ROI）：ER 甄别后 ~10 计数；不可约 NR 层 ⁸B CEνNS ~35 + 放射性中子 ~14——'中微子雾'主导",
         "WIMP-核子 SI 灵敏度示意投影：最优 ~1×10⁻⁴⁸ cm² @ 40 GeV/c²，低质量端受能阈截断急剧变差"
       ],
-      "physics": "灵敏度 ∝ 曝光×效率/本底。氙核 A≈131，自旋无关散射相干增强 ∝A²；无长寿命放射性同位素、可深度纯化，中心区被外层氙自屏蔽成近零本底的'内殿'。"
+      "sim_en": [
+        "Background budget (response model, 70 t·yr ROI): ~10 counts of ER after discrimination; the irreducible NR floor is ⁸B CEνNS ~35 + radiogenic neutrons ~14 — the \"neutrino fog\" dominates",
+        "Indicative WIMP-nucleon SI sensitivity projection: best ~1×10⁻⁴⁸ cm² @ 40 GeV/c², degrading sharply at low mass where the energy threshold cuts in"
+      ],
+      "physics": "灵敏度 ∝ 曝光×效率/本底。氙核 A≈131，自旋无关散射相干增强 ∝A²；无长寿命放射性同位素、可深度纯化，中心区被外层氙自屏蔽成近零本底的'内殿'。",
+      "physics_en": "Sensitivity ∝ exposure × efficiency / background. Xenon's A≈131 gives coherent spin-independent enhancement ∝A²; it has no long-lived radioisotopes and purifies deeply, and the outer xenon self-shields the core into a near-zero-background inner sanctum."
     },
     {
       "id": "pmt",
       "label": "光探测器阵列 3312 只",
+      "label_en": "Photodetector array, 3312 PMTs",
       "range": 8,
       "detail": "顶 1521 + 底 1791 只 3 吋光电管六方密排（另有顶/底各 ~650 只 1 吋 skin veto），盯着液氙里每一次闪光。底阵列浸在液氙里主收 S1，顶阵列在气相上方主收 S2 光斑。",
+      "detail_en": "1521 top + 1791 bottom 3-inch PMTs in hexagonal close packing (plus ~650 one-inch skin-veto tubes top and bottom), watching every flash in the xenon. The bottom array, immersed in liquid, mainly collects S1; the top array above the gas phase mainly reads the S2 hit pattern.",
       "specs": { "顶阵列": "1521 只 3 吋（S2 定位）", "底阵列": "1791 只 3 吋（S1 采集）", "skin veto": "顶/底各 ~650 只 1 吋", "光探测效率": "g1 = 0.09 pe/光子，g2 = 20 pe/电子" },
+      "specs_en": { "Top array": "1521 × 3-inch (S2 positioning)", "Bottom array": "1791 × 3-inch (S1 collection)", "Skin veto": "~650 × 1-inch each, top and bottom", "Detection efficiency": "g1 = 0.09 pe/photon, g2 = 20 pe/electron" },
       "sim": [
         "线性 ×3 缩放 → 光探测面积 ×9 → PMT 数目同倍放大（169/199 → 1521/1791，均为六方密排）",
         "NR 20 keVnr 事件命中图：S2 光斑集中在事件正上方数只 PMT（~3 pe 峰值），S1 均匀铺满底阵列——位置重建精度随阵列密度提升"
       ],
-      "physics": "S2 光斑重心即事件 (x,y)；单光电子灵敏度要求增益 ~10⁷ 且暗计数极低。低温低本底光电管本身也是本底源——玻璃壳的 U/Th 是材料筛选的主要战场。"
+      "sim_en": [
+        "Linear ×3 scale-up → ×9 photosensitive area → PMT counts scale accordingly (169/199 → 1521/1791, both hex-packed)",
+        "NR 20 keVnr event hit map: the S2 spot concentrates on a few PMTs directly above the event (~3 pe peak) while S1 spreads evenly over the bottom array — position resolution improves with array density"
+      ],
+      "physics": "S2 光斑重心即事件 (x,y)；单光电子灵敏度要求增益 ~10⁷ 且暗计数极低。低温低本底光电管本身也是本底源——玻璃壳的 U/Th 是材料筛选的主要战场。",
+      "physics_en": "The S2 spot centroid is the event (x, y); single-photoelectron sensitivity demands ~10⁷ gain at very low dark counts. The cryogenic low-background PMTs are themselves a background source — U/Th in the glass envelopes is the main battleground of material screening."
     },
     {
       "id": "control",
       "label": "控制间",
+      "label_en": "Control room",
       "range": 8,
       "detail": "玻璃隔间里的 DAQ 与慢控制：波形数字化、触发构建、低温/纯化/高压全参数监控。屏幕墙上滚动的就是 S1/S2 波形和探测器状态。",
-      "specs": { "职能": "DAQ + 慢控制 + 值班", "监控": "液位/温度/压力/纯度/高压/PMT 状态" }
+      "detail_en": "DAQ and slow control behind glass: waveform digitization, trigger building, and full monitoring of cryogenics, purification and high voltage. The screen wall scrolls live S1/S2 waveforms and detector state.",
+      "specs": { "职能": "DAQ + 慢控制 + 值班", "监控": "液位/温度/压力/纯度/高压/PMT 状态" },
+      "specs_en": { "Role": "DAQ + slow control + shift desk", "Monitoring": "level / temperature / pressure / purity / HV / PMT status" }
     },
     {
       "id": "portal",
       "label": "通道口 / 竖井",
+      "label_en": "Access portal / shaft",
       "range": 10,
       "detail": "+Z 气闸接口，经竖井上行 ~3 km 回到地下城层。3 km 火星岩石把宇宙线缪子通量压低约 6 个数量级——深地就是最好的宇宙线屏蔽体。",
+      "detail_en": "The +Z airlock interface; the shaft climbs ~3 km back to the undercity level. Three kilometres of Martian rock suppress the cosmic-ray muon flux by about six orders of magnitude — deep underground is the best cosmic-ray shield there is.",
       "specs": { "深度": "岩下 ~3 km", "接口": "气闸 ⌀4.4 m + 竖井", "屏蔽当量": "μ 通量衰减 ~10⁻⁶" },
-      "physics": "缪子通量随深度指数衰减；火星岩密度与地球相近，3 km 覆盖层的 μ 残余已低到中微子相关本底成为主导——这正是把暗物质实验埋进深地的全部理由。"
+      "specs_en": { "Depth": "~3 km under rock", "Interface": "⌀4.4 m airlock + shaft", "Shielding": "µ flux attenuated ~10⁻⁶" },
+      "physics": "缪子通量随深度指数衰减；火星岩密度与地球相近，3 km 覆盖层的 μ 残余已低到中微子相关本底成为主导——这正是把暗物质实验埋进深地的全部理由。",
+      "physics_en": "Muon flux falls exponentially with depth; Martian rock is about as dense as Earth's, and under 3 km of overburden the muon residual is low enough that neutrino-related backgrounds dominate — which is the entire reason dark-matter experiments live deep underground."
     }
   ]
 }
