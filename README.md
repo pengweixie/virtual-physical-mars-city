@@ -26,7 +26,7 @@ Perseverance mission data, starts the server, opens the browser). three.js is
 bundled (MIT). A WebXR-capable browser can hit Enter VR for immersive mode.
 
 Keys: `WASD` move · `F` fly · `V` inspect a facility (with action buttons,
-e.g. Launch) · `M` orbit view · `E` enter the undercity · `P` teleport to
+e.g. Launch) · `M` orbit view · `E` enter the undercity (`U` jumps straight there) · `P` teleport to
 Perseverance · bottom-right slider scrubs Martian time.
 
 ## What's in town

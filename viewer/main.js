@@ -1110,6 +1110,9 @@ function toggleMagic(force) {
   if (magicGroup.visible) magicGroup.userData.loadCity?.();
 }
 document.getElementById('magicBtn').addEventListener('click', () => toggleMagic());
+document.getElementById('underBtn').addEventListener('click', () => {
+  if (!inInterior && !orbitMode && !inspectUnit) enterInterior('hab-foyer-01', null);
+});
 if (q.get('magic') === '1') toggleMagic(true);
 
 function toggleColony(force) {
@@ -1423,6 +1426,10 @@ addEventListener('keydown', (e) => {
   }
   if (e.code === 'KeyE' && inInterior && nearDoor) {
     switchInterior(nearDoor);
+    return;
+  }
+  if (e.code === 'KeyU' && !inInterior && !orbitMode && !inspectUnit) {
+    enterInterior('hab-foyer-01', null);       // undercity shortcut (also ⬇ button)
     return;
   }
   if (e.code === 'KeyE' && nearPortal && !inInterior) {
