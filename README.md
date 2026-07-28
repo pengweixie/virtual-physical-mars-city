@@ -58,6 +58,7 @@ Perseverance · bottom-right slider scrubs Martian time. The corner button switc
 | ![CZ-10B launch](snaps/anim/veh-rocket-02.gif)<br>CZ-10B: launch → staging → net catch (time-compressed) | ![Starship](snaps/anim/veh-rocket-01.gif)<br>Starship: the launch/landing loop from the L2 sims |
 | ![Mine robot](snaps/anim/res-mine-01.gif)<br>The mine robot digging by sight (CIS vision, 5 Hz) | ![Mine at night](snaps/anim/res-mine-01-night.gif)<br>Night shift at the spiral pit |
 | ![Humanoid patrol](snaps/anim/hab-bot-01.gif)<br>The humanoid on patrol in the foyer, chest lidar fanning | ![Deep lab event](snaps/anim/sci-deeplab-01.gif)<br>Deep lab: an event lights the PMT array |
+| ![Starship pad](snaps/anim/ops-spaceport-01.gif)<br>Starship pad: service tower, berm ring and launch loop | |
 
 ## The origin
 

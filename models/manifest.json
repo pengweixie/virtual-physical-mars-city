@@ -85,7 +85,7 @@
       "name": "Rodwell 水冰取水井架（钻塔+储罐+尾料堆）",
       "type": "code",
       "module": "units/res-rodwell-01.js",
-      "size_m": 12.0,
+      "size_m": 12,
       "size_axis": "height",
       "pos": [
         -5,
@@ -144,6 +144,24 @@
       ]
     },
     {
+      "id": "ops-spaceport-01",
+      "name": "火箭发射回收站",
+      "type": "code",
+      "module": "units/ops-spaceport-01.js",
+      "size_m": 120,
+      "size_axis": "width",
+      "pos": [
+        500,
+        700
+      ],
+      "rotation_deg": -144,
+      "sink_m": 0.25,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
       "id": "veh-rocket-01",
       "name": "星舰（着陆状态）",
       "type": "code",
@@ -151,31 +169,33 @@
       "size_m": 50,
       "size_axis": "height",
       "pos": [
-        120,
-        200
+        500,
+        700
       ],
-      "rotation_deg": 0,
-      "sink_m": 0.15,
+      "rotation_deg": 126,
+      "sink_m": -0.25,
       "effects": [
         "glow_windows"
-      ]
+      ],
+      "mate": "ops-spaceport-01"
     },
     {
       "id": "veh-raptor-01",
       "name": "猛禽发动机（检修展示台）",
       "type": "code",
       "module": "units/veh-raptor-01.js",
-      "size_m": 3.0,
+      "size_m": 3,
       "size_axis": "height",
       "pos": [
-        138,
-        188
+        534,
+        664
       ],
-      "rotation_deg": -30,
+      "rotation_deg": -54,
       "sink_m": 0.08,
       "effects": [
         "glow_windows"
-      ]
+      ],
+      "mate": "ops-spaceport-01"
     },
     {
       "id": "ops-compute-01",
@@ -335,7 +355,14 @@
       "type": "code",
       "kind": "interior",
       "module": "units/sci-deeplab-01.js",
-      "entry": { "pos": [0, 0, 6], "yaw": 0 },
+      "entry": {
+        "pos": [
+          0,
+          0,
+          6
+        ],
+        "yaw": 0
+      },
       "size_m": 32,
       "size_axis": "width",
       "pos": null,
@@ -350,7 +377,11 @@
       "type": "code",
       "kind": "interior-companion",
       "host": "hab-foyer-01",
-      "host_pos": [0, 0.3, -9.5],
+      "host_pos": [
+        0,
+        0.3,
+        -9.5
+      ],
       "module": "units/hab-bot-01.js",
       "size_m": 1.65,
       "size_axis": "height",

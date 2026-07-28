@@ -311,8 +311,8 @@ export function build(THREE) {
       const s1 = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 12),
         new THREE.MeshStandardMaterial({ color: 0xdffaff, emissive: 0x8fe0ec, emissiveIntensity: 2.2, transparent: true, opacity: 0.9 }));
       s1.position.copy(vertex); evGrp.add(s1);
-      const s1Light = new THREE.PointLight(0x8fe0ec, 0, 9, 2); s1Light.position.copy(vertex); evGrp.add(s1Light);
-      const botGlow = new THREE.PointLight(0xfff0b0, 0, 7, 2); botGlow.position.set(Vx, TPC_BOT - 0.2, Vz); evGrp.add(botGlow);
+      const s1Light = new THREE.PointLight(0x8fe0ec, 0, 30, 2); s1Light.position.copy(vertex); evGrp.add(s1Light);
+      const botGlow = new THREE.PointLight(0xfff0b0, 0, 18, 2); botGlow.position.set(Vx, TPC_BOT - 0.2, Vz); evGrp.add(botGlow);
 
       const NE = 12;
       const eCloud = new THREE.InstancedMesh(new THREE.SphereGeometry(0.045, 6, 5),
@@ -322,8 +322,8 @@ export function build(THREE) {
       const s2 = new THREE.Mesh(new THREE.SphereGeometry(0.28, 16, 12),
         new THREE.MeshStandardMaterial({ color: 0xfff0c8, emissive: 0xffcf6a, emissiveIntensity: 2.4, transparent: true, opacity: 0.9 }));
       s2.position.copy(s2Pos); evGrp.add(s2);
-      const s2Light = new THREE.PointLight(0xffcf6a, 0, 9, 2); s2Light.position.copy(s2Pos); evGrp.add(s2Light);
-      const topGlow = new THREE.PointLight(0xffd27a, 0, 7, 2); topGlow.position.set(Vx, TPC_TOP + 0.3, Vz); evGrp.add(topGlow);
+      const s2Light = new THREE.PointLight(0xffcf6a, 0, 32, 2); s2Light.position.copy(s2Pos); evGrp.add(s2Light);
+      const topGlow = new THREE.PointLight(0xffd27a, 0, 18, 2); topGlow.position.set(Vx, TPC_TOP + 0.3, Vz); evGrp.add(topGlow);
 
       const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
       const gauss = (x, mu, s) => Math.exp(-0.5 * Math.pow((x - mu) / s, 2));
@@ -346,8 +346,8 @@ export function build(THREE) {
         nu.material.opacity = evT < T_IN ? 0.9 : Math.max(0, 0.9 * (1 - (evT - T_IN) / 0.8));
         // S1 闪烁 + 底 PMT 辉光
         const p1 = gauss(evT, T_IN, 0.22);
-        s1.visible = p1 > 0.03; s1.scale.setScalar(0.6 + p1 * 1.6); s1.material.opacity = 0.9 * p1;
-        s1Light.intensity = 7 * p1; botGlow.intensity = 6 * p1;
+        s1.visible = p1 > 0.03; s1.scale.setScalar(0.9 + p1 * 2.4); s1.material.opacity = 0.9 * p1;
+        s1Light.intensity = 110 * p1; botGlow.intensity = 45 * p1;   // 事件光脉冲照亮全洞（decay=2 物理衰减）
         // 电子上漂
         const df = clamp((evT - T_DRIFT0) / (T_S2 - T_DRIFT0), 0, 1);
         eCloud.visible = df > 0.001 && df < 0.999;
@@ -363,8 +363,8 @@ export function build(THREE) {
         }
         // S2 电致发光 + 顶 PMT 辉光
         const p2 = gauss(evT, T_S2, 0.28);
-        s2.visible = p2 > 0.03; s2.scale.setScalar(0.6 + p2 * 2.2); s2.material.opacity = 0.9 * p2;
-        s2Light.intensity = 9 * p2; topGlow.intensity = 7 * p2;
+        s2.visible = p2 > 0.03; s2.scale.setScalar(0.9 + p2 * 3.0); s2.material.opacity = 0.9 * p2;
+        s2Light.intensity = 140 * p2; topGlow.intensity = 55 * p2;
         if (evT > T_END) { evT = -1; evGrp.visible = false; }  // 结束复位
       };
     }

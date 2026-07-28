@@ -31,7 +31,7 @@ GLB 资产=丢 models/_inbox/ 跑一次启动脚本）。
 | ✅ | res-isru-01 | ISRU 推进剂工厂 | model | ⬜ | ✅ (40,25) | GLB 已交付并落位 |
 | ✅ | res-rodwell-01 | Rodwell 水冰井架 | code | ✅ 7卡 | ✅ (-5,110) | 07-13 交付（模块+info.json 7 卡，GLB 留档 models/） |
 | ✅ | res-tank-02 | 备用储水罐 13m³ | code | ✅ 3卡 | ✅ (-16,118) | 07-13 交付（模块+info.json 3 卡，GLB 留档 models/） |
-| ✅ | res-mine-01 | 土壤矿场 | code | ✅ | ✅ (180,-120) | 07-17 交付（模块+info.json 5 卡）；机器人=感知自主（传感器通道 MODELS.md §4c，引擎无通道时退回烘焙循环）；动图 ✓ ×2：res-mine-01.gif（白天全场作业 12s）+ res-mine-01-night.gif（夜景坑内灯光/充电棚 8s），机位 x212 z-77 y66 yaw0.682 pitch-0.354 |
+| ✅ | res-mine-01 | 土壤矿场 | code | ✅ | ✅ (180,-120) | 07-17 交付（模块+info.json 5 卡）；机器人=感知自主（传感器通道 MODELS.md §4c，引擎无通道时退回烘焙循环）；动图 ✓ ×2（07-27 重拍 v2）：res-mine-01.gif（机器人特写整循环 24s→12s 变速压缩，挖掘→运土→卸料→倒车首尾闭环）+ res-mine-01-night.gif（同机位夜景 24s→10s）；近景机位 x183 z-116 y52.5 yaw0.87 pitch-0.45；**拍法要点：--eval 关传感器+强制烘焙循环（确定性路径不出画框），全景机位下 2.5m 机器人动作只有十几像素=视觉静止，必须特写+录满整循环再 setpts 压缩** |
 
 ## 科学 sci
 
@@ -40,6 +40,7 @@ GLB 资产=丢 models/_inbox/ 跑一次启动脚本）。
 | ✅ | sci-lidar-01 | 大气激光雷达站 | code | ✅ 8卡 | ✅ (-480,-80) | 07-13 升级为 code 资产（模块+info.json 8 卡，真实米制，POI/beam/夜光活锚，validate 全过；GLB 留档 models/）；07-10 首版 |
 | ✅ | sci-obs-01 | 光学天文台 | model | ✅ 6卡（含 spad_rox 焦面仿真结论） | ✅ (-560,-220) | 07-12 交付，夜间开缝巡天动画已接 |
 | ✅ | sci-pan-01 | MiniPAN 穿透粒子分析仪 | code(orbital-payload) | ⬜（按约定只建模不做分析） | ✅ com-relay-01 主星天顶甲板 | 07-18 按 Codex/PAN 的 PANSim MiniPAN_Sep2022 几何移植：双 NdFeB 环磁体 + TOF×2 + TPX3×2 + 硅微条×8，200×200×250 mm，1.7k 面；不进 manifest，引擎挂载 |
+| ✅ | sci-deeplab-01 | 深地暗物质实验室（100t 液氙） | code(interior) | ✅ 8卡（信号链 sim 蒸馏：100.5t/70.2 t·yr/甄别带/中微子雾） | n/a 室内（pos null，§4b 穿门；待总控挂 PORTALS） | 07-28 交付（§4b 契约：模块 69.8k 面 + manifest + info.json 8 卡 + 引擎 getInterior 补 registerMotion 一行=主室内动画词汇生效；中微子 CEνNS 事件=animate 状态机 + '中微子事件' action，S1/S2 光脉冲全洞可见；validate 2 WARN 均 interior 语义误报——size_m=洞室跨度 32、minY=-6 端墙盘埋地下）；动图 ✓（07-28 重拍 v2 抬高机位）：5s 单循环 720px 4.4MB，S1 冷光透铜环缝→电子上漂→S2 顶部暖光爆发+全洞光脉冲；**拍法要点：室内直达机位复用地表参数 ?z=&yaw=&pitch= + 新增 &eye= 抬眼高（引擎直达分支补的通用能力，室内 rig.y 被 pin 0 只能抬 camera）；机位 z10/eye7/pitch0.03 平视 TPC；坑：z 别落进 exitZone 半径内（spawn 进圈被当'走到出口'弹回地表，会拍成火星夜空）** |
 
 ## 运维 ops
 
@@ -47,7 +48,7 @@ GLB 资产=丢 models/_inbox/ 跑一次启动脚本）。
 |---|---|---|---|---|---|---|
 | ✅ | ops-compute-01 | 计算中心（v0 收官★） | code | ✅ 4卡 | ✅ (-90,120) | **v0 闭环单元**：大屏 live 运行字符级 bigram(nanoGPT 起点模型)生成火星文本；机架 blink、芯片展台、辐射散热；夜间屏光洒满机房。userData.animate 驱动。**07-18 接入 MB-1 评估板刀片**(mars-bigram 项目的 bigram 硅片,插 2 号机架,数据缆喂大屏,mb1 POI 知识卡)——闭环合拢:屏上软件孪生↔架里硅片本体 |
 | ✅ | ops-printer-01 | 3D 打印工地 | model | ⬜ | ✅ (95,5) | GLB 已交付并落位 |
-| ⬜ | ops-spaceport-01 | 火箭发射回收站 | code | ⬜ | ⬜ | 设计说明已发；**发射用 userData.actions{'发射'} 触发按钮 + 可选 meta.schedule 定时**（见顶部动画约定） |
+| ✅ | ops-spaceport-01 | 火箭发射回收站 | code | ⬜（info.json 6 卡已交，sim 引羽流 L2） | ✅ (500,700) rot-144 总控确认（audit 零重叠 · 19 资产全载实测） | 07-18 交付：自 mars_rocket 沙盒迁移+适配——服务塔 35→45m 双摆臂对准星舰 QD板(y5)/舱门(36.8m)、删占位火箭改 veh-rocket-01 mate 落坪、夜光0.0契约、信标转 blinkMats、风向标 oscillator；细化层全量(坪标线/通道路面/羽流扇/土堤台阶/门柱/集装箱/罐区管墩护栏/掩体防爆门/散石)；7.6k 面 validate 全绿、audit 零重叠(rocket/raptor mate 白名单)；场站设计经 EQUIPMENT.md §9【C6】羽流 L2 独立验证；动图 ✓ snaps/anim/ops-spaceport-01.gif(星舰坐坪发射回收 12s/0.6MB) |
 | ✅ | ops-spaceport-02 | 长十乙发射工位（网系回收） | code | ✅ 5卡 | ✅ (750,250) rot-108 | 07-17 交付，同日按首飞新闻照重做 v2：蓝色密格勤务塔+橙色发射台（海南商发二号工位实照涂装）、**网式回收阵位**（"领航者"号构型上岸：四内倾格构柱+顶部环框+井字缆网兜+张紧绞车，箭体 4 挂钩无腿捕获，info.json poi_net 详卡）；回转平台+摆杆 actions{'发射准备','合拢复位'} 状态机、避雷塔/网架障碍灯 blinkMats、风杯 spinner、转运轨道；14.3k 面，validate 全绿；dev-preview-spaceport.html 可目检；**07-18 修复**：boxT 助手忽略第 10 参 parent，4 避雷塔顶平台曾悬浮 (0,95,0)（mars_rocket2 session 覆盖交付） |
 
 ## 载具 veh

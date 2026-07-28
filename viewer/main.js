@@ -2585,7 +2585,15 @@ renderer.setAnimationLoop(() => {
   renderer.render(scene, camera);
 });
 
-if (q.get('interior')) enterInterior(q.get('interior'), null);
+if (q.get('interior')) enterInterior(q.get('interior'), null).then(() => {
+  // interior deep-link camera override (capture/tests) — mirrors the surface
+  // ?x=&z=&yaw=&pitch= params; &eye= lifts the camera above the pinned floor
+  if (q.has('x')) rig.position.x = +q.get('x');
+  if (q.has('z')) rig.position.z = +q.get('z');
+  if (q.has('yaw')) yaw = +q.get('yaw');
+  if (q.has('pitch')) pitch = +q.get('pitch');
+  if (q.has('eye')) camera.position.y = +q.get('eye');
+});
 
 // ?debug=1 暴露内窥句柄（真浏览器验证用，STATUS「已知事项」约定）
 if (q.has('debug')) {
