@@ -1541,6 +1541,47 @@ const INTERIOR_DOORS = [
     entry: { pos: [4.6, 0, -15.5], yaw: Math.PI } },
 ];
 let nearDoor = null;
+
+// enterable-spot markers: breathing ring + falling chevrons + light pillar +
+// floating name tag at every E-key zone; amber variant marks the way back out.
+// Driven from PORTALS / INTERIOR_DOORS, so new doors get marked automatically.
+function makePortalMarker(label, color, r = 1.9, h = 4.6, tagColor = '#bfeaff') {
+  const g = new THREE.Group();
+  const ringMat = new THREE.MeshBasicMaterial({ color, transparent: true,
+    opacity: 0.55, side: THREE.DoubleSide, depthWrite: false });
+  const ring = new THREE.Mesh(new THREE.RingGeometry(r * 0.78, r, 40), ringMat);
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.07;
+  const disc = new THREE.Mesh(new THREE.CircleGeometry(r * 0.74, 40),
+    new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.1,
+      side: THREE.DoubleSide, depthWrite: false }));
+  disc.rotation.x = -Math.PI / 2;
+  disc.position.y = 0.05;
+  const coneMat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.95 });
+  const chevrons = new THREE.Group();
+  for (let i = 0; i < 2; i++) {
+    const c = new THREE.Mesh(new THREE.ConeGeometry(0.4, 0.62, 4), coneMat);
+    c.rotation.x = Math.PI;
+    c.position.y = i * 0.8;
+    chevrons.add(c);
+  }
+  chevrons.position.y = h * 0.52;
+  const pillar = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.1, 0.3, h, 12, 1, true),
+    new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.16,
+      blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+  pillar.position.y = h / 2;
+  const tag = textSprite(label, 40, tagColor);
+  tag.scale.set(4.6, 0.58, 1);
+  tag.position.y = h + 0.5;
+  g.add(ring, disc, chevrons, pillar, tag);
+  g.traverse((o) => { o.raycast = () => {}; });
+  g.userData.markerAnim = (t) => {
+    ringMat.opacity = 0.4 + 0.25 * Math.sin(t * 2.4);
+    chevrons.position.y = h * 0.52 + 0.18 * Math.sin(t * 2.4);
+  };
+  return g;
+}
 const fadeEl = document.getElementById('fade');
 const portalPromptEl = document.getElementById('portalPrompt');
 
@@ -1584,6 +1625,21 @@ async function getInterior(id) {
         pick({ ...cm.meta, name_en: cm.meta?.name_en || c.name_en }, 'name') || c.id);
       console.info('[interior-companion] mounted', c.id, 'in', id);
     } catch (err) { console.warn('[interior-companion] failed', c.id, err); }
+  }
+  for (const d of INTERIOR_DOORS) {          // mark this interior's doors
+    if (d.from !== id) continue;
+    const mk = makePortalMarker(pick(d, 'label'), 0x3ec8ff, 1.1, 2.6);
+    mk.position.set(d.pos[0], 0.02, d.pos[1]);
+    group.add(mk);
+    anims.push(mk.userData.markerAnim);
+  }
+  {                                          // amber marker on the way out
+    const ez = a?.exitZone || group.userData.exitZone || { pos: [0, 0], radius: 3 };
+    const mk = makePortalMarker(LANG === 'en' ? 'To surface' : '返回地表',
+      0xffb050, Math.min(ez.radius * 0.6, 1.4), 2.4, '#ffe2b0');
+    mk.position.set(ez.pos[0], 0.02, ez.pos[1]);
+    group.add(mk);
+    anims.push(mk.userData.markerAnim);
   }
   const rec = { id, group, lights, anims, pois,
     meta: { ...mod.meta, name_en: mod.meta?.name_en || a?.name_en },
@@ -1811,6 +1867,12 @@ async function loadScatter(a) {
 
 async function loadUnits() {
   const mf = await manifestP;
+  for (const pt of PORTALS) {                // mark every surface E-portal
+    const mk = makePortalMarker(pick(pt, 'label'), 0x3ec8ff);
+    mk.position.set(pt.pos[0], sampleHeight(pt.pos[0], pt.pos[1]) + 0.05, pt.pos[1]);
+    colonyGroup.add(mk);
+    unitAnims.push(mk.userData.markerAnim);
+  }
   for (const a of mf.assets || []) {
     if (!a.type) continue;                   // registered but not deliverable yet
     if (a.kind === 'scatter') {              // wilderness prop pack (many instances)

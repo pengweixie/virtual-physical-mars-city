@@ -61,7 +61,9 @@ KV = 0.7
 KPX, KDX, AX_MAX = 0.06, 0.5, 0.6
 TILT_MAX = math.radians(12)
 T_SEP_COAST = 2.0                 # MECO→分离滑行
-T_S2_IGN = 3.0                    # 分离→上面级点火
+T_S2_IGN = 0.5                    # 热分离:解锁与上面级点火近同时(长征系做法,
+                                  #  级间段排气格栅泄压;喷焰把两级果断推开)
+DV_SEP_REL = 2.0                  # 分离弹簧相对速度(冲量按动量守恒分配)
 THR2 = 0.75                       # 上面级油门
 PITCH2_MAX, PITCH2_RATE = math.radians(35), math.radians(2.5)
 DT = 0.02
@@ -134,9 +136,11 @@ def simulate(delta_a, record=False):
                                vx=round(vx, 2), vy=round(vy, 2))
             if nphase == 'sep_coast':
                 t_meco = t
-            if nphase == 'coast':                       # ---- 级间分离 ----
-                sep_state = [x, y, vx, vy + 1.5, M2_WET]  # 上面级 + 弹簧分离冲量
-                state = [x, y, vx, vy - 0.5, m - M2_WET]  # 一子级
+            if nphase == 'coast':                       # ---- 级间热分离 ----
+                m1 = m - M2_WET                           # 弹簧冲量 J 动量守恒分配:
+                J = DV_SEP_REL / (1 / M2_WET + 1 / m1)    # Δv2=+J/m2, Δv1=-J/m1
+                sep_state = [x, y, vx, vy + J / M2_WET, M2_WET]
+                state = [x, y, vx, vy - J / m1, m1]
                 x, y, vx, vy, m = state
             phase = nphase
         if phase in ('coast', 'burn') and prev_vy > 0 >= vy:

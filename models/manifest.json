@@ -339,6 +339,7 @@
       "type": "code",
       "kind": "interior",
       "module": "units/hab-clinic-01.js",
+      "exitZone": { "pos": [2.8, 0.8], "radius": 1.2 },
       "size_m": 10,
       "size_axis": "width",
       "pos": null,
@@ -355,6 +356,7 @@
       "type": "code",
       "kind": "interior",
       "module": "units/sci-deeplab-01.js",
+      "exitZone": { "pos": [0, 15], "radius": 2 },
       "entry": {
         "pos": [
           0,
