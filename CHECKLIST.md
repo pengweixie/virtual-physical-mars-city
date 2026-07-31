@@ -41,6 +41,7 @@ GLB 资产=丢 models/_inbox/ 跑一次启动脚本）。
 | ✅ | sci-obs-01 | 光学天文台 | model | ✅ 6卡（含 spad_rox 焦面仿真结论） | ✅ (-560,-220) | 07-12 交付，夜间开缝巡天动画已接 |
 | ✅ | sci-pan-01 | MiniPAN 穿透粒子分析仪 | code(orbital-payload) | ⬜（按约定只建模不做分析） | ✅ com-relay-01 主星天顶甲板 | 07-18 按 Codex/PAN 的 PANSim MiniPAN_Sep2022 几何移植：双 NdFeB 环磁体 + TOF×2 + TPX3×2 + 硅微条×8，200×200×250 mm，1.7k 面；不进 manifest，引擎挂载 |
 | ✅ | sci-deeplab-01 | 深地暗物质实验室（100t 液氙） | code(interior) | ✅ 8卡（信号链 sim 蒸馏：100.5t/70.2 t·yr/甄别带/中微子雾） | n/a 室内（pos null，§4b 穿门；待总控挂 PORTALS） | 07-28 交付（§4b 契约：模块 69.8k 面 + manifest + info.json 8 卡 + 引擎 getInterior 补 registerMotion 一行=主室内动画词汇生效；中微子 CEνNS 事件=animate 状态机 + '中微子事件' action，S1/S2 光脉冲全洞可见；validate 2 WARN 均 interior 语义误报——size_m=洞室跨度 32、minY=-6 端墙盘埋地下）；动图 ✓（07-28 重拍 v2 抬高机位）：5s 单循环 720px 4.4MB，S1 冷光透铜环缝→电子上漂→S2 顶部暖光爆发+全洞光脉冲；**拍法要点：室内直达机位复用地表参数 ?z=&yaw=&pitch= + 新增 &eye= 抬眼高（引擎直达分支补的通用能力，室内 rig.y 被 pin 0 只能抬 camera）；机位 z10/eye7/pitch0.03 平视 TPC；坑：z 别落进 exitZone 半径内（spawn 进圈被当'走到出口'弹回地表，会拍成火星夜空）** |
+| ✅ | sci-quantum-01 | 量子计算中心「玄枢」（QP-20 超导量子计算机） | code(interior) | ✅ 7卡（QP-20 台账蒸馏：热预算/良率蒙卡/门保真/读出 SNR/表面码） | n/a 室内（pos null，§4b；玄关左墙 z=-8 门组 ↔ INTERIOR_DOORS 双向） | 07-31 总控交付（设计真源 E:\Claude\quantum-computing DESIGN.md）：8.1k 面；检修态稀释制冷机=核心不做黑盒（真空罐天车吊离，300K→MXC 六级镀金板+83 线束+磁屏蔽内 QP-20 芯片全裸露）；RFSoC 机柜×5 流水灯（animate）+ 芯片展示台/压缩机风扇（spinner×2）+ d=3 表面码大屏含误差链呼吸；顺手修引擎 updateInteriorPois 空 dataset.id 崩帧 bug |
 
 ## 运维 ops
 

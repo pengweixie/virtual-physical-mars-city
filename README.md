@@ -38,7 +38,7 @@ Perseverance · bottom-right slider scrubs Martian time. The corner button switc
 | Science | SPAD atmospheric LiDAR (5.1 km day / 15 km night link budget) + optical observatory (512×512 SPAD focal plane) + a MiniPAN magnetic spectrometer riding the relay sat |
 | Comms | 3+1 areostationary constellation (a six-track sim loop: full-wave antenna / radiation transport / thermoelastics / orbit integration / queueing / coding MC) + a 12 m deep-space ground station |
 | Resources | Rodwell ice well (Stefan-checked 669-sol well life) + Sabatier propellant plant + regolith 3-D print site |
-| Undercity | Walk-through foyer (city-cavern diorama) + a PET/CT clinic (GATE MC reconstruction — the patient is a robot) + a humanoid service robot on patrol (CIS vision + chest flash-lidar, MuJoCo-baked gait) |
+| Undercity | Walk-through foyer (city-cavern diorama) + a PET/CT clinic (GATE MC reconstruction — the patient is a robot) + a humanoid service robot on patrol (CIS vision + chest flash-lidar, MuJoCo-baked gait) + a quantum computing center — a 20-qubit transmon machine in service mode, vacuum can hoisted so all six fridge stages and the shielded chip are exposed (99.987% 1Q / 99.85% CZ / d=3 surface code past pseudo-threshold, backed by a 12-sim + full-wave HFSS design ledger) |
 | Perception | The mine robot navigates by sight through a declarative sensor channel: engine offscreen render → CIS CMOS imaging model → 5 Hz perceive-and-control loop |
 
 ## Posters

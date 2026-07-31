@@ -1539,6 +1539,12 @@ const INTERIOR_DOORS = [
   { from: 'sci-deeplab-01', pos: [0, 3.2], radius: 1.6, to: 'hab-foyer-01',
     label: '玄关（电梯 ↑）', label_en: 'Foyer (lift up)',
     entry: { pos: [4.6, 0, -15.5], yaw: Math.PI } },
+  // 玄关左墙 → 量子计算中心「玄枢」(QP-20)
+  { from: 'hab-foyer-01', pos: [-5.4, -8], radius: 1.6, to: 'sci-quantum-01',
+    label: '量子计算中心', label_en: 'Quantum computing center' },
+  { from: 'sci-quantum-01', pos: [0, 7.5], radius: 1.5, to: 'hab-foyer-01',
+    label: '玄关', label_en: 'Foyer',
+    entry: { pos: [-4.6, 0, -8], yaw: -Math.PI / 2 } },
 ];
 let nearDoor = null;
 
@@ -1706,7 +1712,7 @@ function updateInteriorPois() {
     poiCardEl.dataset.id = cid;
     poiCardEl.innerHTML = h;
     poiCardEl.style.display = 'block';
-  } else if (!best && poiCardEl.dataset.id.startsWith('int:')) {
+  } else if (!best && (poiCardEl.dataset.id || '').startsWith('int:')) {
     poiCardEl.style.display = 'none';
     poiCardEl.dataset.id = '';
   }

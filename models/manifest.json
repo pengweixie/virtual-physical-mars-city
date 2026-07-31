@@ -373,6 +373,20 @@
       "effects": []
     },
     {
+      "id": "sci-quantum-01",
+      "name": "量子计算中心「玄枢」（QP-20 超导量子计算机）",
+      "name_en": "Quantum Computing Center (QP-20 superconducting quantum computer)",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/sci-quantum-01.js",
+      "size_m": 19.9,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
       "id": "hab-bot-01",
       "name": "室内服务机器人",
       "name_en": "Indoor Service Robot",

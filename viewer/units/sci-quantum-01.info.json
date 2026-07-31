@@ -1,0 +1,102 @@
+{
+  "pois": [
+    {
+      "id": "fridge",
+      "label": "稀释制冷机（XLD400 级，检修态）",
+      "label_en": "Dilution refrigerator (XLD400-class, service mode)",
+      "range": 9,
+      "detail": "真空罐已由天车吊离，六级板全裸露：300K 顶法兰 → 50K → 4K → Still 0.8K → CP 0.1K → 混合腔 MXC 20 mK。脉管冷头预冷上两级，³He/⁴He 稀释循环接管最后三级；83 条同轴入线逐级热锚定后才允许触到芯片。",
+      "detail_en": "The vacuum can hangs from the gantry crane, exposing all six stages: 300 K top flange, 50 K, 4 K, still (0.8 K), cold plate (0.1 K) and the 20 mK mixing chamber. A pulse tube pre-cools the upper stages; the He-3/He-4 dilution loop takes over below. All 83 coax lines are heat-sunk stage by stage before they may touch the chip.",
+      "specs": { "混合腔温度": "20 mK", "冷量": "~19 μW @ 20 mK", "入线": "83 条（XY 20 + 比特磁通 20 + 耦合器磁通 31 + 读出 8 + TWPA 泵 4）", "衰减链": "XY 60 dB 分布式 / 读出入 60 dB / 磁通 20 dB+低通" },
+      "specs_en": { "MXC temperature": "20 mK", "Cooling power": "~19 uW @ 20 mK", "Lines in": "83 (20 XY + 20 qubit flux + 31 coupler flux + 8 readout + 4 TWPA pump)", "Attenuation": "60 dB distributed XY / 60 dB readout-in / 20 dB + LPF flux" },
+      "sim": "分级热预算（05 号仿真）：83 线全不锈钢保守算，各级裕量 50K 14× / 4K 10.8× / Still 75× / CP 15× / MXC 10.8×——布线方案闭合。",
+      "sim_en": "Staged heat budget (sim 05): with all 83 lines conservatively taken as stainless, margins close at every stage - 14x at 50 K, 10.8x at 4 K, 75x at still, 15x at cold plate, 10.8x at MXC.",
+      "physics": "稀释制冷的冷量来自 ³He 从浓相跨入稀相的焓差——类似蒸发但工质是量子液体，20 mK 下仍有微瓦级冷量，是超导量子芯片唯一成熟的连续制冷方案。",
+      "physics_en": "Dilution cooling exploits the enthalpy of He-3 crossing from the concentrated into the dilute phase - evaporation with a quantum liquid as the working fluid. It still delivers microwatts at 20 mK, the only mature continuous cooling for superconducting qubits."
+    },
+    {
+      "id": "chip",
+      "label": "QP-20「玄枢」量子处理器",
+      "label_en": "QP-20 quantum processor",
+      "range": 7,
+      "detail": "磁屏蔽罩内的 11×9 mm 单芯片：20 个非对称 SQUID 可调 transmon（4×5 格点）+ 31 个可调耦合器 + 20 读出腔 + 311 座空气桥。高阻硅衬底、α-Ta 基膜、Al/AlOx/Al 双角度蒸发结。",
+      "detail_en": "Inside the mu-metal shield sits a single 11x9 mm chip: 20 asymmetric-SQUID tunable transmons on a 4x5 lattice, 31 tunable couplers, 20 readout cavities and 311 air bridges. High-resistivity Si substrate, alpha-Ta base film, double-angle evaporated Al/AlOx/Al junctions.",
+      "specs": { "频率规划": "棋盘格 A 4.90 / B 5.10 GHz（间距 200 MHz）", "比特参数": "EC≈250 MHz，EJ/EC≈54，非谐性 −286 MHz", "可调性": "非对称结 d=0.7，调谐 ~850 MHz", "相干": "T1/T2E ≥ 100 μs（甜点 Tφ 0.85 ms）" },
+      "specs_en": { "Frequency plan": "checkerboard A 4.90 / B 5.10 GHz (200 MHz spacing)", "Qubit params": "EC ~250 MHz, EJ/EC ~54, anharmonicity -286 MHz", "Tunability": "asymmetric junction d=0.7, ~850 MHz range", "Coherence": "T1/T2E >= 100 us (sweet-spot Tphi 0.85 ms)" },
+      "sim": "GDS v7 版图 2367 个多边形、DRC-lite 零违例（12 号）；频率碰撞蒙卡（11 号）否掉 250 MHz 间距旧规划，改 200 MHz + JJ 修调 σ≤0.5% 后整芯片良率 99.6%。",
+      "sim_en": "GDS v7 layout: 2367 polygons, zero DRC-lite violations (sim 12). The frequency-collision Monte Carlo (sim 11) killed the original 250 MHz spacing; the revised 200 MHz plan with junction trimming to sigma <= 0.5% yields 99.6% per chip.",
+      "physics": "transmon 是被大电容压扁电荷色散的约瑟夫森非线性振子——EJ/EC≈53 时电荷噪声指数压低到 kHz 级，而 −280 MHz 的非谐性仍够把 |0⟩|1⟩ 当二能级操控。",
+      "physics_en": "A transmon is a Josephson anharmonic oscillator shunted by a large capacitor: at EJ/EC ~ 53 charge dispersion is exponentially squeezed to kHz while -280 MHz anharmonicity still isolates |0>,|1> as a working two-level system."
+    },
+    {
+      "id": "readout",
+      "label": "读出链（TWPA + 隔离器 + HEMT）",
+      "label_en": "Readout chain (TWPA, isolators, HEMT)",
+      "range": 6,
+      "detail": "色散读出信号只有约百个微波光子：先经 Purcell 滤波器出芯片，双隔离器挡住放大器反向噪声，MXC 端 TWPA 行波参量放大器做第一级近量子极限放大，4K 的 HEMT 接力，再上室温低噪放。",
+      "detail_en": "A dispersive readout pulse carries only ~100 microwave photons. It leaves the chip through a Purcell filter, two isolators block amplifier back-action, a traveling-wave parametric amplifier at the MXC gives near-quantum-limited first-stage gain, then a 4 K HEMT and the room-temperature LNA take over.",
+      "specs": { "读出腔": "6.80–7.37 GHz，每馈线 5 腔频分复用 ×4", "腔参数": "κ/2π=4 MHz，χ/2π=2 MHz，g/2π=187 MHz", "读出保真度": "99.75%（300 ns，n̄=8，η=0.35）", "热光子": "n_th ≤ 2×10⁻⁴（硬要求）" },
+      "specs_en": { "Cavities": "6.80-7.37 GHz, 5-per-feedline FDM x 4", "Cavity params": "kappa/2pi = 4 MHz, chi/2pi = 2 MHz, g/2pi = 187 MHz", "Readout fidelity": "99.75% (300 ns, n = 8, eta = 0.35)", "Thermal photons": "n_th <= 2e-4 (hard requirement)" },
+      "sim": "SNR 预算（02 号）99.75% 闭合；高光子非线性抽查（08 号）：χ(n̄=8) 仅压缩 0.5%，MIST 风险温和；Purcell 直连 tap 拓扑经 HFSS 全波定版（Qf≈28、带外抑制 ~25 dB）。",
+      "sim_en": "SNR budget (sim 02) closes at 99.75%. The high-photon check (sim 08) shows chi compresses only 0.5% at n = 8. The direct-tap Purcell topology was frozen by full-wave HFSS (Qf ~ 28, ~25 dB out-of-band rejection).",
+      "physics": "色散读出：比特不吸收光子，只把读出腔频率推移 ±χ；测相位就测到了比特态。Purcell 滤波器让腔「对读出频率透明、对比特频率封死」，护住 T1。",
+      "physics_en": "Dispersive readout never absorbs the qubit: the qubit state shifts the cavity frequency by +/-chi, and measuring the reflected phase reads the state. The Purcell filter is transparent at the readout frequency yet opaque at the qubit frequency, protecting T1."
+    },
+    {
+      "id": "racks",
+      "label": "室温控制电子学（RFSoC ×5）",
+      "label_en": "Room-temperature control (5x RFSoC)",
+      "range": 7,
+      "detail": "五台 ZCU216 级 RFSoC 机箱直接射频合成：XY 驱动 4.5–5.5 GHz 由 RF-DAC 直出，省掉整条模拟上变频链；快磁通线用 14-bit ≥1 GS/s 基带 DAC。所有脉冲经桥架同轴下到制冷机。",
+      "detail_en": "Five ZCU216-class RFSoC crates synthesize everything directly at RF: 4.5-5.5 GHz XY drives come straight out of RF-DACs - no analog upconversion chain - while fast flux lines use 14-bit >= 1 GS/s baseband DACs. Every pulse rides the cable tray down into the fridge.",
+      "specs": { "通道": "75 路 DAC + 4 路 ADC", "单比特门": "20 ns DRAG X/2，保真度 99.987%", "反馈延迟": "~300 ns（主动复位/纠错回路）" },
+      "specs_en": { "Channels": "75 DAC + 4 ADC", "1Q gate": "20 ns DRAG X/2, 99.987% fidelity", "Feedback latency": "~300 ns (active reset / QEC loop)" },
+      "sim": "单比特门 QuTiP 三能级仿真（03 号）：20 ns DRAG，λ_opt=0.5，泄漏 1.8×10⁻⁷，总误差 1.34×10⁻⁴ → 保真度 99.987%。",
+      "sim_en": "Single-qubit gate sim (03, three-level QuTiP): 20 ns DRAG at lambda = 0.5 leaves 1.8e-7 leakage and 1.34e-4 total error - 99.987% fidelity.",
+      "physics": "DRAG 脉冲在正交分量上叠加导数项，抵消向 |2⟩ 的泄漏——20 ns 的快门才能在 T2≈100 μs 内攒出足够的电路深度。",
+      "physics_en": "A DRAG pulse adds a derivative quadrature that cancels leakage into |2>, so gates can run in 20 ns - fast enough to stack useful circuit depth inside a 100 us T2."
+    },
+    {
+      "id": "die",
+      "label": "芯片版图展示（GDS v7 放大模型）",
+      "label_en": "Chip layout display (GDS v7 scale model)",
+      "range": 6,
+      "detail": "展示台上是 QP-20 版图的放大模型：金色十字是 20 个 transmon，铜色短棒是 31 个耦合器（4×5 格点的每条边一个），四周是保序扇出的键合盘。真实版图七轮渲染迭代才收敛。",
+      "detail_en": "The rotating model blows up the QP-20 layout: gold crosses are the 20 transmons, copper bars the 31 couplers (one per edge of the 4x5 lattice), and the perimeter carries the order-preserving bond pads. The real layout took seven render iterations to converge.",
+      "specs": { "芯片": "11×9 mm 单芯片", "内容": "20 比特 + 31 耦合器 + 20 读出腔 + 4 馈线 + 4 tap Purcell", "工艺细节": "311 空气桥，87 键合盘，witness 4 SQUID + 1 腔", "空闲 ZZ": "5.6 kHz（耦合器关断点）" },
+      "specs_en": { "Die": "11x9 mm single chip", "Contents": "20 qubits + 31 couplers + 20 cavities + 4 feedlines + 4 tap Purcells", "Fab details": "311 air bridges, 87 bond pads, witness 4 SQUIDs + 1 cavity", "Idle ZZ": "5.6 kHz (coupler off-point)" },
+      "sim": "两比特 CZ 门：有效模型 37.5 ns 99.92%（04 号），三体全模型 67 ns 99.85%（07 号，抓出磁通联动补偿 +8.5 MHz），Slepian 斜坡 60.25 ns 99.883%（09 号，已达退相干限）。",
+      "sim_en": "CZ gate: 99.92% at 37.5 ns in the effective model (sim 04), 99.85% at 67 ns in the full three-body model (sim 07, which exposed the +8.5 MHz flux co-compensation), 99.883% with a 60.25 ns Slepian ramp (sim 09, decoherence-limited).",
+      "physics": "可调耦合器空闲在关断点（g_eff≈0），打门时下调频率开启 J≈12 MHz，|11⟩↔|02⟩ 共振路径积累条件相位 π——比固定耦合快 6 倍且串扰可关断。",
+      "physics_en": "The tunable coupler idles at its off point (g_eff ~ 0); lowering its frequency switches on J ~ 12 MHz and the |11>-|02> resonance accumulates a conditional pi phase - 6x faster than fixed coupling, with crosstalk that can be switched off."
+    },
+    {
+      "id": "screen",
+      "label": "表面码监视屏（d=3 演示）",
+      "label_en": "Surface-code monitor (d=3 demo)",
+      "range": 8,
+      "detail": "大屏实时显示 d=3 旋转表面码：金色为数据比特、青/紫为 X/Z 稳定子，红色高亮是本轮症状触发的误差链。17 个物理比特拼一个逻辑比特，QP-20 刚好放得下并富余 3 比特。",
+      "detail_en": "The wall screen shows a distance-3 rotated surface code live: gold for data qubits, teal and violet for X and Z stabilizers, red for the error chain flagged this round. One logical qubit takes 17 physical qubits - QP-20 fits it with three to spare.",
+      "specs": { "码": "d=3 旋转表面码，单 patch 17 比特", "每周期保真": "XEB F≈0.989", "量子体积": "2⁸–2¹⁰（三体保守 2Q 误差口径）" },
+      "specs_en": { "Code": "d=3 rotated surface code, 17-qubit patch", "Per-cycle fidelity": "XEB F ~ 0.989", "Quantum volume": "2^8 - 2^10 (conservative three-body 2Q errors)" },
+      "sim": "表面码蒙卡（10 号，stim+MWPM）：d=3 逻辑错误率 1.18×10⁻³/轮，低于物理参考 6×10⁻³ → 过伪阈值；Λ≈4.2/码距，d=5/7 投影 2.8×10⁻⁴ / 6.3×10⁻⁵（49/97 比特下一代）。",
+      "sim_en": "Surface-code Monte Carlo (sim 10, stim + MWPM): d=3 logical error 1.18e-3 per round, below the 6e-3 physical reference - past the pseudo-threshold. Lambda ~ 4.2 per code distance; d=5/7 project to 2.8e-4 / 6.3e-5 on 49/97-qubit successors.",
+      "physics": "表面码只测稳定子（相邻四比特的宇称），不碰数据比特本身——误差被投影成离散症状，解码器沿最短路径配对修正。物理错误率低于阈值后，码距每 +2，逻辑错误率乘 1/Λ。",
+      "physics_en": "The surface code measures only stabilizers - four-qubit parities - never the data itself. Errors project onto discrete syndromes that a decoder pairs up along shortest paths. Below threshold, every +2 in code distance divides the logical error rate by Lambda."
+    },
+    {
+      "id": "ghs",
+      "label": "气体处理与压缩机撬块",
+      "label_en": "Gas handling and compressor skid",
+      "range": 7,
+      "detail": "氦-3/氦-4 混合气是整机最贵的耗材之一，气体处理面板负责回收、纯化与定量回注；撬块上的水冷压缩机驱动脉管冷头，软管沿吊架上行。三支备用氦瓶用链条锁在墙位。",
+      "detail_en": "The He-3/He-4 mixture is among the most precious consumables in the building. The gas-handling panel recovers, purifies and re-injects it; the water-cooled compressor on the skid drives the pulse tube, hoses running up the gantry. Three backup helium bottles are chained to the wall.",
+      "specs": { "循环": "闭循环 ³He/⁴He，零液氦补给", "预冷": "脉管冷头两级（50 K / 4 K）", "现实约束": "火星大气几乎无氦——漏了就没了" },
+      "specs_en": { "Cycle": "closed-cycle He-3/He-4, zero liquid-helium logistics", "Precool": "two-stage pulse tube (50 K / 4 K)", "Hard truth": "the Martian atmosphere holds no helium - lose it and it is gone" },
+      "sim": "热预算（05 号）按 83 线保守闭合后，压缩机功耗与地下城电网接口核对通过；泄漏率指标由闭循环回收面板兜底。",
+      "sim_en": "After the conservative 83-line heat budget (sim 05) closed, compressor power was checked against the undercity grid interface; leak-rate margins are covered by the closed-cycle recovery panel.",
+      "physics": "火星大气几乎不含氦，混合气一旦漏光无法就地补给——闭循环回收不是节约，是生存条件。地下城恒温岩层反而给稀释制冷机提供了比地表更稳的环境。",
+      "physics_en": "The Martian atmosphere holds essentially no helium: a lost mixture cannot be replaced locally, so closed-cycle recovery is survival, not thrift. The thermally stable undercity rock actually gives the fridge a steadier environment than the surface ever could."
+    }
+  ]
+}
