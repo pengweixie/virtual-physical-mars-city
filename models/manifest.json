@@ -401,6 +401,20 @@
       "effects": []
     },
     {
+      "id": "hab-quarter-01",
+      "name": "地下城居住区（舱室+水培农场+公共区）",
+      "name_en": "Undercity Residential Quarter (cabins, hydroponics, commons)",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/hab-quarter-01.js",
+      "size_m": 20.4,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
       "id": "hab-bot-01",
       "name": "室内服务机器人",
       "name_en": "Indoor Service Robot",

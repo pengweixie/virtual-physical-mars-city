@@ -1551,6 +1551,12 @@ const INTERIOR_DOORS = [
   { from: 'ops-fab-01', pos: [0, 7.5], radius: 1.5, to: 'hab-foyer-01',
     label: '玄关', label_en: 'Foyer',
     entry: { pos: [4.6, 0, -2.5], yaw: Math.PI / 2 } },
+  // 玄关左墙前段 → 居住区(舱室+水培农场+公共区+B 世界休息舱)
+  { from: 'hab-foyer-01', pos: [-5.4, -3.5], radius: 1.6, to: 'hab-quarter-01',
+    label: '居住区', label_en: 'Residential quarter' },
+  { from: 'hab-quarter-01', pos: [0, 7.5], radius: 1.5, to: 'hab-foyer-01',
+    label: '玄关', label_en: 'Foyer',
+    entry: { pos: [-4.6, 0, -3.5], yaw: -Math.PI / 2 } },
 ];
 let nearDoor = null;
 

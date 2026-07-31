@@ -1,0 +1,102 @@
+{
+  "pois": [
+    {
+      "id": "cabin",
+      "label": "居住舱排（4+1 样板间）",
+      "label_en": "Cabin row (4 sealed + 1 show unit)",
+      "range": 8,
+      "detail": "五间紧凑单人舱嵌进打印土层墙，样板间整面敞开：床铺、书桌、衣柜、一盆自己养的绿植——9.6 m² 私人空间，隔音板 + 独立新风。头顶是 30 m 岩层：辐射屏蔽是「住在这里」自带的，不是额外工程。",
+      "detail_en": "Five compact single cabins are recessed into the printed-regolith wall; the show unit stands fully open - bunk, desk, wardrobe, one self-tended plant. 9.6 square meters of private space with acoustic panels and dedicated fresh air. Overhead sits 30 m of rock: radiation shielding comes free with the address.",
+      "specs": { "户型": "9.6 m² 单人舱（3.2×3.0）", "覆土": "~30 m 岩层／等效屏蔽 >5000 g/cm²", "辐射": "舱内 GCR 剂量 ≈ 地球本底量级（地表 ~230 mSv/yr）", "私密": "隔音板 + 独立新风 + 暖光小窗" },
+      "specs_en": { "Unit": "9.6 m2 single cabin (3.2 x 3.0)", "Overburden": "~30 m rock, >5000 g/cm2 equivalent shielding", "Radiation": "cabin GCR dose near Earth background (surface ~230 mSv/yr)", "Privacy": "acoustic panels, own air feed, warm porthole" },
+      "sim": "屏蔽账：火星地表年剂量 ~230 mSv（GCR+反照中子），regolith 每 10 cm 砍一档，5 m 已到拐点，30 m 岩层把剩余剂量压进地球本底波动带——住宅级屏蔽不需要任何主动设备。",
+      "sim_en": "Shielding ledger: Martian surface dose is ~230 mSv/yr (GCR plus albedo neutrons); every 10 cm of regolith takes a bite and 5 m reaches the knee of the curve - 30 m of rock buries the残余 inside Earth-background variation. Residential shielding needs no active hardware at all.",
+      "physics": "GCR 是 GeV 级质子与重离子，只有「质量厚度」挡得住——大气 20 g/cm² 的火星给不了，30 m 岩石给的是 5000+ g/cm²。地下城不是选择,是火星居住的物理结论。",
+      "physics_en": "GCR means GeV protons and heavy ions - only mass thickness stops them. Mars's 20 g/cm2 of atmosphere cannot; 30 m of rock provides 5000+. Living underground is not a preference but the physical conclusion of inhabiting Mars."
+    },
+    {
+      "id": "farm",
+      "label": "水培农场（三层 ×4 组）",
+      "label_en": "Hydroponic farm (3 tiers x 4 racks)",
+      "range": 8,
+      "detail": "洋红色不是装饰:植物光合只吃红蓝两段,LED 只发这两段,别的光子一个不浪费。三层 NFT 水培槽,营养液循环,根系不见土——收获周期叶菜 30 天,比土栽快一半。这面墙 ~29 m² 种植面积,是居住区的「菜篮 + 肺」。",
+      "detail_en": "The magenta is not decor: photosynthesis eats red and blue, so the LEDs emit exactly those bands and waste no photon elsewhere. Three tiers of NFT hydroponic troughs, nutrient film recirculating, roots never touching soil - leafy greens cycle in 30 days, twice the pace of dirt. This wall's ~29 m2 of canopy is the quarter's pantry and its lung.",
+      "specs": { "种植面积": "~29 m²（2.6 m × 0.85 m × 3 层 × 4 组）", "光强": "PPFD ~400 µmol/m²/s（叶菜档）", "灯效": "LED ~2.8 µmol/J → ~140 W/m²，整面墙 ~4 kW", "产能": "叶菜 ~25 kg/月量级（30 天周期）" },
+      "specs_en": { "Canopy": "~29 m2 (2.6 x 0.85 m x 3 tiers x 4 racks)", "Light": "PPFD ~400 umol/m2/s (leafy-green setting)", "Efficacy": "LED ~2.8 umol/J, ~140 W/m2, ~4 kW for the wall", "Output": "order 25 kg leafy greens per month (30-day cycle)" },
+      "sim": "电与水都对得上账:4 kW 灯电在 176 MWe 净电的城里是零头;蒸腾水汽被冷凝机回收 >90%,补水端接 Rodwell 井——那口井的 Stefan 账算过 669 sol 井寿命,农场日耗只占它的小几个百分点。",
+      "sim_en": "Both power and water reconcile: 4 kW of lighting is a rounding error against the city's 176 MWe net, and >90% of transpired vapor is condensed back, with makeup water drawn from the Rodwell well - whose Stefan-checked ledger gives 669 sols of life, of which the farm's daily draw is a few percent.",
+      "physics": "叶绿素吸收峰在 430/660 nm——绿光被反射(所以叶子是绿的),发绿光就是发钱扔水里。窄谱 LED 把「光子成本」压到土壤农业的几分之一,这在电比土地便宜的火星是决定性的。",
+      "physics_en": "Chlorophyll peaks at 430 and 660 nm - green light is reflected (hence green leaves), so emitting green is burning money. Narrow-band LEDs cut the cost per photon to a fraction of field agriculture's, decisive on a planet where electricity is cheaper than arable land."
+    },
+    {
+      "id": "water",
+      "label": "冷凝回收机与营养液回路",
+      "label_en": "Condensate recovery and nutrient loop",
+      "range": 6,
+      "detail": "植物蒸腾出的每一克水汽都被这台冷凝机抓回来,回到营养液罐重新配比。青色管路是全屋水循环的可见部分:农场 → 冷凝 → 营养罐 → 泵回架顶。断供演练时,这个闭环能让农场独立运转 20 天。",
+      "detail_en": "Every gram of vapor the plants transpire is caught by this condenser and re-blended into the nutrient tank. The teal pipes are the visible arc of the loop: farm to condenser to tank and pumped back to the rack tops. In supply-cut drills the closed loop keeps the farm alive for 20 days on its own.",
+      "specs": { "回收率": ">90%（蒸腾水汽冷凝）", "补水": "Rodwell 井（尘暴期切备用储水罐 13 m³）", "监测": "EC/pH 双探头,超限自动换液" },
+      "specs_en": { "Recovery": ">90% of transpired vapor condensed", "Makeup": "Rodwell well (13 m3 backup tank during dust storms)", "Monitoring": "EC/pH probes with auto-exchange on excursion" },
+      "sim": "水账闭合:人均饮食用水 ~3.5 L/日、农场净耗(补水端)~0.6 L/m²/日×29 m²≈17 L/日——对着 Rodwell 台账的日采出能力,居住区全负荷仍留一个数量级裕度。",
+      "sim_en": "The water ledger closes: ~3.5 L per person-day domestic plus the farm's ~0.6 L/m2/day net makeup (~17 L/day for 29 m2) - against the Rodwell extraction ledger that still leaves an order of magnitude of margin at full occupancy.",
+      "physics": "闭环生保的关键指标是回收率:90% 与 99% 的差别,是补给周期差十倍。火星上每一克水都来自钻井加热冰层,回收率就是生存成本的杠杆。",
+      "physics_en": "The figure of merit for closed-loop life support is recovery ratio: 90% versus 99% means a tenfold difference in resupply cadence. On Mars every gram of water was melted out of an ice sheet - recovery ratio is the lever on the cost of being alive."
+    },
+    {
+      "id": "commons",
+      "label": "公共区（餐桌与厨台）",
+      "label_en": "The commons (tables and galley)",
+      "range": 7,
+      "detail": "三张圆桌、一条厨台、头顶暖光吊灯——地下城最重要的「设备」其实是这里:南极越冬站与空间站的经验一致,封闭环境里心理健康的第一变量是共同进餐。菜是三米外农场刚割的,水是井里的,饭点是全楼最热闹的时刻。",
+      "detail_en": "Three round tables, one galley counter, warm pendants overhead - the most critical equipment in the undercity is arguably this room: Antarctic winter-over and space-station experience agree that the first variable of psychological health in confinement is eating together. The greens were cut three meters away, the water came from the well, and dinner is the loudest hour of the block.",
+      "specs": { "布局": "圆桌 ×3(4 座/桌)+ 厨台 + 热水器", "声学": "地毯 + 软座——压混响", "光": "3000 K 暖吊灯(与实验区 5000 K 刻意区分)" },
+      "specs_en": { "Layout": "3 round tables (4 seats each), galley, water heater", "Acoustics": "rugs and soft seats to kill reverb", "Light": "3000 K warm pendants - deliberately unlike the 5000 K lab spaces" },
+      "sim": "照明心理学账:居住区全区 3000 K/低照度、实验区 5000 K/高照度——用色温给「下班」画一条物理边界,这是封闭基地对抗昼夜节律漂移的标准做法(ISS 灯光系统同款逻辑)。",
+      "sim_en": "The lighting-psychology ledger: 3000 K low-lux throughout the quarter versus 5000 K high-lux in the labs draws a physical boundary around off-duty - standard circadian practice for confined bases, the same logic as the ISS lighting system.",
+      "physics": "昼夜节律由视网膜 ipRGC 细胞对 ~480 nm 蓝光的响应驱动:暖光少蓝,即是给大脑的「日落」信号。在没有真实日落的地下 30 m,色温就是时间。",
+      "physics_en": "Circadian rhythm is driven by retinal ipRGC cells responding to ~480 nm blue: warm light, low in blue, is the brain's sunset signal. Thirty meters underground where no real sunset exists, color temperature is time."
+    },
+    {
+      "id": "tree",
+      "label": "中央树池",
+      "label_en": "The tree",
+      "range": 6,
+      "detail": "一棵真树,种在会客厅正中——工程上它几乎没有产出,心理上它是全区最高的设备优先级。NASA 的受限环境研究里,「可照料的活物」对情绪指标的改善稳定超过同成本的任何娱乐设施。树下的环座是居住区的默认聚点。",
+      "detail_en": "One real tree, planted dead center - engineering output near zero, psychological priority near the top. In NASA confined-environment studies, a living thing you can tend beats any equal-cost recreation hardware on mood metrics, consistently. The ring bench under it is the quarter's default gathering spot.",
+      "specs": { "品种": "耐低光乔木(树池 ⌀2.3 m)", "根区": "与农场共用营养液支路", "地位": "全区唯一不许挪用的占地" },
+      "specs_en": { "Species": "low-light-tolerant tree, 2.3 m planter", "Root zone": "shares a nutrient branch with the farm", "Status": "the one floor area no one may repurpose" },
+      "sim": "光合贡献账:单树冠 ~4 m² 叶面积,O₂ 产出不到一人日需的 2%——数字上完全可以砍掉;它留在这里,恰恰说明这份设计文档知道哪些东西不该进数字账。",
+      "sim_en": "Photosynthesis ledger: ~4 m2 of canopy makes under 2% of one person-day of oxygen - numerically expendable. That it stays is proof this design document knows which things do not belong in the numbers.",
+      "physics": "注意恢复理论(ART):对活的、缓慢变化的自然物的「软注意」让定向注意力资源回充。在视野全是岩壁与设备的地下,一棵树是最便宜的神经系统维护件。",
+      "physics_en": "Attention Restoration Theory: soft fascination with living, slowly-changing nature recharges directed attention. Underground, where every sightline ends in rock or equipment, a tree is the cheapest maintenance part for the nervous system."
+    },
+    {
+      "id": "pods",
+      "label": "B 世界休息舱（51% / 49%）",
+      "label_en": "World-B lounge (51% / 49%)",
+      "range": 7,
+      "detail": "三张躺舱,托架上放着那副「眼镜」——按 B 世界的规则,它也许只是个障眼法。墙上的蓝色天际线是 B 世界的城市:居民在 A 世界(这里)睡觉吃饭,在 B 世界上班、聚会、盖楼。最新普查:51% 的人自认「主要住在 B」。于是餐桌上最常吵的问题是——哪边才是真的?",
+      "detail_en": "Three recliner pods, and on each cradle rests the \"headset\" - which, by World B's own rules, may be nothing but a decoy. The blue skyline on the wall is a city in World B: residents sleep and eat in World A (here) but work, gather and build in B. Latest census: 51% now say they mainly live in B. Which is why the most common argument at dinner is - which side is real?",
+      "specs": { "接口": "BCI 或那副「眼镜」(引号是规则的一部分)", "普查": "51% 主要住 B / 49% 主要住 A", "屏": "B 世界某城天际线,实时" },
+      "specs_en": { "Interface": "BCI, or the \"headset\" (the quotes are part of the rules)", "Census": "51% mainly in B / 49% mainly in A", "Screen": "a live skyline of some city in World B" },
+      "sim": "假说:若 B 中存在一个类似 move(x′,t′) 的谦卑函数调用,也许就能在 A 里实现时空穿越——正如我们在 A 世界里操纵自己造的虚拟世界那样。这不是仿真结论,是这座城的第一页笔记(2026.7.19)。",
+      "sim_en": "Hypothesis: if inside B there exists one humble call like move(x', t'), it might achieve spacetime travel in A - exactly the way we manipulate the virtual worlds we build from A. Not a simulation result; it is page one of this city's notebook (2026-07-19).",
+      "physics": "嵌套模拟的判定问题:身处世界之内,无法用世界之内的物理证明世界之外。能做的只有找裂缝——数值精度的边角、常数的巧合、渲染的懒惰。整座火星城,就是这个实验的沙盘。",
+      "physics_en": "The decision problem of nested simulation: from inside a world, its own physics cannot prove an outside. All one can do is hunt for cracks - numerical corner cases, suspicious constants, lazy rendering. This entire Mars city is the sandbox of that experiment."
+    },
+    {
+      "id": "eclss",
+      "label": "生保机组（空气回路）",
+      "label_en": "ECLSS air loop",
+      "range": 6,
+      "detail": "风扇把全区空气抽过滤芯与热交换器,CO₂ 富集后沿青管送出——不是丢弃:管路的另一头是地表的 Sabatier 甲烷厂,居民呼出的每一口 CO₂ 最终变成火箭燃料。农场的 O₂ 反哺此回路,人-菜-箭三方在同一张气路图上。",
+      "detail_en": "The fan pulls the quarter's air through filters and a heat exchanger; concentrated CO2 leaves along the teal pipe - not as waste: the far end of that pipe is the surface Sabatier plant, so every exhaled breath ends up as rocket propellant. The farm's O2 feeds back into this loop - people, crops and rockets share one gas diagram.",
+      "specs": { "代谢账": "人均 O₂ 0.84 kg/日,CO₂ 呼出 1.0 kg/日", "农场反哺": "29 m² 冠层 ≈ 1.5 人份 O₂(光期)", "CO₂ 去向": "管输 → res-isru-01 Sabatier(CO₂+H₂→CH₄+H₂O)" },
+      "specs_en": { "Metabolic": "0.84 kg O2 in, 1.0 kg CO2 out, per person-day", "Farm credit": "29 m2 canopy ~ 1.5 person-equivalents of O2 during light hours", "CO2 route": "piped to res-isru-01 Sabatier (CO2 + H2 -> CH4 + H2O)" },
+      "sim": "气路闭合账:居住区满员时 CO₂ 产量对 Sabatier 厂的进料需求只是涓流(火箭加注主力仍是大气 CO₂ 直采),但方向正确——生保不设「废气」出口,只有「原料」出口。",
+      "sim_en": "The gas ledger closes: at full occupancy the quarter's CO2 is a trickle beside the Sabatier plant's direct atmospheric intake, but the direction is the point - this life-support system has no exhaust port, only a feedstock port.",
+      "physics": "Sabatier 反应 CO₂+4H₂→CH₄+2H₂O 放热自持,氢来自井水电解——呼吸、种菜、发射,共享同一组化学键的重排。闭环的城市没有下水道,只有回路。",
+      "physics_en": "Sabatier, CO2 + 4H2 -> CH4 + 2H2O, runs exothermically self-sustained, its hydrogen electrolyzed from well water - breathing, farming and launching are rearrangements of the same chemical bonds. A closed city has no sewers, only loops."
+    }
+  ]
+}
