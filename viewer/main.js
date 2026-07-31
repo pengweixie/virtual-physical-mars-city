@@ -1525,6 +1525,8 @@ const savedEnv = {};
 const PORTALS = [
   { pos: [-330, -12], radius: 7, interior: 'hab-foyer-01', label: '地下城', label_en: 'Undercity' },
   { pos: [-372, -18], radius: 5, interior: 'hab-foyer-01', label: '地下城（电梯）', label_en: 'Undercity (lift)' },
+  // 温室穹顶气闸门廊(res-dome-01 @ (95,70) rot180,门廊朝城)
+  { pos: [95, 53], radius: 5.5, interior: 'res-dome-hall-01', label: '温室穹顶', label_en: 'Greenhouse dome' },
 ];
 // interior-to-interior doors (E-gated, no auto-trigger): the foyer's inner
 // personnel door leads to the clinic; the clinic's +Z opening leads back
@@ -2678,7 +2680,7 @@ if (q.get('interior')) enterInterior(q.get('interior'), null).then(() => {
 // ?debug=1 暴露内窥句柄（真浏览器验证用，STATUS「已知事项」约定）
 if (q.has('debug')) {
   window.__mars = { units, unitSensors, unitAnims, colonyGroup, scene, renderer, camera, rig,
-    driveSensors, clock, get inInterior() { return inInterior; } };
+    driveSensors, clock, sampleHeight, get inInterior() { return inInterior; } };
 }
 if (q.get('view') === 'orbit') setOrbitMode(true);
 if (q.get('view') === 'cmb' && cmbAnchor) {  // jump to the L2 station

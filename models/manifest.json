@@ -401,6 +401,38 @@
       "effects": []
     },
     {
+      "id": "res-dome-01",
+      "name": "农业温室穹顶",
+      "name_en": "Agricultural Greenhouse Dome",
+      "type": "code",
+      "module": "units/res-dome-01.js",
+      "size_m": 32.3,
+      "size_axis": "width",
+      "pos": [
+        95,
+        70
+      ],
+      "rotation_deg": 180,
+      "sink_m": 0.25,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "res-dome-hall-01",
+      "name": "温室穹顶内部",
+      "name_en": "Greenhouse Dome Hall",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/res-dome-hall-01.js",
+      "size_m": 26.4,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
       "id": "hab-quarter-01",
       "name": "地下城居住区（舱室+水培农场+公共区）",
       "name_en": "Undercity Residential Quarter (cabins, hydroponics, commons)",

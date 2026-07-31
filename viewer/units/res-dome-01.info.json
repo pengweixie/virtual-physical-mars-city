@@ -1,0 +1,60 @@
+{
+  "pois": [
+    {
+      "id": "shell",
+      "label": "ETFE 双层膜网壳（⌀26 m）",
+      "label_en": "ETFE double-skin gridshell (26 m dome)",
+      "range": 30,
+      "detail": "双层 ETFE 气枕张在钢网壳上,层间充干燥 CO₂ 做保温;膜只承张力,压力全部交给 12 根经向肋与 3 道环梁。ETFE 透光 >90% 且抗紫外,内面镀防雾涂层——火星版的「玻璃」比玻璃轻两个数量级。",
+      "detail_en": "Two ETFE foil skins stretch over a steel gridshell with dry CO2 between them for insulation; the film carries only tension, leaving pressure to the 12 meridian ribs and 3 hoop beams. ETFE passes >90% of light, shrugs off UV, and weighs two orders of magnitude less than glass.",
+      "specs": { "跨度": "⌀26 m 半球", "内压": "55 kPa（富 CO₂ 温室气）", "膜": "双层 ETFE 气枕,透光 >90%", "骨架": "经向肋 ×12 + 环梁 ×3" },
+      "specs_en": { "Span": "26 m hemisphere", "Pressure": "55 kPa CO2-enriched greenhouse mix", "Skin": "double ETFE cushions, >90% transmission", "Frame": "12 meridian ribs + 3 hoop beams" },
+      "sim": "压力容器账:55 kPa 内压对 ⌀26 m 穹顶的总上抬力 ≈ πr²·P ≈ 29 MN——相当于要把三千吨往天上掀。这笔力全部由基础环上的压载与锚杆吃掉,所以基础环比穹顶本身更「重」。",
+      "sim_en": "Pressure-vessel ledger: 55 kPa inside a 26 m dome lifts with pi*r2*P ~ 29 MN - three thousand tonnes trying to leave the ground. All of it lands on the foundation ring's ballast and anchors, which is why the ring outweighs the dome.",
+      "physics": "薄膜结构的定律:膜应力 σ=P·r/2t 随半径线性涨——穹顶不能任意做大,26 m 是「一个打印基础环兜得住」的甜点尺寸。",
+      "physics_en": "Membrane law: skin stress sigma = P*r/2t grows linearly with radius - domes cannot scale forever, and 26 m is the sweet spot one printed foundation ring can hold down."
+    },
+    {
+      "id": "ring",
+      "label": "打印基础环（printer 工地的成果）",
+      "label_en": "Printed foundation ring (the printer site's work)",
+      "range": 20,
+      "detail": "环形压载墙由隔壁 ops-printer-01 的龙门打印机用烧结 regolith 逐层打成——城里那座「半成穹顶」练的就是这门手艺。层纹还留在墙面上。环内埋锚杆抵住 29 MN 的内压上抬力。",
+      "detail_en": "The ballast ring was printed layer by layer in sintered regolith by the gantry printer at ops-printer-01 next door - the half-built dome at that site was practice for exactly this trade. The layer lines still show. Anchors inside the ring resist the 29 MN of pressure uplift.",
+      "specs": { "工艺": "龙门打印,烧结 regolith", "功能": "压载 + 锚固 + 气密过渡", "血统": "ops-printer-01 同款打印头" },
+      "specs_en": { "Process": "gantry-printed sintered regolith", "Function": "ballast, anchorage, pressure-seal transition", "Lineage": "same printhead as ops-printer-01" },
+      "sim": "压载账:环体 + 回填 regolith 自重需 ≥1.5× 上抬力 → 约 4.4 万吨等效压载,靠环墙自重 + 锚杆抓地共同凑齐——纯靠「压」在火星 0.38 g 下不够,锚杆是必须项。",
+      "sim_en": "Ballast ledger: ring mass plus backfill must beat uplift by 1.5x - some 44,000 tonnes equivalent, shared between deadweight and ground anchors. At 0.38 g deadweight alone cannot do it; the anchors are non-negotiable.",
+      "physics": "在低重力星球上,「压住一个气球」比地球难 2.6 倍——同样的质量只给 0.38 倍的压力。火星充压建筑的真正地基不是混凝土,是锚进岩层的拉杆。",
+      "physics_en": "On a low-gravity world, holding down a balloon is 2.6x harder - the same mass presses with only 0.38x the force. The real foundation of a pressurized Martian building is not concrete but tie-rods into bedrock."
+    },
+    {
+      "id": "terrace",
+      "label": "透膜可见的梯田",
+      "label_en": "Terraces seen through the skin",
+      "range": 22,
+      "detail": "隔着膜就能看到三圈梯田内高外低——这不是造型:环形梯田朝着低角度的阳光逐级抬升,谁也不挡谁。夜里补光环点亮,整座穹顶变成城市地表唯一的暖光灯笼。",
+      "detail_en": "Through the skin you can read the three terrace rings stepping up toward the center - not styling: the rings rise stepwise into the low-angle sunlight so no row shades another. At night the supplemental ring lights up and the dome becomes the only warm lantern on the surface.",
+      "specs": { "布局": "三圈环形梯田,内高外低", "光": "自然光为主,夜间/尘暴 LED 补光", "地位": "城市地表唯一常亮暖光体（夜景地标）" },
+      "specs_en": { "Layout": "three ring terraces, rising inward", "Light": "sunlight first, LED supplement at night and in storms", "Status": "the surface's only warm glow - the night landmark" },
+      "sim": "光账:Jezero 晴日水平面日均 ~3.0 kWh/m²,是地球温带的六成;尘暴 τ>3 时直射砍到 <25%——所以补光不是备份,是尘暴季的主力,负荷提前写进了 176 MWe 的电网账。",
+      "sim_en": "Light ledger: clear-day Jezero averages ~3.0 kWh/m2 horizontal - about 60% of temperate Earth; at dust optical depth tau > 3 direct sun drops below 25%. Supplemental LEDs are not backup but the storm-season mainstay, pre-booked against the 176 MWe grid.",
+      "physics": "火星太阳常数 590 W/m²(地球的 43%),但没有云雨、昼长可控、CO₂ 管够——对温室而言,火星缺的只是气压和水,光不是短板。",
+      "physics_en": "Mars gets 590 W/m2 solar constant - 43% of Earth's - but no clouds, controllable day length, and all the CO2 you want. For a greenhouse Mars is short on pressure and water, never on light."
+    },
+    {
+      "id": "service",
+      "label": "服务撬块（水线 + CO₂ 富集）",
+      "label_en": "Service skids (water and CO2 lines)",
+      "range": 14,
+      "detail": "两台撬块把穹顶接进城市管网:水线自 Rodwell 井方向来,泵撬升压后爬膜进塔顶水箱;CO₂ 橇从大气直采压缩,把棚内浓度顶到 1200 ppm——火星大气 95% 是 CO₂,温室的「肥」不要钱。",
+      "detail_en": "Two skids plug the dome into the city's utilities: the water line arrives from the Rodwell well, boosted up the skin into the tower tank; the CO2 skid compresses straight from the atmosphere, holding the canopy at 1200 ppm - with an atmosphere that is 95% CO2, the greenhouse's fertilizer is free.",
+      "specs": { "水": "Rodwell 井线,塔顶水箱重力配水", "CO₂": "大气直采,棚内 1200 ppm", "回收": "冷凝水汽回收 >90%（凝在膜内面,顺环槽收集）" },
+      "specs_en": { "Water": "Rodwell line, gravity-fed from the tower tank", "CO2": "direct atmospheric intake, 1200 ppm inside", "Recovery": ">90% of vapor condensed on the skin and caught in the ring gutter" },
+      "sim": "水账:320 m² 种植面净耗 ~0.6 L/m²/日 ≈ 190 L/日,对 Rodwell 台账(669 sol 井寿命的日采能力)是零头;膜内面冷凝回收让补水只需补「收成里带走的水」。",
+      "sim_en": "Water ledger: 320 m2 of beds net ~0.6 L/m2/day - about 190 L/day, small change against the Rodwell extraction ledger (the 669-sol well). With skin condensation recovered, makeup water is only what leaves inside the harvest.",
+      "physics": "温室是一台被动蒸馏器:白天蒸腾,夜里膜面变冷凝面,水在穹内自转圈。漏损才是真消耗——密封等级直接换算成井的寿命。",
+      "physics_en": "A greenhouse is a passive still: transpiration by day, the cold skin condensing by night, water looping inside the dome. Leakage is the only true consumption - seal quality converts directly into well life."
+    }
+  ]
+}
