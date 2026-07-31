@@ -1545,6 +1545,12 @@ const INTERIOR_DOORS = [
   { from: 'sci-quantum-01', pos: [0, 7.5], radius: 1.5, to: 'hab-foyer-01',
     label: '玄关', label_en: 'Foyer',
     entry: { pos: [-4.6, 0, -8], yaw: -Math.PI / 2 } },
+  // 玄关右墙 → 芯片厂(一厂三线:sky130 数字 / 65nm 模拟 / 超导 JJ)
+  { from: 'hab-foyer-01', pos: [5.4, -2.5], radius: 1.6, to: 'ops-fab-01',
+    label: '芯片厂', label_en: 'Chip fab' },
+  { from: 'ops-fab-01', pos: [0, 7.5], radius: 1.5, to: 'hab-foyer-01',
+    label: '玄关', label_en: 'Foyer',
+    entry: { pos: [4.6, 0, -2.5], yaw: Math.PI / 2 } },
 ];
 let nearDoor = null;
 

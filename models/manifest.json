@@ -387,6 +387,20 @@
       "effects": []
     },
     {
+      "id": "ops-fab-01",
+      "name": "地下城芯片厂（洁净室，一厂三线）",
+      "name_en": "Undercity Chip Fab (cleanroom, three process lines)",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/ops-fab-01.js",
+      "size_m": 19.6,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
       "id": "hab-bot-01",
       "name": "室内服务机器人",
       "name_en": "Indoor Service Robot",
