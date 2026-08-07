@@ -4,66 +4,154 @@
     {
       "id": "dome",
       "label": "6 m 防尘圆顶",
-      "pos": [0, 4.0, 0],
+      "label_en": "6 m dust-sealed dome",
+      "pos": [
+        0,
+        4.0,
+        0
+      ],
       "range": 20,
       "detail": "白色半球圆顶，上翻越顶式开缝快门——快门带沿导轨滑过天顶收到背面，密封圈防尘。圆顶方位组独立驱动，夜间随观测目标缓慢转动，白天闭合密封。",
-      "specs": { "圆顶直径": "6 m", "快门": "上翻越顶式，密封", "驱动": "方位旋转 + 快门独立", "狭缝宽度": "1.25 m" }
+      "detail_en": "A white hemispherical dome with an up-and-over slit shutter: the shutter band rides along its rails over the zenith and parks on the back of the dome, sealing against dust when closed. The azimuth drive is independent of the shutter, so the dome slews slowly with the target through the night and reseals at dawn.",
+      "specs": {
+        "圆顶直径": "6 m",
+        "快门": "上翻越顶式，密封",
+        "驱动": "方位旋转 + 快门独立",
+        "狭缝宽度": "1.25 m"
+      },
+      "specs_en": {
+        "Dome diameter": "6 m",
+        "Shutter": "up-and-over, sealed",
+        "Drives": "azimuth rotation + independent shutter",
+        "Slit width": "1.25 m"
+      }
     },
     {
       "id": "ota",
       "label": "200 mm f/5 RC 望远镜",
-      "pos": [0, 3.4, 0],
+      "label_en": "200 mm f/5 RC telescope",
+      "pos": [
+        0,
+        3.4,
+        0
+      ],
       "range": 15,
       "detail": "地平式叉式支架上的桁架镜筒，Ritchey-Chrétien 光学构型，主动副镜调焦。火星大气密度仅地球 0.6%，视宁度接近太空环境——小口径也能做大科学。",
-      "specs": { "口径": "200 mm", "焦比": "f/5", "光学": "RC，CRA ≤ 3°", "像元标度": "3.1″/px，视场 26.4′", "俯仰范围": "15–85°" },
+      "detail_en": "A truss tube on an alt-azimuth fork, Ritchey-Chretien optics, with an actively driven secondary for focus. Mars air is only 0.6% as dense as Earth's, so seeing is close to space-like - a small aperture still does real science here.",
+      "specs": {
+        "口径": "200 mm",
+        "焦比": "f/5",
+        "光学": "RC，CRA ≤ 3°",
+        "像元标度": "3.1″/px，视场 26.4′",
+        "俯仰范围": "15–85°"
+      },
+      "specs_en": {
+        "Aperture": "200 mm",
+        "Focal ratio": "f/5",
+        "Optics": "RC, CRA <= 3 deg",
+        "Plate scale": "3.09 arcsec/px, 26.4 arcmin field",
+        "Elevation range": "15-85 deg"
+      },
       "sim": [
         "出瞳距 200–300 mm → 边缘主光线角实测 1.0–1.6°，免场镜即满足焦面微透镜 ≤3° 要求",
         "昼夜 ΔT 120 K 下 CFRP 桁架失焦 306 µm，远超焦深 ±35 µm（±2λF²）→ 主动副镜调焦为强制项（±1 mm 行程 / 1 µm 步进，温度查表 + 夜初星像修调）"
+      ],
+      "sim_en": [
+        "Exit pupil 200-300 mm from the focal plane puts the edge chief ray at 1.0-1.6 deg, so the microlens CRA limit of 3 deg is met by geometry alone - no field lens needed.",
+        "Depth of focus is only +-35 um (+-2*lambda*F^2), while a CFRP truss drifts 306 um over the 120 K diurnal swing. Every candidate material overshoots, so an active secondary focuser (+-1 mm travel, 1 um steps, temperature-indexed with a nightly star trim) is mandatory."
       ]
     },
     {
       "id": "coldbox",
       "label": "焦面冷箱 + 辐射制冷",
-      "pos": [0.4, 3.3, 0.5],
+      "label_en": "Focal-plane cold box + radiative cooler",
+      "pos": [
+        0.4,
+        3.3,
+        0.5
+      ],
       "range": 12,
       "detail": "GFRP 低导热支杆悬挂的焦平面冷箱，被动辐射制冷器对深空排热。焦平面为自研 SPAD 阵列（spad40 系），光子计数成像——机械设计详见 mars_spad_rox 项目。",
+      "detail_en": "The focal plane hangs on low-conductivity GFRP struts inside a cold box that dumps its heat to deep space through a passive radiator. The detector is an in-house SPAD array (spad40 line) doing photon counting; the mechanical design lives in the mars_spad_rox project.",
       "specs": {
         "结构": "GFRP 支杆隔热",
         "制冷": "被动辐射制冷，无制冷机",
         "焦平面": "512×512 SPAD @15 µm，1 kHz 二值帧",
         "器件": "iwK115：88 V 固定偏置，暗计数 0.383 Hz/像素（全温区）"
       },
+      "specs_en": {
+        "Structure": "GFRP struts for thermal isolation",
+        "Cooling": "passive radiative, no cryocooler",
+        "Focal plane": "512x512 SPAD at 15 um, 1 kHz binary frames",
+        "Device": "iwK115 - fixed 88 V bias, 0.383 Hz/px dark count across all temperatures"
+      },
       "sim": [
         "夜间热负荷 127 mW（SPAD 阵列 2.5 + SerDes 30 + 支杆漏热 44 + 线束 50）→ 173 K 焦面仅需 64 cm² 辐射板（ε=0.9，天空 150 K）",
         "ΔT 120 K 热应力：载板必须 AlN 或 Si 转接板（有机基板边缘剪切 52 µm 判死）；微透镜必须晶圆级直制于 SPAD 晶粒——独立石英片仅温漂就耗掉 45% 的 ±2.1 µm 对准预算",
         "光子率反演 λ = −ln(1−2·p̄₁)/(2·T_f)；读出 ASIC 全链路 DRC 0 + LVS + 提取后仿验证（px15 像素 / px_arr4 阵列 / px_tile 瓦片）"
+      ],
+      "sim_en": [
+        "Night heat load 127 mW (SPAD array 2.5 + SerDes 30 + strut leak 44 + harness 50) needs only a 64 cm2 radiator to hold 173 K against a 150 K sky.",
+        "Thermal stress over 120 K: the carrier must be AlN or a silicon interposer (an organic carrier shears 51.8 um at the edge of a 30 mm die); microlenses must be wafer-level replicated on the SPAD die itself, since a separate silica plate spends 45% of the +-2.1 um alignment budget on thermal drift alone.",
+        "Photon rate is recovered as lambda = -ln(1-2*p1)/(2*T_f); the readout ASIC is verified end to end - DRC 0, LVS correct and post-layout simulation on the px15 pixel, px_arr4 array and px_tile complete tile."
       ]
     },
     {
       "id": "eqroom",
       "label": "设备间",
-      "pos": [0, 1.4, -2.2],
+      "label_en": "Equipment room",
+      "pos": [
+        0,
+        1.4,
+        -2.2
+      ],
       "range": 12,
       "detail": "圆柱形设备间，哑光白热控包层 + 栓接板缝；内置驱动电源、温控与数据系统。整座台站坐在夯实风化层的八角基座上，裙边斜坡防尘堆积。",
-      "specs": { "尺寸": "半径 3.1 m × 高 2.2 m", "基座": "八角形 4.3–5.5 m", "数据率": "0.26 Gbps @1 kHz 帧" },
+      "detail_en": "A cylindrical equipment room in matte white thermal cladding with bolted panel seams, housing the drive power, thermal control and data systems. The whole station sits on an octagonal plinth of compacted regolith, its sloped skirt shedding dust drifts.",
+      "specs": {
+        "尺寸": "半径 3.1 m × 高 2.2 m",
+        "基座": "八角形 4.3–5.5 m",
+        "数据率": "0.26 Gbps @1 kHz 帧"
+      },
+      "specs_en": {
+        "Size": "radius 3.1 m x height 2.2 m",
+        "Plinth": "octagonal, 4.3-5.5 m",
+        "Data rate": "0.26 Gbps at 1 kHz frames"
+      },
       "sim": [
         "88 V 偏置比 CO₂ 帕邢最小击穿电压（≈420 V）低 4.8 倍——任意间隙×气压组合下气体击穿在物理上不可能，无需承压舱",
         "淬灭分压器留在 SPAD 晶粒 → 全系统仅一根 88 V 馈线（聚对二甲苯涂覆 + 1 mm 爬电），其余全部连接 ≤3.3 V"
+      ],
+      "sim_en": [
+        "The 88 V bias sits 4.8x below the CO2 Paschen minimum (about 420 V), so gas breakdown is impossible at any gap-pressure combination - no pressurised enclosure required.",
+        "Keeping the quench divider on the SPAD die leaves exactly one 88 V feed in the whole instrument (parylene coat plus 1 mm creepage); every other connection runs at 3.3 V or below."
       ]
     },
     {
       "id": "solar",
       "label": "太阳能补给板",
-      "pos": [3.4, 2.1, -1.8],
+      "label_en": "Solar supply panel",
+      "pos": [
+        3.4,
+        2.1,
+        -1.8
+      ],
       "range": 10,
-      "detail": "桅杆式倾斜单板，为台站蓄电与夜间观测供电；尘暴期功率退化，观测转入快门密封的生存模式。"
+      "detail": "桅杆式倾斜单板，为台站蓄电与夜间观测供电；尘暴期功率退化，观测转入快门密封的生存模式。",
+      "detail_en": "A single tilted panel on a stub mast charges the station battery and powers night observing. Output degrades during dust storms, when observing gives way to a sealed survival mode behind the closed shutter."
     },
     {
       "id": "door",
       "label": "气闸式检修门",
-      "pos": [0, 1.3, 3.0],
+      "label_en": "Airlock-style service door",
+      "pos": [
+        0,
+        1.3,
+        3.0
+      ],
       "range": 8,
-      "detail": "带锁紧转轮的密封检修门，外部电缆导管沿墙引下。无人值守机器人天文台，人员仅维护时到场。"
+      "detail": "带锁紧转轮的密封检修门，外部电缆导管沿墙引下。无人值守机器人天文台，人员仅维护时到场。",
+      "detail_en": "A sealed service door with a locking wheel, external cable conduits running down the wall beside it. The observatory is robotic and unattended; people come only for maintenance."
     }
   ]
 }

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Cleanroom</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #06080d; }
+  .poster { width: 1600px; position: relative; overflow: hidden; color: #e6dfd8;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #140d0a 0%, #0a0806 45%, #07060a 100%); }
+  header { text-align: center; padding: 52px 0 16px; }
+  header h1 { font-size: 58px; letter-spacing: 12px; color: #f6f0ec; font-weight: 800; }
+  header h1 .accent { color: #ff9a5c; }
+  header .sub { margin-top: 12px; font-size: 21px; letter-spacing: 3px; color: #c49a8a; }
+  header .rule { width: 700px; height: 2px; margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #ff9a5c, transparent); }
+  .heroes { display: flex; justify-content: center; gap: 18px; margin-top: 26px; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid #302620; box-shadow: 0 16px 44px rgba(0,0,0,.6); background: #0f0c0a; }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #ecdcd2; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(10,6,4,.93) 55%); }
+  .hp-a { width: 780px; height: 450px; }
+  .hp-s { width: 372px; height: 450px; }
+  .sims { display: flex; justify-content: center; gap: 18px; margin-top: 18px; }
+  .sp-w { width: 762px; height: 310px; background: #fff; }
+  .sp-w img { object-fit: contain; background: #fff; }
+  .chips { display: flex; justify-content: center; gap: 20px; margin-top: 16px; }
+  .col { width: 762px; display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px;
+    background: #150e0a; border: 1px solid #34241a; border-radius: 8px; }
+  .row .k { flex: 0 0 148px; font-size: 15.5px; color: #e0a071; letter-spacing: .5px; }
+  .row .v { font-size: 15.5px; color: #f0e4dc; line-height: 1.45; }
+  .row .v b { color: #ffb98a; font-weight: 700; }
+  .row.sim { border-left: 3px solid #a8663c; }
+  .row.hot { border-left: 3px solid #ff9a5c; }
+  footer { margin-top: 34px; padding: 24px 70px 30px; background: #07060a;
+    border-top: 1px solid #2a1c12; }
+  footer .line { text-align: center; font-size: 18px; color: #c49a8a; letter-spacing: 1px; }
+  footer .line b { color: #ffc9a0; }
+  footer .src { margin-top: 10px; text-align: center; font-size: 14px; color: #5c4638;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>THE <span class="accent">CLEANROOM</span></h1>
+    <div class="sub">One fab, three processes — the city's silicon, printed thirty metres underground</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="heroes">
+    <div class="panel hp-a">
+      <img src="fab-floor.png" alt="Fab floor from the door" style="object-position:50% 45%;">
+      <div class="cap">Through the door: yellow bay left, HEPA laminar ceiling, guide-lit central aisle, and three tool lines on glowing base rings — cyan for sky130 digital, copper for CRN65LP analog, violet for Josephson superconducting</div>
+    </div>
+    <div class="panel hp-s">
+      <img src="fab-backwall.png" alt="Deposition wall" style="object-position:60% 50%;">
+      <div class="cap">The v6 wall: LPCVD cold-wall reactor under the DRC convergence dot-screen (5×8 going green) and the MB-1 layout display; AGV guide lanes below</div>
+    </div>
+    <div class="panel hp-s">
+      <img src="fab-yellow.png" alt="Stepper in the yellow bay" style="object-position:72% 45%;">
+      <div class="cap">Under the amber light: the stepper — light tower, fold mirror, mask library and a wafer chuck ringed in cyan; resists only ever meet yellow photons</div>
+    </div>
+  </div>
+  <div class="sims">
+    <div class="panel sp-w"><img src="fab-mars.png" alt="MARS tapeout drill">
+      <div class="cap">The tapeout drill: a mask that prints MARS — bare EPE rms 48.7 nm, 12.7 nm after OPC+MRC; standing waves and the resist cross-section included</div></div>
+    <div class="panel sp-w"><img src="fab-yield.png" alt="Yield beyond Poisson">
+      <div class="cap">Round 11 — yield beyond Poisson: defects cluster, and clustering forgives; the MB-1 die marked on the compound-cluster law</div></div>
+  </div>
+
+  <div class="chips">
+    <div class="col">
+      <div class="row hot"><span class="k">🏭 Three lines</span><span class="v">MB-1 bigram ASIC on <b>sky130</b> · SPAD analog on <b>CRN65LP</b> · QP-20 <b>Josephson junctions</b> — one floor bakes chips for the compute hall, the lidar and the quantum center downstairs</span></div>
+      <div class="row sim"><span class="k">📐 Litho ×8</span><span class="v">Abbe aerial images → process windows → ILT-style OPC on the real MB-1 clip (<b>EPE 35→6 nm</b>, hammerheads emerged, not drawn) → resist stack, mask-3D on an in-house RCWA solver, and the lens spec derived, then measured in Zemax</span></div>
+      <div class="row sim"><span class="k">📐 Process ×13</span><span class="v">Deal-Grove oxidation · CMP pattern density on the real die (<b>fill: var 205→176 nm</b>) · step coverage + CD-SEM imaging · dicing chip budget and wedge-bond window close the tool ledger</span></div>
+    </div>
+    <div class="col">
+      <div class="row hot"><span class="k">⚙ The choreography</span><span class="v">T = 104 s full-wafer loop: AGV logistics → spin-coat → exposure beam → develop → RIE door and plasma → probe verdicts lighting the wafer map die by die → dicing, <b>every effect phase-gated to its cause</b></span></div>
+      <div class="row sim"><span class="k">🧪 v6 tools</span><span class="v">Furnace with cantilever quartz boat, LPCVD reactor, counter-rotating CMP — <b>the last three ledgers got their hardware</b>; wet bench, CD-SEM, implanter and FOUP interlock already on the floor</span></div>
+      <div class="row"><span class="k">🚨 Drills</span><span class="v">EMO freezes the whole floor under 8 s of red then resumes without a time-jump; the pass-through window <b>never opens both doors</b> — 12.15k triangles, validate PASS, console clean</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">From GDS to diced die without leaving the undercity — <b>21 simulation rounds, 15 bilingual cards, one fab</b></div>
+    <div class="src">fab session v1–v6 · litho rounds ×8 · process rounds ×13 · in-house RCWA · Zemax ZOS-API · in-engine captures · Mars City Digital Twin</div>
+  </footer>
+</div>
+</body>
+</html>

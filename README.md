@@ -1,113 +1,83 @@
-# Virtual-Physical Mars City
+# Mars VR — Jezero Crater
 
-*A Mars city digital twin closing the loop: real HiRISE terrain → WebXR city →
-simulation-backed engineering → a real chip running the city's AI.*
+基于真实 NASA HiRISE 数据的火星地形 VR 查看器。地点是耶泽罗撞击坑
+（Jezero Crater，18.4°N 77.4°E）——毅力号 Mars 2020 的着陆区，
+覆盖古河流三角洲，1 m/像素真实高程与影像。
 
-![Mars city panorama](snaps/panorama.png)
+浏览器里即可漫游；接上 VR 头显（支持 WebXR 的浏览器）可点 Enter VR
+进入沉浸模式。
 
-Starting from real NASA HiRISE terrain (Jezero Crater, 1 m/px), this project
-builds a Mars city digital twin in the browser: 20+ procedurally modeled
-facilities, 124 knowledge cards each backed by simulation, a live Perseverance
-mission layer, and day/night driven by true Martian solar time — plus a compute
-center that closes the **real world → digital twin → AI → silicon** loop:
-a character-level bigram language model runs live on the big screen, and the
-same algorithm exists as a real chip (full sky130 GDS flow + a fabbed PCB)
-seated in the rack beside it.
+## 快速开始
 
-## Quick start
+日常使用：双击项目根目录的 **启动火星VR.bat**，会自动启动服务器并打开浏览器。
+关闭那个黑色命令行窗口即停止服务器。
+
+首次搭建（数据和依赖就绪后不再需要）：
 
 ```
-python -m http.server 8123        # from the repo root
-# open http://localhost:8123/viewer/
+pip install rasterio numpy pillow
+npm install                          # 本地安装 three.js（不依赖 CDN）
+python scripts/download_data.py      # 下载 DTM + 正射影像（约 415 MB，可断点续传）
+python scripts/process_terrain.py    # 生成 data/processed/ 下的地形资产
+python -m http.server 8123           # 在项目根目录启动
+# 打开 http://localhost:8123/viewer/
 ```
 
-On Windows, double-click `start-mars-vr.bat` (auto-ingests new models, refreshes
-Perseverance mission data, starts the server, opens the browser). three.js is
-bundled (MIT). A WebXR-capable browser can hit Enter VR for immersive mode.
+## 操作
 
-Keys: `WASD` move · `F` fly · `V` inspect a facility (with action buttons,
-e.g. Launch) · `M` orbit view · `E` enter the undercity (`U` jumps straight there) · `P` teleport to
-Perseverance · bottom-right slider scrubs Martian time. The corner button switches the UI between English and Chinese.
-
-## What's in town
-
-| System | Highlights |
+| 输入 | 动作 |
 |---|---|
-| Power | Tokamak fusion plant (390 MWe) + 429 m waste-heat radiator field (600 K radiative balance closes) + storage farm with an L0–L3 sim chain |
-| Rockets | Starship (entry corridor / plume / TPS double-checked) + CZ-10B (net-catch recovery, Monte-Carlo N=500, 100% capture) — one launch every sol |
-| Science | SPAD atmospheric LiDAR (5.1 km day / 15 km night link budget) + optical observatory (512×512 SPAD focal plane) + a MiniPAN magnetic spectrometer riding the relay sat |
-| Comms | 3+1 areostationary constellation (a six-track sim loop: full-wave antenna / radiation transport / thermoelastics / orbit integration / queueing / coding MC) + a 12 m deep-space ground station |
-| Resources | Rodwell ice well (Stefan-checked 669-sol well life) + Sabatier propellant plant + regolith 3-D print site + a walk-in greenhouse dome (26 m ETFE gridshell on a printed ballast ring - the 29 MN pressure-uplift ledger closes - glowing like a lantern at night) |
-| Undercity | Walk-through foyer (city-cavern diorama) + a PET/CT clinic (GATE MC reconstruction — the patient is a robot) + a humanoid service robot on patrol (CIS vision + chest flash-lidar, MuJoCo-baked gait) + a quantum computing center — a 20-qubit transmon machine in service mode, vacuum can hoisted so all six fridge stages and the shielded chip are exposed (99.987% 1Q / 99.85% CZ / d=3 surface code past pseudo-threshold, backed by a 12-sim + full-wave HFSS design ledger) + a chip fab — yellow/white-bay cleanroom running three lines whose customers are all in town: sky130 digital (the compute center's MB-1), 65 nm analog (SPAD readout), and double-angle-evaporated Josephson junctions for the quantum machine + a residential quarter — cabins under 30 m of rock shielding, a magenta-lit hydroponic farm wall reconciled against the city's water and power ledgers, a real tree, and a World-B lounge where 51% of residents mainly "live" on the other side |
-| Perception | The mine robot navigates by sight through a declarative sensor channel: engine offscreen render → CIS CMOS imaging model → 5 Hz perceive-and-control loop |
+| 点击画面 | 锁定鼠标视角 |
+| WASD / Shift | 移动 / 加速 |
+| F | 切换行走（贴地）/ 飞行模式 |
+| M / 右上角按钮 | 切换轨道视角（整颗火星）与地表视角 |
+| P | 传送到毅力号（轨迹终点 + 最新照片墙） |
+| C / 右上角按钮 | "未来火星"科技城：掩土居住舱、温室绿植、道路、着陆场、巡逻车，夜晚亮灯 |
+| X / 右上角按钮 | "魔幻火星"城：螺旋塔、水晶林、悬浮岩岛、发光蘑菇、传送门（`?magic=1`）；首次开启会加载 models/crystal 的水晶王城模型（50MB，按钮显示进度） |
 
-## Posters
+轨道视角中常驻显示通信基础设施：3 颗火星静止轨道（17,000 km）中继星
+（其一定点悬停在耶泽罗上空，画有对地波束）+ 1 颗 400 km 低轨科学轨道器（动画运行）。
+| 右下角滑块 | 调整火星当地时间（日出/黄昏/夜晚），"实时"回到真实时间 |
+| VR 左手摇杆 | 移动（跟随视线方向） |
+| VR 右手摇杆 | 快速转身（30° snap turn） |
 
-| | |
-|---|---|
-| ![Twin rockets](snaps/rockets-poster.png) | ![Science duo](snaps/science-poster.png) |
-| ![Comm chain](snaps/comms-poster.png) | ![Detector trio](snaps/detectors-poster.png) |
-| ![Resources and compute](snaps/resources-poster.png) | ![Orbit view](snaps/orbit-city.png) |
-| ![Tokamak](snaps/tokamak-poster.png) | ![Regolith mine](snaps/mine-poster.png) |
-| ![TES and the CMB station](snaps/tes-poster.png) | ![MiniPAN](snaps/pan-hero2.png) |
+URL 参数可指定视点：`?x=0&z=600&y=900&yaw=0&pitch=-0.55&fly=1`（米 / 弧度）；
+轨道视角：`?view=orbit&lat=-8&lon=290`（如水手谷上空）；`?t=18.2` 锁定火星时刻；
+`?colony=1` 直接开启未来火星模式。
 
-## In motion
+## 结构
 
-| | |
-|---|---|
-| ![CZ-10B launch](snaps/anim/veh-rocket-02.gif)<br>CZ-10B: launch → staging → net catch (time-compressed) | ![Starship](snaps/anim/veh-rocket-01.gif)<br>Starship: the launch/landing loop from the L2 sims |
-| ![Mine robot](snaps/anim/res-mine-01.gif)<br>The mine robot digging by sight (CIS vision, 5 Hz) | ![Mine at night](snaps/anim/res-mine-01-night.gif)<br>Night shift at the spiral pit |
-| ![Humanoid patrol](snaps/anim/hab-bot-01.gif)<br>The humanoid on patrol in the foyer, chest lidar fanning | ![Deep lab event](snaps/anim/sci-deeplab-01.gif)<br>Deep lab: an event lights the PMT array |
-| ![Starship pad](snaps/anim/ops-spaceport-01.gif)<br>Starship pad: service tower, berm ring and launch loop | |
+```
+scripts/download_data.py    从 HiRISE PDS 归档下载原始数据（公有领域）
+scripts/process_terrain.py  PDS .IMG DTM + JP2 正射影像 → heights.bin / texture.jpg / meta.json
+scripts/update_mission.py   拉取毅力号最新轨迹/位置/照片（启动脚本自动运行）
+viewer/                     Three.js + WebXR 查看器（无构建步骤，直接静态服务）
+data/raw/                   原始下载（git 忽略）
+data/processed/             生成的地形资产（git 忽略）
+data/mission/               毅力号任务数据缓存（git 忽略）
+```
 
-## The origin
+## 项目状态
 
-The whole city traces back to a single notebook page (July 19, 2026):
-Worlds A & B — build a world, rebuild the world inside it, hunt for the
-source-code cracks, and ask which side is real.
+进度快照与待办清单见 [STATUS.md](STATUS.md)（收尾/交接从这份读起）。
 
-![The idea, as a seven-panel comic](idea/manga-en.png)
+## 模型资产
 
-[中文版 / Chinese version](idea/manga-cn.png)
+外部模型（Rodin 等生成）的命名、目录与接入规范见 [MODELS.md](MODELS.md)。
 
-## Layout
+## 数据来源
 
-- `viewer/` — the engine (main.js) + 21 procedural asset modules + knowledge-card info.json
-- `scripts/` — data pipelines (HiRISE download / terrain processing / mission
-  updates / model ingestion) + 14 rocket dynamics sims + layout-audit and
-  contract-validation tools
-- `models/` — GLB assets and the manifest
-- `data/processed/` — finished terrain (raw HiRISE re-fetched on demand by `scripts/download_data.py`)
-- `snaps/` — posters and captures (HTML sources included, re-renderable)
-- `extras/tof-pet/` — PET shell model + GATE→MLEM reconstruction chain + the robot-patient scan
-- Collaboration contracts and progress: `MODELS.md` · `CHECKLIST.md` ·
-  `STATUS.md` · `SENSOR_SPEC.md` · `EQUIPMENT.md` (in Chinese — they are the
-  working documents of the build)
+- DTM 立体对：ESP_045994_1985 / ESP_046060_1985，产品
+  `DTEEC_045994_1985_046060_1985_U01`
+- NASA/JPL/University of Arizona HiRISE，公有领域
+- https://www.uahirise.org/dtm/ESP_045994_1985
+- 轨道视角全球纹理：Solar System Scope（CC BY 4.0）
+- 毅力号轨迹与原始照片：NASA/JPL-Caltech Mars 2020 公开接口，每次启动自动更新
+- 火星太阳时：Allison & McEwen (2000) 近似算法
 
-The city was built by multiple AI sessions working in parallel: a lead session
-maintains the engine and the contracts (MODELS.md), design sessions deliver
-asset modules and knowledge cards against those contracts, and tooling keeps
-quality honest (SAT overlap audit, contract validation, runtime verification).
+## 已知限制（v1）
 
-## Scope boundaries (deliberate)
-
-1. **Commercial-tool simulations (Sentaurus TCAD / COMSOL / ANSYS HFSS, etc.)**:
-   only the final Python plotting scripts and exported data are included — no
-   commercial project/model files. Outputs of free/open toolchains (Blender,
-   EasyEDA, Geant4/GATE, CASToR, Yosys/OpenROAD, ...) are included as-is.
-2. **TOF-PET**: only the shell model, the reconstruction algorithms and the
-   robot-patient scan. Detector and front-end electronics design are out of scope.
-3. **Dark-matter experiment & MiniPAN**: their Monte-Carlo / simulation source
-   code lives in separate projects and is not in this repository — the city
-   carries only 3-D asset modules and result images.
-
-## Data sources & credits
-
-- Terrain: NASA/JPL/University of Arizona — HiRISE DTM & orthoimage
-- Mission data: NASA Mars 2020 (Perseverance) public API, refreshed at launch
-- Martian time: our own implementation of the Allison & McEwen (2000) ephemeris
-
-## License
-
-Code: MIT · assets/documentation: CC BY 4.0 — see [LICENSE](LICENSE).
-Third-party components in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+- 单块 3.8 km × 3.8 km 地形，1024² 高度网格（约 4 m/顶点）——近地面
+  细节偏平滑，站定环顾时无沙粒级细节
+- 纹理为 RED 波段灰度图着色，非真彩色
+- 天空为简单渐变着色器，无大气散射模拟、无时间系统

@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Spectrum Net — Virtual-Physical Mars City</title>
+<meta name="description" content="Six observatories commissioned in one sol: thermal IR, solar-blind UV, a 183 GHz water radiometer, an InGaAs SWIR camera, a 160 m low-frequency radio array — and a seismometer that isn't light at all.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    /* ▸ REPLACE: district accent (must match your card in index.html) */
+    --accent:var(--violet);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+
+  /* spectrum chart: log wavelength axis, scrolls on narrow screens */
+  .chartwrap{overflow-x:auto;margin-top:30px;border:1px solid var(--line);
+    border-radius:14px;background:var(--bg-3);}
+  .chartwrap svg{display:block;min-width:760px;width:100%;height:auto;}
+  .chartcap{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .sv-ax{fill:none;stroke:var(--line-strong);stroke-width:1;}
+  .sv-tk{font-family:var(--f-mono);font-size:11px;fill:var(--ink-dim);}
+  .sv-new{fill:var(--accent);}
+  .sv-old{fill:var(--ink-dim);opacity:.5;}
+  .sv-gap{fill:none;stroke:var(--ink-dim);stroke-width:1;stroke-dasharray:4 4;opacity:.55;}
+  .sv-gapt{font-family:var(--f-mono);font-size:11px;fill:var(--ink-dim);opacity:.8;font-style:italic;}
+  .sv-lbl{font-family:var(--f-mono);font-size:11.5px;fill:var(--ink);}
+  .sv-sub{font-family:var(--f-mono);font-size:10.5px;fill:var(--ink-dim);}
+  .sv-lead{stroke:var(--accent);stroke-width:1;opacity:.65;}
+
+  /* per-station blocks */
+  .stn{border-top:1px solid var(--line);padding-top:30px;margin-top:44px;}
+  .stn:first-of-type{border-top:none;padding-top:0;margin-top:26px;}
+  .stn__head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;}
+  .stn__id{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.12em;color:var(--accent);}
+  .stn__band{font-family:var(--f-mono);font-size:.74rem;color:var(--ink-dim);}
+  .stn h3{font-size:1.28rem;font-weight:700;margin:.35em 0 0;}
+  .stn .prose{margin-top:2px;}
+  .pull{max-width:var(--textw);margin:22px 0 0;padding:14px 18px;border-left:2px solid var(--accent);
+    background:var(--bg-3);border-radius:0 10px 10px 0;font-size:.98rem;}
+  .pull b{color:var(--ink);}
+  .broke{max-width:var(--textw);margin-top:26px;padding-top:22px;border-top:1px solid var(--line);}
+  .broke:first-of-type{border-top:none;padding-top:0;}
+  .broke h3{font-size:1.06rem;font-weight:700;}
+  .broke .who{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+  .broke p{color:var(--ink-dim);margin:.5rem 0 0;}
+  kbd{font-family:var(--f-mono);font-size:.8rem;border:1px solid var(--line-strong);
+    border-radius:5px;padding:1px 6px;background:var(--bg-3);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="perception.html">← Prev</a>
+    <a href="gravity.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">sci-ir-01 · sci-uv-01 · sci-thz-01 · sci-swir-01 · sci-radio-01 · sci-seis-01</div>
+    <h1>The Spectrum Net</h1>
+    <p class="phead__sub">Six observatories went live in a single sol, and between them the city
+      now listens from 600-metre radio waves down to picometre gamma rays. Five of them are
+      instruments for light. The sixth is the one that finally looks the other way — down.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Coverage</div><div class="spec__v">15<small>decades</small></div></div>
+    <div class="spec"><div class="spec__k">Stations</div><div class="spec__v">6<small>one sol</small></div></div>
+    <div class="spec"><div class="spec__k">Ledgers</div><div class="spec__v">40+<small>six books</small></div></div>
+    <div class="spec"><div class="spec__k">Gates</div><div class="spec__v">150+<small>all green</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>One sol, six stations</h2></div>
+    <p class="lead">The city already had eyes. What it did not have was a spectrum — a set of
+      detectors chosen so that the gaps between them are deliberate rather than accidental.</p>
+    <div class="prose">
+      <p>Before this round the city's detector family was a scatter of well-built points: a visible
+        CIS camera, two lidar lines, a Ka-band relay dish, a millimetre-wave TES array, an X-ray CT
+        bench. Each was excellent and none of them talked to the others about wavelength. Six design
+        sessions ran in parallel to close that, each producing its own design book, and the result is
+        a chain that runs from <strong>600 m to 2.4 pm</strong> — 14.4 orders of magnitude, which
+        everyone rounds to fifteen decades.</p>
+      <p>The chart below is the whole argument on one axis. Violet bars are the six new stations.
+        Grey ticks are the instruments the city already had. The two dashed boxes are the honest
+        part: <strong>the far-infrared and the EUV/soft-X-ray are still empty</strong>, and nothing
+        in this round pretends otherwise.</p>
+    </div>
+
+    <div class="chartwrap">
+      <svg viewBox="0 0 1000 300" role="img" aria-label="Electromagnetic coverage of the Mars city detector family, logarithmic wavelength axis from 1 km to 1 pm">
+        <!-- gaps (drawn first, behind) -->
+        <rect class="sv-gap" x="408" y="150" width="113.7" height="26" rx="3"></rect>
+        <text class="sv-gapt" x="464.8" y="167" text-anchor="middle">far-IR · open</text>
+        <rect class="sv-gap" x="634.9" y="150" width="178.2" height="26" rx="3"></rect>
+        <text class="sv-gapt" x="724" y="167" text-anchor="middle">EUV / soft-X · open</text>
+        <rect class="sv-gap" x="133.4" y="150" width="214.2" height="26" rx="3"></rect>
+        <text class="sv-gapt" x="240.5" y="167" text-anchor="middle">HF – microwave · comms only</text>
+
+        <!-- axis -->
+        <line class="sv-ax" x1="40" y1="188" x2="960" y2="188"></line>
+        <g class="sv-tk" text-anchor="middle">
+          <line class="sv-ax" x1="40"  y1="188" x2="40"  y2="194"></line><text x="40"  y="208">1 km</text>
+          <line class="sv-ax" x1="224" y1="188" x2="224" y2="194"></line><text x="224" y="208">1 m</text>
+          <line class="sv-ax" x1="408" y1="188" x2="408" y2="194"></line><text x="408" y="208">1 mm</text>
+          <line class="sv-ax" x1="592" y1="188" x2="592" y2="194"></line><text x="592" y="208">1 µm</text>
+          <line class="sv-ax" x1="776" y1="188" x2="776" y2="194"></line><text x="776" y="208">1 nm</text>
+          <line class="sv-ax" x1="960" y1="188" x2="960" y2="194"></line><text x="960" y="208">1 pm</text>
+        </g>
+        <text class="sv-sub" x="40" y="228">wavelength, log scale · longer ←</text>
+        <text class="sv-sub" x="960" y="228" text-anchor="end">→ shorter</text>
+
+        <!-- new stations -->
+        <g class="sv-new">
+          <rect x="53.6"  y="150" width="79.8" height="26" rx="3"></rect>
+          <rect x="391.7" y="150" width="6"    height="26" rx="2"></rect>
+          <rect x="521.7" y="150" width="14.9" height="26" rx="3"></rect>
+          <rect x="577.9" y="150" width="16.9" height="26" rx="3"></rect>
+          <rect x="618.8" y="150" width="9.6"  height="26" rx="3"></rect>
+        </g>
+        <g class="sv-lead">
+          <line x1="93.5"  y1="150" x2="93.5"  y2="128"></line>
+          <line x1="394.7" y1="150" x2="394.7" y2="110"></line>
+          <line x1="529.2" y1="150" x2="529.2" y2="92"></line>
+          <line x1="586.4" y1="150" x2="586.4" y2="74"></line>
+          <line x1="623.6" y1="150" x2="623.6" y2="56"></line>
+        </g>
+        <g class="sv-lbl">
+          <text x="93.5"  y="123">sci-radio-01 · 0.5–10 MHz</text>
+          <text x="394.7" y="105">sci-thz-01 · 183 GHz</text>
+          <text x="529.2" y="87">sci-ir-01 · 8–14 µm</text>
+          <text x="586.4" y="69">sci-swir-01 · 0.9–1.7 µm</text>
+          <text x="623.6" y="51">sci-uv-01 · 255–365 nm</text>
+        </g>
+
+        <!-- existing city assets -->
+        <g class="sv-old">
+          <rect x="231.7" y="178" width="3.5"  height="10" rx="1"></rect>
+          <rect x="347.6" y="178" width="3"    height="10" rx="1"></rect>
+          <rect x="387.7" y="178" width="4.5"  height="10" rx="1"></rect>
+          <rect x="590.3" y="178" width="4.4"  height="10" rx="1"></rect>
+          <rect x="601.5" y="178" width="14.9" height="10" rx="1"></rect>
+          <rect x="813.1" y="178" width="47.8" height="10" rx="1"></rect>
+          <rect x="935.9" y="178" width="3"    height="10" rx="1"></rect>
+        </g>
+        <g class="sv-sub">
+          <text x="233" y="250" text-anchor="middle">UHF relay</text>
+          <text x="349" y="266" text-anchor="middle">Ka 32 GHz relay</text>
+          <text x="390" y="250" text-anchor="middle">CMB TES · L2</text>
+          <text x="592" y="266" text-anchor="middle">905 / 1064 nm lidar</text>
+          <text x="609" y="250" text-anchor="middle">CIS 0.4–0.7 µm</text>
+          <text x="837" y="250" text-anchor="middle">X-ray CT · 5–30 keV</text>
+          <text x="937" y="266" text-anchor="end">511 keV line</text>
+        </g>
+      </svg>
+      <div class="chartcap">ELECTROMAGNETIC COVERAGE — VIOLET = COMMISSIONED THIS ROUND · GREY = ALREADY IN THE CITY · DASHED = STILL OPEN</div>
+    </div>
+
+    <figure class="figure">
+      <img src="assets/spectrum/cluster.jpg" alt="Five instrument stations on the northeastern highland at dusk" loading="lazy">
+      <figcaption>THE ENVIRONMENTAL ALERT CLUSTER, NOW FIVE STRONG — WEATHER MAST, PARTICLE CAMERA, THERMAL-IR TOWER, UV STATION, THZ RADIOMETER ON ONE ALARM BUS</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>Five ways of seeing</h2></div>
+    <p class="lead">Each station exists because a specific physical argument said the band was worth
+      the hardware. Here is the argument, one station at a time.</p>
+
+    <div class="stn">
+      <div class="stn__head"><span class="stn__id">sci-ir-01</span><span class="stn__band">8–14 µm · VOx microbolometer, 640×512</span></div>
+      <h3>The camera that sees heat, and the lens that is black</h3>
+      <div class="prose">
+        <p>Germanium is opaque to everything the eye can see — its 0.66 eV bandgap swallows the whole
+          visible range — and transparent from 2 to 16 µm. So the objective looks like a disc of
+          polished coal and works perfectly. There is no alternative: BK7 and fused silica go opaque
+          past 2.7 and 4 µm, which is why every thermal camera ever built has a black lens.</p>
+        <p>The pixel is a suspended SiN/VOx membrane held by two legs 0.35 µm wide, and the entire
+          design is one trade: thinner legs mean lower thermal conductance and better sensitivity,
+          but a slower pixel and a more fragile process. The feasible window closes at
+          <span class="hl">NETD 47.3 mK</span> with a 9.45 ms time constant — comfortably inside the
+          30 Hz frame budget, with 21% margin after a 3-D FEM took the honest number over the
+          lumped one.</p>
+        <p>Because a microbolometer measures its own temperature rise, it needs stabilisation but not
+          cryogenics: a single-stage thermoelectric cooler holding 288 K ± 10 mK costs 0.33 W, where
+          the mercury-cadmium-telluride alternative would need <strong>51× that</strong> to reach 77 K,
+          plus a Stirling machine with moving parts. On Mars that trade is not close.</p>
+      </div>
+      <div class="fig2">
+        <figure class="figure">
+          <img src="assets/spectrum/anim-ir.gif" alt="Pan-tilt thermal imaging tower sweeping across the city" loading="lazy">
+          <figcaption>PAN ±60° IN 60 s — THE SCAN IS ALSO THE CALIBRATION</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="assets/spectrum/dev-ir-tcad.png" alt="Reflectance of the absorber stack: Sentaurus TCAD against the analytic transfer-matrix model, with residuals" loading="lazy">
+          <figcaption>ABSORBER CAVITY — SENTAURUS TCAD vs ANALYTIC TMM, 25 WAVELENGTHS, 0.001% APART</figcaption>
+        </figure>
+      </div>
+      <p class="pull">The station has no shutter, and that is a decision, not an omission. Pixel
+        voltage is <b>258× more sensitive to the focal plane's own temperature than to the scene</b>,
+        which is why thermal cameras carry shutters at all. Here the thermoelectric cooler, on-chip
+        blind rows and the pan itself replace it — a shutter would be the first moving part that dust
+        and cold kill.</p>
+    </div>
+
+    <div class="stn">
+      <div class="stn__head"><span class="stn__id">sci-uv-01</span><span class="stn__band">255–365 nm · AlGaN solar-blind photodiodes</span></div>
+      <h3>Sunburn, finally with a sensor</h3>
+      <div class="prose">
+        <p>Mars has no ozone layer worth the name, so UV-C reaches the ground — the term that
+          dominates EVA skin dose had, until now, no instrument watching it. The detector is grown
+          rather than bought: aluminium fraction sets the cutoff, and
+          <span class="hl">Al₀.₄₅Ga₀.₅₅N cuts off at 278.8 nm</span>, which is solar-blind by
+          construction. A back-illuminated PIN with an Al₀.₆₀ window layer becomes an intrinsic
+          255–279 nm bandpass before any filter is fitted.</p>
+        <p>Sentaurus TCAD puts the responsivity at <span class="hl">0.117 A/W at 270 nm</span>
+          (53.7% external quantum efficiency), landing inside the 0.10–0.15 A/W literature gate for
+          this device class. The rejection is the point: 585:1 at 310 nm and better than 10⁷ at
+          365 nm, from the material alone.</p>
+      </div>
+      <div class="fig2">
+        <figure class="figure">
+          <img src="assets/spectrum/dev-uv-channels.png" alt="Three AlGaN channel bandpasses from the TCAD optical sweep" loading="lazy">
+          <figcaption>THREE CHANNELS, ONE EPITAXIAL FAMILY — UV-A / UV-B / UV-C BANDPASSES FROM THE TCAD SWEEP</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="assets/spectrum/anim-uv.gif" alt="UV station with three probe tubes and spectrum screen" loading="lazy">
+          <figcaption>THREE PROBE TUBES, SPECTRUM SCREEN, EVA ALERT COLUMN</figcaption>
+        </figure>
+      </div>
+      <p class="pull">The prettiest result is free calibration. <b>Phobos transits the Sun every few
+        days</b>, and because it occults only the direct beam it drops the signal by 12.8–26.2%
+        without touching the diffuse part — which reads out the direct/diffuse split the cosine
+        correction needs. An orbital mechanic hands the radiometer its hardest calibration constant,
+        for nothing, on a schedule.</p>
+    </div>
+
+    <div class="stn">
+      <div class="stn__head"><span class="stn__id">sci-thz-01</span><span class="stn__band">183 GHz · water-vapour radiometer</span></div>
+      <h3>A water line on a transparent stage</h3>
+      <div class="prose">
+        <p>Mars has about a thousandth of Earth's water column, which sounds like a reason not to try.
+          Two things rescue it. First, at 6 mbar the 183.31 GHz line is pressure-broadened to only
+          <span class="hl">37 MHz</span> — <strong>81× narrower than at sea level</strong> — so the
+          same molecules are packed into a proportionally narrower band and the peak cross-section
+          rises to match. Second, the background is a 0.4 K sky.</p>
+        <p>The result is that 10 precipitable microns of water read out to
+          <span class="hl">0.45% in one second</span>, and the frequency offset from line centre acts
+          as an altitude knob: line centre belongs to the upper layers, the wings to the lower ones.
+          A singular-value decomposition of the noise-normalised Jacobian gives 3.63 degrees of
+          freedom — a column plus three coarse layers, stated as such rather than dressed up as a
+          profile.</p>
+        <p>There is a deeper reason Mars is a good place for this. CO₂ has no permanent electric
+          dipole, so a 95% CO₂ atmosphere has <strong>no rotational spectrum at all</strong>. Earth's
+          microwave window is combed by oxygen at 60 and 118 GHz; Mars deletes the comb and leaves
+          water standing alone on a clean stage. The thin dry air that makes the water column tiny is
+          the same air that makes it easy to see.</p>
+      </div>
+      <div class="fig2">
+        <figure class="figure">
+          <img src="assets/spectrum/dev-thz-weighting.png" alt="Weighting functions for the six radiometer channels against altitude" loading="lazy">
+          <figcaption>WEIGHTING FUNCTIONS — WHICH ALTITUDE EACH CHANNEL ACTUALLY SEES · DOF 3.63</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="assets/spectrum/anim-thz.gif" alt="Nodding-mirror radiometer scanning the zenith ladder" loading="lazy">
+          <figcaption>ONE MOVING PART, FOUR JOBS — SKY SCAN, CALIBRATION, ZERO RETURN, GROUND COUPLING</figcaption>
+        </figure>
+      </div>
+      <p class="pull">Dust is transparent at 183 GHz: a storm that takes the optical channels to
+        τ = 5 leaves this one at τ ≈ 10⁻³. <b>When the weather station goes blind, the radiometer
+        takes over the weather watch</b> — the two stations cite each other's cards in both
+        directions.</p>
+    </div>
+
+    <div class="stn">
+      <div class="stn__head"><span class="stn__id">sci-swir-01</span><span class="stn__band">0.9–1.7 µm · InGaAs, 640×512</span></div>
+      <h3>Looking for ice, and admitting what dust does</h3>
+      <div class="prose">
+        <p>Water ice has a diagnostic absorption at 1.5 µm and CO₂ ice at 1.435 µm, both sitting on
+          the high-quantum-efficiency plateau of an InGaAs array — which is the whole reason this
+          particular sensor hunts water. A five-position filter wheel measures the band depth against
+          interpolated continuum, and the ledger puts the detection floor at
+          <span class="hl">2.1 wt% ice</span> at 200 µm grain size. Its first job is picking drill
+          sites for the water well.</p>
+        <p>At night the same camera turns over and watches the 1.27 µm oxygen airglow, where the
+          cooling matters absolutely: at 0.05 megarayleigh the cooled array reaches SNR 319 in a 60 s
+          budget, while an uncooled InGaAs detector saturates on its own dark current and tops out at
+          <strong>SNR 3.8</strong>. The long-exposure mode does not merely degrade without cooling —
+          it does not exist.</p>
+      </div>
+      <div class="fig2">
+        <figure class="figure">
+          <img src="assets/spectrum/dev-swir-head.jpg" alt="SWIR camera head with the external filter wheel" loading="lazy">
+          <figcaption>CAMERA HEAD AND FIVE-POSITION FILTER WHEEL — THE WHEEL SITS AHEAD OF THE LENS, AND THAT IS A LEDGER RESULT</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="assets/spectrum/anim-swir.gif" alt="SWIR station with filter wheel turning" loading="lazy">
+          <figcaption>SITED BY THE STRAY-LIGHT LEDGER — 5.8× DARKER SKY FOR 1.27 µm AIRGLOW</figcaption>
+        </figure>
+      </div>
+      <p class="pull">Mars runs this camera's thermal design backwards. On Earth the problem is
+        getting the focal plane down to −40 °C. Here the night equilibrium is
+        <b>−74.4 °C at zero watts</b>, and holding the specified −40 °C costs 5.5 W of <i>heating</i>.
+        The cold that makes the frozen specification unreachable in a lab is free outdoors.</p>
+    </div>
+
+    <div class="stn">
+      <div class="stn__head"><span class="stn__id">sci-radio-01</span><span class="stn__band">0.5–10 MHz · 28 dipoles across 160 m</span></div>
+      <h3>Listening where Earth is permanently deaf</h3>
+      <div class="prose">
+        <p>Below about 10 MHz, Earth's ionosphere reflects everything, and whatever leaks through is
+          buried under shortwave broadcasting. There is no site on Earth — none, at any altitude,
+          at any hour — where this band is observable from the ground. On Mars the ionospheric cutoff
+          sits at 4.0 MHz at noon and falls to <span class="hl">0.63 MHz at night</span>, so 97% of
+          the window simply opens after dark.</p>
+        <p>The engineering is counterintuitive in the best way. The Galactic background is
+          2.2×10⁷ K at 0.5 MHz, so an electrically-short dipole with <strong>0.7% efficiency loses
+          nothing</strong> — the antenna is a probe of a noise field it cannot help but dominate.
+          The front end is allowed to be bad. What it is <em>not</em> allowed to be is far away: a
+          5 m dipole at 1 MHz has Q ≈ 1.6×10⁵, nothing matches it, and the working circuit is a
+          capacitive voltage probe whose amplifier must sit at the terminals. Moving it 3 m down the
+          mast doubles the loss.</p>
+      </div>
+      <div class="fig2">
+        <figure class="figure">
+          <img src="assets/spectrum/radio.jpg" alt="Inverted-V dipole array on the southwestern outskirts" loading="lazy">
+          <figcaption>28 CROSSED INVERTED-V DIPOLES, ⌀160 m — THE BASELINES ARE THE INSTRUMENT</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="assets/spectrum/dev-radio-skynoise.png" alt="Galactic sky temperature against dipole efficiency across the band" loading="lazy">
+          <figcaption>SKY-NOISE DOMINANCE — WHY A 0.7% EFFICIENT ANTENNA COSTS NOTHING</figcaption>
+        </figure>
+      </div>
+      <p class="pull">The array pays rent. Emission at the local plasma frequency makes frequency a
+        proxy for distance from the Sun, so the band watches the 2–11 R☉ shell where shocks
+        accelerate protons. Fitting a burst's drift track gives shock speed to ±5%, and light beats
+        protons to Mars by <b>27 to 105 minutes</b> depending on energy — the radio array hands the
+        radiation station's alarm tower a number instead of a flag.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The one that isn't light</h2></div>
+    <p class="lead">Five stations argue about wavelength. The sixth changes the subject.</p>
+    <div class="prose">
+      <p>Every instrument above is a way of counting photons. <strong>sci-seis-01 is the city's only
+        line that looks down</strong>, and it is on this page precisely because it does not belong on
+        the axis — a spectrum net is defined as much by the channel that isn't electromagnetic as by
+        the ones that are.</p>
+      <p>It also gets something free that no photon instrument does. A gravity-restored pendulum has
+        a period proportional to 1/√g, so the same spring and the same mass that give 0.60 s on Earth
+        give <span class="hl">2.53 s on Mars</span> — lower gravity buys period, and period buys
+        sensitivity. This is the quantitative reason InSight's very-broad-band sensor could never be
+        fully tested before launch: on the bench it is a different, worse instrument.</p>
+      <p>The enemy is wind and the gift is night. Direct wind drag, ground compliance under pressure
+        fluctuations and thermal residual are all daytime terms; when the convective boundary layer
+        collapses in the evening the pressure fluctuations drop about fortyfold. The floor lands at
+        <span class="hl">1.36×10⁻¹⁰ m/s²/√Hz</span> at 0.5 Hz — matching InSight's measured
+        1–2×10⁻¹⁰ — and day-to-night is a factor of <strong>179</strong>. The same local magnitude-1.5
+        quake arrives at SNR 5.5 at night and 0.03 by day.</p>
+      <p>The best part is who calibrates it. The launch pad fires on schedule every sol at 14:00
+        local, which is a repeating ground-force impulse at a known time from a known place — the
+        loudest neighbour turns out to be the best calibration source in town. Stacking 50 launches
+        gives arrival picks to <span class="hl">0.28 ms</span> and resolves the shallow velocity
+        structure to 0.05–0.07%, while re-measuring the path attenuation daily.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/spectrum/anim-seis.gif" alt="Seismic station with wind shield and live three-channel seismogram" loading="lazy">
+        <figcaption>WIND SHIELD, HOISTED-COVER VBB CUTAWAY, LIVE 3-CHANNEL SEISMOGRAM — ZERO ROTATING PARTS BY DESIGN</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/spectrum/dev-seis-noise.png" alt="Day and night seismic noise budget against frequency" loading="lazy">
+        <figcaption>THE NOISE BUDGET — DAY VS NIGHT, ×179, AND THE WIND SHIELD BUYING FIVE ORDERS</figcaption>
+      </figure>
+    </div>
+    <p class="pull">A seismometer that hears the city is usually a failure. This one files it as
+      data: above 1 Hz the daytime record belongs to traffic and hoisting, so the station moonlights
+      as urban-activity seismology — and it levies a vibration specification back on the city's
+      round-the-clock machinery, <b>≤1.2×10⁻⁶ m/s/√Hz at 10 m</b>. The instrument writes a rule for
+      the town that hosts it.</p>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number on this page, and the run that produced it. Six design
+      books, all scripts project-relative.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Spectral span</td><td class="num">600 m → 2.4 pm</td><td class="src">composed from the six books' band definitions</td></tr>
+        <tr><td>IR — NETD @ f/1, 300 K, 30 Hz</td><td class="num">47.3 mK</td><td class="src">mars-ir/sim/01_pixel_thermal.py</td></tr>
+        <tr><td>IR — pixel time constant, 3-D FEM</td><td class="num">9.45 ms</td><td class="src">mars-ir/sim/pixel_fem.java (COMSOL 6.3)</td></tr>
+        <tr><td>IR — absorber band absorptance, f/1 cone</td><td class="num">0.883</td><td class="src">mars-ir/sim/07_absorber_tmm.py</td></tr>
+        <tr><td>IR — TCAD vs analytic TMM, 25 wavelengths</td><td class="num">0.001%</td><td class="src">mars-ir/tcad/ir_abs_des.cmd (Sentaurus P-2019.03)</td></tr>
+        <tr><td>IR — bias vs thermal-runaway criterion</td><td class="num">44×</td><td class="src">mars-ir/sim/08_electrothermal.py</td></tr>
+        <tr><td>IR — TEC vs 77 K cryocooler input power</td><td class="num">51:1</td><td class="src">mars-ir/sim/04_mars_specifics.py</td></tr>
+        <tr><td>UV — Al₀.₄₅Ga₀.₅₅N cutoff</td><td class="num">278.8 nm</td><td class="src">mars-uv/sim/r1_bandgap.py</td></tr>
+        <tr><td>UV — responsivity at 270 nm</td><td class="num">0.117 A/W</td><td class="src">mars-uv/tcad/uv_pin_sde.cmd (Sentaurus P-2019.03)</td></tr>
+        <tr><td>UV — out-of-band rejection at 365 nm</td><td class="num">&gt;10⁷</td><td class="src">mars-uv/tcad, chains 1–3</td></tr>
+        <tr><td>UV — filter rejection actually required</td><td class="num">OD 1.22</td><td class="src">mars-uv/sim/r6_filter.py</td></tr>
+        <tr><td>UV — cosine-response residual after self-correction</td><td class="num">1.25%</td><td class="src">mars-uv/sim/r7_accuracy.py</td></tr>
+        <tr><td>UV — Phobos transit depth</td><td class="num">12.8–26.2%</td><td class="src">mars-uv/sim/r8_events.py</td></tr>
+        <tr><td>THz — line half-width at Mars surface pressure</td><td class="num">37 MHz</td><td class="src">mars-thz/sim/sim_lineshape.py</td></tr>
+        <tr><td>THz — retrieval degrees of freedom</td><td class="num">3.63</td><td class="src">mars-thz/sim/sim_weighting.py</td></tr>
+        <tr><td>THz — water-column error at 10 pr-µm, 1 s</td><td class="num">0.45%</td><td class="src">mars-thz/sim/sim_sensitivity.py</td></tr>
+        <tr><td>THz — feed horn gain / return loss</td><td class="num">18.33 dBi / −28.0 dB</td><td class="src">mars-thz/sim/hfss_horn_183.py (HFSS 2026.1)</td></tr>
+        <tr><td>THz — window-channel sky brightness</td><td class="num">0.470 K</td><td class="src">mars-thz/sim/sim_window.py</td></tr>
+        <tr><td>THz — ground pickup, six decades narrowed to</td><td class="num">1.49 K</td><td class="src">mars-thz/sim/sim_sidelobe.py</td></tr>
+        <tr><td>SWIR — minimum detectable ice abundance</td><td class="num">2.1 wt%</td><td class="src">mars-swir/sim/01_filter_bands.py</td></tr>
+        <tr><td>SWIR — haze contrast gain (coarse storm: 1.194, no gain)</td><td class="num">2.07×</td><td class="src">mars-swir/sim/02_dust_transmission.py</td></tr>
+        <tr><td>SWIR — 0.05 MR airglow, cooled vs uncooled</td><td class="num">SNR 319 vs 3.8</td><td class="src">mars-swir/sim/03_airglow_snr.py</td></tr>
+        <tr><td>SWIR — passive night equilibrium</td><td class="num">−74.4 °C</td><td class="src">mars-swir/sim/04_tec_mars.py</td></tr>
+        <tr><td>Radio — Galactic sky temperature at 0.5 MHz</td><td class="num">2.2×10⁷ K</td><td class="src">mars-radio/sim/01_sky_noise.py</td></tr>
+        <tr><td>Radio — ionospheric cutoff, noon → night</td><td class="num">4.0 → 0.63 MHz</td><td class="src">mars-radio/sim/03_ionosphere.py</td></tr>
+        <tr><td>Radio — usable window, night (Earth: 0%)</td><td class="num">97%</td><td class="src">mars-radio/sim/03_ionosphere.py</td></tr>
+        <tr><td>Radio — capacitive-divider loss at 0.5 MHz</td><td class="num">12%</td><td class="src">mars-radio/sim/05_frontend.py</td></tr>
+        <tr><td>Radio — SEP warning, 100 → 10 MeV protons</td><td class="num">27–105 min</td><td class="src">mars-radio/sim/07_burst_warning.py</td></tr>
+        <tr><td>Seis — VBB period, Mars vs same hardware on Earth</td><td class="num">2.53 s vs 0.60 s</td><td class="src">mars-seis/sim/01_vbb_pendulum.py</td></tr>
+        <tr><td>Seis — night noise floor at 0.5 Hz</td><td class="num">1.36e-10 m/s²/√Hz</td><td class="src">mars-seis/sim/02_noise_budget.py</td></tr>
+        <tr><td>Seis — day/night noise ratio</td><td class="num">×179</td><td class="src">mars-seis/sim/02_noise_budget.py</td></tr>
+        <tr><td>Seis — 50-launch stack pick precision</td><td class="num">0.28 ms</td><td class="src">mars-seis/sim/04_launch_source.py</td></tr>
+        <tr><td>Seis — feedback flattening of the Q=200 resonance</td><td class="num">88.7 dB</td><td class="src">mars-seis/sim/09_response_calib.py</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>What broke</h2></div>
+    <p class="lead">Six books running in parallel produced six different ways to be wrong. These are
+      the ones worth reading.</p>
+
+    <div class="broke">
+      <div class="who">mars-swir · ledger 2</div>
+      <h3>The premise of the station was false</h3>
+      <p>"Short-wave infrared sees through dust" was the reason to build it. Running a full Mie
+        calculation says otherwise for the <em>main storm mode</em>: 1–1.5 µm grains land squarely on
+        the first Mie resonance at 1.6 µm, giving an opacity ratio of 1.194 — SWIR is very slightly
+        <em>worse</em> than visible through a real dust storm. The genuine benefit survives in the
+        sub-micron haze phase, where the ratio is 0.635 and contrast improves 2.07×. The station
+        kept its job; the slogan on its card did not.</p>
+    </div>
+
+    <div class="broke">
+      <div class="who">mars-thz · ledgers 8a and 8b</div>
+      <h3>An error bar six decades wide, closed by a parameter nobody had written down</h3>
+      <p>Ground pickup through the antenna's far sidelobes was bracketed between 10⁻⁵ K and 8.9 K —
+        useless in both directions, and honest enough to be stated that way rather than averaged. The
+        follow-up ledger found the missing quantity was never a tolerance but the mirror's surface
+        <em>correlation length</em>: at the same 27 µm rms, 0.5 mm correlation throws 7.33 K into the
+        far field and 5 mm throws 0.0002 K. That is a manufacturing-process specification —
+        diamond-turned, not polished — and it had never appeared in any requirement. The same pass
+        caught three numerical bugs with one gate: <code>u = k·sin θ</code> folds back past 90°, which
+        made the far field at 180° equal the main lobe and beam efficiency read 0.459 against a
+        claimed 0.95. Fixed, it reads 0.958.</p>
+    </div>
+
+    <div class="broke">
+      <div class="who">mars-uv · ledgers R7 and R8</div>
+      <h3>Two delivered claims withdrawn by their own ledgers</h3>
+      <p>The knowledge card promised cosine response better than 3% out to 70°. The measurement
+        ledger says an isotropic diffuser gives 7.5%, reaching <strong>−16.8% at 70°</strong> — and
+        because it is a systematic under-report, it errs in the unsafe direction on an instrument
+        whose job is a radiation-dose warning. It is recoverable, but only because the station's own
+        UV-A channel measures the dust opacity that sets the diffuse fraction, closing a three-channel
+        self-correction loop down to 1.25% residual. The second withdrawal was simpler: a "2.3 GHz of
+        headroom" claim belonged to the photodiode, while the transimpedance amplifier that actually
+        reads it is pinned at 33.6 kHz. Fast events need a second low-gain channel — a design item,
+        not free margin.</p>
+    </div>
+
+    <div class="broke">
+      <div class="who">mars-ir · ledger 7</div>
+      <h3>Reflectance greater than one</h3>
+      <p>The absorber-cavity model returned R &gt; 1, which is a gain medium made of aluminium and
+        silicon nitride. The cause was a convention collision: the physics form n = n′ + ik had been
+        fed into Macleod characteristic matrices, which require N = n − ik, so every lossy layer was
+        amplifying. Three known-answer gates now run before any number prints — a bare aluminium
+        mirror must return 0.983, an ideal Salisbury screen must absorb 1.000 at quarter-wave, and
+        detuning to λ/8 must visibly break it. An independent Sentaurus TCAD run later reproduced the
+        corrected spectrum to 0.001%.</p>
+    </div>
+
+    <div class="broke">
+      <div class="who">mars-seis · ledgers 6 and 9</div>
+      <h3>A cross-ledger gate catching arithmetic two ledgers away</h3>
+      <p>Ledger 6 wrote the pendulum's ω₀² as 1.4685, which corresponds to a 5.18 s period where
+        ledger 1 had established 2.53 s. Nothing inside ledger 6 could see the error; it surfaced
+        because ledger 9 independently recomputed the response gain from the same physical parameters
+        and the consistency check failed. The conclusions survived — the drama did not, with the
+        over-range factor falling from 5.1× to 1.21× — and the rule that came out of it is that
+        same-source parameters must be derived in exactly one place.</p>
+    </div>
+
+    <div class="broke">
+      <div class="who">mars-radio · ledger 5</div>
+      <h3>A true slogan applied to the wrong quantity</h3>
+      <p>Ledger 1 proved the front end can be bad, because sky noise is 10⁵–10⁷ K and swamps
+        everything. Ledger 5 is the correction: that is true of the <em>noise figure</em> and false of
+        the <em>topology</em>. A 5 m dipole at 1 MHz presents 0.055 Ω of radiation resistance against
+        −12 kΩ of reactance, a Q of about 1.6×10⁵ that nothing conjugate-matches and nothing needs to.
+        The real circuit is a capacitive voltage divider into a high-impedance FET, and two pieces of
+        the built geometry fall straight out of it: the amplifier box at the mast top, because 3 m of
+        cable doubles the band-bottom loss, and blade arms instead of wires, because a strip of width
+        w has effective radius w/4 and that is the only geometric lever left.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>Try it</h2></div>
+    <p class="lead">All six stations are walkable in the viewer, and five of them are doing something
+      while you watch.</p>
+    <div class="prose">
+      <p>Open the city and press <kbd>V</kbd> near any station to bring up its knowledge cards — every
+        number in the table above appears on a card, in English or Chinese. The thermal tower's
+        console screen is not a texture: a real perception camera sits behind the germanium lens and
+        the false-colour image follows wherever the gimbal points. The seismometer's screen is a
+        deterministic replay of the synthetic seismogram ledger, running about 300× faster than
+        InSight's real event rate, and it paints the daily 14:00 launch two seconds after the pad
+        fires — one P-wave travel time later.</p>
+      <p>Best time to visit is night. The radio array only has a band after dark, the SWIR camera
+        needs the sky dark to see the 1.27 µm airglow, the seismometer's floor drops by 179×, and the
+        thermal camera stops seeing albedo and starts seeing pure thermal inertia — which is when
+        buried-habitat heat leaks and pipe-rack cold bridges show up.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/spectrum/seis.jpg" alt="Seismic station at dusk, wind shield and solar wings" loading="lazy">
+      <figcaption>THE QUIETEST ADDRESS IN TOWN — 614 m FROM EVERY VIBRATION SOURCE THE CITY OWNS</figcaption>
+    </figure>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0 0 8px;">Design ledgers: <span class="src">mars-ir/README.md</span> ·
+      <span class="src">mars-uv/README.md</span> · <span class="src">mars-thz/README.md</span> ·
+      <span class="src">mars-swir/DESIGN.md</span> · <span class="src">mars-radio/README.md</span> ·
+      <span class="src">mars-seis/DESIGN.md</span></p>
+    <p style="margin:0 0 8px;">City assets: <span class="src">viewer/units/sci-{ir,uv,thz,swir,radio,seis}-01.js</span> ·
+      number anchors: <span class="src">docs/assets/spectrum/dev-notes.md</span></p>
+    <p style="margin:0;">Solvers: Sentaurus TCAD P-2019.03 · COMSOL 6.3 · Ansys HFSS 2026.1 ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

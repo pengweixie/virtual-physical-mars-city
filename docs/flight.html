@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flight Ops — Virtual-Physical Mars City</title>
+<meta name="description" content="A 5 kg coaxial scout helicopter, its pad and hangar: what hovering costs in 0.6% of Earth's air, an 80 s baked flight loop that closes exactly, and the battery ledger that decides whether it flies at all.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--red);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .figure img{width:100%;}
+  .phases{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:32px;
+    border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .ph{background:var(--bg-3);padding:12px 10px;}
+  .ph__t{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;color:var(--accent);}
+  .ph__n{font-size:.84rem;margin-top:5px;line-height:1.35;}
+  .ph--air{background:color-mix(in srgb,var(--accent) 12%,var(--bg-3));}
+  @media(max-width:860px){.phases{grid-template-columns:repeat(4,1fr);}}
+  @media(max-width:520px){.phases{grid-template-columns:repeat(2,1fr);}}
+  .callout{margin-top:30px;border:1px solid var(--line-strong);border-left:3px solid var(--accent);
+    border-radius:10px;background:var(--bg-3);padding:18px 22px;max-width:var(--textw);}
+  .callout p{margin:0;color:var(--ink-dim);}
+  .callout a{color:var(--accent);text-decoration:none;font-weight:600;}
+  .callout a:hover{text-decoration:underline;}
+  .broke{margin-top:30px;display:grid;gap:16px;}
+  .broke__item{border:1px solid var(--line);border-radius:12px;background:var(--bg-3);padding:18px 22px;}
+  .broke__h{font-weight:600;display:flex;gap:10px;align-items:baseline;}
+  .broke__h .n{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);}
+  .broke__item p{margin:8px 0 0;color:var(--ink-dim);font-size:.96rem;}
+  .try{margin-top:34px;border:1px solid var(--line);border-radius:12px;background:var(--bg-3);
+    padding:22px 24px;}
+  .try h3{font-size:1.05rem;margin-bottom:6px;}
+  .try ul{margin:10px 0 0;padding-left:20px;color:var(--ink-dim);font-size:.96rem;}
+  .try li{margin:6px 0;}
+  .kbd{font-family:var(--f-mono);font-size:.82rem;border:1px solid var(--line-strong);
+    border-radius:6px;padding:1px 7px;background:var(--bg-2);white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="environment.html">← Prev</a>
+    <a href="town.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">veh-heli-01 · pad · hangar · charge dock</div>
+    <h1>Flight Ops</h1>
+    <p class="phead__sub">The first thing in this city with rotors. Five kilograms, a 1.8 m coaxial
+      rotor, and air at 1.7% of Earth's density — which makes hovering cost roughly twice the power
+      it would take on Earth despite weighing 2.6× less. Every second of its 80 s survey loop is a
+      closed-form function of time, and the battery, not the aerodynamics, decides whether it flies
+      today.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Hover, 5 kg</div><div class="spec__v">604 W<small> rotor · 805 W elec</small></div></div>
+    <div class="spec"><div class="spec__k">Rotor</div><div class="spec__v">1,698<small> rpm · tip Ma 0.667</small></div></div>
+    <div class="spec"><div class="spec__k">Baked loop</div><div class="spec__v">80 s<small> 269 revs · closes exactly</small></div></div>
+    <div class="spec"><div class="spec__k">Cold start</div><div class="spec__v">−20 °C<small> trips in 1 s</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>A helipad east of the print works</h2></div>
+    <p class="lead">Pad, hangar, charge dock and one aircraft — Ingenuity's grandchild, sized for city errands.</p>
+    <div class="prose">
+      <p>The whole installation is a single asset at <span class="src">(150, −40)</span>: a 10 m
+      sintered-regolith disc with an H marking and four blinking approach lights, a shed with a
+      half-rolled door holding a spare-blade rack, a charge post cabled to the pad, and a windsock
+      that hangs limp almost always — at 8 m/s the Martian dynamic pressure is
+      <strong>0.54 Pa</strong> against the ~30 Pa it would take to inflate it.</p>
+      <p>The aircraft is a <strong>coaxial twin-rotor scout, 5.0 kg gross, 1.8 m rotor diameter</strong>,
+      on the Ingenuity → Mars Science Helicopter line. Gold MLI blanket over a carbon-decked fuselage,
+      solar panel on the mast head, camera gimbal and laser altimeter on the belly, four compliant
+      legs. Its beat is the stuff nobody can walk: the <strong>429 m radiator array</strong>, the
+      pipeline corridors, and a fast citywide survey after every dust storm.</p>
+      <p>Recharge comes off the city grid, not the sun. That single fact separates it from the real
+      Ingenuity, which waited a sol on solar between 90-second hops: here a sortie costs
+      <strong>131 Wh</strong> and the dock puts it back in minutes. The mast panel is a trickle
+      heater and a limp-home reserve, nothing more.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/flight/pad-takeoff.jpg" alt="The scout helicopter lifting off its sintered pad next to the hangar, city on the horizon" loading="lazy">
+      <figcaption>VEH-HELI-01 — LIFTOFF FROM THE SINTERED PAD. HANGAR AND CHARGE DOCK LEFT, WINDSOCK RIGHT, CITY ON THE HORIZON.</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/flight/airframe.jpg" alt="Close view of the airframe: gold MLI fuselage, twin swashplates, three-segment blades, two-segment legs" loading="lazy">
+        <figcaption>AIRFRAME — GOLD MLI BOX, TWIN SWASHPLATES WITH SIX PUSH-RODS, THREE-SEGMENT TWISTED BLADES.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/flight/hangar.jpg" alt="The hangar with rolled door, status screen and spare-blade rack" loading="lazy">
+        <figcaption>HANGAR — SPARE-BLADE RACK INSIDE. BLADES ARE A LOW-RE CONSUMABLE; PACKS GET SWAPPED ONCE A MARS YEAR.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>What hovering costs in 0.6% air</h2></div>
+    <p class="lead">Three ledgers set the whole airframe: momentum theory, the speed of sound in cold CO₂, and the Reynolds number of a blade the size of a ruler.</p>
+    <div class="prose">
+      <p>Momentum theory first. Weight is <strong>18.55 N</strong> over a 2.545 m² shared coaxial disc,
+      so disc loading is 7.29 N/m² — and at ρ = 0.017 kg/m³ the rotor must throw that thin air downward
+      at an induced velocity of <strong>14.6 m/s</strong>. Ideal induced power is 272 W; with a figure
+      of merit of 0.45 (honest for this Reynolds regime) the shaft needs <strong>604 W</strong>, and
+      the motors draw 805 W. The same airframe on Earth would need an induced velocity of just 2.8 m/s
+      and 306 W. Mars makes it weigh 2.6× less and still costs <strong>5.2× the power per newton of
+      lift</strong> — because induced velocity scales as 1/√ρ, and 72× thinner air beats 2.6× weaker
+      gravity every time.</p>
+      <p>Then compressibility. Cold CO₂ carries sound at only <strong>~240 m/s</strong>, roughly 70%
+      of Earth's, so the blade tips hit their Mach wall early: capping tips at 0.7 Ma allows
+      <strong>1,783 rpm</strong> at R = 0.9 m. The design sits just below it at 160 m/s tip speed —
+      <strong>1,698 rpm, Ma 0.667</strong>, blade loading C<sub>T</sub>/σ = 0.118. In the viewer the
+      rotors turn at 240 rpm, exactly 1/7.1 of truth: at the real rate a 60 fps frame advances the
+      blade 170° and the rotor reads as a stationary blur. Both numbers are written on the card.</p>
+      <p>And the reason the rotor is so big in the first place: at 0.10 m chord and 120 m/s the blade
+      Reynolds number is <strong>1.9 × 10⁴</strong> — an Earth helicopter blade runs near 5 × 10⁶, a
+      factor of 280. Below Re ≈ 7 × 10⁴ laminar separation collapses smooth-airfoil lift-to-drag from
+      O(100) to about 20, and cambered thin plates start winning. Big disc, near-sonic tips, wide thin
+      blades: all three walls push the same way, which is why the rotor dominates the vehicle instead
+      of decorating it.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/flight/hover_power.png" alt="Hover rotor power versus gross mass, Mars against Earth" loading="lazy">
+        <figcaption>MOMENTUM-THEORY HOVER — 604 W ROTOR AT 5 kg ON MARS vs 306 W ON EARTH, SAME AIRFRAME.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/flight/tip_mach.png" alt="Rotor speed ceiling versus radius at tip Mach 0.7, with the operating point and the display rate" loading="lazy">
+        <figcaption>TIP-MACH CEILING — 1,783 rpm AT R = 0.9 m; OPERATING POINT 1,698 rpm, DISPLAYED AT 240.</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/flight/low_re.png" alt="Maximum lift-to-drag versus Reynolds number, showing the collapse below 7e4 and the Mars rotor band" loading="lazy">
+      <figcaption>LOW-RE COLLAPSE — BLADE Re 1.9 × 10⁴ SITS INSIDE THE BAND WHERE SMOOTH AIRFOILS STOP WORKING.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The loop, and the balance behind it</h2></div>
+    <p class="lead">Eighty seconds of flight written as a pure function of time — and a power balance that had to agree with a completely separate simulation.</p>
+    <div class="prose">
+      <p>The flight is <em>baked</em>: position, heading, rotor angle and attitude are closed-form
+      functions of <span class="src">t mod 80</span> with smoothstep blends, never integrated state.
+      Drop into the timeline at any instant and the aircraft is exactly where physics says it should
+      be; the loop wraps seamlessly because the rotor turns <strong>exactly 269 revolutions</strong>
+      per cycle (spin-up parabola, constant, spin-down parabola), verified by comparing the full
+      transform tree at t = 0 and t = 80 — <strong>maximum matrix difference 0</strong>.</p>
+    </div>
+    <div class="phases">
+      <div class="ph"><div class="ph__t">0–3 s</div><div class="ph__n">Parked, rotors still</div></div>
+      <div class="ph"><div class="ph__t">3–9 s</div><div class="ph__n">Spin-up</div></div>
+      <div class="ph ph--air"><div class="ph__t">9–17 s</div><div class="ph__n">Vertical climb to 32 m</div></div>
+      <div class="ph ph--air"><div class="ph__t">17–63 s</div><div class="ph__n">Tangent out, 73 m circuit of the mine, tangent home</div></div>
+      <div class="ph ph--air"><div class="ph__t">63–71 s</div><div class="ph__n">Decelerating descent</div></div>
+      <div class="ph"><div class="ph__t">71–75.5 s</div><div class="ph__n">Touchdown, spin-down</div></div>
+      <div class="ph"><div class="ph__t">75.5–80 s</div><div class="ph__n">Parked again</div></div>
+    </div>
+    <div class="prose">
+      <p><strong>Obstacle clearance was sampled, not assumed.</strong> Seventy points along the route
+      were queried against the real terrain heightmap inside the running engine: the highest ground
+      under the track is 48.7 m, the pad sits at 40.7 m, and cruising at 32 m AGL puts the aircraft
+      <strong>24.0 m above the worst terrain</strong> against a 15 m rule. Laterally the patrol circle
+      clears the mine's measured bounding box by <strong>20.1 m</strong> against a 20 m rule — a margin
+      that took a rework to earn (see below). A full-cycle envelope sweep at 0.05 s steps over every
+      mesh confirms nothing ever dips into the ground.</p>
+      <p>Then the part that had been missing: an actual <strong>power balance</strong>. Forward-flight
+      power splits into induced (Glauert), profile (blade drag, growing with μ²) and parasite
+      (airframe), calibrated so that V = 0 reproduces the hover ledger exactly — the FM 0.45 figure
+      decomposes into κ = 1.53 and C<sub>d0</sub> = 0.06. At the loop's 11.8 m/s cruise the split is
+      354 + 193 + 1.4 W, giving <strong>731 W electrical</strong>. The battery simulation, written
+      independently and days earlier, had assumed 740 W: the two paths agree to <strong>−1.2%</strong>.
+      The parasite term being 1.4 W is the Martian punchline — in 610 Pa there is almost nothing to
+      push against, the U-curve's right branch barely lifts, and minimum power sits way out at
+      <strong>33 m/s</strong>. Cruising at 12 m/s is a navigation and gust-margin decision, not an
+      aerodynamic optimum.</p>
+      <p>Trim closes it. Level flight needs only <strong>0.9°</strong> of nose-down; but accelerating
+      at 2.35 m/s² demands atan(a/g) = <strong>32.4°</strong> where Earth would need 13.5° — low
+      gravity makes every Martian maneuver visibly steeper. The baked loop shows the trim angle at its
+      physical value and caps the acceleration tilt near 14°, the same declared display convention as
+      the 1/7.1 rotor rate. On the coaxial pair, the lower rotor eats the upper's contracted wake, so
+      torque balance at equal rpm splits thrust <strong>59/41</strong> with an interference factor of
+      1.30 against an isolated pair — Leishman's classic 1.28 corroborates the model. With no tail
+      rotor, yaw is differential rpm: a ±5% bias gives 0.34 N·m and <strong>173°/s²</strong>.</p>
+      <p>Underneath the aircraft is a <strong>64 × 64 navigation camera at 2 Hz</strong> declared
+      through the engine's sensor channel — the same mechanism the mine excavator and the undercity
+      humanoid use. The engine renders it offscreen on budget and hands back raw RGBA; the asset reads
+      mean luma and drives its gimbal indicator with it. In a 100 s in-engine test the channel
+      delivered 195 frames. If an engine has no sensor channel at all, the same file falls back to the
+      baked loop — graceful degradation is a hard contract here.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/motion/heli.gif" alt="The full baked flight loop: liftoff, chase view around the patrol circuit, and landing" loading="lazy">
+      <figcaption>ONE FULL SORTIE — LIFTOFF, PATROL CIRCUIT, APPROACH AND TOUCHDOWN. CAPTURED FRAME-BY-FRAME FROM THE RUNNING CITY.</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/flight/trim_power_curve.png" alt="Forward-flight power decomposition into induced, profile and parasite" loading="lazy">
+        <figcaption>P(V) — 731 W AT CRUISE vs THE BATTERY SIM'S ASSUMED 740 W. PARASITE POWER IS 1.4 W.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/flight/trim_attitude.png" alt="Trim tilt versus speed, and required acceleration tilt on Mars versus Earth" loading="lazy">
+        <figcaption>TRIM 0.9° LEVEL · ACCEL TILT 32.4° AT 2.35 m/s² — 2.4× STEEPER THAN EARTH FOR THE SAME PUSH.</figcaption>
+      </figure>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/flight/trim_coax.png" alt="Coaxial torque-balanced thrust split and yaw authority versus differential rpm" loading="lazy">
+        <figcaption>COAX BALANCE — 59/41 THRUST SPLIT, ±5% RPM BIAS BUYS 173°/s² OF YAW.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/flight/navcam.png" alt="The navigation camera frame as the asset consumes it, raw and gamma-lifted" loading="lazy">
+        <figcaption>NAV CAM AT 32 m — RAW 64×64 AS CONSUMED (LEFT), GAMMA-LIFTED (RIGHT). THE GREEN PIXELS ARE THE MINE.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The battery decides when it flies</h2></div>
+    <p class="lead">A cold lithium pack on Mars does not die of energy. It dies of power, one second into spin-up.</p>
+    <div class="prose">
+      <p>The pack is eighteen 18650 power cells in <strong>6s3p</strong>: 1.10 kg all-in with BMS,
+      busbars, film heater, aerogel and shell — <strong>194 Wh, 177 Wh/kg</strong>. Hover pulls 37 A,
+      which is 4.1C per cell and leaves only 1.21× headroom against the continuous rating; that
+      headroom is the entire reason for the third parallel string.</p>
+      <p>Discharge was simulated as a coupled electro-thermal ECM — an OCV(SoC) curve with an
+      Arrhenius internal resistance — over the full 130.7 Wh sortie profile. Started from a
+      <strong>−20 °C cold soak, the pack trips its 2.8 V cutoff one second into spin-up</strong>:
+      resistance is 3.7× its room-temperature value and the 900 W spin-up transient simply cannot be
+      delivered. Preheated to 0 °C on the dock, the same sortie completes, lands at
+      <strong>27.3% SoC</strong>, and along the way <strong>I²R self-heating carries the pack from
+      0 °C to 47 °C</strong> — the R(T) coupling is self-regulating, and it stays well under the 70 °C
+      limit. Usable energy works out to 131 of 194 Wh, i.e. <strong>67.5%</strong>, which is what the
+      earlier 70% derate assumption had been standing in for. That buys 9.8 minutes of hover, 10.6 of
+      cruise, 7.6 km of range and a ~3.1 km recon radius.</p>
+      <p>The thermal budget explains the operating rules. Under 10 mm of aerogel the pack leaks
+      0.08 W/K, so holding it at 0 °C overnight on the dock costs <strong>109 Wh per sol</strong>
+      (4.4 W average) — grid power, trivially affordable. Stranded off the pad it is another story:
+      unheated it reaches the −40 °C damage line in <strong>4.5 hours</strong>, and self-heating at
+      5 W survives 26 hours but consumes the entire pack. That single number is why a downed aircraft
+      is a <strong>same-sol recovery</strong>, not a tomorrow problem. Cycle life closes the loop at
+      0.027% fade per 70%-DoD cycle: 740 sorties to the 80% line, 82% left after a Mars year of daily
+      flying — one pack swap per Mars year, filed next to the spare blades.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/flight/batt_discharge.png" alt="Cell voltage, state of charge and pack temperature across the sortie from three start temperatures" loading="lazy">
+        <figcaption>SORTIE DISCHARGE — THE −20 °C CASE ENDS AT t = 1 s. THE 0 °C CASE SELF-HEATS TO 47 °C AND LANDS AT 27.3%.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/flight/batt_thermal.png" alt="Sol temperature cycle with docked heater line and off-pad self-heating survival curve" loading="lazy">
+        <figcaption>SOL THERMAL BUDGET — 109 Wh/SOL ON THE DOCK; 26 h OF SELF-HEAT OFF IT, AT THE COST OF THE WHOLE PACK.</figcaption>
+      </figure>
+    </div>
+    <div class="callout">
+      <p>Weather grounds it before the battery does. Dust optical depth from the weather mast and SEP
+      alerts from the radiation net share one alarm bus, and above τ ≈ 2 the aircraft stays on the pad
+      — not for lack of lift (ρ barely changes in a storm) but because camera navigation and dust
+      ingestion give out first. → <a href="environment.html">Environment Watch</a></p>
+    </div>
+    <figure class="figure">
+      <img src="assets/flight/pad-night.jpg" alt="The pad at night with the four approach lights blinking and the hangar status screen lit" loading="lazy">
+      <figcaption>PAD AT NIGHT — FOUR APPROACH BEACONS ON THE ENGINE'S BLINK CHANNEL, DOCK AND STATUS SCREEN ON THE NIGHT-LIGHT CHANNEL.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
+    <p class="lead">Every number on this page, and the run that produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Hover shaft power, 5 kg</td><td class="num">604 W</td><td class="src">mars-heli/scripts/heli_design.py</td></tr>
+        <tr><td>Induced velocity in hover</td><td class="num">14.6 m/s</td><td class="src">mars-heli/scripts/heli_design.py</td></tr>
+        <tr><td>Power per newton vs Earth</td><td class="num">5.2×</td><td class="src">mars-heli/scripts/heli_design.py</td></tr>
+        <tr><td>Rotor speed ceiling at tip Ma 0.7</td><td class="num">1,783 rpm</td><td class="src">mars-heli/scripts/heli_design.py</td></tr>
+        <tr><td>Operating rotor speed / tip Mach</td><td class="num">1,698 rpm · 0.667</td><td class="src">mars-heli/scripts/heli_design.py</td></tr>
+        <tr><td>Blade Reynolds number</td><td class="num">1.9 × 10⁴</td><td class="src">mars-heli/scripts/heli_design.py</td></tr>
+        <tr><td>Cruise power, forward-flight balance</td><td class="num">731 W</td><td class="src">mars-heli/scripts/heli_trim_sim.py</td></tr>
+        <tr><td>Agreement with the battery sim's assumption</td><td class="num">−1.2%</td><td class="src">heli_trim_sim.py × heli_batt_sim.py</td></tr>
+        <tr><td>Minimum-power speed</td><td class="num">33 m/s</td><td class="src">mars-heli/scripts/heli_trim_sim.py</td></tr>
+        <tr><td>Level trim / accel tilt at 2.35 m/s²</td><td class="num">0.9° · 32.4°</td><td class="src">mars-heli/scripts/heli_trim_sim.py</td></tr>
+        <tr><td>Coax thrust split · interference factor</td><td class="num">59/41 · 1.30</td><td class="src">mars-heli/scripts/heli_trim_sim.py</td></tr>
+        <tr><td>Yaw authority at ±5% rpm bias</td><td class="num">173°/s²</td><td class="src">mars-heli/scripts/heli_trim_sim.py</td></tr>
+        <tr><td>Pack mass · energy · specific energy</td><td class="num">1.10 kg · 194 Wh · 177 Wh/kg</td><td class="src">mars-heli/scripts/heli_batt_sim.py</td></tr>
+        <tr><td>Cold-soak cutoff at −20 °C</td><td class="num">1 s into spin-up</td><td class="src">mars-heli/scripts/heli_batt_sim.py</td></tr>
+        <tr><td>Landing SoC · self-heating from 0 °C</td><td class="num">27.3% · 0 → 47 °C</td><td class="src">mars-heli/scripts/heli_batt_sim.py</td></tr>
+        <tr><td>Usable energy fraction</td><td class="num">67.5% (131/194 Wh)</td><td class="src">mars-heli/scripts/heli_batt_sim.py</td></tr>
+        <tr><td>Endurance · range</td><td class="num">10.6 min · 7.6 km</td><td class="src">heli_design.py × heli_batt_sim.py</td></tr>
+        <tr><td>Docked heater · off-pad survival</td><td class="num">109 Wh/sol · 4.5 h unheated</td><td class="src">mars-heli/scripts/heli_batt_sim.py</td></tr>
+        <tr><td>Pack life to 80%</td><td class="num">740 sorties</td><td class="src">mars-heli/scripts/heli_batt_sim.py</td></tr>
+        <tr><td>Loop closure (rotor revolutions · matrix diff)</td><td class="num">269 · 0</td><td class="src">in-engine transform-tree comparison at t = 0 vs 80</td></tr>
+        <tr><td>Terrain clearance at cruise</td><td class="num">24.0 m</td><td class="src">in-engine sampleHeight, 70 route points</td></tr>
+        <tr><td>Lateral clearance from the mine</td><td class="num">20.1 m</td><td class="src">in-engine bounding-box measurement</td></tr>
+        <tr><td>Sensor frames in a 100 s test</td><td class="num">195 @ 2 Hz</td><td class="src">in-engine pumped-frame run, viewer/units/veh-heli-01.js</td></tr>
+        <tr><td>Windsock dynamic pressure at 8 m/s</td><td class="num">0.54 Pa</td><td class="src">mars-heli/DESIGN.md</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <p class="lead">Four reworks worth writing down, one of which was a safety margin that had quietly evaporated.</p>
+    <div class="broke">
+      <div class="broke__item">
+        <div class="broke__h"><span class="n">01</span><span>The patrol circle had 4.5 m of clearance, not 20</span></div>
+        <p>The baked circuit was laid out around the mine's <em>nominal</em> manifest position and
+        given a 65 m radius, which on paper cleared the site comfortably. Measuring the mine's actual
+        bounding box inside the running engine put its centre about 7 m off the nominal coordinate and
+        its far corner 60.5 m from the circle centre — <strong>4.5 m of lateral margin against a 20 m
+        rule</strong>. The fix was to re-anchor the circle on the measured box centre and open the
+        radius to 73 m, which restores 20.1 m. Design coordinates and as-built geometry are not the
+        same thing, and only one of them is what the aircraft flies past.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__h"><span class="n">02</span><span>"Too simple" — the first airframe was a box on sticks</span></div>
+        <p>The first delivery flew correctly and looked like a prop: a plain fuselage box, straight
+        legs, flat plank blades. The rework rebuilt it against Ingenuity's actual construction — gold
+        MLI over carbon decks, a camera plate with a real lens barrel, two-segment compliant legs, and
+        crucially the drivetrain made visible: lower motor housing, inter-rotor motor, <strong>two
+        swashplates with three push-rods each and pitch horns on the blade roots</strong>. The blades
+        became three tapered segments with 11.5° → 5° twist and 3° coning, which is also the geometry
+        that the low-Reynolds ledger had been arguing for all along. Cost: 2.5k → 3.3k triangles, with
+        the parked bounding box and every animation contract left untouched.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__h"><span class="n">03</span><span>The gold fuselage rendered black</span></div>
+        <p>The MLI blanket was first built as a <span class="src">MeshStandardMaterial</span> at
+        metalness 0.75 — physically the right call, and it came out near-black, because a metal with
+        no environment map has nothing to reflect. Replaced with a Lambert gold plus a lighter
+        highlight strip to fake the specular band. A scene-wide reflection probe would have been the
+        other fix, but not for one 40 cm box.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__h"><span class="n">04</span><span>The headless GIF recorder produced 0.5 fps of nothing</span></div>
+        <p>The city's standard capture tool drives a headless browser, which on this machine falls back
+        to software rendering: 12 frames in 24 seconds, and the pre-roll script ran before the asset had
+        finished loading. The animated card was instead captured deterministically from a visible page —
+        pump the animation to an exact phase, place the camera, read the canvas, one frame at a time —
+        then assembled with ffmpeg. Slower to write, but every frame lands on the phase it claims.</p>
+      </div>
+    </div>
+    <div class="try">
+      <h3>Try it in the city</h3>
+      <ul>
+        <li>Open the viewer, press <span class="kbd">C</span> for the future-Mars layer and head east
+          of the print works — the pad is at <span class="src">(150, −40)</span>, or use
+          <span class="src">?colony=1&amp;inspect=veh-heli-01</span> to fly straight to it.</li>
+        <li>Watch a full sortie: 80 seconds, and the aircraft returns to the exact spot and heading it
+          left from. Approach lights blink day and night; after dusk the dock and status screen light up.</li>
+        <li>Walk up to it for the seven knowledge cards — hover ledger, rotor and tip Mach, pad,
+          hangar and charge dock, battery, windsock, patrol route — each in English or Chinese.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">mars-heli/DESIGN.md</span> ·
+      Simulations: <span class="src">mars-heli/scripts/heli_design.py</span>,
+      <span class="src">heli_batt_sim.py</span>, <span class="src">heli_trim_sim.py</span> ·
+      City asset: <span class="src">viewer/units/veh-heli-01.js</span> ·
+      Knowledge cards: <span class="src">viewer/units/veh-heli-01.info.json</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

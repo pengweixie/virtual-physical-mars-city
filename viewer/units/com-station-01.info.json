@@ -4,67 +4,170 @@
     {
       "id": "dish",
       "label": "主天线 · 12 m 抛物面",
+      "label_en": "Main antenna - 12 m reflector",
       "range": 30,
       "detail": "地平式卡塞格林天线:白色主反射面 f/D≈0.4,三脚馈源支架 + 副反射器,背面桁架肋,朝天面覆铁锈色火星尘膜。指向偏天顶 30° 对头顶静止轨道中继星,方位/俯仰极缓慢扫动为跟踪/切换中继星。",
-      "specs": { "口径": "12 m", "波段": "Ka 32/34 GHz + X 8.4 GHz", "增益(Ka)": "≈70.5 dBi", "波束宽度(Ka)": "≈0.05°", "指向": "偏天顶 30°(仰角 60°)" },
+      "detail_en": "An az-el mounted Cassegrain: 12 m white primary at f/D ~0.4, tripod feed legs carrying the subreflector, truss ribs across the back, and a rust-coloured film of Martian dust on every sky-facing surface. It sits 30 deg off zenith on the areostationary relay overhead; the slow azimuth and elevation drift you see is tracking, and occasionally handing over to another relay.",
+      "specs": {
+        "口径": "12 m",
+        "波段": "Ka 32/34 GHz + X 8.4 GHz",
+        "增益(Ka)": "≈70.5 dBi",
+        "波束宽度(Ka)": "≈0.05°",
+        "指向": "偏天顶 30°(仰角 60°)"
+      },
+      "specs_en": {
+        "Aperture": "12 m",
+        "Bands": "Ka 32/34 GHz + X 8.4 GHz",
+        "Gain (Ka)": "~70.5 dBi",
+        "Beamwidth (Ka)": "~0.05 deg",
+        "Pointing": "30 deg off zenith (60 deg elevation)"
+      },
       "physics": "波束宽度由衍射极限定:θ≈70λ/D。Ka 波段 9.4 mm 波长配 12 m 口径,得 0.05° 铅笔束——增益与指向精度是同一枚硬币的两面。",
-      "sim": "逐级链路预算:下行(中继星→站)C/N₀=117.0 dB-Hz,600 Mbps 下 Eb/N₀ 余量 24.7 dB;满尘暴(衰减 5 dB + Tsys 75→212 K)吃掉约 9.5 dB 仍不掉线——余量是刻意银行化扛最坏工况的。"
+      "physics_en": "Beamwidth is set by the diffraction limit, theta ~ 70*lambda/D. A 9.4 mm Ka wavelength across a 12 m aperture gives a 0.05 deg pencil beam - gain and pointing accuracy are two faces of the same coin.",
+      "sim": "逐级链路预算:下行(中继星→站)C/N₀=117.0 dB-Hz,600 Mbps 下 Eb/N₀ 余量 24.7 dB;满尘暴(衰减 5 dB + Tsys 75→212 K)吃掉约 9.5 dB 仍不掉线——余量是刻意银行化扛最坏工况的。",
+      "sim_en": "Term-by-term link budget: the relay-to-station downlink closes at C/N0 = 117.0 dB-Hz, leaving 24.7 dB of Eb/N0 margin at 600 Mbps. A full global dust storm costs about 9.5 dB (5 dB attenuation plus the receiver warming from 75 K to 212 K) and the link still holds - that margin is banked deliberately for the worst case."
     },
     {
       "id": "feed",
       "label": "馈源 · 低温前端(定 G/T)",
+      "label_en": "Feed - cryogenic front end (sets G/T)",
       "range": 22,
       "detail": "接收灵敏度在这里一次性决定:馈源喇叭 → 极化器 → 正交模耦合器/收发双工器 → 金箔低温 LNA 杜瓦(斯特林制冷 ~20 K)。双工器隔离 800 W 发射与低噪声接收,单馈源收发共用;单脉冲耦合器同时从波前取指向误差喂给自动跟踪。舱顶斯特林压缩机经低温传输线供冷。",
-      "specs": { "系统噪声温度": "75 K", "G/T (Ka)": "51.8 dB/K", "LNA 物理温度": "≈20 K", "馈电": "圆极化 · 卡塞格林" },
+      "detail_en": "Receive sensitivity is decided once, here: feed horn, polarizer, orthomode transducer and transmit/receive diplexer, then the gold-foil dewar holding the LNA at ~20 K on Stirling cooling. The diplexer is what lets one feed carry both an 800 W transmitter and a low-noise receiver without the former destroying the latter. A monopulse coupler taps the same wavefront for pointing error and feeds the autotrack loop; the shelter-roof compressor supplies cold through cryogenic transfer lines.",
+      "specs": {
+        "系统噪声温度": "75 K",
+        "G/T (Ka)": "51.8 dB/K",
+        "LNA 物理温度": "≈20 K",
+        "馈电": "圆极化 · 卡塞格林"
+      },
+      "specs_en": {
+        "System noise temperature": "75 K",
+        "G/T (Ka)": "51.8 dB/K",
+        "LNA physical temperature": "~20 K",
+        "Feed": "circular polarization, Cassegrain"
+      },
       "physics": "Friis 级联噪声:第一级放大器之前丢掉的信噪比后面永远补不回——所以把 LNA 制冷到 20 K 压噪声,是全站灵敏度的物理根基。G/T = G(dBi) − 10·log₁₀(Tsys)。",
-      "sim": "LNA 直流命脉已做成实体电路:偏置时序板 rev B(2 层,嘉立创EDA 全流程,Gerber 已出)——电荷泵负栅压先建、栅压好才使能漏极(HEMT 铁律),过流 24 mA 打嗝保护,电位器失效走深夹断安全侧。设计档案见 mars-com-station/hw。"
+      "physics_en": "Friis' cascade law is unforgiving: whatever signal-to-noise ratio is thrown away ahead of the first amplifier can never be recovered downstream. Cooling the LNA to 20 K is therefore the physical foundation of the whole station's sensitivity. G/T = G(dBi) - 10*log10(Tsys).",
+      "sim": "LNA 直流命脉已做成实体电路:偏置时序板 rev B(2 层,嘉立创EDA 全流程,Gerber 已出)——电荷泵负栅压先建、栅压好才使能漏极(HEMT 铁律),过流 24 mA 打嗝保护,电位器失效走深夹断安全侧。设计档案见 mars-com-station/hw。",
+      "sim_en": "The LNA's DC lifeline exists as real hardware: a two-layer bias sequencer board, rev B, taken through schematic capture, routing and Gerber export. It builds the negative gate rail first and only then enables the drain - the cardinal rule for HEMTs - trips at 24 mA into hiccup protection, and fails toward deep pinch-off if the trim pot opens. Design archive: mars-com-station/hw."
     },
     {
       "id": "drive",
       "label": "转台 · 伺服与自动跟踪",
+      "label_en": "Mount - servo drive and autotrack",
       "range": 20,
       "detail": "直径 4 m 方位转台 + 齿圈坐烧结圆坪,双伺服驱动柜(方位/俯仰)随台回转,小齿轮啮合齿圈。闭环由自动跟踪完成:馈源单脉冲耦合器取指向误差 → 碟背跟踪接收机生成方位/俯仰误差 → 驱动伺服,让 0.05° 铅笔束持续锁定中继星。",
-      "specs": { "方位": "360° 连续", "俯仰": "5°–90°", "跟踪": "单脉冲闭环", "指向残差(预算)": "≤0.6 dB" },
-      "physics": "开环指不准 0.05° 的束——闭环把'收到的信号'本身当误差源:和差波束比幅得偏角,这就是天线知道该指哪的原理。"
+      "detail_en": "A 4 m azimuth turntable and bull gear on a sintered regolith pad, with two servo cabinets - azimuth and elevation - riding around with the mount, their pinions meshing the ring gear. The loop is closed by autotrack: the monopulse coupler at the feed extracts a pointing error, the tracking receiver behind the dish turns it into azimuth and elevation corrections, and the servos keep a 0.05 deg pencil beam locked on the relay.",
+      "specs": {
+        "方位": "360° 连续",
+        "俯仰": "5°–90°",
+        "跟踪": "单脉冲闭环",
+        "指向残差(预算)": "≤0.6 dB"
+      },
+      "specs_en": {
+        "Azimuth": "360 deg continuous",
+        "Elevation": "5-90 deg",
+        "Tracking": "monopulse closed loop",
+        "Pointing loss (budgeted)": "<=0.6 dB"
+      },
+      "physics": "开环指不准 0.05° 的束——闭环把'收到的信号'本身当误差源:和差波束比幅得偏角,这就是天线知道该指哪的原理。",
+      "physics_en": "Open-loop pointing cannot hold a 0.05 deg beam. The closed loop makes the received signal its own error source: comparing sum and difference beam amplitudes yields the off-axis angle - that is how the antenna knows where to look."
     },
     {
       "id": "hpa",
       "label": "功放 HPA · 发射链(定 EIRP)",
+      "label_en": "HPA - transmit chain (sets EIRP)",
       "range": 20,
       "detail": "高功率放大器柜(行波管/速调管)+ 上变频,置于转台随方位回转以缩短上行波导;大面积散热片对付功放热耗。上行波导沿轭臂经俯仰旋转关节到馈源,与接收在双工器分路。接收看 G/T,发射看它。",
-      "specs": { "EIRP (Ka)": "98 dBW", "射频功率": "≈800 W", "上行": "34 GHz ≈100 Mbps" },
-      "sim": "上行预算:C/N₀=129.5 dB-Hz,100 Mbps 下余量 45 dB——地面站是'大炮',瓶颈在中继星 G/T 与频谱,可按需回退 HPA 省电。"
+      "detail_en": "High-power amplifier cabinet (TWT/klystron class) plus upconverter, mounted on the turntable so it rotates with the mount and keeps the uplink waveguide run short; the large fin stack handles the amplifier's heat. The waveguide climbs the yoke arm, crosses the elevation rotary joint to the feed, and splits from the receive path at the diplexer. Receive performance is G/T; transmit performance is this cabinet.",
+      "specs": {
+        "EIRP (Ka)": "98 dBW",
+        "射频功率": "≈800 W",
+        "上行": "34 GHz ≈100 Mbps"
+      },
+      "specs_en": {
+        "EIRP (Ka)": "98 dBW",
+        "RF power": "~800 W",
+        "Uplink": "34 GHz, ~100 Mbps"
+      },
+      "sim": "上行预算:C/N₀=129.5 dB-Hz,100 Mbps 下余量 45 dB——地面站是'大炮',瓶颈在中继星 G/T 与频谱,可按需回退 HPA 省电。",
+      "sim_en": "Uplink budget: C/N0 = 129.5 dB-Hz, leaving 45 dB of margin at 100 Mbps. The ground station is the loud end of this link - the bottleneck is the relay's G/T and the available spectrum, so the HPA can be backed off to save power whenever the link allows."
     },
     {
       "id": "timing",
       "label": "频率/时间基准 · 相干心脏",
+      "label_en": "Frequency and time standard - the coherent heart",
       "range": 18,
       "detail": "氢钟/USO 恒温频标柜:独立隔振地脚 + 金箔恒温热罩,LOCK 锁定灯常亮不闪(基准稳则不动)。为下变频、相干解调、测距与多普勒提供统一基准——深空网意义上全站真正的心脏,却是最不起眼的一柜。",
-      "specs": { "Allan 方差": "≈1e-13 @1s / 1e-15 @1000s", "链路体制": "相干双向(测距+多普勒)" },
-      "physics": "相干解调要求本振与信号相位在积分时间内不散步;测速靠多普勒计数、测距靠往返相位——全部除以'钟有多稳'。频标的 Allan 方差直接封顶测轨精度。"
+      "detail_en": "The hydrogen maser / ultra-stable oscillator cabinet: vibration-isolated feet, a gold-foil thermal enclosure, and a LOCK lamp that stays lit rather than blinking - a stable reference is one that never moves. It provides the single reference for downconversion, coherent demodulation, ranging and Doppler. In deep-space-network terms this is the true heart of the station, and it is the least impressive-looking cabinet on the pad.",
+      "specs": {
+        "Allan 方差": "≈1e-13 @1s / 1e-15 @1000s",
+        "链路体制": "相干双向(测距+多普勒)"
+      },
+      "specs_en": {
+        "Allan deviation": "~1e-13 @ 1 s / 1e-15 @ 1000 s",
+        "Link mode": "coherent two-way (ranging + Doppler)"
+      },
+      "physics": "相干解调要求本振与信号相位在积分时间内不散步;测速靠多普勒计数、测距靠往返相位——全部除以'钟有多稳'。频标的 Allan 方差直接封顶测轨精度。",
+      "physics_en": "Coherent demodulation requires the local oscillator to hold phase against the signal over the whole integration time. Velocity comes from counting Doppler cycles and range from round-trip phase - both divide straight through by how stable the clock is, so the Allan deviation of this cabinet sets the ceiling on orbit determination accuracy."
     },
     {
       "id": "core",
       "label": "核心设备撬装 · 基带与出站",
+      "label_en": "Equipment skid - baseband and backhaul",
       "range": 18,
       "detail": "防尘顶棚下三座机柜:调制解调、基带处理、电源调理——全站信号在此完成编解码。前面板状态灯:绿常亮=运行,琥珀闪=数据活动。基带数据经接线/复用箱 + 埋设管沟(光/电)回传居住区母网,是信号离开基站的最后一段。",
-      "specs": { "编码": "LDPC r=0.8", "下行吞吐": "≈600 Mbps", "出站": "光纤 + 电备份埋沟" }
+      "detail_en": "Three racks under a dust canopy - modem, baseband processor and power conditioning - where the station's signals are coded and decoded. Front-panel lamps read the state directly: steady green for running, blinking amber for data activity. From here the baseband leaves through a junction and multiplex box into a buried duct, fibre with an electrical backup, and runs home to the habitat network. This is the last segment of the chain before the signal stops belonging to the station.",
+      "specs": {
+        "编码": "LDPC r=0.8",
+        "下行吞吐": "≈600 Mbps",
+        "出站": "光纤 + 电备份埋沟"
+      },
+      "specs_en": {
+        "Coding": "LDPC r = 0.8",
+        "Downlink throughput": "~600 Mbps",
+        "Backhaul": "buried fibre + electrical backup"
+      }
     },
     {
       "id": "dte",
       "label": "对地直连碟 · 上合期备份",
+      "label_en": "Direct-to-Earth dish - conjunction backup",
       "range": 18,
       "detail": "3 m 小抛物面,独立转台,指向低空地球方向。上合期(太阳位于地火之间)主中继链路受日冕闪烁干扰时,直连地球深空网做应急遥测/指令——全站唯一真正吃紧的链路。",
-      "specs": { "口径": "3 m", "波段": "X 8.4 GHz", "应急速率": "500 bps", "最远距离": "2.5 AU" },
+      "detail_en": "A 3 m dish on its own small mount, aimed low toward Earth. During solar conjunction, when the Sun sits between the planets and coronal scintillation degrades the main relay trunk, this antenna talks straight to the Deep Space Network for emergency telemetry and commanding. It is the one genuinely tight link on the whole site.",
+      "specs": {
+        "口径": "3 m",
+        "波段": "X 8.4 GHz",
+        "应急速率": "500 bps",
+        "最远距离": "2.5 AU"
+      },
+      "specs_en": {
+        "Aperture": "3 m",
+        "Band": "X 8.4 GHz",
+        "Emergency rate": "500 bps",
+        "Max range": "2.5 AU"
+      },
       "physics": "2.5 AU 自由空间损耗 −282 dB,加上合期小 SEP 角的日冕闪烁 −8 dB——距离与几何主导一切,这就是它只做应急的原因。",
-      "sim": "上合最坏预算:C/N₀=52.4 dB-Hz,500 bps 超稳健地板余量 21.4 dB;晴几何下按 3 dB 余量可拉到 ≈35 kbps。"
+      "physics_en": "At 2.5 AU the free-space path loss is -282 dB, and a small Sun-Earth-probe angle at conjunction adds about -8 dB of coronal scintillation on top. Distance and geometry dominate everything else, which is exactly why this path is reserved for emergencies.",
+      "sim": "上合最坏预算:C/N₀=52.4 dB-Hz,500 bps 超稳健地板余量 21.4 dB;晴几何下按 3 dB 余量可拉到 ≈35 kbps。",
+      "sim_en": "Worst-case conjunction budget: C/N0 = 52.4 dB-Hz, leaving 21.4 dB of margin at the ultra-robust 500 bps floor. With clear geometry and only 3 dB of margin the same dish reaches about 35 kbps."
     },
     {
       "id": "beacon",
       "label": "信标塔 · 航空障碍灯",
+      "label_en": "Beacon mast - obstruction light",
       "range": 15,
       "detail": "6 m 拉索桅杆,顶端红色障碍灯闪烁,夜间与尘暴中标示天线回转包络,供 EVA 人员与飞行器规避。",
-      "specs": { "塔高": "6 m", "灯": "红色闪烁信标" }
+      "detail_en": "A 6 m guyed mast with a blinking red obstruction light on top, marking the antenna's swept envelope at night and through dust storms so EVA crews and aircraft keep clear.",
+      "specs": {
+        "塔高": "6 m",
+        "灯": "红色闪烁信标"
+      },
+      "specs_en": {
+        "Mast height": "6 m",
+        "Light": "red flashing beacon"
+      }
     }
   ]
 }

@@ -1,0 +1,183 @@
+{
+  "id": "sci-rad-01",
+  "pois": [
+    {
+      "id": "head",
+      "label": "Timepix4 探测头塔",
+      "label_en": "Timepix4 Detector Head Tower",
+      "range": 25,
+      "detail": "塔顶开放式探测头竖着三层 Timepix4 粒子相机(55 µm 像素,300 µm 硅):A 层裸硅只认带电粒子,是参考道;B 层贴 1 mm 聚乙烯转换层,快中子在里面撞出反冲质子才被看见;C 层贴 6LiF 薄膜,热中子俘获放出 α+氚。三层错位排开,每层前缘从地面都能读出来——裸层与转换层的差值就是中子谱。",
+      "detail_en": "The open head stacks three Timepix4 particle cameras (55 µm pixels, 300 µm Si): layer A is bare silicon — charged particles only, the reference channel; layer B wears a 1 mm polyethylene converter — fast neutrons only become visible by knocking out recoil protons; layer C wears a 6LiF film — thermal neutrons capture into α+triton. The layers are stepped so each front edge reads from the ground; the bare-minus-converter difference IS the neutron spectrum.",
+      "specs": {
+        "像素/厚度": "55 µm × 512×448 / 300 µm Si(6.94 cm²/片)",
+        "工作点": "150 V 背偏 · 阈值 500 e(冻结检查点)",
+        "前端": "ENC ~52.7 e · ToT-电荷相关 0.9923",
+        "转换层": "A 裸硅 / B 1 mm HDPE / C 2 µm ⁶LiF"
+      },
+      "specs_en": {
+        "Pixels/thickness": "55 µm × 512×448 / 300 µm Si (6.94 cm²/chip)",
+        "Operating point": "150 V backside bias · 500 e threshold (frozen checkpoint)",
+        "Front-end": "ENC ~52.7 e · ToT-charge correlation 0.9923",
+        "Converters": "A bare Si / B 1 mm HDPE / C 2 µm 6LiF"
+      },
+      "sim": [
+        "器件冻结检查点(自有 Timepix4 战役,Sentaurus 2D 场 + Allpix + Spectre AFE):p-spray d03 隔离、150 V/500 e 工作点全图均匀性 std 0.0017、最差点收集 0.492;中心/边/角 1/2/4 像素分摊拓扑逐点验证;stack-3 CSA ENC 52.7 e,30/30 端到端事件 ToT-电荷相关 0.9923",
+        "中子账(账3):1 mm HDPE n-p 反冲效率 0.02%→0.39%(1→14 MeV,含反冲逃逸 MC);⁶LiF 2 µm 热俘获 1.14%;对表 RAD 快段通量 0.05 n/cm²/s → 快道 2.2 计数/时、热道 ~86 计数/时——中子道就是慢,小时级出谱"
+      ],
+      "sim_en": [
+        "Frozen device checkpoint (own Timepix4 campaign: Sentaurus 2D field + Allpix + Spectre AFE): p-spray d03 isolation, 150 V/500 e operating point, full-map uniformity std 0.0017, worst-point collection 0.492; 1/2/4 pixel-sharing topology verified at center/edge/corner; stack-3 CSA ENC 52.7 e, ToT-charge correlation 0.9923 over 30/30 end-to-end events",
+        "Neutron ledger (#3): 1 mm HDPE n-p recoil efficiency 0.02%→0.39% (1→14 MeV, recoil-escape MC included); 6LiF 2 µm thermal capture 1.14%; against the RAD fast-band flux 0.05 n/cm²/s → 2.2 counts/hr fast, ~86 counts/hr thermal — the neutron channel is honestly slow, spectra on the hour scale"
+      ],
+      "physics": "中子不带电,硅直接看不见——必须先在转换层里变成带电粒子:快中子打氢核最有效(n-p 弹性,质量相同能量转移最大),热中子靠 ⁶Li(n,α)t 的 940 b 大截面。裸层同时在场,把带电粒子本底当场扣掉。",
+      "physics_en": "Neutrons carry no charge — silicon alone is blind. A converter must first turn them into charged particles: fast neutrons scatter best off hydrogen (equal masses, maximum energy transfer), thermal neutrons use the 940 b 6Li(n,α)t capture. The bare layer runs alongside to subtract the charged background on the spot."
+    },
+    {
+      "id": "screen",
+      "label": "实时径迹大屏",
+      "label_en": "Live Track-Morphology Screen",
+      "range": 30,
+      "detail": "监测站的灵魂:芯片上每一次穿越都以簇形态直播在屏上。绿色卷曲链=电子(多次散射打弯);橙色直粗棒、末端更亮=质子(布拉格峰收尾);红色饱和斑+放射状 δ 电子辐条=重离子。SEP 事件时整屏变成质子雨——警报塔同步转红。",
+      "detail_en": "The station's soul: every traversal of the chip is replayed live as a cluster shape. Green curly chains = electrons (bent by multiple scattering); thick straight amber bars brightening at one end = protons (ending in a Bragg peak); saturated red blobs with radial delta-ray spokes = heavy ions. During an SEP event the whole screen turns into proton rain — and the alert tower goes red with it.",
+      "specs": {
+        "分类判据": "簇尺寸 × 直线度 × 单像素 ToT",
+        "电子": "≥5 像素卷曲链 · 低 ToT",
+        "质子": "直线 2–15 像素 · ToT 5–30× MIP · 布拉格端",
+        "重离子": "饱和核 + δ 晕 · ToT >600× MIP"
+      },
+      "specs_en": {
+        "Criteria": "cluster size × linearity × per-pixel ToT",
+        "Electron": "≥5-pixel curly chain · low ToT",
+        "Proton": "straight 2–15 px · ToT 5–30× MIP · Bragg end",
+        "Heavy ion": "saturated core + delta halo · ToT >600× MIP"
+      },
+      "sim": "径迹账(账2):MIP 在 300 µm 硅 MPV 22.8 ke = 阈值 46×,最坏 4 路角分摊仍 11×——分类受形态不受阈值限制;LET 阶梯:e⁻ 0.24 / MIP 质子 0.42 / 10 MeV 质子 8.1 / Fe(1 GeV/u) 286 keV/µm;Fe 单击沉积 ~2350 万 e⁻,与电子相差 4 个量级,ToT 一眼分开",
+      "sim_en": "Track ledger (#2): MIP MPV in 300 µm Si is 22.8 ke = 46× threshold, still 11× under the worst 4-way corner split — classification is morphology-limited, not threshold-limited; the LET ladder: e⁻ 0.24 / MIP proton 0.42 / 10 MeV proton 8.1 / Fe (1 GeV/u) 286 keV/µm; one Fe hit deposits ~23.5 Me⁻, four decades above an electron — ToT separates them at a glance",
+      "physics": "Bethe-Bloch:电离损失 ∝ z²/β²,铁核 z²=676 倍于质子——这就是重离子饱和斑的来历;电子质量小,多次散射角大,径迹必然卷曲;慢化质子越走越慢、越慢损失越大,正反馈堆出布拉格峰。形态即物理。",
+      "physics_en": "Bethe-Bloch: ionization loss ∝ z²/β², an iron nucleus ionizes 676× a proton — hence the saturated blob; electrons are light, so multiple scattering bends them into curls; a stopping proton slows, loses more, slows further — the positive feedback piles up the Bragg peak. Morphology is the physics."
+    },
+    {
+      "id": "alert",
+      "label": "SEP 警报塔",
+      "label_en": "SEP Alert Tower",
+      "range": 30,
+      "detail": "三色灯柱吃的是 1 分钟滑动计数:绿=平静 GCR 本底;黄=计数爬升(>3× 平静);红+警铃=太阳质子事件到达(>30× 平静)。红警三动作:EVA 立即回舱、veh-heli-01 停飞(与气象站 τ>2 停飞并列同一块牌)、发射窗口冻结。计数率警报比剂量累积快得多——这是全城最快的 SEP 前哨。",
+      "detail_en": "The three-colour stack reads a 1-minute sliding count: green = quiet GCR background; yellow = counts climbing (>3× quiet); red + siren = solar proton event arrival (>30× quiet). Red-alert actions: EVA crews return immediately, veh-heli-01 grounded (sharing one sign with the weather station's τ>2 no-fly), launch windows frozen. A count-rate alarm beats any dose accumulation for speed — this is the city's fastest SEP sentinel.",
+      "specs": {
+        "绿": "< 3× 平静(~3.7 k 计数/分)",
+        "红": "> 30× 平静(~37 k 计数/分)",
+        "误报": "平静泊松涨落 σ≈1.6%/分 → 3× 阈距 >20σ",
+        "红警动作": "EVA 回舱 · 直升机停飞 · 发射冻结"
+      },
+      "specs_en": {
+        "Green": "< 3× quiet (~3.7 k counts/min)",
+        "Red": "> 30× quiet (~37 k counts/min)",
+        "False alarm": "quiet Poisson σ≈1.6%/min → 3× threshold is >20σ away",
+        "Red actions": "EVA recall · helicopter grounded · launches frozen"
+      },
+      "sim": "SEP 动态范围账(账4):平静 GCR 62 hit/s/片 → 1972 级最坏硬谱 SEP ~6.2×10⁵ hit/s,仅为 Timepix4 读出上限 3.58 Ghit/s 的 1.7×10⁻⁴,像素死时间占比 3×10⁻⁹——相机在火星地表永不饱和,动态范围瓶颈在遥测带宽不在芯片",
+      "sim_en": "SEP dynamic-range ledger (#4): quiet GCR 62 hit/s/chip → a worst-case 1972-class hard-spectrum SEP gives ~6.2×10⁵ hit/s, just 1.7×10⁻⁴ of the Timepix4 readout ceiling of 3.58 Ghit/s, with a pixel dead-time fraction of 3×10⁻⁹ — the camera never saturates on the Martian surface; the dynamic-range bottleneck is telemetry, not the chip",
+      "physics": "16 g/cm² 的 CO₂ 大气柱相当于 150 MeV 质子的射程——只有 SEP 的硬谱尾够得着地面,所以地表增幅(10³–10⁴×)远小于自由空间;也正因为只剩硬尾,计数一跳就是真事件,阈值可以放得很干净。",
+      "physics_en": "The 16 g/cm² CO₂ column equals the range of a 150 MeV proton — only the hard tail of an SEP reaches the ground, so surface enhancement (10³–10⁴×) is far below free space; and because only the hard tail survives, any count jump is a real event and the thresholds stay clean."
+    },
+    {
+      "id": "rack",
+      "label": "EVA 个人剂量牌充电架",
+      "label_en": "EVA Dosimeter Charging Rack",
+      "range": 20,
+      "detail": "八个卡槽,出舱前取牌、回舱后归位充电回读。牌上积的是 Q 加权剂量当量——与主相机同一套刻度。绿灯=充满且已回读。",
+      "detail_en": "Eight slots: take a badge before EVA, dock it after for charging and readout. Badges integrate Q-weighted dose equivalent on the same calibration as the main camera. Green light = charged and read out.",
+      "specs": {
+        "地表全日": "0.66 mSv/sol",
+        "8 小时 EVA": "~0.22 mSv",
+        "ICRP 职业年限": "20 mSv → ~90 个全日地表额度",
+        "槽位": "8(5 在充,3 出勤中)"
+      },
+      "specs_en": {
+        "Full surface sol": "0.66 mSv/sol",
+        "8-hour EVA": "~0.22 mSv",
+        "ICRP occupational": "20 mSv/yr → ~90 full surface sols",
+        "Slots": "8 (5 docked, 3 out on shift)"
+      },
+      "sim": "剂量账(账1,RAD 锚点):0.21 mGy/day 吸收 · <Q>=3.05 · 0.64 mSv/day → 0.66 mSv/sol、234 mSv/yr,与居住区覆土卡「~230 mSv/yr(无屏蔽)」闭合;巡航 1.84 mSv/day ÷ 行星阴影 2× ÷ 大气 16 g/cm² 三点闭合反演 λ_H=44 g/cm²",
+      "sim_en": "Dose ledger (#1, RAD anchors): 0.21 mGy/day absorbed · <Q>=3.05 · 0.64 mSv/day → 0.66 mSv/sol, 234 mSv/yr — closing with the hab mound card's '~230 mSv/yr (unshielded)'; cruise 1.84 mSv/day ÷ 2× planetary shadow ÷ 16 g/cm² atmosphere closes to λ_H = 44 g/cm²",
+      "physics": "剂量当量 = 吸收剂量 × 品质因子 Q(LET);火星地表 <Q>≈3,因为 GCR 里的重离子虽少,单条径迹的生物破坏力却按 LET 加权——正是大屏上那几颗红斑贡献了不成比例的 mSv。",
+      "physics_en": "Dose equivalent = absorbed dose × quality factor Q(LET); on Mars <Q>≈3 because GCR heavy ions are rare but each track's biological damage is LET-weighted — the few red blobs on the screen carry a disproportionate share of the mSv."
+    },
+    {
+      "id": "cutaway",
+      "label": "中子转换层剖切块",
+      "label_en": "Neutron Converter Cutaway",
+      "range": 18,
+      "detail": "探测头 B/C 层的 100 倍放大剖面,颜色与塔顶真件一一对应:白=聚乙烯转换层,浅绿=⁶LiF 膜,深蓝=300 µm 硅,铜色=Timepix4 读出芯片。白色箭头是入射中子,橙色箭头是它撞出的反冲质子拐进硅里——中子被看见的那一下。",
+      "detail_en": "A 100× cutaway of head layers B/C, colour-matched to the real stack on the tower: white = polyethylene converter, pale green = 6LiF film, dark blue = 300 µm silicon, copper = the Timepix4 readout ASIC. The white arrow is an incoming neutron; the amber arrow is the recoil proton it knocks into the silicon — the instant a neutron becomes visible.",
+      "specs": {
+        "n-p 截面": "2.9 b @ 2 MeV / 0.94 b @ 14 MeV",
+        "⁶Li(n,α)t": "940 b(热)· α 2.05 + t 2.73 MeV",
+        "反照中子窗": "0.1–10 MeV,泄漏峰 ~1 MeV"
+      },
+      "specs_en": {
+        "n-p cross-section": "2.9 b @ 2 MeV / 0.94 b @ 14 MeV",
+        "6Li(n,α)t": "940 b thermal · α 2.05 + t 2.73 MeV",
+        "Albedo window": "0.1–10 MeV, leakage peak ~1 MeV"
+      },
+      "sim": "中子账(账3)的反冲逃逸 MC:反冲质子各向同性生成于转换层任意深度,按 CH₂ 射程判断能否带着 >150 keV 钻进硅——逃逸因子把 1 mm HDPE 的相互作用概率 0.95–3% 折成有效效率 0.02–0.39%;转换层不是越厚越好,厚了质子出不来",
+      "sim_en": "Recoil-escape MC of ledger #3: recoil protons born isotropically at any converter depth, tested by CH₂ range for reaching the silicon with >150 keV — the escape factor turns the 1 mm HDPE interaction probability of 0.95–3% into an effective 0.02–0.39%; thicker is not better, the protons simply fail to get out",
+      "physics": "反照中子是火星特产:GCR 打进 regolith,蒸发中子再漏出地面——所以这台相机有一半时间在看「脚下」而不是天上。",
+      "physics_en": "Albedo neutrons are a Martian specialty: GCR strikes the regolith and evaporation neutrons leak back out of the ground — so half of what this camera watches is underfoot, not overhead."
+    },
+    {
+      "id": "kiosk",
+      "label": "监测亭与数据链",
+      "label_en": "Station Kiosk & Data Link",
+      "range": 20,
+      "detail": "设备柜里做的事:径迹分类在站内完成,回传的只是分类计数与谱摘要——SEP 账证明芯片不会饱和,真正的量程瓶颈是遥测带宽,所以把分类智能放在山上。八木天线指向 com-station-01,太阳板 + 内部电池过夜。",
+      "detail_en": "What the cabinet does: track classification happens on-station; only class counts and spectral summaries go home — ledger #4 proves the chip never saturates, the real bottleneck is telemetry bandwidth, so the classification brains live on the hill. The Yagi points at com-station-01; a solar panel plus internal battery rides out the night.",
+      "specs": {
+        "站内处理": "径迹分类 + 1 分钟滑动计数",
+        "回传": "分类计数/谱摘要(UHF → com-station-01)",
+        "供电": "太阳板 + 电池过夜",
+        "功耗锚点": "<20 µW/像素(AFE 功率闸)"
+      },
+      "specs_en": {
+        "On-station": "track classification + 1-min sliding counts",
+        "Downlink": "class counts / spectral summaries (UHF → com-station-01)",
+        "Power": "solar panel + battery through the night",
+        "Power anchor": "<20 µW/pixel (AFE power gate)"
+      },
+      "sim": "AFE 台账(Codex 战役):校准 DAC 像素 5/5 PVT 角通过、局部功耗 <20 µW/像素;追踪镜 hybrid8 分支 27/27 PVT 闭合、20/20 瞬态噪声 q300 检出 0/20 占用",
+      "sim_en": "AFE ledger (Codex campaign): calibrated DAC pixel passes 5/5 PVT corners under the 20 µW/pixel local power gate; the tracking-mirror hybrid8 branch closes 27/27 PVT points with 20/20 transient-noise q300 detection at 0/20 occupancy",
+      "physics": "带宽经济学:一次重离子事件的科学含量在簇形态里,不在原始帧里——站内把 10⁵ 像素/秒折叠成 3 个数字/分钟,链路预算立刻从不可能变成随手。",
+      "physics_en": "Bandwidth economics: the science of a heavy-ion event lives in the cluster shape, not the raw frame — folding 10⁵ pixels/s into 3 numbers/min on-station turns the link budget from impossible into trivial."
+    },
+    {
+      "id": "net",
+      "label": "三层辐射网 · 地表层",
+      "label_en": "Three-Tier Radiation Net · Surface Tier",
+      "range": 30,
+      "detail": "同一场 SEP,三层各有一句台词:轨道 MiniPAN(sci-pan-01)给出一次粒子能谱与首报;地表这里屏上下起质子雨、警报塔转红;地下城玄关的 SiC 哨兵(30 m 岩下)每 ~83 秒一跳如常,深地哨兵纹丝不动——全城屏蔽账从「算出来的」变成「测出来的」。旁边那块双色牌与气象站共用:琥珀=τ>2 尘暴停飞,红=SEP 红警,两个停飞理由并排挂在环境预警组团同一根杆上。",
+      "detail_en": "One SEP, three tiers, three lines: orbital MiniPAN (sci-pan-01) delivers the primary spectrum and first warning; here on the surface the screen fills with proton rain and the tower goes red; the SiC sentinel in the undercity foyer (under 30 m of rock) keeps its usual ~83 s blip, and the deep-lab sentinel does not stir — the city's shielding budget goes from calculated to measured. The two-colour sign is shared with the weather station: amber = τ>2 dust no-fly, red = SEP alert — both grounding reasons hang on one pole of the environmental-alert cluster.",
+      "specs": {
+        "轨道层": "MiniPAN:一次粒子能谱 + 触发时序",
+        "地表层(本站)": "分类计数 + 剂量当量 + 红警",
+        "玄关(30 m 岩)": "µ 道 ~83 s/跳,SEP 无感",
+        "深地(3000 m)": "µ ×10⁻⁶,月级一跳"
+      },
+      "specs_en": {
+        "Orbital": "MiniPAN: primary spectra + trigger timing",
+        "Surface (here)": "class counts + dose equivalent + red alert",
+        "Foyer (30 m rock)": "µ channel ~83 s/blip, SEP-blind",
+        "Deep lab (3000 m)": "µ ×10⁻⁶, blips monthly"
+      },
+      "sim": [
+        "地表半张对表:SEP 地表增幅可达 10³–10⁴×(账4),而玄关 7800 g/cm² = 52 个强子 e 折长度——大气只放行 >150 MeV,岩层再杀 e⁻⁵²,地下层对 SEP 结构性免疫(对表 mars_rad_sic 账3)",
+        "剂量互证闭环:本站实测 234 mSv/yr ↔ 居住区覆土卡 ~230 mSv/yr ↔ 覆土 10 m 后落到 μ 子地板 ~0.3 mSv/yr(=地球海平面宇宙线,账1)"
+      ],
+      "sim_en": [
+        "Surface half of the cross-table: SEP surface enhancement reaches 10³–10⁴× (ledger #4), while the foyer sits under 7800 g/cm² = 52 hadronic e-folds — the atmosphere admits only >150 MeV and the rock kills another e⁻⁵², making the underground tier structurally SEP-blind (cross-checked with mars_rad_sic ledger #3)",
+        "Dose closure loop: this station's 234 mSv/yr ↔ the hab mound card's ~230 mSv/yr ↔ ~0.3 mSv/yr muon floor under 10 m of regolith (= Earth sea-level cosmic, ledger #1)"
+      ],
+      "physics": "三层看的是同一束 GCR/SEP 在不同屏蔽深度下的截面:自由空间的能谱、16 g/cm² 大气后的径迹、7800 g/cm² 岩石后的寂静。把三块屏并排读,衰减长度本身就显形了。",
+      "physics_en": "The three tiers are cross-sections of the same GCR/SEP beam at different shielding depths: the spectrum in free space, the tracks behind 16 g/cm² of atmosphere, the silence behind 7800 g/cm² of rock. Read the three screens side by side and the attenuation length itself becomes visible."
+    }
+  ]
+}

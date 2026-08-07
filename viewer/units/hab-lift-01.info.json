@@ -4,40 +4,62 @@
     {
       "id": "shaft",
       "label": "主竖井（-3000 m 直达）",
+      "label_en": "Main shaft (direct to -3000 m)",
       "range": 20,
       "detail": "地下城人员提升竖井，直下 3000 m 深层空间（与入口丘下主竖井群同层）。全程加压——乘员不穿服。火星的低重力在这里是白捡的红利：绳索自重应力只有地球同深度的 38%，3000 m 井深的绳负荷仅相当于地球 1140 m，摩擦式曳引一根复合带直达井底；同样的井在地球必须分段换乘。井壁每 500 m 设一处加压避难龛（矿井惯例），全井 6 处。",
+      "detail_en": "The undercity personnel hoist, dropping 3000 m straight to the deep level (the same horizon as the main shaft group under the entrance hill). It is pressurized end to end, so riders travel unsuited. Low gravity is a straight gift here: rope self-weight stress is only 38% of the same depth on Earth, so a 3000 m shaft loads the rope like 1140 m would at home and a single friction-driven composite belt reaches the bottom in one run - the same shaft on Earth would force a transfer partway down. Pressurized refuge niches follow mining practice every 500 m, 6 of them over the full depth.",
       "specs": { "井深": "3000 m", "轿厢": "12 人 / 900 kg", "额定速度": "12 m/s（单程 ~4.2 min）", "井内": "全程加压，Ø2.6 m 双导轨", "避难龛": "每 500 m × 6 处" },
+      "specs_en": { "Shaft depth": "3000 m", "Car": "12 people / 900 kg", "Rated speed": "12 m/s (~4.2 min one way)", "Shaft": "pressurized throughout, dia. 2.6 m, twin guide rails", "Refuge niches": "every 500 m, 6 total" },
       "sim": [
         "绳长账（解析估算）：绳自重极限深度 ∝ 1/g，火星 g=3.71 → 3000 m 绳负荷 = 地球 1140 m 当量，聚酯纤维-钢复合曳引带裕量 2.4×，免分段",
         "耳压限速账：加压井 3000 m 气柱自重 Δp≈ρgh≈1.2×3.71×3000≈13 kPa（井底比井口高 13%）；12 m/s 下压变率 52 Pa/s，远低于 300 Pa/s 舒适阈——限速的是耳朵，不是电机"
+      ],
+      "sim_en": [
+        "Rope-length ledger (analytic estimate): the self-weight depth limit scales as 1/g, so at Martian g = 3.71 a 3000 m shaft loads the rope like 1140 m on Earth. A polyester-steel composite belt carries a 2.4x margin, with no intermediate transfer needed.",
+        "Ear-pressure speed limit: the air column in a pressurized 3000 m shaft weighs delta-p ~ rho*g*h ~ 1.2 x 3.71 x 3000 ~ 13 kPa, so the bottom sits 13% above the top. At 12 m/s that is a pressure rate of 52 Pa/s, far under the 300 Pa/s comfort threshold - the limit on speed is ears, not motors."
       ]
     },
     {
       "id": "machine_room",
       "label": "提升机房",
+      "label_en": "Hoist machine room",
       "range": 15,
       "detail": "井口楼顶的白色机房：无齿轮永磁同步曳引机 + 变频再生驱动。对重抵消轿厢自重与半载，电机只对付载荷不平衡量；下行时再生制动把势能回馈电网——3000 m 落差下一轿厢下行可回收约 7 kWh，直送储能场（pwr-storage-01）。前伸吊装梁 + 滑轮用于整机更换：曳引机吊出直接落在门前坪上。",
+      "detail_en": "The white machine house on top of the headframe: a gearless permanent-magnet synchronous traction machine on a regenerative variable-frequency drive. The counterweight cancels the car and half its load, leaving the motor to handle only the imbalance; on the way down regenerative braking returns the potential energy to the grid - about 7 kWh recovered per descent over a 3000 m drop, fed straight to the storage field (pwr-storage-01). A projecting hoist beam and pulley handle whole-machine replacement: the traction unit lifts out and lands on the apron by the door.",
       "specs": { "曳引机": "无齿轮 PMSM，摩擦驱动", "峰值功率": "~47 kW（满载不平衡 900 kg × 12 m/s）", "再生回馈": "~7 kWh/次下行 → pwr-storage-01", "检修": "吊装梁 + 滑轮，整机可吊换" },
+      "specs_en": { "Traction machine": "gearless PMSM, friction drive", "Peak power": "~47 kW (900 kg imbalance x 12 m/s)", "Regeneration": "~7 kWh per descent to pwr-storage-01", "Maintenance": "hoist beam and pulley, whole unit swappable" },
       "sim": [
         "功率账（解析估算）：P = Δm·g·v/η = 900×3.71×12/0.85 ≈ 47 kW 峰值——0.38g 让同规格电梯功率仅为地球版 38%，深井人员提升在火星是低功耗设备"
+      ],
+      "sim_en": [
+        "Power ledger (analytic estimate): P = delta-m * g * v / eta = 900 x 3.71 x 12 / 0.85 ~ 47 kW at peak. At 0.38 g an identically specified lift draws only 38% of its Earth counterpart - deep personnel hoisting is a low-power activity on Mars."
       ]
     },
     {
       "id": "airlock",
       "label": "人员气闸门斗",
+      "label_en": "Personnel airlock vestibule",
       "range": 10,
       "detail": "双扇不锈钢电梯门 + 外侧气闸门互锁构成 6 m³ 门斗气闸——与入口大门旁的人员气闸同规格：一次循环 0.2 kWh、约 3 分钟，泵回收 90% 舱气。门楣红绿灯显示循环状态，琥珀指示柱显示轿厢层位。地板格栅 + 电离吹扫做尘控，火星细尘不进井。加上乘梯 4.2 分钟，地表到城内大街全程约 8 分钟通勤。",
-      "specs": { "门斗容积": "~6 m³", "循环": "0.2 kWh / ~3 min，回收 90%", "尘控": "地板格栅 + 电离吹扫", "地表→城内": "全程 ~8 min" }
+      "detail_en": "Twin stainless lift doors interlocked with an outer airlock door form a 6 m^3 vestibule lock, to the same spec as the personnel lock beside the main gate: one cycle costs 0.2 kWh and about 3 minutes, with pumps recovering 90% of the air. Red and green lamps above the door show the cycle state and an amber column shows which level the car is on. Floor gratings and an ionizing air wash keep Martian fines out of the shaft. Add the 4.2 minute ride and the surface-to-main-street commute runs about 8 minutes.",
+      "specs": { "门斗容积": "~6 m³", "循环": "0.2 kWh / ~3 min，回收 90%", "尘控": "地板格栅 + 电离吹扫", "地表→城内": "全程 ~8 min" },
+      "specs_en": { "Vestibule volume": "~6 m^3", "Cycle": "0.2 kWh / ~3 min, 90% recovered", "Dust control": "floor gratings plus ionizing air wash", "Surface to city": "~8 min total" }
     },
     {
       "id": "shield_cap",
       "label": "井口屏蔽帽",
+      "label_en": "Shaft-head shielding cap",
       "pos": [0, 4.2, -3.0],
       "range": 15,
       "detail": "直井是屏蔽体上唯一的『天窗』——宇宙射线会顺着井筒直灌井底。井口楼因此本身就是屏蔽帽：0.6 m 打印土层墙包裹井口，轿厢顶载 0.2 m 含硼聚乙烯屏蔽塞，停靠地表时塞体恰好补上井口断面；人员进出走门斗的折转路径，射线走不了直线。3000 m 井深本身即是纵向屏蔽，井底立体角贡献可忽略。",
+      "detail_en": "A straight shaft is the one skylight in the shielding - cosmic rays would pour down the bore to the bottom. So the headframe doubles as the cap: 0.6 m of printed regolith wall wraps the collar, and the car roof carries a 0.2 m borated polyethylene plug that closes the shaft cross-section exactly when parked at the surface. People enter through the dog-legged vestibule path, and radiation cannot turn corners. The 3000 m of depth is itself the longitudinal shield; the solid angle seen from the bottom is negligible.",
       "specs": { "井口楼墙体": "0.6 m regolith 打印层", "轿厢顶": "0.2 m 含硼聚乙烯屏蔽塞", "路径": "门斗折转，无直线视线" },
+      "specs_en": { "Headframe wall": "0.6 m printed regolith", "Car roof": "0.2 m borated polyethylene plug", "Path": "dog-legged vestibule, no line of sight" },
       "sim": [
         "漏射立体角（解析估算）：Ø2.6 m 井口对 3000 m 井底张角 ~7×10⁻⁷ sr，直灌剂量占比 <0.01%——深度本身就是最好的准直器；真正要堵的是井口停靠间隙，屏蔽塞为此而设"
+      ],
+      "sim_en": [
+        "Leakage solid angle (analytic estimate): a 2.6 m collar subtends ~7e-7 sr at 3000 m depth, so direct-streaming dose contributes under 0.01% - depth is the best collimator available. What actually needs plugging is the gap while the car is parked at the collar, which is what the shield plug is for."
       ]
     }
   ]

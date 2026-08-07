@@ -3,6 +3,7 @@
     {
       "id": "pwr-fusion-01",
       "name": "托卡马克聚变电站",
+      "name_en": "Tokamak Fusion Plant",
       "type": "code",
       "module": "units/pwr-fusion-01.js",
       "size_m": 62,
@@ -20,6 +21,7 @@
     {
       "id": "pwr-radiator-01",
       "name": "废热散热阵",
+      "name_en": "Waste-Heat Radiator Field",
       "type": "code",
       "module": "units/pwr-radiator-01.js",
       "size_m": 429,
@@ -38,6 +40,7 @@
     {
       "id": "pwr-storage-01",
       "name": "储能场（电池阵+再生燃料电池）",
+      "name_en": "Energy Storage Farm",
       "type": "code",
       "module": "units/pwr-storage-01.js",
       "size_m": 60,
@@ -55,6 +58,7 @@
     {
       "id": "res-isru-01",
       "name": "ISRU 推进剂工厂（Sabatier 甲烷厂）",
+      "name_en": "ISRU Propellant Plant (Sabatier)",
       "type": "model",
       "size_m": 36.2,
       "size_axis": "width",
@@ -69,6 +73,7 @@
     {
       "id": "ops-printer-01",
       "name": "regolith 3D打印工地（龙门打印机+半成穹顶）",
+      "name_en": "Regolith 3D-Print Works",
       "type": "model",
       "size_m": 26,
       "size_axis": "width",
@@ -83,6 +88,7 @@
     {
       "id": "res-rodwell-01",
       "name": "Rodwell 水冰取水井架（钻塔+储罐+尾料堆）",
+      "name_en": "Rodwell Ice Well",
       "type": "code",
       "module": "units/res-rodwell-01.js",
       "size_m": 12,
@@ -98,6 +104,7 @@
     {
       "id": "res-tank-02",
       "name": "备用储水罐（尘暴水银行，13 m³）",
+      "name_en": "Backup Water Tank (storm bank)",
       "type": "code",
       "module": "units/res-tank-02.js",
       "size_m": 4.7,
@@ -113,6 +120,7 @@
     {
       "id": "sci-lidar-01",
       "name": "大气激光雷达站",
+      "name_en": "Atmospheric LiDAR Station",
       "type": "code",
       "module": "units/sci-lidar-01.js",
       "size_m": 3.47,
@@ -130,6 +138,7 @@
     {
       "id": "sci-obs-01",
       "name": "光学天文台",
+      "name_en": "Optical Observatory",
       "type": "model",
       "size_m": 5.8,
       "size_axis": "height",
@@ -146,6 +155,7 @@
     {
       "id": "ops-spaceport-01",
       "name": "火箭发射回收站",
+      "name_en": "Launch & Recovery Pad",
       "type": "code",
       "module": "units/ops-spaceport-01.js",
       "size_m": 120,
@@ -164,6 +174,7 @@
     {
       "id": "veh-rocket-01",
       "name": "星舰（着陆状态）",
+      "name_en": "Starship (landed)",
       "type": "code",
       "module": "units/veh-rocket-01.js",
       "size_m": 50,
@@ -182,6 +193,7 @@
     {
       "id": "veh-raptor-01",
       "name": "猛禽发动机（检修展示台）",
+      "name_en": "Raptor Engine Stand",
       "type": "code",
       "module": "units/veh-raptor-01.js",
       "size_m": 3,
@@ -200,6 +212,7 @@
     {
       "id": "ops-compute-01",
       "name": "计算中心",
+      "name_en": "Compute Center",
       "type": "code",
       "module": "units/ops-compute-01.js",
       "size_m": 26,
@@ -218,6 +231,7 @@
     {
       "id": "env-scatter-01",
       "name": "荒野散件包",
+      "name_en": "Wilderness Scatter Pack",
       "type": "code",
       "kind": "scatter",
       "module": "units/env-scatter-01.js",
@@ -231,6 +245,7 @@
     {
       "id": "hab-tunnel-01",
       "name": "地下城入口",
+      "name_en": "Undercity Gate",
       "type": "code",
       "module": "units/hab-tunnel-01.js",
       "size_m": 60,
@@ -248,6 +263,7 @@
     {
       "id": "ops-spaceport-02",
       "name": "长十乙发射工位",
+      "name_en": "CZ-10B Launch Complex",
       "type": "code",
       "module": "units/ops-spaceport-02.js",
       "size_m": 140,
@@ -266,6 +282,7 @@
     {
       "id": "veh-rocket-02",
       "name": "长十乙运载火箭",
+      "name_en": "CZ-10B Launch Vehicle",
       "type": "code",
       "module": "units/veh-rocket-02.js",
       "mate": "ops-spaceport-02",
@@ -284,6 +301,7 @@
     {
       "id": "res-mine-01",
       "name": "土壤矿场",
+      "name_en": "Regolith Mine",
       "type": "code",
       "module": "units/res-mine-01.js",
       "size_m": 79,
@@ -301,6 +319,7 @@
     {
       "id": "hab-lift-01",
       "name": "地下城人员电梯站",
+      "name_en": "Undercity Lift Station",
       "type": "code",
       "module": "units/hab-lift-01.js",
       "size_m": 8,
@@ -339,7 +358,13 @@
       "type": "code",
       "kind": "interior",
       "module": "units/hab-clinic-01.js",
-      "exitZone": { "pos": [2.8, 0.8], "radius": 1.2 },
+      "exitZone": {
+        "pos": [
+          2.8,
+          0.8
+        ],
+        "radius": 1.2
+      },
       "size_m": 10,
       "size_axis": "width",
       "pos": null,
@@ -356,7 +381,13 @@
       "type": "code",
       "kind": "interior",
       "module": "units/sci-deeplab-01.js",
-      "exitZone": { "pos": [0, 15], "radius": 2 },
+      "exitZone": {
+        "pos": [
+          0,
+          15
+        ],
+        "radius": 2
+      },
       "entry": {
         "pos": [
           0,
@@ -467,8 +498,119 @@
       "effects": []
     },
     {
+      "id": "sci-weather-01",
+      "name": "气象监控站",
+      "name_en": "Weather Monitoring Station",
+      "type": "code",
+      "module": "units/sci-weather-01.js",
+      "size_m": 11.4,
+      "size_axis": "width",
+      "pos": [
+        300,
+        -300
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.2,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-weather-net-01",
+      "name": "气象观测网远端杆",
+      "name_en": "Weather Network Remote Poles",
+      "type": "code",
+      "kind": "scatter",
+      "module": "units/sci-weather-net-01.js",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0.08,
+      "effects": [
+        "blink"
+      ]
+    },
+    {
+      "id": "veh-heli-01",
+      "name": "侦察直升机与停机坪",
+      "name_en": "Recon Helicopter & Helipad",
+      "type": "code",
+      "module": "units/veh-heli-01.js",
+      "size_m": 18.4,
+      "size_axis": "width",
+      "pos": [
+        150,
+        -40
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.06,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-rad-02",
+      "name": "聚变围界中子哨兵组(4H-SiC ×3)",
+      "name_en": "Fusion-Perimeter Neutron Sentinels (4H-SiC ×3)",
+      "type": "code",
+      "module": "units/sci-rad-02.js",
+      "size_m": 51.1,
+      "size_axis": "width",
+      "pos": [
+        -140,
+        98
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
+      "effects": [
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-rad-03",
+      "name": "玄关辐射哨兵柱(4H-SiC)",
+      "name_en": "Foyer Radiation Sentinel (4H-SiC)",
+      "type": "code",
+      "kind": "interior-companion",
+      "host": "hab-foyer-01",
+      "host_pos": [
+        -5.78,
+        0.3,
+        -11
+      ],
+      "module": "units/sci-rad-03.js",
+      "size_m": 1.93,
+      "size_axis": "height",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
+      "id": "sci-rad-04",
+      "name": "深地辐射哨兵柱(4H-SiC)",
+      "name_en": "Deep-Lab Radiation Sentinel (4H-SiC)",
+      "type": "code",
+      "kind": "interior-companion",
+      "host": "sci-deeplab-01",
+      "host_pos": [
+        -8.5,
+        0,
+        9.5
+      ],
+      "module": "units/sci-rad-04.js",
+      "size_m": 2.24,
+      "size_axis": "height",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
       "id": "com-station-01",
       "name": "通讯基站",
+      "name_en": "Comms Ground Station",
       "type": "code",
       "module": "units/com-station-01.js",
       "size_m": 17.7,
@@ -479,6 +621,243 @@
       ],
       "rotation_deg": 0,
       "sink_m": 0.15,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-rad-01",
+      "name": "地表辐射监测站",
+      "name_en": "Surface Radiation Monitoring Station",
+      "type": "code",
+      "module": "units/sci-rad-01.js",
+      "size_m": 9.2,
+      "size_axis": "width",
+      "pos": [
+        310,
+        -274
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-uv-01",
+      "name": "紫外监测站",
+      "name_en": "UV Monitoring Station",
+      "type": "code",
+      "module": "units/sci-uv-01.js",
+      "size_m": 6.37,
+      "size_axis": "width",
+      "pos": [
+        322,
+        -296
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.2,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "hab-village-01",
+      "name": "掩土居住舱村",
+      "name_en": "Earth-Sheltered Hab Village",
+      "type": "code",
+      "module": "units/hab-village-01.js",
+      "size_m": 71.5,
+      "size_axis": "width",
+      "pos": [
+        -250,
+        -46
+      ],
+      "rotation_deg": -24,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "ops-depot-01",
+      "name": "物流场站",
+      "name_en": "Logistics Depot",
+      "type": "code",
+      "module": "units/ops-depot-01.js",
+      "size_m": 46,
+      "size_axis": "width",
+      "pos": [
+        55,
+        -165
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.35,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "res-greenrow-01",
+      "name": "温室生产排",
+      "name_en": "Greenhouse Production Row",
+      "type": "code",
+      "module": "units/res-greenrow-01.js",
+      "size_m": 34,
+      "size_axis": "width",
+      "pos": [
+        140,
+        92
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "sci-radio-01",
+      "name": "低频射电天文阵",
+      "name_en": "Low-Frequency Radio Array (0.5-10 MHz)",
+      "type": "code",
+      "module": "units/sci-radio-01.js",
+      "size_m": 166.95,
+      "size_axis": "width",
+      "pos": [
+        -950,
+        -545
+      ],
+      "rotation_deg": 0,
+      "sink_m": 1.2,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "tt1-formation-01",
+      "name": "TT-1 引力波三星编队展区",
+      "name_en": "TT-1 Gravitational-Wave Constellation Exhibit",
+      "type": "code",
+      "module": "units/tt1-formation-01.js",
+      "size_m": 19.05,
+      "size_axis": "width",
+      "pos": [
+        -415,
+        -60
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
+      "effects": []
+    },
+    {
+      "id": "tt1-sat-01",
+      "name": "TT-1「听涛」引力波探测星(1:1 展品)",
+      "name_en": "TT-1 GW Observatory Spacecraft (1:1 exhibit)",
+      "type": "code",
+      "module": "units/tt1-sat-01.js",
+      "size_m": 3.74,
+      "size_axis": "width",
+      "pos": [
+        -392,
+        -45
+      ],
+      "rotation_deg": 205,
+      "sink_m": 0.2,
+      "effects": [
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-ir-01",
+      "name": "热红外成像站",
+      "name_en": "Thermal IR Imaging Station",
+      "type": "code",
+      "module": "units/sci-ir-01.js",
+      "size_m": 7.36,
+      "size_axis": "height",
+      "pos": [
+        318,
+        -262
+      ],
+      "rotation_deg": -135,
+      "sink_m": 0.25,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-thz-01",
+      "name": "太赫兹水汽廓线辐射计",
+      "name_en": "183 GHz Water-Vapor Radiometer",
+      "type": "code",
+      "module": "units/sci-thz-01.js",
+      "size_m": 3.34,
+      "size_axis": "width",
+      "pos": [
+        292,
+        -308
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.12,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-seis-01",
+      "name": "火震监测站",
+      "name_en": "Seismic Monitoring Station",
+      "type": "code",
+      "module": "units/sci-seis-01.js",
+      "size_m": 13.2,
+      "size_axis": "width",
+      "pos": [
+        -700,
+        -520
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.32,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-seis-net-01",
+      "name": "火震观测网远端节点",
+      "name_en": "Seismic Network Remote Nodes",
+      "type": "code",
+      "kind": "scatter",
+      "module": "units/sci-seis-net-01.js",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0.06,
+      "effects": [
+        "blink"
+      ]
+    },
+    {
+      "id": "sci-swir-01",
+      "name": "短波红外勘探/气辉相机站",
+      "name_en": "SWIR Prospecting & Airglow Camera Station",
+      "type": "code",
+      "module": "units/sci-swir-01.js",
+      "size_m": 5.01,
+      "size_axis": "width",
+      "pos": [
+        -576,
+        -232
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
       "effects": [
         "glow_windows",
         "blink"

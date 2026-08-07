@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Science — Virtual-Physical Mars City</title>
+<meta name="description" content="A 905 nm micro-pulse SPAD atmospheric LiDAR with a closed link budget, and an optical observatory sharing the science district.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--cyan);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .stub{margin-top:26px;border:1px dashed var(--line-strong);border-radius:12px;
+    padding:20px 22px;background:var(--bg-3);color:var(--ink-dim);}
+  .stub .label{color:var(--ink-dim);}
+  h3.sub{font-weight:700;font-size:1.12rem;margin:46px 0 0;color:var(--ink);}
+  h3.sub .n{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);
+    letter-spacing:.14em;display:block;margin-bottom:5px;}
+  .prose h3.sub:first-child{margin-top:0;}
+  .stack{max-width:var(--textw);margin-top:24px;border-left:2px solid var(--line-strong);
+    padding-left:18px;font-size:.93rem;color:var(--ink-dim);}
+  .stack b{color:var(--ink);font-weight:600;}
+  tbody tr.grp td{background:var(--bg-3);font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);font-weight:500;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="rockets.html">← Prev</a>
+    <a href="comms.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">sci-lidar-01 · sci-obs-01</div>
+    <h1>Science</h1>
+    <p class="phead__sub">A 905&nbsp;nm micro-pulse photon-counting LiDAR that reads Mars's dust and
+      cloud profiles from the ground — designed end to end, from a closed link budget down to the
+      40&nbsp;A gallium-nitride pulse loop, and standing in the city as a live asset that fires a
+      visible probe beam. Beside it stands an optical observatory whose 512×512 photon-counting
+      focal plane exists only because seven rounds of device physics turned a dark-count problem
+      into a sub-hertz one.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Night range</div><div class="spec__v">14.0<small>km · 600 s</small></div></div>
+    <div class="spec"><div class="spec__k">Daytime range</div><div class="spec__v">5.1<small>km · 60 s</small></div></div>
+    <div class="spec"><div class="spec__k">Focal plane</div><div class="spec__v">512²<small>SPAD · 15 µm</small></div></div>
+    <div class="spec"><div class="spec__k">Dark count, all-T</div><div class="spec__v">0.383<small>Hz/px</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">A single-site atmospheric LiDAR: point a low-energy pulsed laser straight up,
+      count the photons that scatter back off dust and ice, and invert the echo into a vertical
+      profile.</p>
+    <div class="prose">
+      <p>The station is a wedge enclosure barely 1.6&nbsp;m across, tilted-roof to shed dust, with
+        two optical ports on top — a transmit beam expander and a Ø125&nbsp;mm receive telescope —
+        a nine-fin radiator wall, four leveling feet, a tilted solar panel, and a 3.5&nbsp;m weather
+        mast. Everything electrical lives inside: three custom boards, an FPGA, a battery.</p>
+      <p>It runs a <strong>micro-pulse, photon-counting</strong> regime: 3&nbsp;µJ pulses at
+        9.5&nbsp;kHz rather than one big shot, so the average launched power is only
+        <strong>28.5&nbsp;mW</strong>. Sensitivity is bought back with high repetition and long
+        integration — which is exactly what lets the whole station run off a small solar panel.</p>
+      <p>In the city it is asset <span class="hl">sci-lidar-01</span>, built as real-metric
+        three.js geometry that emits a 905&nbsp;nm probe beam off its 20°&nbsp;roof.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/science/station.jpg" alt="Rendered LiDAR ground station" loading="lazy">
+      <figcaption>SCI-LIDAR-01 — 1.6 m WEDGE ENCLOSURE · TWIN ROOF PORTS · 3.5 m WEATHER MAST</figcaption>
+    </figure>
+
+    <div class="prose">
+      <h3 class="sub"><span class="n">And next door</span>The optical observatory</h3>
+      <p>A 6&nbsp;m hemispherical dome on a compacted-regolith plinth, with a dust-sealed
+        up-and-over slit shutter. Inside, a <strong>200&nbsp;mm f/5 Ritchey–Chrétien</strong> on an
+        alt-azimuth fork looks out through the slit. At dusk the shutter leaf rides along its rails
+        over the zenith and parks on the back of the dome; the dome then slews slowly through the
+        night and reseals at dawn. That is real articulation in the city model, not a painted
+        texture — shutter, dome azimuth and telescope elevation are named joints the engine drives.</p>
+      <p>A 20&nbsp;cm aperture sounds modest until you account for where it stands. The Martian
+        atmosphere is <strong>0.6 % the density of Earth's</strong>, so seeing is close to
+        space-like: the 0.7″ diffraction limit sits well inside a 3.09″ pixel, and the pixel — not
+        the air — sets the resolution. What makes the instrument interesting is not the mirror. It is
+        that everything downstream of the first photon was designed here: the detector, the readout
+        chip, its layout, the optics and the thermal path.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/science/obs-city.png" alt="The observatory at night on the Martian surface, dome shutter open with the telescope visible through the slit and stars overhead" loading="lazy">
+      <figcaption>SCI-OBS-01 AT NIGHT — SHUTTER OPEN, OTA VISIBLE THROUGH THE 1.25 m SLIT</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">A biaxial transmit/receive pair, and the two things that decide where it can
+      actually see: the geometric overlap near the ground, and the noise floor far away.</p>
+    <div class="prose">
+      <p>Transmit and receive sit side by side, port centers <strong>0.38&nbsp;m</strong> apart, the
+        laser tilted <strong>0.28&nbsp;mrad</strong> inward so the narrow beam walks into the
+        receiver's field of view. That geometry gives a hard blind zone below
+        <strong>0.29&nbsp;km</strong> and full overlap by <strong>0.64&nbsp;km</strong> — pulling
+        the ports closer than the first design (0.76&nbsp;m) is what lowered the blind floor.</p>
+      <p>Far away, the limit is background: a 0.3&nbsp;nm filter and a 1&nbsp;mrad field stop knock
+        down the daytime sky so a single returning photon still clears threshold. The detector is a
+        cooled silicon SPAD array (the <em>device</em> end, below); the receiver front end turns one
+        photoelectron into a 16&nbsp;mV pulse and discriminates it at a half-photoelectron
+        threshold. The FPGA histograms arrivals into 1000 range bins of 15&nbsp;m each — a
+        <strong>15&nbsp;km</strong> window.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/science/linkbudget.png" alt="SNR versus altitude" loading="lazy">
+        <figcaption>RETRIEVAL SNR — NIGHT −40 °C REACHES 14.0 km @ 600 s</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/science/overlap.png" alt="Geometric overlap factor" loading="lazy">
+        <figcaption>BIAXIAL OVERLAP — BLIND BELOW 0.29 km, FULL BY 0.64 km</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The detector</h2></div>
+    <p class="lead">At the heart of the receiver is a purpose-built near-infrared SPAD array —
+      its own device-physics story.</p>
+    <div class="prose">
+      <p>The array is <span class="hl">nir_iproc_p10j</span>, a 1×1&nbsp;mm silicon photon counter
+        (625 cells) developed on the spad40 process line and frozen for this instrument. Its 905&nbsp;nm
+        photon-detection efficiency, dark-count floor, and breakdown behavior were closed out in TCAD
+        and feed directly into the link budget above.</p>
+    </div>
+    <div class="stub">
+      <div class="label" style="margin-bottom:8px;">Section owned by the spad40_nir device session</div>
+      <p style="margin:0;">Device-physics figures and the TCAD ledger (PDE(V), dark-count trimming,
+        McIntyre breakdown, Geiger transient) are supplemented here by the spad40_nir session. The
+        system-level delivered values it hands off — PDE@905 40.3%, back-to-back floor
+        253&nbsp;cps·cell⁻¹, array DCR 2.65×10⁵&nbsp;cps @ −40&nbsp;°C — are the inputs the numbers
+        above are built on.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The observatory, from the photon inward</h2></div>
+    <p class="lead">Four design problems in series. Each one changed the answer to the next.</p>
+    <div class="prose">
+
+      <h3 class="sub"><span class="n">04 · A</span>The detector had to be invented first</h3>
+      <p>Photon-starved astronomy is a dark-count problem before it is anything else. The budget was
+        <strong>under 1 Hz per pixel</strong>. The first real-process port of the parent SPAD sat at
+        a peak multiplication field of 6×10<sup>5</sup>&nbsp;V/cm — deep in band-to-band tunnelling
+        territory. A dose sweep measured the law: <strong>dark count ×10 for every
+        0.29×10<sup>5</sup>&nbsp;V/cm</strong> of peak field. Reaching 1&nbsp;Hz in a 15&nbsp;µm pixel
+        needs ≤4.24×10<sup>5</sup>&nbsp;V/cm — but at that field the sharp junction's trigger
+        probability collapses below 0.5. Trimming the implant dose <em>cannot</em> close this budget.
+        That negative result is what forced an architectural change.</p>
+      <p>The fix is to buy the ionization integral with <strong>width instead of field</strong>:
+        insert a low-doped gap between the charge sheet and the substrate so the gap carries a flat
+        field <span class="src">E = qN/ε</span>. Two knobs then control everything — retained dose
+        sets the field, buffer thickness sets the multiplication width. Seven process rounds and
+        about eighteen device variants later, <span class="src">iwK115</span> lands at
+        4.33×10<sup>5</sup>&nbsp;V/cm across a 0.74&nbsp;µm multiplication width, trigger probability
+        0.904, and a measured band-to-band floor of
+        <span class="hl">0.383 Hz per 15 µm pixel</span>.</p>
+      <p>Two consequences fell out of that geometry. Because the operating field is set by the
+        retained charge rather than by the bias, it is <strong>temperature-independent</strong> — so a
+        single fixed 88&nbsp;V serves the whole 120&nbsp;K diurnal swing and the bias-tracking servo a
+        classical SPAD needs is simply deleted. And because a wide-multiplication device has a large
+        lateral roll-off, an 8.14&nbsp;µm dead border per side would have eaten a 15&nbsp;µm pixel
+        alive: a light 2.0×10<sup>12</sup> edge-ring implant shrinks it to 4.45&nbsp;µm/side for
+        +1.3 % centre field. A microlens then decouples fill factor from pitch entirely — 15&nbsp;µm
+        with a microlens (0.88 effective) beats a bare 40&nbsp;µm pixel (0.79) while cutting dark
+        volume and radiation-damage rate about sevenfold.</p>
+      <div class="fig2">
+        <figure class="figure">
+          <img src="assets/science/obs-device.png" alt="Photon detection efficiency versus wavelength for the final device at 173 K across four spectral bands" loading="lazy">
+          <figcaption>IWK115 PDE(λ) AT 173 K — V 0.79 / R 0.77 / I 0.51 / Z 0.24</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="assets/science/obs-edgering.png" alt="Lateral trigger-probability profiles with and without the edge-ring implant, showing the dead border shrinking" loading="lazy">
+          <figcaption>EDGE RING — DEAD BORDER 8.14 → 4.45 µm/SIDE AT +1.3 % CENTRE FIELD</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="sub"><span class="n">04 · B</span>A readout chip that never sees high voltage</h3>
+      <p>The partition came before the circuit. The quench divider — 3.6&nbsp;MΩ and 270&nbsp;kΩ of
+        hi-res poly — stays on the SPAD die, so 88&nbsp;V and the full avalanche swing never leave it.
+        The readout ASIC's <strong>highest rail is 3.3&nbsp;V</strong>, and exactly one high-voltage
+        line exists in the whole instrument. Several mechanical and safety margins later on this page
+        are downstream of that single decision.</p>
+      <p>Each pixel is a two-stage 3.3&nbsp;V sense inverter, a level shifter and a toggle
+        flip-flop — <strong>one bit of frame memory</strong>, read at 1&nbsp;kHz. Photon rate is
+        recovered off-pixel from the parity statistics,
+        <span class="src">λ = −ln(1−2p̄)/(2T_f)</span>, which costs 0.26&nbsp;Gbps for a 512² array
+        and needs no counter, no ADC and no analog column chain. A bright star saturates parity at
+        p→0.5 and reads as a flat top instead of wrapping around, and the flip-flop doubles as the
+        scan latch.</p>
+      <p>The silicon is drawn by Python generators that emit Cadence SKILL, then verified with
+        Calibre: <strong>12 cells, DRC 0 on every one, LVS CORRECT 11 of 11</strong>. The pixel is
+        12.0 × 16.0&nbsp;µm drawn on a 14.97&nbsp;µm rail pitch, mirror-tiled so neighbouring rows
+        share power rails. After parasitic extraction, three photons produce three bit-line toggles
+        at 118.2 / 519.0 / 919.1&nbsp;ns against a pre-layout 118.6 / 519.3 / 919.1 —
+        <strong>agreement within 0.5&nbsp;ns through the real RC</strong>. The complete tile
+        (4×4 array + one-hot scan row driver + column latches, fully routed) closes at 28 ports,
+        240 nets and 580→532 devices.</p>
+      <div class="fig2">
+        <figure class="figure">
+          <img src="assets/science/obs-tile.png" alt="Rendered layout of the complete pixel tile: sixteen pixels with row drivers to the left and column latches below, all metal layers coloured" loading="lazy">
+          <figcaption>PX_TILE — ARRAY + SCAN DRIVER + COLUMN LATCHES · DRC 0 / LVS CORRECT</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="assets/science/obs-post.png" alt="Post-layout transient waveforms showing three photon pulses on the SPAD tap and the three resulting bit-line toggles" loading="lazy">
+          <figcaption>POST-LAYOUT — 3 PHOTONS → 3 TOGGLES, WITHIN 0.5 ns OF PRE-LAYOUT</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="sub"><span class="n">04 · C</span>Optics, and a focal plane cooled by the sky</h3>
+      <p>The telescope is sized to the sensor rather than the other way round: 200&nbsp;mm f/5,
+        1000&nbsp;mm focal length, giving <strong>3.09″ per pixel over a 26.4′ square field</strong>.
+        The microlenses impose a chief-ray-angle limit of 3°, and plain geometry meets it — an exit
+        pupil 200–300&nbsp;mm from the focal plane puts the edge chief ray at 1.0–1.6°, so no field
+        lens is needed.</p>
+      <p>Focus is the unforgiving one. Depth of focus is ±35&nbsp;µm, while a CFRP metering truss
+        drifts 306&nbsp;µm over the 120&nbsp;K day–night swing once secondary magnification
+        multiplies it seventeen times. Invar overshoots by 26×, aluminium by 402×. No passive
+        structure survives, so <strong>an active secondary focuser is mandatory</strong> — ±1&nbsp;mm
+        travel, 1&nbsp;µm steps, driven from a temperature table and trimmed on a star at the start
+        of each night.</p>
+      <p>Cooling, by contrast, is nearly free. The whole cold assembly dissipates
+        <strong>127&nbsp;mW</strong> at night — and only 2.5&nbsp;mW of that is the detector array;
+        struts and harness account for 94&nbsp;mW. A 64&nbsp;cm² passive radiator holds the focal
+        plane at 173&nbsp;K with no cryocooler and no heater loop, because the fixed-bias device
+        tolerates the whole temperature range anyway.</p>
+      <div class="stack">
+        <b>Three integration rules fell out of those budgets.</b> The die carrier must be AlN or a
+        silicon interposer — an organic carrier shears 51.8&nbsp;µm at the edge of a 30&nbsp;mm die
+        over 120&nbsp;K — and the die attach must stay compliant at 140&nbsp;K (silicone 0.07&nbsp;MPa;
+        rigid epoxy 68&nbsp;MPa). The microlenses must be wafer-level replicated <em>on the SPAD die
+        itself</em>: a separate fused-silica plate spends 45 % of the ±2.1&nbsp;µm alignment budget on
+        thermal drift alone. And the high voltage turns out to be a non-issue — 88&nbsp;V sits
+        <b>4.8× below the CO₂ Paschen minimum</b> (≈420&nbsp;V), so gas breakdown is impossible at any
+        gap × pressure combination. That is what the divider-on-the-SPAD-die partition bought.
+      </div>
+      <figure class="figure">
+        <img src="assets/science/obs-optics.png" alt="Optical chain schematic: ray trace through the Ritchey-Chretien to the focal plane, beside a cross-section of the focal-plane stack from window down to radiator" loading="lazy">
+        <figcaption>OPTICAL CHAIN + FOCAL-PLANE STACK — CRA 1.0–1.6°, DOF ±35 µm, 64 cm² RADIATOR</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/science/obs-thermal.png" alt="Three panels: radiator area versus sky temperature, die-edge CTE shear by carrier material, and the CO2 Paschen curve against the 88 V bias line" loading="lazy">
+        <figcaption>THERMO-MECHANICS — 127 mW → 64 cm², CARRIER SHEAR, PASCHEN MARGIN</figcaption>
+      </figure>
+
+      <h3 class="sub"><span class="n">04 · D</span>What it would actually see</h3>
+      <p>With every constant fixed by the verified design — effective aperture, 0.55 broadband PDE,
+        0.88 microlens fill factor, the measured 0.383&nbsp;Hz/px dark rate and 1&nbsp;ms binary
+        frames — the instrument can be simulated forward. A single frame is startling:
+        <strong>178 lit pixels out of 262 144</strong>, a scatter of one-bit dots in which Phobos is a
+        single point. Stack 60 000 of them, invert the parity, and a real sky appears: point sources
+        down to <span class="hl">magnitude 20.8 at SNR 5</span>, a Sérsic galaxy, radiation hot pixels
+        that calibrate out, Phobos drawn into a streak by its own motion, and the bright star sitting
+        there with a flat parity-saturated core instead of a bloomed, overflowed one.</p>
+      <figure class="figure">
+        <img src="assets/science/obs-sky.jpg" alt="Left: a single 1 ms binary frame, sparse white dots on black. Right: the 60 second parity-inverted stack showing stars, a galaxy, a Phobos streak and labelled features" loading="lazy">
+        <figcaption>SIMULATED 1 ms FRAME vs 60 s STACK — LIMITING MAGNITUDE 20.8 (SNR 5)</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number, and which run produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Night detection ceiling (600 s, −40 °C)</td><td class="num">14.0 km</td><td class="src">mars_lidar/design/link_budget.py</td></tr>
+        <tr><td>Daytime ceiling (60 s, 0.3 nm filter)</td><td class="num">5.1 km</td><td class="src">mars_lidar/design/link_budget.py</td></tr>
+        <tr><td>Range resolution</td><td class="num">15 m</td><td class="src">mars_lidar/fpga/mcs_histogram.v</td></tr>
+        <tr><td>Average optical power (3 µJ × 9.5 kHz)</td><td class="num">28.5 mW</td><td class="src">mars_lidar/design/link_budget.py</td></tr>
+        <tr><td>Full-overlap height / blind zone</td><td class="num">0.64 / 0.29 km</td><td class="src">link_budget.py · overlap_factor</td></tr>
+        <tr><td>SiPM cool-down to −40 °C</td><td class="num">81 s · 2.9 W pk</td><td class="src">mars_lidar/design/tec_control.py</td></tr>
+        <tr><td>Laser wavelength drift (LD TEC)</td><td class="num">9 pm</td><td class="src">mars_lidar/design/tec_control.py</td></tr>
+        <tr><td>Boards routed airwire-free</td><td class="num">3 · 0 islands</td><td class="src">mars_lidar/hw/verify_islands.py</td></tr>
+        <tr><td>FPGA timing closure @100 MHz</td><td class="num">WNS +1.39 ns</td><td class="src">mars_lidar/fpga/mcs_synth.tcl</td></tr>
+        <tr><td>Firmware host tests (mock + plant)</td><td class="num">12 / 12</td><td class="src">mars_lidar/fw/test</td></tr>
+        <tr class="grp"><td colspan="3">Optical observatory — sci-obs-01 · device (Sentaurus TCAD)</td></tr>
+        <tr><td>Band-to-band dark floor, 15 µm pixel</td><td class="num">0.383 Hz/px</td><td class="src">spad40_mars · DCR tier decks (iwK115)</td></tr>
+        <tr><td>Peak multiplication field / width</td><td class="num">4.33e5 V/cm · 0.74 µm</td><td class="src">spad40_mars · iwK115 BP scan</td></tr>
+        <tr><td>Trigger probability at 88 V</td><td class="num">0.904</td><td class="src">spad40_mars · iwK115 BP scan</td></tr>
+        <tr><td>Dark-count field law</td><td class="num">×10 per 0.29e5 V/cm</td><td class="src">spad40_mars · charge-dose sweep</td></tr>
+        <tr><td>PDE at 173 K (V / R / I / Z)</td><td class="num">0.79 / 0.77 / 0.51 / 0.24</td><td class="src">spad40_mars · PDE reconstruction</td></tr>
+        <tr><td>Sustaining voltage → quench resistor</td><td class="num">47.3 V → 3.6 MΩ</td><td class="src">spad40_mars · Geiger transient</td></tr>
+        <tr><td>Dead border, bare → edge ring</td><td class="num">8.14 → 4.45 µm/side</td><td class="src">spad40_mars · iwL20 edge-ring run</td></tr>
+        <tr><td>Radiation life to 1 Hz, 15 µm pixel</td><td class="num">10.7 yr</td><td class="src">spad40_mars · radiation DCR analysis</td></tr>
+        <tr class="grp"><td colspan="3">Readout ASIC — circuit (Spectre) and layout signoff (Calibre)</td></tr>
+        <tr><td>Sense-inverter trip point (Monte Carlo)</td><td class="num">1.534 ± 0.014 V</td><td class="src">mars_spad_rox/netlist/sense_trip_mc.scs</td></tr>
+        <tr><td>Pulse-pair resolution</td><td class="num">18 ns</td><td class="src">mars_spad_rox/netlist/px_pair.scs</td></tr>
+        <tr><td>Poisson counting fidelity @1e6 cps</td><td class="num">106 / 106</td><td class="src">mars_spad_rox/netlist/px_cnt_hi.scs</td></tr>
+        <tr><td>Front end across corners incl. ss/−100 °C</td><td class="num">3 / 3 pulses</td><td class="src">mars_spad_rox/netlist/px_fe_v1.scs</td></tr>
+        <tr><td>Pixel cell pitch (mirror-tiled)</td><td class="num">14.97 µm</td><td class="src">mars_spad_rox/layout/gen_px15.py</td></tr>
+        <tr><td>Layout signoff across 12 cells</td><td class="num">DRC 0 · LVS 11/11</td><td class="src">mars_spad_rox/drc + /lvs Calibre decks</td></tr>
+        <tr><td>Post-layout toggles (pre-layout 118.6/519.3/919.1)</td><td class="num">118.2 / 519.0 / 919.1 ns</td><td class="src">mars_spad_rox/netlist/px15_post.scs · xRC</td></tr>
+        <tr><td>Extracted bit-line parasitic, 4-pixel column</td><td class="num">≈200 Ω + a few fF</td><td class="src">mars_spad_rox · px_arr4 xRC extraction</td></tr>
+        <tr><td>Shared-column readout, preset 0101</td><td class="num">reads 0101</td><td class="src">mars_spad_rox/netlist/col_mux.scs</td></tr>
+        <tr><td>Complete tile netlist match</td><td class="num">28 ports / 240 nets / 580→532 dev</td><td class="src">mars_spad_rox/layout/px_tile.cdl · Calibre LVS</td></tr>
+        <tr class="grp"><td colspan="3">Optics, thermo-mechanics and imaging (analytic + forward simulation)</td></tr>
+        <tr><td>Plate scale / field of view</td><td class="num">3.09″/px · 26.4′</td><td class="src">mars_spad_rox/scripts/calc_mech_design.py</td></tr>
+        <tr><td>Edge chief-ray angle (pupil 200–300 mm)</td><td class="num">1.0–1.6°</td><td class="src">mars_spad_rox/scripts/calc_mech_design.py</td></tr>
+        <tr><td>Depth of focus vs CFRP thermal drift</td><td class="num">±35 µm vs 306 µm</td><td class="src">mars_spad_rox/scripts/calc_mech_design.py</td></tr>
+        <tr><td>Night heat load → radiator area</td><td class="num">127 mW → 64 cm²</td><td class="src">mars_spad_rox/scripts/calc_mech_design.py</td></tr>
+        <tr><td>Die-edge CTE shear, organic vs AlN</td><td class="num">51.8 vs 6.8 µm</td><td class="src">mars_spad_rox/scripts/calc_mech_design.py</td></tr>
+        <tr><td>Paschen margin on the 88 V feed</td><td class="num">4.8× below minimum</td><td class="src">mars_spad_rox/scripts/calc_mech_design.py</td></tr>
+        <tr><td>Limiting magnitude, 60 s stack</td><td class="num">20.8 at SNR 5</td><td class="src">mars_spad_rox/scripts/sim_expected_image.py</td></tr>
+        <tr><td>Lit pixels in one 1 ms frame</td><td class="num">178 / 262 144</td><td class="src">mars_spad_rox/scripts/sim_expected_image.py</td></tr>
+        <tr><td>Frame data rate, 512² at 1 kHz</td><td class="num">0.26 Gbps</td><td class="src">mars_spad_rox/docs/sensor_floorplan.md</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <p class="lead">The honest list — stale numbers, a short hiding as a hint, phantom opens, and
+      six failed process rounds.</p>
+    <div class="prose">
+      <p><strong>The stale baseline.</strong> The link budget's overlap model carried a
+        0.76&nbsp;m port separation, but the mechanical build had already pulled the two ports to
+        0.38&nbsp;m to shrink the blind zone — and the budget never followed. A mechanical
+        dissection caught the mismatch; reconciling to 0.38&nbsp;m nearly halved the measurable
+        near-field floor, from ~0.7 to ~0.4&nbsp;km.</p>
+      <p><strong>A blind zone that looked like a ceiling.</strong> Once the overlap function was
+        physical, the near field became a true blind zone. The range solver still took "the first
+        altitude where SNR&nbsp;&lt;&nbsp;3" and dutifully reported the blind zone as the range
+        ceiling — 0.6&nbsp;km. Rewritten to take the <em>highest</em> altitude with SNR&nbsp;≥&nbsp;3.</p>
+      <p><strong>Two nets in one hole.</strong> A duplicate connector slipped through the
+        schematic-to-board sync, and reflowed pin-rows overlapped until a 64&nbsp;V rail and ground
+        shared a single plated hole — a dead short that the checker only surfaced as "airwires."
+        Found by scanning every pad pair for coincident coordinates; fixed by de-duplicating and
+        spreading the connectors.</p>
+      <p><strong>Phantom open circuits.</strong> After a batch copper push the EDA under-registered
+        nets and threw dozens of "No Connection" errors on traces that were physically joined.
+        Cleared by re-touching every trace's net assignment — then a real via-clearance handful
+        fell out and got fixed.</p>
+      <p><strong>Insulation, not tuning.</strong> The 1.5&nbsp;A thermoelectric driver pumps only
+        0.82&nbsp;W across a 40&nbsp;K lift, so the parasitic heat leak has to sit far below that.
+        The −40&nbsp;°C hold is won by insulation, not by control-loop gains — a constraint the
+        design script surfaced before any hardware existed.</p>
+
+      <h3 class="sub"><span class="n">Observatory</span>Seven process rounds means six of them failed</h3>
+      <p><strong>The dose trim that couldn't.</strong> The obvious way to lower a dark count is to
+        lower the implant dose until the field comes down. Four doses were swept, the law came out
+        clean, and the conclusion was fatal: at the field the budget demands, the sharp junction's
+        trigger probability is below 0.5. The device would have been quiet and blind. Only then did
+        the architecture change.</p>
+      <p><strong>Charge stacking that sharpened the field.</strong> The first attempt to widen the
+        multiplication region stacked three implant energies. It did the opposite of the intent —
+        the deep energies piled charge <em>at</em> the substrate junction and pushed the peak field
+        to 6.5–8.7×10<sup>5</sup>&nbsp;V/cm. Width has to come from a low-doped gap, not from more
+        implants, and that only shows up when you plot the field rather than the doping.</p>
+      <p><strong>The implant that evaporated.</strong> The next round moved the charge higher above
+        the substrate and lost 97 % of the dose through the thermal drive: the heavily doped
+        substrate interface acts as an interstitial sink, so charge more than ~1.3&nbsp;µm away is
+        smeared into nothing. A later attempt to sidestep implants with an in-situ doped epi layer
+        was <em>silently wiped</em> by the next same-material deposit — the profile simply wasn't
+        there in the final structure, and nothing in the log said so.</p>
+      <p><strong>Trigger probability 0.99, drift field 21 V/cm.</strong> One over-dosed variant
+        looked like the best device in the family until the drift field in the absorption region was
+        checked: it had never punched through. Voltage was piling up at the junction while the
+        absorber stayed undepleted, so photons were landing where nothing collected them. Trigger
+        probability alone is a liar; reach-through has to be verified separately.</p>
+      <p><strong>The keeper that won.</strong> The column sense latch was drawn, DRC-clean and
+        LVS-clean — and could not be written. Its cross-coupled keeper was the same strength as the
+        transmission-gate write path, so the latch simply held its old value. A textbook
+        ratioed-latch error, caught the first time the cell was simulated rather than the first time
+        it was drawn, which is the whole argument for simulating cells.</p>
+      <p><strong>Sixteen identical latches.</strong> A nominal transient of the fully extracted array
+        refused to resolve: sixteen identical flip-flops park at the same metastable point, the state
+        lives in nodes the extractor renamed, and the model deck carries no device mismatch to break
+        the symmetry. Real silicon resolves this with mismatch and a per-frame reset. Rather than
+        dress up a simulation that could not answer, the claim was decomposed — pixel function proven
+        on one cell, array connectivity proven by LVS and extraction, and the shared-column readout
+        proven by a deterministic preset-and-read experiment.</p>
+      <p><strong>The 21.5 that was 20.8.</strong> Writing this page caught one of its own numbers.
+        The imaging figure had carried a limiting magnitude of 21.5 in its caption since the day it
+        was drawn — an estimate nobody had actually computed. Applying the ledger rule to it (every
+        number must name the script that produced it) forced the calculation: with a compact aperture
+        and the measured dark rate, the honest answer is 20.8 — and the faint star labelled on the
+        figure turns out to sit exactly at the 5σ limit.</p>
+      <p><strong>Small traps, real hours:</strong> the layout machine turned out to hold no Calibre
+        licence at all, which is why drawing and signoff run on two different machines; wrapping an
+        instance origin in a list instead of passing a bare point hangs the batch tool until a
+        timeout kills it; the extraction tool has no <span class="src">-pex</span> mode and rejects
+        <span class="src">-hier</span>; and one eyeballed via landing, about a micron off, produced a
+        floating net and a metal island that cost a full verification round to trace back to a single
+        mistyped coordinate.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">07</span><h2>Try it</h2></div>
+    <p class="lead">Walk up to them in the city.</p>
+    <div class="prose">
+      <p>Open the viewer and jump straight to the station with
+        <span class="src">index.html?inspect=sci-lidar-01</span>, or press <strong>V</strong> near it
+        to orbit. Look for the 905&nbsp;nm probe beam leaving the smaller of the two roof ports at
+        20°&nbsp;off zenith, the Ø125&nbsp;mm receiver beside it, the nine-fin radiator on the
+        sun-shadowed wall, and the 3.5&nbsp;m weather mast with its bare-wire thermocouple spokes.
+        Proximity knowledge cards break down each subsystem.</p>
+    </div>
+      <p>The observatory answers to <span class="src">index.html?inspect=sci-obs-01</span>, or walk
+        south-west across the plain until the dome comes over the horizon. Push the time slider past
+        sunset and watch the sequence the engine drives from the asset's named joints: the shutter
+        leaf rides over the zenith, the dome begins its slow slew, and the telescope tips up to
+        track — then reseals at dawn. Walk within 20&nbsp;m and knowledge cards surface the same
+        numbers as this page, one per subsystem: dome, telescope, cold box, equipment room, airlock
+        door.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;"><b>LiDAR</b> — design ledger:
+      <span class="src">mars_lidar/design/system_design.md</span> · power &amp; thermal:
+      <span class="src">mars_lidar/design/power_budget.md</span> · city asset:
+      <span class="src">viewer/units/sci-lidar-01.js</span> · device:
+      <span class="src">spad40_nir</span> (nir_iproc_p10j)</p>
+    <p style="margin:8px 0 0;"><b>Observatory</b> — device campaign:
+      <span class="src">spad40_mars/README.md</span> · readout ASIC &amp; layout:
+      <span class="src">mars_spad_rox/README.md</span> · engineering budgets:
+      <span class="src">mars_spad_rox/docs/mech_design.md</span>,
+      <span class="src">sensor_floorplan.md</span> · city asset:
+      <span class="src">models/sci-obs-01/</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

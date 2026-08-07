@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Weather Mast</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #06080d; }
+  .poster { width: 1600px; position: relative; overflow: hidden; color: #dfe6ec;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #141008 0%, #08070d 50%, #05070a 100%); }
+  header { text-align: center; padding: 52px 0 16px; }
+  header h1 { font-size: 58px; letter-spacing: 12px; color: #ecf2f6; font-weight: 800; }
+  header h1 .accent { color: #ffc25a; }
+  header .sub { margin-top: 12px; font-size: 21px; letter-spacing: 4px; color: #a9987f; }
+  header .rule { width: 620px; height: 2px; margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #ffc25a, transparent); }
+  .heroes { display: flex; justify-content: center; gap: 18px; margin-top: 26px; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid #302a20; box-shadow: 0 16px 44px rgba(0,0,0,.6); background: #0a0f14; }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #e8ddd2; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(8,6,4,.93) 55%); }
+  .hp-a { width: 780px; height: 470px; }
+  .hp-a img { object-position: 62% 55%; transform: scale(1.25); }
+  .hp-b { width: 372px; height: 470px; background: #fff; }
+  .hp-b img { object-fit: contain; background: #fff; }
+  .hp-c { width: 372px; height: 470px; }
+  .hp-c img { object-position: 78% 45%; transform: scale(1.35); }
+  .sims { display: flex; justify-content: center; gap: 18px; margin-top: 18px; }
+  .sp-w { width: 762px; height: 300px; background: #fff; }
+  .sp-w img { object-fit: contain; background: #fff; }
+  .chips { display: flex; justify-content: center; gap: 20px; margin-top: 16px; }
+  .col { width: 762px; display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px;
+    background: #15110c; border: 1px solid #2f281a; border-radius: 8px; }
+  .row .k { flex: 0 0 128px; font-size: 15.5px; color: #c8a97f; letter-spacing: .5px; }
+  .row .v { font-size: 16px; color: #efe8e0; line-height: 1.45; }
+  .row .v b { color: #ffd28a; font-weight: 700; }
+  .row.sim { border-left: 3px solid #9d7f4f; }
+  .row.hot { border-left: 3px solid #ffc25a; }
+  footer { margin-top: 34px; padding: 24px 70px 30px; background: #05070a;
+    border-top: 1px solid #261f13; }
+  footer .line { text-align: center; font-size: 18px; color: #a9987f; letter-spacing: 1px; }
+  footer .line b { color: #ecd0a8; }
+  footer .src { margin-top: 10px; text-align: center; font-size: 14px; color: #5c5244;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>THE <span class="accent">WEATHER MAST</span></h1>
+    <div class="sub">A 10 m lattice tower that decides when greenhouses switch to LEDs and helicopters stay home</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="heroes">
+    <div class="panel hp-a">
+      <img src="wx-day.png" alt="Weather station by day">
+      <div class="cap">Three-level hot-film anemometry (MEDA heritage), barometer enclosure, sun-tracking photometer, equipment cabin — guyed for the storms it exists to measure</div>
+    </div>
+    <div class="panel hp-b">
+      <img src="wx-hotfilm.png" alt="Hot-film Nu-Re account">
+      <div class="cap">The 610 Pa problem: hot-film heat transfer with low-pressure Nu–Re correction — why cups are the display and films are the instrument</div>
+    </div>
+    <div class="panel hp-c">
+      <img src="wx-night.png" alt="Station at night">
+      <div class="cap">Night watch: beacon lit, cabin warm — the mast never sleeps through a storm</div>
+    </div>
+  </div>
+  <div class="sims">
+    <div class="panel sp-w"><img src="wx-cup.png" alt="Cup anemometer start account">
+      <div class="cap">Cup-starting ledger: 0.79 m/s spin-up in air forty times thinner — the big cups are honest, just slow</div></div>
+    <div class="panel sp-w"><img src="wx-sun.png" alt="Sun tracking and Langley">
+      <div class="cap">Sun-tracking + Langley calibration: four-quadrant residual 0.014°, four-morning average closes the 1% optical-depth assumption</div></div>
+  </div>
+
+  <div class="chips">
+    <div class="col">
+      <div class="row hot"><span class="k">🌪 τ is the product</span><span class="v">The 880 nm photometer measures dust optical depth — <b>τ &gt; 3 is the tripwire</b> that switches the greenhouse dome to LED and grounds the scout helicopter</span></div>
+      <div class="row sim"><span class="k">📐 CTA servo</span><span class="v">Open-loop films answer in 17–48 s; the bridge servo multiplies bandwidth <b>×925 to 29.5 ms</b> — gusts measured, not smoothed away</span></div>
+      <div class="row sim"><span class="k">📐 Inlet filter</span><span class="v">Pressure-port aerodynamic low-pass: r = 3 mm keeps f_c at <b>1.39 Hz</b> — dust devils pass the filter, wind noise does not</span></div>
+    </div>
+    <div class="col">
+      <div class="row sim"><span class="k">📐 Night thermal</span><span class="v">Warm-electronics-box-in-a-box: 128 W dead-end redesigned to <b>27.3 W</b>, battery depth-of-discharge 22% on the coldest night</span></div>
+      <div class="row sim"><span class="k">📐 The net</span><span class="v">Three remote masts triangulate storm fronts: σ_speed 4–5%, σ_azimuth 2.2–2.8°, <b>1–3.5 min of warning</b> ahead of the wall</span></div>
+      <div class="row"><span class="k">In town</span><span class="v">Shares an alarm bus with the radiation station next door — the city's environmental-alert cluster at (300, −300)</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">Thirteen ledgers on one tower — <b>every sensor carries the number that justified it</b></div>
+    <div class="src">Design rounds ×13 (hot-film Nu–Re · cup start · τ retrieval · membrane · servo · inlet · WEB thermal · triangulation …) · in-engine captures · Mars City Digital Twin</div>
+  </footer>
+</div>
+</body>
+</html>

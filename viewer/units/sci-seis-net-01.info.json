@@ -1,0 +1,53 @@
+{
+  "id": "sci-seis-net-01",
+  "pois": [
+    {
+      "id": "node_array",
+      "label": "远端节点:方位角覆盖做定位",
+      "label_en": "Remote Nodes: Azimuthal Coverage for Location",
+      "range": 18,
+      "pos": [0, 0.9, 0],
+      "detail": "单台站定事件只能靠 P 偏振+S-P 距离的'单站技艺';主站外 1.2~2.2 km、方位岔开 ≥90° 的远端节点把到时差变成真正的三角定位。它们同时接管纯净高频地板:24h 城市源的 8 Hz 残余在 877 m(Q15)外才压进夜地板——主站够不到的那块由节点补齐。",
+      "detail_en": "A lone station locates events only by P polarization plus S−P distance — single-station craft; remote nodes 1.2–2.2 km out with azimuths ≥90° apart turn arrival-time differences into true triangulation. They also own the pristine high-frequency floor: the 8 Hz residue of the city's 24 h sources only drops below the night floor beyond 877 m (Q15) — the nodes cover what the main station cannot.",
+      "specs": {
+        "撒放建议": "主站 1.2~2.2 km,3 桩方位互隔 ≥90°",
+        "定位增益": "3 节点 = 二维慢度矢量最小闭合",
+        "纯净地板半径": "877 m(Q15)~1414 m(Q25)",
+        "单件预算": "A 型 348 面 / B 型 384 面(≤500)"
+      },
+      "specs_en": {
+        "Scatter guidance": "1.2–2.2 km from the station, 3 stakes ≥90° apart in azimuth",
+        "Location gain": "3 nodes = minimal closure for the 2-D slowness vector",
+        "Pristine-floor radius": "877 m (Q15) to 1414 m (Q25)",
+        "Per-piece budget": "type A 348 tris / type B 384 tris (≤500)"
+      },
+      "sim": "城市噪声账(mars-seis sim/03)与观测网几何:平面波前到时差最小二乘反演慢度矢量,3 站是二维解的最小闭合——与气象观测网 sci-weather-net-01 的三角定位账同构。",
+      "sim_en": "City-noise ledger (mars-seis sim/03) plus network geometry: least-squares inversion of plane-wavefront arrival differences for the slowness vector needs 3 stations as the minimal 2-D closure — isomorphic to the sci-weather-net-01 triangulation ledger.",
+      "physics": "到时差 δt = s·δx(慢度×基线):基线方位越张开,慢度两个分量的条件数越好;三站共线则法向分量不可解——这就是'方位岔开 ≥90°'的数学身份。",
+      "physics_en": "Arrival difference δt = s·δx (slowness × baseline): the wider the azimuths spread, the better conditioned both slowness components are; three collinear stations leave the normal component unsolvable — the mathematical identity behind 'azimuths ≥90° apart'."
+    },
+    {
+      "id": "node_types",
+      "label": "两型节点:打入桩与基岩锚",
+      "label_en": "Two Node Types: Driven Stake vs Bedrock Anchor",
+      "range": 15,
+      "pos": [0.6, 0.4, 0],
+      "detail": "A 型标准桩:尖锥打入耦合,SP 三分量罐+迷你 PV+鞭状天线,三向拉线把桅杆风振锚死——安装座那笔账在荒野同样成立。B 型基岩锚:崖边低风阻矮墩,4 岩栓直接咬进基岩,blink 信标让尘暴后的巡检车找得到它。",
+      "detail_en": "Type A standard stake: cone-tip driven coupling, SP 3-component pot with mini PV and whip antenna, three guy-lines pinning mast wind-buffet to ground — the mounting ledger holds in the wilderness too. Type B bedrock anchor: a low-drag squat puck at cliff edges, 4 rock bolts biting straight into bedrock, with a blink beacon so the inspection rover finds it after a dust storm.",
+      "specs": {
+        "A 型": "打入桩耦合 + 拉线风振抑制,夜光状态灯",
+        "B 型": "基岩 4 岩栓,风阻最低,红色 blink 信标",
+        "共同点": "无转动部件 —— 安静是设计特征"
+      },
+      "specs_en": {
+        "Type A": "driven-stake coupling + guyed mast, night status LED",
+        "Type B": "4 rock bolts into bedrock, lowest drag, red blink beacon",
+        "In common": "zero rotating parts — quietness is a design feature"
+      },
+      "sim": "安装座账(sci-seis-01 mount 卡)外推:基岩锚接触刚度比夯实土再高一个量级,耦合共振远超频带;崖边选位与低矮外形同时压掉 Sorrells 风压项与直吹项。",
+      "sim_en": "Extrapolating the mount ledger (sci-seis-01 mount card): bedrock-bolt contact stiffness is another order above tamped soil, pushing coupling resonance far out of band; cliff-edge siting plus the squat profile suppresses both the Sorrells pressure term and direct wind drag.",
+      "physics": "耦合刚度链条:浮土 < 夯实 < 基岩;赫兹接触 k∝G=ρVs²,基岩 Vs ~1800 m/s 对风化层 ~80 m/s 是 500 倍刚度——B 型根本没有耦合共振可言。",
+      "physics_en": "The coupling-stiffness ladder: loose soil < tamped < bedrock; Hertzian k∝G=ρVs², and bedrock Vs ~1800 m/s versus regolith ~80 m/s is a 500× stiffness step — type B simply has no coupling resonance to speak of."
+    }
+  ]
+}

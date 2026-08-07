@@ -1,0 +1,393 @@
+{
+  "id": "sci-swir-01",
+  "pois": [
+    {
+      "id": "camera",
+      "label": "InGaAs 科学相机(0.9–1.7 µm)",
+      "label_en": "InGaAs Science Camera (0.9–1.7 µm)",
+      "range": 25,
+      "detail": "In₀.₅₃Ga₀.₄₇As/InP 晶格匹配 PIN 背照阵列,640×512 @ 15 µm,铟凸点混成到 CTIA 读出电路,密封干燥冷腔 + C-mount 镜筒,机身按真机 1:1(70×70×120 mm)装在云台上。1.7 µm 截止是刻意选的:延伸波长 InGaAs 暗电流指数级上涨,'科学微光'的甜点就在标准截止。本机填补城内探测器谱系 1.1–1.7 µm 空白(可见光 CIS 到 ~1.0 µm 为止)。",
+      "detail_en": "Lattice-matched In0.53Ga0.47As/InP back-illuminated PIN array, 640x512 @ 15 um, indium-bump hybridized to a CTIA ROIC, sealed dry cold chamber with C-mount optics; the body is true 1:1 scale (70x70x120 mm) on the gimbal. The 1.7 um cutoff is deliberate: extended-wavelength InGaAs pays exponentially in dark current, so the low-light sweet spot is the standard cutoff. This unit fills the colony's 1.1-1.7 um detector-lineage gap (visible CIS ends near 1.0 um).",
+      "specs": {
+        "阵列": "640×512,15 µm 像元(有效面 9.6×7.68 mm)",
+        "波段": "0.9–1.7 µm(InGaAs 量子效率平台 ~0.75–0.85)",
+        "曝光": "100 µs – 60 s,10–60 fps,14–16 bit",
+        "机身": "70×70×120 mm,C-mount(法兰距 17.526 mm)",
+        "工作温度": "FPA −25 °C 标准 / −40 °C 微光档(TEC)",
+        "深冷收益(实算)": "−40→−74 °C 灵敏度 2.5×(高增益口径),不是暗电流那 32× —— 读噪接管",
+        "最优工作温度": "膝点 −50…−58.5 °C,再冷无益(背书夜间 −60 °C 保温档)",
+        "暗电流机制(TCAD 实测)": "产生复合主导;活化能 0.54 eV、减半间隔 5.95 K、深冷 53×",
+        "真源目标可达性": "10 e⁻/s/px @ −40 °C 与全耗尽 p-i-n 架构冲突,差 4 个量级"
+      },
+      "specs_en": {
+        "Array": "640x512, 15 um pitch (9.6x7.68 mm active)",
+        "Band": "0.9-1.7 um (InGaAs QE plateau ~0.75-0.85)",
+        "Exposure": "100 us - 60 s, 10-60 fps, 14-16 bit",
+        "Body": "70x70x120 mm, C-mount (17.526 mm flange)",
+        "FPA temp": "-25 C standard / -40 C low-light (TEC)",
+        "Deep-cold payoff (computed)": "-40 to -74 C gives 2.5x sensitivity (high-gain basis), not the 32x dark-current drop - read noise takes over",
+        "Optimal operating temp": "knee at -50 to -58.5 C; colder brings nothing (endorses the -60 C night hold setpoint)",
+        "Dark mechanism (TCAD)": "generation-recombination dominated; Ea 0.54 eV, 5.95 K halving interval, 53x on deep cooling",
+        "True-source target reachability": "10 e-/s/px at -40 C conflicts with the fully-depleted p-i-n architecture -- four orders short"
+      },
+      "sim": [
+        "暗电流目标 10 e⁻/s/px @ −40 °C(= 8.9e-13 A/cm²);60 s 暗积累 600 e⁻,暗散粒噪声 24.5 e⁻(Codex Phase 6)",
+        "弱信号观测模式账:20 e⁻/s/px 信号、60 s、高增益 → SNR 27.9,满阱占用 9%(Phase 33)",
+        "侧壁漏电闸:刻蚀 InGaAs 裸侧壁是首要工艺风险,等效侧壁漏密度 ≤1.99e-13 A/cm²(20% 暗预算)才达标 → 平面/保护环架构(Phase 20/21)",
+        "v2 鬼像修正(设计册账 9):真源 spec §5.1 写「倾斜窗口把鬼像移出有效阵列」,几何一算不成立——Narcissus 鬼像位移 = 2L·tan(2θ),窗口-探测器间距 8–12 mm、倾斜 1–2° 只给 0.56–1.68 mm,而阵列半对角 6.15 mm(要 20 mm 间距 + 5° 才移得出)。实际靠 AR:双面 R=0.5% 时鬼像相对强度 7.5e-6(含探测器反射 0.3),远低于 1e-3 判据 → PASS;倾斜的真实作用是把鬼像错开焦面降低锐度",
+        "v3 机制账(设计册账 10):暗电流减半间隔由机制定,不是经验值——扩散(E_a=Eg=0.75 eV)4.01 K、产生复合(Eg/2)8.01 K、陷阱辅助隧穿(0.1 eV)32.5 K、带间隧穿/表面漏 ∞。首版用的「7 K 减半」恰好落在产生复合假设上(真值 8.01 K);机制未定时 −40→−74.4 °C 暗电流降幅跨 3 个量级:1033× / 32× / 2.4× / 1.0×",
+        "但系统灵敏度不跟着跨量级:高增益(读噪 7 e⁻)最小可检测 68.3 → 24–68 R(深冷增益 2.5×,机制间离散 2.8×);低增益(读噪 30 e⁻)100.4 → 79–100 R(增益仅 1.26×,离散 1.27×)。噪声分解给出原因:−40 °C 读噪已占 54.9%、暗噪 36.6%,深冷到 −74 °C 后读噪占 86.5% —— 读噪接管",
+        "饱和膝点:扩散主导 −49.7 °C、产生复合主导 −58.5 °C,再冷无益 —— 这条背书账 4 的夜间 −60 °C 保温档:它不是省电妥协而是最优工作点(比保 −40 °C 省 3.2 W 加热,灵敏度还更好)",
+        "对 TCAD 的判决:真源 Phase 20/21 留的侧壁/体漏分离**不阻塞本站交付**(系统结论方向不变),但它决定暗端灵敏度落在 24 R 还是 68 R —— 属于「值得做但不卡路」的器件工艺验收项",
+        "v4 TCAD 实跑(设计册账 13,Sentaurus P-2019.03,40 次有效求解):真源 Phase 20/21 悬置的「侧壁漏与体漏未分离」结案 —— **产生复合主导**,三个独立指纹一致:①九组 Arrhenius 活化能0.532–0.574 eV(R²>0.999),介于纯扩散 Eg₀ 0.824 与干净 GR 0.412 之间,差值由 SRH 的τ∝T^2.55 与 n_i 的 T^1.5 前因子解释;②偏压幂指数 0.57→0.69 随降温上升(GR ∝√V);③深冷降幅 53× 贴住 GR 的 ∝n_i 理论标度 47×。解析 Sah-Noyce-Shockley 与 TCAD 差 9%",
+        "机制层贡献:陷阱辅助隧穿(Hurkx)7%(298 K)→17%(199 K);**带间隧穿精确为零**(0.5 V 下场太低,与高场 SPAD 的 B2B 天花板处境正相反)—— CTIA 把偏压钉低同时买到线性度与免于隧穿",
+        "**真源目标与其架构冲突**:10 e⁻/s/px @ −40 °C(8.9e-13 A/cm²)在 2.5 µm 全耗尽吸收层 + 结在 InGaAs 的架构下差 4 个量级(实测 7.0e5 e⁻/s/px),GR 限反推需 65.6 ms 体寿命 —— 物理不可达。根因:GR∝n_i 而扩散∝n_i²,降温使 GR 越发主导(GR/扩散比 298 K 31× → 199 K 26.6 万×),靠制冷绕不过去;掺杂旋钮实测只值 1.83×",
+        "**正解(TCAD 验证)**:结做在 InP 内(Zn 深 0.45 µm < cap 0.60)+ cap 厚度调到让耗尽区刚好伸进 InGaAs 0.2–0.5 µm + 吸收层掺 1e16 → 暗电流改善 26×,收集效率仍 92%(准中性区 2.145 µm 扩散到 InGaAs 内的耗尽边界,**不需翻越异质结势垒**)。**反例**:cap 加厚到 2.0 µm 使吸收层零耗尽,暗电流暴跌到 0.196 e⁻/s/px 看似达标,但光生空穴被 0.34 eV 价带偏移挡死(exp(−ΔEv/kT)=4.5e-8),器件是瞎的 —— **暗电流单独不是有效指标,判据必须成对(暗电流+收集场)**",
+        "**火星把不可达变可达**:正解在 −40 °C 仍差 3021 倍,但在火星夜白送的 −74.4 °C 只差 **7.1 倍**,而这 7 倍可由体寿命 1→7 µs 补上(高质量 InGaAs 可达 10 µs)。深冷收益随机制变化:GR 限 53× / 部分耗尽 424× / 纯扩散限 2767× —— **账 4「制冷白送」的真正价值不是省 30 W,而是把物理上不可达的指标变成可达**",
+        "回填账 10 并验证其鲁棒性:实测减半 5.95 K(账 10 用 7 K)、深冷 53×(账 10 用 30×);代回噪声预算后高增益灵敏度增益 2.53×→**2.64×**、低增益 1.26× 不变 —— **暗电流倍数改 72%,系统答案只动 5%**,账 10「读噪接管使器件级不确定性不影响系统结论」获实测背书,当初判断「TCAD 值得做但不卡交付路」成立"
+      ],
+      "sim_en": [
+        "Dark-current target 10 e-/s/px @ -40 C (8.9e-13 A/cm2); 60 s dark charge 600 e-, shot noise 24.5 e- (Codex Phase 6)",
+        "Low-light mode budget: 20 e-/s/px signal, 60 s, high gain -> SNR 27.9 at 9% full-well (Phase 33)",
+        "Sidewall-leakage gate: exposed etched InGaAs sidewall is the top process risk; effective sidewall density must stay <=1.99e-13 A/cm2 (20% of dark budget) -> planar/guarded architecture (Phase 20/21)",
+        "v2 ghost-image correction (ledger acct 9): the true-source spec 5.1 says a tilted window moves ghosts off the active array, but the geometry disagrees - Narcissus ghost shift is 2L*tan(2*theta), and with an 8-12 mm window-to-detector gap at 1-2 degrees that is only 0.56-1.68 mm against a 6.15 mm array half-diagonal (a 20 mm gap at 5 degrees would be needed). AR coating does the real work: double-sided R=0.5% puts relative ghost intensity at 7.5e-6 including 0.3 detector reflectance, far under the 1e-3 gate -> PASS. The tilt's actual role is defocusing the ghost, not displacing it off the array",
+        "v3 mechanism ledger (acct 10): the dark-current halving interval is set by mechanism, not by a rule of thumb - diffusion (E_a=Eg=0.75 eV) 4.01 K, generation-recombination (Eg/2) 8.01 K, trap-assisted tunneling (0.1 eV) 32.5 K, band tunneling/surface leakage infinite. The first draft's 7 K halving happens to sit on the generation-recombination assumption (true value 8.01 K); with the mechanism undetermined, the -40 to -74.4 C dark-current drop spans three orders: 1033x / 32x / 2.4x / 1.0x",
+        "System sensitivity does not span orders with it: at high gain (7 e- read noise) minimum detectable goes 68.3 -> 24-68 R (2.5x deep-cold gain, 2.8x spread across mechanisms); at low gain (30 e-) 100.4 -> 79-100 R (only 1.26x gain, 1.27x spread). The noise decomposition explains it: at -40 C read noise is already 54.9% and dark 36.6%; by -74 C read noise holds 86.5% - read noise takes over",
+        "Saturation knee: -49.7 C if diffusion-dominated, -58.5 C if generation-recombination-dominated; colder adds nothing. This endorses the acct-4 night hold setpoint of -60 C - not a power-saving compromise but the optimum (3.2 W less heating than holding -40 C, with better sensitivity)",
+        "Verdict on TCAD: the sidewall/bulk leakage separation left open by true-source Phases 20/21 does not block this station's delivery (system conclusions keep their direction), but it decides whether faint-end sensitivity lands at 24 R or 68 R - a device-process acceptance item worth doing, not a blocker",
+        "v4 TCAD campaign (ledger acct 13, Sentaurus P-2019.03, 40 valid solves): the open question left by true-source Phases 20/21 -- sidewall vs bulk leakage unseparated -- is now closed: generation-recombination dominates, on three independent fingerprints. (1) Nine Arrhenius fits give Ea 0.532-0.574 eV (R2>0.999), between pure diffusion (Eg0 0.824) and clean GR (0.412), the gap explained by SRH tau ~ T^2.55 plus the ni T^1.5 prefactor. (2) The bias power-law exponent rises 0.57 -> 0.69 on cooling (GR scales as sqrt(V)). (3) The deep-cooling factor of 53x matches the GR ni-scaling prediction of 47x. Analytic Sah-Noyce-Shockley agrees with TCAD to 9%",
+        "Tier contributions: trap-assisted tunneling (Hurkx) 7% at 298 K rising to 17% at 199 K; band-to-band tunneling contributes exactly zero (the field at 0.5 V is far too low) -- the opposite situation to a high-field SPAD, where B2B sets the dark-count ceiling. Pinning the photodiode at low bias with a CTIA buys linearity and tunneling immunity at once",
+        "The true-source target conflicts with its own architecture: 10 e-/s/px at -40 C (8.9e-13 A/cm2) is four orders away (measured 7.0e5 e-/s/px) for a 2.5 um fully depleted absorber with the junction inside the InGaAs; closing it under GR limitation would need a 65.6 ms bulk lifetime, which is physically unreachable. Root cause: GR scales as ni while diffusion scales as ni^2, so cooling makes GR progressively more dominant (GR/diffusion 31x at 298 K to 266000x at 199 K) -- cooling cannot get around it, and the doping knob measured only 1.83x",
+        "The fix, TCAD-verified: put the junction inside the InP (Zn depth 0.45 um below the 0.60 um cap), tune cap thickness so the depletion reaches just 0.2-0.5 um into the InGaAs, and dope the absorber 1e16 -- 26x lower dark current while collection stays at 92% (holes in the 2.145 um quasi-neutral region diffuse to a depletion edge that lies inside the InGaAs, so no heterojunction barrier to cross). Counter-example: thickening the cap to 2.0 um leaves the absorber fully undepleted and dark current collapses to 0.196 e-/s/px, apparently passing -- but photo-generated holes are then blocked by the 0.34 eV valence-band offset (exp(-dEv/kT)=4.5e-8) and the device is blind. Dark current alone is never a valid figure of merit; the criterion must be paired with a collecting field",
+        "Mars turns an unreachable spec into a reachable one: the fix is still 3021x above target at -40 C but only 7.1x at the -74.4 C the Martian night provides free, and that 7x is covered by raising bulk lifetime from 1 to 7 us (good InGaAs reaches 10 us). The deep-cooling factor itself tracks the mechanism: 53x GR-limited, 424x partially depleted, 2767x purely diffusion-limited. So the real value of acct 4's free cooling is not the 30 W saved but making a physically unreachable specification reachable",
+        "Feeding back into acct 10 and testing its robustness argument: the measured halving interval is 5.95 K (acct 10 assumed 7 K) and the deep-cooling factor 53x (assumed 30x). Pushed back through the noise budget, high-gain sensitivity gain moves 2.53x -> 2.64x and low gain stays at 1.26x -- a 72% change in the dark-current factor moves the system answer by 5%. Acct 10's claim that read-noise dominance makes device-level uncertainty irrelevant to system conclusions is now measurement-backed, and the earlier judgement that TCAD was worth doing but not a delivery blocker holds"
+      ],
+      "physics": "E_g(In₀.₅₃Ga₀.₄₇As)=0.75 eV → λc=hc/E_g≈1.68 µm。扩散暗电流 ∝ n_i² ∝ exp(−E_g/kT):禁带每窄一点、温度每高一点都指数放大——所以'截止波长'与'制冷深度'共同决定微光下限。 暗电流的机制由活化能读出:扩散 ∝n_i² 给 E_a→Eg₀,产生复合 ∝n_i 给 Eg₀/2,隧穿几乎无温依赖。三者的深冷标度也不同(n_i² vs n_i vs 常数),所以「降温多少倍」本身就是机制指纹 —— 这条给出一条不用拆机的在轨器件诊断手段。",
+      "physics_en": "E_g(In0.53Ga0.47As)=0.75 eV -> cutoff hc/E_g ~ 1.68 um. Diffusion dark current scales as n_i^2 ~ exp(-E_g/kT): narrower gap or warmer detector costs exponentially - cutoff wavelength and cooling depth jointly set the low-light floor. The mechanism is readable from the activation energy: diffusion (proportional to ni^2) gives Ea -> Eg0, generation-recombination (proportional to ni) gives Eg0/2, and tunneling is nearly temperature-independent. Their deep-cooling scalings differ too (ni^2 vs ni vs constant), so the cooling factor is itself a mechanism fingerprint -- which yields an in-situ device diagnostic that needs no disassembly."
+    },
+    {
+      "id": "filter",
+      "label": "找水滤光轮(5 通道外鼓)",
+      "label_en": "Water-Hunting Filter Wheel (5-slot drum)",
+      "range": 25,
+      "detail": "**前置**分度外鼓 5 通道(Ø140,轮心偏轴 42 mm 使一孔对准光轴),通道色标与卡同色:F1 1.270 µm/20 nm 气辉窄带(紫)、F2 1.300 µm 连续谱左基线(灰)、F3 1.435 µm CO₂ 冰(白)、F4 1.500 µm H₂O 冰主诊断(青)、F5 1.650 µm 右基线(橙)——1.7 µm 截止内最后的干净窗。带深 BD=1−R带/R基线(F2/F5 内插)反演冰丰度。**为什么在镜头前而不是镜筒里**:干涉滤光片中心波长随入射角蓝移,f/1.4 会聚光路的锥半角会把 20 nm 窄带整体推离气辉线(见 sim 账)。第一业务:给 res-rodwell-01 水冰井下一口井圈靶,配 res-mine-01 矿区表土含冰普查。",
+      "detail_en": "A front-mounted indexed drum with 5 slots (140 mm diameter, wheel center offset 42 mm so one aperture sits on the optical axis), color-coded like this card: F1 1.270 um/20 nm airglow narrowband (violet), F2 1.300 um left continuum (grey), F3 1.435 um CO2 ice (white), F4 1.500 um H2O-ice main diagnostic (cyan), F5 1.650 um right continuum (orange) - the last clean window inside the 1.7 um cutoff. Band depth BD = 1 - R_band/R_cont (F2/F5 interpolated) inverts to ice abundance. Why ahead of the lens rather than inside the barrel: an interference filter's center wavelength blue-shifts with incidence angle, and the f/1.4 converging cone would push the whole 20 nm passband off the airglow line (see the sim entries). First mission: target the next res-rodwell-01 ice well and survey res-mine-01 regolith ice content.",
+      "specs": {
+        "通道": "1.270 / 1.300 / 1.435 / 1.500 / 1.650 µm",
+        "带宽": "20–40 nm 干涉滤光片",
+        "反演": "带深→丰度查表(两流近似+平板粒子模型)",
+        "探测阈": "冰丰度 ~2.1 wt%(200 µm 粒径)/ ~5.5 wt%(50 µm 细霜)",
+        "反演退化": "f 与 D 相关系数 −0.967…−0.999:单带深只约束 f×D 组合,需外部粒径先验",
+        "粒径先验来源": "sci-ir-01 热红外站热惯量(∝√(kρc),颗粒接触导热控 k)",
+        "安装位置": "镜头前(物方近平行光);Ø140 分度盘、通光孔 Ø45、轮心偏轴 42 mm"
+      },
+      "specs_en": {
+        "Channels": "1.270 / 1.300 / 1.435 / 1.500 / 1.650 um",
+        "Bandwidth": "20-40 nm interference filters",
+        "Inversion": "band depth -> abundance LUT (two-stream + slab grain model)",
+        "Detection floor": "~2.1 wt% ice (200 um grains) / ~5.5 wt% (50 um frost)",
+        "Inversion degeneracy": "f-D correlation -0.967 to -0.999: a single band depth constrains only the product f*D, so an external grain-size prior is required",
+        "Grain-size prior": "sci-ir-01 thermal-IR station thermal inertia (proportional to sqrt(k*rho*c); grain contact conduction sets k)",
+        "Mounting": "ahead of the lens (object space is near-collimated); 140 mm indexed disc, 45 mm clear apertures, 42 mm center offset"
+      },
+      "sim": [
+        "BD(f,D) 单调可反演:D=200 µm 时 f=1%→BD 1.3%、10%→11%、30%→31%(设计册账 1)",
+        "昼间通道 SNR~200 → σ_BD=0.7%,3.5σ 判据 BD 阈 2.5% → 最小冰丰度 2.1 wt%(200 µm)",
+        "坑账:F5 1.65 骑在 1.5 µm 带右翼上,BD 系统性低估 ~29%(f=10% 处)——查表带偏置改正;真右肩 1.82 µm 在截止外,是 1.7 µm 相机的固有代价",
+        "v2 退化分析(设计册账 8,Hapke IMSA + HG 相函数 + 相干背散射,5 通道 Fisher 信息矩阵):f 与 D 近乎完全反相关 ρ=−0.967(D=200 µm)到 −0.999(D=50 µm)。σ_f 单相角:f=3%/200 µm 47.3% · f=10%/200 µm 14.7% · f=10%/50 µm 细霜 204%(不可反演)· f=30%/500 µm 1.3%",
+        "多相角打不开退化(第二个负结果):单相角到三相角,ρ 与条件数 8.6 几乎不变,σ 只按 √N 降——Hapke 相函数与机会效应对 f 和 D 的响应方向几乎相同,加相角是加数据量不是加信息维度",
+        "业务结论:钻井真正想找的粗粒富冰(f≥30%/D≥500 µm)恰在舒适区 σ_f 1.3%;细霜只能给「有/无」判据;定量丰度需与 sci-ir-01 热惯量联立(热惯量定 D,带深定 f×D)",
+        "v3 设计错误修正(设计册账 11,**已改几何**):干涉滤光片中心波长 λ(θ)=λ₀√(1−(sinθ/n_eff)²)。f/1.4 锥半角 19.65° 使 1.27 µm 窄带蓝移 **23.7 nm = 带宽的 118%**,叠边缘视场主光线 7° 后合计 **42.5 nm = 212%** —— 放在镜筒里的 20 nm 窄带会完全错开气辉线,原设计不成立",
+        "修法与代价:前置到镜头前,远物物方近平行 → 只剩 ±7° 视场角,漂移 3.09 nm = 15% 带宽 PASS;通光孔要覆盖前口径 Ø45 → 分度盘 Ø110 放大到 **Ø140、轮心偏轴 42 mm**,遮光罩随之移到轮前(也成了账 9 遮光罩 PST 1e-4 的几何身份),Ø140 轮使重心前移 → 配重加大后移。模块面数 2532→3316"
+      ],
+      "sim_en": [
+        "BD(f,D) is monotonic and invertible: at D=200 um, f=1% -> BD 1.3%, 10% -> 11%, 30% -> 31% (ledger acct 1)",
+        "Daytime channel SNR ~200 -> sigma_BD=0.7%; 3.5-sigma threshold BD 2.5% -> minimum ice abundance 2.1 wt% (200 um)",
+        "Gotcha: F5 1.65 rides the 1.5 um band wing, biasing BD low by ~29% (at f=10%) - LUT carries the correction; the true right shoulder at 1.82 um lies beyond cutoff, the built-in cost of a 1.7 um camera",
+        "v2 degeneracy analysis (ledger acct 8; Hapke IMSA + HG phase function + coherent backscatter, 5-channel Fisher matrix): f and D are almost perfectly anti-correlated, rho = -0.967 (D=200 um) to -0.999 (D=50 um). Single-phase sigma_f: 47.3% at f=3%/200 um, 14.7% at f=10%/200 um, 204% at f=10%/50 um frost (not invertible), 1.3% at f=30%/500 um",
+        "Extra viewing phases do not break the degeneracy (second negative result): from one to three phase angles, rho and the condition number 8.6 barely move and sigma only falls as sqrt(N) - Hapke phase function and opposition effect respond to f and D in nearly the same direction, so more phases add data volume, not information dimensions",
+        "Operational conclusion: the coarse ice-rich regime drilling actually targets (f>=30%, D>=500 um) sits in the comfortable zone at sigma_f 1.3%; fine frost supports only a presence/absence verdict; quantitative abundance requires joint inversion with sci-ir-01 thermal inertia (inertia fixes D, band depth fixes f*D)",
+        "v3 design-error fix (ledger acct 11, geometry changed): an interference filter's center wavelength follows lambda(theta) = lambda0 * sqrt(1 - (sin(theta)/n_eff)^2). The f/1.4 half-cone of 19.65 degrees blue-shifts the 1.27 um passband by 23.7 nm = 118% of its width; adding the 7-degree corner chief ray gives 42.5 nm = 212% - a 20 nm filter inside the barrel would miss the airglow line entirely, so the original design does not work",
+        "Fix and cost: move the wheel ahead of the lens where distant-object space is near-collimated, leaving only the +/-7 degree field angle and a 3.09 nm shift = 15% of bandwidth (PASS). Clear apertures must cover the 45 mm front aperture, so the indexed disc grows from 110 mm to 140 mm with a 42 mm center offset, and the hood moves ahead of the wheel (also becoming the geometric identity of the acct-9 PST 1e-4 baffle). The 140 mm wheel shifts the center of mass forward, so the counterweight grew and moved aft. Module triangle count 2532 -> 3316"
+      ],
+      "physics": "H₂O 冰 1.5 µm 带是 O–H 伸缩泛频组合带(k≈5.5e-4),火星尘在 1.3–1.65 µm 无窄带结构——双基线内插才有物理合法性;带深随粒径×丰度增长(粒子内吸收路径变长)。CO₂ 冰 1.435 µm 窄带把'干冰霜'从'水冰'里分出来,避免季节帽误报。",
+      "physics_en": "The H2O-ice 1.5 um band is an O-H stretch overtone/combination (k~5.5e-4); Martian dust has no narrow structure across 1.3-1.65 um, which is what makes two-point continuum interpolation legitimate. Band depth grows with grain size x abundance (longer intra-grain absorption path). The narrow CO2-ice 1.435 um band separates dry-ice frost from water ice, avoiding seasonal-cap false positives."
+    },
+    {
+      "id": "optics",
+      "label": "光学链:MTF 与热离焦",
+      "label_en": "Optical Chain: MTF and Thermal Defocus",
+      "range": 22,
+      "pos": [
+        0.42,
+        2.72,
+        0.3
+      ],
+      "detail": "50 mm f/1.4 SWIR C-mount 快镜 + 15 µm 像元。像质是像元限而非衍射限(Airy 直径 5.47 µm 只有像元的 0.36)。真正的硬约束在**热离焦**:焦深只有 ±3.14 µm,而 C-mount 法兰距 17.526 mm 暴露在火星昼夜 100 K 温差里——铝镜筒会离焦 40.7 µm(13 倍半焦深)把图像打软。定版 Invar 36 隔圈(唯一被动过关的材料,允许温漂 149 K)。遮光罩含两道消光挡板环。",
+      "detail_en": "A 50 mm f/1.4 SWIR C-mount lens on 15 um pixels. Image quality is pixel-limited, not diffraction-limited (the 5.47 um Airy diameter is only 0.36 of a pixel). The hard constraint is thermal defocus: depth of focus is just +/-3.14 um while the 17.526 mm C-mount flange distance is exposed to a 100 K Martian diurnal swing - an aluminum barrel would defocus by 40.7 um, thirteen half-depths, softening the image. Frozen choice: an Invar 36 spacer, the only material that passes passively (149 K allowed). The hood carries two internal glare-stop rings.",
+      "specs": {
+        "镜头": "50 mm f/1.4 SWIR AR,C-mount(法兰距 17.526 mm)",
+        "采样": "Airy 直径 5.47 µm / 像元 15 µm → 像元限;Nyquist 33.3 lp/mm",
+        "MTF@Nyquist": "衍射 0.905 × 像元 0.637 = 0.576;含像差 0.60 后 0.346(判据 ≥0.25 PASS)",
+        "焦深": "±3.14 µm(2λF#²)",
+        "镜筒材料": "Invar 36(离焦 2.10 µm PASS);铝 40.7 µm FAIL / CFRP 3.5 µm 边缘",
+        "视场": "对角 14.0°,200 m 处地面采样 6.0 cm、幅宽 38.4 m"
+      },
+      "specs_en": {
+        "Lens": "50 mm f/1.4 SWIR AR, C-mount (17.526 mm flange)",
+        "Sampling": "5.47 um Airy diameter vs 15 um pixel -> pixel-limited; Nyquist 33.3 lp/mm",
+        "MTF at Nyquist": "diffraction 0.905 x pixel 0.637 = 0.576; 0.346 with a 0.60 aberration factor (gate >=0.25, PASS)",
+        "Depth of focus": "+/-3.14 um (2*lambda*F#^2)",
+        "Barrel material": "Invar 36 (2.10 um defocus, PASS); aluminum 40.7 um FAIL / CFRP 3.5 um marginal",
+        "Field": "14.0 degrees diagonal; at 200 m the ground sample is 6.0 cm over a 38.4 m swath"
+      },
+      "sim": [
+        "热离焦扫材料(设计册账 11,100 K 温差):铝 6061 离焦 40.7 µm=13.0 倍半焦深,MTF@Nyq 从 0.576 掉到 0.134(允许温漂仅 7.7 K);304 钢 30.3 µm/9.7×;Ti-6Al-4V 15.1 µm/4.8×;CFRP 3.5 µm/1.1×;**Invar 36 2.10 µm/0.67× 唯一 PASS,允许温漂 149 K**",
+        "主动调焦备选:100 K 需 40.7 µm 行程、1.57 µm 步距(1/4 焦深)= 26 步 —— 增加一个活动件与标定负担,故定版走被动 Invar",
+        "采样与 MTF:Airy 直径 5.47 µm vs 像元 15 µm → 像元限(比值 0.36);衍射截止 446 lp/mm 远高于 Nyquist 33.3 lp/mm,MTF 乘积 0.576,含 0.60 像差因子后 0.346 过 0.25 判据",
+        "视场几何:对角 14.02°、IFOV 0.30 mrad/px、200 m 处地面采样 6.0 cm 幅宽 38.4 m —— 矿区标志物(米级)在 200 m 处占 16 像元,账 6 要求的帧差配准有足够特征"
+      ],
+      "sim_en": [
+        "Thermal-defocus material sweep (ledger acct 11, 100 K swing): 6061 aluminum defocuses 40.7 um = 13.0 half-depths, dropping MTF at Nyquist from 0.576 to 0.134 (only 7.7 K allowed); 304 steel 30.3 um/9.7x; Ti-6Al-4V 15.1 um/4.8x; CFRP 3.5 um/1.1x; Invar 36 at 2.10 um/0.67x is the only pass, allowing 149 K",
+        "Active-refocus alternative: 100 K needs 40.7 um of stroke at 1.57 um steps (a quarter depth) = 26 steps, adding a moving part and a calibration burden - hence the passive Invar choice",
+        "Sampling and MTF: 5.47 um Airy diameter against a 15 um pixel is pixel-limited (ratio 0.36); the 446 lp/mm diffraction cutoff sits far above the 33.3 lp/mm Nyquist, the MTF product is 0.576, and 0.346 with a 0.60 aberration factor clears the 0.25 gate",
+        "Field geometry: 14.02 degrees diagonal, 0.30 mrad/px IFOV, 6.0 cm ground sample over a 38.4 m swath at 200 m - a metre-scale mine landmark spans 16 pixels at that range, ample feature content for the frame-difference registration acct 6 requires"
+      ],
+      "physics": "三个尺度耦合。**衍射**:Airy 直径 2.44λF# 与像元 p 的比值决定像质由谁限——比值 <1 是像元限,过采样无益。**焦深**:2λF#² 随 F# 平方缩,快镜换来通量却把焦深压到微米级。**热离焦**:金属长度 L 的 CTE·L·ΔT 与焦深同量级时图像就软——所以快镜 + 大温差 = 必须低膨胀镜筒。这三条把「f/1.4 有多好」变成「f/1.4 要付什么代价」。",
+      "physics_en": "Three scales couple. Diffraction: the ratio of Airy diameter 2.44*lambda*F# to pixel pitch decides which limits resolution - below one it is pixel-limited and oversampling buys nothing. Depth of focus: 2*lambda*F#^2 shrinks as the square of F#, so a fast lens buys flux but squeezes focus tolerance to microns. Thermal defocus: when CTE*L*dT of a metal path rivals that depth, the image softens - so a fast lens plus a large temperature swing mandates a low-expansion barrel. Together these turn 'how good is f/1.4' into 'what does f/1.4 cost'."
+    },
+    {
+      "id": "screen",
+      "label": "透尘运营屏(假彩色 SWIR 实况)",
+      "label_en": "Dust-Ops Screen (false-color SWIR live view)",
+      "range": 22,
+      "detail": "柜面小屏滚动显示相机假彩色画面(§4c 感知通道离屏帧→伪彩查找表;无通道时降级为合成扫描图样)。尘暴运营卡:与 sci-weather-01 的 880 nm τ 卡互引——气象站给光学厚度与粒径趋势,本屏给「SWIR 还能不能看见矿区」的实况判据;琥珀灯=尘暴运营警示。业务几何是地面看地面(桅杆看 200 m 外矿区标志物),所以真正的物理是能见度气象学的气幕亮度问题,不是垂直透过——v2 轮据此推翻了首版数字。",
+      "detail_en": "The cabinet screen scrolls the camera's false-color feed (engine sensor channel offscreen frames to a pseudo-color LUT; degrades to a synthetic scan pattern without the channel). Dust-ops card, cross-referenced with sci-weather-01's 880 nm tau card: the weather mast supplies optical depth and particle-size trend, this screen supplies the live verdict on whether SWIR can still see the mine; amber lamp = dust-storm ops alert. The operational geometry is ground-to-ground (mast viewing mine landmarks 200 m out), so the governing physics is visibility-meteorology air-light, not vertical transmittance - which is why the v2 round overturned the first-draft numbers.",
+      "specs": {
+        "τ=2 尘暴天保留对比度": "可见光 3.97% / SWIR 亚微米霾相 8.95%(增益 2.25×)",
+        "视亮度里气幕占比": "τ=2 时 91%——目标信号只剩几个百分点",
+        "粗粒尘暴主相": "SWIR 反而更差(0.59×):τ 更大 + 气幕更白双杀",
+        "提取所需 SNR(5σ)": "SWIR 140(单帧够)/ 可见光 315(2 帧叠)/ 粗粒 SWIR 500(3 帧)",
+        "联动": "sci-weather-01 τ 卡 / res-mine-01 矿区标志物 / 本站帧差叠栈策略"
+      },
+      "specs_en": {
+        "Contrast kept at tau=2": "visible 3.97% / SWIR sub-micron haze 8.95% (2.25x gain)",
+        "Air-light share of scene": "91% at tau=2 - target signal is only a few percent",
+        "Coarse storm phase": "SWIR is worse (0.59x): larger tau plus whiter air-light, a double penalty",
+        "SNR needed (5 sigma)": "SWIR 140 (single frame) / visible 315 (2 stacked) / coarse SWIR 500 (3 stacked)",
+        "Linked to": "sci-weather-01 tau card / res-mine-01 landmarks / this station's frame-difference stacking"
+      },
+      "sim": [
+        "v2 修正账(设计册账 6):首版用 exp(−τ) 只算了分子,漏掉尘散射灌进视线的气幕亮度。改用 Koschmieder 水平视线模型后,τ=2 保留对比度从 13.5% 掉到 3.97%(可见光)、28.1% 掉到 8.95%(SWIR),绝对可用性首版高估 3.4 倍;sanity 闸 τ→0 精确回到 0.4000",
+        "倍数关系稳健并略增:亚微米霾 SWIR 增益 2.08× → 2.25×(水平)/2.62×(俯视短距);粗粒尘暴劣势 0.68× → 0.59×",
+        "新物理:完整 Mie 同时给出单次散射反照率 w_swir 0.994 vs w_vis 0.946(亚微米霾)、0.990 vs 0.880(粗粒)——SWIR 波段的尘几乎纯散射,「雾更白」把消光小的好处部分抵掉",
+        "首版负结果保留:粗粒尘暴 r_eff 1.5 µm 恰落 1.6 µm Mie 首共振(x≈4–6,Qext≈3.5 > 可见光 2.2),τ 比 1.19——「SWIR 穿尘」的直觉在火星粗粒尘上不成立"
+      ],
+      "sim_en": [
+        "v2 correction (ledger acct 6): the first draft used exp(-tau), i.e. numerator only, omitting the air-light scattered into the line of sight. Switching to the Koschmieder horizontal-path model drops contrast kept at tau=2 from 13.5% to 3.97% (visible) and 28.1% to 8.95% (SWIR) - the first draft overstated usable contrast by 3.4x; sanity gate: tau to 0 returns exactly 0.4000",
+        "The ratio survives and slightly improves: sub-micron haze SWIR gain 2.08x to 2.25x (horizontal) / 2.62x (short-range nadir); coarse-storm penalty 0.68x to 0.59x",
+        "New physics: full Mie also yields single-scattering albedo w_swir 0.994 vs w_vis 0.946 (haze) and 0.990 vs 0.880 (coarse) - SWIR dust is nearly a pure scatterer, so the whiter fog partly cancels the lower extinction",
+        "First-draft negative result retained: coarse storm r_eff 1.5 um sits on the first Mie resonance at 1.6 um (x~4-6, Qext~3.5 vs 2.2 visible), tau ratio 1.19 - the notion that SWIR sees through dust fails for coarse Martian grains"
+      ],
+      "physics": "两层物理。消光:Qext(x=2πr/λ) 在 x≈4–6 有首共振峰(~3.5–4),x≫1 渐近 2,x≪1 按瑞利急降——换长波长只对掉进小参数区的粒子(亚微米)有效。气幕亮度:视亮度 L = L_目标·e^(−τ) + L_气幕·(1−e^(−τ)),L_气幕 ∝ w·环境照度/π。厚尘下 (1−e^(−τ)) 趋 1,分母被气幕占满,对比度受 e^(−τ) 与气幕项双重衰减——这就是尘暴天「天空棕黄不透明、什么都看不见」的定量身份。",
+      "physics_en": "Two layers. Extinction: Qext(x=2*pi*r/lambda) peaks (~3.5-4) at the first resonance x~4-6, asymptotes to 2 for large x, and falls steeply in the Rayleigh regime - longer wavelengths only help particles that fall into the small-parameter regime. Air-light: apparent radiance L = L_target*exp(-tau) + L_air*(1-exp(-tau)) with L_air proportional to w * ambient irradiance / pi. In thick dust (1-exp(-tau)) approaches 1, the denominator fills with air-light, and contrast decays twice over - the quantitative identity of a storm sky that goes opaque tan and hides everything."
+    },
+    {
+      "id": "airglow",
+      "label": "夜气辉长曝(1.27 µm O₂ 夜辉)",
+      "label_en": "Nightglow Long Exposure (1.27 µm O₂)",
+      "range": 28,
+      "detail": "夜间云台转高仰角凝视,F1 1.270 µm 窄带拍 O₂(¹Δg) 气辉——火星中层大气环流的示踪剂(极夜下行流把白天光解出的氧原子搬到夜侧复合发光)。文献亮度 1–30 MR 为临边/昼辉口径;天底凝视典型 0.05–1 MR,账按两段分开算。60 s 帧差叠栈顺带剔热像素与宇宙线击中(~66 个/帧,通量口径同 sci-rad-01)。",
+      "detail_en": "At night the gimbal parks at high elevation and stares through F1 (1.270 um narrowband) at the O2(1-Delta-g) airglow - a tracer of Mars middle-atmosphere circulation (polar-night downwelling carries dayside photolysis oxygen to the nightside where it recombines and glows). Literature 1-30 MR refers to limb/dayglow geometry; nadir staring is typically 0.05-1 MR, so the ledger splits the two regimes. 60 s frame-difference stacking also rejects hot pixels and cosmic-ray hits (~66 per frame, flux per sci-rad-01).",
+      "specs": {
+        "谱线": "O₂(¹Δg→³Σg) 1.27 µm,20 nm 窄带",
+        "亮度域": "天底 0.05–1 MR / 临边·极冠夜 1–30 MR",
+        "灵敏度": "最小可检测 68 R(SNR5,60 s)",
+        "模式": "亮段高增益短曝叠栈 / 暗段低增益 60 s",
+        "杂光硬约束": "600 K 散热阵热辐射经尘散射的天空背景:候选 A 1.06×目标 / 候选 B 0.18×",
+        "城内 LED": "非威胁(1.27 µm 处仅 1e-8×目标)——SWIR 气辉不怕城市灯光"
+      },
+      "specs_en": {
+        "Line": "O2(1-Delta-g -> 3-Sigma-g) 1.27 um, 20 nm narrowband",
+        "Brightness range": "nadir 0.05-1 MR / limb & polar night 1-30 MR",
+        "Sensitivity": "minimum detectable 68 R (SNR5, 60 s)",
+        "Modes": "bright: high-gain short stacks / faint: low-gain 60 s",
+        "Stray-light constraint": "600 K radiator thermal emission scattered by dust into the sky: 1.06x target at site A / 0.18x at site B",
+        "Colony LED lighting": "not a threat (1e-8x target at 1.27 um) - SWIR airglow work is immune to city lights"
+      },
+      "sim": [
+        "光子率 3.43e4 e⁻/s/px/MR(f/1.4、QE 0.75、T 0.64)——第一版翻车记录:MR 级 60 s 无脑长曝满阱饱和(高增益 0.19 s 就满),已知答案闸抓的就是这个;修正后按满阱 80% 钳曝光",
+        "模式账(60 s 预算):0.05 MR 低增益 60 s → SNR 319;0.2 MR → 631;1 MR 高增益 0.47 s×128 帧 → 1429;30 MR(昼辉临边)16 ms×3859 → 7846(设计册账 3)",
+        "制冷的意义:0.05 MR 处 −40 °C 60 s SNR 319 vs 未制冷(+20 °C 暗电流 ~2e5 e⁻/s/px)1 s 上限 SNR 3.8——未制冷 InGaAs 上'长曝模式'根本不存在",
+        "重力波气辉波纹(~5% 对比):0.2 MR、2×2 bin → 1σ 对比度 0.08%,轻松成图",
+        "v2 杂光账(设计册账 9):600 K 黑体在 1.27 µm/20 nm 的表面亮度是 0.05 MR 气辉的 731 倍。直射离轴杂光被遮光罩管住(429 m 散热阵在 290 m 处张 0.061 sr,PST 1e-4 后仅 0.0014× → PASS);遮光罩管不住的是尘层把它散射进天空那份:常态背景尘 τ≈0.3 下候选 A(距 290 m)1.06× 目标 FAIL、候选 B(700 m)0.18× 边缘,τ=1.0 时 A 达 3.5×",
+        "判决:0.05 MR 级绝对测光在城中心侧不可行;但背景空间平滑缓变、气辉目标是结构性的(波纹/时变),靠帧差与空间高通仍可做,代价是散粒噪声抬高 √(1+B_bg/B_sig)。候选 B 背景低 5.8 倍——这是「共享暗夜条件」的定量版本",
+        "城内 LED 照明反直觉结论:磷光体白光 ~0.8 µm 截止,1.27 µm 仅剩 1e-7/nm 尾巴,全城等效 2 kW 在 150 m 经 PST 1e-4 后是目标的 1e-8 倍——可见光天文台怕光污染,本机不怕"
+      ],
+      "sim_en": [
+        "Photon rate 3.43e4 e-/s/px/MR (f/1.4, QE 0.75, T 0.64) - first-draft failure: at MR levels a naive 60 s exposure saturates (high gain fills in 0.19 s); the known-answer gate caught exactly this; fixed by clamping exposure at 80% full well",
+        "Mode ledger (60 s budget): 0.05 MR low-gain 60 s -> SNR 319; 0.2 MR -> 631; 1 MR high-gain 0.47 s x128 -> 1429; 30 MR (dayglow limb) 16 ms x3859 -> 7846 (ledger acct 3)",
+        "Why cooling matters: at 0.05 MR, -40 C 60 s gives SNR 319 vs uncooled (+20 C, dark ~2e5 e-/s/px) 1 s cap SNR 3.8 - the long-exposure mode simply does not exist on uncooled InGaAs",
+        "Gravity-wave airglow ripples (~5% contrast): 0.2 MR, 2x2 bin -> 0.08% contrast at 1 sigma, easily mapped",
+        "v2 stray-light ledger (acct 9): a 600 K blackbody at 1.27 um/20 nm is 731x brighter than 0.05 MR airglow. Direct off-axis stray light is controlled by the hood (the 429 m radiator subtends 0.061 sr at 290 m; after PST 1e-4 it is only 0.0014x -> PASS). What the hood cannot block is the fraction dust scatters into the sky: at background dust tau~0.3, site A (290 m away) sits at 1.06x target = FAIL and site B (700 m) at 0.18x = marginal; at tau=1.0 site A reaches 3.5x",
+        "Verdict: absolute photometry at the 0.05 MR level is not viable on the city-center side; but the background is spatially smooth and slowly varying while the airglow science targets are structural (ripples, time variation), so frame differencing and spatial high-pass still work, at the cost of shot noise rising by sqrt(1 + B_bg/B_sig). Site B carries 5.8x less background - the quantitative version of sharing the observatory's dark sky",
+        "Counter-intuitive result on colony lighting: phosphor white LEDs cut off near 0.8 um, leaving only ~1e-7/nm at 1.27 um; a city-equivalent 2 kW at 150 m after PST 1e-4 is 1e-8x the target - visible-light observatories fear light pollution, this camera does not"
+      ],
+      "physics": "1 R = 10⁶ ph/cm²/s(柱发射入 4π);面亮度与距离无关,像元信号只由 f 数与像元面积定——快镜头+大像元是气辉相机的正解。O₂(¹Δg) 激发态寿命 ~75 min,辐射前不被碰撞猝灭的高度(>~40 km)才发得出来。",
+      "physics_en": "1 R = 1e6 ph/cm2/s column emission into 4pi; surface brightness is distance-independent, so per-pixel signal depends only on f-number and pixel area - fast optics plus large pixels is the right answer for an airglow camera. The O2(1-Delta-g) state lives ~75 min and only radiates above ~40 km where collisional quenching loses."
+    },
+    {
+      "id": "thermal",
+      "label": "热签核蒸馏(COMSOL 物理 TEC 模型)",
+      "label_en": "Thermal Sign-off Distilled (COMSOL physical TEC model)",
+      "range": 25,
+      "detail": "后部 76 mm 散热板+鳍+双热管桥,是真源热签核的几何蒸馏。关键在建模纪律:早期模型把 −40 °C 当温度边界强加(只能证明 COMSOL 会算),物理模型改为让热泵曲线、负载、接触阻、散热边界自己找平衡点——FPA 温度是解出来的,不是设定的。Ferrotec 2020_088_055b 双级 TEC,通过区 3.85–4.05 A,定版取最低电流 3.85 A。",
+      "detail_en": "The 76 mm rear spreader, fins, and dual heat-pipe bridges are the geometry distilled from the true-source thermal sign-off. The discipline matters: early models imposed -40 C as a temperature boundary (proving only that COMSOL runs); the physical model lets the heat-pump surface, loads, contact resistances, and rejection boundary find their own equilibrium - the FPA temperature is solved, not set. Ferrotec 2020_088_055b two-stage TEC, passing range 3.85-4.05 A, frozen at the lowest current 3.85 A.",
+      "specs": {
+        "TEC": "双级,Imax 5.5 A / Vmax 11.1 V / Qcmax 13 W / ΔTmax 105 K",
+        "冷端负载": "0.90 W(0.25 FPA/ROIC + 0.35 寄生 + 0.05 辐射 + 0.25 裕度)",
+        "热路": "铜/均热板热板 → 双热管桥 → 76 mm 后散热板 → 鳍",
+        "状态": "physical_model_passed_not_bench_validated(台架标定未做,如实标注)"
+      },
+      "specs_en": {
+        "TEC": "two-stage, Imax 5.5 A / Vmax 11.1 V / Qcmax 13 W / dTmax 105 K",
+        "Cold-side load": "0.90 W (0.25 FPA/ROIC + 0.35 parasitic + 0.05 radiation + 0.25 margin)",
+        "Hot path": "copper/vapor-chamber plate -> dual heat pipes -> 76 mm rear spreader -> fins",
+        "Status": "physical_model_passed_not_bench_validated (bench calibration pending, honestly labeled)"
+      },
+      "sim": [
+        "定版 3.85 A:FPA 均温 −40.195 °C、面内均匀性 0.150 K、热端 +43.027 °C @ 25 °C 环境、Qh=30.819 W(真源 2026-07-10 物理 TEC 模型 §12.2.1)",
+        "降温瞬态(自 25 °C):772.6 s 到 −25 °C、2330.7 s 到 −40 °C,热端峰值 43.547 °C,终值 −40.233 °C(§12.4)",
+        "数值闸:网格收敛中→细 FPA 均温差 0.0289 °C(闸 0.5)、全局能量残差 5.7e-5(闸 1%)、TEC 能量恒等 Qh−Qc−Pin=0",
+        "热管桥前的反面教材:铝壁路径下理想化对流 h 100→200 W/m²K 只把 FPA 从 −31.98 提到 −34.06 °C,1/h 外推极限 −36.14 °C——够不着 −40,才有双热管桥重设计"
+      ],
+      "sim_en": [
+        "Frozen point 3.85 A: FPA mean -40.195 C, uniformity 0.150 K, hot side +43.027 C @ 25 C ambient, Qh=30.819 W (true source, 2026-07-10 physical TEC model sec 12.2.1)",
+        "Cooldown transient (from 25 C): 772.6 s to -25 C, 2330.7 s to -40 C, hot-side peak 43.547 C, final -40.233 C (sec 12.4)",
+        "Numerical gates: medium-to-fine mesh FPA delta 0.0289 C (gate 0.5), global energy residual 5.7e-5 (gate 1%), TEC identity Qh-Qc-Pin=0",
+        "Pre-bridge negative result: via aluminum walls, idealized convection h 100->200 W/m2K moved the FPA only -31.98 -> -34.06 C, extrapolating to -36.14 C in 1/h - short of -40, which forced the dual heat-pipe redesign"
+      ],
+      "physics": "热泵耦合是查表关系 Qc=f(I,ΔT)、Qh=Qc+Pin 的能量守恒解,不给 FPA 或 TEC 冷面任何温度边界;TEC 占位域不再给被动导热(厂商 Qc 曲线已含内部回流,再给就是重复计账)。降温曲线的小过冲保留作控制器设计证据,不冒充闭环稳定性。",
+      "physics_en": "The heat-pump coupling solves energy conservation with a tabulated Qc=f(I,dT), Qh=Qc+Pin, and no temperature boundary on the FPA or TEC cold face; the TEC placeholder domain gets no passive conduction (the vendor Qc curve already includes internal backflow - adding it would double-count). The small cooldown overshoot is kept as controller-design evidence, not claimed as closed-loop stability."
+    },
+    {
+      "id": "cabinet",
+      "label": "设备柜与 TEC 火星账(制冷白送)",
+      "label_en": "Equipment Cabinet & the Mars TEC Ledger (cooling for free)",
+      "range": 22,
+      "detail": "柜内电子架:TEC 驱动板(MAX1978 类)、数采/加热控制板、加热电阻箱——最后这件是火星账的主角。地球设计点要花 ~30 W 把 FPA 压到 −40 °C;火星夜间环境 −80 °C 比设定点还冷,TEC 断电后 FPA 被动冻到 −74 °C,温控反转成'防过冷':保温加热才是夜间的功耗项。散热改无风机(6 mbar 风扇失效),靠辐射板+稀薄自然对流。",
+      "detail_en": "Inside: TEC driver (MAX1978-class), DAQ/heater-control board, and a heater resistor box - the last one is the star of the Mars ledger. On Earth the design point spends ~30 W to hold the FPA at -40 C; on a -80 C Mars night the environment is colder than the setpoint, the unpowered FPA passively freezes to -74 C, and thermal control inverts into overcool protection: heating, not cooling, is the nighttime power line. Heat rejection is fanless (fans are useless at 6 mbar), via radiator plate plus thin-air natural convection.",
+      "specs": {
+        "地球设计点": "3.85 A / ~30 W(强迫风冷 h=200 设计边界)",
+        "火星昼(−20 °C)": "1.03 A / 2.4 W,省电 92%",
+        "尘暴昼最坏": "1.09 A / 2.7 W(尘光+天光 IR 12 W,尘膜 ε→0.75)",
+        "火星夜(−80 °C)": "TEC 0 W,被动 −74.4 °C;保 −40 °C 需加热 5.5 W(−60 °C 档 2.3 W)",
+        "稀薄对流审计": "h_nat 实算 0.277 W/m²K(首版拍 0.8,高估 3×);辐射占 86–93% 故结论不翻"
+      },
+      "specs_en": {
+        "Earth design point": "3.85 A / ~30 W (forced-air h=200 design boundary)",
+        "Mars day (-20 C)": "1.03 A / 2.4 W, 92% saved",
+        "Dust-storm day worst": "1.09 A / 2.7 W (dust+sky IR 12 W, dusty-fin eps 0.75)",
+        "Mars night (-80 C)": "TEC 0 W, passive -74.4 C; holding -40 C needs 5.5 W heat (2.3 W at -60 C)",
+        "Rarefied-convection audit": "h_nat computed at 0.277 W/m2K (first draft assumed 0.8, a 3x overestimate); radiation carries 86-93%, so the conclusion holds"
+      },
+      "sim": [
+        "等效集总 TEC 模型(标准参数提取 S=34.4 mV/K、R=1.36 Ω、K=0.196 W/K,Peltier 项降额 0.829)标定到地球定版点:模型 Pin 31.2 W vs 真源 29.9 W,偏差 +4%(设计册账 4)",
+        "火星散热:辐射板 A=0.35 m²、ε=0.9、h_nat≈0.8 W/m²K → 夜 G=0.86 / 昼 1.55 / 尘暴 1.30 W/K;全部工况 Imax 裕度 >4 A",
+        "深冷红利:夜间白拿 −74 °C(比设计点深 34 K)→ 暗电流按 7 K 减半律再降 ~30×,亚 MR 气辉段直接变宽;暗场库按 −40/−60 两档温度点建",
+        "v2 边界审计(设计册账 7):Knudsen 判据先立法——CO₂ @610 Pa 平均自由程 6.15 µm(夜),散热板 0.2 m → Kn 3.1e-5、鳍隙 2 mm → Kn 3.1e-3,连续介质成立,自然对流公式合法(0.5 mm 细鳍 Kn 0.012 已进滑移区=鳍距设计下限的物理来源)",
+        "Rayleigh 到 Nusselt 实算:夜 Ra 5553/Nu 5.15、昼 Ra 1404/Nu 3.85(Churchill-Chu 垂直板层流)→ h_nat 0.277/0.268 W/m²K,首版拍的 0.8 高估 3 倍;地球对照同板同 ΔT 空气中 Ra 1.5e7/h 4.29——火星自然对流弱 16 倍(密度低 80×、动黏度大 1400×)",
+        "负结果的价值:辐射项 4εσT³ 占 86%(夜)/93%(昼),h 修正后总散热 G 只变 −21%/−12%,夜间保温功率 5.49 W → 5.19 W(−5%)——TEC 火星账的方向与量级全部保住,这本账把它从「含一个拍出来的数」升级为「边界已审计」"
+      ],
+      "sim_en": [
+        "Equivalent lumped TEC model (standard extraction S=34.4 mV/K, R=1.36 ohm, K=0.196 W/K, Peltier derate 0.829) calibrated to the Earth point: model Pin 31.2 W vs true source 29.9 W, +4% (ledger acct 4)",
+        "Mars rejection: radiator A=0.35 m2, eps=0.9, h_nat~0.8 W/m2K -> G = 0.86 night / 1.55 day / 1.30 storm W/K; Imax margin >4 A in all cases",
+        "Deep-cold dividend: night gives -74 C for free (34 K below design point) -> dark current drops ~30x by the halving-per-7K rule, widening the sub-MR airglow regime; dark libraries built at both -40/-60 C setpoints",
+        "v2 boundary audit (ledger acct 7): the Knudsen criterion comes first - CO2 at 610 Pa has a 6.15 um mean free path (night), giving Kn 3.1e-5 for the 0.2 m radiator plate and 3.1e-3 for a 2 mm fin gap, so the continuum assumption holds and natural-convection correlations are legitimate (a 0.5 mm fin gap reaches Kn 0.012, already slip flow - the physical origin of the minimum fin pitch)",
+        "Rayleigh to Nusselt, computed: night Ra 5553/Nu 5.15, day Ra 1404/Nu 3.85 (Churchill-Chu vertical plate, laminar) gives h_nat 0.277/0.268 W/m2K, so the first draft's 0.8 was a 3x overestimate; the Earth reference for the same plate and dT in air is Ra 1.5e7 and h 4.29 - Martian natural convection is 16x weaker (80x lower density, 1400x higher kinematic viscosity)",
+        "Value of the negative result: the radiative term 4*eps*sigma*T^3 carries 86% (night) / 93% (day), so correcting h changes total conductance by only -21%/-12% and night hold power moves 5.49 W to 5.19 W (-5%). The Mars TEC ledger keeps its direction and magnitude; this account upgrades it from containing one guessed number to boundary audited"
+      ],
+      "physics": "6 mbar 下对流几乎消失,散热由辐射主导:h_rad=4εσT³≈1.7–3.6 W/m²K,恰与地球自然对流同量级——所以'无风机'在火星是可行设计而不是妥协。夜间环境低于设定点后,系统的稳定工作点从'泵热'翻到'保温',这是同一台相机在两颗行星上的温控镜像。",
+      "physics_en": "At 6 mbar convection nearly vanishes and radiation dominates: h_rad=4*eps*sigma*T^3 ~ 1.7-3.6 W/m2K, coincidentally Earth-natural-convection magnitude - fanless is a valid Mars design, not a compromise. Once ambient drops below setpoint, the stable operating point flips from pumping heat to retaining it: the same camera, thermally mirrored between two planets."
+    },
+    {
+      "id": "roic",
+      "label": "CTIA ROIC 噪声链",
+      "label_en": "CTIA ROIC Noise Chain",
+      "range": 22,
+      "detail": "读出电路选 CTIA(电容互阻放大)像元:反馈环把光敏结偏压钉住,积分期间结电容不放电——这是长曝线性和微光行为优于源跟随像元的根本原因。三挡增益换反馈电容,CDS 相关双采样消复位噪声。噪声链在 tsmc65 PDK Spectre 里逐级验证(IC618 虚拟机,真源 Phase 107–118)。",
+      "detail_en": "The readout pixel is a CTIA (capacitive transimpedance amplifier): the feedback loop pins the photodiode bias so the junction never discharges during integration - the root reason its long-exposure linearity and low-light behavior beat source-follower pixels. Three gains swap feedback capacitors; CDS cancels reset noise. The noise chain was verified stage by stage in tsmc65 PDK Spectre (IC618 VM, true source Phases 107-118).",
+      "specs": {
+        "高增益": "C_f≈3.2 fF → 50 µV/e⁻,满阱 20 ke⁻",
+        "中/低增益": "C_f 16/80 fF → 满阱 100k / 500k e⁻",
+        "输入电容闸": "<20 fF 总输入(光敏结耗尽电容 8.86 fF)",
+        "读噪": "规格闸高增益 <7 e⁻ rms(设计点账按 7 e⁻)",
+        "混成": "15 µm 铟凸点,连通率 ≥99.9%"
+      },
+      "specs_en": {
+        "High gain": "C_f~3.2 fF -> 50 uV/e-, 20 ke- full well",
+        "Med/low gain": "C_f 16/80 fF -> 100k / 500k e- full well",
+        "Input cap gate": "<20 fF total (photodiode depletion 8.86 fF)",
+        "Read noise": "spec gate <7 e- rms high gain (ledger uses 7 e-)",
+        "Hybridization": "15 um indium bumps, >=99.9% continuity"
+      },
+      "sim": [
+        "Spectre 噪声链(tsmc65,IC618 VM):全甲板未整形输入参考 11.7 e⁻ rms → 列带宽极点+采样孔径/CDS 传函整形后 0.12–0.69 e⁻ rms(候选口径,Phase 114/116/118)",
+        "口径纪律:以上是候选甲板数字,ROIC/AFE 正式签核证据链(Phase 68/80)在真源里刻意留空未填——知识卡如实转述,不冒充台架实测",
+        "数据链:640×512×16 bit@60 fps=330 Mb/s,8 路模拟输出每路 ADC 需 3.07 MS/s,AD7626 路线裕度 3.3×(Phase 24/25)",
+        "v4 TCAD 旁证(设计册账 13):CTIA 把光敏结偏压钉在 0.5 V 量级的第二个好处是**免于隧穿** —— 三层机制扫描里带间隧穿贡献精确为零(T3/T2=1.000),陷阱辅助隧穿也只占 7–17%。对比高场 SPAD:那里 B2B 是暗计数天花板(场 >6e5 V/cm 即灾难)。低偏压 InGaAs PIN 的暗电流全部来自产生复合,与读出电路的偏压策略直接相关"
+      ],
+      "sim_en": [
+        "Spectre noise chain (tsmc65, IC618 VM): full candidate deck unshaped input-referred 11.7 e- rms -> 0.12-0.69 e- rms after column-pole bandwidth + sample-aperture/CDS transfer shaping (candidate basis, Phases 114/116/118)",
+        "Evidence discipline: those are candidate-deck numbers; the formal ROIC/AFE sign-off chain (Phases 68/80) is deliberately left unpopulated in the true source - this card reports, it does not impersonate bench data",
+        "Data path: 640x512x16 bit @60 fps = 330 Mb/s; 8 analog outputs need 3.07 MS/s per ADC; AD7626 route holds 3.3x margin (Phases 24/25)",
+        "v4 TCAD corroboration (ledger acct 13): a second benefit of the CTIA pinning the photodiode near 0.5 V is tunneling immunity -- across the three-tier mechanism sweep, band-to-band tunneling contributes exactly zero (T3/T2 = 1.000) and trap-assisted tunneling only 7-17%. Contrast a high-field SPAD, where B2B sets the dark-count ceiling above ~6e5 V/cm. In a low-bias InGaAs PIN all the dark current is generation-recombination, a direct consequence of the readout's bias strategy"
+      ],
+      "physics": "CTIA 噪声 ~ 输入管热噪声经环路增益与带宽整形,复位 kTC 噪声由 CDS 差分消去;转换增益 q/C_f——反馈电容越小增益越高,但满阱同步缩水:三挡增益就是同一条 q/C_f 曲线上的三个工作点。",
+      "physics_en": "CTIA noise is the input transistor's thermal noise shaped by loop gain and bandwidth; reset kTC noise cancels in the CDS difference. Conversion gain is q/C_f - smaller feedback capacitance means higher gain but proportionally smaller full well: the three gain modes are three operating points on one q/C_f curve."
+    },
+    {
+      "id": "structure",
+      "label": "桅杆动力学:模态与涡激振动",
+      "label_en": "Mast Dynamics: Modal and Vortex-Induced Vibration",
+      "range": 22,
+      "pos": [
+        0.0,
+        1.35,
+        0.42
+      ],
+      "detail": "D140×5 钢管 2 m 悬臂 + 8 kg 云台相机头,一阶模态 23.9 Hz。火星阵风能量落在 0.1–1 Hz,比模态低两个量级 → 准静态响应,风载不共振。真正的风险是**涡激振动**:泄涡锁定风速 16.7 m/s 正落在火星常见风速带里——但稀薄大气(密度只有地球 1/80)把质量比推到 57776,振幅只剩地球同构型的 1/80。**同一根桅杆在地球上会因涡激振动超限 9–37 倍而失效,在火星上裕度 2–8 倍**。",
+      "detail_en": "A 2 m cantilever of 140x5 mm steel tube carrying an 8 kg gimbal head has a 23.9 Hz first mode. Martian gust energy sits at 0.1-1 Hz, two orders below that, so wind loading is quasi-static and never resonant. The real risk is vortex-induced vibration: the lock-in wind speed of 16.7 m/s falls squarely in the common Martian range - but the thin atmosphere (1/80 of Earth's density) pushes the mass ratio to 57776, leaving amplitudes at 1/80 of an identical Earth installation. The same mast would fail on Earth by 9-37x over limit; on Mars it carries 2-8x margin.",
+      "specs": {
+        "一阶模态": "23.9 Hz(带 8 kg 顶质量;裸悬臂 33.7 Hz)",
+        "阵风频率比": "0.004–0.042,动力放大 1.0002 → 准静态",
+        "涡激锁定风速": "16.7 m/s(区间 13.4–21.8 m/s),St=0.20",
+        "火星/地球质量比": "57776 / 717(密度比 80×)",
+        "60 s 长曝影响": "PSF 展宽 0.081 px RMS(不是拖影)",
+        "指向限": "0.5 px = 150 µrad;ζ=0.01 时涡激 34.5 µrad(0.23×)"
+      },
+      "specs_en": {
+        "First mode": "23.9 Hz with the 8 kg head (33.7 Hz bare cantilever)",
+        "Gust frequency ratio": "0.004-0.042, dynamic amplification 1.0002 -> quasi-static",
+        "VIV lock-in speed": "16.7 m/s (band 13.4-21.8 m/s), St=0.20",
+        "Mars/Earth mass ratio": "57776 / 717 (80x density ratio)",
+        "Effect on 60 s exposure": "0.081 px RMS PSF broadening, not smear",
+        "Pointing limit": "0.5 px = 150 urad; VIV gives 34.5 urad at zeta=0.01 (0.23x)"
+      },
+      "sim": [
+        "模态与阵风(设计册账 12):f₁=23.9 Hz(3EI/L³ 顶端刚度 + Rayleigh 等效质量 16.1 kg);阵风特征频率 U/L_turb 在 0.1–1 Hz,频率比 <0.042、动力放大 1.0002 → **准静态成立**,账 5 那个 3× 阵风因子是保守的峰值统计而非共振放大(结论得到背书,不是运气)",
+        "涡激振动:U_lock=f₁D/St=16.73 m/s(锁定区间 13.4–21.8),正落在火星常见风速带;能量平衡给顶端转角 ζ=0.005→69.1 µrad(0.46× 限)/ ζ=0.01→34.5 µrad / ζ=0.02→17.3 µrad,全部 PASS",
+        "**地球对照证明这是稀薄大气的红利**:同结构在地球空气里质量比从 57776 掉到 717,转角 1390–5562 µrad = 超限 9–37 倍 FAIL —— 与账 4「制冷白送」同一物理根源(低密度)的第二个红利",
+        "长曝性质:60 s 内振 1434 周期 → PSF 展宽 0.081 px RMS(可忽略),不是拖影;昼间 50 ms 短曝内不足一周期 → 随机指向抖动 0.23 px,帧选择/配准可消。缓解留档:改 Ø168 管推 U_lock 到 25.3 m/s、螺旋扰流条降 A/D 70–90%、填阻尼 ζ 0.005→0.02 降 4 倍"
+      ],
+      "sim_en": [
+        "Modal and gust response (ledger acct 12): f1 = 23.9 Hz from 3EI/L^3 tip stiffness and a 16.1 kg Rayleigh effective mass. Gust characteristic frequency U/L_turb lies at 0.1-1 Hz, a frequency ratio below 0.042 with dynamic amplification 1.0002, so the quasi-static assumption holds - acct 5's 3x gust factor is a conservative peak statistic, not resonant amplification (the conclusion is endorsed, not lucky)",
+        "Vortex-induced vibration: U_lock = f1*D/St = 16.73 m/s (lock-in band 13.4-21.8), squarely inside the common Martian wind range; the energy balance gives tip rotations of 69.1 urad at zeta=0.005 (0.46x limit), 34.5 urad at 0.01 and 17.3 urad at 0.02 - all pass",
+        "The Earth comparison proves this is a thin-atmosphere dividend: the same structure in Earth air drops the mass ratio from 57776 to 717 and the rotation rises to 1390-5562 urad, 9-37x over limit and failing - the second dividend from the same low-density root cause as acct 4's free cooling",
+        "Long-exposure character: 1434 cycles within 60 s means 0.081 px RMS PSF broadening, negligible, and not smear; a 50 ms daytime exposure spans less than one cycle, appearing as 0.23 px random pointing jitter removable by frame selection and registration. Mitigations on file: a 168 mm tube pushes U_lock to 25.3 m/s, helical strakes cut A/D by 70-90%, and internal damping from zeta 0.005 to 0.02 cuts amplitude fourfold"
+      ],
+      "physics": "两种风致响应要分开看。**阵风**是宽带随机激励,响应由频率比决定:激励频率远低于结构模态时是准静态(位移跟着力走),接近时才共振放大。**涡激振动**是窄带自激:泄涡频率 f=St·U/D 扫过 f₁ 时锁定,振幅由「气动输入功 vs 结构阻尼耗散」的能量平衡定,标度到质量比 m′/(ρD²)。火星密度只有地球 1/80,气动输入功随之小 80 倍 —— 稀薄大气对细长杆是天然的免疫。",
+      "physics_en": "Two wind responses must be separated. Gusting is broadband random forcing and its response follows the frequency ratio: far below the structural mode it is quasi-static (displacement tracks force), and only near the mode does it amplify. Vortex-induced vibration is narrowband self-excitation: when the shedding frequency f = St*U/D sweeps through f1 it locks in, and amplitude follows the energy balance between aerodynamic input and structural damping, scaling with the mass ratio m'/(rho*D^2). Martian density is 1/80 of Earth's, so aerodynamic input drops by the same factor - the thin atmosphere is natural immunity for slender masts."
+    }
+  ]
+}

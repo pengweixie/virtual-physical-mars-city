@@ -6,6 +6,7 @@
 export const meta = {
   id: 'com-station-01',
   name: '通讯基站',
+  name_en: 'Comms Ground Station',
   size_m: 17.7,            // 全站含出站管沟的占地长边实测值（主碟口径 12 m）
   size_axis: 'width',
   effects: ['glow_windows', 'blink'],

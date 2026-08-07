@@ -64,15 +64,50 @@ session 认领制作。**凡与本文件冲突的做法,以本文件为准;想�
 
 | slug | 分区 | 状态 | 认领 session |
 |---|---|---|---|
-| power | Power | ⬜ | |
-| rockets | Rockets | ⬜ | |
-| science | Science | ⬜ | |
-| comms | Comms | ⬜ | |
-| detectors | Deep Physics | ⬜ | |
-| resources | Resources | ⬜ | |
-| compute | Compute & Silicon | ⬜ | |
-| quantum | Quantum | ⬜ | |
-| fab | Chip Fab | ⬜ | |
-| undercity | Undercity | ⬜ | |
-| perception | Perception & Robots | ⬜ | |
-| origin | The Origin | ⬜ | |
+| power | Power | ✅ | tokamak(主)× mars_pwr_storage(储能场三节补稿) |
+| rockets | Rockets | ✅ | veh-rocket-01 session × mars_rocket2(合稿:舰/箭各半区) |
+| science | Science | ✅ | mars_observatory × mars_lidar × spad40(器件供稿) |
+| comms | Comms | ✅ | mars-com-relay × mars-com-station(地面站补稿) |
+| detectors | Deep Physics | ✅ | mars_deep_lab(主) × cosmic_microwave+TES(合稿:05节TES station/台账10行/坑账4条,凭§7器件供稿包) |
+| resources | Resources | ✅ | mars_soil |
+| compute | Compute & Silicon | ✅ | mars-bigram |
+| quantum | Quantum | ✅ | quantum-computing |
+| fab | Chip Fab | ✅ | fab session(含光刻成像/注入/Dolan 设计轮四锚点) |
+| undercity | Undercity | ✅ | mars_hab_tunnel × mars-bot × mars_medical(clinic 小节) |
+| perception | Perception & Robots | ✅ | mars_soil |
+| origin | The Origin | ✅ | 总控(idea_worldAB 素材原作者) |
+| spectrum | The Spectrum Net | ⬜ 待认领 | 建议 mars-thermal / mars-uv / mars-thz / mars-swir / mars-radio / mars-seis 六册合稿,一家主笔其余按 §7 供稿 |
+| gravity | Gravitational Waves | ⬜ 待认领 | 建议 gravity-wave session(设计册真源在其手上) |
+| environment | Environment Watch | ⬜ 待认领 | 建议 mars-weather × mars_rad 合稿 |
+| flight | Flight Ops | ⬜ 待认领 | 建议 mars-heli session |
+| town | The Town | ✅ | 总控(村落数字取自 mars-village 五本账;场站/温室排/管廊为总控自建资产) |
+
+## 7. 器件级素材供稿(器件/芯片 session 侧)
+
+页面涉及器件级内容(TES 像素、SPAD、μMUX 读出芯片、PCB、GDS 版图、滤波器
+S 参数等)时,**素材由对应器件 session 按本节整理供稿,页面组装归认领 session**。
+供稿是素材包不是页面——别自己写 html。
+
+**供稿包(放 `docs/assets/<slug>/` 同目录):**
+
+1. **图** `dev-*.jpg/png`,单张 ≤400 KB:优先真实设计产物(版图预览、S 参数/
+   IV/温度场曲线、结构剖面、FEM 收敛图)。图内文字英文(既有中文截图可保留,
+   但新导出的一律英文轴标)。
+2. **数字+锚点清单** `dev-notes.md`:上页的每个数字一行,格式
+   `数字 | 一句话说明 | Produced by(脚本/工程名,项目名相对路径)`。
+   口径与自己项目 STATUS.md 工具账本一致(落库产物);**没有锚点的数字不给**。
+3. **What broke 素材** 2–4 条:真实返工/负结果,一条一句带轮数
+   (如"BPF166 首版综合选出 0.55 μm 线宽,带内 −2.9 dB 台阶,重综合约束线宽
+   ≥1.0 μm 后消除")。这类内容最有读者缘,别藏。
+
+**红线(在 §3 基础上追加):**
+
+- 禁止本地绝对路径(`E:\...`)、禁止上传原始工程文件(.aedt/.mph/.gds 不进 docs)。
+- 商用 PDK 的具体规则数值不上页,写 "per PDK design rules";
+  工艺敏感参数(靶材配方、具体膜厚容差账)同理模糊化。
+- 器件性能数字与任务级数字冲突时,以**双方 session 联合冻结的接口文件**为准
+  (如 REPLY/FEEDBACK 信箱里的定案值),别各写各的。
+
+**交接:** 供稿完成后在自己项目的跨 session 信箱(REPLY/FEEDBACK 文件)留一行
+"docs 素材已就位 + 清单路径",页面认领 session 凭 dev-notes.md 直接引用;
+页面文字最终解释权归认领 session,数字锚点争议以器件 session 台账为准。

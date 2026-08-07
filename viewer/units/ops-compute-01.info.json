@@ -4,36 +4,74 @@
     {
       "id": "screen",
       "label": "AI 大屏 · nano-GPT",
+      "label_en": "AI wall display - nano-GPT",
       "range": 22,
       "detail": "屏上真实运行一个字符级 bigram 语言模型（nanoGPT 教程的起点模型），在浏览器里 live 生成火星文本。这是火星城 v0 的闭环：真实世界建模进虚拟世界，虚拟世界里的计算中心又真的在运行 AI 代码。",
-      "specs": { "模型": "字符级 bigram", "语料": "火星主题种子文本", "推理": "浏览器实时逐字采样", "首程序": "hello_mars.py" },
-      "sim": "闭环：真实火星 → 数字孪生建模 → 城内计算中心 → 运行真实 AI 代码 → 生成关于火星的文本，回指真实火星"
+      "detail_en": "A character-level bigram language model (the starter model from the nanoGPT tutorial) really runs on this screen, generating Mars text live in the browser. This is the v0 loop of Mars City closing: the real world is modelled into a virtual one, and the compute centre inside that virtual world is genuinely running AI code.",
+      "specs": {
+        "模型": "字符级 bigram",
+        "语料": "火星主题种子文本",
+        "推理": "浏览器实时逐字采样",
+        "首程序": "hello_mars.py"
+      },
+      "specs_en": {
+        "Model": "character-level bigram",
+        "Corpus": "Mars-themed seed text",
+        "Inference": "live per-character sampling in the browser",
+        "First program": "hello_mars.py"
+      },
+      "sim": "闭环：真实火星 → 数字孪生建模 → 城内计算中心 → 运行真实 AI 代码 → 生成关于火星的文本，回指真实火星",
+      "sim_en": "The loop: real Mars -> digital-twin modelling -> compute centre inside the city -> running real AI code -> generating text about Mars, pointing back at the real planet."
     },
     {
       "id": "racks",
       "label": "服务器机架",
+      "label_en": "Server racks",
       "range": 16,
-      "detail": "两排机架，前面板活动指示灯常闪。承担数字孪生渲染、任务数据处理、AI 推理。"
+      "detail": "两排机架，前面板活动指示灯常闪。承担数字孪生渲染、任务数据处理、AI 推理。",
+      "detail_en": "Two rows of racks with activity LEDs blinking on the front panels. They carry the digital-twin rendering, mission-data processing and AI inference."
     },
     {
       "id": "chip",
       "label": "处理器芯片（展示）",
+      "label_en": "Processor package (display piece)",
       "range": 12,
-      "detail": "展台上的处理器封装（金色 die + 引脚）——算力之源。火星本地造芯是自给自足城市的终极工业目标之一。"
+      "detail": "展台上的处理器封装（金色 die + 引脚）——算力之源。火星本地造芯是自给自足城市的终极工业目标之一。",
+      "detail_en": "A processor package on its plinth - gold die, pins out - the source of the compute. Making silicon locally on Mars is one of the ultimate industrial goals of a self-sufficient city."
     },
     {
       "id": "mb1",
       "label": "MB-1 评估板 · bigram 硅片",
+      "label_en": "MB-1 evaluation board - the bigram in silicon",
       "range": 14,
       "detail": "插在 2 号机架上的评估板。板上的 MB-1 芯片是大屏那个 nano-GPT 起点模型（字符级 bigram）的硬件实现——同一个算法，屏上是软件孪生，架里是硅片本体。训练留在片外：离线数好转移分布做成 CDF 表写进片上 SRAM，片上推理退化成「一个 16 位随机数 × 一串比较」，无乘法/除法/浮点。DIP-24 座上插着金盖陶瓷工程样片。",
-      "specs": { "算法": "字符级 bigram（与大屏同源）", "工艺": "SkyWater sky130（开源 PDK）", "版图": "RTL→FPGA→GDS 全流程,布线 DRC 0", "面积": "0.033 mm² 逻辑 + 64 Kbit CDF SRAM 宏", "接口": "SPI 装表 + UART 吐字", "板卡": "MB1-DEMO revA · CH32V203 主机 + Micro-USB" },
-      "sim": "闭环合拢：真实火星 → 数字孪生 → 城内计算中心跑 bigram AI → 而那 AI 的硅实现就插在算它的机架上。软件孪生在屏，硅片本体在架，同一算法两种实现。"
+      "detail_en": "The evaluation board slotted into rack 2. Its MB-1 chip is the hardware implementation of the nano-GPT starter model on the wall display: one algorithm, a software twin on the screen and the silicon itself in the rack. Training stays off-chip - transition counts are turned offline into a CDF table written into on-chip SRAM, so inference collapses to one 16-bit random number and a string of comparisons, with no multiply, divide or floating point anywhere. A gold-lidded ceramic engineering sample sits in the DIP-24 socket.",
+      "specs": {
+        "算法": "字符级 bigram（与大屏同源）",
+        "工艺": "SkyWater sky130（开源 PDK）",
+        "版图": "RTL→FPGA→GDS 全流程,布线 DRC 0",
+        "面积": "0.033 mm² 逻辑 + 64 Kbit CDF SRAM 宏",
+        "接口": "SPI 装表 + UART 吐字",
+        "板卡": "MB1-DEMO revA · CH32V203 主机 + Micro-USB"
+      },
+      "specs_en": {
+        "Algorithm": "character-level bigram (same as the wall display)",
+        "Process": "SkyWater sky130 (open-source PDK)",
+        "Layout": "RTL to FPGA to GDS, routing DRC 0",
+        "Area": "0.033 mm2 logic + 64 kbit CDF SRAM macro",
+        "Interfaces": "SPI table load + UART character out",
+        "Board": "MB1-DEMO revA - CH32V203 host + Micro-USB"
+      },
+      "sim": "闭环合拢：真实火星 → 数字孪生 → 城内计算中心跑 bigram AI → 而那 AI 的硅实现就插在算它的机架上。软件孪生在屏，硅片本体在架，同一算法两种实现。",
+      "sim_en": "The loop closes: real Mars -> digital twin -> the city's compute centre running a bigram AI -> and that AI's silicon implementation plugged into the very rack computing it. Software twin on the screen, physical die in the rack, one algorithm in two forms."
     },
     {
       "id": "cooling",
       "label": "辐射散热墙",
+      "label_en": "Radiative cooling wall",
       "range": 14,
-      "detail": "黑色辐射散热鳍片。火星大气稀薄、对流几乎不可用，数据中心废热只能靠辐射排放。"
+      "detail": "黑色辐射散热鳍片。火星大气稀薄、对流几乎不可用，数据中心废热只能靠辐射排放。",
+      "detail_en": "Black radiator fins. The Martian atmosphere is too thin for convection to be of much use, so a data centre can only dump its waste heat by radiation."
     }
   ]
 }

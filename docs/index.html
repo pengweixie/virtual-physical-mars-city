@@ -102,6 +102,12 @@
   .dcard__stats .k{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);}
   .dcard__stats .v{font-size:.95rem;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;}
 
+  /* ---------- in motion ---------- */
+  .motion{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:36px;}
+  @media(max-width:720px){.motion{grid-template-columns:1fr;}}
+  .motion .figure{margin:0;}
+  .motion img{width:100%;}
+
   /* ---------- footer ---------- */
   footer{border-top:1px solid var(--line);padding:44px 0 60px;background:var(--bg-2);}
   .foot{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;align-items:flex-start;}
@@ -119,6 +125,7 @@
   <div class="nav__links">
     <a href="#loop">The loop</a>
     <a href="#districts">Districts</a>
+    <a href="#motion">In motion</a>
     <a href="#origin">The origin</a>
     <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
   </div>
@@ -178,108 +185,158 @@
     <p class="lead">Twelve districts, each with its own deep-dive page. Cards light up as pages go live.</p>
     <div class="dir">
 
-      <a class="dcard" data-status="planned" href="power.html" style="--accent:var(--amber);">
+      <a class="dcard" data-status="live" href="power.html" style="--accent:var(--amber);">
         <div class="dcard__top"><div><div class="dcard__name">Power</div>
-          <div class="dcard__code">pwr-fusion · pwr-radiator · pwr-storage</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">pwr-fusion · pwr-radiator · pwr-storage</div></div><span class="st">live</span></div>
         <p class="dcard__desc">Tokamak fusion plant with a 429 m radiator field and an L0–L3 sim chain
           from 0-D systems code to free-boundary equilibria and neutron transport.</p>
         <div class="dcard__stats"><div><div class="k">Fusion</div><div class="v">848 MW</div></div>
           <div><div class="k">Net electric</div><div class="v">176 MWe</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="rockets.html" style="--accent:var(--red);">
+      <a class="dcard" data-status="live" href="rockets.html" style="--accent:var(--red);">
         <div class="dcard__top"><div><div class="dcard__name">Rockets</div>
-          <div class="dcard__code">veh-rocket-01/02 · ops-spaceport-01/02</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">veh-rocket-01/02 · ops-spaceport-01/02</div></div><span class="st">live</span></div>
         <p class="dcard__desc">Starship entry corridor and belly-flop, CZ-10B net-catch recovery,
           two launch complexes — one launch every sol, all trajectories dynamics-baked.</p>
         <div class="dcard__stats"><div><div class="k">Catch MC</div><div class="v">N=500 · 100%</div></div>
           <div><div class="k">RTLS reserve</div><div class="v">13%</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="science.html" style="--accent:var(--cyan);">
+      <a class="dcard" data-status="live" href="science.html" style="--accent:var(--cyan);">
         <div class="dcard__top"><div><div class="dcard__name">Science</div>
-          <div class="dcard__code">sci-lidar · sci-obs</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">sci-lidar · sci-obs</div></div><span class="st">live</span></div>
         <p class="dcard__desc">SPAD atmospheric LiDAR with a closed link budget and an optical
           observatory whose focal plane came out of real TCAD device campaigns.</p>
         <div class="dcard__stats"><div><div class="k">Day link</div><div class="v">5.1 km</div></div>
           <div><div class="k">Focal plane</div><div class="v">512×512 SPAD</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="comms.html" style="--accent:var(--cyan);">
+      <a class="dcard" data-status="live" href="comms.html" style="--accent:var(--cyan);">
         <div class="dcard__top"><div><div class="dcard__name">Comms</div>
-          <div class="dcard__code">com-relay · com-station</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">com-relay · com-station</div></div><span class="st">live</span></div>
         <p class="dcard__desc">3+1 areostationary constellation and a 12 m deep-space ground station —
           a six-track sim loop from full-wave antennas to coding Monte Carlo.</p>
         <div class="dcard__stats"><div><div class="k">Throughput</div><div class="v">65 Tb/cycle</div></div>
           <div><div class="k">From Shannon</div><div class="v">1.8 dB</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="detectors.html" style="--accent:var(--violet);">
+      <a class="dcard" data-status="live" href="detectors.html" style="--accent:var(--violet);">
         <div class="dcard__top"><div><div class="dcard__name">Deep Physics</div>
-          <div class="dcard__code">sci-deeplab · sci-pan · TES station</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">sci-deeplab · sci-pan · TES station</div></div><span class="st">live</span></div>
         <p class="dcard__desc">A 100 t liquid-xenon dark-matter lab 3 km underground, a MiniPAN
           spectrometer riding the relay sat, and a TES focal plane watching the CMB.</p>
         <div class="dcard__stats"><div><div class="k">Target</div><div class="v">100 t LXe</div></div>
           <div><div class="k">Exposure</div><div class="v">70.2 t·yr</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="resources.html" style="--accent:var(--green);">
+      <a class="dcard" data-status="live" href="resources.html" style="--accent:var(--green);">
         <div class="dcard__top"><div><div class="dcard__name">Resources</div>
-          <div class="dcard__code">res-rodwell · res-isru · res-mine · res-dome</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">res-rodwell · res-isru · res-mine · res-dome</div></div><span class="st">live</span></div>
         <p class="dcard__desc">Rodwell ice well, Sabatier propellant plant, regolith mine and printer,
           and a walk-in greenhouse dome whose 29 MN pressure-uplift ledger closes.</p>
         <div class="dcard__stats"><div><div class="k">Well life</div><div class="v">669 sol</div></div>
           <div><div class="k">Dome uplift</div><div class="v">29 MN</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="compute.html" style="--accent:var(--amber);">
+      <a class="dcard" data-status="live" href="compute.html" style="--accent:var(--amber);">
         <div class="dcard__top"><div><div class="dcard__name">Compute &amp; Silicon</div>
-          <div class="dcard__code">ops-compute · MB-1</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">ops-compute · MB-1</div></div><span class="st">live</span></div>
         <p class="dcard__desc">The compute center where the loop closes: a bigram LM on the big screen
           and the same algorithm as a real sky130 chip on a fabbed board in the rack.</p>
         <div class="dcard__stats"><div><div class="k">MB-1 die</div><div class="v">1.79 mm²</div></div>
           <div><div class="k">Std cells</div><div class="v">~2100</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="quantum.html" style="--accent:var(--violet);">
+      <a class="dcard" data-status="live" href="quantum.html" style="--accent:var(--violet);">
         <div class="dcard__top"><div><div class="dcard__name">Quantum</div>
-          <div class="dcard__code">sci-quantum · QP-20</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">sci-quantum · QP-20</div></div><span class="st">live</span></div>
         <p class="dcard__desc">A 20-qubit transmon machine in service mode — all six fridge stages and
           the shielded chip exposed — backed by a 12-sim + full-wave HFSS design ledger.</p>
         <div class="dcard__stats"><div><div class="k">1Q gate</div><div class="v">99.987%</div></div>
           <div><div class="k">Chip yield</div><div class="v">99.6%</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="fab.html" style="--accent:var(--rust);">
+      <a class="dcard" data-status="live" href="fab.html" style="--accent:var(--rust);">
         <div class="dcard__top"><div><div class="dcard__name">Chip Fab</div>
-          <div class="dcard__code">ops-fab · three lines</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">ops-fab · three lines</div></div><span class="st">live</span></div>
         <p class="dcard__desc">A yellow/white-bay cleanroom running three lines whose customers are all
           in town: sky130 digital, 65 nm analog, and double-angle Josephson junctions.</p>
         <div class="dcard__stats"><div><div class="k">DRC</div><div class="v">29 rounds → 0</div></div>
           <div><div class="k">LVS</div><div class="v">11× CORRECT</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="undercity.html" style="--accent:var(--amber);">
+      <a class="dcard" data-status="live" href="undercity.html" style="--accent:var(--amber);">
         <div class="dcard__top"><div><div class="dcard__name">Undercity</div>
-          <div class="dcard__code">hab-foyer · hab-quarter · hab-clinic</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">hab-foyer · hab-quarter · hab-clinic</div></div><span class="st">live</span></div>
         <p class="dcard__desc">Life under 30 m of rock: the foyer hub, a residential quarter with a
           hydroponic wall and a real tree, a PET/CT clinic, and a World-B lounge.</p>
         <div class="dcard__stats"><div><div class="k">Rock shield</div><div class="v">&gt;5000 g/cm²</div></div>
           <div><div class="k">Census</div><div class="v">51% / 49%</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="perception.html" style="--accent:var(--cyan);">
+      <a class="dcard" data-status="live" href="perception.html" style="--accent:var(--cyan);">
         <div class="dcard__top"><div><div class="dcard__name">Perception &amp; Robots</div>
-          <div class="dcard__code">res-mine robot · hab-bot</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">res-mine robot · hab-bot</div></div><span class="st">live</span></div>
         <p class="dcard__desc">Robots that navigate by sight: engine offscreen render → CIS imaging
           model → 5 Hz perceive-and-control loop; a humanoid with a MuJoCo-baked gait.</p>
         <div class="dcard__stats"><div><div class="k">Vision loop</div><div class="v">5 Hz CIS</div></div>
           <div><div class="k">Gait</div><div class="v">MuJoCo-baked</div></div></div>
       </a>
 
-      <a class="dcard" data-status="planned" href="origin.html" style="--accent:var(--rust);">
+      <a class="dcard" data-status="live" href="spectrum.html" style="--accent:var(--violet);">
+        <div class="dcard__top"><div><div class="dcard__name">The Spectrum Net</div>
+          <div class="dcard__code">sci-ir · uv · thz · swir · radio · seis</div></div><span class="st">live</span></div>
+        <p class="dcard__desc">Six observatories in one sol: thermal IR, solar-blind UV, a 183 GHz
+          water radiometer, an InGaAs SWIR camera, a 160 m radio array — and a seismometer that
+          listens to the daily launch.</p>
+        <div class="dcard__stats"><div><div class="k">Coverage</div><div class="v">15 decades</div></div>
+          <div><div class="k">Ledgers</div><div class="v">40+, 150+ gates</div></div></div>
+      </a>
+
+      <a class="dcard" data-status="live" href="gravity.html" style="--accent:var(--cyan);">
+        <div class="dcard__top"><div><div class="dcard__name">Gravitational Waves</div>
+          <div class="dcard__code">tt1-sat · tt1-formation</div></div><span class="st">live</span></div>
+        <p class="dcard__desc">TT-1, a three-satellite laser interferometer exhibited on the surface:
+          orbit-integrated formation breathing, 46 mm gold cubes, and a sensitivity curve that
+          survived five known-answer gates.</p>
+        <div class="dcard__stats"><div><div class="k">Sensitivity</div><div class="v">5.1e-21 @ 7.6 mHz</div></div>
+          <div><div class="k">Arm breathing</div><div class="v">1.29% pk-pk</div></div></div>
+      </a>
+
+      <a class="dcard" data-status="live" href="environment.html" style="--accent:var(--green);">
+        <div class="dcard__top"><div><div class="dcard__name">Environment Watch</div>
+          <div class="dcard__code">sci-weather · sci-rad ×4</div></div><span class="st">live</span></div>
+        <p class="dcard__desc">The alert cluster: a weather mast that grounds the helicopter, a
+          Timepix4 particle camera that reads storms by track shape, and SiC sentinels ringing the
+          reactor — one storm, three depths.</p>
+        <div class="dcard__stats"><div><div class="k">Alarm bus</div><div class="v">τ + SEP shared</div></div>
+          <div><div class="k">Deep lab</div><div class="v">does not tick</div></div></div>
+      </a>
+
+      <a class="dcard" data-status="live" href="flight.html" style="--accent:var(--red);">
+        <div class="dcard__top"><div><div class="dcard__name">Flight Ops</div>
+          <div class="dcard__code">veh-heli-01</div></div><span class="st">live</span></div>
+        <p class="dcard__desc">A coaxial scout helicopter with an 80 s baked flight loop, an
+          electro-thermal battery ledger that grounds it below 0 °C, and a belly camera feeding the
+          engine's sensor channel.</p>
+        <div class="dcard__stats"><div><div class="k">Hover</div><div class="v">604 W at 5 kg</div></div>
+          <div><div class="k">Cold start</div><div class="v">-20 °C trips in 1 s</div></div></div>
+      </a>
+
+      <a class="dcard" data-status="live" href="town.html" style="--accent:var(--amber);">
+        <div class="dcard__top"><div><div class="dcard__name">The Town</div>
+          <div class="dcard__code">hab-village · ops-depot · greenrow · pipe racks</div></div><span class="st">live</span></div>
+        <p class="dcard__desc">The densification pass: a 16-cabin earth-sheltered village on one
+          pressure domain, a logistics depot, pink-glowing crop tunnels, and three elevated pipe
+          corridors stitching the map together.</p>
+        <div class="dcard__stats"><div><div class="k">Village dose</div><div class="v">6.2 mSv/yr</div></div>
+          <div><div class="k">Airlocks</div><div class="v">14 → 2</div></div></div>
+      </a>
+
+      <a class="dcard" data-status="live" href="origin.html" style="--accent:var(--rust);">
         <div class="dcard__top"><div><div class="dcard__name">The Origin</div>
-          <div class="dcard__code">Worlds A &amp; B · 2026-07-19</div></div><span class="st">planned</span></div>
+          <div class="dcard__code">Worlds A &amp; B · 2026-07-19</div></div><span class="st">live</span></div>
         <p class="dcard__desc">The notebook page the whole city traces back to: build a world, rebuild
           the world inside it, hunt for the source-code cracks, ask which side is real.</p>
         <div class="dcard__stats"><div><div class="k">Panels</div><div class="v">7</div></div>
@@ -290,9 +347,43 @@
   </div>
 </section>
 
-<section class="band" id="origin">
+<section class="band" id="motion">
   <div class="wrap">
-    <div class="sec-head"><span class="num">03</span><h2>The origin</h2></div>
+    <div class="sec-head"><span class="num">03</span><h2>In motion</h2></div>
+    <p class="lead">Everything that moves was simulated first — trajectories, gaits and flight
+      loops are baked from dynamics runs, not keyframed by hand.</p>
+    <div class="motion">
+      <figure class="figure">
+        <img src="assets/motion/heli.gif" alt="The scout helicopter flying its baked survey loop" loading="lazy">
+        <figcaption>SCOUT HELICOPTER — BAKED FLIGHT LOOP · 731 W CRUISE IN 0.017 KG/M³ AIR</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/motion/cz10b.gif" alt="CZ-10B launch, staging and net catch" loading="lazy">
+        <figcaption>CZ-10B — LAUNCH → STAGING → NET CATCH · MONTE-CARLO N=500, 100% CAPTURE</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/motion/mine.gif" alt="The mine robot digging autonomously by camera vision" loading="lazy">
+        <figcaption>MINE ROBOT — DIGGING BY SIGHT · 5 HZ CIS VISION LOOP</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/motion/humanoid.gif" alt="The humanoid service robot patrolling the foyer" loading="lazy">
+        <figcaption>HUMANOID ON PATROL — MUJOCO-BAKED GAIT · CHEST FLASH-LIDAR FANNING</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/motion/deeplab.gif" alt="A particle event lighting the PMT array in the deep lab" loading="lazy">
+        <figcaption>DEEP LAB, 3 KM DOWN — AN EVENT LIGHTS THE PMT ARRAY</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/motion/weather.gif" alt="The weather mast with spinning cups and tracking photometer" loading="lazy">
+        <figcaption>WEATHER MAST — CUPS, VANE AND A SUN-TRACKING PHOTOMETER</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt" id="origin">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The origin</h2></div>
     <p class="lead">The whole city traces back to a single notebook page.</p>
     <div class="prose">
       <p>July 19, 2026: Worlds A &amp; B — build a world, rebuild the world inside it, hunt for the

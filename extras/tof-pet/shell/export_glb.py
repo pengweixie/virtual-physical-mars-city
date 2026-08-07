@@ -14,7 +14,7 @@ Content rules (per task brief):
           Blender -Y (bed side) -> glTF +Z ; bore axis -> glTF Z.
   EMIT  : emissive parts prefixed emit_  (emit_glow_ring / emit_panel_l/r).
   GROUP : two parent nodes  gantry  (whole machine) and  bed  (movable couch).
-Output: E:\\Claude\\mars_medical\\out\\petct.glb  (GLB binary, textures embedded).
+Output: mars_medical\\out\\petct.glb  (GLB binary, textures embedded).
 """
 import math
 import bpy

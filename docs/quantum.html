@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quantum — Virtual-Physical Mars City</title>
+<meta name="description" content="QP-20: a 20-qubit tunable-transmon quantum computer designed end to end — Hamiltonian to GDS to the machine on the floor — every number backed by a solver.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--violet);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .broke{max-width:var(--textw);margin-top:26px;display:grid;gap:14px;}
+  .broke .item{border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:10px;padding:14px 18px;background:var(--bg-3);}
+  .broke .item b{display:block;color:var(--ink);font-size:.95rem;margin-bottom:4px;}
+  .broke .item p{margin:0;color:var(--ink-dim);font-size:.92rem;}
+  .kbd{font-family:var(--f-mono);font-size:.8rem;border:1px solid var(--line-strong);
+    border-radius:6px;padding:1px 7px;background:var(--bg-3);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="compute.html">← Prev</a>
+    <a href="fab.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">sci-quantum-01 · QP-20 “Xuanshu”</div>
+    <h1>Quantum</h1>
+    <p class="phead__sub">A 20-qubit tunable-transmon quantum computer designed end to end —
+      from the Hamiltonian to a DRC-clean GDS to the machine standing in the undercity hall.
+      Twelve numbered simulations, nine HFSS projects and three Monte-Carlo campaigns back
+      every number on this page; a d=3 surface-code patch runs below its pseudo-threshold.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">1Q gate (20 ns DRAG)</div><div class="spec__v">99.987<small>%</small></div></div>
+    <div class="spec"><div class="spec__k">CZ (3-body model)</div><div class="spec__v">99.85<small>%</small></div></div>
+    <div class="spec"><div class="spec__k">Readout (300 ns)</div><div class="spec__v">99.75<small>%</small></div></div>
+    <div class="spec"><div class="spec__k">Whole-chip yield</div><div class="spec__v">99.6<small>%</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">Twenty asymmetric-SQUID transmons on a 4×5 lattice, 31 tunable couplers,
+      one dilution refrigerator — shown in the city in service mode, vacuum can hoisted away.</p>
+    <div class="prose">
+      <p>QP-20 is the city’s quantum machine: an 11×9&nbsp;mm chip of 20 flux-tunable transmons
+        (checkerboarded at 4.90 / 5.10&nbsp;GHz) with a tunable coupler on every lattice edge,
+        multiplexed dispersive readout through four feedlines, and a Bluefors-XLD-class dilution
+        refrigerator to hold it at 20&nbsp;mK. Room-temperature control is five RFSoC crates doing
+        direct RF synthesis — no analog upconversion chain.</p>
+      <p>In the city model the fridge is deliberately caught mid-service: the crane has lifted the
+        vacuum can, so all six gold-plated stages (300&nbsp;K flange down to the mixing chamber),
+        the 83-line coax loom and the mu-metal shield around the chip are exposed. The design rule
+        for every city asset applies here too: <strong>the core mechanism is never a black box.</strong></p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/quantum/shot_final_main.jpg" alt="QP-20 machine exterior render" loading="lazy">
+        <figcaption>THE MACHINE — FRIDGE TOWER, GAS-HANDLING LINES, 2 OF 5 RFSOC RACKS</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/quantum/shot_xray.jpg" alt="Vacuum can x-ray view showing the six-stage chandelier" loading="lazy">
+        <figcaption>CAN X-RAY — 50 K → 20 MK CHANDELIER, 83-LINE COAX LOOM, SHIELDED CHIP</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">Three calibrated dials — pad size, claw length, coupler flux — and a readout
+      chain that never lets the amplifier’s noise reach the qubit.</p>
+    <div class="prose">
+      <p>A transmon is a Josephson junction shunted by a large capacitor: at
+        E<sub>J</sub>/E<sub>C</sub>&nbsp;≈&nbsp;53 charge dispersion collapses to kHz while
+        −280&nbsp;MHz of anharmonicity still isolates a clean two-level system. Two-qubit gates are
+        tunable-coupler CZ: idle at the zero-coupling point (residual ZZ measured at 5.6&nbsp;kHz),
+        pulse the coupler down to open J&nbsp;≈&nbsp;12&nbsp;MHz, and let the
+        |11⟩↔|02⟩ resonance accumulate a conditional phase of π.</p>
+      <p>Every geometric knob was calibrated in full-wave HFSS rather than trusted from formulas:
+        pad size → E<sub>C</sub> (two points: 111&nbsp;fF and 69.6&nbsp;fF), claw length → coupling
+        <span class="hl">g at 0.83&nbsp;MHz/µm</span>, feedline web → κ (a 6&nbsp;µm ground web
+        screens the coupler by three orders of magnitude — shared-slot topology is mandatory), and
+        the Purcell filter is a direct-tap λ/2 line whose tap position sets
+        Q<sub>f</sub>&nbsp;=&nbsp;(π/2)/sin²(πx/L). Readout is dispersive: the qubit never absorbs a
+        photon, it just pulls the cavity by ±χ; a TWPA at the mixing chamber amplifies at the
+        quantum limit before a 4&nbsp;K HEMT takes over.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/quantum/06_chip_topology.png" alt="4x5 lattice topology with couplers and feedlines" loading="lazy">
+        <figcaption>TOPOLOGY — 4×5 QUBITS (A/B), 31 COUPLERS, 4 READOUT FEEDLINES</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/quantum/12_chip_render_v7.png" alt="Full-chip GDS v7 render" loading="lazy">
+        <figcaption>GDS V7 — 11×9 MM, 2367 POLYGONS, 311 AIRBRIDGES, DRC-LITE CLEAN</figcaption>
+      </figure>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/quantum/03_drag_scan.png" alt="DRAG coefficient scan" loading="lazy">
+        <figcaption>DRAG SCAN — COHERENT ERROR 4×10⁻⁷ AT λ=0.5, 20 NS X/2</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/quantum/04_cz_scan.png" alt="CZ hold-time calibration scan" loading="lazy">
+        <figcaption>CZ CALIBRATION — HOLD-TIME SCAN, φc→π AT 21.5 NS FLAT-TOP</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number, and the run that produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Single-qubit X/2 fidelity (20 ns DRAG, leakage 2×10⁻⁷)</td><td class="num">99.987%</td><td class="src">sim/03_gate_1q_drag.py</td></tr>
+        <tr><td>CZ fidelity, effective 2-level model (37.5 ns)</td><td class="num">99.92%</td><td class="src">sim/04_gate_2q_cz.py</td></tr>
+        <tr><td>CZ fidelity, full 3-body 27-dim model (67 ns)</td><td class="num">99.85%</td><td class="src">sim/07_cz_threebody.py</td></tr>
+        <tr><td>CZ with Slepian ramps (decoherence-limited)</td><td class="num">99.883% @ 60.25 ns</td><td class="src">sim/09_cz_slepian.py</td></tr>
+        <tr><td>Dispersive readout fidelity (n̄=8, 300 ns)</td><td class="num">99.75%</td><td class="src">sim/02_cqed_readout.py</td></tr>
+        <tr><td>χ(n) compression at n̄=8 (dispersive approx. health)</td><td class="num">−0.5%</td><td class="src">sim/08_readout_nonlinearity.py</td></tr>
+        <tr><td>Idle ZZ crosstalk at coupler off-point</td><td class="num">5.6 kHz</td><td class="src">sim/04_gate_2q_cz.py</td></tr>
+        <tr><td>T2 budget closure (flux + thermal-photon + TLS)</td><td class="num">103 µs</td><td class="src">sim/06_error_budget.py</td></tr>
+        <tr><td>Fridge stage margins, 50 K → MXC (83 lines, all-SS worst case)</td><td class="num">10.8–75×</td><td class="src">sim/05_cryo_budget.py</td></tr>
+        <tr><td>Qubit–cavity g vs claw length (two full-wave points)</td><td class="num">0.83 MHz/µm</td><td class="src">hfss_C2/C3_transmon_g.py</td></tr>
+        <tr><td>Feedline κ, shared-slot coupler 300 µm (R-gate verified)</td><td class="num">1.94 MHz</td><td class="src">hfss_B_eig_v6.py</td></tr>
+        <tr><td>Purcell tap filter Q<sub>f</sub> (tap @ 654 µm, formula-validated)</td><td class="num">16.5</td><td class="src">hfss_D_tap.py</td></tr>
+        <tr><td>Whole-chip frequency-plan yield (sep 200 MHz, σ<sub>EJ</sub> 0.5%)</td><td class="num">99.6%</td><td class="src">sim/11_freq_collision_mc.py</td></tr>
+        <tr><td>Surface-code d=3 logical error per round (below pseudo-threshold)</td><td class="num">1.18×10⁻³</td><td class="src">sim/10_surface_code.py</td></tr>
+        <tr><td>Error suppression Λ per code-distance step (d=3→5→7)</td><td class="num">≈4.2</td><td class="src">sim/10_surface_code.py</td></tr>
+        <tr><td>GDS v7 polygons / DRC-lite violations</td><td class="num">2367 / 0</td><td class="src">sim/12_chip_gds_v7.py</td></tr>
+      </tbody>
+    </table></div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/quantum/02_readout_error.png" alt="Readout error vs integration time" loading="lazy">
+        <figcaption>READOUT BUDGET — ERROR VS INTEGRATION TIME, 3 CHAIN EFFICIENCIES</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/quantum/11_yield.png" alt="Chip yield vs junction spread for two operating strategies" loading="lazy">
+        <figcaption>YIELD MC — 2000 CHIPS/POINT; SWEET-SPOT + SEP 200 MHZ WINS</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">The design that survives is the one whose corpses are documented.</p>
+    <div class="broke">
+      <div class="item"><b>The slow readout cavity died first.</b>
+        <p>v1 used κ/2π = 1.5 MHz and managed only 97.5% fidelity — below spec. The fix was a fast
+        cavity (4 MHz) with a Purcell filter to protect T1, which the filter then had to earn (see below).</p></div>
+      <div class="item"><b>A 0.9% “leakage” that wasn’t.</b>
+        <p>Three calibration rounds of the 27-dim CZ model plateaued at 99.0% with stubborn 0.9% leakage.
+        It was the metric: projecting onto bare states counts the qubit–coupler static dressing
+        ((95/1150)² ≈ 0.7%) as loss. In the dressed basis — what a lab actually calibrates — true
+        leakage is 1.3×10⁻⁵.</p></div>
+      <div class="item"><b>The original frequency plan was killed by Monte Carlo.</b>
+        <p>A/B separation of 250 MHz sits 34 MHz from the |11⟩↔|02⟩ collision at |α| = 284 MHz;
+        at σ<sub>EJ</sub> = 0.5% chip yield collapsed to 4.5%. Moving to 200 MHz separation with
+        sweet-spot operation and junction trimming recovered 99.6%. Bonus finding: “pull every qubit
+        to its exact target” is unworkable — flux-noise T<sub>φ</sub> pays for every MHz of pull.</p></div>
+      <div class="item"><b>g was unmeasurable until the qubit crossed the cavity.</b>
+        <p>Dispersive-regime mode pulls (~15–30 MHz) drowned in ±7 MHz of per-design adaptive-mesh
+        noise; a three-parameter fit returned nonsense. Sweeping L<sub>J</sub> through the crossing
+        and reading the minimum splitting (2g ≈ 350 MHz signal) made it robust in one shot.</p></div>
+      <div class="item"><b>Four dead κ variants, three separate bugs.</b>
+        <p>Eigenmode terminations absorbed nothing (Q ≈ 5×10⁶) until: ① sheet resistors sharing mere
+        edges with metal never mesh-bond — overlap them 1 µm into the metal; ② one feedline end was
+        accidentally drawn shorted, making the line resonant and un-drivable at 7 GHz; ③ an R-gate
+        (rerun with R=50 Ω vs 5 kΩ; Q must move ~50×) — borrowed from a sister project’s pitfall
+        table — is now mandatory for any lossy boundary.</p></div>
+      <div class="item"><b>Side-coupled Purcell filter: rejected by 800×.</b>
+        <p>The elegant side-coupled λ/2 filter measured Q<sub>f</sub> = 22 877 against a target of 28.
+        No amount of tuning closes three orders of magnitude — the topology was wrong. A direct-tap
+        filter (Q<sub>f</sub> = (π/2)/sin²(πx/L)) measured 16.5 at the first try and trims to 28.</p></div>
+      <div class="item"><b>An HFSS driven-modal hang that ate four suspects.</b>
+        <p>After a host reboot, every driven solve of the etched-CPW models spun forever at pass 1
+        (1 core, flat 183 MB, zero result files) while eigenmode solved fine. Dual-instance lock
+        contention, scheduler environment, Fast-sweep type and MPI were each accused and acquitted by
+        single-variable experiments. Root cause still open; the eigenmode method family became the
+        workaround — and delivered everything driven mode owed.</p></div>
+      <div class="item"><b>Seven GDS render iterations.</b>
+        <p>Resonator blocks overrunning feedlines, a missing shared-slot cut, two control lanes merged
+        into one slot (a short), bond pads stacked on top of each other, and the witness structures
+        colliding with two different feedlines. Render → look → fix, seven times, then DRC-lite clean.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
+    <p class="lead">Walk into the hall, or spin the machine in your browser.</p>
+    <div class="prose">
+      <p><strong>In the city:</strong> serve the repo root and open
+        <span class="src">viewer/index.html?colony=1</span>. Enter the undercity atrium and take the
+        left-wall door (z = −8) into the quantum hall. Seven placards carry the numbers from the
+        ledger above; the wall screen runs a live d=3 surface-code round with breathing error chains,
+        and the two spinners you’ll notice are the chip turntable and the compressor fan.</p>
+      <p><strong>The machine itself:</strong> the design repo ships a self-contained interactive 3D
+        viewer (<span class="src">quantum-computing/out/qp20_machine.html</span>, single file, works
+        offline). Drag to orbit, scroll to zoom, and hit the can-toggle button to lift the
+        vacuum can and expose the six-stage chandelier with its 26-bundle coax loom.</p>
+      <p><strong>The chip:</strong> <span class="src">quantum-computing/out/qp20_chip_v7.gds</span>
+        opens in KLayout — 20 SQUID crosses, 31 couplers, four tap Purcell filters and the witness
+        corner, exactly as rendered above.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">quantum-computing/DESIGN.md</span> ·
+      Simulations: <span class="src">quantum-computing/sim/01–13</span> ·
+      City asset: <span class="src">viewer/units/sci-quantum-01.js</span> (7 placards) ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

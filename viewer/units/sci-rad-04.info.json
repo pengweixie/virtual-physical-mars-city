@@ -1,0 +1,47 @@
+{
+  "id": "sci-rad-04",
+  "pois": [
+    {
+      "id": "cabin",
+      "label": "SiC 探测舱(剖切)",
+      "label_en": "SiC detector cabin (cutaway)",
+      "range": 8,
+      "detail": "哨兵网最深一站,与围界/玄关同款叠层:慢化片 → ⁶LiF 30 µm → 4H-SiC PiN 2×2(热道/快道)→ 铜读出 → 前放。在这个几乎没有信号的地方,SiC 的零漏电反而最要紧——本底监测仪自己的暗计数必须比洞室本底更安静,宽禁带 3.26 eV 在室温把这一项直接归零。",
+      "detail_en": "The deepest station of the net, same stack as the fence and foyer: moderator slab → 30 µm ⁶LiF → 2×2 4H-SiC PiN (thermal/fast) → copper readout → preamp. In a place with almost no signal, SiC's zero leakage matters most — a background monitor's own dark counts must be quieter than the cavern background, and the 3.26 eV bandgap zeroes that term at room temperature.",
+      "specs": { "SiC 片": "4×1 cm²,50 µm 外延 PiN(LGAD 同外延栈)", "转换层": "⁶LiF 30 µm,效率 4.7%", "本征暗计数": "~0(300 K 生成电流 <1e-27 A,账4)" },
+      "specs_en": { "SiC pads": "4×1 cm², 50 µm epi PiN (LGAD-lineage stack)", "Converter": "⁶LiF 30 µm, 4.7% efficiency", "Intrinsic dark counts": "~0 (generation current <1e-27 A at 300 K, account #4)" },
+      "sim": "器件账引 LGAD L2a TCAD:600 V 反向 IV 全程 1e-31 A/µm——在 TCAD 里漏电低到击穿都无法从 IV 曲线读出。哨兵沿用该外延栈的 PiN 版;增益版(d17,M≈5,dM/M 0.06%/V)留给轨道 PAN 谱仪:一次战役、两种部署。",
+      "sim_en": "Device account from LGAD L2a TCAD: reverse IV flat at 1e-31 A/µm to 600 V — leakage so low the breakdown cannot be read off the IV curve. The sentinel uses the PiN variant of that stack; the gain variant (d17, M≈5, dM/M 0.06%/V) goes to the orbital PAN spectrometer: one campaign, two deployments.",
+      "physics": "生成电流 ∝ n_i ∝ exp(−Eg/2kT):4H-SiC 的 n_i ~8e-9 cm⁻³ 比硅低 ~18 个数量级,SRH 产生在室温实际不发生——不制冷的探测器在深地静得过岩石本身。",
+      "physics_en": "Generation current ∝ n_i ∝ exp(−Eg/2kT): with n_i ~8e-9 cm⁻³, 4H-SiC sits ~18 decades below silicon, and SRH generation effectively never happens at room temperature — an uncooled detector quieter than the rock around it."
+    },
+    {
+      "id": "screen",
+      "label": "计数屏 · 静默的证明",
+      "label_en": "Count display · proof by silence",
+      "range": 8,
+      "detail": "这块屏几乎不动:率条全暗,唯一的活动是 4 秒的心跳灯和 ~30 秒一次的青色 DAQ 自检脉冲(标定注入,不是计数)。3000 m 岩石把 µ 通量压掉六个数量级——同款柱子在围界每 5 秒跳一次,在这里一个月才等到一跳。静默不是故障,是屏蔽账的活体证明。",
+      "detail_en": "This screen barely moves: the rate bar is fully dark, and the only activity is a 4 s heartbeat LED and a cyan DAQ self-test pulse every ~30 s (a calibration injection, not a count). Three kilometres of rock crush the muon flux by six decades — the identical column blips every 5 s at the fence and waits about a month for one here. The silence is not a fault; it is the shielding budget, alive.",
+      "specs": { "覆盖": "3000 m 岩 = 7.8e5 g/cm²", "µ 衰减": "×1e-6(对表 sci-deeplab-01 竖井卡)", "预期跳动": "µ+radiogenic ~26 天/次", "屏上活动": "心跳 4 s + 自检脉冲 ~30 s(非计数)" },
+      "specs_en": { "Overburden": "3000 m rock = 7.8e5 g/cm²", "µ attenuation": "×1e-6 (matches the sci-deeplab-01 shaft card)", "Expected blips": "µ + radiogenic, ~once per 26 days", "On-screen activity": "4 s heartbeat + ~30 s self-test pulse (not counts)" },
+      "sim": "三层深度衰减账(design_rounds 账3):µ 道 0.05/cm²/s ×1e-6 ×8 cm² = 4e-7 cps;中子只剩裸岩 U/Th (α,n) 底 ~1e-6 n/cm²/s → 5e-8 cps;合计 ~26 天一跳。若它开始有节奏地跳,说明洞室本底出了大事——这正是它站在这里的理由。",
+      "sim_en": "Depth-attenuation account (design_rounds #3): muon channel 0.05/cm²/s ×1e-6 ×8 cm² = 4e-7 cps; neutrons at the bare-rock U/Th (α,n) floor ~1e-6 n/cm²/s → 5e-8 cps; ~one blip per 26 days combined. If it ever starts blipping rhythmically, the cavern background has gone badly wrong — which is exactly why it stands here.",
+      "physics": "µ 通量随深度指数衰减;到 3 km 只剩最高能的尾巴。这里的本底低到暗物质实验(the dark-matter experiment)敢把 70 t·yr 曝光押在'每年几十个事例'的账上——哨兵柱守的就是这笔账的前提。",
+      "physics_en": "Muon flux falls exponentially with depth; at 3 km only the highest-energy tail survives. The background here is low enough that the dark-matter experiment stakes a 70 t·yr exposure on a budget of tens of events per year — and this column guards that budget's premise."
+    },
+    {
+      "id": "net",
+      "label": "哨兵网底层 · 三层联动",
+      "label_en": "Bottom tier of the sentinel net",
+      "range": 10,
+      "detail": "哨兵网的最深一层。三块同款屏从地表读到 -3000 m:围界 ~5 s 一跳、玄关 ~1 分钟偶尔一跳、这里月级一跳——探测器完全相同,读数差出 5 个数量级,深度-强度曲线就立在城里。",
+      "detail_en": "The deepest tier of the net. Three identical screens read from the surface down to -3000 m: ~5 s blips at the fence, an occasional blip per minute in the foyer, monthly-scale here — the detectors are identical, the readings span five decades, and the depth-intensity curve stands built into the city.",
+      "specs": { "上层": "sci-rad-02 围界 0.21 cps", "中层": "sci-rad-03 玄关 ~83 s(µ 道)", "本层": "~26 天/跳" },
+      "specs_en": { "Upper tier": "sci-rad-02 fence, 0.21 cps", "Mid tier": "sci-rad-03 foyer, ~83 s (µ channel)", "This tier": "~1 blip per 26 days" },
+      "sim": "对表(design_rounds 账3):围界→玄关,强子 e^-52、µ ×0.03;玄关→深地,µ 再 ×3e-5、中子到裸岩 radiogenic 极限 1e-6 n/cm²/s。洞里真正的本底压制主力是水罐(γ >1e4)与 Gd 液闪 veto——哨兵柱量的是它们外面的'原料本底'。",
+      "sim_en": "Cross-table (design_rounds #3): fence→foyer, hadrons e^-52 and µ ×0.03; foyer→deep lab, µ another ×3e-5 and neutrons at the bare-rock radiogenic limit of 1e-6 n/cm²/s. Inside the cavern the heavy lifting is done by the water tank (γ >1e4) and the Gd-scintillator veto — this column measures the raw background outside them.",
+      "physics": "分层监测的逻辑:每一层哨兵量自己头顶那段物质柱的透射率,三层相除就是每段岩石的实测衰减因子——城市自己的深度-强度标定,不依赖任何手册值。",
+      "physics_en": "The logic of tiered monitoring: each sentinel measures the transmission of the matter column directly above it, and the ratios between tiers are the measured attenuation factors of each rock section — the city's own depth-intensity calibration, independent of any handbook value."
+    }
+  ]
+}

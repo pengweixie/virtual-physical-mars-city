@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Perception &amp; Robots — Virtual-Physical Mars City</title>
+<meta name="description" content="Robots that navigate by sight: engine offscreen renders, a five-phase-validated CMOS imaging model, a chest flash-LiDAR and MuJoCo-baked Mars gaits.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--cyan);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .chain{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;font-family:var(--f-mono);font-size:.78rem;}
+  .chain span{border:1px solid var(--line-strong);border-radius:8px;padding:6px 10px;background:var(--bg-3);}
+  .chain .arrow{border:none;background:none;color:var(--accent);padding:6px 0;}
+  .kbd{font-family:var(--f-mono);font-size:.82rem;border:1px solid var(--line-strong);
+    border-radius:6px;padding:1px 7px;background:var(--bg-3);white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="undercity.html">← Prev</a>
+    <a href="town.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">res-mine-01 robot · hab-bot-01 · SENSOR_SPEC</div>
+    <h1>Perception &amp; Robots</h1>
+    <p class="phead__sub">Two robots in this city navigate by sight, not by script. The engine renders
+      what their cameras actually see, a five-phase-validated CMOS model corrupts those pixels honestly
+      — shot noise, dark current, quantization, bad pixels — and a state machine has to cope with the
+      result. Cover the camera and the robot goes blind. That is the whole point.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Vision loop</div><div class="spec__v">5 Hz<small> CIS 64×64</small></div></div>
+    <div class="spec"><div class="spec__k">LiDAR return @20 m</div><div class="spec__v">5,500<small> e⁻ · SNR 74</small></div></div>
+    <div class="spec"><div class="spec__k">Mars gait</div><div class="spec__v">0.75<small> m/s · MuJoCo</small></div></div>
+    <div class="spec"><div class="spec__k">Dead-pixel failure line</div><div class="spec__v">15%<small> linear · hot 12% cliff</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>One sensor channel, two robots</h2></div>
+    <p class="lead">The engine owns the renderer; the robots only declare a camera and consume pixels.</p>
+    <div class="prose">
+      <p>Assets declare <span class="src">userData.sensors = [{camera, 64×64, 5 Hz}]</span> and the engine
+      renders the declared camera to an offscreen target on a budget of <strong>at most one sensor render
+      per engine frame</strong>, handing the RGBA buffer back before the asset's <span class="src">animate()</span>
+      runs. Perception is slow (5 Hz), control runs every frame on the latest percept — the same split a
+      real rover uses. The channel is declarative, like the city's spinners and oscillators: one engine
+      mechanism now serves the mine excavator, the undercity humanoid, and whatever comes next.</p>
+      <p><strong>Graceful degradation is a hard contract.</strong> The same module file must work in an
+      engine with no sensor channel at all: until the first frame arrives, both robots play a deterministic
+      baked loop — the excavator its 24 s dig cycle, the humanoid a pure-<em>t</em> figure-eight patrol.
+      Frames arriving flips them (stickily) into closed-loop autonomy; frames stopping for 3 s hands
+      control seamlessly back to the baked path.</p>
+    </div>
+    <div class="chain">
+      <span>offscreen render 64×64</span><span class="arrow">→</span>
+      <span>CIS imaging model</span><span class="arrow">→</span>
+      <span>adaptive dark-region split</span><span class="arrow">→</span>
+      <span>state machine</span><span class="arrow">→</span>
+      <span>drivetrain / gait</span>
+    </div>
+    <figure class="figure">
+      <img src="assets/perception/mine-hero.jpg" alt="res-mine-01 aerial view with the RASSOR robot mid-dig and its live 64×64 camera view inset" loading="lazy">
+      <figcaption>RES-MINE-01 — FIRST PERCEPTION ASSET. INSET: THE ROBOT'S LIVE 64×64 VIEW, 10-BIT, AE AT 400 DN. 150 s LONG TEST: 3 FULL DIG CYCLES, MIN OBSTACLE CLEARANCE 2.4 m.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>The imaging chain is the point</h2></div>
+    <p class="lead">The robots don't see clean renders. They see what a 5 µm 4T pixel would deliver.</p>
+    <div class="prose">
+      <p>Every frame runs scene luma → photoelectrons (exposure-calibrated, QE 0.60) → +dark current
+      (170 e⁻/s) → shot noise √Ne + read noise 1.76 e⁻ → full-well clip at 17,880 e⁻ → 10-bit ADC at
+      16.5 e⁻/LSB. The parameters are not invented for the game: they come from a CMOS image-sensor
+      design project validated in five phases (device TCAD, FDTD optics, Virtuoso circuits, RTL, system).
+      Quantization noise (≈4.8 e⁻) and the noise floor emerge from the chain instead of being painted on.</p>
+      <p>Auto-exposure closes the loop on the scan-band mean: <strong>12 ms in the daylight mine,
+      117–260 ms in the dim undercity</strong> — a ~20× illumination gap with a matching exposure ratio,
+      one model, two lighting worlds, physically self-consistent. Hazard detection is an adaptive
+      threshold (0.72 × band mean) over a near-field scan band, so it survives exposure drift and eats
+      shot noise for free. Injected defects use a fixed hash pattern, exactly like real fixed-pattern
+      bad pixels: dead pixels degrade avoidance <em>linearly</em> to a failure line near 15%, while hot
+      pixels collapse it off a <em>cliff</em> near 12% — they drag the AE loop down until real terrain
+      falls below threshold and the whole frame turns into phantom obstacles.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/perception/cis-noise.png" alt="Noise decomposition: read-noise-limited at low signal, shot-noise-limited at high signal" loading="lazy">
+        <figcaption>NOISE LEDGER OF THE MODELED SENSOR — READ-NOISE FLOOR 1.76 e⁻, SHOT-NOISE SLOPE √Ne, QUANTIZATION 4.8 e⁻.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/perception/cis-qe.png" alt="FDTD-computed optical efficiency, FSI vs BSI, and total QE with color filters" loading="lazy">
+        <figcaption>WHERE QE 0.60 COMES FROM — FDTD OPTICS OF THE 5 µm PIXEL (BSI), NOT A MADE-UP CONSTANT.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>A humanoid for the undercity</h2></div>
+    <p class="lead">hab-bot-01: 1.65 m, walks on MuJoCo-baked Mars gaits, ranges with a chest flash-LiDAR, greets you through an AI-glasses face.</p>
+    <div class="prose">
+      <p>The undercity has pitch-black corners where vision alone goes blind, so the humanoid carries a
+      <strong>905 nm micro flash-LiDAR</strong> in its chest: 15 beams over a 90° sector, 20 m range,
+      6 Hz. In the engine it is a raycaster fan — an admitted engineering approximation — but the link
+      budget is computed for real: 3 µJ/pulse splits into 9.1×10¹¹ photons per direction; a Lambertian
+      wall at 20 m (albedo 0.3) returns 1.9×10⁻⁸ of that into a Ø10 mm aperture; times optics 0.8 and
+      SPAD PDE 40.3% that is <strong>≈5,500 photoelectrons per pulse, shot-limited SNR ≈ 74</strong>.
+      Mean optical power 0.27 mW — Class 1 eye-safe.</p>
+      <p>The walk is not keyframed. A planar MuJoCo biped, built 1:1 from the visual geometry, tracks
+      gait commands under g = 3.71 m/s²; walk/turn/idle cycles (12 channels) are baked and phase-blended
+      by (v, ω) at playback. The 1.8 s cycle comes from the pendulum ledger — ω = √(g/L) runs 38% slower
+      on Mars — and the servo overshoot, touchdown knee flex and torso nod are dynamics, not artistry.
+      Behavior: figure-eight patrol → LiDAR/vision avoidance → greeting (stop, face you, ◠ on the visor,
+      wave) → self-docking at a wall charger when the 260 Wh pack drops below 25%.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/perception/bot-walk.jpg" alt="hab-bot-01 mid-stride in the foyer, LiDAR fan visible" loading="lazy">
+        <figcaption>MID-STRIDE ON THE BAKED WALK CYCLE — PUSH-OFF HEEL, SWING KNEE AND ARM COUNTER-SWING ALL FROM THE BAKE.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/perception/bot-greet.jpg" alt="hab-bot-01 greeting: visor shows ◠ ◠ and a battery bar, right arm waving" loading="lazy">
+        <figcaption>GREETING AT 2.5 m — VISOR SCREEN ◠◠ + BATTERY BAR; SILK PRINT ON THE TEMPLE: “WORLD-B RESIDENT”.</figcaption>
+      </figure>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/perception/bot-dock.jpg" alt="hab-bot-01 docked at its wall charger inside the orange floor marking" loading="lazy">
+        <figcaption>SELF-DOCKED IN 14.1 s — INSIDE THE MARKED BAY, CONTACTS ALIGNED, VISOR SHOWS z z.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/perception/bot-overview.jpg" alt="Foyer overview with the patrol path and LiDAR fan sweeping the hall" loading="lazy">
+        <figcaption>BAKED FALLBACK MODE — PURE-t FIGURE-EIGHT PATROL; THE ?debug=1 LiDAR FAN SWEEPS THE FOYER.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The ledger</h2></div>
+    <p class="lead">Every number above, and which run produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>CIS chain parameters (QE / full well / read noise / dark)</td>
+          <td class="num">0.60 · 17,880 e⁻ · 1.76 e⁻ · 170 e⁻/s</td>
+          <td class="src">CIS sensor project, five-phase validation (TCAD/FDTD/Virtuoso/RTL/system)</td></tr>
+        <tr><td>Auto-exposure convergence, mine day vs undercity</td>
+          <td class="num">12 ms vs 117–260 ms</td>
+          <td class="src">viewer/units/res-mine-01.js in-city run · mars-bot/_preview.html probe</td></tr>
+        <tr><td>Mine long test: dig cycles / min obstacle clearance</td>
+          <td class="num">3 cycles · 2.4 m / 150 s</td>
+          <td class="src">mars_soil autonomy long test (preview harness)</td></tr>
+        <tr><td>Defect failure signatures (dead linear / hot cliff)</td>
+          <td class="num">15% / 12%</td>
+          <td class="src">mars_soil defect-injection sweep (fixed-pattern hash map)</td></tr>
+        <tr><td>Flash-LiDAR return @20 m, albedo 0.3</td>
+          <td class="num">5,500 e⁻ · SNR 74</td>
+          <td class="src">link budget, hab-bot-01.info.json (PDE 40.3% from spad40_nir)</td></tr>
+        <tr><td>Gait: speed / cycle / hip servo overshoot</td>
+          <td class="num">0.75 m/s · 1.8 s · 0.405 vs 0.34 rad</td>
+          <td class="src">mars-bot/sim/run_gait.py + hab_bot.xml (MuJoCo, g=3.71)</td></tr>
+        <tr><td>Mars cadence slowdown / Froude number</td>
+          <td class="num">−38% · 0.18</td>
+          <td class="src">pendulum ledger ω=√(g/L), hab-bot-01.info.json</td></tr>
+        <tr><td>Sensor-dropout handover, max position step</td>
+          <td class="num">≤0.034 m</td>
+          <td class="src">mars-bot/_preview.html dropout probe (3 s timeout, phase-aligned blend)</td></tr>
+        <tr><td>Self-docking, trigger to contact</td>
+          <td class="num">14.1 s</td>
+          <td class="src">mars-bot/_preview.html docking probe (×60 demo time)</td></tr>
+        <tr><td>Excavator dig-cycle curves (arm / pitch / heave)</td>
+          <td class="num">3 ch × 192 samples</td>
+          <td class="src">mars_soil/sim/rassor-01/run_dig_cycle.py (MuJoCo + cutting loads)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>What broke</h2></div>
+    <p class="lead">The honest list. Perception bugs are the best bugs — the robot tells you exactly what it fears.</p>
+    <div class="prose">
+      <p><strong>The robot feared its own laser.</strong> With <span class="src">?debug=1</span> the
+      LiDAR fan renders as bright green rays — and the nav camera saw them. The rays crossed the scan
+      band, dragged the adaptive threshold up, and the whole floor classified as hazard (hazR hit 0.83
+      on open ground; the failure line is 0.5). A real 905 nm beam is invisible to a silicon visible-light
+      camera, so the fix mirrors physics: the debug overlay is dropped from the nav-camera render pass
+      via a per-camera material hook. False alarms fell from 0.83 to 0.00.</p>
+      <p><strong>MJCF ranges compile in degrees.</strong> First gait bake: every joint amplitude came out
+      at exactly one tenth of the command, and every servo sat saturated. Cause: MuJoCo's MJCF default
+      angle unit is degrees, so <span class="src">range="-1.5 1.5"</span> pinned every joint at ±1.5° —
+      the constraint solver was politely cancelling 150 N·m of servo torque against the limit. One line
+      (<span class="src">&lt;compiler angle="radian"/&gt;</span>) ended a thoroughly confusing debugging session.</p>
+      <p><strong>Flat feet deadlock a biped.</strong> Two stiff servo legs with flat soles planted on the
+      ground form a closed kinematic chain — a structure, not a walker. The hip actuator maxed out its
+      torque without moving a millimeter. Round point-contact soles plus compliant ankles (kp 25) turned
+      the structure back into a linkage, and the open-loop gait command simply… walked.</p>
+      <p><strong>Looking too far makes cowards.</strong> The undercity scan band initially reached ~7 m
+      ahead, so distant dark door metal read as a permanent threat and the robot crept everywhere at
+      0.17 m/s with a “!” face. Same trap the mine robot hit with dark strata on the pit wall; same fix —
+      narrow the band to the 1–4.5 m near field. The excavator's variant is even better: it was afraid of
+      the shadowed side of <em>its own spoil mound</em>, and needed a mapped-approach exemption to dump its load.</p>
+      <p><strong>Slow transients leak into “idle”.</strong> The gait rig's pitch-support spring settles
+      over many seconds; a 3 s settle left the idle loop drifting 0.4 rad through the recording lap.
+      8 s settle, three warm-up laps to reach the limit cycle, and a smoothstep end-blend brought all
+      three loops to zero wrap error.</p>
+    </div>
+    <figure class="figure" style="max-width:520px;">
+      <img src="assets/perception/bot-pov-lasers.jpg" alt="The robot's own 64x64 camera view polluted by its debug LiDAR rays, scan band outlined in red" loading="lazy">
+      <figcaption>EXHIBIT A — THE ROBOT'S OWN 64×64 VIEW, SCAN BAND IN RED, POLLUTED BY ITS DEBUG RAYS. hazR 0.83 → 0.00 AFTER THE FIX.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>Try it</h2></div>
+    <p class="lead">Both robots run live in the city viewer.</p>
+    <div class="prose">
+      <p>Open the viewer and jump to the mine: <span class="kbd">viewer/?colony=1&amp;inspect=res-mine-01&amp;debug=1</span>.
+      Watch the excavator finish a dig → haul → dump cycle, then check
+      <span class="kbd">__mars.unitSensors</span> in the console — the 64×64 frames it navigates by are
+      right there. Hide the tab and the whole loop pauses with it: rAF is the robots' sun.</p>
+      <p>For the humanoid, enter the undercity foyer (<span class="kbd">viewer/?interior=hab-foyer-01</span>)
+      and walk toward the patrolling robot: at 2.5 m it stops, turns to face you, the visor flips to ◠◠
+      and it waves. <span class="kbd">?debug=1</span> toggles the LiDAR fan. Read the temple print while
+      you're close. (Companion wiring in the interior branch lands with the undercity engine pass; the
+      standalone preview in <span class="src">mars-bot/_preview.html</span> runs the full loop today.)</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Sensor channel contract: <span class="src">SENSOR_SPEC.md</span> ·
+      City assets: <span class="src">viewer/units/res-mine-01.js</span>, <span class="src">viewer/units/hab-bot-01.js</span> ·
+      Gait bake: <span class="src">mars-bot/sim/run_gait.py</span> → <span class="src">viewer/units/hab-bot-01.gait.json</span> ·
+      Dig-cycle bake: <span class="src">mars_soil/sim/rassor-01/</span> ·
+      Knowledge cards: <span class="src">viewer/units/*.info.json</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const q=new URLSearchParams(location.search).get('theme');
+  if(q)document.documentElement.setAttribute('data-theme',q);
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

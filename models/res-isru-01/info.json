@@ -4,8 +4,10 @@
     {
       "id": "reactor",
       "label": "Sabatier 反应柱",
+      "label_en": "Sabatier reaction column",
       "range": 30,
       "detail": "分段固定床甲烷化反应器：两段 Ru/Al₂O₃ 催化剂床、床间冷却盘管、底部进料预热回热器，三道法兰对应床段、可整段抽换催化剂。CO₂ 与电解回氢在 ~350 °C 反应生成甲烷和水，产物经冷凝分水后甲烷入罐。剖切侧可见两段深色催化剂床与铜色盘管。",
+      "detail_en": "A staged fixed-bed methanation reactor: two Ru/Al2O3 catalyst beds, cooling coils between them, and a feed-preheat recuperator at the base. Three flanges match the bed sections so a whole bed of catalyst can be swapped out. CO2 and recycled electrolysis hydrogen react at around 350 C to methane and water; the product is condensed, the water separated, and the methane sent to the tanks. The cutaway side shows both dark catalyst beds and the copper coils.",
       "specs": {
         "塔高": "8 m",
         "催化剂": "Ru/Al₂O₃ 固定床 ×2 段",
@@ -13,17 +15,31 @@
         "LCH₄ 产率": "0.55 kg/h（13.5 kg/sol）",
         "超压泄放": "安全阀+爆破片 → 火炬"
       },
+      "specs_en": {
+        "Column height": "8 m",
+        "Catalyst": "Ru/Al2O3 fixed bed, 2 stages",
+        "Reaction temperature": "300-400 C",
+        "LCH4 output": "0.55 kg/h (13.5 kg/sol)",
+        "Overpressure relief": "safety valve + rupture disc to the flare"
+      },
+      "sim": "产能链锚点：480 sol 无人期加满 MAV 30 t 推进剂 → LCH₄ 6.5 t ÷ 480 sol = 13.5 kg/sol ≈ 0.55 kg/h（EQUIPMENT.md §1）",
+      "sim_en": "Capacity anchor: filling the MAV with 30 t of propellant during the 480-sol uncrewed campaign needs 6.5 t of LCH4, i.e. 6.5 t / 480 sol = 13.5 kg/sol = about 0.55 kg/h (EQUIPMENT.md section 1).",
       "physics": [
         "CO₂ + 4H₂ → CH₄ + 2H₂O，ΔH ≈ −165 kJ/mol：强放热，不做床间冷却催化剂会过热烧结失活——分段床+盘管的存在理由",
         "放热经底部回热器预热进料，自热平衡后仅启动时需要电加热"
       ],
-      "sim": "产能链锚点：480 sol 无人期加满 MAV 30 t 推进剂 → LCH₄ 6.5 t ÷ 480 sol = 13.5 kg/sol ≈ 0.55 kg/h（EQUIPMENT.md §1）"
+      "physics_en": [
+        "CO2 + 4 H2 -> CH4 + 2 H2O, dH = about -165 kJ/mol: strongly exothermic. Without inter-bed cooling the catalyst overheats, sinters and deactivates - which is exactly why the bed is staged and coiled.",
+        "That reaction heat is recuperated at the base to preheat the feed, so once the column is self-sustaining, electrical heating is only needed at start-up."
+      ]
     },
     {
       "id": "intake",
       "label": "CO₂ 吸入·过滤·压缩",
+      "label_en": "CO2 intake, filtration and compression",
       "range": 25,
       "detail": "两级除尘（旋风+HEPA 双滤箱）串两级涡旋压缩机（MOXIE 谱系）+ 级间冷却器。火星大气 95% 是 CO₂，但总压只有 ~600 Pa——同样质量的气体占地球百倍体积，连续大流量吸气使压缩机成为全厂关键设备。剖切舱内可见两级涡旋盘与级间冷却器。",
+      "detail_en": "Two stages of dust removal (cyclone plus twin HEPA boxes) feeding two scroll compressor stages of the MOXIE lineage with an intercooler. The Martian atmosphere is 95% CO2, but its total pressure is only about 600 Pa - the same mass of gas occupies a hundred times the volume it would on Earth, so continuous high-volume intake makes the compressor the critical machine of the whole plant. The cutaway shows both scroll sets and the intercooler.",
       "specs": {
         "环境大气压": "~600 Pa（95% CO₂）",
         "CO₂ 需求": "1.5 kg/h",
@@ -31,14 +47,25 @@
         "压缩方案": "两级涡旋 + 级间冷却",
         "除尘": "旋风 + HEPA 两级（全球沙尘暴工况）"
       },
+      "specs_en": {
+        "Ambient pressure": "about 600 Pa (95% CO2)",
+        "CO2 demand": "1.5 kg/h",
+        "Volumetric intake": "about 100 m3/h, continuous",
+        "Compression": "two scroll stages + intercooling",
+        "Dust removal": "cyclone + HEPA, two stages (global dust-storm duty)"
+      },
+      "sim": "吸气量校核：1.5 kg/h ÷ 0.015 kg/m³ ≈ 100 m³/h ✓（修正了设计基准 v1 误写的 1100 m³/h）",
+      "sim_en": "Intake check: 1.5 kg/h / 0.015 kg/m3 = about 100 m3/h, confirmed (correcting the 1100 m3/h written into design baseline v1).",
       "physics": "理想气体 ρ = pM/RT = 600×0.044/(8.314×210) ≈ 0.015 kg/m³——只有地球海平面空气密度的 1.2%，采集同样质量必须搬运 ~80 倍体积",
-      "sim": "吸气量校核：1.5 kg/h ÷ 0.015 kg/m³ ≈ 100 m³/h ✓（修正了设计基准 v1 误写的 1100 m³/h）"
+      "physics_en": "Ideal gas: rho = pM/RT = 600 x 0.044 / (8.314 x 210) = about 0.015 kg/m3 - only 1.2% of sea-level air density on Earth, so collecting the same mass means moving about 80 times the volume."
     },
     {
       "id": "electrolysis",
       "label": "电解·水回收撬块",
+      "label_en": "Electrolysis and water-recovery skid",
       "range": 25,
       "detail": "PEM 电解堆（13 片双极板叠层，剖切开口可见）把水电解为 H₂ 和 O₂：H₂ 回反应柱构成闭环，O₂ 就是氧化剂产品。反应产物水由右侧卧式冷凝器回收（约占电解进水 45%），差额由 res-rodwell-01 的保温水管从前脸橙色法兰接口补给。屋顶两罐为 H₂/O₂ 气液分离器。",
+      "detail_en": "A PEM stack (13 bipolar plates, visible through the cutaway) splits water into H2 and O2: the hydrogen returns to the reaction column to close the loop, and the oxygen is itself a product - the oxidiser. Water made by the reaction is recovered in the horizontal condenser on the right, covering about 45% of the feed; the balance arrives through the insulated line from res-rodwell-01 at the orange flange on the front face. The two roof drums are the H2 and O2 gas-liquid separators.",
       "specs": {
         "电解水量": "2.9 kg/h",
         "产 H₂": "0.32 kg/h（回炉）",
@@ -46,17 +73,31 @@
         "堆型": "PEM ×13 片",
         "补水接口": "res-rodwell-01 真空夹层保温管"
       },
+      "specs_en": {
+        "Water electrolysed": "2.9 kg/h",
+        "H2 produced": "0.32 kg/h (recycled)",
+        "O2 produced": "2.6 kg/h (to tanks)",
+        "Stack": "PEM, 13 cells",
+        "Make-up water": "vacuum-jacketed line from res-rodwell-01"
+      },
+      "sim": "功率账：0.32 kg/h × 55 kWh/kg ≈ 18 kWe（电解本体），含循环泵/干燥/损耗 ~25 kWe；全厂设计包络 40 kWe 留裕度——电解占全厂功耗大头（§1/§7）",
+      "sim_en": "Power ledger: 0.32 kg/h x 55 kWh/kg = about 18 kWe for electrolysis itself, and about 25 kWe including circulation pumps, drying and losses. The plant envelope is designed at 40 kWe for margin - electrolysis dominates the site's power draw (sections 1 and 7).",
       "physics": [
         "2H₂O → 2H₂ + O₂，理论电解能 39.4 kWh/kg H₂；PEM 系统级实际 ~55 kWh/kg",
         "氢闭环：Sabatier 产物水回收再电解，氢在厂内循环，系统只净消耗水和 CO₂"
       ],
-      "sim": "功率账：0.32 kg/h × 55 kWh/kg ≈ 18 kWe（电解本体），含循环泵/干燥/损耗 ~25 kWe；全厂设计包络 40 kWe 留裕度——电解占全厂功耗大头（§1/§7）"
+      "physics_en": [
+        "2 H2O -> 2 H2 + O2, theoretical 39.4 kWh per kg of H2; a real PEM system runs at about 55 kWh/kg.",
+        "Closed hydrogen loop: the water the Sabatier step produces is recovered and re-electrolysed, so hydrogen circulates inside the plant and the only net consumables are water and CO2."
+      ]
     },
     {
       "id": "tanks",
       "label": "低温储罐 2×LOX + LCH₄",
+      "label_en": "Cryogenic tanks, 2x LOX + LCH4",
       "range": 30,
       "detail": "三个 4 m 球罐：真空夹层外壳悬挂金色 MLI 内胆（近处剖切罐可见），罐顶 RTB 零蒸发冷头+压缩机组。480 sol 无人生产期里任何蒸发损失都直接吃掉产能，因此采用 ZBO 方案——冷头在罐内直接抵消漏热，推进剂零损耗待命。",
+      "detail_en": "Three 4 m spheres: a vacuum-jacketed shell suspending a gold MLI-wrapped inner vessel (visible in the nearer cutaway tank), with an RTB zero-boil-off cold head and compressor set on top. Across a 480-sol uncrewed production campaign any boil-off comes straight off the delivered total, so a ZBO scheme is used: the cold head cancels the heat leak inside the tank and the propellant waits with zero loss.",
       "specs": {
         "球罐": "Ø4 m ×3（2×LOX + 1×LCH₄）",
         "存储温度": "LOX 90 K · LCH₄ 111 K",
@@ -64,38 +105,69 @@
         "绝热": "真空夹层 + 多层隔热 MLI",
         "制冷": "RTB 逆布雷顿冷头，每罐一台"
       },
+      "specs_en": {
+        "Spheres": "dia 4 m x 3 (2 LOX + 1 LCH4)",
+        "Storage temperature": "LOX 90 K, LCH4 111 K",
+        "Mission load": "30 t propellant (23 t LOX + 6.5 t LCH4)",
+        "Insulation": "vacuum jacket + multi-layer insulation",
+        "Refrigeration": "RTB reverse-Brayton cold head, one per tank"
+      },
+      "sim": "容积账：需求 = 23 t LOX ÷ 1141 kg/m³ + 6.5 t LCH₄ ÷ 423 kg/m³ ≈ 35.6 m³；配置 3×33.5 = 100 m³ → 覆盖约 2.5 个 MAV 加注周期，生产不必停机等转运",
+      "sim_en": "Volume ledger: demand = 23 t LOX / 1141 kg/m3 + 6.5 t LCH4 / 423 kg/m3 = about 35.6 m3; the installed 3 x 33.5 = 100 m3 covers roughly 2.5 MAV fuelling cycles, so production never has to stop and wait for transfer.",
       "physics": [
         "球形是最小表面积/容积比 → 最小漏热面；真空夹层切断传导与对流，MLI 多层反射屏把辐射漏热再压一个量级",
         "ZBO 判据：冷头制冷量 ≥ 罐体总漏热，则蒸发率恒为零"
       ],
-      "sim": "容积账：需求 = 23 t LOX ÷ 1141 kg/m³ + 6.5 t LCH₄ ÷ 423 kg/m³ ≈ 35.6 m³；配置 3×33.5 = 100 m³ → 覆盖约 2.5 个 MAV 加注周期，生产不必停机等转运"
+      "physics_en": [
+        "A sphere has the smallest surface-to-volume ratio, hence the smallest area to leak heat through. The vacuum jacket cuts conduction and convection, and the MLI radiation shields knock the radiative leak down another order of magnitude.",
+        "The ZBO criterion is simply that cold-head lift must equal or exceed total tank heat leak; then the boil-off rate is identically zero."
+      ]
     },
     {
       "id": "radiators",
       "label": "制冷散热板阵",
+      "label_en": "Refrigeration radiator array",
       "range": 25,
       "detail": "RTB 制冷机的废热由工质回路（每板背面蛇形盘管+泵撬）送到 4 块黑色辐射板排向天空。火星大气密度不足以对流散热，辐射是唯一出路；板面高发射率涂层，竖直安装减少落尘积累。",
+      "detail_en": "Waste heat from the RTB refrigerators is carried by a working-fluid loop - serpentine coils on the back of each panel plus a pump skid - out to four black radiator panels that dump it to the sky. The Martian atmosphere is too thin to cool by convection, so radiation is the only route; the panels carry a high-emissivity coating and stand vertical to limit dust settling.",
       "specs": {
         "辐射板": "4 块 × 2.5×2.3 m ≈ 23 m²（单面）",
         "工质回路": "蛇形盘管 + 泵撬 1 台",
         "排热对象": "3 台 RTB 压缩机废热",
         "板面涂层": "高发射率 ε ≈ 0.9"
       },
+      "specs_en": {
+        "Panels": "4 x 2.5 x 2.3 m = about 23 m2 (one side)",
+        "Fluid loop": "serpentine coils + 1 pump skid",
+        "Heat rejected": "waste heat of 3 RTB compressors",
+        "Surface coating": "high emissivity, eps = about 0.9"
+      },
+      "sim": "辐射账：23 m² × 0.52 kW/m² ≈ 12 kW ≥ RTB 废热 ~9 kW（6 kWe 电输入 + 抽取漏热）✓ 闭合，余量应对沙尘降发射率",
+      "sim_en": "Rejection ledger: 23 m2 x 0.52 kW/m2 = about 12 kW, against RTB waste heat of about 9 kW (6 kWe electrical input plus the extracted heat leak) - closed, with margin left for dust degrading the emissivity.",
       "physics": "斯特藩-玻尔兹曼：P = εσA(T⁴ − T_sky⁴)。板温 330 K 对火星天空 ~200 K，净辐射通量 ≈ 0.52 kW/m²",
-      "sim": "辐射账：23 m² × 0.52 kW/m² ≈ 12 kW ≥ RTB 废热 ~9 kW（6 kWe 电输入 + 抽取漏热）✓ 闭合，余量应对沙尘降发射率"
+      "physics_en": "Stefan-Boltzmann: P = eps x sigma x A x (T^4 - T_sky^4). A 330 K panel against a roughly 200 K Mars sky gives a net flux of about 0.52 kW/m2."
     },
     {
       "id": "flare",
       "label": "安全火炬塔",
+      "label_en": "Safety flare tower",
       "range": 25,
       "detail": "常灭安全火炬：反应柱安全阀/爆破片与储罐超压泄放管线汇集于此，顶部防风圈保证 20 m/s 阵风下可靠点火。正常工况完全熄灭无火焰；塔顶红色信标为夜间警示闪烁。",
+      "detail_en": "A normally unlit safety flare: the reactor's safety valve and rupture disc, together with the tank overpressure relief lines, all vent here, and the wind shield at the top keeps ignition reliable in gusts up to 20 m/s. In normal operation there is no flame at all; the red beacon on top blinks as a night hazard light.",
       "specs": {
         "塔高": "6 m",
         "防风圈": "Ø1.5 m",
         "常态": "熄灭（unlit）",
         "触发": "PSV 超压泄放"
       },
-      "physics": "火星大气无氧、CH₄ 排放本体不燃，但低压下排放气会在洼地缓慢积聚，对携氧的乘员舱/舱外作业构成隐患——受控点燃排放是标准工业安全实践"
+      "specs_en": {
+        "Tower height": "6 m",
+        "Wind shield": "dia 1.5 m",
+        "Normal state": "unlit",
+        "Trigger": "PSV overpressure relief"
+      },
+      "physics": "火星大气无氧、CH₄ 排放本体不燃，但低压下排放气会在洼地缓慢积聚，对携氧的乘员舱/舱外作业构成隐患——受控点燃排放是标准工业安全实践",
+      "physics_en": "The Martian atmosphere carries no oxygen and vented CH4 will not burn by itself, but at low pressure a release drifts and pools slowly in hollows, which is a hazard to oxygen-bearing crew modules and to EVA work. Controlled ignition of vented gas is standard industrial safety practice."
     }
   ]
 }

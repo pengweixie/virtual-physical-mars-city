@@ -4,8 +4,10 @@
     {
       "id": "tower",
       "label": "固定勤务塔",
+      "label_en": "Fixed service tower",
       "range": 40,
       "detail": "85 m 蓝色密格桁架勤务塔——涂装与满面 X 撑构型取自长十乙首飞工位（海南商业航天发射场二号工位，2026-07-10 首飞实照），回转平台与摆杆语汇取自文昌载人工位：5 组回转平台合拢抱箭（交付态微开 15°），发射前依序展开；3 根加注/供气摆杆在点火前最后摆开；顶部吊机房完成垂直吊装。火星 0.38 g 使结构自重减轻近三分之二，但昼夜 ±60 K 温差应力与尘暴颗粒磨蚀成为主导工况——构件统一放粗，全栓接无现场焊缝，便于机器人换件维护。环视(V)可触发'发射准备'序列：平台展开→摆杆摆开。",
+      "detail_en": "An 85 m blue close-lattice service tower. The livery and fully X-braced framing come from the Long March 10B's debut pad (pad 2 at the Hainan commercial launch site, photographed on its 2026-07-10 maiden flight); the rotating platforms and swing arms follow the crewed pad at Wenchang. Five sets of platforms close around the vehicle - delivered slightly open at 15 deg - and swing out in sequence, and the three fuelling and gas arms retract last, just before ignition; the crane house on top handles vertical stacking. At 0.38 g the structure carries nearly two thirds less self-weight, but a +/-60 K day-night swing and dust abrasion take over as the driving load cases, so members are uniformly heavier and every joint is bolted with no field welds, which lets robots swap parts. In inspect mode (V) the launch-preparation sequence runs: platforms out, then arms.",
       "specs": {
         "塔高": "85 m（避雷针尖 100 m）",
         "回转平台": "5 组 × 2 半层",
@@ -13,13 +15,23 @@
         "展开时序": "平台→摆杆，演示压缩为 14 s",
         "结构钢量": "~1100 t（0.38 g 减重设计）"
       },
-      "physics": "风载动压 q=½ρv²：火星大气 ρ≈0.020 kg/m³，42 m/s（150 km/h）尘暴的动压仅 ~18 Pa——不及地球 6 级风的 1/10。高塔设计工况因此从风载翻转为温差应力与低频共振，这是地球塔架经验不能直接移植的地方。"
+      "specs_en": {
+        "Tower height": "85 m (100 m to the lightning rod tip)",
+        "Rotating platforms": "5 sets x 2 half-levels",
+        "Swing arms": "3 (LOX / CH4 / gas and power)",
+        "Deployment order": "platforms then arms, compressed to 14 s for the demo",
+        "Structural steel": "~1100 t (0.38 g weight-saving design)"
+      },
+      "physics": "风载动压 q=½ρv²：火星大气 ρ≈0.020 kg/m³，42 m/s（150 km/h）尘暴的动压仅 ~18 Pa——不及地球 6 级风的 1/10。高塔设计工况因此从风载翻转为温差应力与低频共振，这是地球塔架经验不能直接移植的地方。",
+      "physics_en": "Wind dynamic pressure q = 1/2 rho v^2: at a Martian density of ~0.020 kg/m^3 a 42 m/s (150 km/h) dust storm exerts only ~18 Pa, less than a tenth of a stiff terrestrial breeze. The design case for a tall tower therefore flips from wind loading to thermal stress and low-frequency resonance - exactly where terrestrial tower experience cannot be transplanted."
     },
     {
       "id": "trench",
       "label": "导流槽",
+      "label_en": "Flame trench",
       "range": 35,
       "detail": "单面斜坡导流槽：38° 导流锥把羽流向 -X 偏折，混凝土斜槽延伸 40 m，出口喇叭形扩张。文昌原型在点火瞬间向台面倾泻数百吨水做声抑制与热防护；火星上水比推进剂还金贵（全部来自 Rodwell 井），本工位取消整套水系统——稀薄大气本身就是最好的消声器。但导流结构照建不减：真空度救不了反卷羽流，不导走就会掀翻台面设备、烧蚀箭底与牵制机构。槽底铺烧结玄武岩耐蚀面层。",
+      "detail_en": "A single-sided sloped flame trench: a 38 deg deflector cone throws the plume toward -X, the concrete channel runs 40 m, and the exit flares open. The Wenchang original pours hundreds of tonnes of water onto the deck at ignition for acoustic suppression and thermal protection; on Mars water is more precious than propellant - all of it comes from the Rodwell well - so this pad deletes the water system entirely, the thin atmosphere being the best silencer available. The deflector structure itself is built in full, though: near-vacuum does not save you from recirculating plume, and undeflected it would strip the deck, erode the vehicle base and wreck the hold-down mechanism. The channel floor is lined with sintered basalt.",
       "specs": {
         "槽长": "40 m（含 13 m 喇叭段）",
         "内宽": "10 m",
@@ -27,13 +39,23 @@
         "声抑制水量": "0 t（地球同级工位 ~400 t）",
         "槽底面层": "微波烧结玄武岩 + 耐烧蚀涂层"
       },
-      "physics": "0.6 kPa 环境下发动机喷流严重欠膨胀，出口后急剧外扩、马赫盘直径比海平面大数倍，导流槽因此比地球同推力级做得更宽。声学上火星大气声阻抗 ρc 仅为地球 ~1/80，羽流声功率耦合进大气的效率天然低——远场噪声比地球同型发射低约 19 dB，省掉的水系统由物理买单。"
+      "specs_en": {
+        "Channel length": "40 m (13 m flared section)",
+        "Internal width": "10 m",
+        "Deflector angle": "38 deg",
+        "Acoustic water": "0 t (a comparable Earth pad uses ~400 t)",
+        "Floor lining": "microwave-sintered basalt with ablative coating"
+      },
+      "physics": "0.6 kPa 环境下发动机喷流严重欠膨胀，出口后急剧外扩、马赫盘直径比海平面大数倍，导流槽因此比地球同推力级做得更宽。声学上火星大气声阻抗 ρc 仅为地球 ~1/80，羽流声功率耦合进大气的效率天然低——远场噪声比地球同型发射低约 19 dB，省掉的水系统由物理买单。",
+      "physics_en": "At 0.6 kPa ambient the exhaust is severely under-expanded: it flares hard past the nozzle exit and the Mach disc is several times wider than at sea level, so the trench must be wider than an Earth pad of the same thrust class. Acoustically the Martian atmosphere offers only ~1/80 of Earth's acoustic impedance rho c, so plume power couples into the air far less efficiently - far-field noise runs about 19 dB below the same vehicle on Earth. Physics pays for the water system that was deleted."
     },
     {
       "id": "lightning",
       "label": "避雷塔",
+      "label_en": "Lightning towers",
       "range": 55,
       "detail": "四角环布的 ~100 m 锥形桁架避雷塔，文昌发射区最具辨识度的轮廓。火星没有对流雷暴——但避雷塔不是摆设：尘暴中沙粒相互摩擦起电（triboelectric）是被轨道与地面观测支持的真实过程，尘暴前锋电场可达 kV/m 量级；而 6 mbar 低气压恰好落在帕邢曲线的低击穿区，小电位差就能起辉放电。四塔在这里的职务是静电泄放阵列兼障碍灯塔：加注作业期间把整个工位罩进泄放保护角，塔尖红色障碍灯供进近飞行器识别。",
+      "detail_en": "Four ~100 m tapered lattice lightning towers ringed around the pad, the most recognizable silhouette in the Wenchang launch area. Mars has no convective thunderstorms - but these towers are not decoration: triboelectric charging as sand grains rub together in a dust storm is a real process supported by orbital and surface observation, and the field at a storm front can reach kV/m, while 6 mbar sits squarely in the low-breakdown region of the Paschen curve where a small potential difference is enough to strike a glow discharge. So the four towers serve as an electrostatic bleed array and obstruction beacons: during fuelling they place the whole pad inside a protective cone, and the red lights on their tips mark it for approaching aircraft.",
       "specs": {
         "塔高": "100 m（泄放尖杆至 107 m）",
         "数量": "4 座，布置半径 ~59 m",
@@ -41,13 +63,23 @@
         "障碍灯": "塔尖 + 中部，红色闪烁",
         "接地": "埋入盐渍风化层的环形导体网格"
       },
-      "physics": "帕邢定律：击穿场强随气压下降先降后升，6 mbar CO₂ 的击穿阈值 ~20 kV/m 量级，比地球大气（~3 MV/m）低两个数量级——火星上'防雷'防的不是云地闪，而是尘暴静电与加注设备上的电荷积累。干燥风化层导电性差，接地网格要打进含盐卤水层才有低阻回路。"
+      "specs_en": {
+        "Tower height": "100 m (107 m to the bleed tip)",
+        "Count": "4, on a ~59 m radius",
+        "Structure": "two-stage tapered lattice, red and white livery",
+        "Obstruction lights": "tip and mid-height, red flashing",
+        "Grounding": "ring conductor grid buried in the salted weathered layer"
+      },
+      "physics": "帕邢定律：击穿场强随气压下降先降后升，6 mbar CO₂ 的击穿阈值 ~20 kV/m 量级，比地球大气（~3 MV/m）低两个数量级——火星上'防雷'防的不是云地闪，而是尘暴静电与加注设备上的电荷积累。干燥风化层导电性差，接地网格要打进含盐卤水层才有低阻回路。",
+      "physics_en": "Paschen's law: breakdown field strength falls and then rises again as pressure drops, and 6 mbar of CO2 sits near a threshold of ~20 kV/m - two orders of magnitude below Earth's atmosphere at ~3 MV/m. Lightning protection on Mars is therefore not about cloud-to-ground strokes but about dust-storm static and charge accumulating on fuelling equipment. Dry regolith conducts poorly, so the grounding grid has to reach the briny layer to give a low-resistance return."
     },
     {
       "id": "tank",
       "label": "加注区",
+      "label_en": "Fuelling area",
       "range": 35,
       "detail": "土堤隔离的推进剂加注区：液氧球罐 ×2（⌀8 m，裙座支承）+ 甲烷卧罐 ×2，双管桥架翻越土堤通向塔底摆杆。推进剂全部本地制造——res-isru-01 的 Sabatier 链用大气 CO₂ 加 Rodwell 井水电解氢合成 CH₄/O₂，经管线夜间错峰输送至此。火星年均 ~210 K 的环境温度让深冷储存变成半送的：LOX（90 K）与环境的温差只有地球的一半多，且稀薄大气几乎没有对流漏热，绝热主要对付辐射项。",
+      "detail_en": "The propellant fuelling area, isolated behind its own berm: two liquid-oxygen spheres (dia. 8 m on skirt supports) plus two horizontal methane tanks, with a twin-pipe bridge crossing the berm to the arms at the tower base. All the propellant is made locally - the Sabatier chain at res-isru-01 takes atmospheric CO2 and hydrogen electrolysed from Rodwell water to synthesize CH4 and O2, piped across at night to dodge the load peak. A mean ambient near 210 K makes cryogenic storage half a gift: liquid oxygen at 90 K faces barely half the temperature difference it would on Earth, and with almost no convection at this pressure, insulation only has to fight the radiative term.",
       "specs": {
         "液氧球罐": "2 × 268 m³（⌀8 m）",
         "甲烷卧罐": "2 × 130 m³（⌀4 × 12 m）",
@@ -55,13 +87,23 @@
         "加注管": "DN350 / DN300 双管桥架",
         "推进剂来源": "res-isru-01 Sabatier + 电解"
       },
-      "physics": "蒸发损失（boil-off）∝ 漏热 Q，Q 由温差与换热路径决定：火星夜间 ~170 K 时 LOX 温差仅 80 K，对流项在 6 mbar 下几乎消失，MLI 绝热层数可比地球同级罐减半，深冷维持功耗降到几分之一——把推进剂厂和发射工位放在同一颗冷行星上，是这套架构少数'白赚'的项目。"
+      "specs_en": {
+        "LOX spheres": "2 x 268 m^3 (dia. 8 m)",
+        "Methane tanks": "2 x 130 m^3 (dia. 4 x 12 m)",
+        "Isolation berm": "2.5 m high, U-shaped on three sides",
+        "Fuelling lines": "DN350 / DN300 twin-pipe bridge",
+        "Propellant source": "res-isru-01 Sabatier plus electrolysis"
+      },
+      "physics": "蒸发损失（boil-off）∝ 漏热 Q，Q 由温差与换热路径决定：火星夜间 ~170 K 时 LOX 温差仅 80 K，对流项在 6 mbar 下几乎消失，MLI 绝热层数可比地球同级罐减半，深冷维持功耗降到几分之一——把推进剂厂和发射工位放在同一颗冷行星上，是这套架构少数'白赚'的项目。",
+      "physics_en": "Boil-off scales with heat leak Q, and Q follows the temperature difference and the heat path: at ~170 K on a Martian night liquid oxygen sees only an 80 K difference, and at 6 mbar the convective term all but vanishes. Multi-layer insulation can be halved against a comparable Earth tank and the cryogenic maintenance power drops to a fraction of it - putting the propellant plant and the launch pad on the same cold planet is one of the few things this architecture gets for free."
     },
     {
       "id": "net",
       "label": "网系回收阵位",
+      "label_en": "Net recovery station",
       "range": 45,
       "detail": "长十乙的招牌：一子级不装着陆腿，箭体只留 4 只轻型挂钩，直接飞进网里。地球上这套系统装在 2.5 万吨回收船'领航者'号（144×50 m，广船国际造）上，2026-07-10 首飞即完成全球首次海上网系回收；火星没有海，把它搬上岸——四根内倾重型格构柱撑起顶部矩形环框，'井'字形主缆张在环框上，网兜下垂居中，挂钩挂缆后网口逐渐缩小完成捕获固定，柱脚轨道绞车自动张紧定位。省掉的着陆腿质量直接变成运力，这笔账在火星同样成立。",
+      "detail_en": "The Long March 10B signature: the first stage carries no landing legs, only four light hooks, and flies straight into a net. On Earth the system rides the 25,000-tonne recovery ship Pilot (144 x 50 m, built by Guangzhou Shipyard International), which completed the world's first sea-based net recovery on the maiden flight of 2026-07-10; Mars has no sea, so it comes ashore - four inward-leaning heavy lattice columns carry a rectangular top ring, main cables are strung across it in a crossed pattern, and the net hangs centred beneath. Once the hooks catch the cables the mouth of the net closes to capture and secure the stage, while winches at the column feet tension and position it automatically. The landing-leg mass that is saved turns straight into payload, and that ledger holds on Mars too.",
       "specs": {
         "构型来源": "'领航者'号回收船（144×50 m / 2.5 万吨）",
         "台面": "46×36 m 烧结基座，环框高 34 m",
@@ -70,8 +112,18 @@
         "捕获流程": "挂钩挂缆 → 网口收缩固定 → 绞车张紧",
         "落点精度": "±50 m 级（地球首飞实测）"
       },
+      "specs_en": {
+        "Design lineage": "recovery ship Pilot (144 x 50 m, 25,000 t)",
+        "Deck": "46 x 36 m sintered base, ring 34 m up",
+        "Main cables": "crossed pattern, strung from the tower tops",
+        "Vehicle interface": "4 light hooks (no landing legs)",
+        "Capture sequence": "hooks catch cables, net mouth closes, winches tension",
+        "Landing accuracy": "+/-50 m class (measured on the Earth maiden flight)"
+      },
       "physics": "网捕 vs 着陆腿是一道结构质量账：腿要按着陆冲击载荷设计并全程死重上天，网把缓冲结构留在地面，箭上只剩挂钩——运力直接受益。缓冲物理上，柔性网以米级下垂行程摊薄冲量（F·Δt 不变、拉长 Δt 压低峰值 F），对无腿箭体尾段更友好；火星大气密度 ~1/60，栅格舵效率打折、末段更依赖发动机深节流，±50 m 级落点精度是这套方案成立的前提。",
-      "sim": "长十乙地球首飞实测链：一二级分离后约 6 分钟返回 → 发动机反推减速 + 栅格舵控姿 → 挂钩挂缆 → 网口收缩捕获，箭体完好无损（新华社 2026-07-10）。"
+      "physics_en": "Net capture versus landing legs is a structural mass ledger: legs must be sized for touchdown impact and flown as dead weight the whole way up, whereas a net leaves the energy-absorbing structure on the ground and the vehicle keeps only hooks - payload benefits directly. Physically a compliant net spreads the impulse over metres of sag (F times delta-t is fixed, so stretching delta-t lowers peak F), which is kinder to a legless aft section. With ~1/60 of Earth's air density, grid fins lose authority and the terminal phase leans harder on deep engine throttling, which makes +/-50 m class accuracy the precondition for the whole scheme.",
+      "sim": "长十乙地球首飞实测链：一二级分离后约 6 分钟返回 → 发动机反推减速 + 栅格舵控姿 → 挂钩挂缆 → 网口收缩捕获，箭体完好无损（新华社 2026-07-10）。",
+      "sim_en": "Measured chain from the Long March 10B maiden flight on Earth: about six minutes from stage separation to return, retro-burn deceleration with grid-fin attitude control, hooks catching the cables, then the net mouth closing to capture - the stage came back intact (Xinhua, 2026-07-10)."
     }
   ]
 }

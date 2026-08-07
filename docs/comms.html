@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comms — Virtual-Physical Mars City</title>
+<meta name="description" content="A 3+1 areostationary relay constellation and a 12 m deep-space ground station — every headline number produced by a solver, then audited by an independent review.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--cyan);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .eq{font-family:var(--f-mono);font-size:.88rem;background:var(--bg-3);border:1px solid var(--line);
+    border-radius:10px;padding:14px 18px;margin:22px 0 0;overflow-x:auto;white-space:nowrap;}
+  .verdict{display:inline-block;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;
+    text-transform:uppercase;border:1px solid var(--line-strong);border-radius:999px;padding:2px 10px;margin-right:8px;}
+  .verdict--fix{color:var(--red);border-color:color-mix(in srgb,var(--red) 55%,transparent);}
+  .verdict--ok{color:var(--green);border-color:color-mix(in srgb,var(--green) 55%,transparent);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="science.html">← Prev</a>
+    <a href="detectors.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">com-relay-01 · com-station-01</div>
+    <h1>Comms</h1>
+    <p class="phead__sub">Three relay satellites parked 17,032 km over the equator, a hot spare,
+      and a 12 m deep-space dish on the crater floor. Every headline number on this page came out
+      of a solver — HFSS, COMSOL, Geant4, an orbit integrator, two discrete-event sims and a coding
+      Monte Carlo — and then survived an independent two-agent audit that caught seven bad claims.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Science delivered</div><div class="spec__v">65<small> Tb/synodic cycle</small></div></div>
+    <div class="spec"><div class="spec__k">Ka dish gain</div><div class="spec__v">58.2<small> dBi · 0.226°</small></div></div>
+    <div class="spec"><div class="spec__k">15-yr station-keeping</div><div class="spec__v">109<small> m/s</small></div></div>
+    <div class="spec"><div class="spec__k">Gap to Shannon</div><div class="spec__v">1.8<small> dB measured</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>Two ends of a pencil beam</h2></div>
+    <p class="lead">An areostationary orbit makes a satellite hang motionless over Jezero.
+      That one fact shapes everything else in this district.</p>
+    <div class="prose">
+      <p>Mars rotates once every 24 h 37 m; at a radius of 20,428 km an orbit takes exactly as long.
+        Park three relays there, 120° apart, and every base between ±71° latitude sees at least one
+        of them <strong>forever</strong> — no passes, no windows, no handovers. A fourth satellite
+        loiters 16° away as a hot spare. Each relay carries two 3 m Ka/X dishes staring at the
+        planet, a 2.5 m gimbaled dish for the Earth trunk, and 30 m of solar wing.</p>
+      <p>On the ground, a 12 m Cassegrain (<span class="src">com-station-01</span>) answers back:
+        a 20 K cryo-cooled front end for G/T 51.8 dB/K, an 800 W transmit chain for EIRP 98 dBW,
+        and a hydrogen-maser timebase good to 1×10⁻¹⁵ — because coherent two-way ranging is how you
+        know where your "stationary" star actually is. Its 0.05° pencil beam pins a point
+        17,032 km up, and the servo loop never gets to rest.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/comms/relay-close2.png" alt="Areostationary relay com-relay-01 on the ring, in-engine orbit view" loading="lazy">
+        <figcaption>COM-RELAY-01 ON THE RING — 30 M WING SPAN, 3+1 CONSTELLATION, 17,032 KM UP (IN-ENGINE)</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/comms/comsta-clean.png" alt="12 m deep-space ground station com-station-01 at dusk, in-engine" loading="lazy">
+        <figcaption>COM-STATION-01 — 12 M CASSEGRAIN, G/T 51.8 dB/K, EIRP 98 dBW (IN-ENGINE)</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>The link budget is the machine</h2></div>
+    <p class="lead">A comms satellite is one equation made of metal. Every subsystem exists to
+      feed a term of it.</p>
+    <div class="eq">C/N₀ = EIRP + G/T − FSPL + 228.6&nbsp;&nbsp;·&nbsp;&nbsp;Eb/N₀ = C/N₀ − 10·log Rb ≥ threshold</div>
+    <div class="prose">
+      <p>We refused to leave any term to a textbook formula. The 3 m Ka dish is 320 wavelengths
+        across — too big for full-wave — so we solved the feed horn in HFSS (17.96 dBi, 24° beam),
+        then integrated that <em>real</em> pattern over the reflector. The hybrid gave
+        <strong>58.2 dBi</strong> with an aperture efficiency of 0.68 that decomposes into
+        spillover 0.94 × taper 0.72 — and a beam of <strong>0.226°</strong>, almost half the 0.4°
+        the hand formula had promised. That single correction cascaded into the attitude budget:
+        pointing must now hold 0.046°, twice as tight as first written.</p>
+      <p>The same discipline picked the reflector material. A coupled thermal-structural solve with
+        a 20 K front-to-back gradient bows an aluminum dish by 5.66 mm RMS — a Ruze loss of
+        −250 dB, a dead antenna. CFRP at 1 ppm/K bows 0.246 mm, and after a one-time focus trim the
+        residual is 0.006 mm (−0.0003 dB). <strong>"Ka dishes are carbon fiber" stopped being a
+        convention and became a verdict.</strong> A frequency sweep closed the loop on the transmit
+        side: S11 −26.6 dB at 32 GHz, mismatch loss 0.01 dB — the 74 dBW EIRP assumption holds.</p>
+      <p>The ground half of the equation closes the loop. With the cryo front end holding
+        T<sub>sys</sub> at 75 K, all three station links shut with banked margin: relay downlink
+        <strong>600 Mbps with 24.7 dB to spare</strong>, uplink 100 Mbps with 45 dB, and the
+        conjunction-season direct-to-Earth path 500 bps across 2.5 AU with 21.4 dB. The bank
+        exists for the planet's sake — a full global dust storm costs the downlink ≈9.5 dB
+        (5 dB of attenuation plus the receiver warming from 75 K to 212 K as it stares through
+        hot dust), and the link rides it out without dropping a rate step. One term of the
+        budget even exists as hardware: the LNA's DC lifeline was designed as a real two-layer
+        PCB — an HEMT bias sequencer that builds the negative gate rail first, interlocks the
+        drain behind a comparator, trips at 24 mA — verified to 0 netlist mismatches, autorouted
+        with 0 failed nets, design-reviewed, and exported to fabrication Gerbers.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/comms/antenna_sim.png" alt="HFSS feed pattern and physical-optics reflector pattern" loading="lazy">
+        <figcaption>FULL-WAVE FEED + APERTURE INTEGRATION — 58.2 dBi, HPBW 0.226°, SLL −27 dB</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/comms/dish_deform.png" alt="COMSOL thermoelastic bow of an aluminum reflector" loading="lazy">
+        <figcaption>ALUMINUM DISH UNDER A 20 K GRADIENT — 5.66 MM BOW, −250 dB. CFRP OR NOTHING.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>Keeping it alive for fifteen years</h2></div>
+    <p class="lead">The platform's job is to point, power and park the antenna — for 1,350 eclipses
+      and 5×10¹⁰ protons per cm².</p>
+    <div class="prose">
+      <p><strong>Radiation.</strong> A Geant4 Monte Carlo fired 2×10⁵ solar protons (King-type
+        spectrum) into an aluminum slab: behind 4 mm the 15-year dose is just
+        <strong>7.1 krad</strong>. Mars has no global magnetic field, hence no trapped belts —
+        the environment is ~10× milder than Earth GEO, so radiation-tolerant (30 krad) parts
+        suffice. The solar cells, naked but for coverglass, fade to 5.4 kW EOL — still clearing
+        the 3 kW eclipse load at end of life.</p>
+      <p><strong>Eclipse.</strong> A transient thermal solve showed the wing plunging from −25 °C
+        to −152 °C in each 78-minute eclipse — a 127 °C swing, 1,350 times over the mission.
+        That number is simultaneously why the 5 kWh battery exists and why solar-cell
+        interconnect fatigue drives qualification. Steady-state analysis can never see it.</p>
+      <p><strong>Parking.</strong> Mars' gravity field is lumpy — the Tharsis bulge makes its
+        triaxial term ~40× Earth's. A numerically integrated propagation (validated first on Earth
+        GEO: 1.76 m/s/yr, textbook value) mapped drift acceleration around the whole ring: worst
+        longitude costs 33 m/s/yr, but the Jezero slot at 77.4°E sits 3.3° from an equilibrium
+        point and costs only <strong>5.1 m/s/yr</strong>. Fifteen years of station-keeping:
+        109 m/s — versus 529 at the worst slot. <span class="hl">Choosing the longitude was worth
+        5× the propellant.</span></p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/comms/radiation.png" alt="Geant4 dose versus aluminum shielding depth" loading="lazy">
+        <figcaption>GEANT4 PROTON TRANSPORT — 7.1 KRAD/15 YR BEHIND 4 MM AL; NOTE THE BRAGG BUMP</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/comms/stationkeep.png" alt="East-west station-keeping cost versus longitude with equilibria" loading="lazy">
+        <figcaption>DRIFT ΔV VS LONGITUDE — EQUILIBRIA AT 74°/164°/254°/344°E; JEZERO SLOT: 5.1 M/S/YR</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The mission is a queue</h2></div>
+    <p class="lead">Above the hardware sits a 780-day rhythm: Earth swings from 0.5 to 2.67 AU,
+      and for two weeks the Sun blocks the trunk entirely.</p>
+    <div class="prose">
+      <p>An hour-by-hour simulation of one full synodic cycle — real planetary geometry, rate
+        scaling as 1/d², a hard blackout whenever the Sun-Earth-probe angle drops below 2° —
+        delivers <strong>65 Tb of science per cycle</strong>. The 14.4-day conjunction blackout
+        is not an input; it falls out of the geometry. The 500 Gb on-board buffer turns out to be
+        sized almost exactly right: collecting a 0.35 Mbps critical stream through the blackout
+        fills 435 Gb, and the backlog takes 70 days to drain because conjunction sits at maximum
+        range where the trunk is slowest. The users' 150 Mbps Ka link is 150× faster than the
+        trunk's average — not waste, but the whole point of a relay: collect fast, trickle home.</p>
+      <p>At the bottom of the stack, a from-scratch LDPC Monte Carlo (rate-1/2, min-sum decoding)
+        measured the modem's distance to the physical limit: the waterfall crosses BER 10⁻⁴ at
+        2.0 dB, <strong>1.8 dB from the Shannon bound</strong> — and, as a free lesson, the naive
+        code construction exhibited an error floor at 2.5 dB, demonstrating in one plot why
+        real codes use girth-conditioned constructions.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/comms/network.png" alt="Synodic-cycle data flow: rate curve and buffer level under two policies" loading="lazy">
+        <figcaption>ONE SYNODIC CYCLE — 65 TB DELIVERED; NAIVE COLLECTION LOSES 85 TB, MORE THAN THE TOTAL</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/comms/ldpc.png" alt="LDPC BER waterfall versus Shannon limit" loading="lazy">
+        <figcaption>LDPC MONTE CARLO — 1.8 dB FROM SHANNON, CODING GAIN 6.4 dB, ERROR FLOOR CAUGHT</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
+    <p class="lead">Every number above, and the run that produced it. Twelve simulations reached
+      the archive; nothing on this page is a bare assertion.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Ka dish gain (full-wave feed + aperture integration)</td><td class="num">58.2 dBi</td><td class="src">mars-com-relay/sim/hfss_horn.py + po_reflector.py</td></tr>
+        <tr><td>Half-power beamwidth → pointing requirement</td><td class="num">0.226° → 0.046°</td><td class="src">po_reflector.py (12(e/θ)² ≤ 0.5 dB)</td></tr>
+        <tr><td>Feed return loss @ 32 GHz</td><td class="num">−26.6 dB</td><td class="src">hfss_return_loss.py</td></tr>
+        <tr><td>Thermal bow, Al vs CFRP reflector</td><td class="num">5.66 vs 0.006 mm</td><td class="src">dish_thermoelastic.java (COMSOL coupled)</td></tr>
+        <tr><td>Radiator panel operating point</td><td class="num">−92 °C @ 125 W</td><td class="src">radiator_thermal.java (energy closes to 0.003 W)</td></tr>
+        <tr><td>Eclipse wing swing</td><td class="num">−25 → −152 °C</td><td class="src">eclipse_transient.java</td></tr>
+        <tr><td>First wing bending mode (plate proxy)</td><td class="num">~0.1 Hz</td><td class="src">array_modal.java → ADCS bandwidth ceiling</td></tr>
+        <tr><td>15-yr dose behind 4 mm Al</td><td class="num">7.1 krad</td><td class="src">spe_dose.mac (Geant4/GATE 9.4, 2×10⁵ p)</td></tr>
+        <tr><td>EOL array power</td><td class="num">5.4 kW</td><td class="src">Geant4 fluence + displacement-damage factor</td></tr>
+        <tr><td>EW station-keeping @ 77.4°E / worst slot</td><td class="num">5.1 / 33 m/s·yr</td><td class="src">stationkeep.py (method validated on Earth GEO)</td></tr>
+        <tr><td>15-yr ΔV budget → propellant fraction</td><td class="num">109 m/s → 7.1%</td><td class="src">stationkeep.py + mass_budget.py</td></tr>
+        <tr><td>Wet mass / 4-sat constellation</td><td class="num">1,362 kg / 5.4 t</td><td class="src">mass_budget.py (each line traced to a sim)</td></tr>
+        <tr><td>Science per synodic cycle · blackout length</td><td class="num">65 Tb · 14.4 d</td><td class="src">network_des.py (hourly, 780 d)</td></tr>
+        <tr><td>Dish-time utilization, nominal fleet</td><td class="num">9.2%</td><td class="src">schedule_des.py (priority M/G/2)</td></tr>
+        <tr><td>Measured gap to Shannon (rate-1/2 LDPC)</td><td class="num">1.8 dB</td><td class="src">ldpc_ber.py (all-zero-codeword MC)</td></tr>
+        <tr><td>Ground station G/T · EIRP</td><td class="num">51.8 dB/K · 98 dBW</td><td class="src">mars-com-station/link-budget.json</td></tr>
+        <tr><td>Downlink margin @ 600 Mbps · uplink @ 100 Mbps</td><td class="num">24.7 · 45.0 dB</td><td class="src">mars-com-station/link-budget.json</td></tr>
+        <tr><td>Conjunction direct-to-Earth @ 500 bps, 2.5 AU</td><td class="num">21.4 dB margin</td><td class="src">mars-com-station/link-budget.json</td></tr>
+        <tr><td>Global dust storm hit on downlink (atten + T<sub>sys</sub> 75→212 K)</td><td class="num">≈9.5 dB, no outage</td><td class="src">mars-com-station/link-budget.json (dust_storm)</td></tr>
+        <tr><td>LNA bias-sequencer PCB: schematic / routing / fab files</td><td class="num">0 mismatch · 0 failed nets · Gerber</td><td class="src">mars-com-station/hw/lna_bias_spec.md</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <p class="lead">The sims were only half the story. The other half was being wrong in public.</p>
+    <div class="prose">
+      <p><span class="verdict verdict--fix">solver bug</span><strong>The transparent-wall horn.</strong>
+        Assigning the radiation boundary to every outer face of the air domain silently included
+        faces coplanar with the metal horn wall — making the metal invisible. The horn solved as a
+        bare open waveguide, 7.31 dBi. The tell: two <em>different</em> geometries returned results
+        identical to 12 significant figures. If two runs agree that well, they solved the same
+        wrong model.</p>
+      <p><span class="verdict verdict--fix">flipped conclusion</span><strong>The radiator that was
+        "too cold".</strong> A 125 W single-panel model said the radiators were 7× oversized and
+        the real risk was freezing. The independent review caught the contradiction: the satellite's
+        own power budget dissipates ~3 kW, and at system level the same radiators are 1.6×
+        <em>undersized</em>. Both statements are true — at different model boundaries. The lesson
+        got a name here: <strong>the boundary of the model is the boundary of the conclusion.</strong></p>
+      <p><span class="verdict verdict--fix">claims audit</span><strong>Seven numbers died in review.</strong>
+        Two agents re-derived every card: the 2 Mbps conjunction data rate was off by 10 dB
+        (~0.2 Mbps is the truth — MRO, with 8.6 dB more link, manages under 1); the nadir footprint
+        was quoted 2× too large; the pointing spec passed 0.85 dB of loss instead of 0.5; the solar
+        flux was labeled perihelion but was the mean. Every implementation had survived; every error
+        lived in the claims layer.</p>
+      <p><span class="verdict verdict--ok">honest loss</span><strong>SBR+ never converged.</strong>
+        Three attempts to solve the full 3 m dish in HFSS's ray solver built the geometry and the
+        linked feed source correctly, then hung in headless mode. We stopped, kept the script and
+        the diagnosis, and let the reviewer-verified physical-optics result stand. A blocked
+        attempt, recorded, beats a fabricated success.</p>
+      <p><span class="verdict verdict--fix">ops bug</span><strong>The DES caught a policy bug.</strong>
+        The first pass gave the "critical stream" a 0.35 Mbps floor — higher than the link itself
+        near conjunction. The buffer could only grow. No static budget table would ever have
+        surfaced it; the fix (a two-tier floor) is now part of the ops concept.</p>
+      <p><span class="verdict verdict--fix">claims audit</span><strong>The ground station's G/T was
+        wrong by 19.5 dB.</strong> Its first spec sheet said 32.3 dB/K — dimensionally sound,
+        plausible, wrong. Building the link budget forced the recomputation
+        (G − 10·log₁₀T<sub>sys</sub> = 70.5 − 18.8 = 51.8 dB/K); every downstream margin on this
+        page would have been garbage on the bad number. Doing the budget <em>is</em> the audit.</p>
+      <p><span class="verdict verdict--fix">design review</span><strong>The protection board couldn't
+        see its own most likely failure.</strong> The LNA bias sequencer's gate-good interlock watched
+        the negative <em>rail</em>, not the gate voltage — a trim-pot wiper going open (the most
+        common pot failure) would have drifted the gate to zero with the drain hot: the exact
+        transistor-killing event the board exists to prevent, invisible to its own interlock. Rev B
+        fixes it with a single 100 kΩ pulldown that fails toward deep pinch-off; the same review
+        also flipped a power-down RC that made shutdown 47 ms too slow (one diode: slow up, instant down).</p>
+      <p><span class="verdict verdict--ok">honest floor</span><strong>The autorouter has a floor,
+        and it's documented.</strong> The grid router closed every net on the bias board but left 44
+        sub-6-mil clearance violations across 76 track segments. Bigger board: still 44. Thinner
+        tracks: still 44. It is a structural limit of the router, so the Gerbers ship flagged
+        "DFM before fab" instead of pretending a clean bill.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">07</span><h2>Try it</h2></div>
+    <p class="lead">The constellation flies in the city's orbit view, and the knowledge base
+      travels with it.</p>
+    <div class="prose">
+      <p>Open the viewer and press <strong>M</strong> for the orbit view. The three relays and the
+        spare sit on the cyan areostationary ring — pan toward them and a summary card appears at
+        8,000 km; keep closing to 2,500 km and the card switches to whichever subdevice is nearest,
+        eight in all, each carrying its physics layer (why the number is what it is) and its sim
+        layer (which run pinned it). The coverage-limit rings at ±71° and the beam lines to Jezero
+        and Earth are drawn from the same numbers as this page.</p>
+      <p>Back on the surface, walk to the comms yard and press <strong>V</strong> to inspect
+        <span class="src">com-station-01</span>: the 12 m dish tracks a relay overhead in slow
+        azimuth-elevation drift, the feed dewar, maser cabinet and 3 m emergency dish each carry
+        their own card. URL shortcuts: <span class="src">?view=orbit</span> jumps straight to the
+        constellation; <span class="src">?inspect=com-station-01</span> lands you at the dish.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Simulation archive: <span class="src">mars-com-relay/sim/</span> (12 runs, results as CSV/JSON) ·
+      Station budget &amp; PCB: <span class="src">mars-com-station/link-budget.json · mars-com-station/hw/</span> ·
+      City assets: <span class="src">viewer/units/com-relay-01.js</span>, <span class="src">viewer/units/com-station-01.js</span> ·
+      Knowledge cards: <span class="src">viewer/units/com-relay-01.info.json</span> (42 sim-backed lines) ·
+      Review: two-agent audit, 2026-07 ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

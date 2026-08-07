@@ -6,6 +6,7 @@
 export const meta = {
   id: 'hab-tunnel-01',
   name: '地下城入口',
+  name_en: 'Undercity Gate',   // 双语（MODELS.md §5）；与 manifest 的 name_en 一致
   size_m: 60,               // 覆土山丘宽 60 m（实建尺寸自检用；1 单位 = 1 米）
   size_axis: 'width',
   effects: ['glow_windows'],

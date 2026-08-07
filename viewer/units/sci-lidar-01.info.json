@@ -4,8 +4,10 @@
     {
       "id": "tx",
       "label": "TX 发射 / 扩束口",
+      "label_en": "TX transmit / beam-expander port",
       "range": 14,
       "detail": "905 nm 微脉冲激光发射口。GaN FET 纳秒级大电流驱动，TEC 稳温锁波长；分光取样送同步光电二极管作 T0 基准。斜顶 20° 防尘降。",
+      "detail_en": "The 905 nm micro-pulse laser exit. Nanosecond high-current GaN-FET drive with TEC-locked wavelength; a sampled tap feeds a sync photodiode as the T0 reference. The 20 deg sloped roof sheds settling dust.",
       "specs": {
         "波长": "905 nm",
         "单脉冲能量": "3 µJ",
@@ -13,75 +15,123 @@
         "平均光功率": "≈30 mW",
         "发散角": "<0.5 mrad"
       },
-      "sim": "发射链效率 0.85；出射口径 Ø40 mm 为假设值，待光机详细设计回填（影响近场 0.3–0.6 km 廓线形状）"
+      "specs_en": {
+        "Wavelength": "905 nm",
+        "Pulse energy": "3 uJ",
+        "PRF": "9.5 kHz",
+        "Avg optical power": "~30 mW",
+        "Divergence": "<0.5 mrad"
+      },
+      "sim": "发射链效率 0.85；出射口径 Ø40 mm 为假设值，待光机详细设计回填（影响近场 0.3–0.6 km 廓线形状）",
+      "sim_en": "Transmit-chain efficiency 0.85; the dia-40 mm exit aperture is an assumed value pending detailed optomechanical design (it shapes the 0.3-0.6 km near-field profile)."
     },
     {
       "id": "rx",
       "label": "RX 接收望远镜 Ø125 mm",
+      "label_en": "RX receive telescope, dia 125 mm",
       "range": 14,
       "detail": "双轴收发布局，与发射口并排（端口中心距 0.38 m，内倾 0.28 mrad）。0.3 nm FWHM 窄带滤光 + 1 mrad 视场光阑，是白天压制天空背景的关键。",
+      "detail_en": "Biaxial layout, side by side with the transmit port (0.38 m center-to-center, 0.28 mrad inward tilt). A 0.3 nm FWHM narrowband filter plus a 1 mrad field stop is what suppresses the daytime sky background.",
       "specs": {
         "口径": "Ø125 mm",
         "滤光带宽": "0.3 nm FWHM",
         "接收视场": "1 mrad",
         "双轴间距": "0.38 m"
       },
-      "sim": "几何重叠（发射束盘×接收视场盘圆盘相交模型）：真盲区 z<0.29 km，全重叠 0.64 km；远场 15 km 处 O=0.999"
+      "specs_en": {
+        "Aperture": "dia 125 mm",
+        "Filter bandwidth": "0.3 nm FWHM",
+        "Field of view": "1 mrad",
+        "Biaxial separation": "0.38 m"
+      },
+      "sim": "几何重叠（发射束盘×接收视场盘圆盘相交模型）：真盲区 z<0.29 km，全重叠 0.64 km；远场 15 km 处 O=0.999",
+      "sim_en": "Geometric overlap (transmit-beam disk x receive-FOV disk intersection model): true blind zone z < 0.29 km, full overlap by 0.64 km; at the 15 km far field O = 0.999."
     },
     {
       "id": "det",
       "label": "SPAD 探测器（舱内）",
+      "label_en": "SPAD detector (inside enclosure)",
       "range": 12,
       "detail": "自研近红外 SPAD 阵列 nir_iproc_p10j（spad40 工艺线）：SiPM 1×1 mm、625 cell @40 µm 间距，光子计数体制。两轮剂量修整后暗计数地板下降 79 倍，夜间量程预算冲突关闭。",
+      "detail_en": "In-house near-infrared SPAD array nir_iproc_p10j (spad40 process line): a 1x1 mm SiPM, 625 cells at 40 um pitch, photon-counting. Two dose-trim rounds dropped the dark-count floor 79x, closing the night-range budget conflict.",
       "specs": {
         "PDE@905nm": "40.3%（加镜）",
         "B2B 地板": "253 cps/cell",
         "阵列 DCR@-40°C": "2.65×10⁵ cps",
         "死时间": "30 ns"
       },
-      "sim": "链路预算（60 s 积分）：白天量程 5.1 km；600 s 积分：白天 7.8 km，夜间 -40°C 达 14–15 km，基本吃满 FPGA 量程窗"
+      "specs_en": {
+        "PDE @905 nm": "40.3% (with mirror)",
+        "Back-to-back floor": "253 cps/cell",
+        "Array DCR @-40 C": "2.65e5 cps",
+        "Dead time": "30 ns"
+      },
+      "sim": "链路预算（60 s 积分）：白天量程 5.1 km；600 s 积分：白天 7.8 km，夜间 -40°C 达 14–15 km，基本吃满 FPGA 量程窗",
+      "sim_en": "Link budget (60 s integration): 5.1 km daytime range. At 600 s: 7.8 km daytime and 14-15 km at night (-40 C), essentially filling the FPGA range window."
     },
     {
       "id": "daq",
       "label": "FPGA 采集 + 主控（舱内）",
+      "label_en": "FPGA acquisition + host MCU (inside enclosure)",
       "range": 12,
       "detail": "FPGA 多通道定标器（MCS）实时直方图累积，STM32H7 负责廓线反演、调度与健康管理。固件 MCS/TEC 模块带主机端单元测试。",
+      "detail_en": "An FPGA multi-channel scaler (MCS) accumulates the range histogram in real time; an STM32H7 handles profile retrieval, scheduling and health management. The MCS and TEC firmware ship with host-side unit tests.",
       "specs": {
         "时间 bin": "100 ns = 15 m 距离分辨率",
         "bin 数": "1000 = 15 km 量程窗",
         "主控": "STM32H7"
       },
-      "sim": "三块 PCB（激光驱动 / SPAD 前端 / 控制板）已完成布线出 Gerber；Vivado 时序收敛"
+      "specs_en": {
+        "Time bin": "100 ns = 15 m range resolution",
+        "Bin count": "1000 = 15 km range window",
+        "Host MCU": "STM32H7"
+      },
+      "sim": "三块 PCB（激光驱动 / SPAD 前端 / 控制板）已完成布线出 Gerber；Vivado 时序收敛",
+      "sim_en": "All three PCBs (laser driver / SPAD front-end / control board) routed and Gerber-exported; Vivado timing closes."
     },
     {
       "id": "fins",
       "label": "散热鳍片 ×9",
+      "label_en": "Radiator fins x9",
       "range": 10,
-      "detail": "TEC 与电子废热的辐射排放面，置于背阳侧墙。火星大气稀薄，对流散热几乎不可用，排热以辐射为主。"
+      "detail": "TEC 与电子废热的辐射排放面，置于背阳侧墙。火星大气稀薄，对流散热几乎不可用，排热以辐射为主。",
+      "detail_en": "The radiative reject surface for TEC and electronics waste heat, mounted on the sun-shadowed wall. Mars's thin air makes convective cooling nearly useless, so heat leaves mostly by radiation."
     },
     {
       "id": "mast",
       "label": "气象桅杆 3.15 m",
+      "label_en": "Weather mast, 3.15 m",
       "range": 12,
       "detail": "桅顶超声风速计；杆身两个高度 × 三个方位的裸细丝热电偶辐条（MEDA ATS 式）——火星弱对流下辐射罩本身会成为测温误差源，故去罩，用三取最冷算法剔除支架热污染。",
+      "detail_en": "A sonic anemometer at the top; along the mast, bare fine-wire thermocouple spokes at two heights x three azimuths (MEDA-ATS style). Under Mars's weak convection a radiation shield would itself become a temperature-error source, so it is omitted and a coldest-of-three algorithm rejects mount thermal contamination.",
       "specs": {
         "高度": "3.15 m",
         "风速计": "超声式（桅顶）",
         "测温": "裸线热电偶 2高×3方位"
+      },
+      "specs_en": {
+        "Height": "3.15 m",
+        "Anemometer": "sonic (mast top)",
+        "Temperature": "bare-wire thermocouple, 2 heights x 3 azimuths"
       }
     },
     {
       "id": "solar",
       "label": "太阳能板 1.4 × 0.96 m",
+      "label_en": "Solar panel, 1.4 x 0.96 m",
       "range": 10,
-      "detail": "35° 倾角朝赤道方向，站体独立供电。微脉冲体制全站平均功耗极低，是选择 905 nm + 光子计数路线的核心原因之一。"
+      "detail": "35° 倾角朝赤道方向，站体独立供电。微脉冲体制全站平均功耗极低，是选择 905 nm + 光子计数路线的核心原因之一。",
+      "detail_en": "Tilted 35 deg toward the equator, powering the station standalone. The micro-pulse regime keeps the whole-station average draw very low - one of the core reasons for choosing the 905 nm + photon-counting approach."
     },
     {
       "id": "beam",
       "label": "探测光束（可视化）",
+      "label_en": "Probe beam (visualization)",
       "range": 18,
       "detail": "905 nm 位于近红外，人眼实际不可见——画面中的光束是可视化增强。仪器沿斜顶法线方向（偏离天顶 20°）向上打出脉冲，反演尘埃/冰云的垂直廓线。",
-      "sim": "大气假设：尘埃光学厚度 τ=0.3、混合标高 11 km、雷达比 30 sr；尘暴期 τ>2 时近程信号极强+透过率骤降，SPAD 堆积待评估"
+      "detail_en": "905 nm is near-infrared and not actually eye-visible - the beam shown here is a visualization aid. The instrument fires pulses upward along the roof normal (20 deg off zenith) to retrieve the vertical profile of dust and ice cloud.",
+      "sim": "大气假设：尘埃光学厚度 τ=0.3、混合标高 11 km、雷达比 30 sr；尘暴期 τ>2 时近程信号极强+透过率骤降，SPAD 堆积待评估",
+      "sim_en": "Atmosphere assumptions: dust optical depth tau = 0.3, mixing scale height 11 km, lidar ratio 30 sr. During a dust storm (tau > 2) the near-range signal is very strong and transmittance collapses; SPAD pile-up is yet to be assessed."
     }
   ]
 }

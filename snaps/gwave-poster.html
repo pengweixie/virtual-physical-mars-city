@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TT-1 Gravitational-Wave Observatory</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #06080d; }
+  .poster { width: 1600px; position: relative; overflow: hidden; color: #dfe6ec;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #0e0a17 0%, #07070d 50%, #05070a 100%); }
+  header { text-align: center; padding: 52px 0 16px; }
+  header h1 { font-size: 58px; letter-spacing: 12px; color: #ecf2f6; font-weight: 800; }
+  header h1 .accent { color: #b18aff; }
+  header .sub { margin-top: 12px; font-size: 21px; letter-spacing: 4px; color: #907fa9; }
+  header .rule { width: 620px; height: 2px; margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #b18aff, transparent); }
+  .heroes { display: flex; justify-content: center; gap: 18px; margin-top: 26px; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid #262038; box-shadow: 0 16px 44px rgba(0,0,0,.6); background: #0a0f14; }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #ddd2e8; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(6,4,8,.93) 55%); }
+  .hp-a { width: 780px; height: 470px; }
+  .hp-b { width: 372px; height: 470px; background: #fff; }
+  .hp-b img { object-fit: contain; background: #fff; }
+  .hp-c { width: 372px; height: 470px; }
+  .sims { display: flex; justify-content: center; gap: 18px; margin-top: 18px; }
+  .sp-w { width: 762px; height: 300px; background: #fff; }
+  .sp-w img { object-fit: contain; background: #fff; }
+  .chips { display: flex; justify-content: center; gap: 20px; margin-top: 16px; }
+  .col { width: 762px; display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px;
+    background: #110e18; border: 1px solid #251e38; border-radius: 8px; }
+  .row .k { flex: 0 0 128px; font-size: 15.5px; color: #a68fc8; letter-spacing: .5px; }
+  .row .v { font-size: 16px; color: #e8e2ef; line-height: 1.45; }
+  .row .v b { color: #c8aaff; font-weight: 700; }
+  .row.sim { border-left: 3px solid #6f4f9d; }
+  .row.hot { border-left: 3px solid #b18aff; }
+  footer { margin-top: 34px; padding: 24px 70px 30px; background: #05070a;
+    border-top: 1px solid #1c1326; }
+  footer .line { text-align: center; font-size: 18px; color: #907fa9; letter-spacing: 1px; }
+  footer .line b { color: #c4a8ec; }
+  footer .src { margin-top: 10px; text-align: center; font-size: 14px; color: #4e445c;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>TT-1 <span class="accent">GRAVITATIONAL WAVES</span></h1>
+    <div class="sub">A million-kilometre triangle, parked at one five-millionth scale on the plaza outside the undercity gate</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="heroes">
+    <div class="panel hp-a">
+      <img src="gw-city2.png" alt="TT-1 exhibits in town" style="object-position:50% 62%;">
+      <div class="cap">The exhibits in town: three-spacecraft constellation on its support ring, the 1:1 flight article beside it — laser links drawn live between apertures</div>
+    </div>
+    <div class="panel hp-b">
+      <img src="gw-constellation.png" alt="Constellation dynamics">
+      <div class="cap">The corrected constellation: heliocentric propagation with Earth perturbation — arm breathing 1.29% peak-to-peak, nobody keyframed it</div>
+    </div>
+    <div class="panel hp-c">
+      <img src="gw-bay.jpg" alt="Cutaway bay with gold cube" style="object-position:50% 45%; transform:scale(1.1);">
+      <div class="cap">The cutaway bay: a 46 mm gold test mass in free fall, and the red optical path that watches it</div>
+    </div>
+  </div>
+  <div class="sims">
+    <div class="panel sp-w"><img src="gw-sensitivity.png" alt="Sensitivity curve">
+      <div class="cap">The sensitivity gate: TT-1's strain curve against the LISA reference band — the design's entry ticket</div></div>
+    <div class="panel sp-w"><img src="gw-accel.png" alt="Acceleration noise budget">
+      <div class="cap">Acceleration-noise budget: every disturbance on the free-falling cube, itemized and summed under the requirement</div></div>
+  </div>
+
+  <div class="chips">
+    <div class="col">
+      <div class="row hot"><span class="k">🛰 Baked orbits</span><span class="v">The exhibit's motion is a <b>36 s pure-t loop cut from a DOP853 orbit integration</b> (year two of the propagation, tail-blended to close) — 0.21° yaw sway included</span></div>
+      <div class="row sim"><span class="k">📐 Display scale</span><span class="v">Declared, not hidden: <b>1 Gm = 5 m</b> between spacecraft, spacecraft bodies at 1:1 — both scales printed on the exhibit card</span></div>
+      <div class="row"><span class="k">The spacecraft</span><span class="v">Dodecagonal bus, twin 60° telescope shrouds, body-fixed solar wings, colloid microthrusters ×3 clusters, sun-avoiding star trackers — geometry decided by the engineering ledger</span></div>
+    </div>
+    <div class="col">
+      <div class="row sim"><span class="k">📐 Verified</span><span class="v"><b>9 system sims + Zemax / Lumerical / COMSOL device checks</b>, then a two-agent adversarial review that forced 14 corrections before delivery</span></div>
+      <div class="row sim"><span class="k">📐 Why drag-free</span><span class="v">No reaction wheels, nothing that spins: the whole spacecraft flies formation around its own falling cube — <b>zero rotating parts is a design feature</b>, the exhibit's stillness is the point</span></div>
+      <div class="row"><span class="k">In town</span><span class="v">On the gate plaza where everyone walks — relocated off the reactor road after the layout audit learned to see roads</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">Spacetime strain at 10⁻²⁰ — <b>brought down to the plaza so you can walk around it</b></div>
+    <div class="src">System sims ×9 · Zemax / Lumerical / COMSOL · two-agent review (14 fixes) · DOP853 baked dynamics · in-engine captures · Mars City Digital Twin</div>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deep Physics — Virtual-Physical Mars City</title>
+<meta name="description" content="A 100 t liquid-xenon dark-matter experiment 3 km under the Martian surface, plus a particle spectrometer in areostationary orbit and a TES focal plane at Sun–Mars L2.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--violet);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .kbd{font-family:var(--f-mono);font-size:.8rem;border:1px solid var(--line-strong);
+    border-radius:6px;padding:1px 7px;background:var(--bg-3);white-space:nowrap;}
+  .figure>img{width:100%;height:auto;}   /* capture frames are 720px — stretch to card width */
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="comms.html">← Prev</a>
+    <a href="resources.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">sci-deeplab-01 · sci-pan-01 · TES station</div>
+    <h1>Deep Physics</h1>
+    <p class="phead__sub">Three kilometres below the undercity, a 100-tonne liquid-xenon
+      time-projection chamber waits for a dark-matter particle to bump a xenon nucleus.
+      The rock overhead kills the cosmic-ray muons; what remains is the neutrino fog —
+      and every number on this page traces back to the simulation that produced it.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Active target</div><div class="spec__v">100.5<small>t LXe</small></div></div>
+    <div class="spec"><div class="spec__k">Exposure</div><div class="spec__v">70.2<small>t·yr / yr</small></div></div>
+    <div class="spec"><div class="spec__k">Photosensors</div><div class="spec__v">3312<small>3-inch PMTs</small></div></div>
+    <div class="spec"><div class="spec__k">SI sensitivity</div><div class="spec__v">10⁻⁴⁸<small>cm² @ 40 GeV</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">A shielding onion in a cavern: rock, water, scintillator, steel,
+      and finally 100 tonnes of the quietest liquid on Mars.</p>
+    <div class="prose">
+      <p>The dark-matter experiment lives in a 32 m rock cavern at the bottom of a 3 km shaft.
+      From outside in: a <strong>⌀14 × 15 m ultrapure-water tank</strong> (Cherenkov muon veto and
+      γ/neutron shield), a <strong>Gd-doped scintillator layer</strong> that names every neutron by its
+      8 MeV capture cascade, a <strong>double-walled vacuum cryostat</strong> holding the xenon at 178 K,
+      and the <strong>⌀3.55 m × 3.55 m drift TPC</strong> — a 24-facet PTFE reflector barrel lined with
+      58 copper field-shaping rings. The geometry is a faithful ×3 linear scale-up of a real
+      4-tonne-class detector, extracted dimension by dimension from its Geant4 source.</p>
+      <p>Why bury it? 3 km of rock attenuates the cosmic-muon flux by roughly six orders of
+      magnitude. What the rock cannot stop — solar neutrinos — becomes the irreducible
+      background floor. The experiment is designed to run into that fog deliberately.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/detectors/hero_s2.jpg" alt="S2 electroluminescence flash lighting the cavern, seen from inside the laboratory" loading="lazy">
+      <figcaption>IN-CITY VIEW — AN S2 FLASH ERUPTS IN THE GAS GAP ABOVE THE 3.55 M DRIFT, LIGHTING THE WHOLE CAVERN</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="assets/detectors/scale_view.jpg" alt="Four-panel powers-of-ten zoom from Mars in space down to the TPC" loading="lazy">
+      <figcaption>FROM PLANET TO DETECTOR — ×1,900,000 SPAN: MARS ⌀6,779 KM → 3 KM SHAFT → 30 M CAVERN → ⌀3.55 M TPC</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">Every event is two flashes: S1 now, S2 up to 2.6 ms later.
+      The delay is the depth; the light pattern is the position.</p>
+    <div class="prose">
+      <p>A particle deposits energy in the liquid xenon and makes prompt scintillation —
+      <strong>S1</strong>, nanoseconds wide, collected mostly by the 1791 bottom PMTs. The same
+      deposit liberates ionization electrons, which drift upward at 1.35 mm/µs under a
+      100 V/cm field. Crossing the liquid surface into the thin gas layer, they
+      electroluminesce into a second, much larger flash — <strong>S2</strong> — whose footprint on
+      the 1521 top PMTs pinpoints (x, y). The S1–S2 delay gives z. Three-dimensional
+      positioning turns the outer xenon into shielding for the inner xenon.</p>
+      <p>The two flashes also carry particle identity. Electron recoils (β/γ background)
+      make proportionally more S2; nuclear recoils (what a WIMP would make) are
+      charge-starved. In log₁₀(S2/S1), the two populations split into clean bands —
+      the response model puts ER at 2.4–2.8 and NR at 1.6–2.0, a
+      <span class="hl">99.7 % electron-recoil rejection</span> at the analysis cut.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/detectors/waveforms.jpg" alt="Simulated S1 and S2 waveforms for three representative events" loading="lazy">
+      <figcaption>SIGNAL CHAIN — S1 (NS-SCALE, TOP) THEN S2 (µS-SCALE, BOTTOM); NR 20 keVnr: S1≈20 pe, S2≈1800 pe</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/detectors/discrimination.jpg" alt="ER and NR discrimination bands in log10(S2/S1) versus S1" loading="lazy">
+        <figcaption>ER/NR BANDS — 6000 ER + 3000 NR TOY EVENTS, 99.7 % ER REJECTION</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/detectors/pmt_hitmap.jpg" alt="Top and bottom PMT array hit patterns for a nuclear recoil event" loading="lazy">
+        <figcaption>HIT PATTERNS — S2 LIGHT POOL ON 1521 TOP PMTs LOCALIZES THE EVENT; S1 SPREADS ACROSS 1791 BELOW</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/detectors/background.jpg" alt="Background budget bar chart and WIMP sensitivity projection" loading="lazy">
+      <figcaption>THE FOG — AFTER ER REJECTION, ⁸B CEνNS (~35 CTS) + RADIOGENIC NEUTRONS (~14 CTS) DOMINATE 70 t·yr</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number, and which run produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Active LXe mass (⌀3.55 × 3.55 m × 2.86 t/m³)</td><td class="num">100.5 t</td><td class="src">mars_deep_lab/sim/signal_chain_sim.py</td></tr>
+        <tr><td>Fiducial mass / yearly exposure</td><td class="num">70.2 t / 70.2 t·yr</td><td class="src">mars_deep_lab/sim/signal_chain_sim.py</td></tr>
+        <tr><td>Drift velocity / max drift time</td><td class="num">1.35 mm/µs / 2.6 ms</td><td class="src">mars_deep_lab/sim/signal_chain_sim.py</td></tr>
+        <tr><td>Gain constants g1 / g2</td><td class="num">0.09 pe/ph / 20 pe/e⁻</td><td class="src">mars_deep_lab/sim/signal_chain_sim.py</td></tr>
+        <tr><td>ER rejection at band cut</td><td class="num">99.7 %</td><td class="src">mars_deep_lab/sim/signal_chain_sim.py → discrimination band</td></tr>
+        <tr><td>Background in ROI (ν-fog dominated)</td><td class="num">59.3 cts / 70 t·yr</td><td class="src">mars_deep_lab/sim/signal_chain_sim.py → budget</td></tr>
+        <tr><td>SI sensitivity floor (illustrative projection)</td><td class="num">1×10⁻⁴⁸ cm² @ 40 GeV</td><td class="src">mars_deep_lab/sim/signal_chain_sim.py</td></tr>
+        <tr><td>PMT counts, hex-packed (area ×9 of the 4 t reference)</td><td class="num">1521 top + 1791 bottom</td><td class="src">hexPack() — sim + viewer module, identical layouts</td></tr>
+        <tr><td>Detector geometry (40+ dimensions, ×3 scale-up)</td><td class="num">8 source files</td><td class="src">mars_deep_lab/GEOMETRY_REF.md (Geant4 extraction)</td></tr>
+        <tr><td>City scene budget</td><td class="num">69,758 tris ≤ 80 k</td><td class="src">mars-unit-flow validate_unit.mjs</td></tr>
+        <tr><td>Neutrino-event animation, drift compressed</td><td class="num">5 s cycle</td><td class="src">viewer/units/sci-deeplab-01.js (animate FSM)</td></tr>
+        <tr><td>TES: transition / bath temperature</td><td class="num">171 / 100 mK</td><td class="src">cosmic_microwave/design_tables (interface-frozen)</td></tr>
+        <tr><td>TES: σ(r) total error budget vs target</td><td class="num">≈8×10⁻⁴ &lt; 1×10⁻³</td><td class="src">cosmic_microwave/DESIGN_REPORT_v2.md §10</td></tr>
+        <tr><td>TES: real-sky foreground residual (Planck templates)</td><td class="num">Δr 7.7×10⁻⁴ @ f<sub>sky</sub> 0.66</td><td class="src">cosmic_microwave/run_pysm_xval.py</td></tr>
+        <tr><td>TES: dual-band crossover split</td><td class="num">119–152.4 / 152.4–190.9 GHz</td><td class="src">TES/mission_tes_design_v2.py (Plan A)</td></tr>
+        <tr><td>TES: full-wave cascade coupling, both arms</td><td class="num">77.1 / 78.0 %</td><td class="src">TES/hfss/cascade_v4.py → cascade_v4.csv</td></tr>
+        <tr><td>TES: island saturation power / frozen leg length</td><td class="num">0.848 / 0.668 pW · 742.6 / 953.4 µm</td><td class="src">TES/comsol/tes_island_dual140/166.java</td></tr>
+        <tr><td>TES: saturation margin under process spread</td><td class="num">2.50 ± 0.07, P(sat)=0</td><td class="src">TES/mc_tolerance.py</td></tr>
+        <tr><td>TES: µMUX comb (Q<sub>c</sub> / spacing / neighbor sep.)</td><td class="num">2×10⁴ · 3 MHz · 48 MHz</td><td class="src">TES/umux/umux_design.py → freq_plan_demo64.csv</td></tr>
+        <tr><td>TES: µMUX channel yield at σ<sub>f</sub> = 1 MHz</td><td class="num">93.7 %</td><td class="src">TES/mc_tolerance.py</td></tr>
+        <tr><td>TES: 3f₀ filter re-entry (drives the mesh LPF spec)</td><td class="num">−0.4 dB @ 405 / 515 GHz</td><td class="src">TES/hfss/bpf_wideswp_v2.py → widesweep csv</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose"><p><strong>Honesty note.</strong> The signal chain is a NEST-style
+      <em>response model</em> in Python, not a photon-by-photon Geant4 Monte Carlo — the geometry
+      came from Geant4 source, but the optical MC itself was never compiled (missing deps on the
+      shared VM; the substitution was reviewed and approved). The sensitivity curve is an
+      illustrative projection, not a profile-likelihood analysis. The JSON the city loads
+      carries the same caveat.</p></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">The review caught real physics errors. The GIF caught real engine physics.</p>
+    <div class="prose">
+      <p><strong>The PMT count was wrong by 9×.</strong> The first build copied the reference
+      detector's 169 + 199 tubes verbatim. But a ×3 linear scale-up means ×9 the array area —
+      same 3-inch tubes, nine times as many. Fixed to 1521 + 1791. Then the <em>window size</em>
+      was wrong twice: first scaled ×3 along with the detector (windows 2.16× wider than their
+      hex pitch — massive overlap), then "fixed" to the casing diameter, still 2 % too wide.
+      The correct number was in our own geometry table all along: the photocathode is ⌀64 mm,
+      the casing ⌀76 mm.</p>
+      <p><strong>The electron lifetime contradicted the drift length.</strong> τₑ = 1 ms sounds
+      clean until you notice the full drift is 2.6 ms — cathode events would lose 93 % of their
+      S2. Review flagged it; purified to τₑ = 15 ms (84 % survival). The background budget was
+      also ~1000× too low and quietly contradicted the "neutrino fog" story the animations were
+      telling — raised to literature scale, the ⁸B CEνNS floor now genuinely dominates.</p>
+      <p><strong>The first capture recorded a 0.0 MB GIF of pure darkness.</strong> Modern
+      three.js uses physically-correct light falloff: point lights that read intensity 15 die
+      within metres, and a 30 m cavern swallowed all of them. The fix was twofold — opaque
+      materials got a same-hue emissive floor, and the S1/S2 flashes became cavern-scale light
+      pulses (intensity 110–140), which is also just better storytelling.</p>
+      <p><strong>The raised camera teleported to the surface.</strong> To fix a too-low viewpoint
+      the capture camera moved to z = 13.5 m — 1.7 m from the exit-zone centre, radius 1.8 m.
+      The engine dutifully decided the player had walked to the exit and faded back to the
+      Martian surface; the "neutrino detection" GIF came back as a starfield. The shot now
+      keeps 5 m of clearance from the door.</p>
+      <p><strong>A strict ×3 water tank cannot exist.</strong> The reference tank is ⌀10 m;
+      ×3 is ⌀30 m — the cavern span. The delivered design uses a two-tier scale: inner detector
+      strictly ×3, outer shielding at spec targets (⌀14 m), a deliberate, documented compression.</p>
+      <p><strong>From the TES station — the band plan broke first.</strong> The original 140
+      and 166 GHz bands overlapped across 141–161 GHz: fine on separate pixels, impossible to
+      diplex complementarily on one. Fixed at the system level with a 152.4 GHz crossover,
+      which also restored the saturation margin the too-wide filters had eaten.</p>
+      <p><strong>Everything passed alone; the assembly collapsed.</strong> Antenna, diplexer
+      and filters each verified standalone — the first full-wave cascade returned 12–27 %
+      coupling. Four defects dug out over four cascade versions: never-designed 750 µm tee
+      arms, a 390 µm feed line missing from the circuit model, two antenna versions coexisting
+      in different files, and a 40 µm drawing-leftover feed stub that capped one band at
+      54.5 % — a Bode–Fano wall no matching network could climb. A three-point tail sweep
+      found the real optimum at 150 µm (≈λ/8, not the textbook λ/4; slot loading shifts it),
+      and v4 closed at 77/78 %.</p>
+      <p><strong>Circuit models flatter dead antennas.</strong> A two-element matching study
+      promised 80.5 % on a proposed 119+195 GHz antenna-reuse pair; the converged full-wave
+      cascade returned 42.0 % — the twin-slot's radiation resistance collapses to 6.6 Ω above
+      190 GHz. The negative result stands in the ledger: high bands get their own antenna,
+      and feasibility verdicts are full-wave or they are nothing.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/detectors/s1_flash.jpg" alt="S1 scintillation flash leaking through the copper field-cage rings" loading="lazy">
+      <figcaption>AFTER THE LIGHT FIX — S1 LEAKS COLD BLUE THROUGH THE FIELD-CAGE RING GAPS, EXACTLY WHERE IT SHOULD</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Also in this district</h2></div>
+    <p class="lead">Two more detectors, one in orbit and one at L2.</p>
+    <div class="prose">
+      <p><strong>sci-pan-01 — MiniPAN spectrometer.</strong> A compact magnetic particle
+      spectrometer riding the zenith deck of the areostationary relay satellite: dual NdFeB
+      ring magnets, two time-of-flight planes, two pixel trackers and eight silicon-strip
+      layers in a 200 × 200 × 250 mm stack. Modelled geometry-faithful in the orbit view.</p>
+      <p><strong>TES station — the CMB survey observatory.</strong> A cryogenic focal plane of
+      transition-edge sensors at the Sun–Mars L2 halo, mapping the polarized microwave sky from
+      a place with no atmosphere in the way. The sensors sit at <span class="hl">171 mK</span>
+      on a 100 mK bath behind three flared V-groove radiators; the mission error budget closes
+      at <span class="hl">σ(r) ≈ 8×10⁻⁴</span> against a 1×10⁻³ target, and the foreground
+      pipeline survives a real-sky (Planck-template) cross-validation at
+      Δr = 7.7×10⁻⁴ on 66 % of the sky. Visible in the orbit view
+      (<span class="kbd">?view=cmb</span>) with its survey-scan animation.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/detectors/dev-3d-overview.jpg" alt="TES station detector module: lens array, dual-band pixel and microwave readout" loading="lazy">
+      <figcaption>THE DETECTOR MODULE — LENSLET ARRAY, DUAL-BAND PIXEL, µMUX READOUT; 4068 TES ACROSS 15 BANDS, 40–402 GHz</figcaption>
+    </figure>
+    <div class="prose">
+      <p>The working pixel is a <strong>dual-band diplexer</strong>: one twin-slot antenna
+      feeds two bands split at 152.4 GHz (119–152.4 / 152.4–190.9 GHz). Getting one antenna to
+      serve two TES islands honestly took a full-wave cascade — antenna, matching, diplexer
+      tee, band-pass filters, terminations solved together — which closed at
+      <span class="hl">77.1 % / 78.0 %</span> band-average coupling. Each island's saturation
+      power came out of nonlinear thermal FEM (0.848 / 0.668 pW, legs frozen at
+      742.6 / 953.4 µm), and a Monte-Carlo tolerance run puts the saturation margin at
+      2.50 ± 0.07 with <strong>zero</strong> saturation probability across process spread.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/detectors/dev-pixel-dualband-gds.png" alt="Dual-band pixel GDS layout" loading="lazy">
+        <figcaption>THE MASK — DUAL-BAND MFT PIXEL GDS, CASCADE-VERIFIED GEOMETRY, 152.4 GHz CROSSOVER</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/detectors/dev-rf-chain.png" alt="RF chain structural diagram from antenna to TES islands" loading="lazy">
+        <figcaption>THE CHAIN — TWIN-SLOT → MATCHING → DIPLEXER TEE → BPFs → TWO TES ISLANDS</figcaption>
+      </figure>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/detectors/dev-cascade-eta.png" alt="Cascade coupling efficiency versus frequency for both arms" loading="lazy">
+        <figcaption>CASCADE v4 — BAND-AVERAGE COUPLING 77.1 / 78.0 %, CROSSTALK MEASURED, NOT SUPPRESSED</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/detectors/dev-tes-structure.png" alt="TES island cross-section and thermal stack" loading="lazy">
+        <figcaption>THE ISLAND — AlMn TES AT 171 mK, Pd BALLAST, SiN LEGS; P_SAT SET BY NONLINEAR FEM</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
+      <p>Readout is a <strong>microwave SQUID multiplexer</strong>: a 4–8 GHz λ/4 CPW
+      resonator comb (Q<sub>c</sub> 2×10⁴, 3 MHz spacing, 48 MHz physical-neighbor separation
+      via bit-reversal scrambling) with rf-SQUID cells at 60 pH washer inductance and
+      β<sub>L</sub> 0.78. Channel yield under fabrication frequency scatter is
+      <span class="hl">93.7 % at σ<sub>f</sub> = 1 MHz</span> — the number that turns a
+      post-fabrication trim step from nice-to-have into a requirement.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/detectors/dev-umux-chip.png" alt="Microwave multiplexer 64-resonator demo chip layout" loading="lazy">
+        <figcaption>µMUX DEMO CHIP — 64-RESONATOR λ/4 CPW COMB, 4–8 GHz, BIT-REVERSED FREQUENCY PLAN</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/detectors/dev-squid-cell.png" alt="rf-SQUID cell layout with input coil and flux ramp line" loading="lazy">
+        <figcaption>rf-SQUID CELL — WASHER + 4-TURN INPUT COIL + FLUX-RAMP LINE, M_IN ≈ 250 pH</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>Try it</h2></div>
+    <p class="lead">Walk in, look around, trigger an event.</p>
+    <div class="prose">
+      <p>Open the viewer and deep-link straight into the cavern:
+      <span class="kbd">viewer/?interior=sci-deeplab-01</span>. Walk with
+      <span class="kbd">WASD</span>; eight proximity cards (water shield, TPC, xenon target,
+      PMT arrays…) pop up as you approach their anchors, each carrying the simulation numbers
+      from the ledger above. Aim at the detector and press <span class="kbd">V</span> to orbit
+      it — the neutrino-event action button fires the full chain: a cold S1 flash deep in the
+      field cage, an electron cloud drifting up for two compressed milliseconds, then the warm
+      S2 burst in the gas gap that lights the whole cavern.</p>
+      <p>The 5-second capture loop lives at
+      <span class="src">snaps/anim/sci-deeplab-01.gif</span>; the camera recipe for interior
+      shots (<span class="kbd">&amp;z= &amp;eye= &amp;pitch=</span>) is documented in the
+      asset checklist.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Signal chain &amp; plots: <span class="src">mars_deep_lab/sim/signal_chain_sim.py</span> ·
+      Geometry extraction: <span class="src">mars_deep_lab/GEOMETRY_REF.md</span> ·
+      City asset: <span class="src">viewer/units/sci-deeplab-01.js</span> ·
+      Knowledge cards: <span class="src">viewer/units/sci-deeplab-01.info.json</span> ·
+      TES device package: <span class="src">assets/detectors/dev-notes.md</span> ·
+      TES mission ledger: <span class="src">cosmic_microwave/DESIGN_REPORT_v2.md</span> ·
+      Interface freeze: <span class="src">TES/REPLY_to_mission_sim.md</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

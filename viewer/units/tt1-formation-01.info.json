@@ -1,0 +1,75 @@
+{
+  "id": "tt1-formation-01",
+  "pois": [
+    {
+      "id": "formation_center",
+      "label": "三角星座几何",
+      "range": 30,
+      "label_en": "Triangular Constellation Geometry",
+      "detail": "三颗 TT-1 组成边长 300 万公里的近等边三角形, 日心轨道拖尾地球 20°。展示比例: 星间 1 Gm = 5 m, 卫星本体 1:1。三角面相对黄道倾斜 60° —— 这是解析涌现的结果: 同半长轴、偏心率矢量与倾角矢量各转 120°、i=√3e, 三点恒为等边。",
+      "detail_en": "Three TT-1 spacecraft form a near-equilateral triangle with 3-million-km sides, on heliocentric orbits trailing Earth by 20 deg. Display scale: 1 Gm = 5 m between craft, spacecraft bodies 1:1. The 60 deg tilt of the triangle plane emerges analytically: same semi-major axis, eccentricity and inclination vectors rotated 120 deg apart, i = sqrt(3)e keeps the three points equilateral forever.",
+      "specs": {
+        "臂长": "3.0 Gm",
+        "轨道": "日心 1 AU, 拖尾 20°",
+        "面倾角": "60°(解析涌现)",
+        "单星轨道": "e=0.0058, i=0.57°"
+      },
+      "specs_en": {
+        "Arm length": "3.0 Gm",
+        "Orbit": "heliocentric 1 AU, 20 deg trailing",
+        "Plane tilt": "60 deg (emergent)",
+        "Per-craft elements": "e=0.0058, i=0.57 deg"
+      },
+      "sim": "动画不是手调的: bake_formation.py 用日心+地球摄动 DOP853 传播取第 2 年 120 帧烘焙成 36 s 循环 —— 臂长呼吸 1.29% 峰峰、每星偏航摆动 0.21° 全部来自轨道积分。",
+      "sim_en": "The animation is not hand-keyed: bake_formation.py propagates the constellation with Sun + Earth-perturbation DOP853, samples year 2 into 120 frames and bakes a 36 s loop - the 1.29% arm breathing and 0.21 deg yaw wobble come from orbital integration.",
+      "physics": "两体理想下风车构型的一阶相对运动是圆 -> 等边三角形; 地球引力把它拉成准周期呼吸。拖尾 0° 时构型被彻底摧毁(臂长起伏 274%), 20° 收敛到 2%。",
+      "physics_en": "In the two-body limit the cartwheel's first-order relative motion is a circle, hence an equilateral triangle; Earth's gravity turns that into quasi-periodic breathing. At 0 deg trailing the formation is destroyed (274% arm flexing); at 20 deg it settles to 2%."
+    },
+    {
+      "id": "laser_link",
+      "label": "激光链路(六束)",
+      "range": 25,
+      "label_en": "Laser Links (Six Beams)",
+      "detail": "每条臂两束反向激光(上下错开表意), 六束构成三条干涉臂。1064 nm、2 W 出射, 到达对面时光斑已扩到 19.5 km, 0.4 m 口径只接住 651 pW —— 但这已足够外差干涉读出皮米级臂长变化。",
+      "detail_en": "Each arm carries two counter-propagating beams (offset vertically for display), six in total forming three interferometer arms. 1064 nm at 2 W; after the crossing the spot has spread to 19.5 km and the 0.4 m aperture catches just 651 pW - yet that suffices for heterodyne readout of picometre arm-length changes.",
+      "specs": {
+        "波长": "1064 nm",
+        "出射功率": "2 W",
+        "接收功率": "651 pW",
+        "单链路位移噪声": "7.48 pm/√Hz"
+      },
+      "specs_en": {
+        "Wavelength": "1064 nm",
+        "TX power": "2 W",
+        "RX power": "651 pW",
+        "Per-link displacement noise": "7.48 pm/rtHz"
+      },
+      "sim": "链路预算对 LISA 公开值标定(297 vs ~300 pW); 外差效率 0.814、TX 口径效率 0.815(对文献闸 0.81@0.89R 命中) —— η 链已独立拆开, 不是黑箱。",
+      "sim_en": "Link budget calibrated against LISA public numbers (297 vs ~300 pW); heterodyne efficiency 0.814 and TX aperture efficiency 0.815 (hitting the literature gate 0.81 at 0.89R) - the eta chain is decomposed, no longer a black box.",
+      "physics": "应变 h=ΔL/L: 探测器是比例尺。散粒噪声限下 h 与臂长无关(dx∝L 抵消), 但本设计处于噪声底主导区, h∝1/L —— 长臂仍买高频灵敏度, 上限由星座构型给出。",
+      "physics_en": "Strain h = dL/L: the detector is a ratio rule. At the shot-noise limit h is arm-length independent (dx ~ L cancels), but this design sits in the noise-floor regime where h ~ 1/L - longer arms still pay, capped by formation dynamics."
+    },
+    {
+      "id": "sat0",
+      "label": "编队指向与呼吸",
+      "range": 20,
+      "label_en": "Formation Pointing & Breathing",
+      "detail": "每颗星的双望远镜夹角固定 60°, 而真实内角随呼吸在 ±0.94° 内摆动 ——差值由罩内'在视场内指向'机构吸收。展示中整星偏航跟随两臂角平分线(烘焙数据)。",
+      "detail_en": "Each craft's telescope pair is fixed at 60 deg while the true interior angle breathes within +/-0.94 deg - the difference is absorbed by the in-field pointing mechanism behind each baffle. In the display, craft yaw follows the baked arm-bisector.",
+      "specs": {
+        "呼吸角": "±0.94°",
+        "臂长变化率": "≤7.7 m/s",
+        "多普勒拍频": "≤7.2 MHz"
+      },
+      "specs_en": {
+        "Breathing": "+/-0.94 deg",
+        "Arm rate": "<=7.7 m/s",
+        "Doppler beat": "<=7.2 MHz"
+      },
+      "sim": "构型代价随臂长近线性(|v|∝L^1.03) —— 84% 的多普勒其实来自拖尾角而非臂长; 构型上限 ~3.7 Gm 是软边界, 设计点 3.0 Gm 对它留 20% 裕度。",
+      "sim_en": "Formation cost grows near-linearly with arm length (|v| ~ L^1.03) - 84% of the Doppler actually comes from the trailing angle, not the arm. The ~3.7 Gm formation cap is soft; the 3.0 Gm design point keeps 20% margin against it.",
+      "physics": "呼吸角决定'在视场内指向'机构行程, 而该机构正是 TTL 噪声的主通道 ——轨道力学直接反噬皮米预算, 这是臂长上限的真实来源。",
+      "physics_en": "The breathing angle sets the in-field pointing throw, and that mechanism is the main TTL noise channel - orbital mechanics bites straight into the picometre budget, which is the real origin of the arm-length cap."
+    }
+  ]
+}

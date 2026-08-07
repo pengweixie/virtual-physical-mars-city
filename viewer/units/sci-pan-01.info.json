@@ -1,0 +1,155 @@
+{
+  "id": "sci-pan-01",
+  "pois": [
+    {
+      "id": "pan_mag",
+      "label": "磁谱仪核心",
+      "label_en": "Magnetic spectrometer core",
+      "detail": "轨道层为什么必须是磁谱仪:银河宇宙线质子是 GeV 级,任何吸收式探测器都停不住它们,只有磁刚度 R=pc/Ze 能同时给出动量与电荷符号。双 NdFeB 永磁环在孔径内建立 0.385 T 峰值场,粒子穿过 9 层微条留下弯折径迹→动量;两端 TOF 给速度 β;逐层 dE/dx 给电荷数 |Z|——三者联立才定得出粒子种类与能谱。",
+      "detail_en": "Why the orbital tier has to be a magnetic spectrometer: galactic cosmic-ray protons are GeV-scale — no absorber can stop them; only magnetic rigidity R=pc/Ze yields both momentum and charge sign. Twin NdFeB ring magnets set up a 0.385 T peak field in the aperture; the bent track through 9 strip planes gives momentum, the end-cap TOF gives velocity β, and per-layer dE/dx gives charge |Z| — only the three combined identify the species and its spectrum.",
+      "specs": {
+        "磁体": "2×NdFeB 环 · 孔径 Ø50 / 环体 Ø70 / 法兰 Ø76 mm · z=±31 mm",
+        "轴上峰值场": "0.385 T",
+        "动量分辨": "σ_p/p = 9.9%(1.696 GeV/c 质子,core80)",
+        "科学能区": "10 MeV – 1 GeV 太阳/银河质子与轻核"
+      },
+      "specs_en": {
+        "Magnets": "2× NdFeB rings · bore Ø50 / body Ø70 / flange Ø76 mm · z=±31 mm",
+        "Peak on-axis field": "0.385 T",
+        "Momentum resolution": "σ_p/p = 9.9% (1.696 GeV/c protons, core80)",
+        "Science range": "10 MeV – 1 GeV solar/galactic protons and light nuclei"
+      },
+      "physics": "磁刚度 R=pc/(Ze):同一动量的正负粒子反向弯折,电荷符号是白送的;GeV 质子在 0.4 T·数 cm 里只弯 mrad 级,靠微条的微米级矢高测量才读得出来。",
+      "physics_en": "Rigidity R=pc/(Ze): opposite charges of equal momentum bend opposite ways, so the charge sign comes free; a GeV proton bends only ~mrad over 0.4 T × a few cm — readable only through micron-level sagitta measurement in the strips.",
+      "sim": "PANSim MiniPAN_Sep2022 全仿真:proton_energy_resolution_fit 给 σ_p/p=9.9%;field_map_summary 给轴上 B_max=0.385 T。",
+      "sim_en": "PANSim MiniPAN_Sep2022 full simulation: proton_energy_resolution_fit gives σ_p/p=9.9%; field_map_summary gives on-axis B_max=0.385 T."
+    },
+    {
+      "id": "pan_struct",
+      "label": "机械结构(v2 机械稿)",
+      "label_en": "Mechanical structure (v2, as-built CAD)",
+      "detail": "v2 按真实机械稿 mPAN_Symetrical_V3(CATIA 装配)逐件重建:双半壳机加铝盒 165×165 mm 在 z≈+29 mm 合缝(可见法兰与锁扣);9 块微条板分三组——中央 X/Y/X 三明治 + 磁体两侧外模块各一组 X/Y/X——由独立框架与 0.38 mm 热界面条压装;向外依次是 TPX3 像素组件、TOF 组件、遮光罩;四角 M6×75 通杆拉紧全栈,Ø6 导销定位;前端电子学(ECUE 低剖面盒 + Firefly 高速链路)贴侧壁,天顶面是散热板,其余面包 MLI。",
+      "detail_en": "v2 is rebuilt part-by-part against the real mechanical CAD (mPAN_Symetrical_V3, CATIA assembly): two machined aluminium half-shells, 165×165 mm, joined at z≈+29 mm (visible flange and latches); 9 strip boards in three modules — a central X/Y/X sandwich plus one X/Y/X module outboard of each magnet — clamped by dedicated frames with 0.38 mm thermal-interface strips; outward come the TPX3 pixel assemblies, the TOF assemblies and the light baffles; four corner M6×75 tie-rods clamp the stack with Ø6 guide pins for alignment; front-end electronics (low-profile ECUE cases + Firefly links) ride the side wall, the zenith face is a radiator, everything else is MLI-wrapped.",
+      "specs": {
+        "外包络": "165×165×~215 mm(含遮光罩)",
+        "微条": "9 层 = 6X + 3Y · 150 μm 厚 · 有源 51.2×51.2 mm",
+        "条距": "X 25 μm×2048 条 / Y 400 μm×128 条",
+        "层位(z, mm)": "中央 -2.3/-1.9/+5.7 · 外模块 ±56.3 与 ±67.7/±68.1",
+        "TPX3": "2×2 quad 拼片 · 板 120×120 mm · z=±78",
+        "TOF": "EJ-230 6 mm + S13360 SiPM 板×2 · 遮光罩口伸至 z≈±107"
+      },
+      "specs_en": {
+        "Envelope": "165×165×~215 mm (incl. baffles)",
+        "Strips": "9 planes = 6X + 3Y · 150 μm thick · 51.2×51.2 mm active",
+        "Pitch": "X 25 μm × 2048 strips / Y 400 μm × 128 strips",
+        "Plane z (mm)": "central -2.3/-1.9/+5.7 · outboard ±56.3 and ±67.7/±68.1",
+        "TPX3": "2×2 quad tiles · 120×120 mm board · z=±78",
+        "TOF": "EJ-230 6 mm + 2× S13360 SiPM boards · baffles out to z≈±107"
+      },
+      "physics": "磁体两侧近贴的 X/Y 双板给弯折平面前后各一个精确矢高点——层距就是杠杆臂;9 层冗余让任意单层失效都不致断径迹链。",
+      "physics_en": "The near-touching X/Y doublets bracketing the field region pin the sagitta on both sides of the bend — plane spacing is the lever arm; 9-plane redundancy keeps the track chain alive through any single-layer failure.",
+      "sim": "机械稿对照:74 MB 装配 STEP 自写 AP203 解析器提取 532 个放置(顶层 31)+ 14 件包围盒实测;磁体环孔径 Ø50 由 CIRCLE 半径 r=25 mm 直读。",
+      "sim_en": "CAD cross-check: a self-written AP203 parser extracted 532 placements (31 top-level) plus measured bounding boxes of 14 parts from the 74 MB assembly STEP; the Ø50 magnet bore is read directly from CIRCLE radii r=25 mm."
+    },
+    {
+      "id": "pan_tof",
+      "label": "TOF 触发与测速",
+      "label_en": "TOF trigger & velocity",
+      "detail": "两端 EJ-230 塑料闪烁体(6 mm)+ 边缘耦合 SiPM 板构成触发与飞行时间测量:粒子先后穿过两端闪烁体,Δt→β;紧邻的 TPX3 像素板给出入射簇形与低能端径迹。TOF 同时是整机触发——9 层微条只在两端符合时才读出。红色触发灯每次符合闪烁(演示节奏)。",
+      "detail_en": "The two end-cap EJ-230 plastic scintillators (6 mm) with edge-coupled SiPM boards provide trigger and time-of-flight: Δt between the two crossings gives β; the adjacent TPX3 pixel tiles image the entry cluster and low-energy tracks. TOF doubles as the master trigger — the 9 strip planes read out only on an end-to-end coincidence. The red trigger LEDs pulse per coincidence (demo cadence).",
+      "specs": {
+        "闪烁体": "EJ-230 · 84×84×6 mm · 每面 2 块 DPNC468 SiPM 板",
+        "TOF 基线": "L ≈ 176 mm(两端闪烁体中心距)",
+        "单面时间分辨": "~100 ps(塑闪+SiPM 典型)→ σ_Δt ≈ 141 ps",
+        "触发": "两端符合,微条随触发读出"
+      },
+      "specs_en": {
+        "Scintillator": "EJ-230 · 84×84×6 mm · 2 DPNC468 SiPM boards per face",
+        "TOF baseline": "L ≈ 176 mm (scintillator centre spacing)",
+        "Per-face timing": "~100 ps (typical plastic+SiPM) → σ_Δt ≈ 141 ps",
+        "Trigger": "end-to-end coincidence gates the strip readout"
+      },
+      "physics": "β=L/(cΔt);质量 m=p·√(1/β²−1),其中 β 项在 σ_m 里被 γ² 放大——1 GeV 质子 γ²=4.27,所以 TOF 只在 β<0.6 才对质量鉴别有实感。",
+      "physics_en": "β=L/(cΔt); mass m=p·√(1/β²−1), and the β term enters σ_m amplified by γ² — at 1 GeV, γ²=4.27, so TOF only truly discriminates mass below β≈0.6.",
+      "sim": "PAN tof_resolution_scan:σ_t=0 时 σ_m/m=9.91%,与 σ_p/p=9.9% 完全相同——现役质量分辨 100% 由动量项主导,TOF 尚未帮上忙(这正是 LGAD 升级的切入点)。",
+      "sim_en": "PAN tof_resolution_scan: at σ_t=0, σ_m/m=9.91% — identical to σ_p/p=9.9%. Today's mass resolution is 100% momentum-dominated; TOF contributes nothing yet (exactly where the LGAD upgrade cuts in)."
+    },
+    {
+      "id": "pan_lgad",
+      "label": "SiC-LGAD 升级层",
+      "label_en": "SiC-LGAD upgrade planes",
+      "detail": "金黄 = 在役 150 μm 硅微条;青灰 = 已换装的 4H-SiC LGAD 升级层(50 μm,d17 三角形增益结构),现装在 ±56.3 mm 两个层位。每层同时给出位置+时间+电荷:9 层各出一个 dE/dx 采样与时间戳,多层平均把 σ_Δt 压到 ~38 ps;SiC 本征载流子密度比硅低约 18 个量级,在轨零漏电、完全免冷却。终态换装完成后可删除 TOF 塑闪与 TPX3,束流孔径材料预算 7.99%→2.07% X0。旁边的备件盒装着在轨逐层换装用的飞行备件(2 片 SiC + 1 片对照硅)。",
+      "detail_en": "Gold = in-service 150 μm silicon strips; cyan-grey = the swapped-in 4H-SiC LGAD upgrade planes (50 μm, d17 triangular gain structure), currently at the ±56.3 mm slots. Each plane delivers position + time + charge at once: nine dE/dx samples and timestamps, layer-averaged down to σ_Δt ≈ 38 ps; SiC's intrinsic carrier density is ~18 orders below silicon — zero dark current on orbit, no cooling at all. Once the swap completes, the plastic TOF and TPX3 can be deleted: in-aperture material budget drops 7.99% → 2.07% X0. The spare-kit box beside the mount carries flight spares for on-orbit layer swaps (2 SiC + 1 reference Si).",
+      "specs": {
+        "传感器": "4H-SiC LGAD 50 μm · d17 结构(增益层面剂量 1.54e13 cm⁻²)",
+        "增益": "M ≈ 5 @ 280–300 V(渐近 6.1;能量通道用,时间不靠它)",
+        "增益-偏压敏感度": "0.06%/V —— 固定 HV 轨即可,免逐片伺服",
+        "pitch": "150 μm(通道功耗解:18432 → ~3k 路)",
+        "时间": "σ_Δt 目标 ~38 ps(每侧 ~5 个时间戳平均)"
+      },
+      "specs_en": {
+        "Sensor": "4H-SiC LGAD 50 μm · d17 structure (gain-layer dose 1.54e13 cm⁻²)",
+        "Gain": "M ≈ 5 @ 280–300 V (asymptotic 6.1; serves the energy channel, not timing)",
+        "Gain-bias sensitivity": "0.06%/V — one fixed HV rail, no per-die servo",
+        "Pitch": "150 μm (the channel-power solution: 18432 → ~3k channels)",
+        "Timing": "σ_Δt target ~38 ps (≈5 timestamps averaged per side)"
+      },
+      "physics": "4H-SiC 里雪崩必须由空穴引发⇒增益层贴 p⁺ 侧,是硅 LGAD 的镜像;穿通后峰值场被电荷片面剂量钉死⇒增益不随偏压漂;k=α_e/α_h≈0.1 近单载流子倍增⇒过剩噪声约为硅的一半,dE/dx 直接受益。",
+      "physics_en": "In 4H-SiC the avalanche must be hole-initiated ⇒ gain layer on the p⁺ side — the mirror image of silicon LGADs; past punch-through the peak field is pinned by the charge-sheet dose ⇒ gain barely drifts with bias; k=α_e/α_h≈0.1 near-single-carrier multiplication ⇒ excess noise about half of silicon's, feeding straight into dE/dx.",
+      "sim": [
+        "LGAD 台账 L1(pan_sic_lgad_trade.py):时间模型用 PAN 自家 tof_resolution_scan.csv 标定——σ_t=0 复现 9.91% vs 9.91%;材料预算 7.99%→2.07% X0(删 TOF/TPX3),跟踪段 MS 角 0.60×。",
+        "LGAD 台账 L2a(TCAD 实测):E_pk 设计方程三档剂量验证到 1.3%(d11 1.855/1.862 · d14 2.364/2.395 · d17 2.876/2.892 MV/cm);d17 @280 V McIntyre M=5.3、裕量 0.737;增益偏压敏感度实测 0.06%/V。"
+      ],
+      "sim_en": [
+        "LGAD ledger L1 (pan_sic_lgad_trade.py): timing model calibrated on PAN's own tof_resolution_scan.csv — σ_t=0 reproduces 9.91% vs 9.91%; material budget 7.99%→2.07% X0 (TOF/TPX3 deleted), tracker MS angle 0.60×.",
+        "LGAD ledger L2a (TCAD measured): E_pk design equation verified to 1.3% across three doses (d11 1.855/1.862 · d14 2.364/2.395 · d17 2.876/2.892 MV/cm); d17 @280 V McIntyre M=5.3, margin 0.737; gain-bias sensitivity measured 0.06%/V."
+      ]
+    },
+    {
+      "id": "pan_sep",
+      "label": "SEP 观测模式",
+      "label_en": "SEP observing mode",
+      "detail": "平静期它记录银河宇宙线(GCR)谱——计数以分钟计;太阳质子事件(SEP)爆发时,10–100 MeV 质子通量在数十分钟内跃升 2–4 个量级,轨道层最先看见,是全城辐射预警链的第一响。火星没有全球磁场,SEP 质子直灌大气顶;本机在静止轨道全天候盯着两端对天的孔径。",
+      "detail_en": "In quiet time it logs the galactic cosmic-ray (GCR) spectrum — counts by the minute. When a solar energetic particle (SEP) event erupts, the 10–100 MeV proton flux jumps 2–4 orders of magnitude within tens of minutes — the orbital tier sees it first and rings first in the city's radiation-warning chain. Mars has no global magnetic field, so SEP protons pour straight onto the atmosphere; this instrument watches around the clock through its two sky-facing apertures.",
+      "specs": {
+        "平静期": "GCR 质子 ~4 cm⁻²s⁻¹(近火空间量级)",
+        "SEP 事件": "计数率跃升 10²–10⁴ 倍",
+        "预警窗口": "相对论前锋先到,10–100 MeV 主体晚数十分钟",
+        "观测姿态": "双孔径沿甲板切向对天,平台静止轨道全天时"
+      },
+      "specs_en": {
+        "Quiet time": "GCR protons ~4 cm⁻²s⁻¹ (near-Mars space, order of magnitude)",
+        "SEP event": "count rate jumps 10²–10⁴×",
+        "Warning window": "relativistic vanguard arrives first; the 10–100 MeV bulk lags by tens of minutes",
+        "Attitude": "both apertures sky-facing along the deck; areostationary, full-time"
+      },
+      "physics": "SEP 到达时序按 1/β 展开:先到的高能质子是闪电,主通量是雷声——能谱-时序反演磁力线路径长度,为地表争取防护提前量。",
+      "physics_en": "SEP arrivals disperse as 1/β: the energetic vanguard is the lightning, the bulk flux the thunder — inverting spectrum vs. arrival time yields the field-line path length and buys the surface its warning lead.",
+      "sim": "科学定位承自 PANSim 输运几何(10 MeV–1 GeV 太阳/银河质子与轻核);SEP 跃升幅度为该能区事件的量级共识,未另行仿真。",
+      "sim_en": "Science envelope inherited from the PANSim transport geometry (10 MeV–1 GeV solar/galactic protons and light nuclei); the SEP jump amplitude is the consensus order of magnitude for such events — not separately simulated."
+    },
+    {
+      "id": "pan_net",
+      "label": "三层辐射网 · 轨道层",
+      "label_en": "Three-tier radiation net · orbital tier",
+      "detail": "同一场 SEP,三层给出三种回答:轨道层(本机)测直射一次粒子的能谱与到达时序;地表站的 Timepix4 看到的是穿过 ~20 g/cm² CO₂ 大气后的次级径迹雨;地下哨兵在岩石覆盖下纹丝不动,守着静默基线。三条曲线叠在一起,就是这座城的剂量传递函数——本机是链条的第一环:能谱上行,预警下行。",
+      "detail_en": "One SEP event, three answers: the orbital tier (this instrument) measures the primary spectrum and arrival sequence in direct flux; the surface station's Timepix4 sees the secondary track shower after ~20 g/cm² of CO₂ atmosphere; the underground sentinel sits unmoved beneath rock, holding the silent baseline. Overlay the three curves and you have the city's dose transfer function — this instrument is link one: spectra go up, warnings go down.",
+      "specs": {
+        "轨道层(本机)": "一次粒子能谱 10 MeV–1 GeV + 到达时序",
+        "地表层": "Timepix4 径迹站 · 大气后次级场(质子/γ/中子混合)",
+        "地下层": "SiC 哨兵 · 岩石屏蔽下的静默基线",
+        "数据路径": "经中继星平台下行地表,预警链首发"
+      },
+      "specs_en": {
+        "Orbital tier (this)": "primary spectrum 10 MeV–1 GeV + arrival sequence",
+        "Surface tier": "Timepix4 track station · post-atmosphere secondary field (p/γ/n mix)",
+        "Underground tier": "SiC sentinel · silent baseline under rock shielding",
+        "Data path": "downlinked via the relay bus; first ring of the warning chain"
+      },
+      "physics": "大气与岩石是两级低通滤波:能谱逐层变硬、通量逐层衰减;三层同时测同一事件,等于给这套传递函数做在轨标定。",
+      "physics_en": "Atmosphere and rock act as two cascaded low-pass filters: the spectrum hardens and the flux attenuates tier by tier; three tiers measuring one event amounts to an in-situ calibration of that transfer function.",
+      "sim": "(轨道视角之半)本层输出 = 一次粒子能谱 + 触发时序;与地表 / 地下层的联动对表由汇合评审归总。",
+      "sim_en": "(Orbital half only) this tier's output = primary spectrum + trigger timing; cross-tier reconciliation with the surface/underground halves is closed out at the joint review."
+    }
+  ]
+}

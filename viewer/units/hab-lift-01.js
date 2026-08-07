@@ -9,6 +9,7 @@
 export const meta = {
   id: 'hab-lift-01',
   name: '地下城人员电梯站',
+  name_en: 'Undercity Personnel Lift Station',
   size_m: 8,                // 基座坪宽 8 m（1 单位 = 1 米）
   size_axis: 'width',
   effects: ['glow_windows', 'blink'],

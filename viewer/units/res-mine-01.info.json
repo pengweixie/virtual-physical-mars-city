@@ -4,54 +4,151 @@
     {
       "id": "strata",
       "label": "阶梯采掘区",
-      "pos": [0, 2.8, -16],
+      "label_en": "Benched excavation area",
+      "pos": [
+        0,
+        2.8,
+        -16
+      ],
       "range": 40,
       "detail": "椭圆形露天采掘区约 50×35 m，两级台阶下到坑底。台阶立面上六条深浅交替的地层色带（浅锈红/深褐/灰褐）是矿场的地质档案——台阶既是采掘工作面，也是风化层剖面的天然展柜。因地形约束，矿坑用外圈土堤垫高的\"外高内低\"形制，不真正下挖。",
-      "specs": { "采区": "50 × 35 m 椭圆", "台阶": "2 级，堤顶高 3 m", "地层": "6 条色带（背光面微发光可夜读）" },
-      "physics": "露天矿台阶采掘法（bench mining）：台阶立面同时暴露矿体与地层记录，采掘推进即地质测绘。"
+      "detail_en": "An elliptical open pit about 50 x 35 m, stepping down to the floor in two benches. The six alternating light and dark bands on the bench faces - pale rust, dark brown, grey-brown - are the mine's geological archive: each bench is both a working face and a natural display case of the regolith profile. Terrain forced an inverted layout, raised inside an outer berm rather than genuinely dug in.",
+      "specs": {
+        "采区": "50 × 35 m 椭圆",
+        "台阶": "2 级，堤顶高 3 m",
+        "地层": "6 条色带（背光面微发光可夜读）"
+      },
+      "specs_en": {
+        "Pit": "50 x 35 m ellipse",
+        "Benches": "2, berm crest 3 m",
+        "Strata": "6 colour bands, faintly self-lit for night reading"
+      },
+      "physics": "露天矿台阶采掘法（bench mining）：台阶立面同时暴露矿体与地层记录，采掘推进即地质测绘。",
+      "physics_en": "Bench mining: every bench face exposes the ore body and the stratigraphic record at the same time, so advancing the excavation is itself geological mapping."
     },
     {
       "id": "rassor",
       "label": "RASSOR 挖掘机器人",
-      "pos": [-7.6, 1.6, -5.3],
+      "label_en": "RASSOR excavation robot",
+      "pos": [
+        -7.6,
+        1.6,
+        -5.3
+      ],
       "range": 30,
       "detail": "对转斗轮采掘机器人（原型：NASA RASSOR）。火星 0.38g 下机器人压不住传统挖斗的反作用力，前后两只空心斗筒对转，把挖掘反力在车体内抵消；挖起的风化土直接存进空心筒里，运到卸料点反转吐出。搭载视觉自主系统：桅杆导航相机 → 亮度阈值障碍分割 → 状态机（挖掘/运土/卸料）+ 航位推算导航。",
-      "specs": { "车长": "2.5 m", "斗筒": "⌀0.7 m 空心对转 ±8 rpm", "轮系": "⌀0.56 m 镂空格栅轮 ×4", "导航相机": "CIS 64×64 @5 Hz" },
+      "detail_en": "A counter-rotating bucket-drum digger after NASA's RASSOR. At 0.38 g a robot cannot press down hard enough to react a conventional bucket's digging force, so two hollow drums at either end turn in opposite directions and cancel the reaction inside the chassis. The regolith is stored in the hollow drums themselves and spun back out at the dump point. It runs a full vision autonomy stack: mast navigation camera, brightness-threshold obstacle segmentation, then a dig / haul / dump state machine with dead-reckoning navigation.",
+      "specs": {
+        "车长": "2.5 m",
+        "斗筒": "⌀0.7 m 空心对转 ±8 rpm",
+        "轮系": "⌀0.56 m 镂空格栅轮 ×4",
+        "导航相机": "CIS 64×64 @5 Hz"
+      },
+      "specs_en": {
+        "Length": "2.5 m",
+        "Drums": "dia-0.7 m hollow, counter-rotating at +-8 rpm",
+        "Wheels": "4 x dia-0.56 m open-grid",
+        "Nav camera": "CIS 64x64 at 5 Hz"
+      },
       "sim": [
         "运动曲线由 MuJoCo 动力学仿真烘焙（火星重力 3.71 m/s²，含等效切削载荷）：压筒被地面顶住的真实臂角、行驶位重力下垂、加减速俯仰踢、放臂落地回弹均来自仿真",
         "视觉自主 150 s 长测：完整作业循环 3 圈，避障最小间距 2.4 m，地理围栏零触发"
       ],
-      "physics": "对转斗轮的挖掘反力矩互相抵消，低重力下无需车重压载——这是 RASSOR 方案在火星成立的核心理由。"
+      "sim_en": [
+        "Motion curves are baked from a MuJoCo dynamics run at Mars gravity 3.71 m/s2 with equivalent cutting loads: the true arm angle when the drum is propped by the ground, the gravity sag in transit pose, the pitch kick under acceleration and braking, and the bounce as the arm sets down all come out of the simulation.",
+        "150 s vision-autonomy run: 3 complete work cycles, 2.4 m minimum obstacle clearance, no geofence trips."
+      ],
+      "physics": "对转斗轮的挖掘反力矩互相抵消，低重力下无需车重压载——这是 RASSOR 方案在火星成立的核心理由。",
+      "physics_en": "The counter-rotating drums cancel each other's digging torque, so no vehicle ballast is needed in low gravity. That single fact is why the RASSOR approach works on Mars at all."
     },
     {
       "id": "cis",
       "label": "CIS 导航相机（自研传感器）",
-      "pos": [-7.6, 2.6, -5.3],
+      "label_en": "CIS navigation camera (in-house sensor)",
+      "pos": [
+        -7.6,
+        2.6,
+        -5.3
+      ],
       "range": 25,
       "detail": "机器人桅杆上的导航相机使用自研 64×64 CMOS 图像传感器（4T 钉扎光电二极管，5 µm 像素，列级 CDS + 10-bit 单斜率 ADC），完整设计链路覆盖系统建模/器件 TCAD/光学 FDTD/模拟电路/RTL/物理验证。机器人看到的不是理想画面，而是这颗传感器真实会输出的带噪 10-bit 图像：光电子散粒噪声、暗电流、读出噪声、满阱截止、量化，外加自动曝光。",
-      "specs": { "阵列": "64×64 有效像素", "量子效率": "0.60（BSI 绿光，FDTD 验证）", "满阱": "17,880 e⁻（TCAD 验证）", "读出噪声": "1.76 e⁻ rms", "动态范围": "69.5 dB", "ADC": "10-bit，LSB=16.5 e⁻" },
+      "detail_en": "The camera on the robot's mast uses an in-house 64x64 CMOS image sensor - 4T pinned photodiode, 5 um pixel, column-level CDS, 10-bit single-slope ADC - designed end to end across system modelling, device TCAD, optical FDTD, analogue circuits, RTL and physical verification. What the robot sees is not a clean render but the noisy 10-bit frame this sensor would really produce: photon shot noise, dark current, read noise, full-well clipping and quantisation, with auto-exposure on top.",
+      "specs": {
+        "阵列": "64×64 有效像素",
+        "量子效率": "0.60（BSI 绿光，FDTD 验证）",
+        "满阱": "17,880 e⁻（TCAD 验证）",
+        "读出噪声": "1.76 e⁻ rms",
+        "动态范围": "69.5 dB",
+        "ADC": "10-bit，LSB=16.5 e⁻"
+      },
+      "specs_en": {
+        "Array": "64x64 active pixels",
+        "Quantum efficiency": "0.60 (BSI, green, FDTD-verified)",
+        "Full well": "17,880 e- (TCAD-verified)",
+        "Read noise": "1.76 e- rms",
+        "Dynamic range": "69.5 dB",
+        "ADC": "10-bit, LSB = 16.5 e-"
+      },
       "sim": [
         "传感器缺陷→自主作业联合实验：死点率线性劣化、~15% 避障失效；亮点率是悬崖——≤10% 良性，~12% 时亮点抬高均值迫使自动曝光压缩，真实地形跌破阈值，满屏幻影障碍",
         "夜间作业：自动曝光 12→400 ms，散粒噪声主导，机器人自动减速慢行"
       ],
-      "physics": "光子到达服从泊松统计：信噪比上限 √Ne。传感器的每条 spec（满阱、读噪、量化）都直接决定机器人夜间与逆光下的自主能力边界。"
+      "sim_en": [
+        "Sensor-defect to autonomy joint experiment: dead pixels degrade avoidance linearly and break it near 15%, but hot pixels hit a cliff. Up to 10% is benign; by about 12% they lift the mean enough that auto-exposure clamps down, real terrain drops below threshold, and the robot sees phantom obstacles everywhere.",
+        "Night work: auto-exposure stretches from 12 ms to 400 ms, shot noise dominates, and the robot slows itself down."
+      ],
+      "physics": "光子到达服从泊松统计：信噪比上限 √Ne。传感器的每条 spec（满阱、读噪、量化）都直接决定机器人夜间与逆光下的自主能力边界。",
+      "physics_en": "Photon arrivals are Poisson, so signal-to-noise is capped at sqrt(Ne). Every line of the sensor spec - full well, read noise, quantisation - sets a hard edge on what the robot can still do autonomously at night or looking into the sun."
     },
     {
       "id": "screener",
       "label": "破碎筛分塔",
-      "pos": [-36, 5, 2.8],
+      "label_en": "Crushing and screening tower",
+      "pos": [
+        -36,
+        5,
+        2.8
+      ],
       "range": 30,
       "detail": "受料斗（斗内可见来料）→ 30° 封闭输送带桥（顶部检修天窗露出皮带）→ 6 m 筛分塔。塔身朝料堆侧整面剖切，露出工艺核心：三层倾斜振动筛自上而下粗/中/细，筛板颜色与三座产品料堆一一对应，顶部偏心轴驱动。三条溜槽从各层筛口滑到塔脚同色落料堆——一种土进去、三种料出来，因果全程可见。",
-      "specs": { "塔高": "6 m（剖切展示）", "筛层": "3 层（粗深褐/中锈红/细浅灰）", "输送带": "12 m @30°", "产品": "细料=烧结原料 · 中料=建筑骨料 · 粗渣=防辐射堆料" },
-      "physics": "多层振动筛分级：上层筛孔最大，粗料被截留、细料逐层下落——粒径分选的机械实现。"
+      "detail_en": "Receiving hopper with the feed visible inside, a 30-degree enclosed belt bridge with service hatches along its top, and a 6 m screening tower. The tower is cut away on the stockpile side to show the process: three inclined vibrating decks grading coarse to fine from top to bottom, deck colours matched one-to-one with the three product piles, driven by an eccentric shaft at the head. Three chutes carry each fraction down to a same-coloured pile at the base - one soil in, three products out, cause and effect visible the whole way.",
+      "specs": {
+        "塔高": "6 m（剖切展示）",
+        "筛层": "3 层（粗深褐/中锈红/细浅灰）",
+        "输送带": "12 m @30°",
+        "产品": "细料=烧结原料 · 中料=建筑骨料 · 粗渣=防辐射堆料"
+      },
+      "specs_en": {
+        "Tower height": "6 m (shown cut away)",
+        "Decks": "3 (coarse dark brown / medium rust / fine pale grey)",
+        "Belt": "12 m at 30 deg",
+        "Products": "fines = sinter feedstock, medium = construction aggregate, coarse = radiation shielding fill"
+      },
+      "physics": "多层振动筛分级：上层筛孔最大，粗料被截留、细料逐层下落——粒径分选的机械实现。",
+      "physics_en": "Multi-deck vibrating classification: the top deck carries the largest apertures, so coarse material is held back while finer grades fall through deck by deck - particle sizing done purely mechanically."
     },
     {
       "id": "charge",
       "label": "机器人充电棚",
-      "pos": [10, 2.5, 30],
+      "label_en": "Robot charging shelter",
+      "pos": [
+        10,
+        2.5,
+        30
+      ],
       "range": 25,
       "detail": "单坡顶光伏棚下两个充电位，充电桩绿色指示灯常亮，停靠机器人的状态灯呈琥珀色呼吸（充电中）。停在这里的二号机收臂抬筒——斗筒是空的，与坑内满载作业的一号机形成状态对照。",
-      "specs": { "光伏": "2 块顶板", "充电位": "2", "状态灯": "作业绿 / 充电琥珀" }
+      "detail_en": "Two charging bays under a monopitch photovoltaic canopy. The chargers show a steady green while the docked robot's status light breathes amber to say it is taking charge. The second unit parked here has its arms folded and drums raised - and the drums are empty, a deliberate contrast with unit one working loaded down in the pit.",
+      "specs": {
+        "光伏": "2 块顶板",
+        "充电位": "2",
+        "状态灯": "作业绿 / 充电琥珀"
+      },
+      "specs_en": {
+        "Photovoltaic": "2 canopy panels",
+        "Bays": "2",
+        "Status light": "green working / amber charging"
+      }
     }
   ]
 }

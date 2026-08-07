@@ -1,0 +1,61 @@
+{
+  "id": "sci-rad-02",
+  "pois": [
+    {
+      "id": "cabin",
+      "label": "SiC 探测舱(剖切)",
+      "label_en": "SiC detector cabin (cutaway)",
+      "range": 18,
+      "detail": "柱头剖开的一面就是整条探测因果链:朝堆侧 HDPE 慢化帽把 MeV 级泄漏中子撞软 → ⁶LiF 转换层(30 µm)把热中子变成带电产物 → 4H-SiC PiN 片 2×2(左列贴 LiF 走热道,右列裸片走快道,硅碳反冲+阈值反应)→ 铜读出板 → 前放。中子进、电脉冲出,没有黑盒。",
+      "detail_en": "The cut-open head is the whole causal chain: the reactor-facing HDPE cap softens MeV leakage neutrons → a 30 µm ⁶LiF converter turns thermals into charged products → a 2×2 stack of 4H-SiC PiN pads (left column behind LiF = thermal channel, right column bare = fast channel via Si/C recoils and threshold reactions) → copper readout board → preamp. Neutrons in, pulses out, no black box.",
+      "specs": { "SiC 片": "4×1 cm²,50 µm 外延 PiN", "转换层": "⁶LiF 30 µm(95% 富集)", "慢化帽": "HDPE,朝堆侧", "偏压": "~120 V 全耗尽(V_fd=116 V @5e13/50 µm)" },
+      "specs_en": { "SiC pads": "4×1 cm², 50 µm epi PiN", "Converter": "⁶LiF 30 µm (95% enriched)", "Moderator cap": "HDPE, reactor side", "Bias": "~120 V full depletion (V_fd=116 V @5e13/50 µm)" },
+      "sim": "LiF 厚度账(design_rounds 账1):透射几何效率峰 4.72% @ 29.9 µm;Σ_th=54.6 cm⁻¹(俘获平均自由程 183 µm),产物射程 α 5.9 / t 33 µm 封顶自吸收;10 µm 只有 3.0%、60 µm 回落 4.0%——定版 30 µm 落峰肩,工艺容差平坦。",
+      "sim_en": "LiF thickness account (design_rounds #1): transmission-geometry efficiency peaks at 4.72% at 29.9 µm; Σ_th=54.6 cm⁻¹ (183 µm capture mean free path), product ranges α 5.9 / t 33 µm cap the self-absorption; 10 µm gives only 3.0% and 60 µm falls back to 4.0% — the 30 µm design point sits on the flat shoulder, tolerant to process spread.",
+      "physics": "⁶Li(n,α)t,Q=4.78 MeV(α 2.05 + t 2.73 MeV),热截面 940 b。效率峰是一场竞争:层厚→俘获多但产物出不来;层薄→产物全出但俘获少。α 在 SiC 里生成 ~26 万 e-h 对(W=7.8 eV),比 MIP 大两个量级——所以这里用 PiN 就够,不需要增益。",
+      "physics_en": "⁶Li(n,α)t, Q=4.78 MeV (α 2.05 + t 2.73 MeV), 940 b thermal cross-section. The peak is a competition: thicker converts more but self-absorbs the products; thinner lets products out but converts less. One α makes ~260k e-h pairs in SiC (W=7.8 eV), two orders above a MIP — a plain PiN suffices, no gain needed."
+    },
+    {
+      "id": "screen",
+      "label": "计数屏 · 围界预期账",
+      "label_en": "Count display · perimeter budget",
+      "range": 14,
+      "detail": "小屏有节奏地跳——每 ~5 秒一个脉冲点。这不是装饰:它就是托卡马克屏蔽账在围界的活体读数,跳的是聚变堆泄漏,不是宇宙线。",
+      "detail_en": "The little screen blips rhythmically — one pulse every ~5 s. Not decoration: it is the tokamak shielding budget read out live at the fence, and what blips is fusion leakage, not cosmic rays.",
+      "specs": { "预期计数率": "0.21 cps(热道 0.19 + 快道 0.02)", "对 GCR 环境底": "高 ~130×(GCR 底 ~0.002 cps)", "报警灵敏度": "泄漏 ×10 → 60 s 积分 √N 判 3σ" },
+      "specs_en": { "Expected rate": "0.21 cps (thermal 0.19 + fast 0.02)", "vs GCR ambient": "~130× above (~0.002 cps floor)", "Alarm sensitivity": "10× leak → 3σ in a 60 s √N integration" },
+      "sim": "围界计数账(design_rounds 账2,锚 tokamak 18 次 Geant4 生产输运):S_n=3.01e20 n/s @14.06 MeV → LiPb 1.0 m + WC-B4C 0.12 m 屏蔽出口快通量 1.9e14 n/m²/s(=REBCO ≥5 年判据线)→ 2 m 硼化混凝土生物屏蔽再压 1e-8 → 58 m 处 1/r² 稀释 → 哨兵位 ~5 n/cm²/s → 0.21 cps。",
+      "sim_en": "Perimeter counting account (design_rounds #2, anchored to the tokamak's 18 Geant4 production runs): S_n=3.01e20 n/s @14.06 MeV → fast flux exiting the LiPb 1.0 m + WC-B4C 0.12 m shield is 1.9e14 n/m²/s (the REBCO ≥5-year criterion line) → 2 m of borated concrete takes another 1e-8 → 1/r² dilution to 58 m → ~5 n/cm²/s at the sentinel → 0.21 cps.",
+      "physics": "整条链只有两种衰减:物质屏蔽的指数律(含氢混凝土快中子 TVL ~0.25 m,2 m = 8 个数量级)和真空的 1/r² 几何律。计数统计服从泊松,√N 就是报警阈值的全部数学。",
+      "physics_en": "The chain has only two attenuations: exponential material shielding (fast-neutron TVL ~0.25 m in hydrogenous concrete, 2 m = 8 decades) and geometric 1/r². Counts are Poisson; √N is the entire mathematics of the alarm threshold."
+    },
+    {
+      "id": "column",
+      "label": "4H-SiC PiN · 同源器件",
+      "label_en": "4H-SiC PiN · same-lineage device",
+      "range": 14,
+      "detail": "柱里的探测片与 LGAD 项目(PAN 硅微条改造)同一条外延栈——同样的 50 µm n⁻ 漂移层,只是免掉增益层注入做成 PiN。一次 TCAD 战役,两处收获:PiN 版守围界,LGAD 增益版(d17,M≈5)留给轨道上的 PAN 谱仪升级。宽禁带 3.26 eV 是这里的全部选型理由:室温漏电为零、盲可见光、耐辐照——零冷却、零遮光,火星昼夜温差直接裸跑。",
+      "detail_en": "The pads share the epitaxial stack of the LGAD project (the PAN silicon-strip conversion) — same 50 µm n⁻ drift layer, minus the gain implant, making a PiN. One TCAD campaign, two deployments: the PiN guards the fence, the gain version (d17, M≈5) is reserved for the orbital PAN upgrade. The 3.26 eV bandgap is the whole selection argument: zero room-temperature leakage, visible-blind, radiation-hard — no cooling, no light-tightening, bare through Martian day-night swings.",
+      "specs": { "禁带": "3.26 eV(截止 380 nm,盲可见光)", "n_i": "~8e-9 cm⁻³(比 Si 低 ~18 个数量级)", "300 K 生成电流比(SiC:Si)": "1 : 9e17", "450 K 漏电": "仍 <1e-20 A/cm²" },
+      "specs_en": { "Bandgap": "3.26 eV (380 nm cutoff, visible-blind)", "n_i": "~8e-9 cm⁻³ (~18 decades below Si)", "300 K generation-current ratio (SiC:Si)": "1 : 9e17", "Leakage at 450 K": "still <1e-20 A/cm²" },
+      "sim": "漏电流-温度账(design_rounds 账4):SRH 生成电流模型,Si 同几何 300 K 漏 ~nA、350 K 到 µA 级必须制冷;SiC 到 450 K 仍 <1e-20 A。LGAD L2a TCAD 锚点:600 V 反向 IV 全程 1e-31 A/µm——漏电低到击穿都无法从 IV 曲线读出,必须用 McIntyre 电离积分判据。",
+      "sim_en": "Leakage-vs-temperature account (design_rounds #4): SRH generation model — the same geometry in Si leaks ~nA at 300 K and reaches µA by 350 K, demanding cooling; SiC stays <1e-20 A at 450 K. LGAD L2a TCAD anchor: reverse IV flat at 1e-31 A/µm all the way to 600 V — leakage so low that breakdown cannot even be read off the IV curve, forcing the McIntyre ionization-integral criterion.",
+      "physics": "生成电流 ∝ n_i ∝ exp(−Eg/2kT):禁带每宽 1 eV,室温本征载流子少 ~8 个数量级。Si 器件在聚变堆围界要制冷要避光;SiC 把这两项预算直接归零——这就是 14 MeV 中子监测的教科书选型。",
+      "physics_en": "Generation current ∝ n_i ∝ exp(−Eg/2kT): each extra eV of bandgap buys ~8 decades fewer intrinsic carriers at room temperature. A Si device on a fusion fence needs cooling and light-tightening; SiC zeroes both budgets — the textbook choice for 14 MeV neutron monitoring."
+    },
+    {
+      "id": "net",
+      "label": "中子哨兵网 · 三层联动",
+      "label_en": "Neutron sentinel net · three tiers",
+      "range": 20,
+      "detail": "同款柱子布在三个世界:这里(围界,地表)、地下城玄关(30 m 岩下)、深地实验室(3000 m 岩下)。三块屏并排读,就是每层岩石各自吃掉的数量级:围界每 ~5 s 一跳,玄关每 ~1 分钟偶尔一跳,深地几乎纹丝不动——静默本身就是屏蔽账的活体证明。",
+      "detail_en": "The same column stands in three worlds: here at the fence (surface), the undercity foyer (under 30 m of rock), and the deep lab (under 3000 m). Read the three screens side by side and you read the decades each rock layer eats: ~5 s blips at the fence, an occasional blip per minute in the foyer, near-total stillness in the deep — the silence itself is the shielding budget, alive.",
+      "specs": { "围界": "0.21 cps(聚变泄漏主导)", "玄关(30 m 岩)": "µ 道 ~83 s 一跳(7800 g/cm² = 52 个强子 e 折长度)", "深地(3000 m)": "µ ×1e-6,月级一跳" },
+      "specs_en": { "Fence": "0.21 cps (fusion leakage dominated)", "Foyer (30 m rock)": "µ channel ~83 s/blip (7800 g/cm² = 52 hadronic e-folds)", "Deep lab (3000 m)": "µ ×1e-6, blips on the scale of a month" },
+      "sim": "三层深度衰减账(design_rounds 账3):地表 GCR 中子 ~0.05 n/cm²/s;30 m 岩把强子分量杀绝(e^-52),剩 radiogenic 中子底 ~1e-5 与 µ 残余 ×0.03;3000 m 处 µ ×1e-6(对表 sci-deeplab-01 竖井卡)、中子只剩裸岩 U/Th (α,n) 底 ~1e-6 n/cm²/s。",
+      "sim_en": "Depth-attenuation account (design_rounds #3): surface GCR neutrons ~0.05 n/cm²/s; 30 m of rock annihilates the hadronic component (e^-52), leaving a radiogenic neutron floor ~1e-5 and a muon residual ×0.03; at 3000 m the muons are ×1e-6 (cross-checked against the sci-deeplab-01 shaft card) and neutrons drop to the bare-rock U/Th (α,n) floor ~1e-6 n/cm²/s.",
+      "physics": "强子在岩石里按 λ≈150 g/cm² 指数消失;µ 靠电离损失慢慢磨,穿透深得多,所以浅地下的'偶尔一跳'几乎全是 µ;深到 3 km 连 µ 都被磨光,只剩岩石自己的放射性在说话。",
+      "physics_en": "Hadrons vanish exponentially in rock with λ≈150 g/cm²; muons only grind down by ionization and penetrate far deeper, so the shallow-underground 'occasional blip' is almost pure µ; by 3 km even the muons are gone and only the rock's own radioactivity is left talking."
+    }
+  ]
+}

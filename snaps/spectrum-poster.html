@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Spectrum Net</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #06080d; }
+  .poster { width: 1600px; position: relative; overflow: hidden; color: #dfe6ec;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #0d0a18 0%, #06080d 45%, #05070a 100%); }
+  header { text-align: center; padding: 52px 0 16px; }
+  header h1 { font-size: 58px; letter-spacing: 12px; color: #ecf2f6; font-weight: 800; }
+  header h1 .accent { color: #b18cff; }
+  header .sub { margin-top: 12px; font-size: 21px; letter-spacing: 3px; color: #9a8fc4; }
+  header .rule { width: 720px; height: 2px; margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #b18cff, transparent); }
+  .spec { width: 1460px; margin: 26px auto 0; background: #0a0e18;
+    border: 1px solid #232c44; border-radius: 12px; padding: 18px 0 6px;
+    box-shadow: 0 16px 44px rgba(0,0,0,.6); }
+  .spec .t { font-size: 15px; letter-spacing: 2px; color: #7d88ad; padding: 0 26px 6px; }
+  .heroes { display: flex; justify-content: center; gap: 18px; margin-top: 18px; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid #262c40; box-shadow: 0 16px 44px rgba(0,0,0,.6); background: #0a0f14; }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #d8d8ec; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(6,5,12,.93) 55%); }
+  .hp-a { width: 780px; height: 430px; }
+  .hp-s { width: 331px; height: 430px; }
+  .row2 { display: flex; justify-content: center; gap: 18px; margin-top: 18px; }
+  .hp-h { width: 721px; height: 290px; }
+  .chips { display: flex; justify-content: center; gap: 20px; margin-top: 16px; }
+  .col { width: 720px; display: flex; flex-direction: column; gap: 8px; }
+  .rowc { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px;
+    background: #0e0c17; border: 1px solid #272040; border-radius: 8px; }
+  .rowc .k { flex: 0 0 130px; font-size: 15.5px; color: #a893e0; letter-spacing: .5px; }
+  .rowc .v { font-size: 15.5px; color: #e2ddf0; line-height: 1.45; }
+  .rowc .v b { color: #c9b2ff; font-weight: 700; }
+  .rowc.hot { border-left: 3px solid #b18cff; }
+  .rowc.sim { border-left: 3px solid #6a5aa8; }
+  footer { margin-top: 34px; padding: 24px 70px 30px; background: #05070a;
+    border-top: 1px solid #1d1834; }
+  footer .line { text-align: center; font-size: 18px; color: #9a8fc4; letter-spacing: 1px; }
+  footer .line b { color: #cdb8ff; }
+  footer .src { margin-top: 10px; text-align: center; font-size: 14px; color: #4d4568;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>THE <span class="accent">SPECTRUM NET</span></h1>
+    <div class="sub">Six new stations in one sol — the city now listens from 600-metre radio waves to picometre gamma rays</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="spec">
+    <div class="t">ELECTROMAGNETIC COVERAGE &nbsp;·&nbsp; wavelength, log scale &nbsp;·&nbsp; ★ = commissioned today</div>
+    <svg width="1460" height="316" viewBox="0 0 1460 316" font-family="Segoe UI, sans-serif">
+      <!-- axis -->
+      <line x1="20" y1="170" x2="1440" y2="170" stroke="#33415a" stroke-width="1"/>
+      <!-- decade ticks -->
+      <g stroke="#33415a" stroke-width="1">
+        <line x1="20" y1="196" x2="20" y2="204"/><line x1="304" y1="196" x2="304" y2="204"/>
+        <line x1="588" y1="196" x2="588" y2="204"/><line x1="872" y1="196" x2="872" y2="204"/>
+        <line x1="1156" y1="196" x2="1156" y2="204"/><line x1="1440" y1="196" x2="1440" y2="204"/>
+      </g>
+      <!-- gap hatches (drawn first, under the bar) -->
+      <g fill="#0e1220" stroke="#3a4560" stroke-dasharray="5 4" stroke-width="1">
+        <rect x="166" y="152" width="328" height="36" rx="4"/>
+        <rect x="602" y="152" width="183" height="36" rx="4"/>
+        <rect x="812" y="152" width="37" height="36" rx="4"/>
+        <rect x="951" y="152" width="260" height="36" rx="4"/>
+      </g>
+      <g font-size="12" fill="#5a6584" font-style="italic" text-anchor="middle">
+        <text x="248" y="175">HF – microwave</text>
+        <text x="412" y="175">comms points only</text>
+        <text x="693" y="175">far-IR · open</text>
+        <text x="1081" y="175">EUV / soft-X · open</text>
+      </g>
+      <!-- existing coverage (dim) -->
+      <g>
+        <rect x="505" y="150" width="95" height="40" rx="4" fill="#7d6440"/>
+        <rect x="887" y="150" width="23" height="40" fill="#8a8a6a"/>
+        <rect x="1213" y="150" width="76" height="40" rx="4" fill="#4a6a9a"/>
+        <rect x="317" y="146" width="4" height="48" fill="#5a6068"/>
+        <rect x="494" y="146" width="4" height="48" fill="#5a6068"/>
+        <rect x="868" y="146" width="4" height="48" fill="#8a7a5a"/>
+        <rect x="911" y="146" width="4" height="48" fill="#7a6a9a"/>
+        <rect x="942" y="146" width="4" height="48" fill="#4d4560"/>
+        <rect x="1402" y="146" width="4" height="48" fill="#b0a6d0"/>
+      </g>
+      <!-- new stations (bright) -->
+      <g>
+        <rect x="41" y="148" width="123" height="44" rx="4" fill="#e0784a"/>
+        <rect x="566" y="144" width="5" height="52" fill="#ffb057"/>
+        <rect x="787" y="148" width="23" height="44" rx="3" fill="#ff6a4a"/>
+        <rect x="851" y="148" width="26" height="44" rx="3" fill="#ffd257"/>
+        <rect x="921" y="148" width="9" height="44" rx="2" fill="#b06aff"/>
+      </g>
+      <!-- labels above: NEW -->
+      <g font-size="13.5" fill="#f0e8ff" font-weight="600">
+        <text x="46" y="100">★ sci-radio-01 · 0.5–10 MHz</text>
+        <text x="500" y="100">★ sci-thz-01 · 183 GHz</text>
+        <text x="726" y="100">★ sci-ir-01 · 8–14 µm</text>
+        <text x="812" y="128">★ sci-swir-01 · 0.9–1.7 µm</text>
+        <text x="936" y="100">★ sci-uv-01 · 270 nm</text>
+      </g>
+      <g stroke="#8a7ab0" stroke-width="1">
+        <line x1="100" y1="106" x2="100" y2="146"/>
+        <line x1="568" y1="106" x2="568" y2="142"/>
+        <line x1="798" y1="106" x2="798" y2="146"/>
+        <line x1="864" y1="134" x2="864" y2="146"/>
+        <line x1="926" y1="106" x2="926" y2="146"/>
+      </g>
+      <!-- labels below: existing -->
+      <g font-size="12.5" fill="#8a93b0" text-anchor="middle">
+        <text x="319" y="216">UHF relay</text>
+        <text x="496" y="238">Ka 32 GHz relay</text>
+        <text x="552" y="216">CMB TES · L2</text>
+        <text x="870" y="238">905 / 1064 nm · lidar + TT-1</text>
+        <text x="898" y="216">CIS · 0.4–0.7 µm</text>
+        <text x="947" y="260">NUV SPAD · obs&#160;&#160;·&#160;&#160;175 nm PMT (model)</text>
+        <text x="1251" y="216">phase-x CT · 5–30 keV</text>
+        <text x="1404" y="216">PET · 511 keV</text>
+      </g>
+      <!-- decade labels -->
+      <g font-size="13" fill="#5f6a8a" text-anchor="middle">
+        <text x="20" y="292">1 km</text><text x="304" y="292">1 m</text>
+        <text x="588" y="292">1 mm</text><text x="872" y="292">1 µm</text>
+        <text x="1156" y="292">1 nm</text><text x="1440" y="292">1 pm</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="heroes">
+    <div class="panel hp-a">
+      <img src="net-cluster.png" alt="Environmental alert cluster" style="object-position:50% 62%;">
+      <div class="cap">The environmental alert cluster, now five strong: weather mast, particle camera, thermal-IR tower, UV station, THz radiometer — dust, particles, heat, sunburn and water vapor on one alarm bus</div>
+    </div>
+    <div class="panel hp-s">
+      <img src="net-radio.png" alt="Low-frequency radio array" style="object-position:44% 55%;">
+      <div class="cap">sci-radio-01: 28 inverted-V dipoles across 160 m — listening where Earth is permanently deaf</div>
+    </div>
+    <div class="panel hp-s">
+      <img src="net-seis.png" alt="Seismic station" style="object-position:52% 62%;">
+      <div class="cap">sci-seis-01, the bonus channel: wind shield, hoisted-cover VBB cutaway, live seismogram — the quietest address in town</div>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="panel hp-h">
+      <img src="net-swir.png" alt="SWIR camera at the observatory" style="object-position:46% 58%;">
+      <div class="cap">sci-swir-01 joins the observatory group — sited by the stray-light ledger: 5.8× darker skies for 1.27 µm airglow than the rodwell-side candidate</div>
+    </div>
+    <div class="panel hp-h">
+      <img src="net-close.png" alt="UV station close-up" style="object-position:12% 55%;">
+      <div class="cap">sci-uv-01 up close: three solar-blind probe tubes, spectrum screen, EVA alert column — beside the radiation station's SEP alarm tower</div>
+    </div>
+  </div>
+
+  <div class="chips">
+    <div class="col">
+      <div class="rowc hot"><span class="k">🔥 8–14 µm</span><span class="v">sci-ir-01 — VOx microbolometer, NETD <b>47.3 mK</b> at f/1; the electro-thermal runaway ledger makes 512 rows @ 30 Hz a <b>physics limit</b>, not a spec choice</span></div>
+      <div class="rowc sim"><span class="k">🟣 270 nm</span><span class="v">sci-uv-01 — home-grown Sentaurus AlGaN: R@270 = <b>0.117 A/W</b>, solar-blind rejection <b>&gt;10⁵:1</b> — the EVA sunburn term finally has a sensor</span></div>
+      <div class="rowc sim"><span class="k">💧 183 GHz</span><span class="v">sci-thz-01 — 10 pr-µm of water column read to <b>0.45% in 1 s</b>; dust is transparent at 183 GHz, so in a storm the radiometer takes the weather watch</span></div>
+    </div>
+    <div class="col">
+      <div class="rowc sim"><span class="k">📷 0.9–1.7 µm</span><span class="v">sci-swir-01 — the Codex InGaAs bench, TCAD-closed: dark current is <b>bulk GR, sidewall 8.3%</b>; Mars night cold turns the frozen spec from unreachable to a factor of 7</span></div>
+      <div class="rowc sim"><span class="k">📡 0.5–10 MHz</span><span class="v">sci-radio-01 — sky noise of 10⁵–10⁷ K means <b>0.7% antenna efficiency loses nothing</b>; night observing window 97%, where Earth's is zero</span></div>
+      <div class="rowc hot"><span class="k">🌍 not EM</span><span class="v">sci-seis-01 — a VBB under the wind shield, 11 ledgers and 65 gates green; the daily 14:00 launch doubles as a <b>free repeating active source</b></span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">Fifteen decades of wavelength — <b>from a 600 m radio wave to a 2.4 pm gamma ray</b> — plus one channel that isn't light at all</div>
+    <div class="src">six parallel design sessions · 40+ ledgers, 150+ gates · Sentaurus TCAD ×2 · COMSOL · HFSS · Zemax-grade optics ledgers · in-engine captures · Mars City Digital Twin</div>
+  </footer>
+</div>
+</body>
+</html>

@@ -10,6 +10,7 @@ import { buildBoard } from './mb1-demo-board.js';
 
 export const meta = {
   id: 'ops-compute-01', name: '计算中心',
+  name_en: 'Compute Center',   // 双语（MODELS.md §5）；与 manifest 的 name_en 一致
   size_m: 26, size_axis: 'width', effects: ['glow_windows', 'blink'],
 };
 

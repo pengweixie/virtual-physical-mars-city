@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rockets — Virtual-Physical Mars City</title>
+<meta name="description" content="Two launch vehicles, two recovery philosophies: a 50 m methalox ship landing on legs behind a blast berm, and a 67 m booster flying back into a net. Every number traced to a simulation run.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    /* ▸ REPLACE: district accent (must match your card in index.html) */
+    --accent:var(--red);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="power.html">← Prev</a>
+    <a href="science.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">veh-rocket-01 · veh-rocket-02 · ops-spaceport-01 · ops-spaceport-02 · veh-raptor-01</div>
+    <h1>Rockets</h1>
+    <p class="phead__sub">Two launch vehicles, two recovery philosophies. A 50&nbsp;m methalox ship
+      that lands on its own legs behind a blast berm, and a 67&nbsp;m booster that flies back to be
+      caught in a net. Both fly every Mars afternoon on a schedule — and every number on this page
+      traces back to a simulation run.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Ascent Δv, surface→LMO</div><div class="spec__v">4.02<small> km/s</small></div></div>
+    <div class="spec"><div class="spec__k">Landing burn</div><div class="spec__v">38<small> t propellant</small></div></div>
+    <div class="spec"><div class="spec__k">Net-catch success</div><div class="spec__v">100%<small> N=500 MC</small></div></div>
+    <div class="spec"><div class="spec__k">Return payload, full tanks</div><div class="spec__v">133<small> t to TEI</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What flies here</h2></div>
+    <p class="lead">The rockets district is two vehicles, two pads, and one spare engine on a
+      service cradle.</p>
+    <div class="prose">
+      <p><strong>The ship</strong> (veh-rocket-01) is a 50&nbsp;m, Ø9&nbsp;m methalox upper stage
+        standing on six legs: 1200&nbsp;t of propellant, six full-flow staged-combustion engines
+        (3 sea-level gimballed + 3 vacuum), black tiles on the windward half, four body flaps, and a
+        modeled interior — from the methane downcomer threading the LOX tank up to a four-deck crew
+        section whose floors align with the exterior hatch and window band.</p>
+      <p>It sits on <strong>its own launch-and-recovery site</strong> (ops-spaceport-01): a Ø40&nbsp;m
+        microwave-sintered pad, a 60&nbsp;m-diameter, 4&nbsp;m blast berm, a 45&nbsp;m service tower
+        whose two swing arms index to the ship's quick-disconnect panel (5&nbsp;m) and crew hatch
+        (36.8&nbsp;m), cryo tanks, a half-buried control bunker, and a fire garage. The site sits
+        ~900&nbsp;m from the city — a distance the plume analysis below justifies to the metre.</p>
+      <p><strong>The booster</strong> (veh-rocket-02) is a 67&nbsp;m single-core launcher on the
+        eastern pad (ops-spaceport-02), recovered without legs: it flies back and is caught in a
+        cable net strung between four lattice towers, hanging by its grid fins. Both vehicles run
+        automated daily demos — the booster launches at 14:00 local solar time, the ship hops at 15:30.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/rockets/launch-loop.gif" alt="The ship lifting off its sintered pad behind the blast berm, three engines lit" loading="lazy">
+        <figcaption>SHIP HOP OVER ITS PAD — 3 SL ENGINES, 45 M APEX, TOUCHDOWN &lt;2 M/S</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/rockets/city-rocket02.jpg" alt="The 67 m booster standing on the eastern launch complex with the city behind" loading="lazy">
+        <figcaption>THE 67 M BOOSTER ON PAD 02 — NET-CATCH TOWERS AT RIGHT</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>Flying the ship: entry, flip, burn</h2></div>
+    <p class="lead">The recovery chain was simulated end-to-end — six dynamics runs plus one
+      finite-element thermal study, each phase handing its final state to the next.</p>
+    <div class="prose">
+      <p><strong>Entry is Mars-steep.</strong> Arriving hyperbolic at 5.7&nbsp;km/s, every
+        Earth-intuition entry angle between −3.5° and −9° skips off the atmosphere — thin air plus
+        lift pushes the trajectory back out. The feasible corridor is just
+        <span class="hl">−13°…−12°</span>: shallower skips, steeper exceeds 5&nbsp;g₀. At −13° the
+        ship sees 4.9&nbsp;g₀ and 376&nbsp;kW/m² peak heating, then falls to a ~400&nbsp;m/s
+        terminal velocity. There is no parachute regime here.</p>
+      <p><strong>The flip costs altitude, not propellant.</strong> Rotating belly-flop to vertical
+        takes 3.6&nbsp;s with thrust-vector control saturated at ±15° — and the ship falls
+        1.4&nbsp;km while doing it. Minimum ignition altitude:
+        <span class="hl">4.0&nbsp;km</span>. The 1-DOF landing model had assumed 2.6&nbsp;km;
+        adding pitch dynamics killed that number.</p>
+      <p><strong>It cannot hover.</strong> One engine throttled to its 40% floor still gives
+        thrust-to-weight 1.13 on Mars. So the landing is one continuous deceleration to
+        touchdown at 1.9&nbsp;m/s — 38&nbsp;t of header-tank propellant, 24% margin. On the
+        ground, the loaded ship (CG at 26&nbsp;m on a 5.9&nbsp;m leg radius) tips over beyond an
+        11° slope; the pad is graded well under 7°. And the entry heat pulse, fed into a
+        tile-plus-steel stack in a finite-element solve, leaves the steel wall at just
+        <span class="hl">300&nbsp;K behind a 3&nbsp;cm tile</span> — Mars entry is thermally mild;
+        the tiles are really sized by Earth return.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/rockets/entry-corridor.png" alt="Entry corridor plot: altitude versus velocity for three entry angles, deceleration and heating profiles" loading="lazy">
+        <figcaption>ENTRY CORRIDOR — SKIP-OUT ABOVE −12°, 5 G₀ LIMIT BELOW −13°</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/rockets/flip.png" alt="Flip maneuver trajectory with body-axis ticks rotating from horizontal to vertical, TVC and velocity traces" loading="lazy">
+        <figcaption>FLIP AT 4.0 KM — 3.6 S ROTATION, 1.4 KM ALTITUDE LOST, TOUCHDOWN VX 0.7 M/S</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/rockets/ascent.png" alt="Ascent trajectory, velocity profile and dynamic pressure for the surface-to-orbit simulation" loading="lazy">
+      <figcaption>ASCENT INTEGRATION — Δv 4.02 KM/S, GRAVITY LOSS 274 M/S, MAX-Q ONLY 6 KPA</figcaption>
+    </figure>
+    <div class="prose">
+      <p><strong>And the ground fights back.</strong> A landing engine is also a sandblaster.
+        Below ~180&nbsp;m the ship descends inside its own dust storm; below ~23&nbsp;m bare
+        regolith would crater. At touchdown the pad sees <span class="hl">~1.4&nbsp;MPa</span> —
+        every erosion threshold exceeded — which is why the pad is microwave-sintered rock, not
+        graded soil. Ejected grains fly ballistically for hundreds of metres to kilometres in the
+        thin air; the 4&nbsp;m berm intercepts everything launched below 6.3°, and the site sits
+        ~900&nbsp;m from the city. The same analysis flagged the engine display stand parked
+        22&nbsp;m from the ship's old parking spot as fine for a static exhibit, unacceptable for
+        operations — so the whole complex moved out here.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/rockets/plume.png" alt="Plume ground pressure versus altitude with erosion thresholds, and ejecta ballistic range versus ejection angle" loading="lazy">
+      <figcaption>PLUME LOADING &amp; EJECTA RANGE — PAD 1.4 MPA, BERM INTERCEPT ≤6.3°, SANDBLAST TO KM SCALE</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>Flying the booster: boostback and the net</h2></div>
+    <p class="lead">The second line takes the opposite bet: no legs, no pad landing — fly home and
+      hang in a net.</p>
+    <div class="prose">
+      <p>The 298&nbsp;t booster spends 4.13&nbsp;km/s reaching staging, flips, and burns back with a
+        13% propellant reserve. Its grid fins do double duty: aerodynamic control on the way down,
+        then <strong>catch hooks</strong> at the very end — the vehicle is Ø5&nbsp;m against a
+        9×11&nbsp;m net mesh, so what actually arrests it is the hook-on-cable interface, not the
+        net fabric.</p>
+      <p>The flight itself is a chain of three burns. Staging is deliberately
+        <strong>low and lofted</strong> — 1000&nbsp;m/s at 38&nbsp;km, flight-path angle 26° —
+        because hang time is what makes flying home cheap: the first, flat staging attempt priced
+        boostback at 1.85&nbsp;km/s; the lofted one costs 1.0. Separation is
+        <strong>hot staging</strong> in the CZ tradition: momentum-consistent springs push
+        2&nbsp;m/s, the vacuum engine lights 0.5&nbsp;s after unlock and vents through the
+        interstage grilles. The boostback cutoff aims not at the pad but at a
+        <strong>+518&nbsp;m offset</strong> calibrated by flying the whole trajectory twice — the
+        ballistic predictor knows nothing about the minute of hover drift the landing burn adds.
+        A ZEM/ZEV terminal law then kills 204&nbsp;m/s of sideways drift in 24&nbsp;s.</p>
+      <p>The landing burn is never allowed to hover — at the 40% throttle floor the near-empty
+        booster out-thrusts its own weight — so guidance pins the deceleration profile to the
+        floor and <strong>shuts the engine down 0.5&nbsp;m above the cables</strong>: the last
+        half-metre is a free fall onto the hooks at 4.1&nbsp;m/s, and no plume ever touches the
+        net. A 500-run Monte Carlo — with navigation errors injected into what the guidance
+        <em>sees</em>, not just into the physics — puts touchdown dispersion at
+        <span class="hl">σ&nbsp;=&nbsp;0.55&nbsp;m</span> and catch success at 100%. Peak hook load
+        is 95&nbsp;kN with a 2.6× margin, using constant-force winches rather than elastic cables
+        (which would have tripled the dynamic load factor); the winch then pays out 0.8&nbsp;m of
+        cable until the nozzles rest on the deck scorch mark. Each launch costs 215&nbsp;t of
+        ISRU propellant and 1174&nbsp;MWh — at 200&nbsp;kWe that is 3.3 launches per synodic window.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/rockets/rocket02-pad.jpg" alt="The booster vertical on its orange launch table with the blue service tower" loading="lazy">
+        <figcaption>PAD 02 — LAUNCH TABLE, SERVICE TOWER, TRANSFER RAIL</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/rockets/hotstage.jpg" alt="Hot staging: the upper stage igniting half a second after unlock, 1.3 km up" loading="lazy">
+        <figcaption>T+25 S — HOT STAGING: UPPER LIGHTS 0.5 S AFTER UNLOCK, EXHAUST THROUGH THE GRILLES</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/rockets/sim-boostback.png" alt="Boostback trajectory, speed profile and throttle history for the return to the net" loading="lazy">
+      <figcaption>RTLS INTEGRATION — BOOSTBACK 26.5 T + LANDING 15.0 T OF A 48 T RESERVE; TOUCHDOWN ERROR 0.19 M</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/rockets/dispersion.png" alt="Monte Carlo touchdown dispersion scatter with capture boundary" loading="lazy">
+        <figcaption>N=500 MONTE CARLO — σ 0.55 M, 100% INSIDE THE CATCH BOUNDARY</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/rockets/rest.jpg" alt="The booster standing inside the net bay, hanging by its fins with nozzles on the deck" loading="lazy">
+        <figcaption>RECOVERED — HANGING BY ITS FINS, WINCHED DOWN, NOZZLES ON THE SCORCH MARK</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The ledger</h2></div>
+    <p class="lead">Every number above, and which run produced it. Ship runs are
+      <span class="src">…_01</span>, booster runs <span class="src">…_02</span>.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Surface→LMO Δv, integrated</td><td class="num">4.02 km/s</td><td class="src">scripts/sim_ascent_veh_rocket_01.py</td></tr>
+        <tr><td>Gravity / drag loss on ascent</td><td class="num">274 / 34 m/s</td><td class="src">scripts/sim_ascent_veh_rocket_01.py</td></tr>
+        <tr><td>Ascent max-Q</td><td class="num">6.1 kPa</td><td class="src">scripts/sim_ascent_veh_rocket_01.py</td></tr>
+        <tr><td>Entry corridor (no skip, ≤5 g₀)</td><td class="num">−13°…−12°</td><td class="src">scripts/sim_entry_veh_rocket_01.py</td></tr>
+        <tr><td>Peak entry heating / load factor</td><td class="num">376 kW/m² / 4.9 g₀</td><td class="src">scripts/sim_entry_veh_rocket_01.py</td></tr>
+        <tr><td>Flip rotation / altitude lost</td><td class="num">3.6 s / 1.4 km</td><td class="src">scripts/sim_flip_veh_rocket_01.py</td></tr>
+        <tr><td>Minimum flip-ignition altitude</td><td class="num">4.0 km</td><td class="src">scripts/sim_flip_veh_rocket_01.py</td></tr>
+        <tr><td>Landing-burn propellant / touchdown</td><td class="num">37.8 t / 1.9 m/s</td><td class="src">scripts/sim_flip_veh_rocket_01.py + sim_descent_veh_rocket_01.py</td></tr>
+        <tr><td>Hover feasibility, 1 engine @ 40%</td><td class="num">T/W 1.13 → none</td><td class="src">scripts/sim_descent_veh_rocket_01.py</td></tr>
+        <tr><td>Tip-over slope limit, loaded</td><td class="num">11.0°</td><td class="src">scripts/sim_tipover_veh_rocket_01.py</td></tr>
+        <tr><td>Pad load, touchdown / launch</td><td class="num">1.4 / 1.7 MPa</td><td class="src">scripts/sim_plume_veh_rocket_01.py</td></tr>
+        <tr><td>Berm ejecta intercept angle</td><td class="num">≤6.3°</td><td class="src">scripts/sim_plume_veh_rocket_01.py</td></tr>
+        <tr><td>Steel wall peak behind 3 cm tile</td><td class="num">300 K</td><td class="src">comsol/tps_tile.java (+ FD cross-check &lt;1%)</td></tr>
+        <tr><td>Return payload, full tanks → TEI</td><td class="num">133 t</td><td class="src">scripts/sim_mission_veh_rocket_01.py</td></tr>
+        <tr><td>Booster GLOW / ascent Δv</td><td class="num">298 t / 4.13 km/s</td><td class="src">scripts/sim_ascent_veh_rocket_02.py</td></tr>
+        <tr><td>Boostback propellant reserve</td><td class="num">13%</td><td class="src">scripts/sim_boostback_veh_rocket_02.py</td></tr>
+        <tr><td>Touchdown error at the net</td><td class="num">0.19 m</td><td class="src">scripts/sim_boostback_veh_rocket_02.py</td></tr>
+        <tr><td>Hook-on-cable speed (engine cut 0.5 m up)</td><td class="num">4.1 m/s</td><td class="src">scripts/sim_boostback_veh_rocket_02.py</td></tr>
+        <tr><td>Touchdown dispersion (nav errors in loop)</td><td class="num">σ 0.55 m</td><td class="src">scripts/sim_dispersion_veh_rocket_02.py</td></tr>
+        <tr><td>Net-catch success</td><td class="num">100% (N=500)</td><td class="src">scripts/sim_dispersion_veh_rocket_02.py</td></tr>
+        <tr><td>Peak hook load at catch</td><td class="num">95 kN (2.6×)</td><td class="src">scripts/sim_catch_veh_rocket_02.py</td></tr>
+        <tr><td>Grid-fin authority in landing profile</td><td class="num">&lt;20%</td><td class="src">scripts/sim_gridfin_veh_rocket_02.py</td></tr>
+        <tr><td>ISRU cost per booster launch</td><td class="num">215 t / 1174 MWh</td><td class="src">scripts/sim_isru_veh_rocket_02.py</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>What broke</h2></div>
+    <p class="lead">The honest section. Each of these cost a rework round.</p>
+    <div class="prose">
+      <p><strong>The 4.59 km/s that wasn't.</strong> The first ascent run cut the engine the moment
+        apoapsis touched 200 km — mid-loft, at 1073 m/s, leaving a 3.2 km/s circularization bill and
+        a periapsis 3388 km <em>inside the planet</em>. Printing the periapsis exposed it; switching
+        to an active pitch program and minimizing total Δv gave the real 4.02.</p>
+      <p><strong>Every entry angle skipped.</strong> The first corridor sweep used Earth-intuition
+        angles (−3.5°…−9°). All of them bounced off. That wasn't a bug — Mars entry corridors are
+        genuinely steep — but it took a diagnostic sweep to trust it.</p>
+      <p><strong>The flip deleted a baseline.</strong> The 1-DOF landing model happily ignited at
+        2.6 km. Adding pitch dynamics showed the flip itself eats 1.4 km, moving minimum ignition to
+        4.0 km. Every downstream card quoting 2.6 km had to be swept and corrected — twice we found
+        stale numbers surviving in documentation after the sim that produced them was superseded.</p>
+      <p><strong>The cross-check that overflowed.</strong> The independent finite-difference model
+        (written to verify the FEM thermal solve) blew up to 10<sup>119</sup> K on its first run —
+        explicit-scheme timestep instability at the tile/steel interface. With dt inside the
+        stability bound of the stiffest layer, the two solvers agreed to &lt;1%.</p>
+      <p><strong>The landing loop that lagged into the net.</strong> The booster's first landing
+        controller tracked a √-shaped velocity profile with pure proportional feedback — which
+        carries a built-in steady-state lag of a_ref/K. It arrived at the net still doing
+        17&nbsp;m/s. The fix was not more gain but a better profile: an energy-consistent curve
+        with a constant feed-forward term. Same gains, 3&nbsp;m/s.</p>
+      <p><strong>The booster that ran away — upward.</strong> A nearly-empty stage at the 40%
+        throttle floor out-thrusts its own weight. When the profile asked for less braking than
+        the floor could give, the clamp over-decelerated, the booster stopped mid-air, then
+        climbed while burning its landing reserve dry. Fix: pin the profile's deceleration to the
+        throttle floor at final mass, add a shutdown-and-relight guard, and cut the engine half a
+        metre above the cables.</p>
+      <p><strong>Aimed perfectly, missed by 6.4 km.</strong> Boostback cutoff used a ballistic
+        impact predictor — which knows nothing about re-entry drag or the extra minute of drift
+        the landing burn adds. "Exactly at the pad" landed 6.4&nbsp;km past it, still moving
+        196&nbsp;m/s sideways, because a saturated PD can serve position or velocity but not both.
+        Fix: calibrate a +518&nbsp;m aim offset by flying the nominal trajectory twice, and
+        replace PD with a ZEM/ZEV law that zeroes both by the time-to-go.</p>
+      <p><strong>Cold staging lit an engine in the booster's face.</strong> The first cut coasted
+        three seconds after spring separation before igniting the upper stage — six metres of gap
+        against a nine-metre plume, and the spring impulse didn't even conserve momentum. A
+        reviewer caught it frame-by-frame in the delivery GIF. Fix: hot staging (ignition 0.5&nbsp;s
+        after unlock, venting through the interstage grilles) and a momentum-consistent spring split.</p>
+      <p><strong>Small traps, real hours:</strong> the FEM tool's 1-D geometry API rejects a
+        points list (two intervals with shared endpoints work); the viewer's bounding-box computes
+        <em>hidden</em> meshes, so idle plume cones must be scaled to 0.001 rather than hidden — or
+        the engine lifts the whole rocket ten metres; and a review pass caught two knowledge cards
+        flatly contradicting each other on whether the ship can hover (it cannot).</p>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>Try it</h2></div>
+    <p class="lead">Run the city locally and the rockets fly for you.</p>
+    <div class="prose">
+      <p>Serve the repo root and open <span class="src">/viewer/</span>. Deep-link straight to the
+        district with <span class="src">?inspect=ops-spaceport-01</span> or
+        <span class="src">?inspect=veh-rocket-02</span>; press <span class="src">V</span> to orbit
+        an asset and you'll get its action buttons — <em>发射回收</em> flies the ship's full
+        launch-and-landing cycle, <em>发射</em> sends the booster into its net-catch sequence.
+        Or just wait: the booster flies daily at 14:00 local solar time, the ship at 15:30. Walk
+        within 30 m of the pad, berm, tower, tanks or bunker and their knowledge cards pop up with
+        the same numbers as this page.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">EQUIPMENT.md §9</span> ·
+      Flight sims: <span class="src">scripts/sim_*_veh_rocket_01.py</span>, <span class="src">scripts/sim_*_veh_rocket_02.py</span> ·
+      TPS thermal: <span class="src">comsol/tps_tile.java</span> ·
+      City assets: <span class="src">viewer/units/veh-rocket-01.js</span>, <span class="src">ops-spaceport-01.js</span>, <span class="src">veh-rocket-02.js</span>, <span class="src">ops-spaceport-02.js</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

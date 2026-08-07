@@ -23,6 +23,12 @@ models/_inbox/<资产ID>/     ← Rodin 导出的所有东西直接扔这里
 自己的预览服务器请用其他端口（如 8124+）——8123 被占会让启动脚本的服务器
 静默绑不上，主页面 404（2026-07-18 实发过一次）。
 
+**目录约定**：session 的开发预览页（dev-preview-*.html）、交接文档
+（HANDOFF_*.md）**与预览启动器（preview-*.bat）**一律放 `dev/`，别落在仓库
+根目录（根目录只留契约文档、`start-mars-vr.bat` 主启动脚本与许可证文件）；
+页面里引用资产写 `../viewer/units/...`，.bat 里用 `cd /d "%~dp0.."` 回仓库根
+起服务（先例见 dev/preview-spaceport.bat）。
+
 ## 1. 资产 ID 与目录
 
 每个设备一个文件夹：`models/<资产ID>/`，资产 ID 格式：
@@ -80,6 +86,11 @@ Rodin 没有 GLB 导出时：把 obj/stl + 贴图丢进 `src/`，转换管线
 - `mate`：刻意共位声明——本资产与 `mate` 指向的资产足迹允许重叠
   （如 veh-rocket-02 立在 ops-spaceport-02 发射台上），布局审计
   `scripts/audit_layout.mjs` 对该对免检，其余任何重叠仍然报错
+- **道路/管廊净空**：审计检查全部城市线性走廊——12 条道路（枢纽放射四条
+  + 纪念公路 + 密度化七支线）与 5 段架空管廊（甲烷加注线/传热三段/水线），
+  足迹压线 = ROAD CLASH 报错（TT-1 展区压路事故后新增）；线路终点合法服务
+  某设施的豁免对写在脚本 ROAD_EXEMPT 里；**改线网时 main.js（SPURS/pipeRack
+  调用）与审计脚本 roads 表两处同步改**
 - `effects`：引擎侧动态效果钩子。已支持/规划：`beam:*`（LiDAR 光束）、`flare`（火炬火焰）、`glow_windows`（夜窗）、`blink`（信标闪烁）、`spin:<轴>`（天线/雷达旋转）
 
 ## 4. 代码资产（Claude 直建的科学建筑）

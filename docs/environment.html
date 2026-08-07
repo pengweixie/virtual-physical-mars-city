@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Environment Watch — Virtual-Physical Mars City</title>
+<meta name="description" content="The alert cluster: a weather mast that grounds the helicopter, a Timepix4 particle camera that reads storms by track shape, and SiC sentinels that prove the rock works by staying silent.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--green);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  h3.sub{font-weight:700;font-size:1.12rem;margin:46px 0 0;color:var(--ink);}
+  h3.sub .n{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);
+    letter-spacing:.14em;display:block;margin-bottom:5px;}
+  .prose h3.sub:first-child{margin-top:0;}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px;}
+  @media(max-width:820px){.tiers{grid-template-columns:1fr;}}
+  .tier{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);
+    display:flex;flex-direction:column;}
+  .tier img{width:100%;height:auto;}
+  .tier__body{padding:16px 18px 20px;}
+  .tier__k{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--accent);}
+  .tier__v{font-weight:700;font-size:1.25rem;margin:6px 0 8px;font-variant-numeric:tabular-nums;}
+  .tier__d{font-size:.9rem;color:var(--ink-dim);margin:0;}
+  .callout{margin-top:30px;border-left:3px solid var(--accent);background:var(--bg-3);
+    border-radius:0 12px 12px 0;padding:18px 22px;max-width:var(--textw);}
+  .callout p{margin:0;color:var(--ink-dim);font-size:.96rem;}
+  .callout b{color:var(--ink);}
+  .broke{max-width:var(--textw);margin-top:26px;counter-reset:brk;}
+  .broke__item{border-top:1px solid var(--line);padding:22px 0 4px;}
+  .broke__item h3{font-size:1.05rem;font-weight:700;margin-bottom:6px;}
+  .broke__item h3::before{counter-increment:brk;content:counter(brk) " — ";
+    font-family:var(--f-mono);color:var(--accent);font-size:.85rem;}
+  .broke__item p{margin:0 0 4px;color:var(--ink-dim);font-size:.95rem;}
+  .broke__tag{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-dim);}
+  tbody tr.grp td{background:var(--bg-3);font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);font-weight:500;}
+  .keys{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px;}
+  @media(max-width:720px){.keys{grid-template-columns:1fr;}}
+  .key{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--bg-3);}
+  .key__k{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;}
+  .key__d{font-size:.92rem;color:var(--ink-dim);margin:6px 0 0;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="gravity.html">← Prev</a>
+    <a href="flight.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">sci-weather-01 · sci-weather-net-01 · sci-rad-01 · sci-rad-02/03/04</div>
+    <h1>Environment Watch</h1>
+    <p class="phead__sub">Two stations stand 26 m apart on the north-east highland, wired to the
+      same alarm bus: a 10 m lattice mast that measures the air, and a Timepix4 particle camera
+      that measures what comes through it. A net of silicon-carbide sentinels covers the rest of
+      the depth axis — a trio on the fusion perimeter, one thirty metres down, one at three
+      kilometres. When a storm arrives they all report, and the most informative report comes from
+      the deepest one, which stays silent.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Dust trip line</div><div class="spec__v">τ &gt; 3<small>LED + no-fly</small></div></div>
+    <div class="spec"><div class="spec__k">Surface dose</div><div class="spec__v">234<small>mSv/yr</small></div></div>
+    <div class="spec"><div class="spec__k">Fusion fence</div><div class="spec__v">0.21<small>counts/s</small></div></div>
+    <div class="spec"><div class="spec__k">Deep lab</div><div class="spec__v">26<small>days per count</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>The alert cluster</h2></div>
+    <p class="lead">Not a science site — an operations tripwire. Everything here exists because
+      something else in the city has to stop when a number crosses a line.</p>
+    <div class="prose">
+      <p>The weather mast at (300, −300) carries three-level hot-film anemometry, a barometer
+      enclosure, an air-temperature shield stack and a sun-tracking photometer. The photometer is
+      the point: it measures <strong>dust optical depth τ</strong>, and τ is what the rest of the
+      city subscribes to. Past <span class="hl">τ = 3</span> the direct solar beam is down to 2.7%
+      and the greenhouse dome switches its light budget to LEDs; the same threshold grounds the
+      scout helicopter and freezes outdoor lifting. Three remote poles scattered 1.5–2.2 km out
+      turn a single reading into a vector — where the front is coming from, and how many minutes
+      are left.</p>
+      <p>The radiation station 26 m away answers a different question with the same urgency. Its
+      Timepix4 camera records every particle as a track, and <strong>classifies by track shape</strong>
+      rather than by energy: electrons curl, protons run straight, heavy ions burn short and bright.
+      A solar particle event announces itself as a change in the picture, not in a single scalar.
+      Both stations drive the same red lamp.</p>
+      <p>The city also runs a spectral tier — thermal-IR, UV and terahertz sounding stations that
+      profile temperature, ozone and water vapour rather than raising alarms. Those live on
+      <a href="spectrum.html" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--line-strong);">The Spectrum Net</a>.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/environment/hero-cluster.jpg" alt="The weather mast and the radiation station standing together on the north-east highland" loading="lazy">
+      <figcaption>THE CLUSTER — WEATHER MAST (RIGHT, 10 M) AND TIMEPIX4 TRACK SCREEN (LEFT), 26 M APART, ONE ALARM BUS</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/environment/poster-weather.png" alt="Weather mast summary poster with renders and design-round plots" loading="lazy">
+        <figcaption>THE MAST — 14 LEDGERS ON ONE TOWER</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/environment/poster-radnet.png" alt="Radiation net summary poster with the three tiers and their ledgers" loading="lazy">
+        <figcaption>THE NET — THREE TIERS, ONE STORM</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>One storm, three depths</h2></div>
+    <p class="lead">The same event, read by instruments separated by kilometres of rock. The
+      differences between their readings are the city's shielding calculation, measured live.</p>
+    <div class="prose">
+      <p>When a solar particle event reaches Mars, the surface camera's screen changes character
+      within a minute: the sparse mix of curls and bars becomes a downpour of orange proton tracks,
+      and the alarm tower steps from green to red. The trigger is deliberately dumb — a one-minute
+      sliding count, <strong>green below 3× quiet, red above 30×</strong>. Quiet-rate Poisson noise
+      is about 1.6% per minute, so even the low threshold sits more than 20σ out; false alarms are
+      not the failure mode worth engineering against.</p>
+      <p>Thirty metres down, in the undercity foyer, the same event is nearly invisible. Rock
+      annihilates the hadronic component — 30 m is 7800 g/cm², about <strong>52 hadronic
+      e-foldings</strong> — and what still trickles through is almost pure muon flux, ×0.03 of the
+      surface value. On an 8 cm² sentinel that is one count every 83 seconds, storm or no storm.</p>
+      <p>At 3 km, the deep-lab sentinel does not respond at all. Muons are down by another factor
+      of 3×10⁻⁵ and the neutron background has fallen to the bare rock's own U/Th (α,n) floor.
+      Combined, that is roughly <strong>one count every 26 days</strong>. The instrument's job there
+      is to be boring: the dark-matter experiment above it stakes a 70 t·yr exposure on the premise
+      that this column is quiet, and this is the column that checks the premise.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/environment/screen-quiet.jpg" alt="Track screen during a quiet sol, showing sparse electron curls and proton bars" loading="lazy">
+        <figcaption>QUIET SOL — 62 HIT/S, GREEN LAMP: SPARSE CURLS, A FEW BARS, TWO HEAVY-ION BLOBS</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/environment/screen-storm.jpg" alt="Track screen during a simulated SEP event, dense with orange proton tracks, red lamp lit" loading="lazy">
+        <figcaption>SEP DRILL — PROTON RAIN, RED LAMP: THE ALARM IS A CHANGE IN THE PICTURE</figcaption>
+      </figure>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <img src="assets/environment/tier-perimeter.jpg" alt="SiC neutron sentinel standing on the fusion plant perimeter" loading="lazy">
+        <div class="tier__body">
+          <div class="tier__k">Surface · fusion fence</div>
+          <div class="tier__v">0.21 <span style="font-size:.8rem;font-weight:500;">counts/s</span></div>
+          <p class="tier__d">A blip about every 5 s — roughly 130× the ambient GCR neutron floor.
+            This one is not listening for space weather at all; it watches 14 MeV leakage through
+            the tokamak's breeding blanket.</p>
+        </div>
+      </div>
+      <div class="tier">
+        <img src="assets/environment/tier-foyer.jpg" alt="SiC sentinel beside the undercity foyer elevator doors" loading="lazy">
+        <div class="tier__body">
+          <div class="tier__k">−30 m · undercity foyer</div>
+          <div class="tier__v">83 <span style="font-size:.8rem;font-weight:500;">s per count</span></div>
+          <p class="tier__d">Hadrons are gone after 52 e-foldings of rock. What still ticks is the
+            muon residual — the shallow tier's occasional blip is almost pure µ.</p>
+        </div>
+      </div>
+      <div class="tier">
+        <img src="assets/environment/tier-deep.jpg" alt="SiC sentinel standing alone in the dark deep-laboratory cavern" loading="lazy">
+        <div class="tier__body">
+          <div class="tier__k">−3000 m · deep lab</div>
+          <div class="tier__v">26 <span style="font-size:.8rem;font-weight:500;">days per count</span></div>
+          <p class="tier__d">Muons ×10⁻⁶, neutrons at the radiogenic limit. Proof by silence: if this
+            column ever starts ticking rhythmically, the cavern background has gone wrong.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      <p><b>Why tiers instead of one good detector.</b> Each sentinel measures the transmission of
+      the matter column directly above it, so the <em>ratios</em> between tiers are the measured
+      attenuation of each rock section. The city ends up with its own depth-intensity calibration
+      rather than a handbook value — and the same four-decade span is why no single detector could
+      have done it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>How they work</h2></div>
+    <p class="lead">Five instruments worth the detail — three on the mast, two underground —
+      because in each case the obvious terrestrial answer fails outright at 610 Pa, or next to a
+      fusion plant, or under three kilometres of rock.</p>
+    <div class="prose">
+      <h3 class="sub"><span class="n">Wind</span>Why the big cups are decoration</h3>
+      <p>Martian dynamic pressure is <strong>83× below Earth's</strong>: a 30 m/s gale carries
+      6.6 Pa, the same push as a 3.3 m/s breeze at home. An Earth-standard cup set (7 cm cups,
+      15 cm arms) would not start turning until 3.44 m/s, missing most of the wind spectrum. The
+      oversized display cups on the masthead start at 0.79 m/s — honest, just slow. The real
+      measurement is made by hot films, as on Perseverance's MEDA.</p>
+      <p>A film left to itself is useless here: its open-loop thermal time constant is
+      <strong>17–48 s</strong>, so constant-power heating cannot follow even a 0.01 Hz fluctuation.
+      The instrument is the servo. A constant-overheat bridge pins the film's resistance — hence
+      its temperature — and whatever heat the wind steals, the bridge instantly resupplies; the
+      resupply power <em>is</em> the measurement. That collapses the effective time constant by a
+      factor of ~925 to <span class="hl">29.5 ms</span> (f₃dB 5.4 Hz), which finally covers the
+      0.1–3 Hz gust band. Three films at 120° resolve direction to 1.4–1.8° — two would leave a
+      mirror ambiguity, three is the minimal unique solver.</p>
+      <h3 class="sub"><span class="n">Pressure</span>A buffer volume with a cutoff frequency</h3>
+      <p>The barometer is a vacuum-referenced silicon capsule, and its geometry is set by one
+      collision: the first 18 µm diaphragm deflected 6.2 µm at full scale and would have bottomed
+      out on a 2 µm capacitive gap. Deflection scales as 1/t³, so the shipping part is 40 µm and
+      moves 0.56 µm — 0.1 Pa maps to 10.4 ppm of capacitance, comfortably inside a commodity
+      converter. The intake is not a hole but a filter: pipe resistance times buffer-volume
+      compliance forms a first-order low-pass at <span class="hl">1.39 Hz</span>, deliberately
+      placed so thermal tides and dust-devil transients pass while wind-turbulence noise does not.</p>
+      <h3 class="sub"><span class="n">Optical depth</span>Calibration you have to earn</h3>
+      <p>τ comes from Beer–Lambert extinction of the direct solar beam at 880 nm, which requires
+      knowing the unattenuated intensity I₀ — and there is no standard lamp on Mars. The Langley
+      method substitutes the atmosphere itself: regress ln I against airmass over a morning and the
+      intercept is ln I₀. A Monte Carlo of that procedure returned a warning rather than a number.
+      On a hazy morning, τ drifting during the sweep inflates σ(I₀) to <strong>5.9%</strong> — a
+      single-morning calibration is simply unusable. Screening for stable mornings brings it to
+      1.5%, and averaging four mornings reaches 0.73%. The 1% calibration term assumed elsewhere on
+      this page is that procedure's output, not an assumption.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/environment/acct-cta.png" alt="Plot of open-loop versus closed-loop hot-film time constant, bandwidth and parasitic conduction share" loading="lazy">
+        <figcaption>CTA SERVO — 17–48 S OPEN LOOP COMPRESSED ×925 TO 29.5 MS; STRUT CONDUCTION IS 33–65% OF LOSS</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/environment/acct-tau.png" alt="Beer-Lambert transmission against optical depth with the LED takeover trigger marked" loading="lazy">
+        <figcaption>OPTICAL DEPTH — 5.1 DECADES OF SIGNAL FROM CLEAR SKY TO GLOBAL STORM; τ=3 IS THE TRIP LINE</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/environment/weather-baro.jpg" alt="Cutaway of the barometer enclosure showing thermostat block, capsules and readout board" loading="lazy">
+        <figcaption>BAROMETER CUTAWAY — THERMOSTAT BLOCK, TWIN CAPSULES, INTAKE BUFFER, READOUT BOARD</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/environment/weather-web.jpg" alt="Equipment cabin with the access hatch open, showing the inner warm-electronics box" loading="lazy">
+        <figcaption>BOX IN A BOX — INSULATING THE WHOLE CABIN COSTS 128 W A NIGHT; THE INNER WEB COSTS 27.3 W</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
+      <h3 class="sub"><span class="n">Surface</span>Classification by shape, not by threshold</h3>
+      <p>The surface field is a mixture — primary galactic cosmic rays, albedo neutrons scattered
+      back out of the regolith, and secondary showers — so the station is built for
+      <strong>classified counting and dose equivalent</strong>, not spectroscopy (momentum
+      measurement belongs to the orbital magnetic spectrometer on the relay satellite). Timepix4
+      records per-pixel time-of-arrival and time-over-threshold, which makes species visible as
+      morphology: an electron curls, a minimum-ionising proton lays down a straight bar, a heavy ion
+      burns a short bright blob. The LET ladder spans three decades — 0.24 keV/µm for a 0.5 MeV
+      electron up to <strong>286 keV/µm</strong> for a GeV/u iron nucleus, the z²=676 scaling doing
+      the work. A MIP deposits 22.8 ke in 300 µm of silicon, <strong>46× the 500 e threshold</strong>
+      (11× in the worst four-pixel corner split), so classification is limited by shape, never by
+      sensitivity.</p>
+      <p>Neutrons have no charge and leave no track, so the tower carries converters: a bare
+      reference layer, 1 mm of HDPE for fast neutrons by n–p recoil, and 2 µm of ⁶LiF for thermal
+      capture. The efficiencies are small and honest — 0.02→0.39% across 1→14 MeV, 1.14% thermal —
+      which against the Martian albedo band of 0.05 n·cm⁻²·s⁻¹ works out to <strong>2.2 fast counts
+      per hour</strong> and 86 thermal. Neutron spectra here are an hour-scale product, and the
+      knowledge card says so.</p>
+      <h3 class="sub"><span class="n">Underground</span>A detector quieter than the rock</h3>
+      <p>The sentinels use 4H-SiC PiN diodes — the same epitaxial stack as an avalanche device with
+      the gain implant left out. They can afford to: ⁶Li(n,α)t releases 4.78 MeV, and a 2.05 MeV
+      alpha makes about 260,000 electron–hole pairs in SiC, two orders of magnitude above a MIP.
+      Gain would only add noise. What the wide bandgap buys instead is silence. Generation current
+      scales as n_i ∝ exp(−E_g/2kT), and 3.26 eV puts SiC roughly <strong>18 decades</strong> below
+      silicon: a silicon device on this fence would need cooling and light-tighting by 350 K, while
+      SiC stays under 10⁻²⁰ A at 450 K and is blind to visible light for free.</p>
+      <p>The converter thickness is a genuine optimum rather than a maximum. Thicker ⁶LiF converts
+      more neutrons but re-absorbs its own reaction products (alpha range 5.9 µm, triton 33 µm), so
+      efficiency peaks at <span class="hl">4.72% at 29.9 µm</span> and falls back to 4.0% by 60 µm.
+      The design sits at 30 µm, on the flat.</p>
+      <p>The fence rate is not a guess either: it inherits the tokamak's own neutronics. A 3.01×10²⁰
+      n/s source at 14.06 MeV, attenuated by the breeding blanket and shield to 1.9×10¹⁴ n/m²/s at
+      the exit, then by 2 m of borated concrete (eight decades) and 1/r² over 55 m, arrives as
+      5.8 n·cm⁻²·s⁻¹ — the 0.21 counts/s the perimeter display actually shows.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/environment/acct-tracks.png" alt="Bethe LET curves and the cluster-morphology glyph specification" loading="lazy">
+        <figcaption>MORPHOLOGY SPEC — LET LADDER 0.24 → 286 KEV/µM; THE SCREEN GLYPHS ARE THIS TABLE</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/environment/acct-dose-depth.png" alt="Dose equivalent against regolith burial depth" loading="lazy">
+        <figcaption>DOSE VS DEPTH — 234 MSV/YR AT THE SURFACE, EARTH-SEA-LEVEL MUON FLOOR UNDER 10 M</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/environment/acct-neutron.png" alt="Converter efficiency against the Martian albedo-neutron window" loading="lazy">
+        <figcaption>CONVERTER WINDOW — 1 MM HDPE FAST CHANNEL, 2 µM ⁶LIF THERMAL CHANNEL (1.14%)</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/environment/acct-sep.png" alt="SEP dynamic range against the Timepix4 readout ceiling" loading="lazy">
+        <figcaption>DYNAMIC RANGE — A 1972-CLASS EVENT IS 1.7×10⁻⁴ OF THE READOUT CEILING; THE LIMIT IS TELEMETRY</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The ledger</h2></div>
+    <p class="lead">Every number on this page, and the run that produced it. Two design ledgers,
+      one table; scripts are deterministic and re-runnable.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="3">Weather mast — mars-weather, 14 accounts</td></tr>
+        <tr><td>Dust trip line for LEDs and no-fly</td><td class="num">τ = 3 (2.7% direct)</td><td class="src">mars-weather/sim_tau_retrieval.py</td></tr>
+        <tr><td>Optical-depth retrieval span / uncertainty</td><td class="num">5.1 decades · σ 0.011</td><td class="src">mars-weather/sim_tau_retrieval.py</td></tr>
+        <tr><td>Hot-film open-loop → CTA time constant</td><td class="num">17–48 s → 29.5 ms</td><td class="src">mars-weather/sim_cta_response.py</td></tr>
+        <tr><td>CTA bandwidth at 5 m/s</td><td class="num">5.4 Hz</td><td class="src">mars-weather/sim_cta_response.py</td></tr>
+        <tr><td>Film Nusselt number / velocity resolution</td><td class="num">Nu 1.58 @ Re 6.7 · 0.13 m/s</td><td class="src">mars-weather/sim_hotfilm.py</td></tr>
+        <tr><td>Cup start-up: Earth-standard vs oversized</td><td class="num">3.44 → 0.79 m/s</td><td class="src">mars-weather/sim_cup_start.py</td></tr>
+        <tr><td>Wind-direction retrieval (MC, N=4000)</td><td class="num">σ 1.4–1.8°</td><td class="src">mars-weather/sim_wind_direction.py</td></tr>
+        <tr><td>Diaphragm thickness / deflection / sensitivity</td><td class="num">40 µm · 0.56 µm · 10.4 ppm</td><td class="src">mars-weather/sim_baro_membrane.py</td></tr>
+        <tr><td>Intake pneumatic cutoff</td><td class="num">1.39 Hz</td><td class="src">mars-weather/sim_inlet_filter.py</td></tr>
+        <tr><td>Warm-electronics-box night loss / heater / DoD</td><td class="num">27.3 W · 15.3 W · 22%</td><td class="src">mars-weather/sim_cabin_thermal.py</td></tr>
+        <tr><td>Sun-tracking residual vs 2° field of view</td><td class="num">0.014° (70× margin)</td><td class="src">mars-weather/sim_sun_tracking.py</td></tr>
+        <tr><td>Langley σ(I₀): hazy → stable → 4-morning</td><td class="num">5.9% → 1.5% → 0.73%</td><td class="src">mars-weather/sim_sun_tracking.py</td></tr>
+        <tr><td>Night τ from stellar extinction (mV ≤ 3)</td><td class="num">σ 0.003–0.01</td><td class="src">mars-weather/sim_skycam_imaging.py</td></tr>
+        <tr><td>Storm E-field ceiling (Paschen, CO₂ 610 Pa)</td><td class="num">28 kV/m</td><td class="src">mars-weather/sim_efield_probe.py</td></tr>
+        <tr><td>Dust grain counting SNR / storm current mode</td><td class="num">625 · 42 pA</td><td class="src">mars-weather/sim_dust_flux.py</td></tr>
+        <tr><td>Front vector from remote poles / warning lead</td><td class="num">σ_v 4–5%, σ_az 2.2–2.8° · 1–3.5 min</td><td class="src">mars-weather/sim_network_triangulation.py</td></tr>
+        <tr class="grp"><td colspan="3">Surface radiation station — mars_rad, 4 accounts</td></tr>
+        <tr><td>Surface GCR dose equivalent</td><td class="num">0.66 mSv/sol · 234 mSv/yr</td><td class="src">mars_rad/sim/01_dose_ledger.py</td></tr>
+        <tr><td>Dose e-folding depth (three-point closure)</td><td class="num">λ_H 44 g/cm²</td><td class="src">mars_rad/sim/01_dose_ledger.py</td></tr>
+        <tr><td>Residual dose under 10 m of regolith</td><td class="num">0.3 mSv/yr</td><td class="src">mars_rad/sim/01_dose_ledger.py</td></tr>
+        <tr><td>MIP deposit vs digitiser threshold</td><td class="num">22.8 ke = 46× (11× worst)</td><td class="src">mars_rad/sim/02_track_classification.py</td></tr>
+        <tr><td>LET ladder: electron → MIP p → 10 MeV p → Fe</td><td class="num">0.24 / 0.42 / 8.1 / 286 keV/µm</td><td class="src">mars_rad/sim/02_track_classification.py</td></tr>
+        <tr><td>Converter efficiency: HDPE fast / ⁶LiF thermal</td><td class="num">0.02–0.39% · 1.14%</td><td class="src">mars_rad/sim/03_neutron_response.py</td></tr>
+        <tr><td>Neutron channel rates vs albedo band</td><td class="num">2.2 / 86 counts·hr⁻¹</td><td class="src">mars_rad/sim/03_neutron_response.py</td></tr>
+        <tr><td>Worst-case SEP as fraction of readout ceiling</td><td class="num">1.7×10⁻⁴</td><td class="src">mars_rad/sim/04_sep_dynamic_range.py</td></tr>
+        <tr><td>Alarm thresholds on 1-min sliding count</td><td class="num">green &lt;3× · red &gt;30×</td><td class="src">mars_rad/sim/04_sep_dynamic_range.py</td></tr>
+        <tr><td>Frozen device point (bias / threshold / ENC)</td><td class="num">150 V · 500 e · 52.7 e</td><td class="src">timepix4_allpix campaign (frozen checkpoint)</td></tr>
+        <tr class="grp"><td colspan="3">SiC sentinel net — mars_rad_sic, 4 accounts</td></tr>
+        <tr><td>⁶LiF converter efficiency peak</td><td class="num">4.72% @ 29.9 µm</td><td class="src">mars_rad_sic/design_rounds.py</td></tr>
+        <tr><td>Fusion-perimeter flux → count rate</td><td class="num">5.8 n·cm⁻²·s⁻¹ → 0.21 cps</td><td class="src">mars_rad_sic/design_rounds.py (18 Geant4 transports, tokamak ledger)</td></tr>
+        <tr><td>Foyer tier: 30 m rock, muon residual</td><td class="num">52 e-foldings · 83 s/count</td><td class="src">mars_rad_sic/design_rounds.py</td></tr>
+        <tr><td>Deep tier: muons ×10⁻⁶, radiogenic floor</td><td class="num">~26 days/count</td><td class="src">mars_rad_sic/design_rounds.py</td></tr>
+        <tr><td>SiC vs Si generation current at 300 K</td><td class="num">9×10¹⁷ ratio · &lt;10⁻²⁰ A at 450 K</td><td class="src">mars_rad_sic/design_rounds.py (LGAD L2a TCAD anchor)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <p><b>Cross-checked, not coincidental.</b> Two numbers on this page are shared across
+      ledgers on purpose. The albedo-neutron band of 0.05 n·cm⁻²·s⁻¹ appears in both the surface
+      station's converter ledger and the SiC depth ledger — agreeing only because the first one was
+      corrected to match (see below). And the perimeter count rate inherits the fusion plant's own
+      Geant4 neutronics rather than assuming a leakage figure.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>What broke</h2></div>
+    <p class="lead">Six real ones, from both ledgers — three physics traps, three that were the
+      renderer lying to us.</p>
+    <div class="broke">
+      <div class="broke__item">
+        <div class="broke__tag">mars_rad · account 3 · re-anchored</div>
+        <h3>The neutron ledger was 100× too optimistic</h3>
+        <p>The draft used a broadband 5 n·cm⁻²·s⁻¹ albedo figure. Cross-checking against the sibling
+        SiC ledger forced a re-anchor to the RAD-derived fast band, 0.05 n·cm⁻²·s⁻¹. Fast-channel
+        counts fell from per-second to <strong>2.2 per hour</strong>. The knowledge card now says
+        spectra arrive on the hour scale instead of pretending otherwise — and the agreement between
+        the two ledgers quoted above exists because of this correction, not despite it.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">mars-weather · account 5 · one redesign round</div>
+        <h3>The diaphragm bottomed out on its own capacitor</h3>
+        <p>The first barometer capsule used an 18 µm silicon membrane, which deflects 6.2 µm at
+        900 Pa full scale — straight through the 2 µm capacitive gap. Since deflection goes as
+        1/t³, thickening to 40 µm brings it to 0.56 µm with sensitivity to spare: 0.1 Pa still maps
+        to 10.4 ppm of capacitance.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">mars-weather · account 6 · architecture pivot</div>
+        <h3>Insulating the whole cabin was a dead end</h3>
+        <p>Wrapping the full 6.8 m² equipment cabin in 4 cm of aerogel still leaks <strong>128 W</strong>
+        on a −80 °C winter night — unaffordable on a solar-charged battery. The answer was to stop
+        heating the cabin and heat a box inside it: a 2.88 m² warm-electronics box with 6 cm of
+        aerogel leaks 27.3 W, needs a 15.3 W heater, and lands at 22% depth-of-discharge by dawn.
+        The cutaway geometry in the city shows that pivot rather than the first design.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">mars-weather · account 10 · two Monte Carlo rounds</div>
+        <h3>A single morning's calibration is worthless</h3>
+        <p>The Langley Monte Carlo was supposed to confirm the 1% calibration term. It returned
+        5.9% instead — because τ itself drifts during the morning sweep, and that drift, not
+        radiometric noise, dominates. Re-running in two drift regimes produced the procedure that
+        actually ships: screen for stable mornings (1.5%), then average four of them (0.73%).</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">mars_rad · in-engine · material fix</div>
+        <h3>The status lamp lied when it was off</h3>
+        <p>The green alarm segment's Lambert diffuse made it read as <em>lit</em> in daylight even at
+        zero emissive — an indicator that cannot indicate. The same failure washed the track-screen
+        glyphs white under the night floodlight. Fix: near-black diffuse on every display element,
+        with all colour carried by emissive alone, so an unlit lamp is unambiguously unlit.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">both ledgers · tooling · replaced</div>
+        <h3>463 perfectly white frames</h3>
+        <p>The headless GIF capture returned an entire recording of blank frames — the same failure
+        the sibling session had already logged, so it cost two sessions before the tool was
+        abandoned. Replaced with a deterministic visible-page capture stepped through the pure-t
+        supercycle and assembled with ffmpeg: identical output on every run. The weather station hit
+        a cousin of this one, where captures taken in a hidden tab silently froze every animation
+        because the browser suspends the frame loop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>Try it in the city</h2></div>
+    <p class="lead">Both stations animate in the city viewer, and both loops are deterministic —
+      the same t always gives the same frame.</p>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/environment/loop-weather.gif" alt="The weather mast with spinning cups, dithering vane and tracking photometer" loading="lazy">
+        <figcaption>THE MAST — CUPS AT 16 RPM, VANE DITHERING, PHOTOMETER TRACKING THE SUN</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/environment/loop-rad.gif" alt="The radiation station's track screen updating with new particle tracks" loading="lazy">
+        <figcaption>THE TRACK SCREEN — TRACKS ARRIVING, CLASSIFIED AND AGEING OUT IN REAL TIME</figcaption>
+      </figure>
+    </div>
+    <div class="keys">
+      <div class="key">
+        <div class="key__k">?inspect=sci-weather-01</div>
+        <p class="key__d">Orbit the mast. Walk close and the bilingual knowledge cards surface —
+          eight of them, seven carrying the simulation that produced their numbers.</p>
+      </div>
+      <div class="key">
+        <div class="key__k">?inspect=sci-rad-01</div>
+        <p class="key__d">The track screen and the alarm tower. Watch a curl, a bar and a blob and
+          you have read the classification table off the glass.</p>
+      </div>
+      <div class="key">
+        <div class="key__k">Key C · the city layer</div>
+        <p class="key__d">Both stations sit on the north-east highland, deliberately clear of
+          buildings — a mast in a wind shadow measures the buildings, not the weather.</p>
+      </div>
+      <div class="key">
+        <div class="key__k">?interior=sci-deeplab-01</div>
+        <p class="key__d">Find the sentinel post against the cavern wall. Its display is the one
+          that should never change.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0 0 8px;">Design ledgers: <span class="src">mars-weather/README.md</span> (14 accounts) ·
+      <span class="src">mars_rad/README.md</span> (4 accounts) ·
+      <span class="src">mars_rad_sic/README.md</span> (4 accounts) ·
+      supply package <span class="src">docs/assets/detectors/dev-notes-rad.md</span> and
+      <span class="src">docs/assets/science/dev-notes.md</span> (SITE.md §7).</p>
+    <p style="margin:0;">City assets: <span class="src">viewer/units/sci-weather-01.js</span> ·
+      <span class="src">sci-weather-net-01.js</span> · <span class="src">sci-rad-01.js</span> ·
+      <span class="src">sci-rad-02/03/04.js</span>, all with bilingual info cards ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

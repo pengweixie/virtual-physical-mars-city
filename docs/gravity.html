@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gravitational Waves — Virtual-Physical Mars City</title>
+<meta name="description" content="TT-1, a three-spacecraft heliocentric laser interferometer, exhibited 1:1 on the Martian surface — with a sensitivity curve that survived five known-answer gates.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--cyan);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .broke{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:26px 0;}
+  .broke h3{font-size:1.05rem;margin-bottom:6px;}
+  .broke p{margin:.4rem 0;color:var(--ink-dim);max-width:var(--textw);}
+  .gatecard td:nth-child(2){font-family:var(--f-mono);font-size:.85rem;}
+  .kbd{font-family:var(--f-mono);font-size:.8rem;border:1px solid var(--line-strong);
+    border-radius:6px;padding:1px 7px;background:var(--bg-3);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="spectrum.html">← Prev</a>
+    <a href="environment.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">tt1-sat-01 · tt1-formation-01</div>
+    <h1>Gravitational Waves</h1>
+    <p class="phead__sub">TT-1 is a three-spacecraft laser interferometer on heliocentric
+      orbits, trailing Earth by 20° with 3-million-kilometre arms. It cannot be built on
+      Mars — so the city exhibits it instead: a 1:1 spacecraft with its gold test mass laid
+      open, and a formation display whose breathing motion is integrated orbital dynamics,
+      not hand animation. Every number on this page passed a known-answer gate first.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Peak sensitivity</div><div class="spec__v">5.1e-21<small> /&radic;Hz @ 7.55 mHz</small></div></div>
+    <div class="spec"><div class="spec__k">Arm length</div><div class="spec__v">3.0<small> Gm</small></div></div>
+    <div class="spec"><div class="spec__k">Test-mass noise</div><div class="spec__v">2.10<small> fm/s&sup2;/&radic;Hz</small></div></div>
+    <div class="spec"><div class="spec__k">Formation breathing</div><div class="spec__v">1.29<small> % pk-pk</small></div></div>
+  </div>
+</div>
+
+<!-- ================================ 01 ================================ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>Why gravitational waves, on Mars</h2></div>
+    <p class="lead">A millihertz interferometer needs arms longer than ten thousand planets.
+      The city can't host the instrument — it hosts the understanding of it.</p>
+    <div class="prose">
+      <p>Strain from a supermassive black-hole merger arrives at 10<sup>-21</sup>: measuring it
+      means resolving picometres across millions of kilometres, which is why TT-1 flies as three
+      free-falling spacecraft in deep space. What stands in the science quarter is the
+      <strong>teaching version</strong>: a full-scale engineering unit on a display cradle, its
+      instrument bay cut open so the causal chain reads in one glance — telescope barrel
+      &rarr; Zerodur optical bench &rarr; the 46 mm Au-Pt cube floating in its electrode cage.
+      The cube is the whole story: a mass touching nothing, whose only remaining force is gravity.</p>
+      <p>Next to it, the formation exhibit compresses the constellation 2&times;10<sup>8</sup>:1
+      (1 Gm &rarr; 5 m) while keeping the spacecraft bodies 1:1. Six red beams close the triangle
+      the way six heterodyne links close the real interferometer.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/gravity/poster.jpg" alt="TT-1 mission poster: constellation geometry, spacecraft cutaway and sensitivity curve" loading="lazy">
+      <figcaption>TT-1 MISSION POSTER — 3.0 GM TRIANGLE, 20&deg; EARTH-TRAILING, 60&deg; PLANE TILT (EMERGENT, NOT CHOSEN)</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/gravity/city-sat.jpg" alt="1:1 TT-1 spacecraft exhibit on its display cradle in the city" loading="lazy">
+        <figcaption>TT1-SAT-01 AT (-404,-132): OSR RADIATORS FACING CAMERA, MGA GIMBAL — THE ONLY MOVING PART ON BOARD</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/gravity/city-formation.jpg" alt="Formation exhibit: three spacecraft on pylons joined by red laser beams above the Martian surface" loading="lazy">
+        <figcaption>TT1-FORMATION-01 AT (-430,-150): SIX BEAMS, APERTURE-TO-APERTURE, SCALE 1 GM = 5 M</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================================ 02 ================================ -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How 5.1&times;10<sup>-21</sup> is made</h2></div>
+    <p class="lead">One master equation, two budgets feeding it, and real solvers behind
+      every allocation.</p>
+    <div class="prose">
+      <p>The whole design serves S<sub>h</sub>(f) = (10/3L&sup2;)&nbsp;[P<sub>OMS</sub> +
+      2(1+cos&sup2;(f/f&#8727;))&nbsp;P<sub>acc</sub>/(2&pi;f)<sup>4</sup>]&nbsp;[1+0.6(f/f&#8727;)&sup2;].
+      Below a millihertz the (2&pi;f)<sup>-4</sup> factor means <strong>only residual force on the
+      test mass matters</strong> — a nine-term parasitic-force budget (gas damping, charge shot
+      noise, patch potentials, magnetics, radiometer, radiation pressure, stiffness coupling,
+      self-gravity) closes at 2.10 fm/s&sup2;/&radic;Hz, gated against LISA Pathfinder flight data.
+      At high frequency the optical chain takes over: an eight-term budget closes at
+      7.48 pm/&radic;Hz per link.</p>
+      <p>The allocations are not typed in — they are solved for. Zemax ray tracing confirmed the
+      confocal-paraboloid telescope is aberration-free on axis to 1.9&times;10<sup>-10</sup> waves;
+      a COMSOL&rarr;Zemax thermo-elastic loop turned "3 pm of telescope pathlength" into material
+      law (Zerodur survives at 220 &micro;K/&radic;Hz where aluminium needs an impossible
+      0.19 &micro;K/&radic;Hz); and a self-built two-beam overlap integral put the tilt-to-length
+      coupling on a moment-integral footing, softening the alignment tolerance from 6.25 to
+      10.7 &micro;m.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/gravity/sensitivity.png" alt="Final strain sensitivity curve with galactic foreground and source tracks" loading="lazy">
+        <figcaption>FINAL CURVE: 5.1E-21 @ 7.55 MHZ; SEED-BLACK-HOLE MERGER AT Z=10 GIVES SNR 103 (STANDARD CONVENTION)</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/gravity/acc-budget.png" alt="Nine-term acceleration noise budget of the gravitational reference sensor" loading="lazy">
+        <figcaption>GRS BUDGET: STIFFNESS &times; PLATFORM JITTER OWNS 63% OF THE VARIANCE — LOW-F SENSITIVITY IS A PLATFORM PROPERTY</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/gravity/fem-deform.png" alt="COMSOL bending mode of the telescope metering structure under a lateral thermal gradient" loading="lazy">
+      <figcaption>COMSOL 145K-DOF METERING TUBE, LATERAL-GRADIENT BENDING (2&times;10<sup>7</sup>&times; EXAGGERATED) — FEM HIT THE EXACT STRESS-FREE SOLUTION TO 0.04%</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================================ 03 ================================ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>Five known-answer gates</h2></div>
+    <p class="lead">No home-built model was allowed to speak about the design before
+      reproducing something the world already knows.</p>
+    <div class="tablewrap"><table class="gatecard">
+      <thead><tr><th>Gate</th><th>Reproduced</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Sensitivity master equation</td>
+          <td>LISA public curve: f&#8727; = 19.09 mHz; asymptotic slopes &minus;3 / &minus;2 / +1</td>
+          <td>pass</td></tr>
+        <tr><td>Waveform &amp; SNR machinery</td>
+          <td>aLIGO BNS range 220 vs ~190 Mpc; f<sub>ISCO</sub>(2.8 M<sub>&#9737;</sub>) 1570 vs 1571 Hz; D<sub>L</sub>(z=1) to 0.03%</td>
+          <td>pass</td></tr>
+        <tr><td>Optical link</td>
+          <td>LISA received power: 297 pW vs ~300 pW public</td>
+          <td>pass</td></tr>
+        <tr><td>Constellation dynamics</td>
+          <td>LISA orbital elements e=0.0048, i=0.48&deg;; 60.00&deg; plane tilt <span class="hl">emerges</span> from i=&radic;3e</td>
+          <td>pass</td></tr>
+        <tr><td>Acceleration-noise model</td>
+          <td>LISA Pathfinder in-flight band 1.2&ndash;2.5 fm/s&sup2;/&radic;Hz</td>
+          <td>pass, flagged weak — spectral shape not reproduced below 1 mHz, so a 2.0 fm/s&sup2; unmodelled reserve is carried</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose">
+      <p>The same discipline runs deeper than these five: the FEM was gated on the exact
+      stress-free solution of a linear thermal field (hit to 0.00&ndash;0.47%), the wave-optics
+      overlap on a closed-form complex-Gaussian integral (0.00%), and the transmit-aperture
+      efficiency on the literature optimum 0.81 at w=0.89R — reproduced as 0.8145 at 0.890R.
+      A gate that passes too easily is itself a finding: one gate window had to be widened
+      after it was caught hiding a real bug (see 06).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================ 04 ================================ -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>Breathing from real orbits</h2></div>
+    <p class="lead">The exhibit's motion loop is a baked year of Sun + Earth-perturbation
+      integration — 1.29% arm breathing, 0.21&deg; yaw wobble, zero keyframes.</p>
+    <div class="prose">
+      <p>Three spacecraft on one shared semi-major axis, eccentricity and inclination vectors
+      rotated 120&deg; apart with i = &radic;3&nbsp;e: the first-order relative orbit is a circle,
+      so the triangle stays equilateral — and the 60&deg; tilt of its plane is algebra, not a
+      choice. Earth then spoils the ideal: a DOP853 propagation with Earth's point mass shows the
+      formation <strong>destroyed at 0&deg; trailing</strong> (274% arm flexing) and settling to
+      2.13% at 20&deg; — the trailing angle is a stability-versus-comm-distance compromise you
+      can read straight off the scan.</p>
+      <p>The display asset samples year two of that propagation into 120 frames, blends the tail
+      into the head for a closed 36 s loop, and drives each craft's yaw along the baked
+      arm-bisector. Any time offset is a valid entry point; three instances could run
+      phase-shifted. What you see wobbling above the regolith is the actual celestial mechanics
+      that caps the arm length of every space interferometer.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/gravity/constellation.png" alt="Arm breathing, Doppler beat requirement and formation cost scan versus arm length" loading="lazy">
+      <figcaption>TWO-BODY IDEAL 0.48% &rarr; 2.13% WITH EARTH; 84% OF THE DOPPLER COMES FROM THE TRAILING ANGLE, NOT THE ARM</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================================ 05 ================================ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
+    <p class="lead">Every number above, and which run produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Peak strain sensitivity</td><td class="num">5.1e-21 /&radic;Hz @ 7.55 mHz</td><td class="src">gravity-wave/sim/07_performance_science.py</td></tr>
+        <tr><td>Seed-BH merger SNR (z=10, std convention)</td><td class="num">103</td><td class="src">gravity-wave/sim/07 + sim/gwlib.py</td></tr>
+        <tr><td>LISA gate: f&#8727; and slopes</td><td class="num">19.09 mHz; &minus;3/&minus;2/+1</td><td class="src">gravity-wave/sim/01_sensitivity_core.py</td></tr>
+        <tr><td>aLIGO gate: BNS range</td><td class="num">220 Mpc (ref ~190)</td><td class="src">gravity-wave/sim/02_gate_snr.py</td></tr>
+        <tr><td>Constellation elements; plane tilt</td><td class="num">e=0.00580, i=0.5735&deg;; 60.00&deg;</td><td class="src">gravity-wave/sim/04_constellation_orbit.py</td></tr>
+        <tr><td>Test-mass acceleration budget</td><td class="num">2.10 fm/s&sup2;/&radic;Hz</td><td class="src">gravity-wave/sim/05_acceleration_budget.py</td></tr>
+        <tr><td>Per-link displacement budget</td><td class="num">7.48 pm/&radic;Hz</td><td class="src">gravity-wave/sim/06_optical_budget.py</td></tr>
+        <tr><td>Telescope on-axis WFE; exit pupil</td><td class="num">1.9e-10 waves; 5.000000 mm</td><td class="src">gravity-wave/opt/01_telescope.py (Zemax ZOS-API)</td></tr>
+        <tr><td>Thermal soak allowance: Zerodur vs Al</td><td class="num">220 vs 0.19 &micro;K/&radic;Hz</td><td class="src">gravity-wave/opt/03_thermal_opl.py</td></tr>
+        <tr><td>Gradient / absorbed-power allowance</td><td class="num">214 &micro;K/&radic;Hz; 9.9 &micro;W/&radic;Hz</td><td class="src">gravity-wave/fem/tel_grad.java + fem/analyze_fem.py (COMSOL 145k DOF)</td></tr>
+        <tr><td>TTL lever correction; alignment tolerance</td><td class="num">&eta;=0.586; 6.25&rarr;10.7 &micro;m</td><td class="src">gravity-wave/opt/06_ttl_wave.py</td></tr>
+        <tr><td>TX aperture efficiency (lit. gate 0.81@0.89R)</td><td class="num">0.8145 @ 0.890R</td><td class="src">gravity-wave/opt/06_ttl_wave.py</td></tr>
+        <tr><td>Coating phase drift (closed with evidence)</td><td class="num">0.0036 nm/K</td><td class="src">gravity-wave/opt/04_coating_lumerical.py (stackrt)</td></tr>
+        <tr><td>Thruster-noise allowance (binding point)</td><td class="num">0.201 &micro;N/&radic;Hz @ 24 mHz</td><td class="src">gravity-wave/sim/09_dfacs_loop.py</td></tr>
+        <tr><td>Formation breathing; yaw wobble</td><td class="num">1.29% pk-pk; 0.21&deg;</td><td class="src">gravity-wave/model/bake_formation.py (DOP853, year 2)</td></tr>
+        <tr><td>Received optical power at 3 Gm</td><td class="num">651 pW</td><td class="src">gravity-wave/sim/03_arm_trade.py (LISA-calibrated link)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ================================ 06 ================================ -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <p class="lead">A two-agent independent review corrected fourteen defects. Four of them
+      are worth retelling.</p>
+
+    <div class="broke">
+      <h3>A fit parameter copied 10<sup>5</sup>&times; too small — and the gate that covered for it</h3>
+      <p>The galactic-foreground fit's &kappa; and &gamma; went in as 0.00521 and 0.00713 instead
+      of 521 and 1680. Both carry units of Hz<sup>-1</sup>, so &kappa;&middot;f must be O(1) —
+      a dimensional sniff test that was skipped. The high-frequency cutoff vanished and the
+      foreground stayed 7.9&times;10<sup>5</sup> too high at 10 mHz. Worse: the validation gate's
+      window ended at 5 mHz, right before the bug became visible. Both were fixed; the gate now
+      checks that the foreground is invisible at 10 mHz, which any public LISA plot shows.</p>
+    </div>
+
+    <div class="broke">
+      <h3>The arm-length argument, stated backwards</h3>
+      <p>The design doc originally argued "shot-noise-limited strain is independent of arm length,
+      so longer arms buy nothing at high frequency." The algebra is right — but this design is not
+      shot-noise limited: the length-independent noise floor (5.69 pm) exceeds shot noise
+      (4.85 pm), so h &prop; 1/L holds and longer arms pay everywhere. The best argument for the
+      chosen 3 Gm had been written as an argument against it. The plot's own caption contradicted
+      its own curves, 12&times; apart, on the same page.</p>
+    </div>
+
+    <div class="broke">
+      <h3>102% error with a perfect twin next to it</h3>
+      <p>The FEM's relative mirror decenter missed the exact analytic value by 102% while the
+      relative tilt matched to 0.03%. Fingerprint of a frame-invariance bug: u(M2)&minus;u(M1) is
+      not invariant under the rigid-body rotation that the solver's motion suppression injects —
+      the tilt difference is. Correcting to the M1-frame quantity, dDec = (u&#8322;&minus;u&#8321;)
+      + tilt&#8321;&middot;z&#8322;, landed on the analytic answer to 0.04%. One quantity right and
+      its sibling wrong is diagnostic gold.</p>
+    </div>
+
+    <div class="broke">
+      <h3>Six lasers all pointing at the centroid</h3>
+      <p>First render of the formation exhibit: every beam converged on the triangle's centre —
+      too tidy to be random. The aperture-lookup function used two scratch vectors internally
+      while its callers used the same two vectors to hold both endpoints; the second call
+      overwrote the first result with a unit vector near the origin. Shared mutable scratch
+      versus output containers. Suspiciously regular wrongness is a shared-state signature.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================ 07 ================================ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">07</span><h2>Try it</h2></div>
+    <p class="lead">Both exhibits are live city assets with bilingual knowledge cards.</p>
+    <div class="prose">
+      <p>Open the viewer with <span class="kbd">viewer/index.html?colony=1&amp;inspect=tt1-formation-01</span>
+      or walk to the science quarter around (-430,-150). Eleven POI cards (EN/中文 toggle in the
+      viewer) carry the same ledger numbers as this page — 651 pW, 2.10 fm/s&sup2;/&radic;Hz,
+      220 &micro;K/&radic;Hz all resolve to the runs listed above.</p>
+      <p>Things worth catching: the <strong>gold cube</strong> behind the cutaway wall of the 1:1
+      spacecraft; the <strong>beams landing exactly on the telescope apertures</strong> while the
+      triangle breathes (watch ~36 s for a full baked year); the MGA gimbal — deliberately the
+      only moving part, because a drag-free platform tolerates no reaction wheels; and the
+      spec plaque's claim that the whole thermal design collapses to one line:
+      2&times;10<sup>-4</sup> K/&radic;Hz along the metering path.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">gravity-wave/docs/</span> (overview,
+      subsystem cards, errata &times;14, solver verification) ·
+      Simulations: <span class="src">gravity-wave/sim/ · opt/ · fem/</span> (22 JSON + 10 plots archived in <span class="src">out/</span>) ·
+      City assets: <span class="src">viewer/units/tt1-sat-01.js · viewer/units/tt1-formation-01.js</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

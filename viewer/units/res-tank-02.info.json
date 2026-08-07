@@ -4,24 +4,58 @@
     {
       "id": "shell",
       "label": "罐体（尘暴水银行）",
+      "label_en": "Tank shell (dust-storm water bank)",
       "range": 25,
       "detail": "13 m³ 卧式保温储罐，与取水站服务罐 A 同规格并列。常态保持满罐待命：尘暴季前由 Rodwell 井自动蓄满，全球尘暴期间光伏出力跌至 15% 时，双罐 26 m³ 库存覆盖 60 sol 乘组用水并留 14% 裕度。独立伴热回路防冻。",
-      "specs": { "容量": "13 m³", "总长": "4.7 m", "双罐合计": "26 m³ ≈ 68 sol × 380 L/sol", "伴热": "独立回路" },
-      "sim": "TS-01 R1 压力测试：单罐方案在 60 sol 全球尘暴下断供 28 sol（排除）；双罐方案 700 sol 零断供，Stefan 校核结论不变"
+      "detail_en": "A 13 m3 horizontal insulated tank, identical to service tank A at the well. It normally stands full and waiting: topped up by the Rodwell ahead of storm season, then drawn on when a global storm cuts photovoltaic output to 15% - the pair's 26 m3 covering 60 sol of crew water with 14% to spare. Its heat trace runs on an independent circuit.",
+      "specs": {
+        "容量": "13 m³",
+        "总长": "4.7 m",
+        "双罐合计": "26 m³ ≈ 68 sol × 380 L/sol",
+        "伴热": "独立回路"
+      },
+      "specs_en": {
+        "Volume": "13 m3",
+        "Overall length": "4.7 m",
+        "Both tanks": "26 m3, about 68 sol at 380 L/sol",
+        "Heat trace": "independent circuit"
+      },
+      "sim": "TS-01 R1 压力测试：单罐方案在 60 sol 全球尘暴下断供 28 sol（排除）；双罐方案 700 sol 零断供，Stefan 校核结论不变",
+      "sim_en": "TS-01 R1 stress test: the single-tank option ran dry for 28 sol during a 60-sol global storm and was struck out; the twin-tank option went 700 sol with zero outages, and the Stefan re-run did not change that."
     },
     {
       "id": "valve",
       "label": "倒罐隔离阀",
+      "label_en": "Transfer isolation valve",
       "range": 12,
       "detail": "DN25 双向倒罐线接站内罐 A，双向隔离阀。运行策略先进先出：定期与罐 A 轮换服务角色，防止库存长期滞水。",
-      "specs": { "倒罐线": "DN25", "阀型": "双向隔离", "轮换策略": "FIFO" }
+      "detail_en": "A DN25 transfer line ties this tank to tank A at the well through a bidirectional isolation valve. Operating policy is first-in-first-out: the two tanks swap service roles periodically so stored water never sits still for long.",
+      "specs": {
+        "倒罐线": "DN25",
+        "阀型": "双向隔离",
+        "轮换策略": "FIFO"
+      },
+      "specs_en": {
+        "Transfer line": "DN25",
+        "Valve": "bidirectional isolation",
+        "Rotation": "FIFO"
+      }
     },
     {
       "id": "manway",
       "label": "顶部人孔与液位仪",
+      "label_en": "Top manway and level gauge",
       "range": 12,
       "detail": "顶部检修人孔（橙色盲板）与液位/温度仪表，状态灯夜间常亮指示库存水位。",
-      "specs": { "人孔": "Ø 0.6 m", "仪表": "液位 + 温度" }
+      "detail_en": "Top service manway - the orange blind flange - with level and temperature instruments. The status light stays lit through the night to show how much water is left in the bank.",
+      "specs": {
+        "人孔": "Ø 0.6 m",
+        "仪表": "液位 + 温度"
+      },
+      "specs_en": {
+        "Manway": "dia-0.6 m",
+        "Instruments": "level and temperature"
+      }
     }
   ]
 }

@@ -16,7 +16,7 @@
 export const meta = {
   id: 'veh-rocket-02',
   name: '长十乙运载火箭',
-  name_en: 'CZ-10B launch vehicle (pad, vertical)',
+  name_en: 'CZ-10B Launch Vehicle',   // 双语（MODELS.md §5）；与 manifest 的 name_en 一致
   size_m: 67, size_axis: 'height',   // 自检用,引擎不缩放
   effects: ['glow_windows'],
   schedule: { action: '发射', ltst: 14.0 },   // 火星时 14:00 例行发射演示

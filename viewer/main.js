@@ -3,7 +3,7 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { build as buildComRelay, meta as comRelayMeta }
   from './units/com-relay-01.js';
-import { build as buildPan } from './units/sci-pan-01.js';
+import { build as buildPan, meta as panMeta } from './units/sci-pan-01.js';
 
 // ---------------------------------------------------------------- data
 
@@ -35,6 +35,7 @@ const T = LANG === 'en' ? {
   inspectHint: (n) => `Inspect: ${n} · drag to rotate · scroll to zoom · V to exit`,
   interiorHint: (n) => `${n} · WASD to walk · reach the exit or press Esc to return`,
   pressE: (l) => `Press E — enter ${l}`,
+  timeWait: 'Computing Martian time…',
 } : {
   hudTitle: '耶泽罗撞击坑 · 毅力号着陆区',
   hudSub: 'Jezero Crater 18.4°N 77.4°E — HiRISE 1 m/px 真实地形<br>数据：NASA/JPL/University of Arizona',
@@ -51,6 +52,7 @@ const T = LANG === 'en' ? {
   inspectHint: (n) => `环视：${n} · 拖动旋转 · 滚轮缩放 · V 退出`,
   interiorHint: (n) => `${n} · WASD 走动 · 走到出口或按 Esc 返回地表`,
   pressE: (l) => `按 E 进入 ${l}`,
+  timeWait: '火星时间计算中…',
 };
 {
   document.querySelector('#hud h1').textContent = T.hudTitle;
@@ -61,6 +63,7 @@ const T = LANG === 'en' ? {
   document.getElementById('colonyBtn').textContent = T.colony(false);
   document.getElementById('magicBtn').textContent = T.magic(false);
   document.getElementById('timeNow').textContent = T.now;
+  document.getElementById('timeInfo').textContent = T.timeWait;
   const lb = document.getElementById('langBtn');
   lb.textContent = T.langBtn;
   lb.addEventListener('click', () => {
@@ -278,8 +281,9 @@ function textSprite(text, px = 44, color = '#cfe9ff') {
   const s = new THREE.Sprite(new THREE.SpriteMaterial(
     { map: new THREE.CanvasTexture(c), transparent: true }));
   s.material.map.colorSpace = THREE.SRGBColorSpace;
-  return s;
-}
+  s.raycast = () => {};      // labels are UI: never raycast targets (asset
+  return s;                  // lidars sweep the scene; Sprite.raycast needs
+}                            // raycaster.camera and crashes the frame loop)
 
 // stylized low-poly Perseverance (~3 m long)
 function buildRover() {
@@ -693,6 +697,148 @@ const colonyLights = [];
   plaza.position.set(CX, domeY + 12, CZ);
   colonyGroup.add(plaza);
   colonyLights.push(plaza);
+
+  // ---- densification pass: eastern trunk + spurs ---------------------------
+  // (segments mirrored in scripts/audit_layout.mjs — update BOTH places)
+  const SPURS = [
+    [-190, -145, 100, -125, 5],   // east trunk: landing pad -> mine-west junction
+    [100, -125, 148, -52, 4],     // heli spur (ends short of the pad apron)
+    [100, -125, 150, -190, 4],    // environmental spur leg 1 (skirts the mine south)
+    [150, -190, 285, -278, 4],    // environmental spur leg 2 -> weather/rad cluster
+    [62, 18, 83, 10, 4],          // ISRU -> print works link (doorstep, exempt)
+    [95, 20, 95, 44, 4],          // print works -> greenhouse porch
+    [-350, -100, -290, -55, 4],   // village spur: hub -> hab-village west mouth (doorstep, exempt)
+    [178, -40, 705, 220, 5],      // launch highway: heli apron -> CZ-10B (doorstep, exempt)
+  ];
+  for (const [x1, z1, x2, z2, w] of SPURS) road(x1, z1, x2, z2, w);
+  // roadside furniture: alternating light masts and marker posts
+  for (const [x1, z1, x2, z2] of SPURS) {
+    const dx = x2 - x1, dz = z2 - z1, len = Math.hypot(dx, dz);
+    const n = Math.max(1, Math.floor(len / 70));
+    for (let i = 1; i <= n; i++) {
+      const t = i / (n + 1), side = i % 2 ? 1 : -1;
+      const x = x1 + dx * t - dz / len * side * 4.5;
+      const z = z1 + dz * t + dx / len * side * 4.5;
+      const y = gY(x, z);
+      if (i % 2) {                              // light mast
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.13, 5, 6), mat.metal);
+        pole.position.set(x, y + 2.5, z);
+        colonyGroup.add(pole);
+        const head = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.25, 0.3), mat.window);
+        head.position.set(x, y + 5, z);
+        colonyGroup.add(head);
+      } else {                                  // marker post
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.11, 1.4, 6), mat.hull);
+        post.position.set(x, y + 0.7, z);
+        colonyGroup.add(post);
+        const top = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.22, 0.22), mat.red);
+        top.position.set(x, y + 1.5, z);
+        colonyGroup.add(top);
+      }
+    }
+  }
+  // laydown yards at the two big junctions: container stacks + crates
+  const cargo = [0x7c5a3e, 0x5a6a7c, 0x6a7c5a, 0x8a4a3a].map(
+    (c) => new THREE.MeshLambertMaterial({ color: c }));
+  function yard(cx, cz, rot) {
+    const yy = gY(cx, cz);
+    const g = new THREE.Group();
+    g.position.set(cx, yy, cz);
+    g.rotation.y = rot;
+    for (let i = 0; i < 7; i++) {               // container rows, some stacked
+      const row = Math.floor(i / 3), col = i % 3;
+      const box = new THREE.Mesh(new THREE.BoxGeometry(6, 2.4, 2.5), cargo[i % 4]);
+      box.position.set(col * 6.6 - 6.6, 1.2 + (i > 4 ? 2.5 : 0), row * 3.2 - 1.6);
+      if (i > 4) box.position.x = (i - 5) * 6.6 - 3.3;
+      g.add(box);
+    }
+    for (let i = 0; i < 4; i++) {               // loose crates
+      const c = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.1, 1.2), mat.trim);
+      c.position.set(-9 + i * 1.7, 0.55, 4.2 + (i % 2) * 0.9);
+      g.add(c);
+    }
+    colonyGroup.add(g);
+  }
+  yard(200, -160, 0.4);                         // mine-gate junction yard
+  yard(58, 34, -0.35);                          // ISRU-side yard
+
+  // ---- utility corridors: elevated pipe racks --------------------------------
+  // (routes mirrored in scripts/audit_layout.mjs — update BOTH places)
+  const pmat = {
+    ch4:  new THREE.MeshLambertMaterial({ color: 0xc2c8ce }),  // methane, bare steel
+    heat: new THREE.MeshLambertMaterial({ color: 0x54453c }),  // insulated heat loop
+    h2o:  new THREE.MeshLambertMaterial({ color: 0x5f8494 }),  // water, teal
+    small: new THREE.MeshLambertMaterial({ color: 0x8a9096 }), // return/utility lane
+  };
+  function pipeRack(x1, z1, x2, z2, lanes, loopEvery = 0) {
+    const dx = x2 - x1, dz = z2 - z1, len = Math.hypot(dx, dz);
+    const px = -dz / len, pz = dx / len;        // across-track unit
+    const barRot = Math.atan2(-pz, px);
+    const n = Math.max(2, Math.round(len / 14));
+    const tops = [];
+    for (let i = 0; i <= n; i++) {
+      const x = x1 + dx * i / n, z = z1 + dz * i / n;
+      const y = gY(x, z);
+      const col = new THREE.Mesh(new THREE.BoxGeometry(0.26, 2.5, 0.26), mat.metal);
+      col.position.set(x, y + 1.25, z);
+      colonyGroup.add(col);
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.16, 0.3), mat.metal);
+      bar.position.set(x, y + 2.5, z);
+      bar.rotation.y = barRot;
+      colonyGroup.add(bar);
+      tops.push([x, y + 2.62, z]);
+    }
+    const UP = new THREE.Vector3(0, 1, 0);
+    for (let i = 0; i < n; i++) {
+      const [ax, ay, az] = tops[i], [bx, by, bz] = tops[i + 1];
+      for (const ln of lanes) {
+        const seg = new THREE.Vector3(bx - ax, by - ay, bz - az);
+        const c = new THREE.Mesh(
+          new THREE.CylinderGeometry(ln.r, ln.r, seg.length() + 0.2, 8), ln.m);
+        c.position.set((ax + bx) / 2 + px * ln.o, (ay + by) / 2 + ln.r,
+                       (az + bz) / 2 + pz * ln.o);
+        c.quaternion.setFromUnitVectors(UP, seg.normalize());
+        colonyGroup.add(c);
+      }
+      // thermal expansion loop: main lane rises over a squared U
+      if (loopEvery && i > 0 && i % loopEvery === 0) {
+        const [lx2, ly2, lz2] = tops[i];
+        const o = lanes[0].o, r = lanes[0].r;
+        for (const s of [-0.9, 0.9]) {
+          const v = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 1.5, 8), lanes[0].m);
+          v.position.set(lx2 + px * o + dx / len * s, ly2 + 0.75, lz2 + pz * o + dz / len * s);
+          colonyGroup.add(v);
+        }
+        const h = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 2.0, 8), lanes[0].m);
+        h.position.set(lx2 + px * o, ly2 + 1.5, lz2 + pz * o);
+        h.quaternion.setFromUnitVectors(UP, new THREE.Vector3(dx / len, 0, dz / len));
+        colonyGroup.add(h);
+      }
+    }
+    // valve skid + service light at the midpoint
+    const mi = Math.floor(n / 2);
+    const [vx, vy, vz] = tops[mi];
+    const skid = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.5, 1.6), mat.hull);
+    skid.position.set(vx + px * 2.6, gY(vx + px * 2.6, vz + pz * 2.6) + 0.75, vz + pz * 2.6);
+    skid.rotation.y = barRot;
+    colonyGroup.add(skid);
+    const lamp = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.2, 0.25), mat.window);
+    lamp.position.set(vx + px * 2.6, skid.position.y + 1.05, vz + pz * 2.6);
+    colonyGroup.add(lamp);
+  }
+  // CH4 fueling line: ISRU Sabatier plant -> CZ-10B launch complex
+  pipeRack(52, 32, 725, 235,
+    [{ o: -0.45, r: 0.3, m: pmat.ch4 }, { o: 0.45, r: 0.3, m: pmat.ch4 },
+     { o: 0, r: 0.12, m: pmat.small }], 10);
+  // heat-transfer loop: fusion plant -> radiator field (fat insulated pair);
+  // three legs thread between the neutron-sentinel arc and the compute center
+  const heatLanes = [{ o: -0.5, r: 0.38, m: pmat.heat }, { o: 0.5, r: 0.38, m: pmat.heat }];
+  pipeRack(-140, 58, -109, 70, heatLanes, 0);
+  pipeRack(-109, 70, -109, 132, heatLanes, 0);
+  pipeRack(-109, 132, -84, 352, heatLanes, 8);
+  // water line: Rodwell well -> greenhouse dome (supply + slim return)
+  pipeRack(2, 106, 80, 72,
+    [{ o: -0.3, r: 0.22, m: pmat.h2o }, { o: 0.35, r: 0.1, m: pmat.small }], 0);
 }
 
 // ---------------------------------------------------------------- magic city
@@ -1234,10 +1380,15 @@ function placeUnit(g, a) {
   g.rotation.y = (a.rotation_deg || 0) * Math.PI / 180;
   colonyGroup.add(g);
   g.updateMatrixWorld(true);
-  const sph = new THREE.Box3().setFromObject(g)
-    .getBoundingSphere(new THREE.Sphere());
-  units.push({ id: a.id, name: a.name, group: g,
+  const wbb = new THREE.Box3().setFromObject(g);
+  const sph = wbb.getBoundingSphere(new THREE.Sphere());
+  units.push({ id: a.id, name: pick(a, 'name'), group: g,
     center: sph.center.clone(), radius: Math.max(sph.radius, 2.5) });
+  // one name tag per facility (far-view label; sub-device tags stay inspect-only)
+  const nameTag = makeDeviceTag(pick(a, 'name'), true);
+  nameTag.position.set(sph.center.x, wbb.max.y + 6, sph.center.z);
+  colonyGroup.add(nameTag);
+  unitNameTags.push({ spr: nameTag, unitId: a.id, center: sph.center.clone() });
   registerMotion(g);                          // unified animation (MODELS.md §4)
   if (g.userData.nightMats) unitNightMats.push(...g.userData.nightMats);
   for (const l of g.userData.lights || []) {
@@ -1246,7 +1397,7 @@ function placeUnit(g, a) {
     g.add(pl);
     unitLights.push(pl);
   }
-  collectDeviceExtras(g, Math.max(300, (a.size_m || 60) * 3));
+  collectDeviceExtras(g, Math.max(300, (a.size_m || 60) * 3), a.id);
 }
 
 // ---- unified animation vocabulary (MODELS.md §4) --------------------------
@@ -1331,8 +1482,8 @@ function driveSensors(t) {
 
 // floating sub-device tags (userData.label) + blink beacons (blink_ nodes or
 // userData.blinkMats) — shared by placed units and scattered props
-function collectDeviceExtras(g, range) {
-  hangDeviceTags(g, range);
+function collectDeviceExtras(g, range, owner) {
+  hangDeviceTags(g, range, owner);
   g.traverse((o) => {
     if (o.isMesh && o.name.startsWith('blink_')) assetBlinks.push(o);
   });
@@ -1362,6 +1513,7 @@ async function loadPois(g, a) {
     dot.scale.set(0.6, 0.6, 1);
     dot.position.copy(wp);
     dot.visible = false;
+    dot.raycast = () => {};
     colonyGroup.add(dot);
     const tag = textSprite(pick(p, 'label'), 40, '#dff2ff');
     tag.scale.set(10, 1.25, 1);
@@ -1689,6 +1841,7 @@ async function loadInteriorPois(pois, g, id, unitName) {
       { map: poiDotTex, transparent: true, depthWrite: false }));
     dot.scale.set(0.22, 0.22, 1);
     dot.visible = false;
+    dot.raycast = () => {};
     node.add(dot);
     const tag = textSprite(pick(p, 'label'), 40, '#dff2ff');
     tag.scale.set(2.6, 0.33, 1);
@@ -1782,6 +1935,7 @@ async function enterInterior(id, portal) {
   for (const pl of rec.lights) pl.intensity = pl.userData.base;
   interiorAmbient.intensity = 0.45;
   flying = false; pitch = 0;
+  camera.rotation.set(0, 0, 0);       // defensive: shed any stale roll/yaw residue
   rig.position.set(rec.entry.pos[0], 0, rec.entry.pos[2]);
   yaw = rec.entry.yaw || 0;
   if (document.pointerLockElement) canvas.requestPointerLock();
@@ -2074,6 +2228,19 @@ function updateSun() {
       sc.armed = true;                            // re-arm once time moves away
     }
   }
+  // blink beacons: ~0.8 s red pulse (blink_ meshes and userData.blinkMats).
+  // Runs in every mode — orbit assets (MiniPAN TOF trigger LEDs) blink too,
+  // so this sits above the orbit-mode early return.
+  if (assetBlinks.length || assetBlinkMats.length) {
+    const on = (performance.now() % 1600) < 800;
+    for (const b of assetBlinks) {
+      b.material.color.copy(on ? BLINK_LIT : BLINK_DIM);
+      b.scale.setScalar(on ? 1.35 : 1.0);
+    }
+    for (const m of assetBlinkMats) {
+      m.color.copy(m.userData.baseColor).multiplyScalar(on ? 1.0 : 0.28);
+    }
+  }
   if (orbitMode) return;                        // orbit view keeps fixed lighting
   const H = (ltst - 12) * 15 * Math.PI / 180;   // hour angle
   const sinEl = Math.sin(JEZ_LAT) * Math.sin(s.dec)
@@ -2108,22 +2275,20 @@ function updateSun() {
   crystalDay.value = day;
   for (const m of cryGlowMats) m.opacity = 0.1 + 0.35 * night;
   for (const m of cityPbrMats) m.emissiveIntensity = 0.05 + 0.4 * night;
-  // sub-device tags: only in 环视(inspect) mode, for the inspected unit —
-  // the main walking page stays clean (per user request)
+  // sub-device tags: only in 环视(inspect) mode, and only the inspected unit's
+  // own tags (owner match — a big unit's radius must not pull in neighbours)
   for (const s of assetLabels) {
-    s.visible = !!inspectUnit
-      && inspectUnit.center.distanceTo(s.position) < inspectUnit.radius * 1.6;
+    s.visible = !!inspectUnit && (s.userData.owner
+      ? s.userData.owner === inspectUnit.id
+      : inspectUnit.center.distanceTo(s.position) < inspectUnit.radius * 1.6);
   }
-  // blink beacons: ~0.8 s red pulse (blink_ meshes and userData.blinkMats)
-  if (assetBlinks.length || assetBlinkMats.length) {
-    const on = (performance.now() % 1600) < 800;
-    for (const b of assetBlinks) {
-      b.material.color.copy(on ? BLINK_LIT : BLINK_DIM);
-      b.scale.setScalar(on ? 1.35 : 1.0);
-    }
-    for (const m of assetBlinkMats) {
-      m.color.copy(m.userData.baseColor).multiplyScalar(on ? 1.0 : 0.28);
-    }
+  // facility name tags: one per unit, visible from afar; hidden while that
+  // unit is being inspected (its sub-device tags take over)
+  camera.getWorldPosition(_camW);
+  for (const t of unitNameTags) {
+    t.spr.visible = colonyGroup.visible
+      && _camW.distanceTo(t.center) < 900
+      && !(inspectUnit && inspectUnit.id === t.unitId);
   }
 }
 
@@ -2191,6 +2356,19 @@ function buildSat(scale = 1) {                // still used by the low orbiter
       pan.rotation.x = -Math.PI / 2;         // bracket face onto the deck,
       pan.position.set(0.55, 0.45, -1.46);   // telescope axis horizontal —
       sat.add(pan);                          // both apertures see open sky
+      // v2: PAN's own POI anchors + declared motion (event flash) + blink LEDs
+      // ride the same orbit-view channels as the relay bus (added after the
+      // sat-level registration above, so wire them explicitly here)
+      pan.traverse((o) => {
+        if (o.name?.startsWith('poi_')) relayPoiAnchors.push(o);
+      });
+      registerMotion(pan, orbitAnims);
+      queueMicrotask(() => {                 // assetBlinkMats is declared later
+        for (const m of pan.userData.blinkMats || []) {   // in the module (TDZ
+          m.userData.baseColor = m.color.clone();         // here) — defer wiring
+          assetBlinkMats.push(m);                         // past module eval
+        }
+      });
     }
   }
   const spare = relaySat(16);                // co-located hot spare (redundancy)
@@ -2245,31 +2423,50 @@ function buildSat(scale = 1) {                // still used by the low orbiter
 // pans to the constellation.
 fetch('units/com-relay-01.info.json').then((r) => r.json()).then((info) => {
   const poi = (id) => info.pois.find((p) => p.id === id) || {};
+  const specsOf = (p) => (LANG === 'en' && p.specs_en) || p.specs || {};
   const bus = poi('bus');
+  const EN = LANG === 'en';
   const rows = [
-    ['对火天线', poi('ka').specs?.['增益']],
-    ['半功率波束', poi('ka').specs?.['半功率波束']],
-    ['对地回传', poi('dte').specs?.['回传速率']],
-    ['电源', poi('solar').specs?.['BOL 功率']],
-    ['辐射面', poi('thermal').specs?.['工作温度(COMSOL)']],
-    ['太阳翼模态', poi('adcs').specs?.['太阳翼一阶模态(COMSOL)']],
+    [EN ? 'Mars-face antenna' : '对火天线', specsOf(poi('ka'))[EN ? 'Gain' : '增益']],
+    [EN ? 'Half-power beam' : '半功率波束', specsOf(poi('ka'))[EN ? 'Half-power beamwidth' : '半功率波束']],
+    [EN ? 'Earth return' : '对地回传', specsOf(poi('dte'))[EN ? 'Return rate' : '回传速率']],
+    [EN ? 'Power' : '电源', specsOf(poi('solar'))[EN ? 'BOL power' : 'BOL 功率']],
+    [EN ? 'Radiators' : '辐射面', specsOf(poi('thermal'))[EN ? 'Operating temperature (COMSOL)' : '工作温度(COMSOL)']],
+    [EN ? 'Wing first mode' : '太阳翼模态', specsOf(poi('adcs'))[EN ? 'Wing first mode (COMSOL)' : '太阳翼一阶模态(COMSOL)']],
   ].filter(([, v]) => v);
   relayCardHTML =
-    `<h3>${comRelayMeta.name}</h3><div class="u">com-relay-01 · 3 主 + 1 备份</div>` +
-    `<p>${bus.detail || ''}</p>` +
+    `<h3>${pick(comRelayMeta, 'name')}</h3><div class="u">com-relay-01 · ${EN ? '3 primary + 1 spare' : '3 主 + 1 备份'}</div>` +
+    `<p>${pick(bus, 'detail') || ''}</p>` +
     '<table>' + rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') +
     '</table>' +
-    '<p class="phys">🔭 继续拉近可逐个查看子设备知识卡</p>';
+    `<p class="phys">🔭 ${EN ? 'Keep zooming in for per-device knowledge cards' : '继续拉近可逐个查看子设备知识卡'}</p>`;
   // full per-POI cards (same layout as surface proximity cards)
   const lines = (icon, val, cls) => (Array.isArray(val) ? val : [val])
     .map((s) => `<p class="${cls}">${icon} ${s}</p>`).join('');
   for (const p of info.pois) {
-    let h = `<h3>${p.label}</h3><div class="u">${comRelayMeta.name}</div>`;
-    if (p.detail) h += `<p>${p.detail}</p>`;
-    if (p.specs) h += '<table>' + Object.entries(p.specs).map(
+    let h = `<h3>${pick(p, 'label')}</h3><div class="u">${pick(comRelayMeta, 'name')}</div>`;
+    const d = pick(p, 'detail'), sp = specsOf(p);
+    if (d) h += `<p>${d}</p>`;
+    if (p.specs) h += '<table>' + Object.entries(sp).map(
       ([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') + '</table>';
-    if (p.physics) h += lines('🔬', p.physics, 'phys');
-    if (p.sim) h += lines('📐', p.sim, 'sim');
+    if (p.physics) h += lines('🔬', pick(p, 'physics'), 'phys');
+    if (p.sim) h += lines('📐', pick(p, 'sim'), 'sim');
+    relayPoiCards[p.id] = h;
+  }
+}).catch(() => {});
+// MiniPAN payload cards (sci-pan-01 v2): same per-POI layout, keyed pan_* so the
+// inspect tier resolves them through the shared relayPoiAnchors nearest-match
+fetch('units/sci-pan-01.info.json').then((r) => r.json()).then((info) => {
+  const lines = (icon, val, cls) => (Array.isArray(val) ? val : [val])
+    .map((s) => `<p class="${cls}">${icon} ${s}</p>`).join('');
+  for (const p of info.pois) {
+    let h = `<h3>${pick(p, 'label')}</h3><div class="u">${pick(panMeta, 'name')} · sci-pan-01</div>`;
+    const d = pick(p, 'detail'), sp = (LANG === 'en' && p.specs_en) || p.specs;
+    if (d) h += `<p>${d}</p>`;
+    if (sp) h += '<table>' + Object.entries(sp).map(
+      ([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') + '</table>';
+    if (p.physics) h += lines('🔬', pick(p, 'physics'), 'phys');
+    if (p.sim) h += lines('📐', pick(p, 'sim'), 'sim');
     relayPoiCards[p.id] = h;
   }
 }).catch(() => {});
@@ -2340,34 +2537,105 @@ const cmbCardHTML =
       { color: 0x9fdcff, transparent: true, opacity: 0.3 })));
 
   anchor.add(cmbSpin);
-  const obs = new THREE.Group();             // LiteBIRD-style, display scale
-  const shieldMat = new THREE.MeshLambertMaterial(
-    { color: 0xd8d8e0, side: THREE.DoubleSide });
-  for (let i = 0; i < 3; i++) {              // stacked sunshields face sunward
-    const sh = new THREE.Mesh(
-      new THREE.ConeGeometry(820 - i * 130, 300, 20, 1, true), shieldMat);
-    sh.rotation.x = Math.PI / 2;
-    sh.position.z = 500 + i * 260;
-    obs.add(sh);
+  // LiteBIRD-style observatory, real-scale metres (~4.7 m tall) x320 for
+  // orbit-view visibility — same pattern as the relay (real model, scaled).
+  function buildCmbObs() {
+    const g = new THREE.Group();
+    const M = {
+      mli:  new THREE.MeshLambertMaterial({ color: 0xc9a050 }),
+      vg:   new THREE.MeshLambertMaterial({ color: 0xdde2ea,
+              emissive: 0x23262c, side: THREE.DoubleSide }),
+      tube: new THREE.MeshLambertMaterial({ color: 0xe8ecf2 }),
+      dark: new THREE.MeshLambertMaterial({ color: 0x14161a,
+              side: THREE.DoubleSide }),
+      grey: new THREE.MeshLambertMaterial({ color: 0x8a90a0 }),
+      cell: new THREE.MeshLambertMaterial({ color: 0x2c4a8a,
+              side: THREE.DoubleSide }),
+      hwp:  new THREE.MeshLambertMaterial({ color: 0x9db8e8,
+              emissive: 0x2b3c5e }),
+    };
+    // solar skirt (sun-facing ring) + spokes
+    const skirt = new THREE.Mesh(
+      new THREE.CylinderGeometry(2.6, 2.7, 0.07, 48), M.cell);
+    skirt.position.y = -0.05; g.add(skirt);
+    for (let i = 0; i < 12; i++) {
+      const sp = new THREE.Mesh(new THREE.BoxGeometry(2.55, 0.02, 0.05),
+        M.grey);
+      const a = i * Math.PI / 6;
+      sp.position.set(Math.cos(a) * 1.3, -0.005, -Math.sin(a) * 1.3);
+      sp.rotation.y = a; g.add(sp);
+    }
+    // gold MLI bus (octagon)
+    const bus = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.15, 1.25, 1.0, 8), M.mli);
+    bus.position.y = 0.5; g.add(bus);
+    // V-groove x3: flared aluminium shields (dominant silhouette)
+    [[1.05, 2.30, 0.40], [1.38, 2.05, 0.34], [1.68, 1.80, 0.28]]
+      .forEach(([y, r, h]) => {
+        const c = new THREE.Mesh(
+          new THREE.CylinderGeometry(r, r * 0.55, h, 48, 1, true), M.vg);
+        c.position.y = y; g.add(c);
+      });
+    // 2K shield tub (telescopes half-sunk)
+    const tub = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.42, 1.15, 0.9, 48, 1, true), M.vg);
+    tub.position.y = 2.35; g.add(tub);
+    const floor = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.16, 1.16, 0.06, 48), M.grey);
+    floor.position.y = 1.95; g.add(floor);
+    // tilted optical bench with three telescopes
+    const bench = new THREE.Group();
+    bench.position.y = 2.15; bench.rotation.z = 0.38; g.add(bench);
+    function scope(r, len, x, z, boxy) {
+      const t = new THREE.Group();
+      const hoodLen = r * 1.5;
+      if (boxy) {
+        const body = new THREE.Mesh(
+          new THREE.BoxGeometry(r * 2.2, len, r * 1.9), M.tube);
+        body.position.y = len / 2; t.add(body);
+        const mk = (rt, rb, mat, dl) => {
+          const m = new THREE.Mesh(new THREE.CylinderGeometry(
+            rt, rb, hoodLen - dl, 4, 1, true), mat);
+          m.rotation.y = Math.PI / 4; m.position.y = len + hoodLen / 2;
+          return m;
+        };
+        t.add(mk(r * 1.62, r * 1.28, M.vg.clone(), 0));
+        t.add(mk(r * 1.58, r * 1.24, M.dark, 0.02));
+        const hb = new THREE.Mesh(
+          new THREE.BoxGeometry(r * 1.5, 0.05, r * 1.4), M.hwp);
+        hb.position.y = len + 0.06; t.add(hb);
+      } else {
+        const body = new THREE.Mesh(
+          new THREE.CylinderGeometry(r * 1.12, r * 1.18, len, 32), M.tube);
+        body.position.y = len / 2; t.add(body);
+        const hood = new THREE.Mesh(new THREE.CylinderGeometry(
+          r * 1.32, r * 1.12, hoodLen, 32, 1, true), M.tube.clone());
+        hood.material.side = THREE.DoubleSide;
+        hood.position.y = len + hoodLen / 2; t.add(hood);
+        const inner = new THREE.Mesh(new THREE.CylinderGeometry(
+          r * 1.29, r * 1.09, hoodLen - 0.02, 32, 1, true), M.dark);
+        inner.position.y = len + hoodLen / 2 - 0.01; t.add(inner);
+        const hwp = new THREE.Mesh(
+          new THREE.CylinderGeometry(r, r, 0.05, 32), M.hwp);
+        hwp.position.y = len + 0.06; t.add(hwp);
+      }
+      t.position.set(x, 0, z);
+      return t;
+    }
+    bench.add(scope(0.46, 1.05, -0.58, 0, true));    // LFT 40 cm box
+    bench.add(scope(0.35, 0.92, 0.42, -0.52));       // MFT 30 cm
+    bench.add(scope(0.25, 0.80, 0.52, 0.58));        // HFT 20 cm
+    // Ka dish toward Mars (+local -Y after mounting -> keep on bus side)
+    const dish = new THREE.Mesh(
+      new THREE.SphereGeometry(0.28, 24, 10, 0, Math.PI * 2, 0, Math.PI / 2.4),
+      M.vg.clone());
+    dish.rotation.x = Math.PI; dish.position.set(1.05, -0.18, 0.4);
+    g.add(dish);
+    return g;
   }
-  // three refracting telescopes (LFT / MFT / HFT), off-axis spin-scan boresight
-  const tubeMat = new THREE.MeshLambertMaterial({ color: 0x8a90a0 });
-  const apMat = new THREE.MeshLambertMaterial({ color: 0x1a1c22 });
-  const scopes = [[330, 760, -230], [235, 640, 0], [180, 560, 220]];
-  for (const [r, h, sx] of scopes) {
-    const tube = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, 16), tubeMat);
-    tube.rotation.x = Math.PI / 2 + 0.35;
-    tube.position.set(sx, 0, -160);
-    obs.add(tube);
-    const ap = new THREE.Mesh(new THREE.CircleGeometry(r * 0.92, 16), apMat);
-    ap.position.set(sx - 130, 0, -160 + Math.cos(0.35) * h / 2);
-    ap.rotation.x = -0.35;
-    obs.add(ap);
-  }
-  const bus = new THREE.Mesh(new THREE.BoxGeometry(820, 420, 380),
-    new THREE.MeshLambertMaterial({ color: 0xb0885a }));
-  bus.position.z = 160;
-  obs.add(bus);
+  const obs = buildCmbObs();
+  obs.scale.setScalar(320);
+  obs.rotation.x = -Math.PI / 2;   // stack axis -> Z, solar skirt sunward (+Z)
   obs.position.x = HALO_R;
   cmbSpin.add(obs);
 
@@ -2432,6 +2700,10 @@ function setOrbitMode(on) {
     yaw = saved.yaw; pitch = saved.pitch;
     camera.near = 0.1; camera.far = 30000;
     camera.position.set(0, 1.7, 0);
+    // OrbitControls wrote all three camera Euler axes (often the z=PI inverted
+    // branch); the walk loop only re-stamps x, so clear y/z or the world stays
+    // upside-down after returning (exitInspect already does this)
+    camera.rotation.set(0, 0, 0);
   }
   camera.updateProjectionMatrix();
   document.getElementById('orbitBtn').textContent = on ? '↓ 返回地表' : '↑ 轨道视角';
@@ -2543,7 +2815,9 @@ const BLINK_LIT = new THREE.Color(0xff3020);
 // floating sub-device tags: canvas sprite per labeled group (ISRU convention:
 // userData.{label, level}); constant screen size, distance-culled in the loop
 const assetLabels = [];
-function makeDeviceTag(text) {
+const unitNameTags = [];                      // one name sprite per facility
+const _camW = new THREE.Vector3();
+function makeDeviceTag(text, big = false) {
   const fs = 42, padX = 20, padY = 12;
   const c = document.createElement('canvas');
   let ctx = c.getContext('2d');
@@ -2563,22 +2837,24 @@ function makeDeviceTag(text) {
   tex.anisotropy = 4;
   const spr = new THREE.Sprite(new THREE.SpriteMaterial({
     map: tex, transparent: true, sizeAttenuation: false, depthTest: false }));
-  const k = 0.032;                              // ~3% of screen height
+  const k = big ? 0.026 : 0.032;                // name tags a touch smaller/denser
   spr.scale.set(k * c.width / c.height, k, 1);
-  spr.renderOrder = 10;
+  spr.renderOrder = big ? 9 : 10;
+  spr.raycast = () => {};                       // labels never take raycasts
   return spr;
 }
-function hangDeviceTags(group, range) {
+function hangDeviceTags(group, range, owner) {
   group.updateMatrixWorld(true);
   const bb = new THREE.Box3();
   group.traverse((o) => {
     if (!o.isGroup || !o.userData?.label) return;
     bb.setFromObject(o);
     if (bb.isEmpty()) return;
-    const spr = makeDeviceTag(o.userData.label);
+    const spr = makeDeviceTag(pick(o.userData, 'label'));
     spr.position.set((bb.min.x + bb.max.x) / 2, bb.max.y + 2.5,
                      (bb.min.z + bb.max.z) / 2);
     spr.userData.range = range;
+    spr.userData.owner = owner;                 // tags belong to their unit only
     colonyGroup.add(spr);
     assetLabels.push(spr);
   });
@@ -2610,31 +2886,7 @@ renderer.setAnimationLoop(() => {
         poiCardEl.dataset.id = '';
       }
     }
-    if (relayAnchor && relayCardHTML) {       // relay cards, two proximity tiers
-      const dRel = camera.position.distanceTo(relayAnchor);
-      let id = null, html = null;
-      if (dRel < 2500 && relayPoiAnchors.length) {
-        // inspect tier: nearest sub-device card follows the camera
-        let best = null, bd = Infinity;
-        for (const a of relayPoiAnchors) {
-          const d = camera.position.distanceTo(
-            a.getWorldPosition(_relayTmp));
-          if (d < bd) { bd = d; best = a; }
-        }
-        const pid = best.name.slice(4);
-        if (relayPoiCards[pid]) { id = 'relay:' + pid; html = relayPoiCards[pid]; }
-      } else if (dRel < 8000) {
-        id = 'relay'; html = relayCardHTML;   // summary tier
-      }
-      if (id && poiCardEl.dataset.id !== id) {
-        poiCardEl.dataset.id = id;
-        poiCardEl.innerHTML = html;
-        poiCardEl.style.display = 'block';
-      } else if (!id && poiCardEl.dataset.id.startsWith('relay')) {
-        poiCardEl.style.display = 'none';
-        poiCardEl.dataset.id = '';
-      }
-    }
+    updateRelayCards();
     posEl.textContent = T.posOrbit((camera.position.length() - ORBIT_R).toFixed(0));
   } else if (inInterior) {                    // underground/indoor scene
     moveDesktop(dt);                          // walk; y is pinned in updateInterior
@@ -2677,10 +2929,40 @@ if (q.get('interior')) enterInterior(q.get('interior'), null).then(() => {
   if (q.has('eye')) camera.position.y = +q.get('eye');
 });
 
+// relay cards, two proximity tiers (named so ?debug=1 can pump it headless —
+// hidden tabs suspend rAF and the whole loop with it)
+function updateRelayCards() {
+  if (!relayAnchor || !relayCardHTML) return;
+  const dRel = camera.position.distanceTo(relayAnchor);
+  let id = null, html = null;
+  if (dRel < 2500 && relayPoiAnchors.length) {
+    // inspect tier: nearest sub-device card follows the camera
+    let best = null, bd = Infinity;
+    for (const a of relayPoiAnchors) {
+      const d = camera.position.distanceTo(
+        a.getWorldPosition(_relayTmp));
+      if (d < bd) { bd = d; best = a; }
+    }
+    const pid = best.name.slice(4);
+    if (relayPoiCards[pid]) { id = 'relay:' + pid; html = relayPoiCards[pid]; }
+  } else if (dRel < 8000) {
+    id = 'relay'; html = relayCardHTML;       // summary tier
+  }
+  if (id && poiCardEl.dataset.id !== id) {
+    poiCardEl.dataset.id = id;
+    poiCardEl.innerHTML = html;
+    poiCardEl.style.display = 'block';
+  } else if (!id && poiCardEl.dataset.id.startsWith('relay')) {
+    poiCardEl.style.display = 'none';
+    poiCardEl.dataset.id = '';
+  }
+}
+
 // ?debug=1 暴露内窥句柄（真浏览器验证用，STATUS「已知事项」约定）
 if (q.has('debug')) {
-  window.__mars = { units, unitSensors, unitAnims, colonyGroup, scene, renderer, camera, rig,
-    driveSensors, clock, sampleHeight, get inInterior() { return inInterior; } };
+  window.__mars = { units, unitSensors, unitAnims, orbitAnims, colonyGroup, scene,
+    renderer, camera, rig, driveSensors, clock, sampleHeight, updateRelayCards,
+    updateSun, orbitControls, get inInterior() { return inInterior; } };
 }
 if (q.get('view') === 'orbit') setOrbitMode(true);
 if (q.get('view') === 'cmb' && cmbAnchor) {  // jump to the L2 station

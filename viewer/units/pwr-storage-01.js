@@ -20,6 +20,7 @@
 export const meta = {
   id: 'pwr-storage-01',
   name: '储能场',
+  name_en: 'Energy Storage Farm',   // 双语（MODELS.md §5）；与 manifest 的 name_en 一致
   size_m: 60,             // 场区长边，1 单位 = 1 米，禁止整体缩放
   effects: ['glow_windows'],   // 旋转由 userData.spinners 驱动（引擎 registerMotion），非 effect 钩子
 };

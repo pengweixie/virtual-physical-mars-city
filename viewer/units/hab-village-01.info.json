@@ -1,0 +1,103 @@
+{
+  "id": "hab-village-01",
+  "pois": [
+    {
+      "id": "berm",
+      "label": "2 m 覆土脊（330 g/cm²）",
+      "label_en": "2 m regolith berm (330 g/cm2)",
+      "range": 26,
+      "detail": "三排舱的覆土坡相接成连续土脊——每舱头顶 2 m 压实 regolith,面密度 330 g/cm²。裸露地表年剂量 234 mSv,覆到 0.5 m 剩 58,1 m 剩 21,2 m 只剩 6.2 mSv/yr——38 倍削减,初级荷电粒子已压到 0.2 以下,剩的主要是次级中子。",
+      "detail_en": "The berms of all three rows merge into one continuous soil ridge - 2 m of compacted regolith over every cabin, 330 g/cm2 areal density. Bare surface takes 234 mSv/yr; 0.5 m leaves 58, 1 m leaves 21, and 2 m leaves just 6.2 mSv/yr - a 38x cut, with primary charged particles below 0.2 and secondary neutrons dominating what remains.",
+      "specs": { "覆土": "2 m 压实 regolith（330 g/cm²）", "剂量": "234 → 6.2 mSv/yr（38×）", "残余": "以次级中子为主" },
+      "specs_en": { "Cover": "2 m compacted regolith (330 g/cm2)", "Dose": "234 down to 6.2 mSv/yr (38x)", "Residual": "mostly secondary neutrons" },
+      "sim": "屏蔽账:剂量-深度四档 234/58.2/20.9/6.2 mSv/yr(0/0.5/1/2 m)。曲线前段陡后段缓——头一米最值钱,第二米买的是「把荷电粒子项彻底清零」。",
+      "sim_en": "Shielding ledger: dose vs depth reads 234 / 58.2 / 20.9 / 6.2 mSv/yr at 0 / 0.5 / 1 / 2 m. Steep then flat - the first metre is the bargain; the second buys the complete removal of the charged-particle term.",
+      "physics": "覆土的另一半功劳是热:昼夜温波在 regolith 里 3.6 cm 就 e 折,2 m = 55 个皮肤深度——舱壳根本看不见昼夜,只贴着 ~215 K 的恒温土,散热负荷从裸壳夜间 325 W/m² 跌到 2 W/m²。",
+      "physics_en": "The berm's other job is thermal: the diurnal wave e-folds every 3.6 cm in regolith, so 2 m is 55 skin depths - the hull never sees day or night, only ~215 K constant soil, and heat loss drops from 325 W/m2 on a bare shell at night to 2 W/m2."
+    },
+    {
+      "id": "hull",
+      "label": "半圆柱压力壳（膜应力 0.7 mm）",
+      "label_en": "Semi-cylindrical pressure hull (0.7 mm membrane)",
+      "range": 18,
+      "detail": "标准舱是 ⌀4 m 半圆柱壳,内压 70 kPa。半圆柱让壳体均匀受拉:膜应力最小厚度只要 0.7 mm,工程取 3 mm;同尺寸的方盒平板靠弯曲抗压得 53 mm——厚 76 倍。这就是全村没有一间「方房子」的原因。",
+      "detail_en": "A standard cabin is a 4 m semi-cylinder holding 70 kPa. The half-cylinder puts the shell in pure tension: membrane stress needs only 0.7 mm of wall (3 mm as built), while a flat-sided box of the same size, resisting by bending, would need 53 mm - 76x thicker. That is why not one building in this village is square.",
+      "specs": { "内压": "70 kPa", "壳厚": "3 mm（膜应力最小 0.7 mm）", "对照": "方盒平板需 53 mm（76×）" },
+      "specs_en": { "Pressure": "70 kPa", "Wall": "3 mm as built (0.7 mm membrane minimum)", "Contrast": "flat plate would need 53 mm (76x)" },
+      "sim": "结构账:覆土压重在 0.38 g 下只有 12.2 kPa,抵消内压的 17%——覆土是屏蔽和保温,不是配重,壳自己必须扛住几乎全部 70 kPa。",
+      "sim_en": "Structural ledger: at 0.38 g the 2 m of soil presses down only 12.2 kPa - 17% of the internal pressure. The berm is shielding and insulation, not ballast; the hull carries essentially the full 70 kPa itself.",
+      "physics": "膜应力定律 σ=pR/t:曲面把压力变成均匀拉伸,平板把压力变成弯矩。加压建筑的形状不是审美选择,是材料账——曲率就是免费的强度。",
+      "physics_en": "Membrane law sigma = pR/t: curvature turns pressure into uniform tension, flat walls turn it into bending moment. The shape of pressurized architecture is not an aesthetic choice but a materials ledger - curvature is free strength."
+    },
+    {
+      "id": "corridor",
+      "label": "脊廊网（一个气压域）",
+      "label_en": "Ridge corridors (one pressure domain)",
+      "range": 16,
+      "detail": "2×2 m 方管从土脊里穿过,把全村舱体并成一个 78 m³ 走廊连通的常压域。没有它,14 座独立舱要 14 套气闸,邻居串个门 = 两次气闸循环加全程 EVA 服;有了它,是 30 秒常压步行。每 ~6 m 一道分段密封环,破口时可以逐段隔离。",
+      "detail_en": "2 x 2 m tube corridors thread through the soil ridge, merging every cabin into one pressure domain linked by 78 m3 of walkway. Without them, 14 standalone cabins would need 14 airlocks, and visiting a neighbor would cost two lock cycles in a full EVA suit; with them it is a 30-second shirt-sleeve walk. Seal rings every ~6 m let any segment be isolated after a breach.",
+      "specs": { "断面": "2×2 m 方管", "容积": "78 m³", "密封": "每 ~6 m 分段密封环" },
+      "specs_en": { "Section": "2 x 2 m tube", "Volume": "78 m3", "Sealing": "isolation rings every ~6 m" },
+      "sim": "气闸经济学:单次循环 0.2 kWh + 3 分钟。独立舱模式下一次室内拜访 = 2 次循环(0.4 kWh/6 min)加穿脱 EVA 服;并域后 = 0。乘上每天几十次人员流动,短廊是全村回收期最短的一笔投资。",
+      "sim_en": "Airlock economics: one cycle costs 0.2 kWh and 3 minutes. Standalone, an indoor visit means 2 cycles (0.4 kWh, 6 min) plus suit donning; merged, it costs zero. Multiplied by dozens of daily trips, the corridors are the fastest-payback structure in the village.",
+      "physics": "把 N 个加压体并成一个,气闸数从 N 降到 2——但代价是共享失效域。分段密封环就是这笔交换的对价:平时一个大气压域,事故时秒变 N 个小的。",
+      "physics_en": "Merging N pressure vessels into one cuts airlocks from N to 2 - at the price of a shared failure domain. The seal rings are the counterparty of that trade: one big domain in peacetime, N small ones the moment something breaks."
+    },
+    {
+      "id": "airlock",
+      "label": "端头气闸（全村仅两座）",
+      "label_en": "End-cabin airlock (one of only two)",
+      "range": 12,
+      "detail": "全村 16 舱只在两个端头舱设气闸——这是并域的红利。两座互为备份,分设村的对角,满足「任何加压体两条独立出口」规则(与地下城 tunnel 闸门同一条规范)。门口踏板、状态灯、应急气瓶架齐备。",
+      "detail_en": "Sixteen cabins, only two airlocks, at the two end cabins - the dividend of the merged domain. They back each other up from opposite corners of the village, satisfying the two-independent-egress rule for any pressurized volume (the same code as the undercity tunnel gate). Doorstep plate, status light, and emergency gas rack all present.",
+      "specs": { "数量": "2（对角互备）", "循环": "0.2 kWh / 3 min", "规范": "加压体双出口规则" },
+      "specs_en": { "Count": "2, diagonal backup pair", "Cycle": "0.2 kWh / 3 min", "Code": "two-egress rule for pressurized volumes" },
+      "sim": "对照账:同样 16 舱按独立模式要 14+ 套气闸,每套都是泄漏点、维护项和质量项。气闸数 14→2,泄漏点与检修工时同步砍到 1/7。",
+      "sim_en": "Comparison ledger: the same 16 cabins standalone would carry 14+ airlocks, each one a leak path, a maintenance item, and launch mass. Cutting 14 to 2 cuts leak paths and inspection hours to a seventh.",
+      "physics": "冗余的位置和数量一样重要:两座气闸放对角,任何单点事故(火、破口、卡门)最多废掉一座,村子永远留着一条穿压服之外的活路。",
+      "physics_en": "Where redundancy sits matters as much as how much: with the two locks on opposite corners, any single event - fire, breach, jammed door - can kill at most one, and the village always keeps an exit that does not require a suit."
+    },
+    {
+      "id": "commons",
+      "label": "公共舱（⌀6 m 大端窗）",
+      "label_en": "Commons cabin (6 m bay, big window)",
+      "range": 16,
+      "detail": "B 排中段放大一号的公共舱:⌀6 m 壳,端窗 ⌀3.1 m 夜里全村最亮。餐桌、任务简报、检疫期的公共起居都在这——过渡居住区的社交心脏。屋顶通风扇常转(全村唯一的动件),门口一条长凳朝着广场。",
+      "detail_en": "Mid-row B holds the one oversized cabin: a 6 m shell whose 3.1 m end window is the brightest thing in the village at night. Meals, mission briefings, and quarantine-period common life all happen here - the social heart of a transitional settlement. The roof vent fan is the village's only moving part; a bench by the door faces the plaza.",
+      "specs": { "壳径": "⌀6 m（标准舱 ⌀4 m）", "端窗": "⌀3.1 m", "动件": "屋顶通风扇（常转）" },
+      "specs_en": { "Shell": "6 m dia (standard is 4 m)", "Window": "3.1 m", "Moving part": "roof vent fan, always on" },
+      "sim": "通风账:并域后 78 m³ 廊道 + 16 舱共享一套大气,CO₂ 与湿度管理集中在公共舱机组——一台大机器代替 16 台小机器,维护面同样砍到零头。",
+      "sim_en": "Ventilation ledger: one merged atmosphere - 78 m3 of corridor plus 16 cabins - lets CO2 and humidity control concentrate in the commons plant room: one large machine instead of sixteen small ones, and a fraction of the maintenance surface.",
+      "physics": "居住区的心理学也是工程量:检疫/适应期的人需要一个「不是自己舱」的去处。公共舱大端窗刻意朝广场——光学上让室内生活对村子可见,这是聚落感的来源,不是装饰。",
+      "physics_en": "Settlement psychology is an engineering quantity too: people in quarantine or adaptation need somewhere that is not their own cabin. The big window deliberately faces the plaza - making indoor life visible to the village. That is where the sense of settlement comes from; it is not decoration."
+    },
+    {
+      "id": "plaza",
+      "label": "村心广场（28~32 床位的村）",
+      "label_en": "Village plaza (a 28-32 berth settlement)",
+      "range": 24,
+      "detail": "三排舱围出的 ⌀16 m 夯土广场:旗杆、公告屏、长椅、空投物资堆。这是 28~32 床位的地面过渡居住区——新移民着陆后的检疫适应期、短周期地面任务组都住这里,西侧不设廊,村口敞向枢纽来向。",
+      "detail_en": "Three cabin rows enclose a 16 m rammed-soil plaza: flagpole, notice screen, benches, a pile of airdropped supplies. This is the 28-32 berth surface transition quarter - landing quarantine and adaptation for new arrivals, and short-rotation surface crews. The west side has no corridor: the village mouth opens toward the hub.",
+      "specs": { "床位": "28~32（16 舱）", "定位": "着陆检疫 / 适应期 / 短周期任务组", "布局": "三排围合,西村口敞开" },
+      "specs_en": { "Berths": "28-32 in 16 cabins", "Role": "landing quarantine, adaptation, short rotations", "Layout": "three rows enclosing, west mouth open" },
+      "sim": "剂量预算账:舱内 6.2 mSv/yr,而每天 8 小时 EVA 折合 143 mSv/yr——所以「住得安全」只解决一半,另一半靠排班控制 EVA 时长。两项合计,一个火星年停留可以压在 50 mSv 以内。",
+      "sim_en": "Dose-budget ledger: 6.2 mSv/yr indoors, but 8 hours of EVA per sol would add 143 mSv/yr - safe housing solves only half the problem; the other half is rostering EVA time. Together they hold a full Mars-year stay under 50 mSv.",
+      "physics": "掩土村是「剂量预算」的建筑表达:屏蔽降低底数,围合缩短户外通勤,广场把必要的户外时间集中在舱影之间——每一米布局都在替排班表省毫希。",
+      "physics_en": "The village is dose budgeting expressed as architecture: shielding lowers the baseline, the enclosed plan shortens outdoor commutes, and the plaza concentrates necessary outdoor time between cabin shadows - every metre of layout saves the roster millisieverts."
+    },
+    {
+      "id": "bike",
+      "label": "火星自行车架（31 W 巡航）",
+      "label_en": "Mars bike rack (31 W cruising)",
+      "range": 10,
+      "detail": "村里的短途交通工具。0.38 g 加 0.6% 大气密度是骑行天堂:30 km/h 巡航只要 31 W(地球同速 249 W)——滚阻随重力缩 0.38 倍,气动阻力随密度缩 70 倍,几乎蹬着玩。压力服里骑车是真的日常。",
+      "detail_en": "The village's short-haul transport. 0.38 g plus 0.6% atmospheric density makes cycling paradise: 30 km/h cruise takes 31 W against 249 W on Earth - rolling resistance scales down 0.38x with gravity and aero drag 70x with density. Riding in a pressure suit is genuinely routine here.",
+      "specs": { "巡航功率": "31 W @ 30 km/h（地球 249 W）", "气动占比": "8%", "刹车距离": "地球的 2.64×" },
+      "specs_en": { "Cruise power": "31 W at 30 km/h (Earth: 249 W)", "Aero share": "8%", "Braking": "2.64x Earth distance" },
+      "sim": "动力学账:省力 8 倍是重力和大气送的,但附着力同样随 mg 缩 0.38 倍——刹车距离 2.64 倍,12 m 半径弯道要压 57° 倾角(地球同弯 30°)。村道限速不是规定出来的,是摩擦系数算出来的。",
+      "sim_en": "Dynamics ledger: the 8x power saving is a gift of gravity and thin air, but tire grip also scales with mg, down 0.38x - braking distance is 2.64x, and a 12 m turn demands a 57-degree lean where Earth asks 30. The village speed limit was not legislated; it was computed from the friction coefficient.",
+      "physics": "低重力的交通悖论:推进变便宜的同时,刹车和转向变贵——因为两者都花同一种货币(轮胎与地面的摩擦力),而摩擦力 ∝ mg。",
+      "physics_en": "The low-gravity transport paradox: propulsion gets cheap while braking and cornering get expensive - both spend the same currency, tire-to-ground friction, and friction scales with mg."
+    }
+  ]
+}

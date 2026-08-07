@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Undercity — Virtual-Physical Mars City</title>
+<meta name="description" content="Life under 30 m of rock: a camouflaged gate, a 3000 m elevator, an airlock foyer, a residential quarter with a real tree, and a PET/CT clinic.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--amber);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .broke{max-width:var(--textw);}
+  .broke li{margin:1rem 0;color:var(--ink-dim);}
+  .broke li strong{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="fab.html">← Prev</a>
+    <a href="perception.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">hab-tunnel-01 · hab-lift-01 · hab-foyer-01 · hab-quarter-01 · hab-clinic-01</div>
+    <h1>Undercity</h1>
+    <p class="phead__sub">On Mars, radiation is not weather — it is geography. The surface takes
+      ~230 mSv a year; 30 m of rock takes that down to Earth background, for free, forever.
+      So the city keeps its machines upstairs and its people below: a camouflaged gate in a berm,
+      an elevator whose speed limit is set by your ears, a quarter with a hydroponic wall and one
+      real tree, and a clinic. Five assets, every number on this page traceable to a ledger.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Rock overhead</div><div class="spec__v">30 m<small> &gt;5000 g/cm²</small></div></div>
+    <div class="spec"><div class="spec__k">Surface dose</div><div class="spec__v">230<small> mSv/yr</small></div></div>
+    <div class="spec"><div class="spec__k">Deepest level</div><div class="spec__v">−3000 m<small> 4.2 min ride</small></div></div>
+    <div class="spec"><div class="spec__k">Census</div><div class="spec__v">51%<small> mainly live in World B</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>Two doors in a hill</h2></div>
+    <p class="lead">The entrance had one hard constraint: the terrain engine cannot dig.
+      So the undercity begins with an illusion — a 60 m artificial berm raised over flat ground,
+      with a level roadway cut straight into its face.</p>
+    <div class="prose">
+      <p>The berm is fourteen overlapping regolith lobes, top-flattened, piled to 14.5 m — reading
+        as a hill from every angle while hiding a horizontal portal. The portal itself is built in
+        the city's printed-regolith language: 0.5 m print layers with alternating ridge depth, the
+        same signature as the surface print works. At the end of a 12 m gallery, a <strong>6 × 5 m
+        sliding vehicle airlock</strong> with hazard-striped seam and an 8-lamp cycle indicator; beside
+        it, a personnel airlock with a glowing porthole. At night the gallery's floor-level light
+        strips make the doorway the only warm thing on the hill — the one-glance proof that someone
+        is home.</p>
+      <p>Forty-two meters west stands the second door: <strong>hab-lift-01</strong>, the personnel
+        elevator headframe. A print-layer blockhouse, a white hoist room with a service beam, and a
+        stainless double door under red/green cycle lamps — 1444 triangles total. Vehicles take the
+        gate; people take the shaft.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/undercity/entrance-night.jpg" alt="The berm entrance at night, warm light spilling from the portal" loading="lazy">
+      <figcaption>HAB-TUNNEL-01, NIGHT — THE ONLY WARM DOORWAY ON A 60 M HILL</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/undercity/entrance-day.jpg" alt="Daytime view of the berm with vent stacks and comm mast" loading="lazy">
+        <figcaption>BERM BY DAY — VENT STACKS, COMM MAST, EMERGENCY HATCH ON THE FLANK</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/undercity/lift-night.jpg" alt="Elevator station headframe at night" loading="lazy">
+        <figcaption>HAB-LIFT-01 — HEADFRAME OVER A 3000 M SHAFT, 1444 TRIANGLES</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>The ride down</h2></div>
+    <p class="lead">The residential level sits under 30 m of rock; the main shafts continue to the
+      −3000 m deep levels, where the dark-matter experiment lives. Four analytic accounts shaped
+      the elevator — and the most interesting limit is not the motor.</p>
+    <div class="prose">
+      <p><strong>Rope, 1/g.</strong> Hoist rope self-weight scales with gravity, so a 3000 m Martian
+        shaft loads its rope like an 1140 m terrestrial one. On Earth this depth means staged hoists
+        and transfer stations; on Mars a single friction-drive belt runs pit-to-portal, margin 2.4×.</p>
+      <p><strong>Ears, 52 Pa/s.</strong> The shaft is pressurized, and 3000 m of gas column adds
+        ~13 kPa of self-weight between portal and pit bottom. At the rated 12 m/s the pressure ramp
+        is 52 Pa/s — comfortably inside the ~300 Pa/s ear-comfort envelope. The cab could go faster;
+        your ears could not.</p>
+      <p><strong>Power, 47 kW.</strong> Counterweighted, the drive only fights the 900 kg payload
+        imbalance: 47 kW peak at low gravity, and each descent regenerates ~7 kWh back into the
+        storage yard. <strong>Leakage, 7×10⁻⁷ sr.</strong> A straight shaft is a skylight for cosmic
+        rays — but depth is its own collimator: the pit subtends a solid angle that makes the direct
+        beam negligible, and a borated cab-roof plug seals the docking gap.</p>
+      <p>Below, the foyer is the interchange: a 20 × 12 m vaulted vehicle airlock hall (6 m³ personnel
+        cycle: 0.2 kWh, 3 minutes, 90% gas recovery) with the elevator doors on its right wall — and,
+        on its left, a viewport. Behind that window a 2500-triangle diorama fakes the whole cavern city:
+        tower silhouettes, lit-window grids, street lamps, a skylight band. The cheapest square meters
+        in the district buy its most important sentence: <em>there is a city down here.</em></p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/undercity/foyer-hall.jpg" alt="Foyer airlock hall with inner gate and status lamps" loading="lazy">
+        <figcaption>HAB-FOYER-01 — VEHICLE AIRLOCK HALL, INNER GATE AND CITY-NAME BOARD</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/undercity/foyer-liftdoor.jpg" alt="Elevator doors inside the foyer" loading="lazy">
+        <figcaption>THE DOWNSTAIRS DOOR — AMBER FLOOR INDICATOR, CALL LAMPS, HAZARD MAT</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/undercity/foyer-window.jpg" alt="View through the foyer viewport: city lights in a dark cavern" loading="lazy">
+      <figcaption>THE VIEWPORT — 2.5K TRIANGLES OF DIORAMA DOING THE WORK OF A CITY</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>Living under rock</h2></div>
+    <p class="lead">hab-quarter-01 is the residential block: five cabins, a hydroponic wall,
+      a commons, one real tree — and three recliner pods that hold the city's strangest statistic.</p>
+    <div class="prose">
+      <p>Each cabin is <strong>9.6 m²</strong> of private, acoustically padded space with its own air
+        feed — and 30 m of rock overhead, which means residential radiation shielding needs no active
+        hardware at all. The magenta wall is not decor: chlorophyll eats 430 and 660 nm, so the farm's
+        LEDs emit exactly those bands — <strong>29 m² of canopy at 2.8 µmol/J</strong>, a 4 kW wall
+        yielding order-25 kg of greens a month. Its water loop closes at &gt;90% vapor recovery; the
+        ~17 L/day makeup is a few percent of the Rodwell well's Stefan-checked 669-sol ledger.</p>
+      <p>The commons runs 3000 K warm light against the labs' 5000 K — thirty meters underground,
+        color temperature <em>is</em> time. The tree produces under 2% of one person-day of oxygen and
+        keeps its floor area anyway; a design document should know which things do not belong in the
+        numbers. The ECLSS loop has no exhaust port, only a feedstock port: concentrated CO₂ is piped
+        to the surface Sabatier plant, so every exhaled breath ends up as rocket propellant.</p>
+      <p>And the pods. Residents sleep and eat here in World A, but work, gather and build in
+        World B — the latest census says <strong>51% now mainly live in B</strong>, 49% in A.
+        On each pod's cradle rests the "headset" (by World B's own rules, possibly a decoy).
+        The most common argument at dinner, three meters from a real tree under thirty meters of
+        real rock: <em>which side is real?</em></p>
+    </div>
+    <figure class="figure">
+      <img src="assets/undercity/quarter-hall.jpg" alt="Residential quarter overview: tree, hydroponic wall, commons" loading="lazy">
+      <figcaption>HAB-QUARTER-01 — ONE TREE, 29 M² OF CANOPY, 3000 K OFF-DUTY LIGHT</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/undercity/quarter-cabins.jpg" alt="Cabin row with show unit open" loading="lazy">
+        <figcaption>CABIN ROW — 9.6 M² EACH, ONE UNIT OPEN AS THE SHOW FLAT</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/undercity/quarter-commons.jpg" alt="Commons with round tables and the World-B screen" loading="lazy">
+        <figcaption>THE COMMONS — AND, FAR WALL, A LIVE SKYLINE OF SOME CITY IN WORLD B</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The clinic</h2></div>
+    <p class="lead">One door off the main street: an imaging suite whose centerpiece is a
+      faithful replica of a clinical whole-body PET/CT — ported, dimension by dimension,
+      from its own design project.</p>
+    <div class="prose">
+      <p>The scanner follows the sibling PET/CT engineering study: <strong>Ø700 mm bore</strong>,
+        16-row CT up front, a static PET ring of <strong>592 crystals × 64 rings in 37 modules</strong>
+        behind it, and a two-stage table that reaches through both — whole-body protocol
+        ~24 minutes. The replica keeps the design language too: gloss-white gantry, the cyan flare
+        ring, orange PET modules visible down the bore, gold slip rings aft.</p>
+      <p>Around it, the room is built the way radiology actually works: a lead-partition control
+        booth with a leaded-glass window and a three-screen console; an FDG pass-through hatch in
+        the hot-lab wall with an amber dose window; crash cart, IV stand, wall-mounted reading
+        display. Print-regolith skirting ties the white room back to the city that carved it.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/undercity/clinic-engine.png" alt="The clinic as it appears in the city viewer" loading="lazy">
+        <figcaption>IN-ENGINE — THE SUITE AS RESIDENTS SEE IT</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/undercity/clinic-bore.jpg" alt="Down the PET/CT bore: cyan ring and patient table" loading="lazy">
+        <figcaption>DOWN THE BORE — Ø700, CYAN RING, TABLE ADVANCING</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
+    <p class="lead">Every number above, and which account produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Surface GCR + neutron dose</td><td class="num">~230 mSv/yr</td><td class="src">hab-tunnel-01 info.json · shielding ledger</td></tr>
+        <tr><td>Regolith shielding knee</td><td class="num">5 m</td><td class="src">hab-tunnel-01 info.json · shielding ledger</td></tr>
+        <tr><td>Rock overhead at the quarter</td><td class="num">30 m → &gt;5000 g/cm²</td><td class="src">hab-quarter-01 info.json · mass-thickness account</td></tr>
+        <tr><td>Vehicle airlock cycle</td><td class="num">~15 kWh · ~20 min</td><td class="src">hab-tunnel-01 info.json · airlock economics</td></tr>
+        <tr><td>Personnel airlock cycle</td><td class="num">0.2 kWh · ~3 min</td><td class="src">hab-tunnel-01 info.json · airlock economics</td></tr>
+        <tr><td>Main shaft depth / ride time</td><td class="num">3000 m · 4.2 min</td><td class="src">hab-lift-01 info.json · shaft card</td></tr>
+        <tr><td>Rope load, Mars vs Earth</td><td class="num">= 1140 m equiv.</td><td class="src">hab-lift-01 info.json · 1/g rope account</td></tr>
+        <tr><td>Cab speed set by ear comfort</td><td class="num">12 m/s → 52 Pa/s</td><td class="src">hab-lift-01 info.json · pressure-rate account</td></tr>
+        <tr><td>Hoist peak power / regen</td><td class="num">47 kW · 7 kWh</td><td class="src">hab-lift-01 info.json · power account</td></tr>
+        <tr><td>Shaft direct-beam solid angle</td><td class="num">~7×10⁻⁷ sr</td><td class="src">hab-lift-01 info.json · shield-cap account</td></tr>
+        <tr><td>Farm photon budget</td><td class="num">2.8 µmol/J · 4 kW</td><td class="src">hab-quarter-01 info.json · farm card</td></tr>
+        <tr><td>Farm water draw vs well life</td><td class="num">~17 L/day vs 669 sol</td><td class="src">hab-quarter-01 × res-rodwell-01 ledgers</td></tr>
+        <tr><td>Metabolic O₂ in / CO₂ out</td><td class="num">0.84 / 1.0 kg·person-day</td><td class="src">hab-quarter-01 info.json · ECLSS card</td></tr>
+        <tr><td>PET/CT geometry</td><td class="num">Ø700 · 592×64 · 37 mod</td><td class="src">pet-ct-design/system/out/system_params.json</td></tr>
+        <tr><td>Whole-body scan time</td><td class="num">~24 min</td><td class="src">pet-ct-design system_params.json · workflow</td></tr>
+        <tr><td>Triangle budgets (5 assets)</td><td class="num">13.9k / 1.4k / 2.7k / 6.0k / 8.1k</td><td class="src">scripts/validate_units.mjs run log</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <p class="lead">The honest part.</p>
+    <ol class="broke">
+      <li><strong>13,902 triangles, zero pixels.</strong> The headless review pane reports
+        <span class="src">innerWidth = 0</span>; the camera aspect went NaN, the projection matrix
+        was poisoned, and the renderer happily submitted the full scene to a screen that showed only
+        sky. The hunt crawled through shader-compile checks and geometry NaN sweeps before landing on
+        the actual fix: one <span class="src">|| 1100</span> fallback on the canvas size.</li>
+      <li><strong>The hovering mushroom.</strong> The berm's brow lobe was top-clamped into a flat
+        cap; from the air it read as a round table floating over the portal. Rebuilt twice — shrunk,
+        lowered, and re-cut as a terrace below the main plateau before it read as landform.</li>
+      <li><strong>Everything floated 20 cm.</strong> The sandbox contract said "keep every vertex
+        above y = 0.2 for terrain sinking"; the city convention wants assets flush at y = 0. All four
+        undercity assets shipped hovering until a ground-normalization pass went into every
+        <span class="src">build()</span> — the validator now pins minY = 0.00.</li>
+      <li><strong>The 8 m pad that measured 9.6.</strong> A cable tray poked 1.6 m past the elevator
+        station's pad, and declared <span class="src">size_m = 8</span> slid past the validator's 25%
+        tolerance. Caught on re-read, tray trimmed onto the pad: bounding box now 8.0 exact.</li>
+      <li><strong>Cameras in the dark.</strong> Two interior review cams were placed outside the
+        building's front wall — at night they returned pitch black, and one control-booth cam sat so
+        close to its own screens the whole frame was blue glow. Interior cameras go <em>inside</em>;
+        obvious only afterwards.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledgers: <span class="src">viewer/units/hab-tunnel-01.info.json · hab-lift-01.info.json · hab-quarter-01.info.json</span> ·
+      PET/CT geometry: <span class="src">pet-ct-design/system/out/system_params.json</span> ·
+      City assets: <span class="src">viewer/units/hab-{tunnel,lift,foyer,quarter,clinic}-01.js</span></p>
+    <p style="margin:12px 0 0;">Walk it: serve the repo root, open <span class="src">/viewer/</span> —
+      WASD to walk, <span class="src">U</span> jumps to the undercity, <span class="src">E</span> enters
+      the buildings, POI cards surface as you approach. ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

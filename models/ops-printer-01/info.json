@@ -4,8 +4,10 @@
     {
       "id": "printhead",
       "label": "打印头（螺杆挤出总成）",
+      "label_en": "Print head (screw extruder assembly)",
       "range": 25,
       "detail": "整机真正的核心执行器：伺服电机经行星减速器驱动螺杆，把 regolith 硫磺混凝土以受控体积流量从喷嘴压出。头上带缓存料斗（料位计）、料腔压力传感器、喷嘴加热圈与温度传感器——流量必须与龙门行走速度实时闭环：走快断条，走慢堆料。",
+      "detail_en": "The machine's real working actuator: a servo motor drives a screw through a planetary reducer, pushing regolith-sulphur concrete out of the nozzle at a controlled volumetric rate. The head carries a buffer hopper with a level sensor, a barrel pressure sensor, and a nozzle heater band with its own thermocouple. Flow has to stay in closed loop with gantry travel speed: too fast and the bead breaks, too slow and it piles up.",
       "specs": {
         "螺杆直径": "0.4 m",
         "喷嘴口径": "120 mm",
@@ -13,14 +15,25 @@
         "行走速度": "≤ 0.25 m/s",
         "流量控制": "螺杆转速前馈 + 料腔压力反馈"
       },
+      "specs_en": {
+        "Screw diameter": "0.4 m",
+        "Nozzle bore": "120 mm",
+        "Layer height x bead width": "160 x 200 mm",
+        "Travel speed": "<= 0.25 m/s",
+        "Flow control": "screw-speed feedforward + barrel-pressure feedback"
+      },
       "sim": "流量账本：Q = 层高×道宽×行速 = 0.16×0.20×0.15 ≈ 4.8 L/s（峰值 ≈17 m³/h）；启停段以螺杆短暂反转（回抽）消除滴料。",
-      "physics": "浆料是宾汉/触变流体：螺杆剪切使表观黏度下降（剪切稀化）才泵得动，挤出静置后触变结构恢复提供绿色强度。加热圈把硫磺粘结剂保持在 130~140 °C 熔融窗口——硫磺 115 °C 熔化、超过 159 °C 开始聚合黏度激增，窗口很窄。"
+      "sim_en": "Flow ledger: Q = layer height x bead width x travel = 0.16 x 0.20 x 0.15 = about 4.8 L/s (peak about 17 m3/h). At starts and stops the screw briefly reverses to retract and stop the nozzle drooling.",
+      "physics": "浆料是宾汉/触变流体：螺杆剪切使表观黏度下降（剪切稀化）才泵得动，挤出静置后触变结构恢复提供绿色强度。加热圈把硫磺粘结剂保持在 130~140 °C 熔融窗口——硫磺 115 °C 熔化、超过 159 °C 开始聚合黏度激增，窗口很窄。",
+      "physics_en": "The slurry is a Bingham / thixotropic fluid: screw shear drops its apparent viscosity (shear thinning) so it can be pumped at all, and once extruded the thixotropic structure rebuilds to give green strength. The heater band holds the sulphur binder in its 130-140 C melt window - sulphur melts at 115 C and starts polymerising above 159 C, where viscosity spikes. It is a narrow window."
     },
     {
       "id": "dome",
       "label": "打印穹顶（半成，6 m）",
+      "label_en": "Printed dome (part-built, 6 m)",
       "range": 35,
       "detail": "regolith 硫磺混凝土穹顶居住舱，螺旋连续路径逐层打印，层脊清晰可见。当前打印至 6.0 m（设计 7.5 m），顶口开口 6 m，最后数层转短弧螺旋收口形成台阶状未完成边缘。",
+      "detail_en": "A regolith-sulphur concrete habitat dome printed layer by layer along one continuous spiral path, the layer ridges clearly visible. It currently stands at 6.0 m of a designed 7.5 m, with a 6 m opening at the top; the last few layers switch to short-arc spirals, leaving the stepped, unfinished edge.",
       "specs": {
         "基底直径": "10 m",
         "设计高度": "7.5 m（当前 6.0 m）",
@@ -28,17 +41,31 @@
         "已打印层数": "37 层 × 160 mm",
         "顶口直径": "6 m（当前）"
       },
+      "specs_en": {
+        "Base diameter": "10 m",
+        "Design height": "7.5 m (currently 6.0 m)",
+        "Wall thickness": "about 0.2 m",
+        "Layers printed": "37 x 160 mm",
+        "Top opening": "6 m (current)"
+      },
       "sim": [
         "层生产账：单层周长 19~31 m（随高度收缩），峰值流量下单层 1~2 min，含层间等待全程 ≈6 h。",
         "悬挑校核：中部（h=4 m）单层径向内收 67 mm、层间搭接 66%——安全；顶口（h=6 m）母线倾角 42°，单层内收 142 mm、搭接仅 29%，已到悬挑极限——因此顶部转短弧螺旋收口，剩余开口待吊装预制顶盖封口。"
       ],
-      "physics": "逐层堆叠的判据是绿色强度 σ_y > ρ·g_mars·Δh×安全系数：新层必须在下一层到来前扛住增量自重。硫磺混凝土靠冷却固化（分钟级）而非水化（小时级），层间强度增长快，正适合无水星球的快速打印;火星 0.38g 又把自重项打了 62% 折——同配方在火星能打的悬挑角比地球大。"
+      "sim_en": [
+        "Layer production: each layer runs 19-31 m of circumference (shrinking with height), 1-2 min per layer at peak flow, and about 6 h in total including inter-layer waits.",
+        "Corbel check: at mid-height (h = 4 m) each layer steps 67 mm inward with 66% overlap - safe. At the top opening (h = 6 m) the meridian tilts 42 deg, each layer steps 142 mm inward and overlap falls to 29%, the corbelling limit. Hence the short-arc spiral close-out, with the remaining opening to be capped by a prefabricated lid."
+      ],
+      "physics": "逐层堆叠的判据是绿色强度 σ_y > ρ·g_mars·Δh×安全系数：新层必须在下一层到来前扛住增量自重。硫磺混凝土靠冷却固化（分钟级）而非水化（小时级），层间强度增长快，正适合无水星球的快速打印;火星 0.38g 又把自重项打了 62% 折——同配方在火星能打的悬挑角比地球大。",
+      "physics_en": "The stacking criterion is green strength: sigma_y > rho x g_mars x delta_h with a safety factor - each new layer must carry the added weight before the next arrives. Sulphur concrete sets by cooling (minutes) rather than hydration (hours), so inter-layer strength builds fast, which suits printing on a waterless planet. Mars gravity at 0.38 g then discounts the self-weight term by 62%, so the same mix can corbel at a steeper angle here than on Earth."
     },
     {
       "id": "gantry",
       "label": "龙门桁架（12 m 跨）",
+      "label_en": "Gantry truss (12 m span)",
       "range": 40,
       "detail": "两座 A 字腿塔架骑在带枕木的地面重轨上构成移动门架：X 轴＝打印头小车沿横梁走行，Y 轴＝整门架沿轨道走行，Z 轴＝打印头沿立柱滑轨升降。伺服电机+齿轮齿条驱动，梁顶电缆桥架内拖链随动，塔顶红色警示灯。",
+      "detail_en": "Two A-frame leg towers ride heavy rail on sleepers to form a travelling portal: X is the print-head carriage along the beam, Y is the whole portal along the rails, Z is the head on the column slideways. Servo motors with rack and pinion drive all axes, cable chains follow inside the beam-top tray, and red warning beacons sit on the tower tops.",
       "specs": {
         "跨度": "12 m",
         "门下净高": "≈ 8 m",
@@ -46,50 +73,89 @@
         "驱动": "伺服 + 齿轮齿条（4 台走行 + 1 台小车 + 1 台升降）",
         "重复定位": "± 2 mm"
       },
+      "specs_en": {
+        "Span": "12 m",
+        "Clear height under portal": "about 8 m",
+        "Travel X x Y x Z": "12 x 15 x 6.5 m",
+        "Drives": "servo + rack and pinion (4 travel + 1 carriage + 1 hoist)",
+        "Repeatability": "+-2 mm"
+      },
       "sim": "横梁刚度账：0.8×1.0 m 箱形梁（壁 8 mm，I≈4.4×10⁻³ m⁴），打印头满载 800 kg 在火星重力下集中载荷 ≈3 kN，中点挠度 0.12 mm；叠加梁自重 0.26 mm，合计 ≈0.4 mm ≪ L/1000（12 mm）。",
-      "physics": "低重力红利与热变形主导：同截面梁在火星承载自重仅为地球 38%，刚度裕度天然放大 2.6 倍；真正吃掉精度预算的是昼夜 ΔT≈80 K 的热胀缩——12 m 钢梁伸缩 α·L·ΔT ≈ 11.5 mm，远大于挠度，故一端浮动支承 + 位置闭环做温度补偿。"
+      "sim_en": "Beam stiffness: a 0.8 x 1.0 m box section (8 mm wall, I = 4.4e-3 m4) under a fully loaded 800 kg head is a 3 kN point load in Mars gravity, giving 0.12 mm mid-span deflection; with beam self-weight 0.26 mm, the total is about 0.4 mm, far inside L/1000 (12 mm).",
+      "physics": "低重力红利与热变形主导：同截面梁在火星承载自重仅为地球 38%，刚度裕度天然放大 2.6 倍；真正吃掉精度预算的是昼夜 ΔT≈80 K 的热胀缩——12 m 钢梁伸缩 α·L·ΔT ≈ 11.5 mm，远大于挠度，故一端浮动支承 + 位置闭环做温度补偿。",
+      "physics_en": "Low gravity helps and thermal strain hurts. The same section carries only 38% of its Earth self-weight here, so stiffness margin is naturally 2.6x larger. What actually eats the accuracy budget is the 80 K day-night swing: a 12 m steel beam moves alpha x L x delta_T = about 11.5 mm, far more than any deflection. Hence one floating support and closed-loop position compensation against temperature."
     },
     {
       "id": "feed",
       "label": "供料系统（料仓+封闭输送）",
+      "label_en": "Feed system (silo + enclosed conveyor)",
       "range": 25,
       "detail": "四腿锥底料仓储存预拌 regolith 干料，底部振动给料器破拱喂入全封闭斜置输送机，提升约 7 m 至塔顶中转箱，再经软管沿横梁送入打印头缓存斗。仓侧设检修爬梯。",
+      "detail_en": "A four-legged conical silo stores pre-mixed dry regolith. A vibrating feeder at the bottom breaks arching and meters into a fully enclosed inclined conveyor, which lifts about 7 m to a transfer box on the tower top; a flexible hose then runs along the beam into the print head's buffer hopper. An access ladder climbs the silo side.",
       "specs": {
         "料仓容积": "≈ 12 m³（约 26 t）",
         "给料": "振动给料器（破拱）",
         "输送": "全封闭斜置输送机，提升 ≈7 m",
         "末端": "中转箱 + Ø100 mm 软管"
       },
+      "specs_en": {
+        "Silo volume": "about 12 m3 (roughly 26 t)",
+        "Feeder": "vibrating feeder (arch breaking)",
+        "Conveyor": "fully enclosed, inclined, about 7 m lift",
+        "Delivery end": "transfer box + dia-100 mm hose"
+      },
       "sim": "供料平衡：打印峰值 4.8 L/s ≈ 38 t/h（ρ≈2.2 t/m³），输送机按 1.3× 裕度取 50 t/h；满仓 26 t 支撑约 40 min 连续打印，矿场补给周期需压在 30 min 以内（对接 res-mine-01）。",
-      "physics": "全封闭输送在火星是必需而非选配：6 mbar 低压下细粉易带静电、逸散后吸附光伏板与散热面难以清除；0.38g 下颗粒料更易在锥仓内架桥成拱——所以锥角加陡并加振动给料强制破拱。"
+      "sim_en": "Feed balance: peak printing draws 4.8 L/s, about 38 t/h at rho = 2.2 t/m3, so the conveyor is sized at 50 t/h with 1.3x margin. A full 26 t silo sustains roughly 40 min of continuous printing, which puts the mine resupply interval under 30 min (interfacing with res-mine-01).",
+      "physics": "全封闭输送在火星是必需而非选配：6 mbar 低压下细粉易带静电、逸散后吸附光伏板与散热面难以清除；0.38g 下颗粒料更易在锥仓内架桥成拱——所以锥角加陡并加振动给料强制破拱。",
+      "physics_en": "Full enclosure is mandatory on Mars rather than optional: at 6 mbar the fine powder charges electrostatically and, once it escapes, clings to photovoltaic panels and radiator faces where it is very hard to remove. At 0.38 g granular material also bridges more easily inside a conical silo, so the cone angle is steepened and a vibrating feeder forces the arch to collapse."
     },
     {
       "id": "control",
       "label": "操作控制站",
+      "label_en": "Operator control station",
       "range": 20,
       "detail": "现场 PLC 控制柜：HMI 主屏显示打印进度与传感器状态，副屏看路径规划，控制台上急停蘑菇头（戴加压手套可拍）与启动/模式按钮，底部黑黄警示带，侧面散热百叶，桅杆信标灯与无线回传天线。旁边电源撬块经地面电缆导管为全场供电。",
+      "detail_en": "The field PLC cabinet: the main HMI shows print progress and sensor status, the secondary screen shows path planning, and the console carries a mushroom E-stop (hittable with a pressurised glove) plus start and mode buttons. Black-yellow hazard banding runs along the base, cooling louvres sit on the side, and a mast carries the beacon and the wireless telemetry antenna. A power skid beside it feeds the whole site through ground cable conduits.",
       "specs": {
         "控制": "PLC + 工业 HMI 双屏",
         "安全": "急停回路 + 区域监控",
         "闭环分层": "路径插补 10 ms / 伺服环 1 ms / 流量环 100 ms",
         "运行模式": "常态舱内遥操作，现场站用于调试与应急"
       },
+      "specs_en": {
+        "Control": "PLC + dual industrial HMI",
+        "Safety": "E-stop circuit + area monitoring",
+        "Loop rates": "path interpolation 10 ms / servo loop 1 ms / flow loop 100 ms",
+        "Operating mode": "normally teleoperated from inside; the field station is for commissioning and emergencies"
+      },
       "sim": "全程账：37 层 ≈6 h 连续打印期间，控制器同时闭环 3 轴位置 + 挤出流量 + 料位/压力/温度 6 路传感，任一越限先降速后停机（喷嘴回抽防滴料）。",
-      "physics": "为什么户外还留操作面板：火星常态是舱内遥操作，但工程逻辑要求在设备旁保留最短路径的人工介入点——大尺寸按钮与高对比界面按 EVA 手套人机工效设计。"
+      "sim_en": "Whole-run ledger: across roughly 6 h of continuous printing for all 37 layers, the controller simultaneously closes three position axes plus extrusion flow, while watching six sensor channels of level, pressure and temperature. Any limit exceedance slows the machine first and then stops it, retracting the nozzle to prevent drooling.",
+      "physics": "为什么户外还留操作面板：火星常态是舱内遥操作，但工程逻辑要求在设备旁保留最短路径的人工介入点——大尺寸按钮与高对比界面按 EVA 手套人机工效设计。",
+      "physics_en": "Why keep an outdoor panel at all: the Mars norm is teleoperation from inside, but engineering logic demands a shortest-path point of manual intervention right at the machine. The oversized buttons and high-contrast interface are sized by EVA-glove ergonomics."
     },
     {
       "id": "robot",
       "label": "regolith 装载机器人",
+      "label_en": "Regolith loader robot",
       "range": 20,
       "detail": "小型四轮铲装机器人，白黄涂装覆火星尘膜，前置铲刀、桅杆天线与传感头，停驻平台角落。负责场内零星清理与料仓应急补给。",
+      "detail_en": "A small four-wheeled loading robot in white and yellow livery under a film of Mars dust, with a front blade, mast antenna and sensor head, parked in the corner of the pad. It handles odd-job site clearing and emergency silo top-ups.",
       "specs": {
         "轮式": "4 × 刚性轮",
         "作业": "铲装 + 短驳 regolith",
         "单斗": "≈ 0.2 m³（0.44 t）",
         "导航": "自主 + 遥操作"
       },
+      "specs_en": {
+        "Chassis": "4 rigid wheels",
+        "Task": "loading and short-haul regolith transfer",
+        "Bucket": "about 0.2 m3 (0.44 t)",
+        "Navigation": "autonomous + teleoperated"
+      },
       "sim": "运力账：打印峰值需求 38 t/h ÷ 单趟 0.44 t ≈ 86 趟/h——单机不现实，故主供料由矿场（res-mine-01）批量转运，本机只兜底：清理散料、维持给料口畅通、停机期小批量补仓。",
-      "physics": "0.38g 下同功率铲装反力更小但轮地附着也降——牵引力上限 μ·m·g 同比缩水，故宁可小斗多趟、车身压重靠电池包下置。"
+      "sim_en": "Haulage ledger: peak printing demand of 38 t/h against 0.44 t per trip is about 86 trips per hour - unrealistic for one machine. Bulk feed therefore comes from the mine (res-mine-01) and this robot only backstops: clearing spills, keeping the feed inlet clear, and topping the silo up in small batches during downtime.",
+      "physics": "0.38g 下同功率铲装反力更小但轮地附着也降——牵引力上限 μ·m·g 同比缩水，故宁可小斗多趟、车身压重靠电池包下置。",
+      "physics_en": "At 0.38 g the reaction forces on a given digging power are lower, but wheel-ground traction falls in the same proportion: the traction ceiling mu x m x g shrinks equally. Small bucket and more trips is therefore the right trade, with the battery pack mounted low to add ballast."
     }
   ]
 }

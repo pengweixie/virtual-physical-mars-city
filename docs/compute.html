@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compute &amp; Silicon — Virtual-Physical Mars City</title>
+<meta name="description" content="The compute center where the loop closes: a bigram language model on the big screen, and the same algorithm as a real sky130 chip on a fabbed board in the rack.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--amber);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .pipe{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;max-width:var(--textw);}
+  .pipe span{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.04em;padding:7px 12px;
+    border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-dim);}
+  .pipe span b{color:var(--accent);font-weight:600;}
+  .broke{max-width:var(--textw);margin-top:26px;display:grid;gap:18px;}
+  .broke .item{border-left:2px solid var(--accent);padding:2px 0 2px 18px;}
+  .broke .item h3{font-size:1.02rem;font-weight:600;}
+  .broke .item p{margin:.4rem 0 0;color:var(--ink-dim);font-size:.98rem;}
+  .try{max-width:var(--textw);margin-top:22px;}
+  .try li{margin:.5rem 0;color:var(--ink-dim);}
+  .try code,.prose code{font-family:var(--f-mono);font-size:.85em;background:var(--bg-3);
+    border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="resources.html">← Prev</a>
+    <a href="quantum.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">ops-compute-01 · MB-1</div>
+    <h1>Compute &amp; Silicon</h1>
+    <p class="phead__sub">The compute center is where the whole city closes its loop. A character-level
+      bigram language model runs live on the big screen — and the <em>same</em> algorithm exists as a
+      real chip. MB-1 was taken from Verilog to a sky130 GDS with clean routing, and a fabbed eval board
+      now sits as a blade in the rack. Software twin on the screen, silicon body in the machine that
+      computes it.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">MB-1 die</div><div class="spec__v">1.79<small>mm²</small></div></div>
+    <div class="spec"><div class="spec__k">Logic area</div><div class="spec__v">0.033<small>mm² · ~2100 cells</small></div></div>
+    <div class="spec"><div class="spec__k">FPGA Fmax</div><div class="spec__v">173<small>MHz · 0 latches</small></div></div>
+    <div class="spec"><div class="spec__k">Routing DRC</div><div class="spec__v">0<small>violations</small></div></div>
+  </div>
+</div>
+
+<!-- 01 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">A datacenter hall whose hero screen runs an AI — and the AI has a body one rack over.</p>
+    <div class="prose">
+      <p>The big screen types Mars text character by character, driven by a bigram model — the starting
+      model from the nanoGPT tutorial, running live in the browser. That is the <strong>software twin</strong>.
+      The closed loop the whole city is built around ends here: real Mars → HiRISE digital twin → a compute
+      center in the city → running real AI code → generating text about Mars.</p>
+      <p>The last link is <strong>MB-1</strong>: that exact bigram algorithm, turned into a real digital ASIC.
+      An MB-1 evaluation board is slotted as a blade into rack&nbsp;2, a teal data cable running from it toward
+      the screen. The PCB copper you see is drawn from the board's actual layout — 467 routed segments — and the
+      gold-lidded ceramic sample in the DIP-24 socket is engraved <span class="hl">MB-1 · sky130</span>.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/compute/board-in-rack.jpg" alt="MB-1 evaluation board as a blade in the compute-center rack" loading="lazy">
+      <figcaption>MB-1 EVAL BOARD SLOTTED INTO RACK 2 — REAL LAYOUT COPPER, DIP-24 CERAMIC SAMPLE, FEEDING nanogpt.py</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">Training stays off-chip; on-chip inference collapses to “one 16-bit random number × a run of compares.”</p>
+    <div class="prose">
+      <p>The design insight that makes MB-1 buildable: keep the <strong>training off the chip</strong>. Count the
+      bigram transitions offline, turn each row into a cumulative distribution (CDF), normalize to 16-bit full
+      scale, and write it into on-chip SRAM. Sampling then degenerates into inverse-CDF: draw a 16-bit random
+      number and walk the row comparing until <code>CDF[i] ≥ r</code>. <strong>No multiply, no divide, no float</strong> —
+      just comparators, a counter, and a 32-bit LFSR. That is the standard quantized-inference recipe, in silicon.</p>
+      <p>It was carried through four independent back-ends, each verified before moving on:
+      <strong>RTL → FPGA → sky130 GDS → PCB</strong>. The 64-Kbit CDF table is a compiled SRAM macro (four
+      OpenRAM blocks) — never synthesized to flip-flops — so on the die it dominates the area exactly as the
+      design brief predicted.</p>
+    </div>
+    <div class="pipe">
+      <span><b>RTL</b> · 7 modules, self-checking TB</span>
+      <span><b>FPGA</b> · Arty A7-35T bitstream</span>
+      <span><b>sky130</b> · Yosys → OpenROAD GDS</span>
+      <span><b>PCB</b> · Gerber / BOM / CPL</span>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/compute/gds-die.jpg" alt="sky130 GDS layout of MB-1 showing four SRAM macros" loading="lazy">
+        <figcaption>MB-1 sky130 DIE 1660×1080 µm — FOUR SRAM MACROS (2×2) = ~64% OF AREA, LOGIC AT CENTER</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/compute/pcb-layout.jpg" alt="MB-1 evaluation board PCB layout" loading="lazy">
+        <figcaption>MB1-DEMO revA — 2-LAYER EVAL BOARD, 467 ROUTED SEGMENTS, TEXTURE IS THE REAL LAYOUT</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/compute/pcb-u1-zoom.jpg" alt="Close-up of the MCU LQFP fanout on the PCB" loading="lazy">
+      <figcaption>LQFP-48 FANOUT ZOOM — THREE-STEP STAGGERED ESCAPE VIAS, THE CLEARANCE-FIX ZONE</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number, and which run produced it. Nothing on this page is a guess.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Bit-exact across 4 tools</td><td class="num">Python ↔ iverilog ↔ xsim ↔ synth</td><td class="src">tools/mb1_model.py + tb/tb_mb1.sv</td></tr>
+        <tr><td>Two simulators tick-identical</td><td class="num">$finish 1,134,185 ns</td><td class="src">sim/run.ps1 + sim/run_xsim.ps1</td></tr>
+        <tr><td>FPGA OOC synth, latches</td><td class="num">0 · 267 LUT / 292 FF</td><td class="src">syn/synth_ooc.tcl (Artix-7 -1)</td></tr>
+        <tr><td>FPGA Fmax</td><td class="num">173 MHz</td><td class="src">syn/synth_ooc.tcl (OOC estimate)</td></tr>
+        <tr><td>Arty bitstream, timing</td><td class="num">MET · WNS +3.29 ns @100 MHz</td><td class="src">syn/impl_arty.tcl</td></tr>
+        <tr><td>sky130 logic area</td><td class="num">0.033 mm² · ~2100 cells</td><td class="src">asic/synth_sky130.ys (Yosys)</td></tr>
+        <tr><td>SRAM macro equivalence</td><td class="num">11,069 reads · 0 mismatch</td><td class="src">tb/tb_cdf_sram_equiv.sv</td></tr>
+        <tr><td>Full die, routing DRC</td><td class="num">1.79 mm² · 0 violations</td><td class="src">asic/pnr/mb1_pnr.tcl (OpenROAD)</td></tr>
+        <tr><td>Hold closure</td><td class="num">+0.14 ns MET</td><td class="src">OpenROAD repair_timing (groute RC)</td></tr>
+        <tr><td>Final GDS</td><td class="num">26.3 MB</td><td class="src">asic/pnr/merge_gds.ps1 (klayout)</td></tr>
+        <tr><td>PCB net truth-table</td><td class="num">129 pins · 0 mismatch</td><td class="src">pcb/verify_sch.py</td></tr>
+        <tr><td>Board routed</td><td class="num">0-fail A* → Gerber</td><td class="src">pcb/route_board.py</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">The honest part. Two RTL bugs, a synthesis trap, six place-and-route rounds, thirteen routing rounds.</p>
+    <div class="broke">
+      <div class="item"><h3>Sampling off-by-one (1/65536)</h3>
+        <p>With <code>cdf[i] ≥ r</code> and <code>r ∈ [0, 0xFFFF]</code>, <code>r=0</code> could select a
+        zero-probability symbol. Not an RTL-vs-model mismatch — a semantic defect both shared — caught by an
+        invariant assertion (“a zero-prob symbol must never appear”), not by cross-check. Fix: clamp r to
+        <code>[1, 0xFFFF]</code>, one comparator and a mux, RTL and model together.</p></div>
+      <div class="item"><h3>VALID/READY zero-width pulse</h3>
+        <p>When READY was held high, <code>valid&lt;=1</code> then <code>valid&lt;=0</code> in the same block
+        (last assignment wins) gave a zero-cycle pulse — the consumer never saw a valid beat. Only the
+        constant-ready path, <em>outside</em> the back-pressure test, exposed it. Fix: registered-valid handshake,
+        plus a clean flush to IDLE when run drops so stale data never leaks between runs.</p></div>
+      <div class="item"><h3>SRAM synthesized to 66,048 flip-flops</h3>
+        <p>The behavioral <code>reg mem[]</code> mapped to a phantom 2.33 mm² of DFFs until it was read as a
+        compiled macro (<code>read_verilog -lib</code>) instead. Real logic is 0.033 mm²; the SRAM is a hard macro.</p></div>
+      <div class="item"><h3>OpenROAD P&amp;R: six rounds, one physics fix each</h3>
+        <p>The failure point moved monotonically inward every round: old build has no <code>place_macro</code>
+        (place via odb) → PDN row slivers under macros (flush them to the edge) → pin-geography floorplan
+        (read the LEF first) → tie cells for constant nets → hold repair on global-route parasitics → antenna
+        repair wedged between global and detailed route. Result: routing DRC 0.</p></div>
+      <div class="item"><h3>PCB: the connector that deadlocked the router</h3>
+        <p>Thirteen routing rounds. A 16-pin USB-C fine row jammed the 5-mil grid router until it was swapped
+        for a Micro-USB — an architectural fix beats a patch-on-a-patch. 57 clearance violations remain, all
+        located with fixes listed; a ~1-hour hand-finish plus a fab DFM check are the honest boundary before ordering.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
+    <p class="lead">Walk into the compute center and find the chip that computes the screen.</p>
+    <ul class="try">
+      <li>In the city viewer, press <code>C</code> for the tech city, walk to the compute center, and look at
+        rack&nbsp;2 — the green blade is the MB-1 eval board. Inspect it (<code>V</code>) for the
+        <span class="hl">mb1</span> knowledge card.</li>
+      <li>The big screen runs the bigram live: <code>MARS COMPUTE CENTER // nanogpt.py</code>, and its boot
+        log now probes <code>rack2/mb1-eval</code> before sampling.</li>
+      <li>The software twin runs the identical algorithm in the browser and self-tests bit-exact against the
+        chip's golden model on load — same LFSR, same clamped inverse-CDF sampling.</li>
+    </ul>
+    <figure class="figure">
+      <img src="assets/compute/board-night.jpg" alt="MB-1 board glowing in the compute center at night" loading="lazy">
+      <figcaption>NIGHT SHIFT — THE BLADE IN THE RACK, HEARTBEAT LED PULSING ONE FLIP PER EMITTED CHARACTER</figcaption>
+    </figure>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">mars-bigram/README.md</span> ·
+      Digital flow: <span class="src">mars-bigram/{rtl,tb,sim,syn,fpga,asic}</span> ·
+      City assets: <span class="src">viewer/units/ops-compute-01.js + mb1-demo-board.js</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

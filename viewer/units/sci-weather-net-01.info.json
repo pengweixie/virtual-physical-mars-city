@@ -1,0 +1,47 @@
+{
+  "id": "sci-weather-net-01",
+  "pois": [
+    {
+      "id": "netmast",
+      "label": "观测网远端杆(标准型)",
+      "label_en": "Network Remote Pole (standard)",
+      "range": 12,
+      "detail": "主站外围 1.5~2.2 km 的无人哨兵:2.2 m 锥杆挂迷你热膜头,基座气压墩带鹅颈进气,PV+电池自持,UHF 鞭天线把分钟包回传主站。三脚配重袋压住,不打地基。",
+      "detail_en": "An unmanned sentinel 1.5-2.2 km out from the hub: a 2.2 m taper pole carries a mini hot-film head, the base barometer puck breathes through a gooseneck, PV plus battery keep it alive, and a UHF whip relays minute packets to the hub. Tripod ballast bags hold it down — no foundation needed.",
+      "specs": { "杆高": "2.2 m", "测风": "迷你热膜头", "气压": "墩内膜盒", "回传": "UHF → 主站", "锚固": "三脚配重袋" },
+      "specs_en": { "Height": "2.2 m", "Wind": "mini hot-film head", "Pressure": "capsule in puck", "Uplink": "UHF → hub", "Anchor": "tripod ballast" },
+      "sim": "观测网三角定位账(sim_network_triangulation.py,蒙卡 N=4000):主站+3 远端到达时差平面波最小二乘反演前锋矢量——速度 σ 4-5%、方位 σ 2.2-2.8°(前锋 ~100 m 皱褶主导);最上风杆 2.2 km 给 1-3.5 分钟提前量",
+      "sim_en": "Network triangulation account (sim_network_triangulation.py, MC N=4000): plane-wave least squares on hub + 3 remote arrival times retrieves the front vector — speed sigma 4-5%, heading sigma 2.2-2.8 deg (dominated by ~100 m front roughness); the most upwind pole at 2.2 km buys 1-3.5 minutes of lead",
+      "physics": "单站只能报「前锋到了」;t_i = t₀ + s·x_i 的平面波模型里,3 根远端是解出二维慢度矢量的最小闭合(2 站只有一条基线)——网才能报「从哪来、多快、几分钟到」,矢量喂给穹顶闭风口、吊装停工与发射场 hold;小时级尘暴生成预警仍归主站 τ 光度计",
+      "physics_en": "A single station can only say 'the front is here'; in the plane-wave model t_i = t0 + s·x_i, three remotes are the minimal closure to solve the 2D slowness vector (two stations give just one baseline) — only the network can say 'from where, how fast, minutes to arrival', feeding dome vent closures, crane stand-downs and launch holds; hour-scale storm-genesis warning stays with the hub photometer"
+    },
+    {
+      "id": "netdust",
+      "label": "尘通量强化杆(前锋哨兵)",
+      "label_en": "Dust-flux Pole (front sentinel)",
+      "range": 12,
+      "detail": "2.8 m 高杆版:双环电极数撞击尘粒、顶端静电球读摩擦起电电场——尘暴前锋到达时尘通量与电场先于能见度跳变,是时差定位里最锐的到达信号;琥珀信标闪烁提示大风作业区。",
+      "detail_en": "The 2.8 m tall variant: twin ring electrodes count grain impacts and the top ball reads the triboelectric field — at a storm front, dust flux and E-field jump before visibility does, giving the sharpest arrival signature for triangulation; the amber beacon flashes to mark the high-wind work zone.",
+      "specs": { "杆高": "2.8 m", "尘通量": "双环电极(计数/电流双模)", "静电": "球头探针", "信标": "琥珀闪烁" },
+      "specs_en": { "Height": "2.8 m", "Dust flux": "twin rings (count/current)", "E-field": "ball probe", "Beacon": "amber flash" },
+      "sim": "前端与主站同账(sim_dust_flux.py / sim_efield_probe.py):晴天单粒计数 SNR 625、尘暴切积分电流 42 pA;电场量程按 610 Pa CO₂ 帕邢击穿 ~28 kV/m 封顶",
+      "sim_en": "Front ends share the hub accounts (sim_dust_flux.py / sim_efield_probe.py): clear-weather single-grain counting at SNR 625, storms switch to 42 pA integrating current; the E-field range is capped by the ~28 kV/m Paschen breakdown of CO2 at 610 Pa",
+      "physics": "前锋的尘幕携带跃移起电的电荷,尘通量/电场阶跃比气压签名更陡——到达时刻检测得越锐,三角定位的时差误差越小",
+      "physics_en": "The front's dust curtain carries saltation-charged grains; flux and E-field step more sharply than the pressure signature — the sharper the arrival detection, the smaller the triangulation timing error"
+    },
+    {
+      "id": "netpuck",
+      "label": "岩钉矮墩气压站(崖边型)",
+      "label_en": "Rock-bolted Barometer Puck (ridge type)",
+      "range": 10,
+      "detail": "无杆低风阻版,给杆子立不住的崖边与碎石区:0.65 m 仪器筒装膜盒气压计与电池,四颗岩栓直接锚进基岩,平铺 PV 加 UHF 鞭。裙边墩座防风蚀掏空。",
+      "detail_en": "The mastless low-drag variant for cliff edges and rubble fields where poles can't stand: a 0.65 m drum holds the capsule barometer and battery, four rock bolts anchor straight into bedrock, with a flat PV sheet and UHF whip. The skirted base defeats wind scour.",
+      "specs": { "高度": "0.65 m", "载荷": "膜盒气压计", "锚固": "4×岩栓入基岩", "选位": "崖边/碎石区" },
+      "specs_en": { "Height": "0.65 m", "Payload": "capsule barometer", "Anchor": "4 rock bolts", "Siting": "ridges/rubble" },
+      "sim": "膜盒与进气与主站同账(sim_baro_membrane.py / sim_inlet_filter.py):40 µm 膜片 0.1 Pa 级、进气低通 fc≈1.4 Hz——尘卷风过顶的秒级负压尖峰正是它蹲守的信号",
+      "sim_en": "Capsule and inlet share the hub accounts (sim_baro_membrane.py / sim_inlet_filter.py): the 40 um diaphragm resolves 0.1 Pa and the pneumatic low-pass sits at fc~1.4 Hz — the seconds-long pressure dip of an overhead dust devil is exactly what it stakes out",
+      "physics": "地形高点的气压信号对前锋几何最敏感,但高点风大立不住杆——把仪器压扁、锚进岩石,是「测量需求 vs 生存包线」的取舍解",
+      "physics_en": "High ground gives the pressure signal most sensitive to front geometry, but high ground is too windy for poles — flattening the instrument and bolting it to rock is the trade between measurement need and survival envelope"
+    }
+  ]
+}

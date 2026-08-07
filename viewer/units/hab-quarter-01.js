@@ -3,7 +3,7 @@
 // 设计依据(知识卡锚点):
 //   水账  res-rodwell-01(Rodwell 井寿命 669 sol 台账)/ 电账 pwr-fusion-01(176 MWe 净电)
 //   气账  res-isru-01(Sabatier 甲烷厂,CO2/H2O 循环)/ ECLSS 标准人日代谢数
-//   叙事  E:\Claude\idea_worldAB(World A/B:51% 的人更常「住」在 B——「眼镜」带引号)
+//   叙事  idea_worldAB(World A/B:51% 的人更常「住」在 B——「眼镜」带引号)
 // 核心不做黑盒:一间舱室整面敞开(床铺/书桌/私人物品可读);农场三层架
 //   紫光直给「植物要的光谱」;生保墙的管路从农场接到回收机——水循环用几何讲。
 export const meta = {

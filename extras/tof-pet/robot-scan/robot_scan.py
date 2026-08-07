@@ -16,7 +16,7 @@ u"""
   5. PET/CT 融合图 + 定量报告。
 
   blender 不参与本步; 纯 GPU(cupy)+numpy。
-输出: E:\\Claude\\mars_medical\\out\\scan\\
+输出: mars_medical\\out\\scan\\
 """
 import os, sys, json
 import numpy as np

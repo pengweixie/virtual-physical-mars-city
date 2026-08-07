@@ -16,6 +16,7 @@ export const meta = {
   name_en: 'Starship (landed)',
   size_m: 50, size_axis: 'height',   // 自检用,引擎不缩放
   effects: ['glow_windows'],
+  schedule: { action: '发射回收', ltst: 15.5 },  // 火星时每日 15:30 例行跳跃演示(错开 rocket-02 的 14.0)
 };
 
 export function build(THREE) {
@@ -480,6 +481,59 @@ export function build(THREE) {
     a.position.set(x, y, z);
     g.add(a);
   }
+
+  // ---------------------------------------------------------------- 发射/回收动作(MODELS.md §6a 动图 + 定时演示)
+  // 全部几何移入 'ship' 子组,动作只平移 ship——资产根不动,引擎落位/POI 不受扰。
+  const ship = new THREE.Group();
+  ship.name = 'ship';
+  while (g.children.length) ship.add(g.children[0]);
+  g.add(ship);
+  // 喷焰:常驻网格,待机 scale.y=0.001(Box3.setFromObject 计入隐藏网格,不能用 visible 藏)
+  const plumes = [];
+  for (const f of flames) {
+    const grp = new THREE.Group();
+    grp.position.set(f.pos[0], f.pos[1], f.pos[2]);
+    const mk = (r, col, op, py, sy) => {
+      const m = new THREE.Mesh(
+        new THREE.ConeGeometry(r, 1, 12, 1, true),
+        new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: op,
+          blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+      m.rotation.x = Math.PI; m.position.y = py; m.scale.y = sy;
+      grp.add(m); return m;
+    };
+    const outer = mk(f.r * 1.02, 0xff8a3c, 0.0, -0.5, 1.0);
+    const inner = mk(f.r * 0.5, 0xcfe4ff, 0.0, -0.4, 0.75);
+    grp.scale.y = 0.001;
+    ship.add(grp);
+    plumes.push({ grp, outer, inner, base: f.type === 'rvac' ? 5.0 : 3.6 });
+  }
+  // 状态机:10 s 循环(点火→爬升→顶点→着陆燃烧→触地熄火),首尾同姿态,天然可循环
+  const seq = { mode: 'idle', p: 0 };
+  const DUR = 10, HOP = 45;   // 跳跃高约一个箭长:inspect 取景不裁顶,in-scene 例行演示也够看
+  const clamp01 = (x) => Math.max(0, Math.min(1, x));
+  const ease = (x) => x * x * (3 - 2 * x);
+  g.userData.actions = {
+    '发射回收': () => { if (seq.mode === 'idle') { seq.mode = 'run'; seq.p = 0; } },
+  };
+  g.userData.animate = (t, dt) => {
+    if (seq.mode !== 'run') return;
+    seq.p = Math.min(1, seq.p + dt / DUR);
+    const p = seq.p;
+    let y = 0, thr = 0;
+    if (p < 0.12) { thr = ease(p / 0.12); }                                   // 点火建压
+    else if (p < 0.46) { y = HOP * ease((p - 0.12) / 0.34); thr = 1; }        // 爬升
+    else if (p < 0.54) { y = HOP; thr = 0.4; }                                // 顶点收油
+    else if (p < 0.88) { y = HOP * (1 - ease((p - 0.54) / 0.34)); thr = 0.85; } // 着陆燃烧
+    else { thr = Math.max(0, 1 - (p - 0.88) / 0.07); }                        // 触地熄火
+    ship.position.y = y;
+    const flick = 0.92 + 0.08 * Math.sin(t * 37);
+    for (const P of plumes) {
+      P.grp.scale.y = thr > 0.02 ? P.base * (0.55 + 0.45 * thr) * flick : 0.001;
+      P.outer.material.opacity = 0.5 * thr;
+      P.inner.material.opacity = 0.85 * thr;
+    }
+    if (p >= 1) { seq.mode = 'idle'; seq.p = 0; ship.position.y = 0; }
+  };
 
   // ---------------------------------------------------------------- 引擎接口
   g.userData.nightMats = nightMats;

@@ -1,0 +1,367 @@
+{
+  "id": "sci-seis-01",
+  "pois": [
+    {
+      "id": "wts",
+      "label": "WTS 风热罩",
+      "label_en": "Wind & Thermal Shield (WTS)",
+      "range": 25,
+      "detail": "InSight 同款矮圆顶+链甲裙边,压石固定。火震仪的头号敌人不是火震太小,而是风:风压涨落既直接晃传感器,又压弯脚下的弹性地面。罩子隔断直吹通道后,剩下的地面顺变噪声随傍晚对流边界层塌缩一起熄灭——夜晚是火星送给地震学的礼物。",
+      "detail_en": "InSight-style low dome with chain-mail skirt pinned by rocks. The seismometer's worst enemy is not small quakes but wind: pressure fluctuations both shake the sensor directly and flex the elastic ground beneath it. With the direct-wind path blocked, the remaining ground-compliance noise dies each evening as the convective boundary layer collapses — night is Mars's gift to seismology.",
+      "specs": {
+        "罩内昼噪声 @0.5 Hz": "2.4e-8 m/s²/√Hz",
+        "罩内夜噪声 @0.5 Hz": "1.4e-10 m/s²/√Hz(InSight 实测同量级)",
+        "无罩直吹(昼)": "1.4e-3 m/s²/√Hz —— 罩挡掉 ~5 个数量级",
+        "昼/夜劣化": "×179(1~2 个数量级,对上 InSight 形状)"
+      },
+      "specs_en": {
+        "Day noise under shield @0.5 Hz": "2.4e-8 m/s²/√Hz",
+        "Night noise @0.5 Hz": "1.4e-10 m/s²/√Hz (InSight-measured order)",
+        "Unshielded direct wind (day)": "1.4e-3 m/s²/√Hz — shield buys ~5 orders",
+        "Day/night degradation": "×179 (1–2 orders, matches InSight shape)"
+      },
+      "sim": "噪声预算账(mars-seis sim/02):地面顺变 a≈πfUδp/μ,浅层风化层 μ=ρVs²=1.2e7 Pa(Vs 80 m/s 很软,火星此项天生偏大);昼 δp(1 Hz)=0.012 Pa/√Hz、夜 3e-4(边界层塌缩 ×40)→ 夜 0.5 Hz 合成 1.36e-10,与 InSight 夜地板已知答案闸吻合。",
+      "sim_en": "Noise budget (mars-seis sim/02): ground compliance a≈πfUδp/μ with shallow-regolith μ=ρVs²=1.2e7 Pa (Vs 80 m/s, soft — this term is natively large on Mars); day δp(1 Hz)=0.012 Pa/√Hz vs night 3e-4 (CBL collapse ×40) → synthesized night floor 1.36e-10 at 0.5 Hz, matching the InSight known-answer gate.",
+      "physics": "Sorrells 机制:以风速 U 平流的压力场波数 k=2πf/U,压弯弹性半空间产生竖向变形 w≈δp/(2kμ),加速度 a=(2πf)²w。火星大气密度只有地球 1.6%,但浅层剪切模量低 3 个数量级——所以火星的风噪声照样是主项,WTS 不可省。",
+      "physics_en": "Sorrells mechanism: a pressure field advected at wind speed U has wavenumber k=2πf/U and flexes the elastic half-space by w≈δp/(2kμ), giving a=(2πf)²w. Mars's air is only 1.6% of Earth's density, but the shallow shear modulus is 3 orders lower — so wind noise still dominates and the WTS cannot be omitted."
+    },
+    {
+      "id": "vbb",
+      "label": "真空球与 VBB 摆(剖切展示)",
+      "label_en": "Vacuum Sphere & VBB Pendulums (cutaway)",
+      "range": 25,
+      "detail": "展示位吊起风热罩、剖开钛真空球,露出三支 120° 斜置的甚宽带倒摆:摆臂+检验质量+消刚度片簧+差分电容极板。反直觉账:同一根弹簧、同一副摆,在 0.38 g 下固有周期变长 √(g地/g火)=1.63 倍——低重力白送灵敏度。火星调校的摆搬回地球只剩 0.60 s 周期,这就是 InSight VBB 无法在地球做全性能测试的原因。",
+      "detail_en": "The display stand hoists the shield and cuts open the titanium vacuum sphere, exposing three oblique (120°) very-broad-band inverted pendulums: arm + proof mass + stiffness-cancelling leaf spring + differential capacitive plates. The counter-intuitive ledger: the same spring and pendulum gets a √(g_E/g_M)=1.63× longer natural period at 0.38 g — low gravity gives sensitivity for free. Tuned for Mars, the same hardware only manages a 0.60 s period on Earth, which is why InSight's VBB could never be fully tested before flight.",
+      "specs": {
+        "工作周期(火星)": "2.53 s(f0=0.40 Hz,消刚度 η=0.90)",
+        "同硬件在地球": "0.60 s —— 位移响应差 17.4×",
+        "悬挂热噪声": "3.0e-11 m/s²/√Hz(m=190 g, Q=200, 250 K)",
+        "仪器合成本底": "3.8e-11,对 1e-9 目标裕度 26×",
+        "真空球残余温漂": "±60 K 昼夜波两级低通后 ±4.7 K"
+      },
+      "specs_en": {
+        "Working period (Mars)": "2.53 s (f0=0.40 Hz, astatization η=0.90)",
+        "Same hardware on Earth": "0.60 s — 17.4× less displacement response",
+        "Suspension thermal noise": "3.0e-11 m/s²/√Hz (m=190 g, Q=200, 250 K)",
+        "Instrument floor (total)": "3.8e-11, 26× margin to the 1e-9 target",
+        "Sphere residual temp swing": "±60 K diurnal filtered to ±4.7 K by two stages"
+      },
+      "sim": [
+        "VBB 摆账(mars-seis sim/01):裸摆 T=2π√(L/g),L=6 cm → 火星 0.80 s/地球 0.49 s;片簧抵消 90% 重力刚度 → 火星 2.53 s;悬挂热噪声 √(4kBTω0/mQ)=3.0e-11、电容换能 2e-12 m/√Hz 折算 1.2e-11、电子学 2e-11,合成 3.8e-11 m/s²/√Hz。",
+        "反馈链账(sim/06):消刚度的代价——弹簧承担 0.9·m·g 静力,模量温漂 2.4e-4/K → 8.0e-4 m/s²/K;球内 ±4.7 K 就是 ±3.7e-3 m/s²,超过摆 ±0.5 mm 自由行程折合的满量程 3.1e-3(1.21 倍):没有 TCDM+力反馈,摆每天下午被自己的弹簧推到止挡。余量之薄才是重点——TCDM 的 ÷20 不是可选项,它把温漂压到量程的 6%,把 94% 的行程留给真正的地震(旁边教学台把这套机构放大 6 倍剖给你看)。"
+      ],
+      "sim_en": [
+        "VBB ledger (mars-seis sim/01): bare pendulum T=2π√(L/g), L=6 cm → 0.80 s on Mars vs 0.49 s on Earth; leaf spring cancels 90% of gravity stiffness → 2.53 s on Mars; suspension thermal noise √(4kBTω0/mQ)=3.0e-11, capacitive transducer 2e-12 m/√Hz ≡ 1.2e-11, electronics 2e-11 → 3.8e-11 m/s²/√Hz total.",
+        "Feedback-chain ledger (sim/06): the price of astatization — the spring carries a static force of 0.9·m·g, its modulus drifts 2.4e-4/K → 8.0e-4 m/s²/K; the sphere's ±4.7 K becomes ±3.7e-3 m/s², exceeding the ±0.5 mm free-travel fullscale of 3.1e-3 (by 1.21×): without TCDM plus force feedback the pendulum slams its stops every afternoon. The thinness of that margin is the real point — TCDM's ÷20 is not optional; it presses the drift down to 6% of full scale, leaving 94% of the travel for actual earthquakes (the teaching stand nearby shows this mechanism cut open at 6× scale)."
+      ],
+      "physics": "重力回复摆 T∝1/√g:低 g 下回复力矩变小,周期变长;共振下方位移响应 x/a=1/ω0² 随周期平方放大。涨落耗散定理把悬挂损耗直接变成力噪声 4kBTω0/(mQ)——真空封装抬高 Q、消刚度压低 ω0,两头都在降本底。",
+      "physics_en": "A gravity-restored pendulum has T∝1/√g: lower g weakens the restoring torque and lengthens the period; below resonance the displacement response x/a=1/ω0² grows as the period squared. The fluctuation-dissipation theorem turns suspension loss straight into force noise 4kBTω0/(mQ) — vacuum packaging raises Q while astatization lowers ω0, attacking the floor from both ends."
+    },
+    {
+      "id": "mount",
+      "label": "夯实安装座与调平",
+      "label_en": "Tamped Mount & Levelling",
+      "range": 20,
+      "detail": "火震仪最怕装在浮土上:疏松风化层是个软弹簧,仪器-土壤耦合共振会落进测量频带,风一吹整台仪器在土上摇。安装工艺:碎石垫层夯实、灌浆调平墩、三脚架电机调平到 <0.1°,再把系缆做成负载分流 S 环——电子柜的热胀冷缩和风振不许顺着缆传进传感器。",
+      "detail_en": "A seismometer's nightmare is loose soil: unconsolidated regolith is a soft spring, the instrument–soil coupling resonance can fall inside the science band, and wind rocks the whole instrument on its cushion. Installation craft: tamped gravel bed, grouted levelling pier, motorized tripod levelled to <0.1°, and a load-shunt S-loop in the tether — the e-box's thermal expansion and wind buffet must not reach the sensor through the cable.",
+      "specs": {
+        "耦合共振(浮土直放)": "~15 Hz,落在 SP 频带内 —— 禁",
+        "耦合共振(夯实+墩)": ">55 Hz,推出频带",
+        "调平范围": "±15°(InSight LVL 口径),精度 <0.1°",
+        "系缆": "扁缆贴地 + 负载分流环隔离"
+      },
+      "specs_en": {
+        "Coupling resonance (loose soil)": "~15 Hz, inside the SP band — forbidden",
+        "Coupling resonance (tamped+pier)": ">55 Hz, pushed out of band",
+        "Levelling range": "±15° (InSight LVL class), <0.1° precision",
+        "Tether": "flat cable on ground + load-shunt loop isolation"
+      },
+      "sim": "耦合账:仪器踩在接触刚度 k 的土上是个 f=√(k/m)/2π 的振子;夯实把浅层 Vs 从 ~50 提到 ~150 m/s,接触刚度 ∝Vs² 提约 9 倍,共振频率 ×3 推出频带。倾斜容差:重力在摆轴上的投影 g·sinθ,0.1° 对 VBB 是 6.5e-3 m/s² 的静偏——反馈能吃下,再大就吃满量程。",
+      "sim_en": "Coupling ledger: an instrument on soil of contact stiffness k is an oscillator at f=√(k/m)/2π; tamping raises shallow Vs from ~50 to ~150 m/s, contact stiffness ∝Vs² grows ~9×, pushing the resonance ×3 out of band. Tilt tolerance: gravity projects g·sinθ onto the pendulum axis — 0.1° is a 6.5e-3 m/s² static offset the feedback can absorb; more would eat the dynamic range.",
+      "physics": "赫兹接触:圆盘基础在半空间上的竖向刚度 k≈2·G·d/(1-ν),G=ρVs² —— 夯实工艺直接写进接触刚度。这也是为什么 InSight 用整流罩下的机械臂放置而不是抛投。",
+      "physics_en": "Hertzian contact: a disc footing on a half-space has vertical stiffness k≈2·G·d/(1−ν) with G=ρVs² — the tamping craft is written directly into the contact stiffness. This is also why InSight placed SEIS with a robotic arm instead of dropping it."
+    },
+    {
+      "id": "quiet",
+      "label": "安静选址账(离城多远能睡好觉)",
+      "label_en": "Quiet-Siting Ledger (how far to sleep well)",
+      "range": 25,
+      "detail": "城市噪声账决定落位:面波按 1/√r 几何扩散 + Q 滞弹吸收衰减。太阳能城市的作息与大气同相——重载作业在白天,那时风噪声本来就高;夜里只剩 24h 源(ISRU 压缩机/聚变泵/地下厂),这笔账反向给它们定了隔振规格 ≤1.2e-6 m/s/√Hz@10 m。主站保 VBB 科学频带,纯净高频地板交给 1.2~2 km 外的远端节点。深地实验室(-3000 m)关心的微震本底,正是本站夜间数据的直接产品——为 sci-deeplab-01 的选址背书。",
+      "detail_en": "The city-noise ledger decides the siting: surface waves decay as 1/√r geometric spreading plus anelastic Q absorption. A solar-powered city keeps the same schedule as its atmosphere — heavy operations run by day when wind noise is high anyway; at night only the 24 h sources remain (ISRU compressors, fusion pumps, the underground fab), and this ledger levies an isolation spec of ≤1.2e-6 m/s/√Hz @10 m back onto them. The main station protects the VBB science band; the pristine high-frequency floor is delegated to remote nodes 1.2–2 km out. The microseismic floor that the deep lab (−3000 m) cares about is a direct product of this station's night data — siting evidence for sci-deeplab-01.",
+      "specs": {
+        "候选 A(推荐)": "(-700,-520) 西南科学区:距全部振源 ≥614 m,SP 夜残余 10.8×",
+        "候选 B(主动源优先)": "(250,-560) 城南:距振源 ≥441 m,距发射工位 952 m,SP 夜残余 23.4×",
+        "红线": "距城区主要振源 ≥400 m(两案皆满足)",
+        "VBB 带 0.5 Hz": "夜:城噪不可测;昼:7.7e-10 < 风噪 2.5e-8",
+        "路径衰减参数": "Vs 175 m/s,散射有效 Q 10~25(主动源逐日标定)"
+      },
+      "specs_en": {
+        "Candidate A (recommended)": "(-700,-520) SW science quarter: ≥614 m from all sources, SP night excess 10.8×",
+        "Candidate B (active-source first)": "(250,-560) south: ≥441 m from sources, 952 m to launch pad, SP night excess 23.4×",
+        "Hard rule": "≥400 m from all major city vibration sources (both pass)",
+        "VBB band 0.5 Hz": "night: city unmeasurable; day: 7.7e-10 < 2.5e-8 wind",
+        "Path attenuation": "Vs 175 m/s, effective scattering Q 10–25 (calibrated daily by the active source)"
+      },
+      "sim": "城市噪声账(mars-seis sim/03,振源坐标取 manifest 实际落位):矿场 8 Hz 昼间源压到昼风噪之下需 454 m(Q15)——A 站距矿 967 m、B 站 446 m 均过线;远端节点距 24h 源 877 m(Q15)~1414 m(Q25)可达纯净夜地板,建议撒放 1.2~2.2 km、方位岔开 ≥90°。",
+      "sim_en": "City-noise ledger (mars-seis sim/03, source positions from the real manifest): the 8 Hz daytime mine needs 454 m (Q15) to drop below day wind noise — site A is 967 m and B 446 m, both pass; remote nodes reach the pristine night floor at 877 m (Q15) to 1414 m (Q25) from 24 h sources, hence the recommended scatter at 1.2–2.2 km with azimuths ≥90° apart.",
+      "physics": "面波振幅 ∝1/√r(柱面几何扩散)× exp(-πfr/QVs)(滞弹+散射);高频先死、低频难躲——所以机械噪声是高频问题、靠距离解决,风噪声是低频问题、靠罩子和夜晚解决。警示:月球完整岩体 Q~3000 几乎不吸收,若实测 Q 偏高,安静半径整体外扩——主动源每天都在量这个参数。",
+      "physics_en": "Surface-wave amplitude ∝1/√r (cylindrical spreading) × exp(−πfr/QVs) (anelasticity + scattering); high frequencies die first, low frequencies are hard to escape — machinery noise is a high-frequency problem solved by distance, wind noise a low-frequency problem solved by the shield and the night. Caution: intact lunar rock has Q~3000 and barely absorbs; if measured Q trends high the quiet radii all grow — which the active source measures every single day."
+    },
+    {
+      "id": "launch",
+      "label": "主动源:每天 14:00 的免费折射勘探",
+      "label_en": "Active Source: a Free Refraction Survey at 14:00 Daily",
+      "range": 20,
+      "detail": "全城最吵的邻居是最好的标定源。ops-spaceport-02 每火星日 ltst 14:00 例行发射长十乙,1.45 MN 起飞推力斜坡是已知时刻+已知位置的地面力冲击——P/S 走时反演浅层速度结构,逐日叠加把拾取精度磨到亚毫秒。指向牌所指即发射工位方位。",
+      "detail_en": "The loudest neighbour in town is the best calibration source. ops-spaceport-02 launches the CZ-10B at ltst 14:00 every sol; the 1.45 MN thrust ramp is a ground force impulse with known time and position — P/S travel times invert the shallow velocity structure, and day-after-day stacking grinds the pick precision to sub-millisecond. The pointer plate aims at the pad.",
+      "specs": {
+        "候选 A(1525 m)": "P 0.57 s / S 1.05 s / S-P 0.49 s,单发 SNR ~2900",
+        "候选 B(952 m)": "P 0.39 s / S 0.73 s / S-P 0.34 s,单发 SNR ~29000",
+        "50 发叠加": "拾取 σ 0.28 ms → 速度分辨 0.05~0.07%",
+        "浅结构模型": "风化层 4 m(Vp 350)/ 碎屑 40 m(950)/ 玄武岩(3300)",
+        "直达→折射交叉距离": "11 m / 38.5 m(反演分层的把手)"
+      },
+      "specs_en": {
+        "Site A (1525 m)": "P 0.57 s / S 1.05 s / S−P 0.49 s, single-shot SNR ~2900",
+        "Site B (952 m)": "P 0.39 s / S 0.73 s / S−P 0.34 s, single-shot SNR ~29000",
+        "50-launch stack": "pick σ 0.28 ms → 0.05–0.07% velocity resolution",
+        "Shallow model": "regolith 4 m (Vp 350) / ejecta 40 m (950) / basalt (3300)",
+        "Direct→refracted crossovers": "11 m / 38.5 m (the handles for layer inversion)"
+      },
+      "sim": "主动源账(mars-seis sim/04):三层模型首波走时曲线+合成记录剖面;发射瞬态不削顶(峰值加速度 <1e-2 m/s²);同一冲击还顺带逐日标定路径 Q——城噪账里最敏感的参数。落位矛盾的平衡:发射方向的直线路径上是羽流喷砂与冲击波走廊,站址要避开这条线,但仍在 1~2 km 半径内收信号——B 案信号强 10 倍,A 案安静 2 倍,总控按审计取舍。",
+      "sim_en": "Active-source ledger (mars-seis sim/04): 3-layer first-arrival curves + synthetic record section; launch transient does not clip (<1e-2 m/s² peak). The same impulse also calibrates the path Q daily — the most sensitive parameter in the city-noise ledger. Balancing the siting contradiction: the straight downrange line carries plume sandblasting and the blast corridor, so the site stays off that line while remaining within 1–2 km to receive the signal — B has 10× signal, A is 2× quieter; the coordinator arbitrates via audit.",
+      "physics": "折射地震学:低速层下的高速层产生首波,走时曲线斜率=1/V、截距=层厚积分;重复源叠加 N 发噪声降 √N,而源函数逐发相同(同型号火箭同推力斜坡)——这正是人工勘探花大钱造可控震源想买的性质,城里白送。屏上 14:00 前后出现的发射特征波形即此账的活体演示。",
+      "physics_en": "Refraction seismology: a fast layer under a slow one produces head waves whose travel-time slope is 1/V and intercept integrates layer thickness; stacking N repeats drops noise by √N while the source function repeats exactly (same rocket, same thrust ramp) — precisely the property exploration crews pay fortunes to get from vibroseis trucks, delivered here for free. The launch signature appearing on the screen around 14:00 is this ledger, live."
+    },
+    {
+      "id": "screen",
+      "label": "实时震波屏",
+      "label_en": "Live Seismogram Screen",
+      "range": 25,
+      "detail": "三通道(垂直 Z + 水平 N/E)滚动震波屏:背景微震纹上,小事件约一分半一个、中等事件几分钟一个,P 波先到、S 波更大更慢、尾波指数衰减;水平分量 S 相偏大。每火星日 14:00 发射后 2 秒,屏上出现发射特征波形并触发红色警示——与发射工位隔空联动。演示口径:真实火星约 0.5 事件/sol,屏是约 300 倍加速回放。",
+      "detail_en": "Three-channel (vertical Z + horizontal N/E) scrolling seismogram: over the microseism background, small events arrive about every 90 s and medium ones every few minutes — P first, S larger and slower, coda decaying exponentially; horizontals carry bigger S. Two seconds after each sol's 14:00 launch the launch signature sweeps the screen and turns the status lamp red — a cross-city link with the launch complex. Demo scaling: real Mars sees ~0.5 events/sol, so the screen is a ~300× accelerated replay.",
+      "specs": {
+        "显示窗口": "56 列 × 0.28 s = 15.7 s",
+        "事件调度": "90 s / 210 s 窗口制,22% 空窗,确定性哈希(禁 Math.random)",
+        "事件形态": "P 上升 0.9 s 短尾;S 迟到 2.4/4.2 s,幅 ×1.9,尾波 6/16 s",
+        "状态灯": "绿=平静 / 琥珀=事件 / 红=发射信号",
+        "发射注入": "ltst 14:00 引擎 schedule 触发,+2 s P 波走时,45 s 全程"
+      },
+      "specs_en": {
+        "Display window": "56 columns × 0.28 s = 15.7 s",
+        "Event scheduling": "90 s / 210 s windows, 22% empty, deterministic hash (no Math.random)",
+        "Event shape": "P rises 0.9 s, short tail; S late by 2.4/4.2 s, ×1.9 amplitude, 6/16 s coda",
+        "Status lamp": "green=calm / amber=event / red=launch signal",
+        "Launch injection": "engine schedule at ltst 14:00, +2 s P travel time, 45 s duration"
+      },
+      "sim": "震波屏参考实现(mars-seis sim/05):与屏上 JS 逐式对应的 NumPy 金标准;逐位确定性自检通过,小事件占空比 9.2%,发射峰值 >2× 背景 p95。",
+      "sim_en": "Screen reference implementation (mars-seis sim/05): a NumPy golden model matching the on-screen JS expression by expression; bitwise-deterministic self-check passes, small-event occupancy 9.2%, launch peak >2× background p95.",
+      "physics": "震相语法即屏的语法:P(纵波)快而高频,S(横波)慢而大、只在固体传播且偏爱水平分量,尾波是散射壳里能量的指数泄流。火星壳散射强、尾波特别长——InSight 事件动辄响十几分钟,屏上的长尾正是这个特征的缩影。",
+      "physics_en": "Seismic-phase grammar is the screen's grammar: P (compressional) is fast and high-frequency; S (shear) is slower, larger, solids-only and favours the horizontals; the coda is energy leaking exponentially out of a scattering crust. Mars's crust scatters strongly and codas run long — InSight events ring for tens of minutes, and the screen's long tails are a miniature of that."
+    },
+    {
+      "id": "feedback",
+      "label": "反馈链教学台(放大 6×)",
+      "label_en": "Feedback-Chain Teaching Stand (6×)",
+      "range": 20,
+      "detail": "把 VBB 单摆机构放大六倍剖开:金=弹簧系(十字片簧枢轴+消刚度主簧+TCDM 上层),铜=动质量系(检验质量+反馈音圈),钢=传感系(DCS 差分电容极板),白=TCDM 热补偿下层——台座色标条按此对照。这里回答一个必然会被问的问题:摆这么灵敏,为什么不会被温度和自重漂走?答案是三级防线:TCDM 双金属机械补偿 ÷20,力平衡反馈把质量钳在中位(把'位移'换成'电流'),双增益 ADC 分工读出。",
+      "detail_en": "The VBB pendulum mechanism, cut open at six times scale: gold = spring system (cross-spring pivot, astatizing main spring, TCDM upper strip), copper = moving mass system (proof mass + feedback voice coil), steel = sensing (DCS differential capacitor plates), white = TCDM lower strip — the color chips on the base map to these. It answers the question every visitor asks: if the pendulum is this sensitive, why doesn't temperature or its own weight walk it away? Three lines of defense: TCDM bimetal compensation ÷20, force-balance feedback pinning the mass at null (trading 'displacement' for 'current'), and a two-gain ADC split.",
+      "specs": {
+        "无补偿温漂": "8.0e-4 m/s²/K × ±4.7 K = ±3.7e-3 —— 超开环满量程 3.1e-3(1.21×)",
+        "TCDM 补偿后": "±1.9e-4 m/s² = 满量程的 6%,94% 行程留给地震",
+        "反馈钳位残余位移": "0.030 µm(环增益 1e3)",
+        "VEL 高增益档量化": "9.7e-12 /√Hz < 本底 3.8e-11 ✓",
+        "POS 低增益档量化": "4.9e-10 —— 只配抗大信号,双档必然性",
+        "SP MEMS 本底": "2.3e-9 m/s²/√Hz(m=0.1 g, Q=1000),对 5e-9 规格自洽"
+      },
+      "specs_en": {
+        "Uncompensated drift": "8.0e-4 m/s²/K × ±4.7 K = ±3.7e-3 — exceeds the 3.1e-3 open-loop fullscale by 1.21×",
+        "After TCDM": "±1.9e-4 m/s² = 6% of full scale, leaving 94% of travel for quakes",
+        "Feedback residual displacement": "0.030 µm (loop gain 1e3)",
+        "VEL high-gain quantization": "9.7e-12 /√Hz < 3.8e-11 floor ✓",
+        "POS low-gain quantization": "4.9e-10 — big-signal duty only; why two gains exist",
+        "SP MEMS floor": "2.3e-9 m/s²/√Hz (m=0.1 g, Q=1000), consistent with the 5e-9 spec"
+      },
+      "sim": "反馈链账(mars-seis sim/06,5 闸全绿):温漂 vs 满量程、TCDM ÷20、24-bit@100 sps 双增益档量化对比本底、SP 微机械摆热噪声。展示台旁的 SP 三分量剖切盒:三个正交微摆的色标与震波屏三条通道同色——你在屏上看到的每一道,就是盒里对应那支摆。",
+      "sim_en": "Feedback-chain ledger (mars-seis sim/06, 5 gates green): drift vs fullscale, TCDM ÷20, 24-bit@100 sps two-gain quantization against the floor, SP MEMS thermal noise. The SP three-axis cutaway box nearby color-codes its three orthogonal micro-pendulums to the three screen traces — each trace you see on the screen is one of these pendulums.",
+      "physics": "负反馈的教科书身份:高环增益下系统响应由反馈网络而非摆的机械特性决定——非线性、温漂、老化全被环增益除掉;代价是本底交给了执行器与电子学,这正是账 1 里电子学 2e-11 一项的来历。TCDM 是纯机械的前馈:双金属弯曲随温度改变片簧工作点,先把 95% 的漂移消化掉,反馈只擦剩下的尾巴。",
+      "physics_en": "Negative feedback's textbook identity: with high loop gain the response is set by the feedback network, not the pendulum's mechanics — nonlinearity, drift and aging all get divided by the loop gain; the price is that the floor now belongs to the actuator and electronics, which is exactly where the 2e-11 electronics term in ledger 1 comes from. The TCDM is pure mechanical feed-forward: bimetal flexure shifts the leaf spring's operating point with temperature, digesting ~95% of the drift so feedback only wipes up the tail."
+    },
+    {
+      "id": "location",
+      "label": "方位定位盘:一台仪器能定到多准",
+      "label_en": "Back-Azimuth Dial: how well one station can locate",
+      "range": 22,
+      "detail": "指针指向最近一次事件的反方位角——它和屏上那一道波是同一个地震。真正会说话的是指针两侧那道置信弧:弧宽就是本次定位的 1σ 误差。本地撞击窄成一条线,远震张开成一大片。反直觉的地方在于,远震方位难定不是因为信号弱,而是因为 P 波射线太陡:近垂直入射让水平分量上的信号按 sin(i) 打折,方位误差就按 1/sin(i) 放大。盘上另有四个固定标记:红色指向发射工位(每天 14:00 的已知源,此时指针会精确落在 56° 并切到窄弧),三个青色指向远端节点。",
+      "detail_en": "The needle points at the back-azimuth of the most recent event — the same quake you see crossing the screen. What actually talks is the confidence arc flanking it: its width is this solution's 1σ error. A local impact narrows to a line; a teleseism opens into a fan. The counter-intuitive part is that distant events are hard to orient not because they are faint but because their P rays are too steep: near-vertical incidence discounts the horizontal-component signal by sin(i), so azimuth error scales as 1/sin(i). Four fixed marks sit on the dial: red toward the launch complex (the known source at 14:00 each sol, when the needle lands exactly on 56° and switches to the narrow arc) and three cyan toward the remote nodes.",
+      "specs": {
+        "本地撞击 (i=55°, SNR 25)": "σ 方位 2.8°",
+        "区域火震 (i=35°, SNR 12)": "σ 方位 8.4°",
+        "远震 (i=22°, SNR 6)": "σ 方位 25.5°(对上 InSight 单站 ±10~30° 口径)",
+        "震中距 (S-P)": "500 km 处 σr/r = 5.1%,其中速度模型贡献 5.0%",
+        "1.5 km 阵列": "面波 2.7° / 本地 S 8.6° / 远震 P 21.6°",
+        "撞击标定后模型误差": "5% → 1.4%"
+      },
+      "specs_en": {
+        "Local impact (i=55°, SNR 25)": "σ azimuth 2.8°",
+        "Regional quake (i=35°, SNR 12)": "σ azimuth 8.4°",
+        "Teleseism (i=22°, SNR 6)": "σ azimuth 25.5° (matches InSight's ±10–30° single-station class)",
+        "Epicentral distance (S−P)": "at 500 km, σr/r = 5.1%, of which 5.0% is the velocity model",
+        "1.5 km array": "surface wave 2.7° / local S 8.6° / teleseismic P 21.6°",
+        "Model error after impact calibration": "5% → 1.4%"
+      },
+      "sim": [
+        "定位账(mars-seis sim/07,6 闸全绿):单站偏振 σ_baz ≈ 1/(SNR·sin i);S-P 震中距 σ 分解为拾取项 ⊕ 模型项,200 km 以外模型项永远占主导——**再准的拾取也救不了速度模型**,这是本站要靠发射主动源逐日标定 Q 与 V 的根本原因。",
+        "分工的诚实负结果:1.5 km 小孔径阵列对远震方位精度 21.6°,比单站偏振还差——阵列测的是慢度矢量,远震视速度 8 km/s 让慢度小到测不出方向。所以**远震归单站偏振、本地事件归小阵列**,两套技艺不可互换,这也定死了远端节点 1.2~2.2 km 的撒放尺度。",
+        "陨石撞击是反向标定:轨道影像给出坑的绝对位置(±10 m),走时反过来把速度模型从 5% 收到 1.4% —— 天上掉下来的免费标定源。"
+      ],
+      "sim_en": [
+        "Location ledger (mars-seis sim/07, 6 gates green): single-station polarization gives σ_baz ≈ 1/(SNR·sin i); the S−P distance error splits into a pick term ⊕ a model term, and beyond 200 km the model term always dominates — **no amount of picking precision rescues a wrong velocity model**, which is exactly why this station calibrates Q and V daily against the launch source.",
+        "An honest negative result on division of labour: a 1.5 km array gives 21.6° azimuth on teleseisms, worse than single-station polarization — an array measures the slowness vector, and an 8 km/s apparent velocity makes slowness too small to orient. So **teleseisms belong to single-station polarization, local events to the small array**; the two crafts are not interchangeable, and this is what fixes the remote nodes at 1.2–2.2 km.",
+        "Meteorite impacts calibrate in reverse: orbital imagery pins the crater to ±10 m, and the travel times then tighten the velocity model from 5% to 1.4% — a free calibration source falling out of the sky."
+      ],
+      "physics": "P 波是纵波,质点沿传播方向振动,所以水平面上的运动方向就是射线的方位——这是单站能定方位的全部依据。入射角由射线参数与地表速度决定,震源越远射线越接近垂直,水平投影越小。S-P 差则是两个波速倒数之差乘以距离,与震源时间无关,这才让单台站也能测距。",
+      "physics_en": "P is a compressional wave whose particles move along the propagation direction, so the horizontal motion direction is the ray's azimuth — that is the entire basis on which one station can orient an event. The incidence angle follows from the ray parameter and surface velocity; the farther the source, the more vertical the ray and the smaller its horizontal projection. The S−P difference is distance times the difference of the two slownesses, independent of origin time — which is what lets a single station measure range at all."
+    },
+    {
+      "id": "power",
+      "label": "供电与生存:杀死 InSight 的不是故障,是灰尘",
+      "label_en": "Power & Survival: dust, not failure, ended InSight",
+      "range": 22,
+      "detail": "太阳板在这里是应急备份,不是主供电——这是从 InSight 的结局倒推出来的设计决定。火星太阳板每 sol 积灰约 0.25%,复利到一个火星年只剩 19%;InSight 就是这样从 4588 Wh/sol 一路饿到停机的。城市火震站的解法是接城网,但这带来本站最尖锐的矛盾:**电缆是供电通道,也是振动通道**。矛盾的定量解在脚下——埋地电缆沟进场后先上混凝土隔振墩与弹性垫,再经立式 Ω 应力消除环进双路配电箱(绿灯=城网主供,琥珀=PV 备份)。系缆则一律贴地压土而非架空。",
+      "detail_en": "The solar wing here is emergency backup, not the supply — a design decision reasoned backwards from how InSight ended. Martian panels lose about 0.25% per sol to dust, compounding to 19% over a Mars year; that is how InSight starved from 4588 Wh/sol down to shutdown. A city seismic station solves it by connecting to the grid, but that creates this station's sharpest contradiction: **a cable carries power and vibration alike**. The quantitative resolution is underfoot — the buried trench lands on a concrete isolation pier with an elastomer pad, then a vertical omega strain-relief loop, then the dual-feed distribution box (green = grid primary, amber = PV backup). Tethers always lie flat on the ground, never strung in the air.",
+      "specs": {
+        "PV 首日 / 一火星年后": "1911 → 360 Wh/sol(0.25 %/sol 积灰)",
+        "全负载(含公众屏)": "585 Wh/sol → sol 474 掉线",
+        "纯科学负载": "289 Wh/sol → 撑满一年但只剩 1.24× 裕度",
+        "τ=5 尘暴期": "PV 剩 15%,当天就低于科学负载",
+        "架空缆 + 分流环": "2.0e-9 m/s²/√Hz —— 淹没本底 53 倍",
+        "贴地缆 + 分流环(实建)": "2.0e-11 —— 压在本底之下 ✓",
+        "数据率": "3 ch × 100 sps × 24 bit = 80 MB/sol(城内链路不成问题)"
+      },
+      "specs_en": {
+        "PV day 1 / after one Mars year": "1911 → 360 Wh/sol (0.25 %/sol dust)",
+        "Full load (incl. public screen)": "585 Wh/sol → offline at sol 474",
+        "Science-only load": "289 Wh/sol → survives the year with only 1.24× margin",
+        "During a τ=5 dust storm": "PV drops to 15%, below the science load the same day",
+        "Aerial cable + shunt loop": "2.0e-9 m/s²/√Hz — 53× above the floor",
+        "Ground-laid cable + shunt (as built)": "2.0e-11 — under the floor ✓",
+        "Data rate": "3 ch × 100 sps × 24 bit = 80 MB/sol (trivial for the city link)"
+      },
+      "sim": [
+        "功率-生存账(mars-seis sim/08,8 闸全绿):以 InSight 着陆初期 637 Wh/m²/sol 实测反推,3 m² 板配 24 h 连续负载,全负载 sol 474 掉线;尘暴当天即失守。结论是结构性的——**行星际着陆器只能靠太阳板,城市里的台站不必**。",
+        "系缆矛盾的定量解有个漂亮的巧合:架空但装了分流环,和贴地却不装分流环,两条路径殊途同归到同一个 2.0e-9(都是本底的 53 倍)。**缺任何一环,结果一样糟**;两者齐上才落到 2.0e-11。若坚持架空,需要的分流比要到 5300 而不是 100。",
+        "城市带来的第二个优势是带宽:有 com-station-01 在,VBB 可以 100 sps 三通道全速率连续记录(80 MB/sol,一火星年 53 GB);InSight 受深空链路所限,大部分时间只能跑 2 sps 连续加事件触发 20 sps。"
+      ],
+      "sim_en": [
+        "Power-survival ledger (mars-seis sim/08, 8 gates green): scaling from InSight's measured 637 Wh/m²/sol at landing, a 3 m² wing against a 24 h continuous load goes offline at sol 474 under full load, and fails the same day a dust storm hits. The conclusion is structural — **an interplanetary lander has no choice but solar; a station inside a city does**.",
+        "The tether contradiction resolves with a neat coincidence: aerial-with-shunt and ground-laid-without-shunt land on exactly the same 2.0e-9 (53× the floor). **Drop either measure and the outcome is equally bad**; only both together reach 2.0e-11. Insisting on an aerial run would demand a shunt ratio of 5300 rather than 100.",
+        "The city's second gift is bandwidth: with com-station-01 in place the VBB records all three channels continuously at full 100 sps (80 MB/sol, 53 GB per Mars year); InSight, limited by its deep-space link, ran 2 sps continuous plus 20 sps event triggers most of the time."
+      ],
+      "physics": "积灰是乘性过程而非加性:每 sol 透过率乘以 0.9975,于是衰减是指数而非线性,半衰期约 277 sol。火星没有雨,只有偶发尘卷风可能擦净板面——Spirit 和 Opportunity 等到了,InSight 没有。至于电缆传振:张力波动 δF 作用在质量 M 的传感器组件上给出 δF/M 的等效加速度,分流环用一段柔性大回环把轴向张力变成弯曲变形,刚度低两个量级,δF 就衰减两个量级。",
+      "physics_en": "Dust accumulation is multiplicative, not additive: each sol multiplies transmission by 0.9975, so the decay is exponential with a half-life near 277 sols. Mars has no rain — only the occasional dust devil can sweep a panel clean, which Spirit and Opportunity got and InSight never did. As for cable-borne vibration: a tension fluctuation δF on a sensor assembly of mass M gives an equivalent acceleration δF/M, and the shunt loop turns axial tension into bending of a slack large-radius loop whose stiffness is two orders lower, attenuating δF by the same two orders."
+    },
+    {
+      "id": "response",
+      "label": "标定线圈:你记录的不是地面运动",
+      "label_en": "Calibration Coil: what you record is not ground motion",
+      "range": 20,
+      "detail": "地震学第一课:台站输出是仪器**对**地面运动的响应,必须把响应反卷积掉才是真地面。响应用一组极点零点描述,而这组数字必须靠这只金色标定线圈实测验证——它独立于旁边的反馈音圈,每 300 秒注入一次 0.15→2 Hz 的扫频已知力,一次量完整条传递函数的幅度与相位(屏上此时是从疏到密的规则波形,一眼认得出不是地震)。这里还藏着反馈存在的第三个理由:悬挂 Q=200,开环摆在 0.40 Hz 处把响应放大 200 倍,根本不能当宽带地震计用;力反馈把这个尖峰压平成 0.02–2 Hz 内起伏不到 0.5 dB 的平坦响应。",
+      "detail_en": "Lesson one of seismology: a station's output is the instrument's *response to* ground motion, and only deconvolving that response away recovers the ground itself. The response is described by a set of poles and zeros — and those numbers must be verified by this gold calibration coil, independent of the feedback voice coil beside it. Every 300 s it injects a known 0.15→2 Hz swept force, measuring amplitude and phase across the whole transfer function in one shot (the screen then shows a regular sweep thickening left to right, unmistakably not a quake). Hidden here is the third reason feedback exists: with suspension Q=200 the open-loop pendulum amplifies 200× at 0.40 Hz and is useless as a broadband seismometer; force balance flattens that spike to under 0.5 dB of ripple across 0.02–2 Hz.",
+      "specs": {
+        "开环共振峰": "×199.9 @0.40 Hz(≈Q)—— 不可用",
+        "闭环平坦度": "0.02–2 Hz 内 <0.5 dB(反馈压平 88.7 dB)",
+        "极点零点": "1 个原点零点 + 3 极点(0.008 Hz 高通 / 40 Hz 抗混叠共轭对)",
+        "相位规格": "0.10° @1 Hz —— 由账 4 的 0.28 ms 叠加精度反推",
+        "标定 SNR": "2.6e8 —— 标定精度不受噪声限制",
+        "真正的限制": "线圈常数温漂 0.5% + 系统延迟重复性 50 µs(=0.018°)"
+      },
+      "specs_en": {
+        "Open-loop resonance peak": "×199.9 @0.40 Hz (≈Q) — unusable",
+        "Closed-loop flatness": "<0.5 dB over 0.02–2 Hz (feedback flattens by 88.7 dB)",
+        "Poles & zeros": "1 zero at origin + 3 poles (0.008 Hz high-pass / 40 Hz anti-alias pair)",
+        "Phase spec": "0.10° @1 Hz — reasoned backwards from ledger 4's 0.28 ms stack",
+        "Calibration SNR": "2.6e8 — accuracy is not noise-limited",
+        "The real limits": "coil-constant drift 0.5% + system-delay repeatability 50 µs (=0.018°)"
+      },
+      "sim": [
+        "响应与标定账(mars-seis sim/09,8 闸全绿)。**相位精度就是走时精度**:1 Hz 处 1° 相位误差 = 2.8 ms 走时误差,而账 4 的 50 发叠加要 0.28 ms,于是标定规格必须是 0.1° —— 仪器指标不是拍脑袋定的,是从科学产出反推的。",
+        "标定的敌人不是噪声而是重复性:注入 10% 满量程给出 SNR 2.6e8(相位噪声仅 2e-7°),真正的误差来自线圈常数的温度漂移与数字链固定延迟的重复性(50 µs = 0.018° @1 Hz,占 0.1° 预算的 18%)。",
+        "**内部一致性闸**:低频等效噪声增益比(火星调校 vs 同硬件地球调校)= ω0² 之比 = 17.442048517520224,与账 1 独立算出的 resp_gain 逐位吻合 —— 两本账从不同方向撞到同一个数。",
+        "**VBB 与 SP 分工的定量身份**:环增益随频率下滑(0.1 Hz 1068 → 1 Hz 185 → 2 Hz 40 → 5 Hz 6.3),掉到个位数时闭环平坦度开始劣化。这就是 VBB 主带止于 ~2 Hz、更高频交给 SP 三分量的原因,不是分工习惯而是环增益算出来的。"
+      ],
+      "sim_en": [
+        "Response & calibration ledger (mars-seis sim/09, 8 gates green). **Phase accuracy is travel-time accuracy**: 1° of phase error at 1 Hz is 2.8 ms of travel time, and ledger 4's 50-launch stack needs 0.28 ms — so the calibration spec must be 0.1°. Instrument specs here are reasoned backwards from science output, not guessed.",
+        "Calibration's enemy is repeatability, not noise: injecting 10% of full scale gives SNR 2.6e8 (phase noise a mere 2e-7°); the real error comes from the coil constant's thermal drift and the repeatability of the digital chain's fixed delay (50 µs = 0.018° at 1 Hz, 18% of the 0.1° budget).",
+        "**Internal consistency gate**: the low-frequency equivalent-noise gain ratio (Mars tuning vs the same hardware tuned on Earth) is the ratio of ω0² = 17.442048517520224, matching ledger 1's independently computed resp_gain to the last digit — two ledgers arriving at one number from different directions.",
+        "**The quantitative identity of the VBB/SP split**: loop gain falls with frequency (1068 at 0.1 Hz → 185 at 1 Hz → 40 at 2 Hz → 6.3 at 5 Hz), and flatness degrades once it reaches single digits. That is why the VBB band stops near 2 Hz and the SP triaxial takes over above it — a computed boundary, not a convention."
+      ],
+      "physics": "负反馈把响应从机械手里夺过来交给反馈网络:闭环响应 ≈ 1/K,与摆的 Q、共振频率、非线性都脱钩,前提是环增益 K·H >> 1。环增益一旦滑到个位数,机械特性就重新冒头——所以带宽的边界处处是环增益的边界。标定线圈则是把整个系统当黑盒做系统辨识:已知输入、测量输出、求传递函数,这是控制论的标准做法在地震仪上的落地。",
+      "physics_en": "Negative feedback wrests the response away from the mechanics and hands it to the feedback network: the closed-loop response is ≈1/K, decoupled from the pendulum's Q, resonance and nonlinearity — provided loop gain K·H >> 1. Once that gain slides into single digits the mechanics reassert themselves, so every bandwidth edge is really a loop-gain edge. The calibration coil treats the whole instrument as a black box for system identification: known input, measured output, solve for the transfer function — standard control theory landed on a seismometer."
+    },
+    {
+      "id": "chain",
+      "label": "信号链展板:从摆到城市的八级",
+      "label_en": "Signal-Chain Board: eight stages from pendulum to city",
+      "range": 22,
+      "detail": "八个色块就是信号走过的八级,每块的颜色对应站上那个真实部件——铜是摆与反馈音圈,钢是差分电容,绿是前放与 ADC 板,白是抗混叠滤波,青是抽取滤波器,蓝是 OCXO 打时间戳,琥珀是出城的链路。第四级有一条铜线折回第一级:反馈是环不是链。展板上的光点每 4.8 秒走完一趟;标定时整条链转琥珀,与标定线圈同步。两个不显眼但要命的细节:抽取滤波器会在 P 波初动**之前**留下振铃,而火星上没有 GPS。",
+      "detail_en": "Eight colour blocks are the eight stages the signal passes, each block matching a real part on the station — copper for the pendulum and feedback coil, steel for the differential capacitor, green for the preamp and ADC boards, white for the anti-alias filter, cyan for the decimation filter, blue for the OCXO timestamp, amber for the link out of the station. A copper line loops the fourth stage back to the first: feedback is a loop, not a chain. A light runs the whole board every 4.8 s; during calibration the entire chain turns amber in step with the coil. Two inconspicuous but lethal details: the decimation filter rings *before* the P onset, and there is no GPS on Mars.",
+      "specs": {
+        "采样": "Σ-Δ 调制器 51.2 kHz,OSR 256,抽取 512 → 100 sps",
+        "模拟抗混叠": "2 极点 @40 Hz:输出 Nyquist 处仅 -5.4 dB,调制器 Nyquist 处 -112 dB",
+        "抽取 FIR": "384 抽头线性相位,群延迟 1.92 s(固定量,可精确扣除)",
+        "前驱振铃": "约 0.1 s 尺度,相对幅度 -130 dB —— 大事件上仍可见 3 倍于本底",
+        "时钟": "OCXO 1e-9,每火星日漂 0.089 ms(预算 0.28 ms,裕度 3.2×)",
+        "TCXO": "0.89 ms/sol —— 不合格,3 倍超预算",
+        "授时": "每 sol 经 UHF 与城市铷钟同步;单程光行时 1.4 µs = 预算的 1.6%,需测距校正"
+      },
+      "specs_en": {
+        "Sampling": "Σ-Δ modulator 51.2 kHz, OSR 256, decimate 512 → 100 sps",
+        "Analog anti-alias": "2 poles @40 Hz: only −5.4 dB at output Nyquist, −112 dB at modulator Nyquist",
+        "Decimation FIR": "384-tap linear phase, 1.92 s group delay (fixed, exactly removable)",
+        "Acausal precursor": "~0.1 s scale at −130 dB relative — still 3× above the floor on big events",
+        "Clock": "OCXO 1e-9, drifting 0.089 ms per sol (budget 0.28 ms, 3.2× margin)",
+        "TCXO": "0.89 ms/sol — fails, 3× over budget",
+        "Time transfer": "synced to the city rubidium over UHF once per sol; 1.4 µs one-way light time is 1.6% of budget and needs ranging"
+      },
+      "sim": [
+        "数字链与授时账(mars-seis sim/10,8 闸全绿)。Σ-Δ 的过采样把抗混叠的担子从模拟挪到数字:同一个温和的二极点滤波器在输出 Nyquist 处几乎不衰减(-5.4 dB),在调制器 Nyquist 处却已 -112 dB —— 这就是账 9 极点表里只需要两个抗混叠极点的原因。",
+        "线性相位抽取 FIR 的 1.92 s 群延迟是常数,扣掉就行,**真正扣不掉的是前驱振铃**:对称冲激响应会在 P 波初动之前先响起来。初动极性是判读震源机制的依据,被前驱污染就读不出来 —— 这是 FDSN 台网的经典账,也是本站为大事件保留一路最小相位备份流的理由。",
+        "**火星上没有 GNSS**。账 4 要 50 个火星日的发射叠加拾取到 0.28 ms,反推本地钟:TCXO 一个 sol 就漂 0.89 ms(超预算 3 倍),OCXO 0.089 ms 才过关(裕度 3.2×),城市铷钟 0.9 µs 绰绰有余但功耗 13 W。定版:站上 OCXO + 每火星日经 UHF 与 sci-radio-01 的铷钟基准同步一次,并用双程测距扣掉 1.4 µs 的单程光行时。"
+      ],
+      "sim_en": [
+        "Digital-chain and timing ledger (mars-seis sim/10, 8 gates green). Σ-Δ oversampling shifts the anti-aliasing burden from analog to digital: the same gentle two-pole filter barely touches the output Nyquist (−5.4 dB) yet is already −112 dB at the modulator Nyquist — which is why ledger 9's pole list needs only two anti-alias poles.",
+        "The linear-phase decimation FIR's 1.92 s group delay is a constant and simply subtracted; **what cannot be subtracted is the acausal precursor**, since a symmetric impulse response rings before the P onset. First-motion polarity is how focal mechanisms are read, and a precursor destroys it — the classic FDSN ledger, and the reason this station keeps a minimum-phase backup stream for large events.",
+        "**There is no GNSS on Mars.** Ledger 4 wants launch stacks picked to 0.28 ms across 50 sols, which sets the local clock: a TCXO drifts 0.89 ms in a single sol (3× over budget), an OCXO makes it at 0.089 ms (3.2× margin), and a rubidium standard's 0.9 µs is ample but costs 13 W. Settled: an OCXO on station, synced once per sol over UHF to sci-radio-01's rubidium reference, with two-way ranging removing the 1.4 µs one-way light time."
+      ],
+      "physics": "过采样的本质是把量化噪声摊到更宽的频带上再滤掉大部分,因此每 4 倍过采样换 1 bit 有效精度;它同时让模拟抗混叠只需在极高频起作用,这是 Σ-Δ 相对逐次逼近型 ADC 在精密仪器上的决定性优势。至于因果性:线性相位要求冲激响应对称,而对称就意味着输出在输入到达前已经开始变化——群延迟补偿把波形整体前移后,这段本属于「未来」的响应就显式地出现在初动之前。这不是缺陷,是线性相位的数学代价。",
+      "physics_en": "Oversampling spreads quantization noise over a wider band and filters most of it away, buying one effective bit per fourfold oversampling; it also confines the analog anti-alias filter's job to very high frequencies, which is Σ-Δ's decisive advantage over successive-approximation converters in precision instruments. As for causality: linear phase demands a symmetric impulse response, and symmetry means the output starts changing before the input arrives — once group delay is compensated and the waveform shifted back, that future-side response appears explicitly ahead of the onset. Not a defect, but the mathematical price of linear phase."
+    },
+    {
+      "id": "science",
+      "label": "科学账:往地下看的仪器",
+      "label_en": "Science Ledger: the Instrument that Looks Down",
+      "range": 25,
+      "detail": "大气/辐射/电磁波谱系之外,城里唯一往地下看的探测线。火震学三件套:接收函数给壳厚,ScS 核幔边界反射给核半径,撞击事件配轨道影像给绝对定位与浅层标尺。InSight 四年 1300+ 次火震、最大 S1222a M4.7 是本站的口径锚;本站叠加城市主动源与观测网定位,把 Jezero 壳层做成全火星分辨率最高的一块。",
+      "detail_en": "Beyond the city's atmosphere/radiation/EM spectrum lines, this is its only instrument that looks downward. The seismology trio: receiver functions give crustal thickness, ScS core-mantle reflections give the core radius, and impact events paired with orbital imagery give absolute locations and a shallow-structure ruler. InSight's 1300+ marsquakes in four years, capped by S1222a at M4.7, anchor this station's scale; adding the city's active source and the network nodes makes the Jezero crust the best-resolved patch on Mars.",
+      "specs": {
+        "口径锚": "InSight 1300+ 事件/4 年;S1222a M4.7,尾波 >10 h",
+        "壳厚(InSight 实测)": "着陆点 20 或 39 km(2/3 层解)",
+        "核半径(ScS)": "1830±40 km,液态外核",
+        "本站增量": "主动源浅层剖面 + 3 节点方位定位 + 城噪台账",
+        "数据去向": "夜间本底谱 → sci-deeplab-01 微震选址背书"
+      },
+      "specs_en": {
+        "Anchors": "InSight 1300+ events / 4 yr; S1222a M4.7, coda >10 h",
+        "Crustal thickness (InSight)": "20 or 39 km at the landing site (2/3-layer solutions)",
+        "Core radius (ScS)": "1830±40 km, liquid outer core",
+        "This station adds": "active-source shallow profile + 3-node azimuthal location + city noise ledger",
+        "Data product": "night floor spectra → siting evidence for sci-deeplab-01"
+      },
+      "sim": "八本账合卷(mars-seis sim/01~08,41 闸全绿):仪器本底 3.8e-11 → 夜环境地板 1.4e-10 → 城噪落位 ≥400 m 分频审 → 主动源亚毫秒走时 → 屏上演示 → 反馈链撑住量程 → 定位精度分级 → 供电与生存,链条从传感器一路闭合到城市接口;已知答案闸四处(T∝1/√g=1.626、InSight 夜地板 1.4e-10、昼夜劣化 ×179、单站方位 ±10~30°)。",
+      "sim_en": "The eight ledgers bound together (mars-seis sim/01–08, all 41 gates green): instrument floor 3.8e-11 → night ambient 1.4e-10 → city-noise siting ≥400 m per band → sub-millisecond active-source travel times → the on-screen demo → the feedback chain holding the dynamic range → graded location accuracy → power and survival; the chain closes from the sensor all the way to the city interface. Four known-answer gates (T∝1/√g=1.626, InSight night floor 1.4e-10, day/night ×179, single-station azimuth ±10–30°).",
+      "physics": "接收函数:P 波入射壳底转换出 Ps 相,延时 ∝ 壳厚/速度;ScS:S 波在液态外核界面全反射,走时钉住核半径。震源-台站只有一站时靠这些'单站技艺',有了方位节点与已知源,才升级成真正的层析——这正是城市给行星科学的贡献。",
+      "physics_en": "Receiver functions: an incident P converts to Ps at the crust's base, delayed in proportion to thickness/velocity; ScS reflects totally off the liquid outer core, pinning its radius. With a single station you live on these one-station crafts; with azimuthal nodes and a known source it graduates into true tomography — the city's contribution to planetary science."
+    }
+  ]
+}

@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Town — Virtual-Physical Mars City</title>
+<meta name="description" content="The densification pass: an earth-sheltered village, a logistics depot, pink-glowing crop tunnels, and three elevated pipe corridors that turn 26 landmarks into a town.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--amber);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .trylist{max-width:var(--textw);margin-top:16px;}
+  .trylist li{margin:.5rem 0;color:var(--ink-dim);}
+  .trylist .src{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="perception.html">← Prev</a>
+    <a href="origin.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">hab-village-01 · ops-depot-01 · res-greenrow-01 · utility corridors</div>
+    <h1>The Town</h1>
+    <p class="phead__sub">Twenty-six landmarks do not make a city. This is the densification
+      pass — a 16-cabin earth-sheltered village on one shared atmosphere, a freight yard, a row
+      of pink-glowing crop tunnels, and three elevated pipe corridors — the connective tissue
+      that makes the map read as a settlement. Headline claim: under two metres of regolith, the
+      village's annual dose is 6.2 mSv — a 38× cut, computed, not asserted.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Village dose</div><div class="spec__v">6.2<small>mSv/yr (38×)</small></div></div>
+    <div class="spec"><div class="spec__k">Airlocks</div><div class="spec__v">14 → 2</div></div>
+    <div class="spec"><div class="spec__k">CH₄ rack</div><div class="spec__v">~700<small>m, ISRU → pad</small></div></div>
+    <div class="spec"><div class="spec__k">Growing beds</div><div class="spec__v">490<small>m² city-wide</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>Fabric, not landmarks</h2></div>
+    <p class="lead">A diagnosis, then a campaign: the city had 26 impressive buildings and a
+      mean nearest-neighbour distance of 60 metres of empty sand.</p>
+    <div class="prose">
+      <p>Every earlier district added a <strong>landmark</strong> — a reactor, a launch pad, an
+      observatory. What was missing was everything between them: roads that go somewhere,
+      pipes that explain where the methane comes from, housing that implies people, freight
+      that implies supply lines. The densification pass added exactly that, in one push:
+      a village, a depot, a greenhouse row, seven road spurs and three pipe corridors —
+      plus roadside light masts, container laydowns and marker posts as texture.</p>
+      <p>The organising rule: <strong>every piece of fabric must carry its own physics.</strong>
+      The village's soil berm is a computed shielding ledger, the crane's speed limit is an
+      inertia ledger, the greenhouse glow is a chlorophyll absorption spectrum. Nothing here
+      is set dressing.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/town/village-day.png" alt="Earth-sheltered village, west mouth, day" loading="lazy">
+      <figcaption>HAB-VILLAGE-01 FROM THE WEST MOUTH — THREE ROWS, ONE SOIL RIDGE, 16 CABINS, 28–32 BERTHS</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/town/plaza.jpg" alt="Village plaza" loading="lazy">
+        <figcaption>THE PLAZA: FLAG, NOTICE SCREEN, BENCHES, BIKES — LIFE-TRACES AS DELIVERABLES</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/town/village-night.png" alt="Village at night with porch lamps" loading="lazy">
+        <figcaption>NIGHT, V2: ONE WARM PORCH LAMP PER HOUSEHOLD, WINDOWS STAGGERED, COMMONS BRIGHTEST</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>The village, by the numbers</h2></div>
+    <p class="lead">Five design accounts decided every visible shape — the berm, the curve of
+      the hulls, the corridor net, the two airlocks, even the bikes.</p>
+    <div class="prose">
+      <p><strong>The berm.</strong> Two metres of compacted regolith (330 g/cm²) cuts the
+      surface dose from 234 to 6.2 mSv/yr. The same soil is 55 diurnal-wave skin depths thick:
+      the hull never sees day or night, only ~215 K constant ground, and night heat loss falls
+      from 325 to 2 W/m². One material, two ledgers.</p>
+      <p><strong>The curve.</strong> At 70 kPa, a semi-cylindrical membrane needs 0.7 mm of
+      wall (3 mm as built); a flat-sided box resisting by bending would need 53 mm — 76×
+      thicker. And at 0.38 g the berm presses down only 12.2 kPa, 17% of the internal pressure:
+      soil is shielding, <strong>not ballast</strong>. That is why nothing in the village is square.</p>
+      <p><strong>The corridors.</strong> 2×2 m tubes through the ridge merge 16 cabins into one
+      pressure domain: airlocks drop from 14 to 2 (0.2 kWh and 3 minutes per cycle saved on
+      every visit), with seal rings every ~6 m so one breach does not share its fate.</p>
+      <p><strong>The bikes.</strong> Cruising at 30 km/h costs 31 W here against 249 W on
+      Earth — but braking distance is 2.64× and a 12 m turn wants a 57° lean, because grip
+      scales with <em>mg</em> while inertia does not. The village speed limit is a friction
+      coefficient, not a rule.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>Freight and food</h2></div>
+    <p class="lead">Beds imply dinner tables; dinner tables imply supply lines. The depot and
+      the greenhouse row are the same argument continued.</p>
+    <div class="prose">
+      <p><strong>ops-depot-01</strong> sits with its three marked bays on the east trunk road:
+      a 20 m gantry whose trolley crawls on purpose (weight gets the 0.38 g discount, swing
+      inertia pays full price), container stacks capped at two high by storm wind load, and a
+      half-arch warehouse whose volume is really the synodic period expressed as shelving —
+      every spare must cover a 26-month resupply pipeline. Throughput ledger: the CZ-10B ISRU
+      campaign supports 3.3 launches per window at 18–24 t each, so the yard buffers 60–80 t
+      of boxes per window.</p>
+      <p><strong>res-greenrow-01</strong> is the production counterpart to the showcase dome:
+      four film tunnels at 25 kPa of CO₂-rich air, because crops do not need human pressure —
+      halving pressure halves hoop tension (P·R ≈ 69 kN/m), leak rate and anchoring together.
+      The night glow is pink because the LEDs emit only the two chlorophyll absorption peaks;
+      green would just bounce off. Row plus dome give ~490 m² of beds — full calories for
+      10–12 people, or the fresh-produce ration for the whole town, which is the actual
+      strategy: ship the shelf-stable staples, grow what a container cannot carry.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/town/depot.png" alt="Logistics depot" loading="lazy">
+        <figcaption>THE DEPOT: GANTRY + SPREADER, 5-LIVERY STACKS, FLATBED AT THE BAYS, ROAD AT THE DOORSTEP</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/town/greenrow-night.png" alt="Greenhouse row glowing pink at night" loading="lazy">
+        <figcaption>GREENROW AT NIGHT — THE CITY'S SECOND GLOW; PINK IS THE COLOR OF PAYING ONLY FOR ABSORBED PHOTONS</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>Corridors, and the auditor that guards them</h2></div>
+    <p class="lead">Three elevated pipe racks walk the city's mass flows across the map — and a
+      layout auditor treats every road and pipe as a protected corridor.</p>
+    <div class="prose">
+      <p>The <strong>methane line</strong> runs ~700 m from the Sabatier plant to the launch
+      complex — twin mains with expansion U-loops every ~140 m, the propellant narrative made
+      walkable. The <strong>heat loop</strong> carries reactor heat to the radiator field in
+      three legs, threading a 4 m window between a neutron-sentinel arc and the compute
+      center. The <strong>water line</strong> links the Rodwell well to the dome and the
+      greenrow. All on stanchions every 14 m, draped over real terrain.</p>
+      <p>Keeping this web untangled is code, not care: <span class="src">audit_layout.mjs</span>
+      runs a separating-axis test between every asset footprint and every corridor — 12 roads
+      and 5 rack segments, each inflated by half its width plus a 2 m shoulder. Assets that
+      legitimately end a line (the pad, the well, the dome) sit on an explicit exemption list;
+      everything else that touches a corridor fails the build.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/town/pipe-ch4.png" alt="Methane pipe rack" loading="lazy">
+        <figcaption>CH₄ RACK MARCHING TOWARD THE PAD — TWIN MAINS, U-LOOP, STANCHIONS RIDING THE TERRAIN</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/town/pipe-heat.png" alt="Heat transfer line" loading="lazy">
+        <figcaption>HEAT LOOP WITH VALVE SKID AND SERVICE LAMP — THE LEG THAT THREADS THE SENTINEL GAP</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
+    <p class="lead">Every number above, and which run produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Village dose under 2 m regolith</td><td class="num">234 → 6.2 mSv/yr (38×)</td><td class="src">mars-village/design_accounts.py · acc1</td></tr>
+        <tr><td>Diurnal thermal wave at 2 m depth</td><td class="num">55 skin depths; 325 → 2 W/m²</td><td class="src">mars-village/design_accounts.py · acc1b</td></tr>
+        <tr><td>Membrane vs flat-plate wall</td><td class="num">0.7 mm vs 53 mm (76×)</td><td class="src">mars-village/design_accounts.py · acc2</td></tr>
+        <tr><td>Berm weight vs internal pressure</td><td class="num">12.2 kPa = 17%</td><td class="src">mars-village/design_accounts.py · acc2</td></tr>
+        <tr><td>Airlock economics after merging</td><td class="num">14 → 2 · 0.2 kWh / 3 min per cycle</td><td class="src">mars-village/design_accounts.py · acc3</td></tr>
+        <tr><td>Bike cruise power / braking penalty</td><td class="num">31 W @ 30 km/h · 2.64×</td><td class="src">mars-village/design_accounts.py · acc4</td></tr>
+        <tr><td>Berths and dose-budgeted stay</td><td class="num">28–32 · &lt;50 mSv / Mars year</td><td class="src">mars-village/design_accounts.py · acc5</td></tr>
+        <tr><td>Depot throughput per synodic window</td><td class="num">60–80 t (3.3 × 18–24 t)</td><td class="src">mars_rocket2/sim_isru_campaign (CZ-10B ledger)</td></tr>
+        <tr><td>Greenrow hoop tension at 25 kPa</td><td class="num">P·R ≈ 69 kN/m</td><td class="src">analytic, res-greenrow-01.info.json · tunnel card</td></tr>
+        <tr><td>City agriculture water draw</td><td class="num">&lt; 300 L/day</td><td class="src">Rodwell water ledger (res-dome-01 · header cards)</td></tr>
+        <tr><td>Protected corridors under audit</td><td class="num">12 roads + 5 rack segments (w/2 + 2 m)</td><td class="src">scripts/audit_layout.mjs</td></tr>
+        <tr><td>Final layout state, 34 placed assets</td><td class="num">clean — no overlaps, roads clear</td><td class="src">scripts/audit_layout.mjs</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <p class="lead">The auditor exists because things went wrong first — and it kept catching
+      us for the rest of the campaign.</p>
+    <div class="prose">
+      <p><strong>The exhibit on the road.</strong> A delivered exhibit was once placed straddling
+      the hub–reactor spur: roads are engine geometry, not manifest assets, so the overlap
+      audit simply could not see them. That incident grew the road-corridor check. The first
+      version used bounding circles and promptly false-flagged a 60 m tunnel whose distant
+      corners were nowhere near the road — replaced with exact rotated-rectangle SAT tests,
+      regression-tested in both directions.</p>
+      <p><strong>The greenhouse on the gas line.</strong> The greenrow's first position
+      (135, 75) crossed the CH₄ rack corridor. The audit failed the build; the row moved
+      17 m north. The auditor's first real catch on its own new rule.</p>
+      <p><strong>The depot facing backwards.</strong> First placement had the spares arch
+      greeting the road and the loading bays staring at empty desert. A verification
+      screenshot caught it; one rotation flip later the flatbed waits where trucks actually
+      arrive. Screenshots are part of the pipeline, not decoration.</p>
+      <p><strong>The heat pipe through the sentinels.</strong> The heat loop's straight-line
+      route crossed the fusion perimeter's neutron-sentinel arc. Rerouted into three legs
+      threading a 4 m corridor between the sentinels and the compute center — with per-leg
+      doorstep exemptions so the audit stays strict for everyone else.</p>
+      <p><strong>The village that read as beans.</strong> V1's soil berms made a fine dose
+      ledger and a monotonous skyline. The v2 polish gave every cabin a vent stack with a dust
+      cap — the earth-sheltered home's breathing hole — porch lamps, a dropped child's bike,
+      and a flag that sways on a 2.8 s period because thin air is slow.</p>
+    </div>
+    <div class="sec-head" style="margin-top:44px;"><span class="num">07</span><h2>Try it</h2></div>
+    <ul class="trylist">
+      <li>Village, west mouth: <span class="src">?colony=1&amp;x=-278&amp;z=-52&amp;yaw=-1.35</span> — walk in past the tire tracks; press <span class="src">V</span> near a berm for the shielding card.</li>
+      <li>Depot at the east trunk: <span class="src">?colony=1&amp;x=34&amp;z=-136&amp;yaw=-0.62</span> — watch the trolley shuttle the beam.</li>
+      <li>Greenrow after dark: <span class="src">?colony=1&amp;x=112&amp;z=116&amp;yaw=-0.83</span> — drag the sun slider to night for the pink glow.</li>
+      <li>Walk the CH₄ rack: start at the ISRU plant (52, 32) and follow the stanchions ~700 m to the pad.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">mars-village/design_accounts.py</span> (five accounts) ·
+      City assets: <span class="src">viewer/units/hab-village-01.js · ops-depot-01.js · res-greenrow-01.js</span> ·
+      Corridors &amp; audit: <span class="src">viewer/main.js (colony fabric) · scripts/audit_layout.mjs</span> ·
+      Freight ledger: <span class="src">mars_rocket2 campaign sims</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "id": "hab-foyer-01",
+  "pois": [
+    {
+      "id": "hall",
+      "label": "车辆气闸厅",
+      "label_en": "Vehicle airlock hall",
+      "pos": [0, 3.5, -10],
+      "range": 12,
+      "detail": "地下城的换乘玄关：20 × 12 m 折面拱顶大厅，车辆从地表大门驶入，在这里完成气闸循环再进城。人员气闸与大门旁同规格——6 m³ 小舱一次循环 0.2 kWh、约 3 分钟，泵回收 90% 舱气；车辆舱整循环 ~15 kWh、~20 分钟，所以人走小门、车走大门，不为一个人抽一整舱气。",
+      "detail_en": "The undercity's interchange: a 20 x 12 m faceted-vault hall where vehicles roll in from the surface gate and cycle through before entering the city. The personnel lock matches the one beside the main gate - a 6 m^3 chamber cycling on 0.2 kWh in about 3 minutes with 90% of the air pumped back; a full vehicle cycle runs ~15 kWh and ~20 minutes, which is exactly why people take the small door and vehicles the big one.",
+      "specs": { "厅体": "20 × 12 m，折面拱顶净高 ~8.2 m", "人员循环": "0.2 kWh / ~3 min，回收 90%", "车辆循环": "~15 kWh / ~20 min", "墙体": "regolith 3D 打印层（0.5 m 层高）" },
+      "specs_en": { "Hall": "20 x 12 m, faceted vault ~8.2 m clear", "Personnel cycle": "0.2 kWh / ~3 min, 90% recovered", "Vehicle cycle": "~15 kWh / ~20 min", "Walls": "3D-printed regolith, 0.5 m lifts" }
+    },
+    {
+      "id": "viewport",
+      "label": "观景窗（城市空腔）",
+      "label_en": "Viewport (the cavern city)",
+      "pos": [-6, 2.7, -16],
+      "range": 10,
+      "detail": "左壁一面 5 × 2.2 m 观景窗，窗外是城市空腔：塔楼剪影、发光窗点阵、街灯与顶部天穹光带。整个『窗外的城』只用了约 2500 个三角形——玄关最便宜的一面墙，买到了整个地下城最重要的一句话：下面真的有一座城。",
+      "detail_en": "A 5 x 2.2 m window in the left wall opens onto the cavern: tower silhouettes, grids of lit windows, street lamps, a skylight band overhead. The whole city-behind-glass costs about 2500 triangles - the cheapest wall in the foyer buying the district's most important sentence: there really is a city down here.",
+      "specs": { "窗口": "5 × 2.2 m，钢框 + 玻璃", "窗外": "diorama 空腔 ~30 × 24 × 15 m", "造价": "~2.5k 三角形（validate 台账）" },
+      "specs_en": { "Window": "5 x 2.2 m, steel frame and glass", "Beyond": "diorama cavern ~30 x 24 x 15 m", "Cost": "~2.5k triangles (validate ledger)" }
+    },
+    {
+      "id": "lift",
+      "label": "城际电梯门（通地表）",
+      "label_en": "Elevator doors (to the surface)",
+      "range": 8,
+      "detail": "右墙双扇不锈钢电梯门，直通地表电梯站 hab-lift-01：门楣琥珀屏显示轿厢层位，呼梯双灯，门前黄黑警示垫。乘梯 4.2 分钟 + 两端气闸,地表到城内大街全程约 8 分钟——这是居民日常通勤的『楼下大堂』。",
+      "detail_en": "Twin stainless doors in the right wall run straight to the surface station hab-lift-01: an amber lintel display shows the car's level, twin call lamps wait beside it, a hazard mat marks the swing zone. With the 4.2 minute ride plus locks at both ends, surface to main street takes about 8 minutes - this is the residents' downstairs lobby.",
+      "specs": { "对端": "hab-lift-01 地表电梯站", "行程": "4.2 min（-3000 m 深层线）", "通勤": "地表 ↔ 城内 ~8 min" },
+      "specs_en": { "Far end": "hab-lift-01 surface station", "Ride": "4.2 min (the -3000 m deep line)", "Commute": "surface to city ~8 min" }
+    },
+    {
+      "id": "gate2",
+      "label": "内侧气闸大门（进城）",
+      "label_en": "Inner airlock gate (city side)",
+      "pos": [-1.2, 3, -19.6],
+      "range": 10,
+      "detail": "厅尽端的第二道 6 × 5 m 推拉大门——气闸的城内侧。门楣状态灯常年多绿：城门循环的等待都发生在外侧那道门。门上方的发光板写着城名，是每个新居民进城看到的第一块招牌。",
+      "detail_en": "The second 6 x 5 m sliding gate at the far end - the city side of the lock. Its lintel lamps run mostly green: the waiting in a gate cycle happens at the outer door. The glowing board above it carries the city's name, the first sign every new resident reads on the way in.",
+      "specs": { "门洞": "6 × 5 m 推拉双扇", "状态灯": "8 灯（内侧常绿多）", "标志": "城名发光板" },
+      "specs_en": { "Gate": "6 x 5 m twin sliding leaves", "Lamps": "8 cycle lamps, mostly green inboard", "Sign": "glowing city-name board" }
+    }
+  ]
+}

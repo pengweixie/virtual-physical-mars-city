@@ -18,6 +18,7 @@
 export const meta = {
   id: 'ops-spaceport-02',
   name: '长十乙发射工位',
+  name_en: 'CZ-10B Launch Complex',   // 双语（MODELS.md §5）；与 manifest 的 name_en 一致
   size_m: 140,
   size_axis: 'width',
   effects: ['glow_windows', 'blink'],

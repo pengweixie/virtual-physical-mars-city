@@ -4,61 +4,101 @@
     {
       "id": "heatshield",
       "label": "进入热盾残骸",
+      "label_en": "Entry heat shield debris",
       "range": 30,
       "detail": "毅力号级进入舱防热大底,直径 4.5 米——送往火星的最大防热结构。表面 PICA 酚醛浸渍碳烧蚀瓦在进入峰值时承受约 1300 °C,把 2 万公里时速的动能烧成了这层斑驳炭化面。进入后约 4 分钟、离地约 10 公里处被弃投,自由落体砸进荒野,翻扣至今。内面斑驳处可辨烧蚀深浅不一的瓦块分界。",
+      "detail_en": "The 4.5 m aeroshell bottom from a Perseverance-class entry vehicle - the largest heat shield ever flown to Mars. Its PICA (phenolic impregnated carbon ablator) tiles saw about 1300 C at peak heating, converting 20,000 km/h of kinetic energy into this mottled char layer. Jettisoned some 4 minutes into entry at roughly 10 km altitude, it fell free into the badlands and has lain face-up ever since. The boundaries between tiles are still legible in the uneven depth of ablation.",
       "specs": {
         "直径": "4.5 m",
         "烧蚀材料": "PICA 酚醛浸渍碳",
         "峰值表面温度": "约 1300 °C",
         "弃投高度": "约 10 km"
+      },
+      "specs_en": {
+        "Diameter": "4.5 m",
+        "Ablator": "PICA phenolic impregnated carbon",
+        "Peak surface temperature": "~1300 C",
+        "Jettison altitude": "~10 km"
       }
     },
     {
       "id": "chute",
       "label": "超音速降落伞残骸",
+      "label_en": "Supersonic parachute debris",
       "range": 35,
       "detail": "21.5 米环帆超音速降落伞,在约 1.75 马赫、11 公里高度展开,峰值开伞载荷近 32 吨。橙白伞幅的排列不是装饰——毅力号原版在条纹里用二进制藏了一句 \"Dare Mighty Things\"。伞衣连着后壳一起坠地:旁边那只倒扣的白色锥壳以约 126 km/h 触地,机智号第 26 次飞行时曾专程飞去拍过它的残骸照。",
+      "detail_en": "A 21.5 m ringsail supersonic parachute, deployed at about Mach 1.75 and 11 km altitude against a peak opening load close to 32 tonnes. The orange-and-white gore pattern is not decoration: the Perseverance original spelled out \"Dare Mighty Things\" in binary across the stripes. Canopy and backshell came down together - the overturned white cone beside it hit the ground at roughly 126 km/h, and Ingenuity flew out specifically to photograph this wreckage on its 26th flight.",
       "specs": {
         "展开直径": "21.5 m",
         "开伞马赫数": "约 1.75",
         "悬挂绳": "80 根尼龙线",
         "峰值载荷": "约 32 t"
+      },
+      "specs_en": {
+        "Deployed diameter": "21.5 m",
+        "Deployment Mach": "~1.75",
+        "Suspension lines": "80 nylon cords",
+        "Peak load": "~32 t"
       }
     },
     {
       "id": "ingenuity",
       "label": "机智号安息地",
+      "label_en": "Ingenuity's resting place",
       "range": 20,
       "detail": "1.8 公斤的技术验证机,设计目标 5 次飞行,实际在近三年里飞了 72 次、累计约 17 公里。两副 1.2 米碳纤维共轴旋翼以约 2500 rpm 对转,才能在密度不到地球 1% 的大气里获得升力。2024 年 1 月 18 日第 72 次飞行着陆时桨尖折损,从此永远停在 Jezero 的 Neretva Vallis——地球上最后一次收到它的信号后,任务团队把这片安息地称作 Valinor Hills。第一架在另一颗行星起飞的航空器,值得一座路过时放慢脚步的纪念地。",
+      "detail_en": "A 1.8 kg technology demonstrator built for 5 flights that managed 72 over nearly three years, covering some 17 km. Two 1.2 m carbon-fibre coaxial rotors counter-rotating at about 2500 rpm were what it took to generate lift in an atmosphere under 1% of Earth's density. On 18 January 2024, landing from flight 72, a blade tip broke, and it has stood here in Jezero's Neretva Vallis ever since; after the last signal reached Earth the mission team named this ground Valinor Hills. The first aircraft ever to take off from another planet deserves a marker worth slowing down for.",
       "specs": {
         "质量": "1.8 kg",
         "旋翼直径": "1.2 m(共轴双桨)",
         "旋翼转速": "约 2500 rpm",
         "飞行架次": "72 次 / 约 17 km",
         "服役": "2021-04 至 2024-01"
+      },
+      "specs_en": {
+        "Mass": "1.8 kg",
+        "Rotor diameter": "1.2 m (coaxial pair)",
+        "Rotor speed": "~2500 rpm",
+        "Flights": "72 flights / ~17 km",
+        "In service": "2021-04 to 2024-01"
       }
     },
     {
       "id": "monument",
       "label": "首着陆纪念碑",
+      "label_en": "First landing monument",
       "range": 25,
       "detail": "纪念首次载人着陆的玄武岩碑,石料取自着陆点旁的熔岩台地,斜切碑顶指向当年下降弹道的来向。铭牌合金由首批返回级贮箱余料熔铸。碑前三面旗:红色致献这颗行星,蓝色致献出发的故乡,白色留给尚未抵达的人。",
+      "detail_en": "A basalt stele marking the first crewed landing, cut from the lava plateau beside the landing site, its angled top face aimed back along the descent trajectory. The inscription plate was cast from alloy left over from the first return-stage propellant tanks. Three flags stand before it: red for this planet, blue for the home they left, white for those who have not arrived yet.",
       "specs": {
         "碑高": "2.6 m",
         "石材": "本地玄武岩",
         "铭牌": "贮箱余料合金"
+      },
+      "specs_en": {
+        "Height": "2.6 m",
+        "Stone": "local basalt",
+        "Plate": "alloy from surplus tank stock"
       }
     },
     {
       "id": "cache",
       "label": "应急补给箱",
+      "label_en": "Emergency supply cache",
       "range": 12,
       "detail": "荒野应急缓存点,按'徒步 8 小时可达下一处'的间距布设。箱内:高压氧烛、饮水、应急口粮、气密修补贴片与保温毯。顶部白色信标以 4 秒周期闪烁,反光条在车灯下 500 米可辨。使用后请通过任一中继站报告,运维队会补货。",
+      "detail_en": "A backcountry cache, spaced so that the next one is always within 8 hours on foot. Inside: high-pressure oxygen candles, water, emergency rations, pressure-patch kits and thermal blankets. The white beacon on top flashes on a 4 second cycle and the retroreflective strips pick up vehicle lights at 500 m. Report any use through any relay station and the operations team will restock it.",
       "specs": {
         "箱体": "1.2 m 玻纤增强壳",
         "氧储备": "2 人 × 24 h",
         "信标周期": "4 s",
         "布设原则": "徒步 8 h 间距"
+      },
+      "specs_en": {
+        "Enclosure": "1.2 m glass-fibre reinforced shell",
+        "Oxygen reserve": "2 persons x 24 h",
+        "Beacon period": "4 s",
+        "Spacing rule": "8 h on foot between caches"
       }
     }
   ]

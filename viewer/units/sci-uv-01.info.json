@@ -1,0 +1,227 @@
+{
+  "id": "sci-uv-01",
+  "pois": [
+    {
+      "id": "tower",
+      "label": "三通道探头塔",
+      "label_en": "Three-Channel Probe Tower",
+      "range": 22,
+      "detail": "三只遮光筒仰角朝天,每只一个石英窗 + 干涉滤光片 + AlGaN 光电二极管。筒身色环就是通道身份:紫 = UV-C 270、蓝 = UV-B 310、琥珀 = UV-A 365——同一套色码在大屏光谱条和剖切管里重复出现。三筒外倾 8°,互不遮挡也不遮漫射球。",
+      "detail_en": "Three baffle tubes point at the zenith, each with a quartz window, an interference filter and an AlGaN photodiode. The ring colour is the channel identity: violet = UV-C 270, blue = UV-B 310, amber = UV-A 365 — the same code repeats on the spectrum screen and in the cutaway tube. The tubes tilt 8 degrees apart so they never shadow one another or the diffuser sphere.",
+      "specs": {
+        "通道": "UV-C 255-285 / UV-B 300-320 / UV-A 350-380 nm",
+        "探测器": "AlGaN PIN,三种 Al 组分同族外延",
+        "光阑": "⌀5 mm,视场 ±10°",
+        "工作偏压": "-5 V"
+      },
+      "specs_en": {
+        "Channels": "UV-C 255-285 / UV-B 300-320 / UV-A 350-380 nm",
+        "Detector": "AlGaN PIN, three Al fractions from one epi family",
+        "Aperture": "5 mm dia, field of view ±10°",
+        "Bias": "-5 V"
+      },
+      "sim": [
+        "Sentaurus TCAD 光谱响应(账 R2,-5 V,300 K):UV-C 器件 R@270 = 0.117 A/W(EQE 53.7%)、R@280 = 0.107;UV-B 器件峰 300 nm 0.127 A/W;UV-A 器件峰 340 nm 0.168 A/W。",
+        "带外抑制(同一条 R(λ) 曲线):UV-C 管 R@310 = 2e-4 A/W(585:1)、R@365 < 1e-6(>10⁵:1)——太阳 UV-A 比 UV-C 强 20 倍也污染不了通道。",
+        "三通道 TMM 光扫各 89 个波长点,有效层吸收峰 82%/81%/96%。"
+      ],
+      "sim_en": [
+        "Sentaurus TCAD spectral response (ledger R2, -5 V, 300 K): the UV-C device gives R@270 = 0.117 A/W (EQE 53.7%) and R@280 = 0.107; the UV-B device peaks at 300 nm with 0.127 A/W; the UV-A device peaks at 340 nm with 0.168 A/W.",
+        "Out-of-band rejection from the same R(lambda) curve: the UV-C diode gives R@310 = 2e-4 A/W (585:1) and R@365 below 1e-6 (>1e5:1) — solar UV-A is 20x stronger than the UV-C band and still cannot contaminate the channel.",
+        "Three TMM optical sweeps of 89 wavelength points each; peak active-layer absorption 82% / 81% / 96%."
+      ],
+      "physics": "响应度的上限是 R = η·qλ/hc:270 nm 处每个光子带 4.6 eV,即使量子效率 100% 也只有 0.218 A/W。测到 0.117 就是 EQE 54%——剩下的一半丢在窗口层吸收和入射面反射上,不是电学损失。",
+      "physics_en": "Responsivity is capped by R = eta * q * lambda / hc: at 270 nm each photon carries 4.6 eV, so even unity quantum efficiency yields only 0.218 A/W. Measuring 0.117 means EQE 54% — the missing half is lost to window-layer absorption and front-surface reflection, not to anything electrical."
+    },
+    {
+      "id": "epi",
+      "label": "AlGaN 外延栈展示块",
+      "label_en": "AlGaN Epitaxial Stack Display",
+      "range": 18,
+      "detail": "把 1.15 µm 厚的真实外延剖面放大 400 倍摆出来。自下而上:蓝宝石托板、白色 AlN 缓冲、蓝色 n-Al₀.₆₀GaN 窗口层、紫色 i-Al₀.₄₅GaN 吸收层(日盲就在这一层)、淡紫 p 层、琥珀 p-GaN 帽层加铜阳极点。光从下面进,先被窗口层砍掉短波,再在吸收层里变成电子空穴对。",
+      "detail_en": "The real 1.15 um epitaxial cross-section, laid out at 400x. Bottom to top: sapphire carrier, white AlN buffer, blue n-Al0.60GaN window, violet i-Al0.45GaN absorber (this is the solar-blind layer), pale-violet p layer, amber p-GaN cap with its copper anode dot. Light enters from below, the window layer cuts the short wavelengths first, and the absorber turns what is left into electron-hole pairs.",
+      "specs": {
+        "Al 组分 → 截止": "x=0.45 → 278.8 nm(日盲);x=0.60 → 254.9 nm",
+        "本征带通": "255-279 nm(不靠滤光片)",
+        "层厚": "AlN 0.2 / n 窗口 0.5 / i 吸收 0.3 / p 0.1 / cap 0.05 µm",
+        "掺杂": "n 2e18 · i 5e15 · p 有效受主 5e16(Mg 5e17,~10% 电离)"
+      },
+      "specs_en": {
+        "Al fraction to cutoff": "x=0.45 gives 278.8 nm (solar-blind); x=0.60 gives 254.9 nm",
+        "Intrinsic bandpass": "255-279 nm, with no filter at all",
+        "Layer thicknesses": "AlN 0.2 / n-window 0.5 / i-absorber 0.3 / p 0.1 / cap 0.05 um",
+        "Doping": "n 2e18, i 5e15, p effective acceptors 5e16 (Mg 5e17, ~10% ionized)"
+      },
+      "sim": [
+        "组分-截止账(账 R1):Eg(x) = x·6.20 + (1−x)·3.42 − b·x(1−x) eV,b = 0.9。x=0.45 截止 278.8 nm;b 在文献区间 0.7-1.0 全程给 275.1-280.3 nm,日盲判据(≤280)对参数不确定性稳健。",
+        "吸收账:α@270 = 1.4e5 cm⁻¹(1/α = 72 nm)→ 0.3 µm 吸收层吃掉 98%;α@310 只有 43 cm⁻¹——材料本身就有 3000:1 的带内外比。",
+        "坑账:sdevice 的 QuantumYield(StepFunction(EffectiveBandgap)) 会把 280 nm 的 Urbach 尾响应砍成零(该波长的光子能量恰比 Eg 低 20 meV),换 Unity 后恢复 0.107 A/W。",
+        "工程对策是**极化掺杂**而不是「把界面做陡」:把面电荷摊到厚度 t 的组分渐变上得到体电荷 σ/t,再用同浓度反型掺杂中和——20 nm 渐变需 2.7e18 cm⁻³,50 nm 需 1.1e18,都可做;可反掺的最薄渐变约 10.7 nm。单纯渐变而不反掺会让势垒更高。",
+        "极化电荷审判(账 R5,已裁决):III 族氮化物 c 面外延每个异质界面都带束缚面电荷——n-Al₀.₆₀/i-Al₀.₄₅ 界面 5.33e12 cm⁻²(共格上界 8.56e12),是 i 层全部空间电荷的 35.5 倍、场阶跃是 −5 V 工作场的 9.4 倍,**量级上是一阶量**。把它作为界面固定电荷灌进 sdevice 实算(双极性 + 共格上界三算例,零电荷同结构对照逐位复现 0.117):**R@270 最坏只移 −2.91%**(极性为正时),裁决 screened——0.117 A/W 站得住。",
+        "为什么量级一阶、效应却二阶:n 窗口 2e18 掺杂把面电荷屏蔽在 26.7 nm 之内,而光生载流子产生在 0.3 µm 的吸收层里;−5 V 下 i 层完全耗尽,漂移场把载流子扫过那层能带弯曲(渡越 4.3 ps)。**前提写明**:若工作偏压降到接近零、或窗口掺杂降下来,这条结论失效。极性依赖也值得注意——Ga 面与 N 面差 3.2 个百分点,工艺上应指定 Ga 面或在标定里吸收这 3%。",
+        "稳健性(同链):SRH 寿命在 0.1–10 ns 两个数量级内 R@270 只动 ±1.4%——「寿命 1 ns」这个假设不是承重的(器件是漂移收集,渡越 4.3 ps 远短于任何 ns 级寿命);210 K 火星夜 R 只动 −0.09%,**整个昼夜温程一套固定标定即可,不需要温度查找表**。"
+      ],
+      "sim_en": [
+        "Composition-cutoff ledger (R1): Eg(x) = x*6.20 + (1-x)*3.42 - b*x*(1-x) eV with b = 0.9. x = 0.45 gives a 278.8 nm cutoff; across the literature range b = 0.7-1.0 the answer stays between 275.1 and 280.3 nm, so the solar-blind criterion holds despite the parameter uncertainty.",
+        "Absorption ledger: alpha@270 = 1.4e5 cm-1 (1/alpha = 72 nm), so the 0.3 um absorber captures 98%; alpha@310 is only 43 cm-1 — the material alone gives a 3000:1 in-band to out-of-band ratio.",
+        "Gotcha: sdevice's QuantumYield(StepFunction(EffectiveBandgap)) zeroes the 280 nm Urbach-tail response (that photon sits 20 meV below Eg); switching to Unity restores 0.107 A/W.",
+        "The engineering fix is polarization doping, not a sharper interface: spreading the sheet over a graded layer of thickness t gives a bulk charge sigma/t which is then cancelled by counter-doping at the same concentration — 2.7e18 cm-3 for a 20 nm grade, 1.1e18 for 50 nm, both achievable, with about 10.7 nm the thinnest grade still counter-dopable. Grading alone, without the counter-doping, raises the barrier instead of lowering it.",
+        "Polarization trial (ledger R5, settled): every c-plane III-nitride heterointerface carries bound sheet charge — 5.33e12 cm-2 at the n-Al0.60/i-Al0.45 interface (8.56e12 in the fully strained bound), which is 35.5x the entire space charge of the i-layer and imposes a field step 9.4x the -5 V operating field, so in magnitude it is a first-order quantity. Injecting it into sdevice as a fixed interface charge (both polarities plus the strained bound, against a zero-charge control on the identical deck that reproduces 0.117 exactly) shifts R@270 by at most -2.91%, in the positive-polarity case. Verdict: screened — the 0.117 A/W stands.",
+        "Why first-order in magnitude yet second-order in effect: the 2e18 n-window screens the sheet within 26.7 nm while photocarriers are generated across the 0.3 um absorber, and at -5 V that absorber is fully depleted so the drift field sweeps carriers through the perturbed slab in 4.3 ps. The premises matter: drop the bias toward zero, or lower the window doping, and this no longer holds. Polarity matters too — Ga-face and N-face differ by 3.2 percentage points, so the process should specify Ga-face or absorb the 3% in calibration.",
+        "Robustness from the same chain: across two decades of SRH lifetime (0.1 to 10 ns) R@270 moves only 1.4%, so the assumed 1 ns is not load-bearing — this is a drift-collected device whose 4.3 ps transit is far shorter than any nanosecond lifetime. At 210 K, a Martian night, R moves 0.09%, so one fixed calibration covers the whole diurnal range with no temperature lookup table."
+      ],
+      "physics": "「日盲」不是滤光片做出来的,是带隙做出来的:光子能量低于 Eg 就根本不被吸收。铝含量越高带隙越宽、截止波长越短——把 x 定在 0.45,器件就对臭氧层本该吸收的那段以外的太阳光天生失明。地球上这叫日盲;火星没有臭氧层,UV-C 直达地表,同一只管子从「看不见太阳」变成「只看得见最狠的那段太阳」。",
+      "physics_en": "Solar blindness is not a filter — it is the bandgap: a photon below Eg is simply not absorbed. More aluminium means a wider gap and a shorter cutoff, so fixing x at 0.45 makes the device intrinsically blind to everything the ozone layer would normally absorb on Earth. On Mars there is no ozone layer and UV-C reaches the ground, so the same diode flips from 'cannot see the Sun' to 'sees only the harshest part of it'."
+    },
+    {
+      "id": "cutaway",
+      "label": "剖切探头(备件)",
+      "label_en": "Cutaway Probe (Spare)",
+      "range": 18,
+      "detail": "备用遮光筒半剖躺在检修架上,光路从右往左一目了然:石英窗 → 三片消杂散光挡板环 → 紫色干涉滤光片 → TO-46 管座上的 AlGaN 芯片 → 铜色跨阻放大板。挡板环是防止侧面天光斜射进来的——火星天空的漫射比地球强,没有它带外污染全从筒壁反射进来。",
+      "detail_en": "A spare baffle tube, half-sectioned on the service rack, reads right to left: quartz window, three stray-light baffle vanes, the violet interference filter, the AlGaN chip on its TO-46 header, then the copper transimpedance board. The vanes exist to stop oblique skylight — Martian diffuse sky is stronger than Earth's, and without them the out-of-band contamination would come straight off the tube wall.",
+      "specs": {
+        "窗口": "熔石英(200 nm 以上透过 >90%)",
+        "滤光片": "HfO₂/SiO₂ 短波通 25 层 @320 nm,带内吞吐 67%",
+        "读出": "跨阻放大,增益 1e9 V/A",
+        "结电容": "1.41 pF(⌀100 µm 像素)"
+      },
+      "specs_en": {
+        "Window": "Fused silica, >90% transmission above 200 nm",
+        "Filter": "HfO2/SiO2 short-pass, 25 layers at 320 nm, 67% in-band throughput",
+        "Readout": "Transimpedance amplifier, 1e9 V/A",
+        "Junction capacitance": "1.41 pF for a 100 um dia pixel"
+      },
+      "sim": [
+        "结电容与速度(账 R3,终端电荷法 dQ/dV):C(-5V) = 1.80e-8 F/cm²,与解析 εε₀/W(W = 0.43 µm)只差 0.5%;⌀100 µm 像素 1.41 pF,渡越 4.3 ps + RC(50 Ω) 71 ps → 带宽 2.3 GHz。",
+        "坑账:混合模式 ACCoupled 小信号法在这个结构上两轮都不收敛(先缺 System 电路节点,补 Set 后 QS 反复退步长),改用终端电荷法——同样是求解器背书,v25d hex-SPAD 先例。",
+        "滤光片需求是推导出来的,不是拍的(账 R6):把 R4 的火星地表谱乘 R2 的实测 R(λ),裸管有 16.7% 的读数来自 255-285 nm 之外——而其中 16.5% 全部集中在 285-320 nm 这一小段,200-255 只占 0.19%、365 nm 之外近乎为零。压到 1% 只需 OD 1.22,原先假设的 OD2 过设计约 6 倍。",
+        "架构因此不是带通而是**短波通边缘膜**:短波侧由 Al₀.₆₀ 窗口层管、长波远端由 Al₀.₄₅ 带隙管,镀膜只需盖住 285-330。TMM 扫描定版 (HL)¹²H @320 nm 共 25 层,带内吞吐 67.1%、残余污染 0.43%。首版按窄带 Fabry-Perot 设计是错的——FP 通带只有几 nm,30 nm 宽的通道只剩 13% 吞吐。",
+        "带宽的诚实读法(账 R8,修正):2.3 GHz 是**二极管本体**的,不是链路的。辐射测量用的高增益跨阻(R_f = 1e9)受 √(GBW/2πR_f·C_in) 卡死在 **33.6 kHz**(补偿电容 4.7 fF)。要抓亚微秒事件必须从同一只管子引出**第二条低增益快通道**(R_f = 1e4 → 10.6 MHz)——这是设计条目,不是白送的余量。",
+        "信号是连续量而非事件(账 R8):τ=0.5 正午光子率 5.07e12/s、平均间隔 0.197 ps,1 s 积分内到达过程的散粒颗粒度只有 8.6e-7——离散性在读数上完全看不见,信号就是一条直流。**要看见单个光子必须有内部增益,那是 SPAD**(sci-obs-01 / sci-lidar-01 用的同一器件家族的雪崩版本);本站这只管子是刻意做成线性的。与隔壁 sci-rad-01 的 Timepix4 恰成对照:那台大屏上是真的单粒子径迹,这台大屏上是积分量。",
+        "未验证项(账 R8,不要当卖点):本站曾被写作可探测尘暴静电放电。查下来**不能认**——地球电晕的紫外主要是 N₂ 第二正带 295-400 nm,既在 UV-C 窗口之外,火星大气 N₂ 又只有约 2%;带内候选是 CO/CO₂ 带系,而本项目**没有算过它的发射谱**。认这条需要两件事:发射谱计算 + 那条 10 MHz 快通道。在此之前不声称放电探测能力。"
+      ],
+      "sim_en": [
+        "Capacitance and speed (ledger R3, terminal-charge dQ/dV): C(-5 V) = 1.80e-8 F/cm2, within 0.5% of the analytic eps/W for W = 0.43 um; a 100 um dia pixel gives 1.41 pF, with 4.3 ps transit plus 71 ps RC into 50 ohm, for a 2.3 GHz bandwidth.",
+        "Gotcha: mixed-mode ACCoupled small-signal extraction refused to converge twice on this structure (first a missing System circuit node, then repeated quasistationary step backoff after adding Set), so the terminal-charge method was used instead — equally solver-backed, following the v25d hex-SPAD precedent.",
+        "The filter requirement is derived, not assumed (ledger R6): folding the R4 Mars surface spectrum into the measured R(lambda) shows a bare diode takes 16.7% of its reading from outside 255-285 nm — and 16.5 of those points sit in the narrow 285-320 nm strip alone, with 200-255 contributing 0.19% and everything past 365 nm essentially nothing. Reaching 1% needs only OD 1.22, so the OD2 originally assumed was about 6x over-specified.",
+        "That makes the right architecture a short-pass edge coating rather than a bandpass: the Al0.60 window handles the short side and the Al0.45 bandgap the far long side, so the coating only has to cover 285-330 nm. A TMM sweep settles on (HL)^12 H at 320 nm, 25 layers, for 67.1% in-band throughput and 0.43% residual contamination. The first attempt, a narrow Fabry-Perot, was the wrong architecture — its passband is a few nm wide and left only 13% throughput across a 30 nm channel.",
+        "Bandwidth, read honestly (ledger R8, corrected): the 2.3 GHz belongs to the diode, not to the chain. The high-gain radiometric transimpedance stage (R_f = 1e9) is pinned at 33.6 kHz by sqrt(GBW / 2 pi R_f C_in), with a 4.7 fF compensation capacitor. Catching sub-microsecond events requires a second, low-gain path off the same diode (R_f = 1e4 gives 10.6 MHz) — a design item, not free headroom.",
+        "The signal is a continuum, not a train of events (ledger R8): at tau 0.5 and noon the photon rate is 5.07e12 per second, spaced 0.197 ps apart, and the shot granularity of that arrival process over a 1 s integration is only 8.6e-7 — the discreteness is invisible in the reading, which is simply a DC current. Seeing an individual photon requires internal gain, which is the SPAD — the avalanche member of this same device family used by sci-obs-01 and sci-lidar-01. This diode is deliberately the linear one. It is the mirror image of the Timepix4 next door at sci-rad-01, whose screen shows genuine single-particle tracks where this one shows an integral.",
+        "Unverified, and not to be sold as a feature (ledger R8): this station was once written up as able to detect dust-storm electrostatic discharge. It cannot be claimed. Terrestrial corona UV is dominated by the N2 second-positive system at 295-400 nm, which is outside the UV-C window, and the Martian atmosphere is only about 2% N2; the in-band candidate is CO/CO2 band emission, whose spectrum this project has never computed. Claiming it would need both that spectrum and the 10 MHz fast path. Until then the capability is not asserted."
+      ],
+      "physics": "带通用两道锁串起来:材料带隙管长波(>279 nm 不吸收)、干涉滤光片管短波和残余。任何一道单独用都不够——滤光片有针孔和斜入射漂移,材料有 Urbach 尾。两道串联后带外污染乘起来降到 0.1% 以下。",
+      "physics_en": "The passband is two locks in series: the bandgap handles the long side (nothing above 279 nm is absorbed) and the interference filter handles the short side and the residue. Neither is sufficient alone — filters have pinholes and shift under oblique incidence, and the material has an Urbach tail. In series the two rejections multiply, dropping out-of-band contamination below 0.1%."
+    },
+    {
+      "id": "sphere",
+      "label": "漫射球(全天空余弦收集)",
+      "label_en": "Diffuser Sphere (Cosine Collector)",
+      "range": 18,
+      "detail": "PTFE 半球加水平遮光环,把整个天空的紫外按余弦定律加权收进来——这才是「地表辐照度」的定义,而不是对着太阳测。三根光纤(紫/蓝/琥珀)从球底下把光分给三个通道,颜色和探头塔上的色环一一对应。",
+      "detail_en": "A PTFE hemisphere with a horizon shade ring collects the whole sky's ultraviolet with the cosine weighting that actually defines surface irradiance — as opposed to pointing at the Sun. Three fibres (violet, blue, amber) split the light to the three channels from underneath, colour-matched to the rings on the probe tower.",
+      "specs": {
+        "余弦响应误差": "<3%(0-70° 天顶角)",
+        "扩散体": "PTFE,厚 4 mm",
+        "总透过": "T ≈ 0.10(含滤光片)",
+        "UV-C 通道光电流": "34-451 nA(τ 5 → 0.3)",
+        "余弦响应": "半球实测 f2 = 7.5%(40° 内 <2.1%,70° 处 −16.8%);<3% 需成形漫射体",
+        "噪声等效辐照度": "1.7e-6 W/m²(1 s 积分)· SNR 1.1e6"
+      },
+      "specs_en": {
+        "Cosine response error": "under 3% for zenith angles 0-70 degrees",
+        "Diffuser": "PTFE, 4 mm thick",
+        "Total throughput": "T about 0.10 including the filter",
+        "UV-C channel photocurrent": "34-451 nA as tau goes from 5 to 0.3",
+        "Cosine response": "plain hemisphere gives f2 = 7.5% (under 2.1% within 40 deg, -16.8% at 70 deg); reaching 3% requires a shaped diffuser",
+        "Noise-equivalent irradiance": "1.7e-6 W/m2 at 1 s integration, SNR 1.1e6"
+      },
+      "sim": [
+        "火星地表紫外光谱账(账 R4):Thuillier 级 TOA 表 / 1.524² → CO₂ 柱 2.25e23 cm⁻²(截面按 Yoshino 1996 拟合,τ=1 截止 197 nm) → 尘埃辐射传输蒙特卡洛(HG 相函数 g=0.70,单散射反照率 0.63,地表反照率 0.05,2e5 光子)。",
+        "τ=0.5 正午:UV 总量(200-400 nm)37.1 W/m²,UV-C 带 1.90 W/m²;尘埃总透过率 τ=0.3→0.83、1→0.60、2→0.35、5→0.063。",
+        "通道光电流(⌀5 mm 光阑 × T=0.10 × R=0.117 A/W):UV-C 通道 410 nA @τ0.5——跨阻放大轻松可测,不需要斩波或锁相。",
+        "测量精度账(账 R7):余弦响应不是卡上原写的「<3% 到 70°」——PTFE 半球加遮光环实为各向同性 f2 = 7.5%,40° 内才 <2.1%,70° 处 −16.8%,主导项是 60° 之后陡升的 Fresnel 反射而非遮挡。要 <3% 必须把「成形漫射体轮廓」写成设计要求。",
+        "但这个误差是**恒为负的偏差**(始终欠报),在剂量告警仪上是不安全的方向,所以必须修正而不是塞进预算——而修正所需的两个量这台仪器自己都有:太阳天顶角来自时钟+纬度,漫射比来自**它自己 UV-A 通道反演的 τ**。三通道设计自带余弦自修正闭环,设 τ 不确定度 15%,修正后残余 1.25%。",
+        "噪声反而无关紧要:1 Hz 带宽下信号散粒噪声 3.6e-13 A、TIA Johnson 4.1e-15 A,SNR 1.1e6,NEI = 1.7e-6 W/m²,在总预算里占 0.001%。**这台仪器是标定受限而非噪声受限**——修正后 1σ 合计 7.2%,主导项是漫射体积尘(5%)与响应度标定(4%),力气该花在那里而不是放大器上。",
+        "火卫一凌日 = 免费的原位标定(账 R8):火卫一角径 0.14-0.20° 对太阳 0.35°,永远遮不满(环食),遮挡 16-33%、历时约 30 s。**关键是它只调制直射分量,漫射纹丝不动**——所以凹陷深度直接读出直射/漫射拆分比,而那正是余弦自修正需要的量。凹陷深度:τ=0.5 时 12.8-26.2%,τ=5 尘暴里仍有 1.7-3.5%,SNR 均在 1e4 以上。火卫一每隔几天来一次,于是反复凌日把 R7 里假设的「τ 反演不确定度 15%」独立钉死。"
+      ],
+      "sim_en": [
+        "Mars surface UV spectrum ledger (R4): a Thuillier-class top-of-atmosphere table divided by 1.524^2, then a 2.25e23 cm-2 CO2 column (Yoshino-1996 cross-section fit, tau = 1 cutoff at 197 nm), then a dust radiative-transfer Monte Carlo (Henyey-Greenstein g = 0.70, single-scattering albedo 0.63, surface albedo 0.05, 2e5 photons).",
+        "At tau = 0.5 and local noon: 37.1 W/m2 total UV over 200-400 nm and 1.90 W/m2 in the UV-C band; total dust transmission runs 0.83 at tau 0.3, 0.60 at 1, 0.35 at 2 and 0.063 at 5.",
+        "Channel photocurrent (5 mm aperture times T = 0.10 times R = 0.117 A/W) is 410 nA in UV-C at tau 0.5 — comfortably measurable with a transimpedance stage, no chopping or lock-in needed.",
+        "Measurement-accuracy ledger (R7): the cosine response is not the '<3% to 70 deg' this card originally claimed — a PTFE hemisphere with a shade ring actually gives an isotropic f2 of 7.5%, staying under 2.1% only within 40 deg and reaching -16.8% at 70 deg, dominated by Fresnel reflection climbing past 60 deg rather than by ring occlusion. Reaching 3% makes a shaped diffuser profile a design requirement.",
+        "That error is a systematically NEGATIVE bias — the station always under-reports — which on a dose-alarm instrument is the unsafe direction, so it has to be corrected rather than merely budgeted. Both quantities the correction needs are already on board: solar zenith angle from the clock and site latitude, and diffuse fraction from the station's own UV-A channel optical-depth retrieval. The three-channel design closes its own cosine correction loop; at 15% uncertainty on tau the residual is 1.25%.",
+        "Noise turns out to be irrelevant: at 1 Hz the signal shot noise is 3.6e-13 A against 4.1e-15 A of TIA Johnson noise, for SNR 1.1e6 and a noise-equivalent irradiance of 1.7e-6 W/m2 — 0.001% of the budget. The instrument is calibration-limited, not noise-limited: the corrected 1-sigma total is 7.2%, dominated by diffuser dust deposition (5%) and responsivity calibration (4%), so that is where the effort belongs rather than in the amplifier.",
+        "A Phobos transit is a free in-situ calibration (ledger R8): Phobos subtends 0.14-0.20 degrees against the Sun's 0.35, so it never covers the disc — the transit is annular, 16 to 33% obscuration lasting about 30 s. What matters is that it modulates only the direct beam while leaving the diffuse component untouched, so the depth of the dip reads out the direct-to-diffuse split directly — exactly the quantity the cosine self-correction needs. The dip runs 12.8-26.2% at tau 0.5 and is still 1.7-3.5% inside a tau 5 storm, at SNR above 1e4 throughout. Phobos transits recur every few days, so they independently pin down the 15% optical-depth uncertainty that R7 had to assume."
+      ],
+      "physics": "CO₂ 大气在 190 nm 以下不透明,却对 200-400 nm 几乎全透——这是火星紫外环境的全部要害:没有臭氧,UV-C 一路打到地面。真正的衰减器是尘,而尘是灰的(UV 波段近乎波长无关),所以尘暴只是把三个通道同倍率调暗,不改变谱形——这也让 UV-A 通道能当独立的 τ 计。",
+      "physics_en": "The CO2 atmosphere is opaque below 190 nm yet almost perfectly transparent from 200 to 400 nm, which is the whole point of the Martian UV environment: with no ozone, UV-C reaches the ground. The real attenuator is dust, and dust is grey in the UV (nearly wavelength-independent), so a storm dims all three channels by the same factor without changing the spectral shape — which is also what lets the UV-A channel double as an independent optical-depth meter."
+    },
+    {
+      "id": "beacon",
+      "label": "EVA 紫外告警灯柱",
+      "label_en": "EVA UV Advisory Lamp Stack",
+      "range": 20,
+      "detail": "绿/琥珀/红三色灯柱,直接读地表光化学剂量率。红灯缓闪时意味着一次 8 小时 EVA 的透射剂量会超过 ICNIRP 限值——不是「别出去」,是「换新面罩或缩短出勤」。牌面三色带和灯柱同色,远处只看灯、走近读牌。桅顶红色障碍灯是航空标识,与告警无关。",
+      "detail_en": "A green/amber/red lamp stack reading the surface photochemical dose rate directly. A slow-flashing red means a full 8-hour EVA would push the through-visor dose past the ICNIRP limit — not 'stay inside' but 'fresh visor or shorter shift'. The sign's three colour bands match the lamps, so the lamp reads from a distance and the sign reads up close. The red beacon at the mast top is an aviation obstruction light, unrelated to the advisory.",
+      "specs": {
+        "绿": "E_act < 1.65 W/m²(8h 老化面罩剂量 <15 J/m²)",
+        "琥珀": "1.65-3.3 W/m²(余量过半)",
+        "红(缓闪)": "> 3.3 W/m²(8h 超 30 J/m² 限值)",
+        "面罩规格": "OD4 @270 nm(新品)"
+      },
+      "specs_en": {
+        "Green": "E_act below 1.65 W/m2 (aged-visor 8-hour dose under 15 J/m2)",
+        "Amber": "1.65 to 3.3 W/m2 (over half the margin spent)",
+        "Red, slow flash": "above 3.3 W/m2 (8-hour dose exceeds the 30 J/m2 limit)",
+        "Visor specification": "OD4 at 270 nm when new"
+      },
+      "sim": [
+        "EVA 剂量账(账 R4,ICNIRP 光化学作用谱 S(λ),限值 30 J/m² 有效 / 8 h):τ=0.5 正午 E_act = 3.31 W/m² → 裸露皮肤/眼 9.1 s 达限;近日点晴天 4.43 W/m²(6.8 s)。CIE 红斑 UV 指数 226(地球「极端」= 11)。",
+        "面罩 OD 账:8h EVA 透射剂量 <30 J/m² 需 OD ≥ 3.63(最坏工况)→ 定规格 OD4@270 nm(余量 2.3×)。老化到 OD3.5 时晴天正午 8h 剂量 30.1-33.1 J/m² 正好压线,告警阈值就锚在这里。",
+        "尘暴反而是紫外的保护伞:琥珀带 1.65-3.3 W/m² 只对应 τ≈1.5-1.9 的窄窗,τ=2 就已降到 1.53 W/m² 回绿,τ=5 时 0.28 W/m²——与 sci-rad-01 的 SEP 告警方向相反,同一场尘暴在两块牌子上一个转红一个转绿。",
+        "阈值的统计含义(账 R7):测量 1σ = 7.2%(主导项积尘与标定),两条阈值相隔 6.9σ——告警分级不会在噪声里抖动。但红线 3.3 W/m² 本身带 ±0.24 的 1σ,若要 95% 单边置信不漏报,红线应下移到 2.91 W/m²;当前取 3.3 是「老化面罩 8h 恰好 30 J/m²」的名义值,运营上应视作需要留余量的线。"
+      ],
+      "sim_en": [
+        "EVA dose ledger (R4, ICNIRP actinic action spectrum S(lambda), 30 J/m2 effective per 8 hours): at tau = 0.5 and noon E_act = 3.31 W/m2, so bare skin or eyes reach the limit in 9.1 s; a clear perihelion sol gives 4.43 W/m2 (6.8 s). The CIE erythemal UV index is 226, against 11 for 'extreme' on Earth.",
+        "Visor optical-density ledger: keeping the 8-hour through-visor dose below 30 J/m2 needs OD 3.63 in the worst case, so the specification is OD4 at 270 nm, a factor 2.3 of margin. Once a visor ages to OD3.5 the clear-noon 8-hour dose is 30.1 to 33.1 J/m2, right on the line — which is exactly where the alarm thresholds are anchored.",
+        "A dust storm is a UV parasol: the amber band of 1.65 to 3.3 W/m2 spans only the narrow window tau 1.5 to 1.9, so by tau = 2 the rate is already back to green at 1.53 W/m2, and at tau = 5 it is 0.28 W/m2 — the opposite sense to sci-rad-01's SEP alarm, so one storm turns one board red and the other green.",
+        "What the thresholds mean statistically (ledger R7): the measurement 1-sigma is 7.2%, dominated by dust deposition and calibration, and the two thresholds sit 6.9 sigma apart, so the alarm tiers will not chatter. But the 3.3 W/m2 red line itself carries a 1-sigma of 0.24; holding a 95% one-sided confidence of never missing an exceedance would move it down to 2.91 W/m2. The 3.3 in use is the nominal 'aged visor reaches exactly 30 J/m2 in 8 h' value and should be operated as a line that still needs margin."
+      ],
+      "physics": "紫外伤害按作用谱加权:270 nm 附近 DNA 吸收峰权重为 1,到 320 nm 已掉到千分之一。所以剂量率不是把 W/m² 直接加起来,而是先乘 S(λ) 再积分——这也是为什么必须有独立的 UV-C 通道:UV-A 能量多 5 倍,但对眼角膜和皮肤的加权贡献不到 1%。本站补的是 sci-rad-01 EVA 剂量牌那本账的非电离分册:一个管 mSv(电离径迹),一个管 J/m²(光化学键断裂),两种伤害机制不能相加。",
+      "physics_en": "Ultraviolet harm is weighted by an action spectrum: the DNA absorption peak near 270 nm carries weight 1, and by 320 nm the weight is down a thousandfold. So a dose rate is not a sum of W/m2 but an integral of the spectrum times S(lambda) — which is also why an independent UV-C channel is mandatory: UV-A carries five times the energy yet contributes under 1% of the weighted load on cornea and skin. This station supplies the non-ionizing volume of the same EVA ledger as sci-rad-01's dosimeter rack: one counts mSv from ionizing tracks, the other J/m2 from photochemical bond breaking, and the two damage mechanisms cannot be added."
+    },
+    {
+      "id": "kiosk",
+      "label": "数据柜与光谱大屏",
+      "label_en": "Data Kiosk and Spectrum Screen",
+      "range": 20,
+      "detail": "三条光谱条(紫/蓝/琥珀)是三个通道的实时带内辐照度,右侧八格梯是 UV 指数档位。屏上走的是一个压缩的火星日:早晨爬升 → 正午满格红灯 → 尘锋过境条子回落 → 傍晚归零。柜内是数采、恒温和电池,门是密封框加双铰链。",
+      "detail_en": "The three spectrum bars (violet, blue, amber) are the live in-band irradiance of the three channels, and the eight-segment ladder on the right is the UV index tier. The screen runs a compressed sol: morning ramp, full-scale red at noon, bars sinking as a dust front passes, back to zero in the evening. Inside the cabinet are the data logger, thermal control and battery; the door is a sealed frame with double hinges.",
+      "specs": {
+        "采样": "1 Hz 连续,1 min 平均落库",
+        "AD": "24 bit,跨阻前端",
+        "屏上循环": "60 s = 一个压缩火星日",
+        "供电": "1.5 m² PV + 电池,夜间待机 3 W"
+      },
+      "specs_en": {
+        "Sampling": "1 Hz continuous, one-minute averages archived",
+        "ADC": "24 bit behind the transimpedance front end",
+        "Screen loop": "60 s equals one compressed sol",
+        "Power": "1.5 m2 of PV plus battery, 3 W standby overnight"
+      },
+      "sim": [
+        "暗电流对比账(账 R3):TCAD 暗电流 -10 V 时 3.2e-41 A/µm——数值下限,宽禁带的本征优势在仿真里都测不出来,这本身就是结论。",
+        "本征标度:ni(Si)/ni(Al₀.₄₅GaN) = 1e21 @300 K,4.7e39 @210 K(火星夜)。实测口径 AlGaN 日盲管是缺陷/表面限制的 fA 级(~1e-11 A/cm²),同几何 Si PIN ~3e-8 A/cm² → 实用差 3.5 个数量级。",
+        "所以整机不带制冷:210 K 的火星夜里 Si 仍有 1.25 nA/cm² 产生流本底,AlGaN 是 2.7e-49——温度再怎么变都不进噪声预算。"
+      ],
+      "sim_en": [
+        "Dark-current ledger (R3): the TCAD dark current at -10 V is 3.2e-41 A/um — the numerical floor. The wide-bandgap advantage cannot even be measured in simulation, which is itself the result.",
+        "Intrinsic scaling: ni(Si)/ni(Al0.45GaN) is 1e21 at 300 K and 4.7e39 at 210 K, a Martian night. In practice AlGaN solar-blind diodes are defect- and surface-limited at the femtoamp level (about 1e-11 A/cm2) against roughly 3e-8 A/cm2 for a same-geometry Si PIN — 3.5 orders of practical advantage.",
+        "That is why the instrument carries no cooler: on a 210 K night a silicon diode still generates 1.25 nA/cm2 of leakage while the AlGaN device sits at 2.7e-49, so temperature never enters the noise budget."
+      ],
+      "physics": "暗电流的产生项正比于本征载流子浓度 ni,而 ni ∝ exp(−Eg/2kT)。把带隙从硅的 1.12 eV 推到 4.45 eV,指数里多了三倍多——这就是宽禁带材料几个数量级优势的全部来源,而且它是指数依赖温度的,越冷差距越夸张。代价是外延质量:实际器件早在触及本征极限之前就被位错和表面态卡住了。",
+      "physics_en": "The generation term of dark current scales with the intrinsic carrier concentration ni, and ni goes as exp(-Eg/2kT). Pushing the gap from silicon's 1.12 eV to 4.45 eV more than triples the exponent — that is the entire source of the orders-of-magnitude advantage, and because the dependence is exponential in temperature the gap widens as it gets colder. The price is epitaxial quality: real devices hit dislocation and surface-state limits long before they reach the intrinsic floor."
+    }
+  ]
+}

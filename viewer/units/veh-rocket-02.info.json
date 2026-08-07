@@ -18,6 +18,21 @@
         "L2 升轨（scripts/sim_ascent_veh_rocket_02.py）：火星 RTLS 构型只点 3/7 台 @70%（2.81 MN，起飞 T/W=2.53；7 台全点会到 8.4）——峰值加速度 7.6 g_mars，max-Q 仅 0.62 kPa",
         "L2 返场（sim_boostback）：boostback 用 2 台、着陆用中心 1 台；过冲推力比的硬约束——箭体越烧越轻，着陆剖面 a_ref 必须钉在「末端质量×(g+a_ref)/F ≥ 40% 深节流下限」上（返场取 8 m/s²），否则油门钳位过度减速、空中跑飞；制导附中途关机-再点火保护",
         "着陆末段无法悬停（min 节流 T/W≈1.5）→ 挂点上方 0.5 m 关机跌落挂缆，兼顾不烧网"
+      ],
+      "label_en": "Propulsion Section (7x YF-100K)",
+      "detail_en": "Seven YF-100K staged-combustion engines cluster inside the aft heat-shield skirt: 1 center + 6 in a ring, bell nozzles, the outer six gimbaled by twin-actuator hot-gas TVC. Recovery landing lights only the deep-throttled center engine. Ground figures follow public YF-100-family data; the Mars-deployed build swaps to the ISRU methane variant (see the 5-meter core card).",
+      "specs_en": {
+        "Engines": "7 x YF-100K",
+        "Layout": "1 center + 6 ring",
+        "Thrust each": "~1200 kN (SL) / ~1340 kN (vac, est.)",
+        "Isp": "~300 s / ~335 s",
+        "Cycle": "oxygen-rich staged combustion",
+        "Gimbal": "outer 6, twin actuators"
+      },
+      "sim_en": [
+        "L2 ascent (scripts/sim_ascent_veh_rocket_02.py): the Mars RTLS build lights only 3 of 7 at 70% (2.81 MN, liftoff T/W = 2.53; all seven would hit 8.4) - peak accel 7.6 g_mars, max-Q a mere 0.62 kPa",
+        "L2 return (sim_boostback): boostback on 2 engines, landing on the center one; the overthrust hard constraint - the booster burns ever lighter, so the landing profile a_ref must be pinned by \"terminal mass x (g + a_ref) / F >= the 40% throttle floor\" (8 m/s2 for the return), else the throttle clamps, over-decelerates and the booster balloons off profile; guidance carries a mid-burn cutoff-and-relight guard",
+        "No hover at the end (min-throttle T/W ~ 1.5) -> cut thrust 0.5 m above the catch point and drop onto the cables, which also keeps the net out of the plume"
       ]
     },
     {
@@ -34,6 +49,18 @@
       "sim": [
         "L1.5 舵效包线（scripts/sim_gridfin_veh_rocket_02.py）：姿控需求力矩 0.56 MN·m 对应达标动压 3.8 kPa——地表要 618 m/s、20 km 高空要 1522 m/s；跳跃演示全程舵效仅 3%，RTLS 返场再入峰值也只有 19% → 火星构型栅格舵的主要职能是网捕挂钩，姿控靠推力矢量+RCS",
         "L2 挂缆缓冲（sim_catch）：RTLS 到网质量 51.4 t、4.1 m/s 挂网——恒力缓冲绞车 n=2 方案单钩峰值 95 kN、行程 2.27 m，对 250 kN 设计载荷裕度 2.6×、对 6 m 行程裕量 2.6×（弹性缆方案动载系数 3.3，劣于恒力方案）"
+      ],
+      "label_en": "Grid Fins (4, folded flat)",
+      "detail_en": "Four titanium grid fins in orthogonal positions at the top of the stage (coarse lattice shown), folded flat when stacked and deploying ~100 deg for entry aero control. The inspect view offers a \"grid fins deploy/stow\" action.",
+      "specs_en": {
+        "Count": "4 (orthogonal)",
+        "Size": "~2.2 x 1.5 m",
+        "State": "folded flat (action-deployable)",
+        "Role": "entry attitude + landing-point control"
+      },
+      "sim_en": [
+        "L1.5 fin-authority envelope (scripts/sim_gridfin_veh_rocket_02.py): the 0.56 MN m control-moment requirement maps to 3.8 kPa of dynamic pressure - 618 m/s at the surface, 1522 m/s at 20 km; the hop demo never exceeds 3% authority and even RTLS entry peaks at 19% -> on Mars the grid fins mainly serve as catch hooks, attitude falls to TVC + RCS",
+        "L2 cable-catch damping (sim_catch): RTLS arrives at the net at 51.4 t and 4.1 m/s - the constant-force winch scheme (n=2) peaks at 95 kN per hook over a 2.27 m stroke, 2.6x margin on the 250 kN design load and 2.6x on the 6 m stroke (an elastic-cable scheme has a 3.3 dynamic load factor, worse than constant-force)"
       ]
     },
     {
@@ -49,6 +76,17 @@
       },
       "sim": [
         "L1 手算：空箭回收态 CG 低（~12 m 级），4 腿展开跨距 ~13 m → 静态倾覆坡度极限 >25°，比满载飞船着陆（veh-rocket-01 绑定工况）宽松得多"
+      ],
+      "label_en": "Landing Legs (4, stowed)",
+      "detail_en": "Four landing legs on the diagonal azimuths (offset 45 deg from the grid fins), main strut + brace + wide pad, stowed flat when stacked and hydraulically deployed and locked before terminal landing. Hinge points are faired. The inspect view offers a \"landing legs deploy/stow\" action.",
+      "specs_en": {
+        "Count": "4 (diagonal)",
+        "Layout": "main strut + brace + pad",
+        "State": "stowed flat (action-deployable)",
+        "Ground": "sized for loose regolith"
+      },
+      "sim_en": [
+        "L1 hand check: the empty recovery booster has a low CG (~12 m class) and a ~13 m deployed footprint -> static tip-over slope limit > 25 deg, far more relaxed than the laden-ship landing (the veh-rocket-01 binding case)"
       ]
     },
     {
@@ -64,6 +102,17 @@
       },
       "sim": [
         "L1 手算：逃逸要求 ~10 g 级加速度把飞船在 2 s 内拉开 >100 m；火星大气稀薄无 max-Q 高压段，逃逸窗口工况比地球温和"
+      ],
+      "label_en": "Spacecraft Section + Escape Tower",
+      "detail_en": "Up top: a 5.2 m shoulder fairing skirt, a Mengzhou-style crew spacecraft (service module + blunt-cone reentry capsule) and the escape tower. The tower mast carries the escape main engine (4 canted nozzles) and 4 lattice stabilizer fins - in an ascent abort it drags the capsule clear of the stack. The capsule +Z twin portholes glow at night.",
+      "specs_en": {
+        "Shoulder diameter": "5.2 m",
+        "Spacecraft": "Mengzhou-style (SM + capsule)",
+        "Escape tower": "mast + 4 canted nozzles + 4 lattice fins",
+        "Crew": "3-7 (est.)"
+      },
+      "sim_en": [
+        "L1 hand check: an abort demands ~10 g-class acceleration to pull the capsule >100 m clear in 2 s; the thin Martian atmosphere has no high-Q phase, so abort cases are milder than on Earth"
       ]
     },
     {
@@ -85,6 +134,23 @@
         "L2 蒙特卡洛（sim_dispersion，N=500）：推力/质量/大气/±12 m/s 风/导航偏差全散布下落点 σ=0.55 m、CEP 0.41 m，网捕窗口捕获概率 100%——散布主导项是导航偏差，火星稀薄大气反而是精确回收的盟友",
         "L1.5 ISRU 战役（sim_isru）：每发 215.3 t 推进剂（CH4 47.8 + LOX 167.5）= 净耗水 107.7 t（res-rodwell 冰井）+ 1174 MWh；200 kWe 电站即可每发射窗口（780 sol）打 3.3 发，对照 veh-rocket-01 满箱 1200 t 需 1.6 MWe——中型复用箭+ISRU 是火星发射的能量甜点",
         "SSTO 旁证（L1 齐氏）：一子级装填 180 t 单独带 18 t 载荷 Δv=4435 m/s ≥ 升轨需求 4.13 km/s → 火星单级入轨成立，但牺牲回收储备，两级+RTLS 更优"
+      ],
+      "label_en": "5-meter Core (ISRU methane variant)",
+      "detail_en": "A single 5.0 m core stage with segmented tank weld lands, white livery with flag-color band and vertical rocket name. The Earth build burns LOX/kerosene, but kerosene cannot be made on Mars - the locally deployed build is marked as the ISRU methane variant (YF-100M notional, LOX/liquid methane), all propellant synthesized on site via the Sabatier process.",
+      "specs_en": {
+        "Core diameter": "5.0 m",
+        "Height": "67 m",
+        "Liftoff mass": "~740 t (est.)",
+        "Earth propellant": "LOX / kerosene",
+        "Mars propellant": "LOX / liquid methane (ISRU)",
+        "Payload": "LEO ~14 t (reusable) / ~18 t (expendable, est.)"
+      },
+      "sim_en": [
+        "L2 ascent closure (scripts/sim_ascent_veh_rocket_02.py): the Mars RTLS build lifts off at only 298 t GLOW (vs 740 t full on Earth) - ISRU fills to need; lofted staging (1000 m/s, gamma 26 deg, 38 km) -> upper stage burns into a 200 km low Mars orbit, total dv 4.13 km/s (gravity loss 461, drag 8 m/s), LMO payload 18-24 t",
+        "L2 booster return (sim_boostback): boostback 26.5 t + landing 15.0 t = 41.6 t against a 48 t reserve (13% margin); ZEM/ZEV guidance kills 204 m/s of crossrange drift, cable catch at 4.1 m/s with 0.19 m dispersion; entry heating metric (rho v3/2) peaks at just 367 kW/m2 -> no entry burn needed",
+        "L2 Monte Carlo (sim_dispersion, N=500): with thrust/mass/atmosphere/±12 m/s wind/navigation scatter all in, landing sigma = 0.55 m, CEP 0.41 m, 100% capture probability in the net window - navigation bias dominates, and the thin Martian air is actually an ally of precision recovery",
+        "L1.5 ISRU campaign (sim_isru): each launch takes 215.3 t of propellant (CH4 47.8 + LOX 167.5) = 107.7 t net water (res-rodwell ice well) + 1174 MWh; a 200 kWe plant supports 3.3 launches per window (780 sol), versus 1.6 MWe to fill veh-rocket-01's 1200 t - a mid-size reusable rocket plus ISRU is the energy sweet spot of Mars launch",
+        "SSTO side-check (L1 Tsiolkovsky): the first stage alone with 180 t load and 18 t payload gives dv = 4435 m/s >= the 4.13 km/s ascent requirement -> Mars SSTO closes, but it spends the recovery reserve; two stages + RTLS wins"
       ]
     }
   ]

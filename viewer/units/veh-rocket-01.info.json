@@ -18,6 +18,21 @@
         "L1 手算：6 台全开 13.8 MN，火表起飞质量 ~1420 t，重量 5.27 MN → 起飞 T/W=2.6（健康）",
         "着陆仅点海平面机，且推力过剩是主要矛盾：单台深节流到 40% 时 T/W 仍 >1，无法悬停，只能连续减速直接触地（详见着陆头罐卡 L2）",
         "L2 羽流分析（见 scripts/sim_plume_veh_rocket_01.py）：着陆最后 ~180 m 自激扬尘、~23 m 以下裸土挖坑，触地坪面载荷 ~1.4 MPa → 必须烧结硬化坪；喷砂射程数百米~3km，已迁入专用发射回收场 ops-spaceport-01（烧结坪+防爆土堤，场站设计经本羽流分析独立验证）"
+      ],
+      "label_en": "Engine Bay (6x Raptor)",
+      "detail_en": "The upper-stage aft skirt integrates six Raptor full-flow staged-combustion engines: an inner ring of 3 sea-level engines (gimbaled, handling attitude and landing) and an outer ring of 3 vacuum engines with high-expansion nozzles for cruise acceleration. Only the sea-level engines light for landing. A thrust cone carries loads into the tank skirt, surrounded by COPV pressure bottles and a LOX sump.",
+      "specs_en": {
+        "Engines": "6 x Raptor",
+        "Sea-level": "3 (gimbaled)",
+        "Vacuum": "3 (fixed, large nozzle)",
+        "Thrust each": "2.30 MN (~230 tf)",
+        "Cycle": "full-flow staged combustion",
+        "Propellant": "LOX / liquid methane"
+      },
+      "sim_en": [
+        "L1 hand check: all six at full thrust give 13.8 MN against ~1420 t Mars liftoff mass (5.27 MN weight) -> liftoff T/W = 2.6 (healthy)",
+        "Landing lights the sea-level engines only, and surplus thrust is the core problem: one engine deep-throttled to 40% still holds T/W > 1, so no hover - only a continuous deceleration straight to touchdown (see the header-tank card, L2)",
+        "L2 plume analysis (scripts/sim_plume_veh_rocket_01.py): self-induced dust from ~180 m up, cratering of bare soil below ~23 m, ~1.4 MPa pad load at touchdown -> the pad must be sinter-hardened; sandblast reach spans hundreds of meters to 3 km, hence the move to the dedicated launch/recovery site ops-spaceport-01 (whose layout this plume analysis independently validated)"
       ]
     },
     {
@@ -38,6 +53,22 @@
         "L2 洞察：max-Q 仅 6 kPa（地球 ~30-40 kPa），火星稀薄大气允许低平省Δv弹道、阻力几可忽略",
         "返回任务账本（见 scripts/sim_mission_veh_rocket_01.py）：火表→低火轨→地球转移(TEI) 总 Δv 6.43 km/s（升轨4.02+TEI2.23+储备），满箱 1200t 带 133t 返回，与交接文档 100~150t 一致",
         "ISRU 耦合：本地加满 1200 t 需 res-isru-01（0.062 t/sol）×40 台并联 / ~1.6 MWe 才能赶单个发射窗口，电力尺度跳到 pwr-fusion 级（详见 EQUIPMENT.md §9）"
+      ],
+      "label_en": "Main Propellant Tanks (LOX/CH4 common dome)",
+      "detail_en": "LOX main tank below, CH4 main tank above, joined by a common dome to save mass. The methane downcomer runs down the axis straight through the LOX tank to the thrust structure - Starship's most recognizable internal feature. Ring stiffeners and a mid-tank slosh baffle tame slosh loads; the domes carry service manholes.",
+      "specs_en": {
+        "Layout": "LOX below / CH4 above, common dome",
+        "Diameter": "9 m",
+        "Full load": "~1200 t (O/F ~ 3.6)",
+        "Downcomer": "axial CH4 line through the LOX tank",
+        "Slosh control": "ring stiffeners + baffle ring"
+      },
+      "sim_en": [
+        "L1 hand check: full tanks + 120 t dry mass give dv = 8.8 km/s empty; with ~100 t return payload dv = 6.9 km/s - just closing the Mars-to-Earth transfer (TEI)",
+        "L2 ascent sim (2-DOF RK4, scripts/sim_ascent_veh_rocket_01.py): Mars surface to a 200 km circular orbit costs a true dv of 4.02 km/s (gravity loss 274 + drag 34 m/s), ~3% above the L1 ideal 3.9; ascent burns only ~380 t (a third of the tanks), the rest reserved for TEI",
+        "L2 insight: max-Q is only 6 kPa (vs ~30-40 kPa on Earth) - the thin atmosphere allows a low, flat, dv-saving trajectory with nearly negligible drag",
+        "Return-mission ledger (scripts/sim_mission_veh_rocket_01.py): surface -> low Mars orbit -> TEI totals dv 6.43 km/s (ascent 4.02 + TEI 2.23 + reserve); 1200 t of propellant carries 133 t home, consistent with the 100-150 t handover figure",
+        "ISRU coupling: refilling 1200 t locally takes res-isru-01 (0.062 t/sol) x40 units in parallel / ~1.6 MWe to make a single launch window - the power scale jumps to pwr-fusion class (EQUIPMENT.md sec. 9)"
       ]
     },
     {
@@ -57,6 +88,21 @@
         "L2 着陆仿真（1-DOF RK4，见 scripts/sim_descent_veh_rocket_01.py）：反推 Δv ~470 m/s、软触地 <2 m/s；再入/翻转仿真闭链后基线修正为终端 400 m/s、4 km 点火 → 全程 ~38 t，头罐 50 t 装填余 24%",
         "L2 洞察：推力严重过剩——单台猛禽满推 T/W=2.8，最小节流 40% 单台 T/W 仍=1.13，火星上无法悬停，只能连续减速直接触地",
         "头罐独立于主罐：着陆翻转 3~5 g 侧向机动下防止主罐晃空、进气口吸气"
+      ],
+      "label_en": "Landing Header Tanks",
+      "detail_en": "A LOX header in the nosecone plus a CH4 header above the common dome, dedicated to the landing burn. Separated from the main tanks so the flip maneuver cannot slosh propellant off the intakes. Each header carries its own pressurant bottle; twin feed lines run down the windward wall to the engine bay.",
+      "specs_en": {
+        "LOX header": "in the nosecone",
+        "CH4 header": "above the common dome",
+        "Role": "landing-burn propellant",
+        "Capacity class": "O(30-50 t)",
+        "Feed lines": "twin, down the windward wall"
+      },
+      "sim_en": [
+        "L1 hand check: ~240 t arrival mass and a 0.6-0.8 km/s landing burn (thin air, limited aerobraking) need 49-67 t - matching the header capacity class",
+        "L2 landing sim (1-DOF RK4, scripts/sim_descent_veh_rocket_01.py): braking dv ~470 m/s, touchdown <2 m/s; after closing the entry/flip chain the baseline became terminal 400 m/s with ignition at 4 km -> ~38 t total, 24% margin in a 50 t header",
+        "L2 insight: thrust is grossly surplus - one Raptor at full power gives T/W = 2.8, and even at the 40% throttle floor a single engine still holds T/W = 1.13: no hovering on Mars, only continuous deceleration to touchdown",
+        "Headers separate from mains: keep propellant settled and intakes wet through the 3-5 g lateral flip maneuver"
       ]
     },
     {
@@ -74,6 +120,19 @@
         "L2 再入走廊（2-DOF 升力体，见 scripts/sim_entry_veh_rocket_01.py）：直接再入 5.7 km/s，可行入射角仅 [-13°,-12°]（浅则跳出、陡则超 5 g₀）——火星走廊远陡于地球；标称 -13° 峰值 4.9 g₀、驻点热流 376 kW/m²（防热瓦载荷依据）",
         "L2 翻转机动（3-DOF 俯仰 + TVC 闭环，见 scripts/sim_flip_veh_rocket_01.py）：85°→竖直 3.6 s、掉高 1.4 km、横移 379 m → 点火高度必须 ≥4 km；触地侧速 0.7 m/s 满足倾覆判据",
         "L3 防热瓦传热（COMSOL 无头 + 独立差分交叉验证 <1%，见 comsol/tps_tile.java）：再入热流史打进瓦+钢壁叠层，表面峰温 ~1640 K（辐射平衡主导），3 cm 瓦即让钢壁峰温仅 300 K——火星再入热学温和，瓦厚由地球返回决定"
+      ],
+      "label_en": "Aerosurfaces (2 fwd / 2 aft)",
+      "detail_en": "Four body flaps hinge along the windward sides: a forward pair near the nosecone and a larger aft pair near the skirt. Entry is flown belly-down, the four flaps differentially trimming pitch and roll until the terminal flip to vertical for the landing burn. Shown in landing state, flaps slightly drooped; hinge lines are faired.",
+      "specs_en": {
+        "Forward flaps": "2 (near nosecone)",
+        "Aft flaps": "2 (near skirt, larger)",
+        "Role": "entry trim + attitude control",
+        "State": "landing attitude (drooped)"
+      },
+      "sim_en": [
+        "L2 entry corridor (2-DOF lifting body, scripts/sim_entry_veh_rocket_01.py): direct entry at 5.7 km/s admits flight-path angles of only [-13, -12] deg (shallower skips out, steeper exceeds 5 g0) - far narrower and steeper than Earth; nominal -13 deg peaks at 4.9 g0 and 376 kW/m2 stagnation heating (the TPS load case)",
+        "L2 flip maneuver (3-DOF pitch + closed-loop TVC, scripts/sim_flip_veh_rocket_01.py): 85 deg to vertical in 3.6 s, losing 1.4 km of altitude and 379 m sideways -> ignition must come at >= 4 km; touchdown lateral velocity 0.7 m/s meets the tip-over criterion",
+        "L3 TPS conduction (headless COMSOL cross-checked <1% against an independent finite-difference model, comsol/tps_tile.java): the entry heat-flux history into the tile+steel stack peaks the surface at ~1640 K (radiation-balance dominated), and 3 cm of tile keeps the steel wall at just 300 K - Mars entry is thermally mild; tile thickness is sized by Earth return"
       ]
     },
     {
@@ -87,6 +146,15 @@
         "睡眠舱": "4",
         "通道": "中央井 + 爬梯",
         "对齐": "舱门/舷窗/观景窗高度"
+      },
+      "label_en": "Crew Section (four decks)",
+      "detail_en": "Four decks above the forward bulkhead: cargo (ECLSS racks and pallets), habitation (cylindrical airlock, galley, mess table), berthing (4 sleep pods, headboards on the porthole band), and the flight deck (ring console and observation windows). A central well with a safety-orange ladder runs through all four; deck heights deliberately align with the external hatch at 36.8 m, the porthole band at 40.5 m and the observation windows at 42.6 m.",
+      "specs_en": {
+        "Decks": "4",
+        "Airlock": "cylinder + handwheel hatch (hab deck)",
+        "Sleep pods": "4",
+        "Circulation": "central well + ladder",
+        "Alignment": "hatch / portholes / observation windows"
       }
     },
     {
@@ -105,6 +173,20 @@
         "L2 倾覆判据（刚体绕下坡支撑边翻转，见 scripts/sim_tipover_veh_rocket_01.py）：载货态 CG 26m，静态坡度极限 11°，建议着陆场坡度 <7°",
         "L2 动态：载货态平地临界触地侧速 2.0 m/s，8°坡降到 0.6 m/s；典型残余 1~3 m/s → 陡坡(>8°)裕度不足，倾覆是着陆主约束",
         "空载返回态 CG 19m、坡度极限 16° 稳得多；绑定工况是载货到达那一次"
+      ],
+      "label_en": "Landing Legs (6, deployed)",
+      "detail_en": "Six deployable legs around the aft skirt, each a main strut + brace triangle ending in a wide foot pad that spreads bearing load on loose Martian regolith. Fold-out hinges are faired into the skirt. Shown deployed, pads on the ground at y=0.",
+      "specs_en": {
+        "Count": "6",
+        "Pad radius": "5.9 m",
+        "Layout": "main strut + brace + pad",
+        "Ground": "sized for loose regolith",
+        "State": "deployed"
+      },
+      "sim_en": [
+        "L2 tip-over criterion (rigid body pivoting about the downhill support edge, scripts/sim_tipover_veh_rocket_01.py): laden CG at 26 m gives a static slope limit of 11 deg; recommended landing-site slope < 7 deg",
+        "L2 dynamics: laden on flat ground the critical touchdown lateral velocity is 2.0 m/s, dropping to 0.6 m/s on an 8-deg slope; typical residuals run 1-3 m/s -> steep slopes (>8 deg) leave no margin, tip-over is the binding landing constraint",
+        "Empty return config (CG 19 m, slope limit 16 deg) is far more stable; the binding case is the laden arrival"
       ]
     }
   ]

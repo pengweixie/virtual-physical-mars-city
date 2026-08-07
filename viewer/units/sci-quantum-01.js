@@ -1,6 +1,6 @@
 // sci-quantum-01 —— 地下城量子计算中心「玄枢」(QP-20, 20 比特超导 transmon)
 // 契约(室内场景 §4b):米制;原点=厅中心地面;入口朝 +Z;引擎平地 y=0,尺寸夹取 size_m/2。
-// 设计真源:E:\Claude\quantum-computing\DESIGN.md (L1 冻结 + L2 scqubits/QuTiP 12 脚本
+// 设计真源:quantum-computing\DESIGN.md (L1 冻结 + L2 scqubits/QuTiP 12 脚本
 //   + L3 HFSS 全波 9 工程 + GDS v7 版图) —— 知识卡数字全部出自该台账。
 // 核心不做黑盒:稀释制冷机以「检修态」呈现——真空罐由天车吊离,300K→MXC 六级
 //   镀金板吊灯、同轴走线、磁屏蔽内的 QP-20 芯片全部裸露;读出链(TWPA/隔离器/HEMT)
@@ -20,12 +20,16 @@ export function build(THREE) {
     print:  new THREE.MeshStandardMaterial({ color: 0x8d7a66, roughness: 0.92 }),                  // 打印层墙
     printDim: new THREE.MeshStandardMaterial({ color: 0x77685a, roughness: 0.95 }),
     vault:  new THREE.MeshStandardMaterial({ color: 0x6e6257, roughness: 0.9 }),
-    steel:  new THREE.MeshStandardMaterial({ color: 0x9aa2a8, roughness: 0.45, metalness: 0.7 }),
-    frame:  new THREE.MeshStandardMaterial({ color: 0x39404a, roughness: 0.55, metalness: 0.55 }), // 支架深钢
-    gold:   new THREE.MeshStandardMaterial({ color: 0xc9a34a, roughness: 0.28, metalness: 0.9 }),  // 镀金板
-    copper: new THREE.MeshStandardMaterial({ color: 0xb0653a, roughness: 0.35, metalness: 0.85 }),
-    mu:     new THREE.MeshStandardMaterial({ color: 0x4a4e55, roughness: 0.4,  metalness: 0.6, side: THREE.DoubleSide }), // 磁屏蔽
-    can:    new THREE.MeshStandardMaterial({ color: 0xb9bfc4, roughness: 0.3,  metalness: 0.8, side: THREE.DoubleSide }), // 真空罐
+    // 金属度上限 0.5:场景无环境贴图(引擎不设 scene.environment),metalness>0.7 的
+    // PBR 金属没有可反射的环境 → 只剩镜面高光,室内一律发黑。六级镀金板另加暗琥珀
+    // 自发光托底,保证"金色吊灯"这一识别特征在暗厅里不被压死。
+    steel:  new THREE.MeshStandardMaterial({ color: 0xa8b0b6, roughness: 0.5,  metalness: 0.45 }),
+    frame:  new THREE.MeshStandardMaterial({ color: 0x39404a, roughness: 0.55, metalness: 0.5 }),  // 支架深钢
+    gold:   new THREE.MeshStandardMaterial({ color: 0xe0b356, roughness: 0.42, metalness: 0.3,
+      emissive: 0x3d2c0b, emissiveIntensity: 0.85 }),                                              // 镀金板
+    copper: new THREE.MeshStandardMaterial({ color: 0xc07446, roughness: 0.45, metalness: 0.4 }),
+    mu:     new THREE.MeshStandardMaterial({ color: 0x545963, roughness: 0.45, metalness: 0.4, side: THREE.DoubleSide }), // 磁屏蔽
+    can:    new THREE.MeshStandardMaterial({ color: 0xc3c9ce, roughness: 0.38, metalness: 0.45, side: THREE.DoubleSide }), // 真空罐
     rack:   new THREE.MeshStandardMaterial({ color: 0x2b2f36, roughness: 0.6,  metalness: 0.3 }),
     panel:  new THREE.MeshStandardMaterial({ color: 0x21242a, roughness: 0.5,  metalness: 0.2 }),
     white:  new THREE.MeshStandardMaterial({ color: 0xd8dde0, roughness: 0.6 }),
@@ -409,7 +413,8 @@ export function build(THREE) {
     { color: 0xeaf2ff, pos: [-4.5, 6.4, -5], range: 22 },
     { color: 0xeaf2ff, pos: [ 4.5, 6.4, -5], range: 22 },
     { color: 0xeaf2ff, pos: [ 0,   6.4,  4], range: 22 },
-    { color: 0x66d6e6, pos: [FX, 3.0, FZ + 1.2], range: 9 },   // 制冷机冷色氛围
+    { color: 0xffd8a4, pos: [FX, 3.2, FZ + 1.3], range: 11 },  // 制冷机暖光键光(冷青光会把镀金板洗成灰蓝)
+    { color: 0x66d6e6, pos: [FX - 0.2, 1.5, FZ + 1.0], range: 5 }, // 冷色补光只留在 MXC/芯片段
     { color: 0xdfe8ee, pos: [6.8, 4.6, -2], range: 13 },       // 机柜排工作灯
   ];
   group.userData.spinners = [

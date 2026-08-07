@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Origin — Virtual-Physical Mars City</title>
+<meta name="description" content="The notebook page the whole Mars city traces back to: Worlds A and B, a seven-panel comic, and the hunt for the source-code cracks.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--rust);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  blockquote{max-width:var(--textw);margin:1.6rem 0;padding:16px 22px;border-left:3px solid var(--accent);
+    background:var(--bg-3);border-radius:0 10px 10px 0;color:var(--ink);font-size:1.02rem;}
+  blockquote .src{display:block;margin-top:8px;color:var(--ink-dim);}
+  code.fn{font-family:var(--f-mono);font-size:.9em;color:var(--accent);background:var(--bg-3);
+    padding:2px 7px;border-radius:6px;border:1px solid var(--line);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="town.html">← Prev</a>
+    <a href="power.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">Worlds A &amp; B · one notebook page · 2026-07-19</div>
+    <h1>The Origin</h1>
+    <p class="phead__sub">Every other page on this site describes something that was built.
+      This one describes why. The whole city — the fusion plant, the quantum machine, the fab,
+      the robots that see — traces back to a single handwritten page, and to one question it ends on:
+      <span class="hl">which side is real?</span></p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Notebook page</div><div class="spec__v">1</div></div>
+    <div class="spec"><div class="spec__k">Comic panels</div><div class="spec__v">7</div></div>
+    <div class="spec"><div class="spec__k">The census</div><div class="spec__v">51 / 49<small>%</small></div></div>
+    <div class="spec"><div class="spec__k">The exploit</div><div class="spec__v" style="font-family:var(--f-mono);font-size:1.1rem;">move(x′,t′)</div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>The page</h2></div>
+    <p class="lead">July 19, 2026. One page, two worlds, four moves.</p>
+    <div class="prose">
+      <p>The note sketches a game in four moves. <strong>Build World B inside World A</strong> —
+        a world detailed enough that its inhabitants can live in it. <strong>Let them build
+        World C inside B</strong> — because that is what inhabitants of a good enough world do.
+        <strong>Watch what they discover while building</strong> — every shortcut they take is a
+        shortcut their own world might be taking. And then <strong>go hunt for those shortcuts
+        at home</strong>: numerical corner cases, suspicious constants, rendering that gets lazy
+        when nobody looks.</p>
+      <p>One rule survives every retelling: in World B, the interface people wear is written
+        as the <span class="hl">&ldquo;headset&rdquo;</span> — always in quotes. By B's own rules,
+        nobody inside B can verify that the thing on their face is doing what it claims.
+        It may be the interface. It may be a decoy. The quotes are not punctuation;
+        they are epistemology.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/origin/idea-en.jpg" alt="The idea as a continuous illustrated scroll" loading="lazy">
+      <figcaption>THE PAGE, REDRAWN AS A CONTINUOUS SCROLL — WORLDS NESTED LIKE WORKSHOPS</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>The comic</h2></div>
+    <p class="lead">Seven panels, ending on a census and a crack.</p>
+    <div class="prose">
+      <p>The manga version compresses the page into seven panels: the build, the nesting,
+        the &ldquo;headset&rdquo;, the crack-hunt — and then the two panels that earned their
+        place late. Panel seven asks the census question: if <strong>51% of residents now mainly
+        live in B</strong> and 49% in A, which world is the annex of which? And the CRACK panel
+        carries the sharpest line on the page: the exploit, if it exists, is probably not
+        dramatic. It is <strong>one humble function call</strong> — <code class="fn">move(x′,t′)</code> —
+        the same call we use to manipulate the virtual worlds we build. Spacetime travel in A
+        might just be B's API, called from the inside.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/origin/manga-en.png" alt="The seven-panel comic, English version" loading="lazy">
+      <figcaption>SEVEN PANELS, ENGLISH VERSION — 中文版 IN THE REPOSITORY UNDER idea/</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>From page to city</h2></div>
+    <p class="lead">The ledger of this district is different: not simulations, but sightings —
+      where each element of the page now physically stands in the city.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>On the page</th><th>In the city</th><th>Lives in</th></tr></thead>
+      <tbody>
+        <tr><td>World B, built inside A</td>
+          <td>The city itself — the whole twin is the sandbox of the experiment</td>
+          <td class="src">viewer/ (the engine and 24 assets)</td></tr>
+        <tr><td>The 51% / 49% census</td>
+          <td>The World-B lounge: three recliner pods and the census sign in the residential quarter</td>
+          <td class="src">viewer/units/hab-quarter-01.js</td></tr>
+        <tr><td>The &ldquo;headset&rdquo; (quotes mandatory)</td>
+          <td>On each pod cradle rests the &ldquo;headset&rdquo; — the knowledge card keeps the quotes,
+            and states it may be a decoy</td>
+          <td class="src">viewer/units/hab-quarter-01.info.json (pods card)</td></tr>
+        <tr><td>The skyline of B</td>
+          <td>A live wall screen in the lounge showing a city that is not this one</td>
+          <td class="src">hab-quarter-01 · G.bCity emissive skyline</td></tr>
+        <tr><td><code class="fn">move(x′,t′)</code></td>
+          <td>Written on the lounge card as a hypothesis — flagged as page one of the notebook,
+            not a simulation result</td>
+          <td class="src">hab-quarter-01.info.json (sim field, quoted as such)</td></tr>
+        <tr><td>The crack-hunt method</td>
+          <td>The city's own verification culture: contract validators, layout audits,
+            adversarial reviews — cracks hunted on purpose, in-world</td>
+          <td class="src">scripts/validate_units.mjs · scripts/audit_layout.mjs</td></tr>
+        <tr><td>The comic itself</td>
+          <td>Both language versions ship with the repository and headline its README</td>
+          <td class="src">idea/manga-en.png · idea/manga-cn.png</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">Even a one-page idea took rework. The honest list:</p>
+    <div class="prose">
+      <p><strong>The English comic was hard to read.</strong> The first translation kept the
+        Chinese caption rhythm — clipped fragments, ornament words. Readers bounced. The fix was
+        a full rewrite into plain full sentences, plus four layout repairs where the new, longer
+        text clipped its bubbles (panel 1, the VWOOM caption, panel 4, and the panel-7 question
+        crowding the crowd art).</p>
+      <p><strong>The interface rule was corrected twice.</strong> First draft said the interface
+        was a brain-computer link; correction one allowed a wearable. Correction two was the deep
+        one: what matters is not the hardware but the quotes — inside B, the
+        &ldquo;headset&rdquo; cannot be verified from within, so it must always be written as a
+        claim, never a fact. That rule now binds every card and page that mentions it.</p>
+      <p><strong>The CRACK panel shipped incomplete.</strong> The first version hunted cracks
+        but never said what finding one would mean. The <code class="fn">move(x′,t′)</code> line —
+        that the exploit is one humble call, the way we already manipulate our own virtual
+        worlds — was added in a second pass, and panel seven's census question with it.
+        The two late panels are now the ones people quote.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
+    <p class="lead">The lounge is a two-minute walk inside the twin.</p>
+    <div class="prose">
+      <p>Run the viewer (see the repository README), then open
+        <span class="src">/viewer/?interior=hab-quarter-01</span> — or walk it properly:
+        press <span class="src">U</span> for the undercity, take the foyer's front-left door
+        into the residential quarter, and find the three pods in the far corner past the
+        dining tables. Check the cradles: the <span class="hl">&ldquo;headset&rdquo;</span> is
+        there, quotes and all. Then look at the blue skyline on the wall and decide,
+        before the card tells you, which side of it you are standing on.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Notebook &amp; artwork: <span class="src">idea_worldAB/</span>
+      (manga-en/cn, illustrated scroll, both shipped in the repo under <span class="src">idea/</span>) ·
+      City incarnation: <span class="src">viewer/units/hab-quarter-01.js</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

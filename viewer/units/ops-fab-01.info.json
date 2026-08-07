@@ -7,10 +7,26 @@
       "range": 9,
       "detail": "整个天花板是一块 HEPA 层流送风面，空气从顶到高架孔板地面单向下洗，颗粒没有机会横漂。琥珀色隔断围出黄光区——光刻胶对 450 nm 以下的光敏感，黄光下它才是「瞎的」。进门必须走更衣段：洁净服、换鞋凳、风淋门。",
       "detail_en": "The entire ceiling is one HEPA laminar-flow face: air washes straight down from ceiling to perforated raised floor, giving particles no chance to drift sideways. The amber partition fences off the yellow bay - photoresist is sensitive below 450 nm, so only under yellow light is it blind. Entry is through the gowning line: suits, shoe bench, air shower.",
-      "specs": { "洁净等级": "ISO 5（光刻区）/ ISO 6（其余）", "气流": "顶置 HEPA 单向层流，全室下洗", "分区": "黄光区（涂胶+光刻）／白光区（沉积刻蚀+测试封装）", "选址": "地下城岩层——隔绝全球尘暴，光刻平台免振" },
-      "specs_en": { "Class": "ISO 5 (litho bay) / ISO 6 (rest)", "Airflow": "ceiling HEPA, unidirectional downflow", "Zones": "yellow bay (coat + litho) / white bay (dep-etch + test-package)", "Siting": "undercity bedrock - sealed from global dust storms, vibration-free for litho" },
-      "sim": "选址账：火星地表尘暴期 PM 浓度可升千倍且尘粒带静电，而洞室岩层温度恒定、无风振——洁净室能耗与滤网寿命都优于地表方案。",
-      "sim_en": "Siting ledger: surface dust storms raise particulate counts a thousandfold and the dust is electrostatically charged, while the cavern holds constant temperature with zero wind vibration - both HVAC energy and filter life beat any surface option.",
+      "specs": {
+        "洁净等级": "ISO 5（光刻区）/ ISO 6（其余）",
+        "气流": "顶置 HEPA 单向层流，全室下洗",
+        "分区": "黄光区（涂胶+光刻）／白光区（沉积刻蚀+测试封装）",
+        "选址": "地下城岩层——隔绝全球尘暴，光刻平台免振"
+      },
+      "specs_en": {
+        "Class": "ISO 5 (litho bay) / ISO 6 (rest)",
+        "Airflow": "ceiling HEPA, unidirectional downflow",
+        "Zones": "yellow bay (coat + litho) / white bay (dep-etch + test-package)",
+        "Siting": "undercity bedrock - sealed from global dust storms, vibration-free for litho"
+      },
+      "sim": [
+        "选址账：火星地表尘暴期 PM 浓度可升千倍且尘粒带静电，而洞室岩层温度恒定、无风振——洁净室能耗与滤网寿命都优于地表方案。",
+        "层流账（本厂设计轮）：0.35 m/s 单向下洗 16 秒清扫全室；0.5 µm 颗粒在火星重力下靠沉降要 11.5 天——差 6 万倍。火星 g 只有地球 38%,沉降更帮不上忙：洁净靠流场，不靠重力。"
+      ],
+      "sim_en": [
+        "Siting ledger: surface dust storms raise particulate counts a thousandfold and the dust is electrostatically charged, while the cavern holds constant temperature with zero wind vibration - both HVAC energy and filter life beat any surface option.",
+        "Downflow ledger (this fab's design round): the 0.35 m/s unidirectional flow sweeps the room in 16 seconds; a 0.5 um particle settling under Mars gravity would take 11.5 days - a factor of sixty thousand. At 38% of Earth's g, gravity helps even less: cleanliness comes from the flow field, not from falling."
+      ],
       "physics": "层流的要点是「不混合」：单向活塞流让污染物只有一条出路——地板。乱流洁净室靠稀释，层流洁净室靠推走，等级差一个数量级。",
       "physics_en": "Laminar flow works by never mixing: piston-like unidirectional flow gives contamination exactly one exit - the floor. Turbulent rooms dilute; laminar rooms push. The difference is an order of magnitude in class."
     },
@@ -21,10 +37,24 @@
       "range": 6,
       "detail": "晶圆从前端装载口进轨道：旋涂吸盘 3000 rpm 把光刻胶甩成亚微米均匀膜（透过观察窗能看到吸盘在转），软烘、曝光后再回来显影。它和光刻机是一对——轨道管「涂与显」，光刻机管「曝」。",
       "detail_en": "Wafers enter at the front load ports: the spin chuck flings photoresist into a sub-micron uniform film at 3000 rpm (watch it spin through the window), soft-bakes, and after exposure the wafer returns here to develop. Track and stepper are a pair - the track coats and develops, the stepper exposes.",
-      "specs": { "旋涂": "~3000 rpm，膜厚由转速²反比标定", "工艺": "涂胶 → 软烘 → (曝光) → 显影 → 坚膜", "环境": "全程黄光——胶对 <450 nm 敏感" },
-      "specs_en": { "Spin": "~3000 rpm; thickness calibrated against speed squared", "Flow": "coat, soft-bake, (expose), develop, hard-bake", "Ambient": "yellow light throughout - resist is sensitive below 450 nm" },
-      "sim": "膜厚模型：t ∝ 1/√ω 的经验标度配合黏度修正——旋涂是流体力学与蒸发耦合的自限过程，转速与固含量定终膜。",
-      "sim_en": "Film model: the empirical t proportional to 1/sqrt(omega) scaling with viscosity correction - spin coating is a self-limiting balance of fluid mechanics and evaporation, set by speed and solids content.",
+      "specs": {
+        "旋涂": "~3000 rpm，膜厚由转速²反比标定",
+        "工艺": "涂胶 → 软烘 → (曝光) → 显影 → 坚膜",
+        "环境": "全程黄光——胶对 <450 nm 敏感"
+      },
+      "specs_en": {
+        "Spin": "~3000 rpm; thickness calibrated against speed squared",
+        "Flow": "coat, soft-bake, (expose), develop, hard-bake",
+        "Ambient": "yellow light throughout - resist is sensitive below 450 nm"
+      },
+      "sim": [
+        "膜厚模型：t ∝ 1/√ω 的经验标度配合黏度修正——旋涂是流体力学与蒸发耦合的自限过程，转速与固含量定终膜。",
+        "胶显影仿真（本厂设计轮，传输矩阵+Dill/PEB+Mack 显影）：248 nm 下硅面反射 53%，胶内驻波周期 70.5 nm；BARC 抗反射层扫厚定在 108 nm——残余反射压到 0.5%，swing 振幅 0.48→0.06。显影出真剖面：BARC+PEB 30 nm 侧壁 84.6°、缘纹波 1.4 nm；去掉 BARC 同配方要多付 14% 剂量，侧壁纹波涨三倍成扇贝纹——「显影后坚膜前」这段路的物理全部有账。"
+      ],
+      "sim_en": [
+        "Film model: the empirical t proportional to 1/sqrt(omega) scaling with viscosity correction - spin coating is a self-limiting balance of fluid mechanics and evaporation, set by speed and solids content.",
+        "Resist simulation (this fab's design round: transfer matrix + Dill/PEB + Mack development): silicon reflects 53% at 248 nm, printing 70.5 nm-period standing waves into the resist; a BARC thickness scan lands on 108 nm, crushing residual reflectivity to 0.5% and the swing amplitude from 0.48 to 0.06. Development yields real profiles: 84.6-degree sidewalls with 1.4 nm edge ripple under BARC + 30 nm PEB; strip the BARC and the same recipe costs 14% more dose while sidewall ripple triples into scallops. The physics between develop and hard-bake is now on the books."
+      ],
       "physics": "离心力把胶液甩薄，溶剂蒸发让黏度飙升把膜「冻住」——两个过程赛跑，终点就是那层均匀到纳米级的胶膜。",
       "physics_en": "Centrifugal force thins the puddle while solvent evaporation spikes viscosity and freezes the film - two processes race, and the finish line is a coating uniform to nanometers."
     },
@@ -35,10 +65,34 @@
       "range": 7,
       "detail": "照明塔的光穿过掩模版、经投影镜筒缩小后落在晶圆上——城里计算中心机架上那颗 MB-1 推理芯片就从这里流出：字符级 bigram 语言模型的 ASIC，sky130 130 nm 工艺，RTL 到 GDS 全开源工具链。",
       "detail_en": "Light from the illumination tower passes the reticle and lands on the wafer through the reduction lens. The MB-1 inference chip in the compute-center rack came off this line: a character-level bigram language-model ASIC on sky130 (130 nm), RTL to GDS on a fully open toolchain.",
-      "specs": { "工艺节点": "sky130（130 nm，开源 PDK）", "MB-1 die": "1660×1080 µm = 1.79 mm²，SRAM 宏占 ~64%", "逻辑": "~2100 标准单元（0.033 mm²）——面积由 64 Kbit SRAM 主导", "流程": "Yosys 综合 → OpenROAD 布局布线 → klayout 合流 GDS（26.3 MB）" },
-      "specs_en": { "Node": "sky130 (130 nm, open PDK)", "MB-1 die": "1660x1080 um = 1.79 mm2, ~64% SRAM macros", "Logic": "~2100 std cells (0.033 mm2) - area dominated by 64 Kbit SRAM", "Flow": "Yosys synthesis, OpenROAD P&R, klayout merge to a 26.3 MB GDS" },
-      "sim": "MB-1 全流程台账：iverilog+xsim 双仿真器逐拍一致（1,134,185 ns）、Python 金标准位级对拍、FPGA 原型时序 MET（WNS +3.29 ns）；物理设计六坑账里最典型的一条——常量网必须插 tie cell，否则 TritonRoute 直接拒布（DRT-0305）。",
-      "sim_en": "MB-1 ledger: dual-simulator lockstep over 1,134,185 ns (iverilog + xsim), bit-exact match against a Python golden model, FPGA prototype timing MET (WNS +3.29 ns). Most quoted of the six physical-design pitfalls: constant nets must get tie cells or TritonRoute refuses to route (DRT-0305).",
+      "specs": {
+        "工艺节点": "sky130（130 nm，开源 PDK）",
+        "MB-1 die": "1660×1080 µm = 1.79 mm²，SRAM 宏占 ~64%",
+        "逻辑": "~2100 标准单元（0.033 mm²）——面积由 64 Kbit SRAM 主导",
+        "流程": "Yosys 综合 → OpenROAD 布局布线 → klayout 合流 GDS（26.3 MB）"
+      },
+      "specs_en": {
+        "Node": "sky130 (130 nm, open PDK)",
+        "MB-1 die": "1660x1080 um = 1.79 mm2, ~64% SRAM macros",
+        "Logic": "~2100 std cells (0.033 mm2) - area dominated by 64 Kbit SRAM",
+        "Flow": "Yosys synthesis, OpenROAD P&R, klayout merge to a 26.3 MB GDS"
+      },
+      "sim": [
+        "MB-1 全流程台账：iverilog+xsim 双仿真器逐拍一致（1,134,185 ns）、Python 金标准位级对拍、FPGA 原型时序 MET（WNS +3.29 ns）；物理设计六坑账里最典型的一条——常量网必须插 tie cell，否则 TritonRoute 直接拒布（DRT-0305）。",
+        "光刻成像仿真（Abbe 部分相干空中像，本厂设计轮）：130 nm 密集线在 i-line 365 nm 下衍射级全截止（截止密距 358 nm，对比度=0）；KrF 248 nm/NA 0.63 常规照明 k₁=0.33 也只有对比度 0.15——必须环形离轴照明（0.55–0.85）拉回两束干涉，对比度 0.40、NILS 1.25，空中像焦深随之 >±2 µm。「i-line 干非关键层（≥235 nm）、KrF+离轴干关键层」是衍射物理，不是成本选择。",
+        "光刻二轮（工艺窗口+真版图）：6% 衰减相移掩模把 NILS 1.25→1.69、曝光宽容度 11%→15%；MEEF=2.79——掩模误差近三倍放大进晶圆。再把 MB-1 真 GDS 的 poly 层切 5×5 µm 直接成像：392 个栅极采样 CD 散布 1σ=35 nm、线端拉回 29 nm（p95 90 nm）、桥连 0——OPC 与相移掩模不是锦上添花，是把这几笔账逐项抵消的工序。",
+        "光刻三轮（OPC 闭环）：工艺锁死、只改掩模，ILT 式像素迭代 12 轮——CD 散布 35→5.9 nm、线端拉回 29→4.6 nm、14 处开路全部救活，hammerhead 在线端自发长出（没人写规则，它是成像物理对「抵消拉回」的解）。「能印→印多准→怎么印准」三问在本厂闭环。",
+        "掩模 3D 审判（自研 RCWA，均匀层退化 5×10⁻¹⁶/能量守恒 1.0 双闸门）：73 nm 铬 + 石英的 4× 真掩模,衍射级幅值与薄掩模差 ≤3.4%、相位偏差 ≤5°,晶圆端只剩 −14 nm 焦面漂与 1.4% 剂量误差——Kirchhoff 近似在 130 nm/4× 成立,此前所有成像结论获严格电磁学背书。",
+        "物镜账（成像模型反推 + Zemax 实测）：给镜头开需求规格——彗差 7.7 mλ、像散 19 mλ、球差 8.8 mλ,合成 5.5 mλ RMS ≈ λ/181,比通常「衍射极限」（λ/14）严 13 倍;再用 ZOS-API 把 8 片全石英 4× 镜头优化到收敛——NA 0.63 下 896 mλ,离规格 163 倍。「光刻物镜为什么是二十几片的千万美元怪物」,数字自己会说话。"
+      ],
+      "sim_en": [
+        "MB-1 ledger: dual-simulator lockstep over 1,134,185 ns (iverilog + xsim), bit-exact match against a Python golden model, FPGA prototype timing MET (WNS +3.29 ns). Most quoted of the six physical-design pitfalls: constant nets must get tie cells or TritonRoute refuses to route (DRT-0305).",
+        "Imaging simulation (Abbe partially-coherent aerial image, this fab's design round): at 130 nm dense pitch, i-line 365 nm passes zero diffraction orders (cutoff pitch 358 nm, contrast exactly 0); KrF 248 nm / NA 0.63 with conventional illumination manages only 0.15 contrast at k1 = 0.33 - annular off-axis illumination (0.55-0.85) is what rescues it, restoring two-beam interference at contrast 0.40, NILS 1.25, and pushing aerial depth-of-focus beyond +/-2 um. 'i-line for non-critical layers (235 nm and up), KrF plus off-axis for critical ones' is diffraction physics, not a cost choice.",
+        "Imaging round 2 (process window + the real layout): a 6% attenuated PSM lifts NILS 1.25 to 1.69 and exposure latitude 11% to 15%; MEEF = 2.79, so mask errors land on the wafer nearly tripled. Then a 5x5 um clip of MB-1's actual poly GDS was imaged directly: 392 gate samples show a 35 nm (1-sigma) proximity CD spread, 29 nm line-end pullback (p95 90 nm), zero bridging - OPC and phase-shift masks are not polish; they are the steps that cancel these exact entries.",
+        "Imaging round 3 (closing the loop with OPC): process locked, mask-only correction, 12 ILT-style pixel iterations - CD spread 35 to 5.9 nm, line-end pullback 29 to 4.6 nm, all 14 lost slivers recovered. Hammerheads grew at the line ends by themselves: nobody wrote that rule; it is the imaging physics' own solution to cancelling pullback. Can it print, how accurately, and how to make it accurate - all three questions now close inside this fab.",
+        "Mask-3D verdict (in-house RCWA, twin gates: uniform-layer degeneration at 5e-16, energy conservation at 1.0): the real 4x reticle - 73 nm of chrome on quartz - diffracts within 3.4% of the thin mask in amplitude and 5 degrees in phase; at the wafer that prices out to a -14 nm best-focus shift and a 1.4% dose error. Kirchhoff holds at 130 nm / 4x, and every imaging conclusion above now stands on rigorous electromagnetics.",
+        "The lens account (spec derived from our imaging model, reality measured in Zemax): the pupil requirement works out to coma 7.7, astigmatism 19, spherical 8.8 milliwaves - 5.5 mlambda RMS combined, about lambda/181, thirteen times tighter than the usual 'diffraction limited' lambda/14. An 8-element all-silica 4x objective, optimized to convergence through the ZOS-API, reaches 896 mlambda at NA 0.63 - 163x off spec. Why litho lenses are twenty-plus-element ten-million-dollar monsters: the numbers speak for themselves."
+      ],
       "physics": "投影光刻的分辨率 = k₁·λ/NA——波长、数值孔径、工艺因子三个旋钮。130 nm 节点用 i-line/DUV 已绰绰有余,城内芯片走「够用就好」路线,可靠性优先。",
       "physics_en": "Projection litho resolves k1*lambda/NA - wavelength, numerical aperture and process factor are the three knobs. At 130 nm, i-line/DUV has margin to spare; the city's silicon runs a good-enough node with reliability first."
     },
@@ -49,10 +103,26 @@
       "range": 6,
       "detail": "开腔可见玄机：样品台是斜的。先斜着蒸一层铝，通氧原位氧化出约 1 nm 的 AlOx 势垒，再从另一个角度蒸第二层铝——两层在掩模桥下交叠出的那一小块,就是约瑟夫森结。玄枢 QP-20 的 40 个结全部出自这台机器。",
       "detail_en": "The open chamber shows the trick: the stage is tilted. Evaporate aluminum at one angle, oxidize in situ to grow a ~1 nm AlOx barrier, then evaporate again from the other angle - where the two layers overlap under the shadow-mask bridge, that patch is a Josephson junction. All 40 junctions in the QP-20 came off this tool.",
-      "specs": { "工艺": "Dolan 桥双角度蒸发 Al/AlOx/Al", "势垒": "~1 nm 原位氧化 AlOx", "修调": "JJ 电阻修调至 σ_EJ ≤ 0.5%", "配套": "311 座空气桥跨线（QP-20 v7 版图）" },
-      "specs_en": { "Process": "Dolan-bridge double-angle Al/AlOx/Al", "Barrier": "~1 nm in-situ oxidized AlOx", "Trim": "junction resistance trimmed to sigma_EJ <= 0.5%", "Companion": "311 airbridge crossovers (QP-20 v7 layout)" },
-      "sim": "频率碰撞蒙卡（QP-20 11 号）把修调精度变成了硬指标：σ_EJ=0.5% 时整芯片良率 99.6%,放松到 1% 良率崩塌——这台蒸发台的工艺窗口是由系统仿真反推出来的。",
-      "sim_en": "The frequency-collision Monte Carlo (QP-20 sim 11) turned trim precision into a hard spec: 99.6% full-chip yield at sigma_EJ = 0.5%, collapsing if relaxed to 1%. This tool's process window was derived backwards from system simulation.",
+      "specs": {
+        "工艺": "Dolan 桥双角度蒸发 Al/AlOx/Al",
+        "势垒": "~1 nm 原位氧化 AlOx",
+        "修调": "JJ 电阻修调至 σ_EJ ≤ 0.5%",
+        "配套": "311 座空气桥跨线（QP-20 v7 版图）"
+      },
+      "specs_en": {
+        "Process": "Dolan-bridge double-angle Al/AlOx/Al",
+        "Barrier": "~1 nm in-situ oxidized AlOx",
+        "Trim": "junction resistance trimmed to sigma_EJ <= 0.5%",
+        "Companion": "311 airbridge crossovers (QP-20 v7 layout)"
+      },
+      "sim": [
+        "频率碰撞蒙卡（QP-20 11 号）把修调精度变成了硬指标：σ_EJ=0.5% 时整芯片良率 99.6%,放松到 1% 良率崩塌——这台蒸发台的工艺窗口是由系统仿真反推出来的。",
+        "阴影几何账（本厂设计轮）：胶桥抬高 250 nm、桥宽 150 nm、±28.6°（就是眼前样品台的摆角）→ 偏移 137 nm、结交叠 123 nm、结面积 0.025 µm²；敏感度 9.2%/°——要靠几何拿住 0.5% 散布,倾角得复现到 0.054°,做不到。所以修调不是补救，是设计必选项。"
+      ],
+      "sim_en": [
+        "The frequency-collision Monte Carlo (QP-20 sim 11) turned trim precision into a hard spec: 99.6% full-chip yield at sigma_EJ = 0.5%, collapsing if relaxed to 1%. This tool's process window was derived backwards from system simulation.",
+        "Shadow-geometry ledger (this fab's design round): bridge standoff 250 nm, bridge width 150 nm, tilt +/-28.6 deg - the very angle the stage in front of you rocks to - gives a 137 nm shift, 123 nm overlap, 0.025 um2 junction. Sensitivity is 9.2% per degree: holding a 0.5% area spread by geometry would need the tilt repeatable to 0.054 deg. It can't be. Trim is not a rescue; it is part of the design."
+      ],
       "physics": "约瑟夫森结是超导量子比特唯一的非线性元件:库珀对隧穿过 1 nm 势垒,给出无耗散的非线性电感——没有这 1 nm,transmon 就只是个普通 LC 谐振腔。",
       "physics_en": "The Josephson junction is the only nonlinear element in a superconducting qubit: Cooper pairs tunneling through 1 nm of oxide give a dissipationless nonlinear inductance. Without that nanometer, a transmon is just an LC resonator."
     },
@@ -63,10 +133,24 @@
       "range": 7,
       "detail": "卧式圆腔是反应离子刻蚀机:等离子体里的离子被鞘层电场垂直加速,物理轰击加化学反应,把光刻图形各向异性地啃进材料。旁边立式腔是磁控溅射台,给超导线沉积 α 相钽基膜——文献里 Ta 膜 transmon 的 T1 已见 300 µs 以上。",
       "detail_en": "The horizontal chamber is the reactive-ion etcher: sheath-accelerated ions strike vertically, combining physical bombardment with chemistry to carve the litho pattern anisotropically. The vertical chamber beside it is the magnetron sputter tool depositing alpha-phase tantalum for the superconducting line - Ta-film transmons have shown T1 beyond 300 us in the literature.",
-      "specs": { "RIE": "RF 电容耦合等离子体,各向异性刻蚀", "溅射": "α-Ta 基膜(高阻硅衬底)——低表面参与损耗", "模拟线纪律": "CRN65LP 65 nm:DTI 版图铁律等 6 条工艺规则账" },
-      "specs_en": { "RIE": "RF capacitively-coupled plasma, anisotropic etch", "Sputter": "alpha-Ta base film on high-resistivity Si - low surface participation loss", "Analog-line discipline": "CRN65LP 65 nm: six process-rule ledgers incl. the DTI layout iron law" },
-      "sim": "模拟线(SPAD 读出芯片)的验证账最重:Calibre DRC 迭代 ~29 轮(arr4 从 51 违例清到 0)、LVS 11 次全 CORRECT、xRC 寄生提取 3 次、后仿 4 次——版图不是画完就完,是被规则库逼着收敛的。",
-      "sim_en": "The analog line (SPAD readout chips) carries the heaviest verification ledger: ~29 Calibre DRC iterations (arr4 cleaned from 51 violations to 0), 11 LVS runs all CORRECT, 3 xRC parasitic extractions, 4 post-layout sims. A layout is not done when drawn - it is converged under the rule deck.",
+      "specs": {
+        "RIE": "RF 电容耦合等离子体,各向异性刻蚀",
+        "溅射": "α-Ta 基膜(高阻硅衬底)——低表面参与损耗",
+        "模拟线纪律": "CRN65LP 65 nm:DTI 版图铁律等 6 条工艺规则账"
+      },
+      "specs_en": {
+        "RIE": "RF capacitively-coupled plasma, anisotropic etch",
+        "Sputter": "alpha-Ta base film on high-resistivity Si - low surface participation loss",
+        "Analog-line discipline": "CRN65LP 65 nm: six process-rule ledgers incl. the DTI layout iron law"
+      },
+      "sim": [
+        "模拟线(SPAD 读出芯片)的验证账最重:Calibre DRC 迭代 ~29 轮(arr4 从 51 违例清到 0)、LVS 11 次全 CORRECT、xRC 寄生提取 3 次、后仿 4 次——版图不是画完就完,是被规则库逼着收敛的。",
+        "沉积续账（本厂设计轮,蒙卡弹道三闸:平坦均匀/槽底首通量=视角因子 0.244≈0.243/CVD 极限共形 0.88）：溅射这类直线飞行沉积在 AR2 深槽底只剩 24% 覆盖——视角因子说了算;要填深槽得靠低黏附多次反弹的 CVD 路线。侧壁 Lambert 再发射的角度权重写反,粒子会顺墙爬逃、槽底饿死——闸门当场抓获。"
+      ],
+      "sim_en": [
+        "The analog line (SPAD readout chips) carries the heaviest verification ledger: ~29 Calibre DRC iterations (arr4 cleaned from 51 violations to 0), 11 LVS runs all CORRECT, 3 xRC parasitic extractions, 4 post-layout sims. A layout is not done when drawn - it is converged under the rule deck.",
+        "Deposition continuation (this fab's design round; Monte-Carlo ballistic transport behind three gates: flat uniformity, bottom first-flux equal to the view factor 0.244 vs 0.243, CVD limit conformal at 0.88): line-of-sight deposition like sputtering leaves only 24% coverage at the bottom of an AR-2 trench - the view factor rules; filling deep features takes the low-sticking multi-bounce CVD route. Swap the sine and cosine weights in the sidewall Lambert re-emission and particles crawl up the walls and escape, starving the bottom - caught by the gate on the spot."
+      ],
       "physics": "RIE 的各向异性来自鞘层:等离子体自建的电位差只沿表面法线加速离子,侧壁几乎不挨打——化学选择性管「刻什么」,离子方向性管「往哪刻」。",
       "physics_en": "RIE anisotropy comes from the sheath: the plasma's self-bias accelerates ions only along the surface normal, so sidewalls stay untouched. Chemistry decides what etches; ion directionality decides which way."
     },
@@ -77,10 +161,24 @@
       "range": 6,
       "detail": "芯片封装前先在晶圆上「过堂」:探针卡压上焊盘,逐 die 跑测试向量,结果画成墙上那张晶圆图——绿的良品,红的淘汰。witness 结构(陪测件)也在这一步读数:QP-20 每片陪 4 个 SQUID 和 1 个腔,专门用来反推工艺散布。",
       "detail_en": "Before packaging, every chip testifies on-wafer: the probe card lands on the pads, test vectors run die by die, and the results paint the wafer map on the wall - green passes, red rejects. Witness structures are read here too: each QP-20 wafer carries 4 SQUIDs and 1 cavity grown purely to measure process spread.",
-      "specs": { "数字线": "MB-1 双仿真器 1,134,185 ns 逐拍一致 + FPGA 原型 WNS +3.29 ns", "模拟线": "px15 后仿 3/3 光子全捕获,arr4 列复用 0101 图形过;蒙卡 trip-point 40 条", "超导线": "witness 4 SQUID + 1 腔 → σ_EJ 反演" },
-      "specs_en": { "Digital line": "MB-1 lockstep over 1,134,185 ns + FPGA prototype WNS +3.29 ns", "Analog line": "px15 post-layout 3/3 photons captured, arr4 column-mux 0101 pattern passes; 40 Monte-Carlo trip-points", "SC line": "witness 4 SQUIDs + 1 cavity to invert sigma_EJ" },
-      "sim": "测试的层级账:仿真金标准(Python 位级)→ 双仿真器对拍 → FPGA 原型 → 晶圆级探针——每一级都在抓上一级抓不到的错,MB-1 曾在对拍层抓出 2 个 RTL 真 bug。",
-      "sim_en": "The test hierarchy: Python bit-level golden model, dual-simulator lockstep, FPGA prototype, then wafer probe - each layer catches what the last one cannot. The lockstep layer alone caught 2 real RTL bugs in MB-1.",
+      "specs": {
+        "数字线": "MB-1 双仿真器 1,134,185 ns 逐拍一致 + FPGA 原型 WNS +3.29 ns",
+        "模拟线": "px15 后仿 3/3 光子全捕获,arr4 列复用 0101 图形过;蒙卡 trip-point 40 条",
+        "超导线": "witness 4 SQUID + 1 腔 → σ_EJ 反演"
+      },
+      "specs_en": {
+        "Digital line": "MB-1 lockstep over 1,134,185 ns + FPGA prototype WNS +3.29 ns",
+        "Analog line": "px15 post-layout 3/3 photons captured, arr4 column-mux 0101 pattern passes; 40 Monte-Carlo trip-points",
+        "SC line": "witness 4 SQUIDs + 1 cavity to invert sigma_EJ"
+      },
+      "sim": [
+        "测试的层级账:仿真金标准(Python 位级)→ 双仿真器对拍 → FPGA 原型 → 晶圆级探针——每一级都在抓上一级抓不到的错,MB-1 曾在对拍层抓出 2 个 RTL 真 bug。",
+        "良率统计续账（本厂设计轮,蒙卡三闸:泊松退化/随机复现/复合簇定律双尺度压中）：同一 D₀=6.4/cm²,缺陷若以 8 个一簇出现,MB-1 良率 89.2→97.9%、假想 10× 大 die 31.8→84.7%——聚簇是仁慈的,缺陷互相浪费在同一颗 die 上。机制决定分布族:复合簇=压缩密度泊松,区域涨落=负二项;硬套负二项会得到随尺度漂移的 α。"
+      ],
+      "sim_en": [
+        "The test hierarchy: Python bit-level golden model, dual-simulator lockstep, FPGA prototype, then wafer probe - each layer catches what the last one cannot. The lockstep layer alone caught 2 real RTL bugs in MB-1.",
+        "Yield-statistics continuation (this fab's design round; Monte-Carlo behind three gates: Poisson degeneration, random reproduction, compound-cluster law hitting both scales): at the same D0 = 6.4 per cm2, defects arriving eight to a cluster lift MB-1 yield from 89.2 to 97.9 percent and a hypothetical 10x die from 31.8 to 84.7 - clustering is merciful, defects waste each other on the same die. Mechanism picks the family: compound clusters give a rescaled Poisson, regional density variation gives the negative binomial; force-fitting NB yields a scale-drifting alpha."
+      ],
       "physics": "良率是工艺散布的积分:每个 die 是一次对全部工艺参数的抽样。晶圆图上坏品的空间分布本身就是诊断书——边缘环状=旋涂/刻蚀不均,随机散点=颗粒,径向梯度=温度场。",
       "physics_en": "Yield is the integral of process spread: every die samples all process parameters at once. The spatial pattern of failures is itself the diagnosis - edge rings mean coat/etch nonuniformity, random specks mean particles, radial gradients mean thermal fields."
     },
@@ -91,12 +189,222 @@
       "range": 6,
       "detail": "金刚石刀片把晶圆切成单颗 die,键合机再用金属丝把焊盘连到封装引脚。这里是供应链的出海口:MB-1 装上 PCB 进计算中心机架,QP-20 沿 87 个保序扇出焊盘键合进样品盒、下到玄枢的稀释制冷机。",
       "detail_en": "The diamond blade singulates the wafer into dies; the wire bonder then stitches pads to package pins. This bench is the supply chain's port of exit: MB-1 boards into the compute-center rack, and QP-20 bonds out through its 87 order-preserving fanout pads into the sample box bound for the quantum center's fridge.",
-      "specs": { "划片": "金刚石刀片高速切割(观察窗可见)", "键合": "楔形键合 Al 丝 / 金丝球焊", "下游": "MB-1 → 计算中心机架(EasyEDA 实板);QP-20 → 玄枢制冷机 MXC" },
-      "specs_en": { "Dicing": "high-speed diamond blade (visible through the window)", "Bonding": "Al wedge bond / Au ball bond", "Downstream": "MB-1 to the compute-center rack (fabbed PCB); QP-20 to the quantum center's MXC" },
-      "sim": "QP-20 版图 12 号仿真把键合列进了 DRC:87 个焊盘保序扇出,键合盘间距与压盘检查零违例——封装可行性在版图阶段就闭合,不留给产线猜。",
-      "sim_en": "QP-20 layout sim 12 put bonding inside the DRC: 87 pads fan out order-preserved, pad pitch and press-plate checks at zero violations - packaging feasibility closed at layout time, nothing left for the line to guess.",
+      "specs": {
+        "划片": "金刚石刀片高速切割(观察窗可见)",
+        "键合": "楔形键合 Al 丝 / 金丝球焊",
+        "下游": "MB-1 → 计算中心机架(EasyEDA 实板);QP-20 → 玄枢制冷机 MXC"
+      },
+      "specs_en": {
+        "Dicing": "high-speed diamond blade (visible through the window)",
+        "Bonding": "Al wedge bond / Au ball bond",
+        "Downstream": "MB-1 to the compute-center rack (fabbed PCB); QP-20 to the quantum center's MXC"
+      },
+      "sim": [
+        "QP-20 版图 12 号仿真把键合列进了 DRC:87 个焊盘保序扇出,键合盘间距与压盘检查零违例——封装可行性在版图阶段就闭合,不留给产线猜。",
+        "13 号仿真给这张台子记了两笔自己的账。划片:单颗金刚石磨粒的切深 δ=进给/(转速×磨粒数),背面崩边按压痕断裂标度 c∝δ^(2/3) 长大——10mm/s 进给下崩边 p95 = 19.7µm,刀缝 30µm 加两侧崩边共占街区 69.4µm,80µm 街区放得下,极限进给 14.3mm/s。键合:25µm 铝楔焊的变形比窗口 r=w/d∈[1.2,1.8],窗口中点拉力 4.3gf,压在 3gf 规范之上、7.5gf 断线力之下;±8% 变形控制下蒙特卡洛 100% 落窗。三道已知答案门禁(零进给零崩边、2/3 幂自检、MC 对齐解析)全绿。"
+      ],
+      "sim_en": [
+        "QP-20 layout sim 12 put bonding inside the DRC: 87 pads fan out order-preserved, pad pitch and press-plate checks at zero violations - packaging feasibility closed at layout time, nothing left for the line to guess.",
+        "Sim 13 gives this bench two ledgers of its own. Dicing: per-grit engagement delta = feed/(rpm x grits), backside chipping grows by the indentation-fracture scaling c ~ delta^(2/3) - at 10 mm/s the chip p95 is 19.7 um, so 30 um kerf plus both chip margins uses 69.4 um of the 80 um street; max feed 14.3 mm/s. Bonding: the 25 um Al wedge deformation window r = w/d in [1.2, 1.8] gives 4.3 gf pull at center - above the 3 gf spec, below the 7.5 gf wire break; Monte Carlo at 8% deformation control lands 100% in window. Three known-answer gates (zero feed - zero chip, 2/3-power self-check, MC vs analytic) all green."
+      ],
       "physics": "键合是固相焊接:超声+压力让金属丝与焊盘界面塑性流动、原子互扩散成键,全程不熔化——对怕热的超导芯片,这是唯一温柔的连接方式。",
       "physics_en": "A wire bond is solid-state welding: ultrasonics plus pressure make wire and pad flow plastically and interdiffuse into a bond, nothing ever melting - for heat-shy superconducting chips, the only gentle way to connect."
+    },
+    {
+      "id": "wetbench",
+      "label": "湿法清洗台（药液三槽）",
+      "label_en": "Wet bench (three-bath clean)",
+      "range": 6,
+      "detail": "台面三只槽从左到右:琥珀色食人鱼液（硫酸+双氧水,烧掉有机残胶）、近透明稀 HF（剥掉自然氧化层,硅表面氢终止）、青色 DI 超纯水冲洗。刻蚀、注入之后,进热工艺之前,晶圆都要来这里过水——颗粒与金属沾污是良率的头号杀手。",
+      "detail_en": "Three baths left to right: amber piranha (sulfuric acid + peroxide, burns off organic residue), near-clear dilute HF (strips native oxide, leaving hydrogen-terminated silicon), and cyan DI ultrapure rinse. After etch or implant and before any thermal step, every wafer bathes here - particles and metal contamination are yield killer number one.",
+      "specs": {
+        "槽位": "食人鱼 → 稀 HF → DI 冲洗 + 氮气吹干",
+        "配方": "RCA 经典清洗族（SC-1/SC-2,1965）",
+        "水质": "DI 超纯水,电阻率 18.2 MΩ·cm",
+        "排风": "互锁通风柜 + 独立排风立管"
+      },
+      "specs_en": {
+        "Baths": "piranha, dilute HF, DI rinse + N2 dry",
+        "Recipes": "classic RCA clean family (SC-1/SC-2, 1965)",
+        "Water": "DI ultrapure, 18.2 MΩ·cm resistivity",
+        "Exhaust": "interlocked fume sash + dedicated exhaust riser"
+      },
+      "sim": "良率账在墙上:晶圆图里「随机散点状」坏品的诊断就是颗粒沾污（见探针台卡）——湿法台是把这一项压下去的工位。三条产线共用:sky130 与 CRN65LP 的热工艺前清洗、超导线 α-Ta 沉积前的表面制备。",
+      "sim_en": "The yield ledger hangs on the wall: random-speck failures on the wafer map diagnose as particle contamination (see the probe-station card) - this bench is where that line item gets suppressed. All three lines share it: pre-thermal cleans for sky130 and CRN65LP, and surface prep before the alpha-Ta sputter on the superconducting line.",
+      "physics": "食人鱼液靠强氧化把有机物拆成 CO₂ 和水;稀 HF 能「温柔剥氧化层」,是因为它蚀 SiO₂ 快而蚀 Si 慢几个数量级——选择性是湿法化学的全部要义。18.2 MΩ·cm 是 25 ℃ 纯水的理论电阻率极限:水里除了水,几乎什么都不剩。",
+      "physics_en": "Piranha oxidizes organics all the way to CO2 and water; dilute HF strips oxide gently because it etches SiO2 orders of magnitude faster than Si - selectivity is the whole point of wet chemistry. And 18.2 megohm-cm is the theoretical resistivity limit of pure water at 25 C: nothing left in the water but water."
+    },
+    {
+      "id": "sem",
+      "label": "CD-SEM 线宽量测柱",
+      "label_en": "CD-SEM metrology column",
+      "range": 6,
+      "detail": "竖立的电子镜筒往晶圆上打聚焦电子束、收集二次电子成像——光刻显影后的「量身高」:线宽（CD）与套刻偏差在这里读数,超差的批次直接返工,不让错误流向下游。",
+      "detail_en": "The upright column focuses an electron beam onto the wafer and images with secondary electrons - the post-develop measuring station. Critical dimension and overlay are read here; out-of-spec lots get reworked on the spot instead of passing errors downstream.",
+      "specs": {
+        "原理": "聚焦电子束 + 二次电子探测",
+        "量测": "线宽 CD / 套刻 overlay / 侧壁形貌",
+        "工位": "显影后 ADI / 刻蚀后 AEI",
+        "束压": "低压电子束——防损伤光刻胶"
+      },
+      "specs_en": {
+        "Principle": "focused e-beam + secondary-electron detection",
+        "Measures": "CD, overlay, sidewall profile",
+        "Insertion": "after-develop (ADI) and after-etch (AEI)",
+        "Beam": "low-voltage - resist must not be damaged by its own inspection"
+      },
+      "sim": [
+        "数字线口径:MB-1 走 sky130 130 nm 节点,光学显微镜已在衍射极限边缘,CD 复检靠电子束;模拟线 CRN65LP 的 29 轮 DRC 是「画出来的规则」,SEM 量测是「做出来的证据」——规则收敛与工艺量测互为闭环。",
+        "成像续账（本厂设计轮,三闸:平坦无假边/理想仪器复原 138.0=138.0/帧平均 1/√N）：边缘增亮(二次电子 1/cosθ)+3 nm 束斑+散粒噪声的合成波形上,单帧 σ_CD 1.04 nm、16 帧平均 0.34 nm——量测的重复性预算从此有账;对称判据下偏置为零属模型对称性,真机偏置另有来源(声明)。"
+      ],
+      "sim_en": [
+        "Digital-line ledger: MB-1 runs sky130 at 130 nm, right at the optical diffraction edge, so CD verification falls to the e-beam. On the analog line, CRN65LP's 29 DRC iterations are the rules as drawn - SEM metrology is the evidence as built. Rule convergence and fab metrology close each other's loop.",
+        "Imaging continuation (this fab's design round; three gates: flat sample shows no false edges, the ideal instrument recovers 138.0 = 138.0 nm, frame averaging follows 1/sqrt(N)): on the synthetic waveform - edge bloom (secondary electrons at 1/cos theta), 3 nm spot, shot noise - single-frame sigma_CD is 1.04 nm and 16-frame averaging reaches 0.34 nm. The metrology repeatability budget is now on the books; zero bias under the symmetric criterion is a model symmetry, real-tool bias has other sources (declared)."
+      ],
+      "physics": "分辨率由波长定:可见光 ~500 nm,而 1 keV 电子的德布罗意波长 ~0.04 nm——看 130 nm 线条绰绰有余。低压是有意的:高能束会让光刻胶带电、收缩——量测本身不能改变被量测物。",
+      "physics_en": "Resolution follows wavelength: visible light is ~500 nm, while a 1 keV electron's de Broglie wavelength is ~0.04 nm - margin to spare on 130 nm lines. The low voltage is deliberate: an energetic beam charges and shrinks resist, and a measurement must never alter what it measures."
+    },
+    {
+      "id": "implant",
+      "label": "离子注入机（掺杂工位）",
+      "label_en": "Ion implanter (doping station)",
+      "range": 7,
+      "detail": "一条横着的小型加速器:源柜电离掺杂气体,加速管把离子提到数十至数百 keV,分析磁铁按质荷比拐弯甩掉杂离子,只放对的核素进终端台轰进晶圆。光刻胶本身就是注入掩模——所以它站在黄光区:n 阱、p 阱、源漏、阈值调节,晶体管的「配方」全靠一炉炉注入写进硅里。",
+      "detail_en": "A small accelerator laid on its side: the source cabinet ionizes dopant gas, the column boosts ions to tens or hundreds of keV, the analyzing magnet bends the beam by mass-to-charge and discards everything but the right species, and the end station drives it into the wafer. Photoresist itself is the implant mask - which is why the tool stands in the yellow bay. Wells, source-drain, threshold adjust: a transistor's recipe is written into silicon one implant at a time.",
+      "specs": {
+        "束线": "源柜 → 加速管 → 分析磁铁 → 终端台",
+        "能量": "数十~数百 keV——定深度",
+        "剂量": "1e11~1e16 cm⁻² 量级——定浓度",
+        "倾角": "束线倾 7° 防沟道效应",
+        "后续": "快速热退火:激活掺杂 + 修复晶格"
+      },
+      "specs_en": {
+        "Beamline": "source, accel column, analyzing magnet, end station",
+        "Energy": "tens to hundreds of keV - sets depth",
+        "Dose": "1e11 to 1e16 per cm2 - sets concentration",
+        "Tilt": "beam tilted 7 deg against channeling",
+        "After": "rapid thermal anneal to activate dopants and heal the lattice"
+      },
+      "sim": [
+        "sky130 与 CRN65LP 的器件家族——不同阈值的 NMOS/PMOS、阱区、SPAD 的倍增结剖面——在 PDK 里就是一组组注入条件的产物:MB-1 的 ~2100 个标准单元、SPAD 像素的击穿电压,源头都在这台机器的能量-剂量表里。",
+        "射程账（本厂设计轮，LSS 一阶+Schiøtt 投影）：B 30 keV→~114 nm、100 keV→~311 nm；P 30→~46；As 30→~29。对 SRIM 锚点 B/P 在 ±11% 内，As 偏高 +27%（重离子一阶模型的已知偏差，范围声明在案）——「能量定深度」从量级话变成了曲线。",
+        "退火续账（本厂设计轮，Deal-Grove/扩散,闸门:公式渐近+剂量守恒+文献锚点）：B 30 keV 注入剖面经 950/1050 °C 半小时退火,结深 224→319 nm——热预算是结深的第二个旋钮;表面要用反射边界,普通高斯会把 9~21% 剂量「漏出晶圆」,守恒闸抓的就是它。"
+      ],
+      "sim_en": [
+        "The device families of sky130 and CRN65LP - NMOS/PMOS at several thresholds, the wells, the SPAD multiplication-junction profile - exist in the PDK as sets of implant conditions. MB-1's ~2100 standard cells and the SPAD pixel's breakdown voltage both trace back to this machine's energy-dose table.",
+        "Range ledger (this fab's design round, first-order LSS + Schiott projection): B lands at ~114 nm for 30 keV and ~311 nm for 100 keV; P at ~46 nm, As at ~29 nm for 30 keV. Against SRIM anchor points B and P sit within 11%; As reads 27% high - the known bias of a first-order model for heavy ions, scope declared. 'Energy sets depth' is now a curve, not a slogan.",
+        "Anneal continuation (this fab's design round, Deal-Grove + diffusion; gates: formula asymptotics, dose conservation, literature anchors): the 30 keV boron profile annealed at 950-1050 C for 30 min lands junctions at 224-319 nm - thermal budget is the second knob on junction depth. The surface needs a reflecting boundary: a plain Gaussian leaks 9-21% of the dose out of the wafer, which is exactly what the conservation gate caught."
+      ],
+      "physics": "注入深度由离子能量与阻止本领定（LSS 射程理论）,浓度由束流积分定——两个旋钮解耦,这是注入取代热扩散的根本原因。倾 7° 是因为硅晶格沿主轴有「通道」,离子会顺缝钻得过深——斜着打,把晶格堵上。",
+      "physics_en": "Depth is set by ion energy and stopping power (LSS range theory); concentration by integrated beam current - two decoupled knobs, which is exactly why implantation displaced thermal diffusion. The 7-degree tilt exists because the silicon lattice has channels along its axes that let ions tunnel far too deep - tilting the beam closes the view down the corridor."
+    },
+    {
+      "id": "furnace",
+      "label": "氧化/退火炉管（热工艺）",
+      "label_en": "Oxidation & anneal furnace",
+      "range": 6,
+      "detail": "三根石英管里是全厂最古老的化学：高温下硅自己长出二氧化硅，注入的掺杂原子在晶格里扩散就位。石英舟载着一排晶圆缓慢进出——热工艺不赶时间，赶时间的都毁在它手里。",
+      "detail_en": "Inside the three quartz tubes lives the oldest chemistry in the fab: at temperature, silicon grows its own oxide and implanted dopants diffuse into place in the lattice. The quartz boat glides wafers in and out slowly - thermal steps are never rushed; everything rushed here is ruined.",
+      "specs": {
+        "氧化": "Deal-Grove 线性-抛物生长",
+        "退火": "注入损伤修复+掺杂激活",
+        "装载": "石英舟悬臂,批式",
+        "控温": "三区独立,Arrhenius 主宰一切"
+      },
+      "specs_en": {
+        "Oxidation": "Deal-Grove linear-parabolic growth",
+        "Anneal": "implant damage repair + dopant activation",
+        "Loading": "cantilever quartz boat, batch",
+        "Control": "three zones; Arrhenius rules everything"
+      },
+      "sim": [
+        "热工艺账（本厂设计轮 proc_thermal.py,五闸:公式渐近 <1%/湿氧锚点 435≈410 nm/剂量守恒/零退火极限/扩散系数十年段）：干氧 1000 °C 半小时 ≈ 9 nm 栅氧量级,湿氧 1100 °C 一小时近微米场氧;B 30 keV 注入剖面经 950/1000/1050 °C 半小时退火,结深 224/262/319 nm。守恒闸抓获真 bug:高热预算下普通高斯把 9~21% 剂量「漏出晶圆」,表面必须用反射边界。"
+      ],
+      "sim_en": [
+        "Thermal ledger (this fab's design round, proc_thermal.py; five gates: formula asymptotics <1%, wet-oxide anchor 435 vs ~410 nm, dose conservation, zero-anneal limit, diffusivity decade): dry 1000 C/30 min grows gate-oxide-scale ~9 nm, wet 1100 C/1 h near-micron field oxide; the 30 keV boron profile annealed 30 min lands junctions at 224/262/319 nm for 950/1000/1050 C. The conservation gate caught a real bug - a plain Gaussian leaks 9-21% of the dose out of the wafer at high thermal budget; the surface needs a reflecting boundary."
+      ],
+      "physics": "氧化的自限性藏在 Deal-Grove 里:氧要穿过已长出的氧化层才能到达界面,越厚越慢——先线性后抛物。扩散是热运动的账:D=D₀e^{−Ea/kT},温度每加 50 °C,原子走得远一倍。",
+      "physics_en": "Oxidation's self-limiting nature lives in Deal-Grove: oxygen must cross the oxide it has already grown to reach the interface, so thicker means slower - linear first, parabolic later. Diffusion is thermal bookkeeping: D = D0 e^(-Ea/kT); fifty degrees more and the atoms walk twice as far."
+    },
+    {
+      "id": "cvd",
+      "label": "LPCVD 沉积炉（共形沉积）",
+      "label_en": "LPCVD reactor (conformal deposition)",
+      "range": 6,
+      "detail": "穹顶冷壁腔+三路气源:前驱气体在低压下多次反弹才被表面「收留」,黏附系数越低、反弹越多,深槽底部越能被照顾到——这是溅射台做不到的事,深孔深槽的填充全靠它。",
+      "detail_en": "A domed cold-wall chamber with three gas lines: at low pressure the precursor bounces many times before a surface finally keeps it - the lower the sticking, the more bounces, the better the bottom of a deep trench is served. Sputtering cannot do this; deep-feature fill belongs to CVD.",
+      "specs": {
+        "机制": "表面反应限制,低黏附多次反弹",
+        "对照": "PVD 直线飞行=视角因子主宰",
+        "气路": "三路前驱/载气/清洗",
+        "真空": "低压操作(LP)"
+      },
+      "specs_en": {
+        "Mechanism": "surface-reaction limited, low sticking, many bounces",
+        "Contrast": "PVD flies line-of-sight - the view factor rules",
+        "Gas": "precursor / carrier / purge",
+        "Vacuum": "low-pressure operation"
+      },
+      "sim": [
+        "沉积账（本厂设计轮 proc_dep_sem.py,蒙卡弹道三闸）：AR2 深槽底,直线飞行的 PVD 只剩 24% 覆盖(=视角因子 0.243,数值 0.244 压到千分位);黏附系数降到 0.03、Lambert 多次反弹后,同一条槽底覆盖回到 0.88——「填深槽用 CVD」从经验变成账。侧壁再发射角度权重写反会让粒子顺墙爬逃,闸门当场抓获。"
+      ],
+      "sim_en": [
+        "Deposition ledger (this fab's design round, proc_dep_sem.py; Monte-Carlo ballistic, three gates): at the bottom of an AR-2 trench, line-of-sight PVD keeps only 24% coverage (the view factor, 0.243 vs numeric 0.244); drop sticking to 0.03 with Lambert re-emission and the same trench bottom recovers to 0.88 - 'fill deep features with CVD' turned from lore into a ledger line. Swap the re-emission angle weights and particles crawl up the walls and escape - caught by the gate."
+      ],
+      "physics": "黏附系数是这台机器的灵魂:s→1 是弹道输运(几何阴影),s→0 是分子在腔里反复试探直到处处均匀——共形性不是工艺参数,是一个概率的倒数。",
+      "physics_en": "The sticking coefficient is this tool's soul: s near 1 is ballistic transport (geometric shadowing), s near 0 lets molecules keep trying until every surface is served equally - conformality is not a recipe knob, it is the reciprocal of a probability."
+    },
+    {
+      "id": "cmp",
+      "label": "CMP 抛光机（平坦化）",
+      "label_en": "CMP polisher (planarization)",
+      "range": 6,
+      "detail": "转盘和载头反向旋转,浆料在中间——机械磨削加化学软化,把沉积后高低不平的表面磨成光刻需要的平面。它在湿区和湿法台作伴:一样用水,一样怕干。",
+      "detail_en": "Platen and carrier head counter-rotate with slurry in between - mechanical abrasion plus chemical softening grind the post-deposition topography into the flat plane lithography demands. It keeps the wet bench company in the wet corner: same water, same fear of drying out.",
+      "specs": {
+        "机制": "Preston:去除率∝压力×速度",
+        "图形效应": "局部去除率随有效密度变化(Stine)",
+        "浆料": "磨粒+化学(氧化铝/硅溶胶)",
+        "搭档": "填充单元让密度均匀"
+      },
+      "specs_en": {
+        "Mechanism": "Preston: removal rate scales with pressure times velocity",
+        "Pattern effect": "local rate follows effective density (Stine)",
+        "Slurry": "abrasive + chemistry",
+        "Partner": "fill cells keep density uniform"
+      },
+      "sim": [
+        "CMP 账（本厂设计轮 proc_cmp.py,三闸:均匀零差/核宽自检 258≈250 µm/闭式=数值 176.1 nm）：MB-1 真 die 的 met1 密度图 0.04~0.61,平坦化卷积后抛后厚度差 176 nm——对照光刻焦深 >±2 µm,130 nm 节点 CMP 不卡脖子。fill 反事实拆穿口号:met1 均匀靠电源网格(去 fill 仅差 1.16×),poly 上 decap 把最空的格抬十倍(0.015→0.152)——填充单元的第一身份是均匀性,CMP 只是动机之一。"
+      ],
+      "sim_en": [
+        "CMP ledger (this fab's design round, proc_cmp.py; three gates: uniform-zero, kernel-width self-check 258 vs 250 um, closed form equals numeric at 176.1 nm): the real MB-1 met1 density map spans 0.04-0.61, and after the planarization convolution the post-polish spread is 176 nm - comfortable against the node's >2 um depth of focus. The fill counterfactual dissects the slogan: met1 owes its uniformity to the power grid (removing fill costs only 1.16x), while on poly the decap cells lift the emptiest bins tenfold (0.015 to 0.152) - fill is first about uniformity; CMP is one motive among several."
+      ],
+      "physics": "Preston 方程说去除率∝压力×相对速度——而图形效应的全部秘密是「压力集中」:凸起面积占比越小,单位面积压强越大,磨得越快。平坦化是压强的自动负反馈。",
+      "physics_en": "Preston says removal scales with pressure times velocity - and the whole secret of pattern effects is pressure concentration: the smaller the raised-area fraction, the higher the local pressure, the faster it polishes. Planarization is pressure running its own negative feedback."
+    },
+    {
+      "id": "agv",
+      "label": "AGV 晶圆物流车（全厂闭环）",
+      "label_en": "Wafer AGV (the fab's logistics loop)",
+      "range": 8,
+      "detail": "地上驮着透明晶圆舱的小车是产线的血液循环:从充电桩出发给涂胶轨道上片,黄光区流程（涂胶→曝光→显影,机器人在轨道与光刻机之间接驳）走完后接回晶圆,穿过厂房送进 RIE——腔门为它开合——再到探针台与划片机,空车回巢。跟着它走一圈,就把芯片制造流程走了一遍。",
+      "detail_en": "The little vehicle carrying an open transparent wafer pod is the line's bloodstream: it leaves its charging dock to load the coat track, waits out the yellow-bay sequence (coat, expose, develop - the rail robot shuttles between track and stepper), collects the wafer, crosses the fab to the RIE - whose chamber door swings open for it - then serves the probe station and the dicing saw before returning empty. Follow it one lap and you have walked the chip-making flow.",
+      "specs": {
+        "环线": "装载口 → (轨道↔光刻机=机器人接驳) → RIE → 探针台 → 划片",
+        "周期": "~104 s 一圈,首尾闭合（演示压缩;真实 fab 一个批次以周计）",
+        "导航": "地面导引光带 + 前向激光避障",
+        "舱体": "开顶微环境舱（FOUP 同理）"
+      },
+      "specs_en": {
+        "Loop": "load port, (track-stepper via rail robot), RIE, probe, dicing",
+        "Cycle": "~104 s per lap, seamlessly looped (compressed for display; a real lot takes weeks)",
+        "Nav": "floor guide strips + forward lidar puck",
+        "Pod": "open-top mini-environment - same idea as a FOUP"
+      },
+      "sim": "编舞与灯效同相位:曝光光束只在晶圆上台时亮、等离子体只在腔门关闭后点燃、晶圆图大屏只在探针落下时刷新——因果链在场景里可验证:任意时刻跳入,状态自洽。",
+      "sim_en": "Choreography and lighting share one phase: the exposure beam fires only while the wafer sits on the stage, the plasma ignites only after the chamber door seals, and the wafer-map screen streams only while the probes are down. The causal chain is verifiable in-scene - jump in at any moment and the state is self-consistent.",
+      "physics": "现代 fab 的洁净策略是「人不碰片」:晶圆一生都待在舱与设备腔的微环境里,洁净度只需在舱内维持——比把整间厂房维持到同级洁净便宜几个数量级。物流自动化不是效率问题,是沾污预算问题。",
+      "physics_en": "The modern fab's cleanliness strategy is that hands never touch wafers: a wafer lives its whole life inside pod and process-chamber micro-environments, so extreme cleanliness only needs to exist inside them - orders of magnitude cheaper than holding a whole building to the same class. Fab automation is not an efficiency play; it is a contamination budget."
     },
     {
       "id": "screen",
@@ -105,10 +413,26 @@
       "range": 8,
       "detail": "左侧是在测晶圆的实时晶圆图,红色坏品在闪;右侧是 MB-1 的版图示意——四块粉色是 SRAM 宏(占掉 64% 面积),中缝绿色是全部 ~2100 个标准单元。「面积由存储主导」这件事,一屏看懂。",
       "detail_en": "Left: the live wafer map of the lot under test, rejects blinking red. Right: the MB-1 floorplan - four pink blocks are the SRAM macros eating 64% of the die, the green strip in the middle is all ~2100 standard cells. That memory dominates area is legible in one glance.",
-      "specs": { "晶圆图": "逐 die 测试结果,绿良品/红淘汰", "MB-1": "1.79 mm²,4 SRAM 宏 2×2 阵列 + 中缝逻辑", "口径": "良率与 die 分布全部来自探针台实测流" },
-      "specs_en": { "Wafer map": "per-die test verdicts, green pass / red reject", "MB-1": "1.79 mm2, 2x2 SRAM macro array with a logic spine", "Source": "yield and die maps stream straight from the probe station" },
-      "sim": "MB-1 P&R 落库口径:OpenROAD floorplan 1660×1080 µm、CTS+hold 修复、TritonRoute 详细布线过天线检查——大屏上的每个色块都对应 GDS 里一层真实几何。",
-      "sim_en": "MB-1 P&R ledger: OpenROAD floorplan at 1660x1080 um, CTS with hold fixing, TritonRoute detailed routing past antenna checks - every color block on this screen maps to real geometry in the GDS.",
+      "specs": {
+        "晶圆图": "逐 die 测试结果,绿良品/红淘汰",
+        "MB-1": "1.79 mm²,4 SRAM 宏 2×2 阵列 + 中缝逻辑",
+        "口径": "良率与 die 分布全部来自探针台实测流"
+      },
+      "specs_en": {
+        "Wafer map": "per-die test verdicts, green pass / red reject",
+        "MB-1": "1.79 mm2, 2x2 SRAM macro array with a logic spine",
+        "Source": "yield and die maps stream straight from the probe station"
+      },
+      "sim": [
+        "MB-1 P&R 落库口径:OpenROAD floorplan 1660×1080 µm、CTS+hold 修复、TritonRoute 详细布线过天线检查——大屏上的每个色块都对应 GDS 里一层真实几何。",
+        "良率反演（本厂设计轮）：这张图 37 die 中 4 淘汰（Y=89.2%）+ MB-1 die 0.0179 cm² → 泊松模型反推缺陷密度 D₀≈6.4 /cm²；同一 D₀ 下 die 放大 10 倍,良率跌到 32%——「小 die 赢良率」的定量版,就写在这块屏上。",
+        "CMP 平坦度账（本厂设计轮，Stine 密度模型,三闸:均匀零差/核宽自检 258≈250 µm/闭式=数值）：MB-1 met1 密度图 0.04~0.61,平坦化卷积后抛后厚度差 176 nm——对照光刻焦深 >±2 µm,130 nm 节点 CMP 不卡脖子。反事实拆穿了口号:met1 均匀靠 PDN(去 fill 只差 1.16×),poly 上 decap 把空洞密度抬十倍(0.015→0.152)——填充单元的第一身份是均匀性,CMP 只是动机之一。"
+      ],
+      "sim_en": [
+        "MB-1 P&R ledger: OpenROAD floorplan at 1660x1080 um, CTS with hold fixing, TritonRoute detailed routing past antenna checks - every color block on this screen maps to real geometry in the GDS.",
+        "Yield inversion (this fab's design round): this very map shows 4 rejects out of 37 dies (Y = 89.2%); with MB-1's 0.0179 cm2 die, the Poisson model inverts to a defect density D0 of about 6.4 per cm2 - and at the same D0 a die ten times larger would yield 32%. 'Small dies win' is quantified on this screen.",
+        "CMP planarity ledger (this fab's design round, Stine density model; three gates: uniform-zero, kernel-width self-check 258 vs 250 um, closed-form equals numeric): MB-1's met1 density map spans 0.04-0.61, and after the planarization convolution the post-CMP thickness spread is 176 nm - comfortable against the >2 um litho depth of focus at this node. The counterfactual dissects the slogan: met1 owes its uniformity to the power grid (removing fill costs only 1.16x), while on poly the decap cells lift the emptiest bins tenfold (0.015 to 0.152) - fill cells are first about uniformity; CMP is only one of the motives."
+      ],
       "physics": "版图即物理:SRAM 宏是六管位元的密铺,逻辑区是标准单元行——芯片设计的最后一步不是代码,是把布尔代数安放进硅的晶格坐标系。",
       "physics_en": "Layout is physics: SRAM macros are tilings of six-transistor bitcells, the logic area is rows of standard cells - the last step of chip design is not code but settling Boolean algebra into silicon's coordinate grid."
     }

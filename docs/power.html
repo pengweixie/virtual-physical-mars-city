@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Power — Virtual-Physical Mars City</title>
+<meta name="description" content="A compact high-field tokamak generating 848 MW of fusion power on Mars, with its 4.65-hectare waste-heat radiator field.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    /* ▸ REPLACE: district accent (must match your card in index.html) */
+    --accent:var(--amber);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .domains{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px;}
+  @media(max-width:720px){.domains{grid-template-columns:1fr;}}
+  .dom{border:1px solid var(--line);border-radius:12px;padding:18px 20px;background:var(--bg-3);}
+  .dom h3{font-size:1.02rem;margin-bottom:4px;}
+  .dom .tool{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent);}
+  .dom p{margin:.5rem 0 0;color:var(--ink-dim);font-size:.92rem;}
+  .broke{border-left:2px solid var(--accent);padding:2px 0 2px 20px;margin:22px 0;}
+  .broke h3{font-size:1.05rem;margin-bottom:2px;}
+  .broke p{margin:.4rem 0 0;color:var(--ink-dim);}
+  .verdict{margin-top:8px;font-family:var(--f-mono);font-size:.8rem;color:var(--green);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="origin.html">← Prev</a>
+    <a href="rockets.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">pwr-fusion-01 · pwr-radiator-01 · pwr-storage-01</div>
+    <h1>Power</h1>
+    <p class="phead__sub">A compact high-field tokamak that makes <strong>848&nbsp;MW</strong> of
+      fusion power on Mars — and the 4.65-hectare radiator field that dumps the heat it can't sell.
+      Beside it, a solar-charged storage field carries the loads the reactor doesn't reach, through
+      the night and the dust storms. Every headline number is pinned to the solver that produced it.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Fusion power</div><div class="spec__v">848<small>MW</small></div></div>
+    <div class="spec"><div class="spec__k">Gain Q</div><div class="spec__v">34</div></div>
+    <div class="spec"><div class="spec__k">Net electric</div><div class="spec__v">176<small>MWe</small></div></div>
+    <div class="spec"><div class="spec__k">Machine mass</div><div class="spec__v">10.3<small>kt</small></div></div>
+  </div>
+</div>
+
+<!-- 01 What it is -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">A SPARC/ARC-class high-field tokamak — 14 m cryostat, REBCO magnets, one shared
+      regolith platform — sized so the whole machine fits on a single Starship-served pad.</p>
+    <div class="prose">
+      <p>Starting from a fixed cryostat envelope, the only self-consistent route is the
+      <strong>high-field, compact</strong> one: 8.85 T on axis from REBCO conductor running at
+      21 T, a major radius of 3.70 m, and 14.4 MA of plasma current. That buys a fusion gain of
+      <span class="hl">Q ≈ 34</span> at 848 MW — but the honest net, after the 208 MW wall-plug
+      cost of the current drive that keeps it running, is <strong>176 MWe</strong>.</p>
+      <p>Everything on the platform exists to serve or feed that cylinder: the cryogenic plant, two
+      RF current-drive launchers, a heat exchanger into an enclosed generator hall, and — set apart,
+      because it dwarfs the plant — a radiator field the size of a small industrial estate.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/power/hero.jpg" alt="3D render of the Mars tokamak power plant" loading="lazy">
+      <figcaption>THE PLANT — Ø14.3 M CRYOSTAT, 18 D-RIBS, CRYO PLANT, RF LAUNCHERS, POWER BLOCK</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/power/exploded.jpg" alt="Exploded view of the tokamak core" loading="lazy">
+        <figcaption>CORE, EXPLODED — VV · BLANKET · CS · TF ×18 · PF ×3</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/power/radiator.jpg" alt="Radiator field at true scale beside the plant" loading="lazy">
+        <figcaption>RADIATOR FIELD, TRUE SCALE — 4.65×10⁴ M² REJECTS 585 MW</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 02 How it works -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">Six physics domains, each closed by a real solver, each handing a hard number to
+      the next. The design only became self-consistent after all six agreed.</p>
+    <div class="domains">
+      <div class="dom"><div class="tool">FreeGS · Grad-Shafranov</div>
+        <h3>Plasma equilibrium</h3>
+        <p>Free-boundary double-null, recalibrated to q95 = 3.93. An extra coil pair pulls a second
+        X-point out to the divertor target for a long, radiating leg.</p></div>
+      <div class="dom"><div class="tool">COMSOL · EM + structure</div>
+        <h3>Magnets</h3>
+        <p>J×B body load on the TF winding. The racetrack cross-section spiked to 3361 MPa at the
+        corners; the D-shape carries the same field at <span class="hl">999 MPa</span>.</p></div>
+      <div class="dom"><div class="tool">Geant4 · neutron transport</div>
+        <h3>Breeding blanket</h3>
+        <p>18 Monte-Carlo runs proved FLiBe saturates at a net TBR of 0.78 — short of self-sufficiency.
+        Eutectic LiPb plus a thin first wall reaches <span class="hl">net 1.10</span> at 88% coverage.</p></div>
+      <div class="dom"><div class="tool">Two-point + Lengyel</div>
+        <h3>Divertor exhaust</h3>
+        <p>P_sep/R₀ = 49 MW/m — 3.5× ITER. Only a long-leg X-point target with Ne seeding and
+        detachment survives; the hot SOL that punishes the divertor is what rescues the RF coupling.</p></div>
+      <div class="dom"><div class="tool">HFSS + grill theory</div>
+        <h3>Current drive</h3>
+        <p>83 MW of 5 GHz lower-hybrid waves over a ~9,800-guide grill. HFSS confirms the TE10 cutoff
+        at 3.75 GHz; the high field leaves a 5.7× margin against the density limit.</p></div>
+      <div class="dom"><div class="tool">Python · radiative balance</div>
+        <h3>Heat rejection</h3>
+        <p>No air to convect into — 585 MW must radiate. At 600 K that needs 4.65×10⁴ m², which
+        the ISRU study turns from a liability into process heat for water and propellant.</p></div>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/power/equilibrium.jpg" alt="FreeGS equilibrium with X-point-target divertor" loading="lazy">
+        <figcaption>FREEGS EQUILIBRIUM — X-POINT-TARGET LONG-LEG DIVERTOR, FX ≥ 20</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/power/magnet_stress.jpg" alt="COMSOL von Mises stress of the D-shape TF coil" loading="lazy">
+        <figcaption>COMSOL — D-SHAPE TF STRESS, PEAK 999 MPA (FROM 3361)</figcaption>
+      </figure>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/power/neutronics.jpg" alt="Geant4 blanket TBR scan" loading="lazy">
+        <figcaption>GEANT4 — BLANKET TBR SCAN, LIPB REACHES NET 1.10</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/power/divertor.jpg" alt="Divertor heat-exhaust benchmark" loading="lazy">
+        <figcaption>DIVERTOR — P_SEP/R₀ = 49 MW/M, 3.5× ITER</figcaption>
+      </figure>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/power/current_drive.jpg" alt="Current-drive power flow" loading="lazy">
+        <figcaption>CURRENT DRIVE — HONEST POWER FLOW, 848 MW → 176 MWE</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/power/isru.jpg" alt="ISRU waste-heat cogeneration" loading="lazy">
+        <figcaption>ISRU COGEN — WASTE HEAT SHRINKS THE RADIATOR FIELD BY 77%</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 03 The other grid (storage) -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The other grid</h2></div>
+    <p class="lead">Not everything runs off the reactor. A solar-charged storage field carries the
+      outposts the fusion plant doesn't reach — through the 12-hour night, and through the
+      weeks-long dust storms when the sun barely arrives.</p>
+    <div class="prose">
+      <p>It is a <strong>two-tier</strong> store, because Mars has two different kinds of dark.
+      Eight Megapack-class LFP cabinets — 31.2 MWh — ride the diurnal cycle; a regenerative
+      hydrogen–oxygen loop (electrolyser, spherical tanks, fuel cell) is held in reserve for the
+      global dust storms no battery bank can economically span. The whole field is sized to a
+      verified <span class="hl">833 kW</span> islanded design point.</p>
+      <p>That number came out of a five-layer chain, L0 through L3, and the chain kept overturning
+      its own assumptions — which was the useful part.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/power/storage_field.jpg" alt="Storage field lit at night" loading="lazy">
+        <figcaption>STORAGE FIELD — 8 LFP CABINETS · SOC LIGHT-STACKS · RFC SPHERES, LIT AT NIGHT</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/power/storage_pcs.jpg" alt="Power-conversion skids and coolant loop" loading="lazy">
+        <figcaption>POWER CONVERSION — TWIN 2 MW INVERTER SKIDS, HOT/COLD LOOP TO THE RADIATORS</figcaption>
+      </figure>
+    </div>
+    <div class="domains">
+      <div class="dom"><div class="tool">PyBaMM · SPMe + thermal</div>
+        <h3>The cells barely warm up</h3>
+        <p>An LFP cell over a full sol returns <span class="hl">99.45%</span> round-trip and sheds
+        1.6 mW of heat. Only a tenth of the field's waste heat is electrochemical — the rest is the
+        inverter and auxiliaries.</p></div>
+      <div class="dom"><div class="tool">COMSOL · steady heat</div>
+        <h3>Passive radiation is enough</h3>
+        <p>With almost no air to convect into, the Earth reflex is forced-air cooling. The model says
+        it is unnecessary: bare radiative panels hold a module at <span class="hl">27 °C</span> at
+        0.1C. The real ceiling is internal conduction, near 0.4C sustained.</p></div>
+      <div class="dom"><div class="tool">Python · time-series dispatch</div>
+        <h3>Batteries alone ride out a storm</h3>
+        <p>Across a 60-sol dust season at 15% residual sun, the bank carries a 90 kW survival load for
+        30 sols and the fuel cell never starts. The regenerative loop is tail insurance for the
+        5%-residual black storms, not the workhorse.</p></div>
+      <div class="dom"><div class="tool">Closed-loop calibration</div>
+        <h3>The bottleneck moved</h3>
+        <p>Feeding the measured 99.45% back into the energy balance halved the assumed waste heat and
+        un-stuck the radiators — handing the limit to the inverter. A 2 MW PCS, not more panels,
+        lifts the field from 419 to <span class="hl">833 kW</span>.</p></div>
+    </div>
+    <figure class="figure">
+      <img src="assets/power/storage_storm.jpg" alt="Dust-storm survival envelope" loading="lazy">
+      <figcaption>SURVIVAL ENVELOPE — 145 kW HELD AT 15% RESIDUAL SUN, 30 SOLS, ZERO LOAD-SHED</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 04 The ledger -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number on this page, and the exact run that produced it. Nothing
+      here is a guess — for the reactor, 19 Python scripts, 2 COMSOL studies, 18 Geant4 transports and
+      one HFSS solve; for the storage field, a five-layer L0–L3 chain.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Fusion power &amp; gain</td><td class="num">848 MW · Q 34</td><td class="src">tokamak/sysdesign/tokamak_0d.py</td></tr>
+        <tr><td>On-axis / conductor field</td><td class="num">8.85 / 21 T</td><td class="src">tokamak/sysdesign/tokamak_0d.py</td></tr>
+        <tr><td>Net electric (honest recirc)</td><td class="num">176 MWe</td><td class="src">tokamak/sysdesign/current_drive.py</td></tr>
+        <tr><td>Equilibrium, PF currents, fx≥20</td><td class="num">q95 3.93</td><td class="src">tokamak/sysdesign/equilibrium_longleg.py</td></tr>
+        <tr><td>D-coil peak stress</td><td class="num">999 MPa</td><td class="src">tokamak/comsol/tf_coil_stress_dshape.java</td></tr>
+        <tr><td>Net breeding ratio @88%</td><td class="num">1.10</td><td class="src">tokamak/neutronics/blanket_tbr.cc</td></tr>
+        <tr><td>REBCO life @0.12 m WC-B4C</td><td class="num">&ge;5 yr</td><td class="src">tokamak/neutronics/blanket_tbr.cc</td></tr>
+        <tr><td>Divertor exhaust difficulty</td><td class="num">49 MW/m</td><td class="src">tokamak/sysdesign/divertor_2pm.py</td></tr>
+        <tr><td>Detachment: Ne seed + density</td><td class="num">3% · 0.67 n<sub>GW</sub></td><td class="src">tokamak/sysdesign/divertor_1d.py</td></tr>
+        <tr><td>LHCD TE10 cutoff verified</td><td class="num">3.75 GHz</td><td class="src">tokamak/hfss/lhcd_hfss.py</td></tr>
+        <tr><td>Density-limit (PDI) margin</td><td class="num">5.7×</td><td class="src">tokamak/sysdesign/lhcd_density_limit.py</td></tr>
+        <tr><td>Radiator field @600 K</td><td class="num">4.65×10⁴ m²</td><td class="src">tokamak/sysdesign/isru_cogen.py</td></tr>
+        <tr><td>Machine mass → Starship flights</td><td class="num">10.3 kt · 34</td><td class="src">tokamak/sysdesign/mass_budget.py</td></tr>
+        <tr><td>Disruption vertical loads</td><td class="num">27–55 MN</td><td class="src">tokamak/sysdesign/disruption.py</td></tr>
+        <tr><td>Tritium startup · doubling</td><td class="num">1.7 kg · 136 d</td><td class="src">tokamak/sysdesign/tritium_cycle.py</td></tr>
+        <tr><td>TES 3×50% forced shutdowns</td><td class="num">0.08 /yr</td><td class="src">tokamak/sysdesign/tes_availability.py</td></tr>
+        <tr><td>W armor life @≤20 h/yr reattach</td><td class="num">21 yr</td><td class="src">tokamak/sysdesign/divertor_erosion.py</td></tr>
+        <tr><td>Storage — islanded design point</td><td class="num">833 kW · 2 MW PCS</td><td class="src">mars_pwr_storage/analysis/L0v2_calibration.py</td></tr>
+        <tr><td>Storage — LFP cell round-trip</td><td class="num">99.45%</td><td class="src">mars_pwr_storage/analysis/L1_cell_electrochem.py</td></tr>
+        <tr><td>Storage — module thermal ceiling (passive)</td><td class="num">27 °C @0.1C</td><td class="src">mars_pwr_storage/analysis/comsol/L2_module_thermal.java</td></tr>
+        <tr><td>Storage — dust-storm survival load</td><td class="num">145 kW @15%</td><td class="src">mars_pwr_storage/analysis/L3_system_dispatch.py</td></tr>
+        <tr><td>Storage — solar field sizing</td><td class="num">2.9 MW</td><td class="src">mars_pwr_storage/analysis/L0v2_calibration.py</td></tr>
+        <tr><td>Storage — H₂ reserve store</td><td class="num">336 kg</td><td class="src">mars_pwr_storage/analysis/L0_energy_balance.py</td></tr>
+      </tbody>
+    </table></div>
+    <figure class="figure">
+      <img src="assets/power/mass.jpg" alt="Machine mass budget and Starship logistics" loading="lazy">
+      <figcaption>MASS BUDGET — 10.3 KT, 103 → 34 STARSHIP FLIGHTS WITH AGGRESSIVE ISRU</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 05 What broke -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>What broke</h2></div>
+    <p class="lead">The design changed shape five times because a solver said no. The rejections were
+      more useful than the successes.</p>
+
+    <div class="broke">
+      <h3>The Ø14 m cryostat couldn't hold it</h3>
+      <p>Once the blanket went to LiPb and a 0.12 m tungsten-carbide shield was needed to give the
+      REBCO magnets a 5-year fluence life, the radial build no longer closed inside the original
+      envelope. Tritium self-sufficiency and magnet life were mutually exclusive at 7.0 m.</p>
+      <p class="verdict">→ cryostat grew to Ø14.3 m; higher field bought it back</p>
+    </div>
+
+    <div class="broke">
+      <h3>The beryllium multiplier was a death sentence</h3>
+      <p>Thickening FLiBe does nothing — TBR saturates at 0.8 m. The intuitive fix, a neutron
+      multiplier layer, peaks at 6 cm and then collapses: the softened spectrum gets parasitically
+      captured in the tungsten first wall and steel. 30 cm of beryllium leaves TBR at 0.53.</p>
+      <p class="verdict">→ only LiPb + thinned structure + ≥88% coverage crosses the line</p>
+    </div>
+
+    <div class="broke">
+      <h3>The quench detection window was zero seconds</h3>
+      <p>The first magnet sizing set the copper cross-section so that a pure dump — with no detection
+      delay at all — landed exactly at the 200 K hot-spot limit. Any real detection lag overshot it.
+      Worse, the resistive voltage available in that window was under 20 mV, five times below the
+      noise floor, because REBCO normal zones crawl at millimetres per second.</p>
+      <p class="verdict">→ 15 kV dump + fibre-optic detection + copper margin, jointly</p>
+    </div>
+
+    <div class="broke">
+      <h3>A three-way tension nobody could fully win</h3>
+      <p>The divertor wants a dense plasma edge; a dense edge raises fusion power; higher power blows
+      the neutron wall-load limit. Pushing the Greenwald fraction to close the divertor's density gap
+      hit the 2.5 MW/m² wall limit at f<sub>GW</sub> = 0.78, leaving a residual 1.5× gap that only
+      divertor neutral compression can close.</p>
+      <p class="verdict">→ documented as the binding operating-window constraint, not hidden</p>
+    </div>
+
+    <div class="broke">
+      <h3>The tooling fought back too</h3>
+      <p>The HFSS driver (pyaedt 1.0.1) crashed on Ansys 2026 R1 and had to be pinned to 2024 R1.
+      The Geant4 build hit a broken conda toolchain (math.h / include_next). And in the 3D asset, the
+      D-shaped ribs lay flat on the ground until a stray <code>rotation.x</code> was removed — a
+      one-line bug caught only by rendering it.</p>
+      <p class="verdict">→ every gotcha written down so the next run skips it</p>
+    </div>
+
+    <div class="broke">
+      <h3>The batteries were never the problem — the inverter was</h3>
+      <p>The first energy balance assumed a 92% round-trip and blamed the radiators for capping the
+      storage field at 429 kW. When PyBaMM measured the cells at 99.45%, the waste heat halved and the
+      radiator limit evaporated — exposing the real ceiling underneath: the inverter couldn't refill
+      the night's charge inside the solar window. Doubling the PCS to 2 MW, not adding panels, is what
+      unlocked 833 kW. And in the 3D asset the flywheels and pumps sat frozen until a
+      <code>userData.spinners</code> key was renamed from <code>obj</code> to <code>node</code> to
+      match the engine — a silent one-word bug caught only by driving it.</p>
+      <p class="verdict">→ the honest bottleneck was a wrong efficiency assumption, not a hardware count</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 Try it -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>Try it in the city</h2></div>
+    <p class="lead">The plant, its radiator field and the storage yard are placed on the crater floor
+      and lit at night.</p>
+    <div class="prose">
+      <p>Open the main viewer, press <strong>C</strong> to raise the tech city, and head to the power
+      district. Add <span class="src">?inspect=pwr-fusion-01</span> to the URL to frame the plant, or
+      <span class="src">?inspect=pwr-radiator-01</span> for the radiator field. Walk close and each
+      building floats its own device label — cryostat, cryo tanks, RF/LHCD launcher, heat exchanger,
+      generator hall, control cabin.</p>
+      <p>After dusk the generator-hall windows glow and the radiator panels take on a faint 600 K
+      warmth. The radiator field lies low, so twin red hazard beacons mark its two ends from over a
+      kilometre out — walk toward them and the field opens up ten times the footprint of the plant
+      that feeds it.</p>
+      <p>West of the reactor sits the storage field — add <span class="src">?inspect=pwr-storage-01</span>
+      to frame it. Eight white cabinets carry green-and-amber state-of-charge light-stacks, twin
+      inverter skids feed a hot/cold coolant loop out to the radiator row, and the hydrogen and oxygen
+      spheres of the regenerative loop stand apart behind their blast berm. Seven POI cards hold the
+      L0–L3 numbers; walk close and they open.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">tokamak/report/</span> (12-chapter v4 dossier) ·
+      Physics scripts: <span class="src">tokamak/sysdesign/</span> ·
+      <span class="src">tokamak/comsol/</span> · <span class="src">tokamak/neutronics/</span> ·
+      <span class="src">tokamak/hfss/</span> ·
+      City assets: <span class="src">viewer/units/pwr-fusion-01.js</span> ·
+      <span class="src">viewer/units/pwr-radiator-01.js</span> ·
+      <span class="src">viewer/units/pwr-storage-01.js</span> ·
+      Storage chain: <span class="src">mars_pwr_storage/analysis/</span> (L0–L3 + design_point_final.json) ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

@@ -8,6 +8,7 @@
 export const meta = {
   id: 'hab-foyer-01',
   name: '地下城玄关',
+  name_en: 'Undercity Foyer',
   size_m: 45,
   size_axis: 'width',
   effects: ['glow_windows'],

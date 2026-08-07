@@ -1,0 +1,199 @@
+{
+  "id": "tt1-sat-01",
+  "pois": [
+    {
+      "id": "mosa_aperture",
+      "label": "MOSA 望远镜孔径",
+      "detail": "0.40 m 离轴无遮拦望远镜, 共焦双抛物面 80 倍缩束(400→5 mm)。两孔径夹角 60°, 各指向 300 万公里外的另一颗星。星座呼吸角 ±0.94° 由罩内在视场内指向机构吸收, 外观孔径固定。",
+      "range": 18,
+      "specs": {
+        "口径": "0.40 m",
+        "缩束比": "80×",
+        "出瞳": "5.000 mm",
+        "波长": "1064 nm",
+        "发射功率": "2 W"
+      },
+      "sim": "Zemax 实测: 出瞳 5.000000 mm, 出射准直 2.1e-8 rad, 轴上波前误差 1.9e-10 波长(共焦抛物面解析预期为零, 求解器证实)。接收功率 651 pW —— 只是发出 2 W 的 3e-10。",
+      "physics": "衍射: 光束跨 3 Gm 后光斑直径 19.5 km, 口径只能接住其中一小片 —— 这不是损耗而是几何稀释。口径的止步点由 TTL/光程稳定性噪声底决定, 不是散粒噪声(floor 主导区 h∝1/L, 长臂仍买高频灵敏度)。",
+      "label_en": "MOSA Telescope Aperture",
+      "detail_en": "0.40 m off-axis unobscured telescope; confocal dual-paraboloid 80x beam compressor (400 to 5 mm). The two apertures sit 60 deg apart, each staring at a sister spacecraft 3 million km away. The +/-0.94 deg constellation breathing is absorbed by the internal in-field pointing mechanism, so the external aperture stays fixed.",
+      "specs_en": {
+        "Aperture": "0.40 m",
+        "Compression": "80x",
+        "Exit pupil": "5.000 mm",
+        "Wavelength": "1064 nm",
+        "TX power": "2 W"
+      },
+      "sim_en": "Zemax measured: exit pupil 5.000000 mm, collimation 2.1e-8 rad, on-axis wavefront error 1.9e-10 waves (analytic prediction for confocal paraboloids is exactly zero; solver confirmed). Received power 651 pW, i.e. 3e-10 of the 2 W transmitted.",
+      "physics_en": "Diffraction: after 3 Gm the beam is a 19.5 km spot and the aperture catches a sliver - geometric dilution, not loss. Aperture growth stops where the TTL/pathlength noise floor takes over, not at shot noise (floor-dominated regime keeps h ~ 1/L, so longer arms still buy high-frequency sensitivity)."
+    },
+    {
+      "id": "grs_tm",
+      "label": "引力参考传感器 · 金立方",
+      "detail": "剖切舱核心: 46 mm Au-Pt 合金检验质量(1.94 kg)悬浮在电极笼中央, 四面间隙 4 mm, 不与任何东西接触 —— 它就是那把测引力波的『自由落体尺』。UV 放电管理电荷, 周期 ≤1.9 小时。",
+      "range": 18,
+      "specs": {
+        "材料": "Au-Pt 73/27",
+        "边长": "46 mm",
+        "质量": "1.94 kg",
+        "间隙": "4.0 mm",
+        "剩余加速度噪声": "2.10 fm/s²/√Hz"
+      },
+      "sim": "九项寄生力分预算(气体阻尼/充电散粒/патch 电位/磁力/辐射计/热辐射压/激光辐射压/刚度耦合/自引力)合计 2.10 fm/s²/√Hz, 对 3.0 指标裕度 1.43×; 模型过 LISA Pathfinder 实测闸。",
+      "physics": "Au-Pt 配比的唯一理由是把体磁化率调到 ~2e-5 量级压磁力; 主导噪声项是寄生刚度×平台抖动(占方差 63%) —— 低频灵敏度实为平台无拖曳性能, 不是传感器本身。",
+      "label_en": "Gravitational Reference Sensor - Gold Cube",
+      "detail_en": "Heart of the cutaway bay: a 46 mm Au-Pt test mass (1.94 kg) floating in its electrode cage with 4 mm gaps, touching nothing - the free-falling ruler that measures gravitational waves. UV discharge resets its charge at least every 1.9 hours.",
+      "specs_en": {
+        "Material": "Au-Pt 73/27",
+        "Side": "46 mm",
+        "Mass": "1.94 kg",
+        "Gap": "4.0 mm",
+        "Residual acceleration": "2.10 fm/s^2/rtHz"
+      },
+      "sim_en": "Nine-term parasitic-force budget (gas damping / charge shot / patch potential / magnetic / radiometer / thermal & laser radiation pressure / stiffness coupling / self-gravity) totals 2.10 fm/s^2/rtHz - 1.43x margin on the 3.0 spec; model gated against LISA Pathfinder flight data.",
+      "physics_en": "The Au-Pt ratio exists solely to tune bulk susceptibility to ~2e-5 and kill magnetic force. Dominant term: parasitic stiffness x platform jitter (63% of variance) - low-frequency sensitivity is really the platform's drag-free quality, not the sensor."
+    },
+    {
+      "id": "bench",
+      "label": "Zerodur 光学平台",
+      "detail": "零膨胀微晶玻璃平台, 光学件氢氧催化键合。红线是 1064 nm 测量光路的表意(实为红外不可见): 本地激光与远端接收光在此拍频, 相位计读出 μcycle 级相位 —— 相当于在 300 万公里上量出皮米。",
+      "range": 18,
+      "specs": {
+        "材料": "Zerodur",
+        "CTE": "2e-8 /K",
+        "位移噪声": "7.48 pm/√Hz",
+        "TTL 装配公差": "≤6.25 μm"
+      },
+      "sim": "OMS 八项分预算 7.48 pm/√Hz(指标 10, 裕度 1.34×)。COMSOL+Zemax 回路: 轴向温度梯度需 ≤214 μK/√Hz, 计量结构净吸收功率涨落 ≤9.9 μW/√Hz —— 四道解析闸 0.00~0.47% 命中。",
+      "physics": "激光频率噪声在 3 Gm 臂上放大成 319 μm/√Hz, 超指标 3200 万倍 —— 靠时间延迟干涉(TDI)在后处理中合成等臂消除; 剩下的皮米预算才由这块平台的热稳定性守住。",
+      "label_en": "Zerodur Optical Bench",
+      "detail_en": "Zero-expansion glass-ceramic bench, hydroxide-bonded optics. The red line marks the 1064 nm science path (actually invisible IR): local laser and received light beat here and the phasemeter reads microcycle phase - picometres resolved across 3 million km.",
+      "specs_en": {
+        "Material": "Zerodur",
+        "CTE": "2e-8 /K",
+        "Displacement noise": "7.48 pm/rtHz",
+        "TTL alignment tolerance": "<= 6.25 um"
+      },
+      "sim_en": "Eight-term OMS budget closes at 7.48 pm/rtHz (spec 10, margin 1.34x). COMSOL+Zemax loop: axial thermal gradient <= 214 uK/rtHz, net absorbed power ripple <= 9.9 uW/rtHz - four analytic gates passed at the 0.0x% level.",
+      "physics_en": "Laser frequency noise maps to 319 um/rtHz on a 3 Gm arm - 3.2e7x over budget. Time-delay interferometry synthesises equal arms in post-processing; only then does the picometre budget fall on this bench's thermal stability."
+    },
+    {
+      "id": "solar_deck",
+      "label": "体装太阳翼甲板",
+      "detail": "GaAs 三结电池环直接铺在朝日顶甲板上 —— 无展开翼、无驱动轴。这不是省钱: 无拖曳平台容不下柔性模态与机构微振动, 全星唯一的活动件只有对地天线万向节。",
+      "range": 18,
+      "specs": {
+        "整星功率": "491 W",
+        "载荷功率": "254 W",
+        "电池需求面积": "1.52 m²",
+        "单星湿重": "977 kg"
+      },
+      "sim": "太阳光压直流 15.3 μN 定微推力器量程(≥25 μN); 光压涨落 7.9 pm/s²/√Hz 定无拖曳环抑制比(≥2.6e3)。质量-光压不动点两步收敛 975 kg。",
+      "physics": "光压加速度是加速度噪声指标的 5e6 倍 —— 检验质量能『自由落体』全靠星体实时躲开一切非引力: 星追着质量飞, 不是质量跟着星。",
+      "label_en": "Body-Mounted Solar Deck",
+      "detail_en": "Triple-junction GaAs cells tiled straight onto the sun-facing deck - no deployable wings, no drive. Not thrift: a drag-free platform cannot afford flexible modes or mechanism micro-vibration. The only moving part on board is the Earth-antenna gimbal.",
+      "specs_en": {
+        "Spacecraft power": "491 W",
+        "Payload power": "254 W",
+        "Cell area": "1.52 m^2",
+        "Wet mass": "977 kg"
+      },
+      "sim_en": "DC solar pressure 15.3 uN sizes thruster authority (>=25 uN); SRP fluctuation 7.9 pm/s^2/rtHz sets drag-free suppression (>=2.6e3). Mass-vs-SRP fixed point converges at 975 kg in two steps.",
+      "physics_en": "SRP acceleration is 5e6x the acceleration-noise spec - the test mass free-falls only because the craft actively dodges every non-gravitational force: the spacecraft chases the mass, not the other way round."
+    },
+    {
+      "id": "osr_radiator",
+      "label": "OSR 辐射器面",
+      "detail": "背日三面黑色光学太阳反射镜, 把 254 W 载荷废热泼向深空。热控指标收拢成一句话: 计量方向温度涨落 ≤2×10⁻⁴ K/√Hz@mHz —— 望远镜结构选 Zerodur 后热控不再是驱动项。",
+      "range": 18,
+      "specs": {
+        "载荷耗散": "~254 W",
+        "温度稳定性": "220 μK/√Hz",
+        "GRS 壳体温差": "10 μK/√Hz"
+      },
+      "sim": "材料判决(Zemax 热光程): 铝 0.19 μK/√Hz 不可行, SiC 2.0 困难, Zerodur 220 可行 —— 材料是 110× 的唯一杠杆, 热控补不回来。",
+      "physics": "dOPL/dT = CTE×光程。均匀温升下共焦条件自动保持, 只剩标量光程漂移直接进干涉相位 —— 所以整段计量结构必须同一种低膨胀材料。",
+      "label_en": "OSR Radiator Panels",
+      "detail_en": "Three black optical-solar-reflector faces on the anti-sun side dump 254 W of payload heat to deep space. The whole thermal spec collapses to one line: metering-path temperature ripple <= 2e-4 K/rtHz at mHz - with Zerodur, thermal control stops being the driving subsystem.",
+      "specs_en": {
+        "Payload dissipation": "~254 W",
+        "Temperature stability": "220 uK/rtHz",
+        "GRS housing gradient": "10 uK/rtHz"
+      },
+      "sim_en": "Zemax thermo-optical material verdict: aluminium 0.19 uK/rtHz (infeasible), SiC 2.0 (hard), Zerodur 220 (feasible) - material choice is the only 110x lever; thermal control cannot buy it back.",
+      "physics_en": "dOPL/dT = CTE x path. Under uniform soak the confocal condition is self-preserving; only scalar pathlength drift survives and feeds the interferometer phase - hence one low-expansion material for the whole metering chain."
+    },
+    {
+      "id": "thruster",
+      "label": "胶体微推力器组",
+      "detail": "3 组 ×120°, 每组两只电喷雾喷头。量程 25 μN、分辨率 0.1 μN —— 全任务 4.5 年总冲量只要 2942 N·s, 推进剂 1.9 kg(含 50% 裕度)。它们从不做机动, 只做一件事: 实时抵消太阳光压。",
+      "range": 18,
+      "specs": {
+        "类型": "胶体电喷",
+        "Isp": "240 s",
+        "量程": "≥25 μN",
+        "噪声": "≤0.1 μN/√Hz",
+        "推进剂": "1.9 kg"
+      },
+      "sim": "推力器自身噪声比光压涨落大 13 倍, 是无拖曳残余的主项 —— 05 号预算把无拖曳残余位移收紧到 0.3 nm/√Hz 正是被它逼的。",
+      "physics": "无拖曳控制环: 电容读出检验质量相对位置 → DFACS → 微推力器闭环, mHz 带内共模抑制 ≥2.6e3。",
+      "label_en": "Colloid Microthruster Pods",
+      "detail_en": "Three pods at 120 deg, two electrospray emitters each. 25 uN authority, 0.1 uN resolution - 4.5-year total impulse just 2942 N*s, 1.9 kg propellant incl. 50% reserve. They never manoeuvre; their one job is cancelling solar pressure in real time.",
+      "specs_en": {
+        "Type": "Colloid electrospray",
+        "Isp": "240 s",
+        "Authority": ">=25 uN",
+        "Noise": "<=0.1 uN/rtHz",
+        "Propellant": "1.9 kg"
+      },
+      "sim_en": "Thruster self-noise is 13x the SRP fluctuation - it dominates the drag-free residual and forced the 0.3 nm/rtHz allocation. DFACS loop model: tightest allowance 0.201 uN/rtHz at the 24 mHz transition-band valley - the spec's 2.0x margin is derived, not assumed.",
+      "physics_en": "Drag-free loop: test-mass relative-position readout -> DFACS -> microthrusters, closing with >=2.6e3 common-mode suppression in the mHz band."
+    },
+    {
+      "id": "mga",
+      "label": "对地中增益天线",
+      "detail": "Ø0.35 m X 频段碟形天线, 双轴万向节 —— 全星唯一会动的东西。星座拖尾地球 20°(0.35 AU), 科学数据经星上 TDI 预处理后下传。",
+      "range": 18,
+      "specs": {
+        "频段": "X",
+        "口径": "0.35 m",
+        "地距": "0.35 AU",
+        "拖尾角": "20°"
+      },
+      "sim": "拖尾角扫描: 0° 构型被地球摄动摧毁(臂长起伏 274%), 20° 收敛到 2.13%、多普勒 6.4 m/s —— 20° 是构型稳定性与测控距离的折中。",
+      "physics": "三星必须同半长轴(开普勒第三定律, 否则逐年拉开); 偏心率矢量与倾角矢量各转 120° 且 i=√3e, 三角形才恒等边 —— 60° 面倾角是解析涌现, 不是设计选择。",
+      "label_en": "Earth-Link Medium-Gain Antenna",
+      "detail_en": "0.35 m X-band dish on a two-axis gimbal - the only thing that moves on the spacecraft. The constellation trails Earth by 20 deg (0.35 AU); science data are TDI-preprocessed on board before downlink.",
+      "specs_en": {
+        "Band": "X",
+        "Aperture": "0.35 m",
+        "Earth range": "0.35 AU",
+        "Trailing angle": "20 deg"
+      },
+      "sim_en": "Trailing-angle scan: at 0 deg the formation is destroyed by Earth's perturbation (arm flexing 274%); at 20 deg it converges to 2.13% and 6.4 m/s Doppler - the compromise between formation stability and comm distance.",
+      "physics_en": "All three craft must share one semi-major axis (Kepler III or they drift apart); rotating eccentricity and inclination vectors by 120 deg with i = sqrt(3)e keeps the triangle equilateral - the 60 deg plane tilt emerges from the math, not from choice."
+    },
+    {
+      "id": "star_tracker",
+      "label": "星敏感器(底面避日)",
+      "detail": "两只星敏装在背日底面外倾 35°, 与顶面太阳敏感器一起给 DFACS 提供姿态基准。指向抖动指标 8 nrad/√Hz —— 是发射束衍射角的 1/210。",
+      "range": 18,
+      "specs": {
+        "指向抖动": "≤8 nrad/√Hz",
+        "TTL 耦合": "≤0.5 mm/rad",
+        "波束衍射角": "1.69 μrad"
+      },
+      "sim": "TTL 若退化到 2 mm/rad(无成像系统典型值), 单项 16 pm 吃掉全部 OMS 预算 —— 成像系统 + μm 级装配公差是硬需求。",
+      "physics": "倾斜-程长耦合: 波前倾斜×横向失配 = 视在程长。放大率 80× 是双刃剑 —— 把口径压到 5 mm 便于集成, 也把平台上 1 μm 失配放大成 80 μm/rad。",
+      "label_en": "Star Trackers (Anti-Sun Face)",
+      "detail_en": "Two star trackers canted 35 deg outward on the shaded bottom face, teamed with top-deck sun sensors to give DFACS its attitude reference. Pointing jitter spec 8 nrad/rtHz - 1/210 of the transmit beam's diffraction angle.",
+      "specs_en": {
+        "Pointing jitter": "<=8 nrad/rtHz",
+        "TTL coupling": "<=0.5 mm/rad",
+        "Beam diffraction angle": "1.69 urad"
+      },
+      "sim_en": "If TTL degrades to 2 mm/rad (typical without pupil imaging), that one term eats the 16 pm OMS budget - imaging optics plus micrometre alignment are hard requirements. Wave-optics run: true lever is M*eta*x0 with eta=0.586, so 6.25 um is conservative.",
+      "physics_en": "Tilt-to-length coupling: wavefront tilt x lateral offset masquerades as pathlength. The 80x magnification cuts both ways - 5 mm beam for integration, but 1 um of bench offset becomes 80 um/rad of TTL."
+    }
+  ]
+}

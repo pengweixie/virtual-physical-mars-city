@@ -1,0 +1,47 @@
+{
+  "id": "sci-rad-03",
+  "pois": [
+    {
+      "id": "cabin",
+      "label": "SiC 探测舱(剖切)",
+      "label_en": "SiC detector cabin (cutaway)",
+      "range": 8,
+      "detail": "与围界哨兵(sci-rad-02)同款探测叠层的室内瘦身版:慢化片 → ⁶LiF 30 µm 转换层 → 4H-SiC PiN 片 2×2(热道/快道)→ 铜读出板 → 前放。宽禁带 3.26 eV 盲可见光——玄关的常亮灯光对它是不存在的,所以剖面可以敞着给你看。",
+      "detail_en": "The indoor slim version of the perimeter sentinel's stack (sci-rad-02): moderator slab → 30 µm ⁶LiF converter → 2×2 4H-SiC PiN pads (thermal/fast channels) → copper readout → preamp. The 3.26 eV bandgap is visible-blind — the foyer's always-on lighting simply does not exist for it, which is why the cutaway can stay open for you to look at.",
+      "specs": { "SiC 片": "4×1 cm²,50 µm 外延 PiN(LGAD 同外延栈,免增益层)", "转换层": "⁶LiF 30 µm,效率 4.7%(峰值厚度)", "冷却/遮光": "均无需(账4:300 K 生成电流比 Si 低 ~18 个数量级)" },
+      "specs_en": { "SiC pads": "4×1 cm², 50 µm epi PiN (LGAD-lineage stack, gain implant omitted)", "Converter": "⁶LiF 30 µm, 4.7% efficiency (peak thickness)", "Cooling/light-tightening": "neither needed (account #4: generation current ~18 decades below Si at 300 K)" },
+      "sim": "器件账引 LGAD L2a TCAD:600 V 反向 IV 全程 1e-31 A/µm(漏电低到 BV 无法从 IV 读出);V_fd=116 V @5e13/50 µm,工作偏压 ~120 V。",
+      "sim_en": "Device account from LGAD L2a TCAD: reverse IV flat at 1e-31 A/µm to 600 V (leakage too low to even read breakdown off the IV); V_fd=116 V @5e13/50 µm, ~120 V operating bias.",
+      "physics": "⁶Li(n,α)t Q=4.78 MeV,产物在 SiC 里生成 ~26 万 e-h 对——信号比 MIP 大两个量级,PiN 无增益即可数脉冲;同一次 TCAD 战役的增益版(d17,M≈5)属于轨道上的 PAN 谱仪。",
+      "physics_en": "⁶Li(n,α)t, Q=4.78 MeV; the products make ~260k e-h pairs in SiC — two orders above a MIP, so a gainless PiN counts pulses cleanly; the gain variant from the same TCAD campaign (d17, M≈5) belongs to the orbital PAN spectrometer."
+    },
+    {
+      "id": "screen",
+      "label": "计数屏 · 30 m 岩之下",
+      "label_en": "Count display · under 30 m of rock",
+      "range": 8,
+      "detail": "这块屏偶尔才跳一下。玄关顶上 30 m 岩石(7800 g/cm²)等于 52 个强子衰减长度——地表的宇宙线强子成分在这里被杀绝,剩下能敲响它的几乎只有穿深极强的 µ 子和建材里的微量放射性。",
+      "detail_en": "This screen only blips once in a while. The 30 m of rock overhead (7800 g/cm²) is 52 hadronic attenuation lengths — the surface cosmic-ray hadrons are annihilated here, and about the only things left to ring it are deeply penetrating muons and trace radioactivity in the building materials.",
+      "specs": { "覆盖": "30 m 岩 = 7800 g/cm²", "µ 道": "×0.03 残余 → ~83 s 一跳(8 cm² 望远镜)", "屏显节奏": "~45 s(µ + 建材/环境 γ 合并计数)", "中子底": "radiogenic ~1e-5 n/cm²/s" },
+      "specs_en": { "Overburden": "30 m rock = 7800 g/cm²", "µ channel": "×0.03 residual → ~83 s per blip (8 cm² telescope)", "Display cadence": "~45 s (µ plus building-material/ambient γ combined)", "Neutron floor": "radiogenic ~1e-5 n/cm²/s" },
+      "sim": "三层深度衰减账(design_rounds 账3):地表 GCR 带电 ~0.05 /cm²/s → 30 m 岩后 µ ×0.03 → 8 cm² 叠层 ~1.2e-2 cps;GCR 中子 0.05 → radiogenic 底 1e-5 n/cm²/s(降 3.7 个数量级)。围界同款柱在地表跳 0.21 cps——差出来的就是头顶这层岩。",
+      "sim_en": "Depth-attenuation account (design_rounds #3): surface GCR charged ~0.05 /cm²/s → ×0.03 muon residual after 30 m → ~1.2e-2 cps on the 8 cm² stack; GCR neutrons 0.05 → radiogenic floor 1e-5 n/cm²/s (3.7 decades down). The identical column blips at 0.21 cps up at the fence — the difference is the rock overhead.",
+      "physics": "强子按 λ≈150 g/cm² 指数消失,µ 只能靠电离损失慢慢磨——所以浅地下的计数几乎全是 µ 子在说话。这也是居住区把自己埋进岩里的全部理由:GCR 剂量与这块屏一起被埋掉了。",
+      "physics_en": "Hadrons die exponentially with λ≈150 g/cm²; muons only grind down by ionization — so shallow-underground counts are almost entirely muons talking. Which is also the whole reason the habitat buried itself: the GCR dose was buried together with this screen."
+    },
+    {
+      "id": "net",
+      "label": "哨兵网中层 · 三层联动",
+      "label_en": "Mid tier of the sentinel net",
+      "range": 10,
+      "detail": "哨兵网的中间一层:围界柱(地表)每 ~5 s 一跳,这根柱 ~1 分钟偶尔一跳,深地那根(3000 m)几乎纹丝不动。三块同款屏,读数差出 5 个数量级——静默就是屏蔽账的活体证明。",
+      "detail_en": "The middle tier of the net: the fence column (surface) blips every ~5 s, this one blips maybe once a minute, and the deep-lab one (3000 m) barely moves at all. Three identical screens, five decades apart — the silence is the shielding budget, alive.",
+      "specs": { "上层": "sci-rad-02 围界 0.21 cps", "本层": "µ 道 ~83 s 一跳", "下层": "sci-rad-04 深地,月级一跳" },
+      "specs_en": { "Upper tier": "sci-rad-02 fence, 0.21 cps", "This tier": "µ channel, ~83 s per blip", "Lower tier": "sci-rad-04 deep lab, monthly-scale blips" },
+      "sim": "对表:地表→玄关中子降 ~3.7 个数量级(强子 e^-52 后剩 radiogenic 底),µ 降 ~30×;玄关→深地 µ 再压 ~3e4(至 ×1e-6,对表 sci-deeplab-01 竖井卡),中子再降 ~10× 到裸岩极限。",
+      "sim_en": "Cross-table: surface→foyer, neutrons drop ~3.7 decades (radiogenic floor after the e^-52 hadron kill) and muons ~30×; foyer→deep lab, muons fall another ~3e4 (to ×1e-6, matching the sci-deeplab-01 shaft card) and neutrons another ~10× to the bare-rock limit.",
+      "physics": "同一根柱子换三个深度,计数率就是深度-强度曲线本身:探测器不变,变的只有头顶的物质柱密度。",
+      "physics_en": "One column at three depths turns the count rate into the depth-intensity curve itself: the detector never changes, only the column density overhead does."
+    }
+  ]
+}

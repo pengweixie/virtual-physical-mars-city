@@ -1,4 +1,7 @@
 {
+  "name": "virtual-physical-mars-city",
+  "version": "0.2.0",
+  "private": true,
   "dependencies": {
     "three": "^0.172.0"
   }

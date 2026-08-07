@@ -11,6 +11,7 @@
 export const meta = {
   id: 'hab-clinic-01',
   name: '地下城医务室',
+  name_en: 'Undercity Clinic',
   size_m: 10,
   size_axis: 'width',
   effects: ['glow_windows'],

@@ -10,6 +10,7 @@
 export const meta = {
   id: 'ops-spaceport-01',
   name: '火箭发射回收站',
+  name_en: 'Launch & Recovery Pad',
   size_m: 120, size_axis: 'width',   // 场区长边;自检用,引擎不缩放
   effects: ['glow_windows', 'blink'],
 };

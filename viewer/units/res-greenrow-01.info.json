@@ -1,0 +1,61 @@
+{
+  "id": "res-greenrow-01",
+  "pois": [
+    {
+      "id": "tunnel",
+      "label": "薄膜隧道（25 kPa 作物舱）",
+      "label_en": "Film tunnel (25 kPa crop bay)",
+      "range": 22,
+      "detail": "四条 18 m 薄膜隧道,是穹顶温室的「产能版」:人不常驻,压力砍到 25 kPa 富 CO₂——作物不在乎低压,只在乎 CO₂ 分压和水。压力减半,膜的环向张力、泄漏率、锚固负荷全部跟着减半。进出走东端服务舱门,日常作业由机械臂和轨道喷灌完成。",
+      "detail_en": "Four 18 m film tunnels - the production version of the showcase dome: rarely occupied, so pressure drops to 25 kPa of CO2-rich air. Crops do not mind low pressure; they care about CO2 partial pressure and water. Halving the pressure halves hoop tension, leak rate, and anchor load together. Entry is through the east service door; daily work belongs to rail sprayers and arms.",
+      "specs": { "内压": "25 kPa 富 CO₂（穹顶 55 kPa）", "膜张力": "P·R ≈ 69 kN/m", "进出": "东端服务舱门(非日常)" },
+      "specs_en": { "Pressure": "25 kPa CO2-rich (dome runs 55)", "Hoop tension": "P*R ~ 69 kN/m", "Access": "east service door, non-routine" },
+      "sim": "结构账:25 kPa × 2.75 m 半径 → 膜环向张力 69 kN/m,叠层膜 ~1.5 mm 够用;若按穹顶的 55 kPa 建,膜厚、压载、锚固全部翻倍。「人不进去」这一个决定,把每平米种植面的结构质量砍了一半。",
+      "sim_en": "Structural ledger: 25 kPa at 2.75 m radius gives 69 kN/m of hoop tension - a ~1.5 mm laminate suffices. Built at the dome's 55 kPa, film, ballast, and anchors all double. The single decision that humans stay out cuts structural mass per growing square metre in half.",
+      "physics": "生物的压力需求分层:人要 ~50 kPa 以上和氧分压,植物只要 ~10 kPa 以上加足量 CO₂ 与水汽。把「人的建筑」和「作物的建筑」分开造,是火星农业的第一条工程学。",
+      "physics_en": "Pressure requirements are tiered: humans need ~50 kPa and oxygen partial pressure, plants manage above ~10 kPa given CO2 and humidity. Building for crops separately from building for people is the first engineering rule of Martian agriculture."
+    },
+    {
+      "id": "grow",
+      "label": "LED 补光（为什么是粉紫色）",
+      "label_en": "Grow LEDs (why the pink glow)",
+      "range": 16,
+      "detail": "每条隧道拱内两条补光带,夜里把整排膜点成粉紫色——城里第二亮的夜景,和穹顶的暖光灯笼相映。粉紫不是审美:LED 只发红蓝双峰,正对叶绿素的两个吸收峰;绿色被叶子反射掉,所以省掉不发。",
+      "detail_en": "Two light bars ride each tunnel's crown, washing the whole row pink after dark - the city's second night-glow after the dome's warm lantern. The pink is not aesthetic: the LEDs emit only red and blue peaks, matched to chlorophyll's two absorption bands; green would just bounce off the leaves, so it is simply not emitted.",
+      "specs": { "光谱": "红 660 nm + 蓝 450 nm 双峰", "角色": "尘暴季主力,晴日补充", "夜景": "全城第二亮体" },
+      "specs_en": { "Spectrum": "red 660 nm + blue 450 nm", "Role": "storm-season mainstay, clear-day trim", "Night": "the city's second glow" },
+      "sim": "光账(与穹顶同一本):Jezero 晴日 ~3.0 kWh/m²/日,尘暴 τ>3 时直射 <25%——补光负荷早写进电网账。双峰 LED 把「电→可用光合光子」的转换效率比全谱白光提高约三成,尘暴季这三成就是产量。",
+      "sim_en": "Light ledger (same book as the dome): clear Jezero days deliver ~3.0 kWh/m2, and dust storms at tau > 3 cut direct sun below 25% - the LED load is pre-booked on the grid. Dual-peak LEDs convert electricity to usable photosynthetic photons ~30% better than white light, and in storm season that 30% is the harvest.",
+      "physics": "植物是光谱挑食者:光合作用记的是光子数不是能量数,且只认叶绿素吸收带里的光子。给植物「人眼舒服的白光」是浪费——粉紫色是按收据付款的颜色。",
+      "physics_en": "Plants are spectral picky eaters: photosynthesis counts photons, not joules, and only photons inside the chlorophyll bands. White light comfortable to human eyes is waste - pink is the color of paying exactly what the receipt says."
+    },
+    {
+      "id": "header",
+      "label": "集水总管（Rodwell 水线支路）",
+      "label_en": "Water header (Rodwell branch line)",
+      "range": 14,
+      "detail": "西端一条蓝色总管带四个支阀,一管分四路进隧道——上游顺着城里的架空水线(pipe-h2o)接 Rodwell 井,与穹顶温室同一条母管。泵撬把压力顶到滴灌需要的 3 bar。",
+      "detail_en": "A blue header with four branch valves runs the west end, feeding all tunnels from one pipe - upstream it follows the city's elevated water rack (pipe-h2o) back to the Rodwell well, the same main that serves the dome. The pump skid lifts pressure to the 3 bar drip irrigation wants.",
+      "specs": { "水源": "Rodwell 井(pipe-h2o 下游)", "配水": "1 总管 → 4 支阀", "压力": "3 bar 滴灌" },
+      "specs_en": { "Source": "Rodwell well via pipe-h2o", "Distribution": "one header, four branch valves", "Pressure": "3 bar drip" },
+      "sim": "水账:四条隧道苗床 ~170 m²,净耗 0.6 L/m²/日 ≈ 100 L/日;加上穹顶的 190 L/日,整个农业口不到 300 L/日——对 669 sol 井寿命的日采能力仍是零头。膜内冷凝回收在这里同样成立:隧道是更小号的被动蒸馏器。",
+      "sim_en": "Water ledger: ~170 m2 of beds across four tunnels net ~100 L/day; with the dome's 190 that puts all of agriculture under 300 L/day - still small change against the 669-sol well's daily draw. Skin condensation recovery works here too: each tunnel is a smaller passive still.",
+      "physics": "农业水在闭环里几乎不「消耗」,只循环:蒸腾→膜面冷凝→回槽。真正离场的水只有两笔——收成里的含水,和膜的渗漏。管径按后者的补给算,不按蒸腾算。",
+      "physics_en": "In a closed loop, agricultural water barely gets consumed - it circulates: transpiration, skin condensation, gutter return. Only two entries ever leave the books: water inside the harvest, and film leakage. The pipe is sized for those, not for transpiration."
+    },
+    {
+      "id": "shed",
+      "label": "设备棚（村子的餐桌账）",
+      "label_en": "Equipment shed (the village dinner-table ledger)",
+      "range": 12,
+      "detail": "东端设备棚:配电、营养液罐 ×2、控制柜。这排隧道和掩土村是同一期工程——28~32 床位落成,鲜食供应就得跟上。生产排 + 穹顶合计 ~490 m² 种植面,是全城鲜食蔬果的主力。",
+      "detail_en": "The east-end shed holds power distribution, two nutrient tanks, and controls. This row and the earth-sheltered village are one construction phase: 28-32 berths landing meant fresh food had to follow. Row plus dome total ~490 m2 of beds - the city's fresh-produce mainstay.",
+      "specs": { "种植面": "排 170 m² + 穹顶 320 m²", "定位": "鲜食蔬果主力(主粮仍靠进口)", "配套": "营养液 ×2 + 控制柜" },
+      "specs_en": { "Beds": "170 m2 here + 320 m2 dome", "Role": "fresh produce mainstay (staples still imported)", "Kit": "2 nutrient tanks + controls" },
+      "sim": "餐桌账:全卡路里自给约需 40~50 m²/人——490 m² 只够 10~12 人全口粮,但按「鲜食蔬果配额」记账可以覆盖全城常驻人口。所以策略是:热量密度高的主粮走集装箱进口,新鲜度贵的蔬果本地种——质量账和口味账各记各的。",
+      "sim_en": "Dinner-table ledger: full caloric self-sufficiency runs 40-50 m2 per person - 490 m2 feeds only 10-12 outright, yet covers the whole resident population's fresh-produce ration. Hence the strategy: calorie-dense staples arrive by container, freshness-priced produce grows locally - the mass ledger and the taste ledger are kept separately.",
+      "physics": "运输农业的分界线是「单位质量的保质期」:干粮 26 个月航程无损,叶菜 26 天都撑不住。火星农业最先本地化的永远是最不耐运的部分——这排隧道种的就是集装箱运不了的东西。",
+      "physics_en": "The dividing line in transported agriculture is shelf life per kilogram: dry staples survive the 26-month pipeline untouched, leafy greens cannot survive 26 days. Martian farming localizes the least shippable goods first - these tunnels grow exactly what a container cannot carry."
+    }
+  ]
+}

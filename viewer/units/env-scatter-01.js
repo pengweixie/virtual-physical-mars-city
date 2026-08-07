@@ -7,6 +7,7 @@
 export const meta = {
   id: 'env-scatter-01',
   name: '荒野散件包',
+  name_en: 'Wilderness Prop Pack',
   kind: 'scatter',
 };
 

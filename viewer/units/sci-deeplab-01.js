@@ -8,6 +8,7 @@
 export const meta = {
   id: 'sci-deeplab-01',
   name: '深地暗物质实验室（100t 液氙）',
+  name_en: 'Deep Underground Dark-Matter Lab (100 t LXe)',
   kind: 'interior',
   size_m: 32,          // 实测包围盒最大边（洞室 32×30×32；1 单位 = 1 米）
   size_axis: 'width',

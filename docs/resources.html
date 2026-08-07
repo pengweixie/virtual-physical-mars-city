@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resources — Virtual-Physical Mars City</title>
+<meta name="description" content="Ice well, Sabatier propellant plant, seeing regolith mine and greenhouse dome — the district that turns Mars into supplies.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--green);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .chain{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;font-family:var(--f-mono);
+    font-size:.78rem;letter-spacing:.04em;}
+  .chain span{border:1px solid var(--line-strong);border-radius:8px;padding:8px 12px;background:var(--bg-3);}
+  .chain b{color:var(--accent);font-weight:600;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="detectors.html">← Prev</a>
+    <a href="compute.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">res-rodwell-01 · res-isru-01 · res-mine-01 · ops-printer-01 · res-dome-01</div>
+    <h1>Resources</h1>
+    <p class="phead__sub">Four plants that turn Mars itself into supplies: water melted out of
+      frozen ground, methane and oxygen made from the sky, regolith dug by a robot that navigates
+      with a camera designed down to the pixel, and food grown under a printed-ring dome.
+      The flagship number: one Mars year of well life, bought with 15 kilowatts.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Well life @ 15 kWe</div><div class="spec__v">&gt;669<small>sol</small></div></div>
+    <div class="spec"><div class="spec__k">CH₄ production</div><div class="spec__v">0.55<small>kg/h · 480 sol</small></div></div>
+    <div class="spec"><div class="spec__k">Dome uplift held</div><div class="spec__v">29<small>MN</small></div></div>
+    <div class="spec"><div class="spec__k">Robot vision</div><div class="spec__v">64×64<small>@ 5 Hz CIS</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">A supply chain with no supply ships: every input comes out of the planet,
+      and every output feeds another district.</p>
+    <div class="prose">
+      <p>The Rodwell ice well melts a cavity in the subsurface ice sheet and pumps up
+        <strong>380 L per sol</strong> of drinking and process water. The Sabatier plant takes that
+        water plus atmospheric CO₂ and turns them into <strong>rocket propellant</strong> — the
+        LOX/LCH₄ that fills the ascent vehicle across the launch plaza. The mine feeds sinter
+        feedstock to the regolith printer that built the greenhouse dome's foundation ring, and
+        the dome grows the leafy greens for the crew that runs it all. Each arrow below is a real
+        pipe, belt or tank in the city model.</p>
+      <div class="chain">
+        <span>ice sheet → <b>rodwell</b> → water</span>
+        <span>water + CO₂ → <b>isru</b> → LOX / LCH₄</span>
+        <span>regolith → <b>mine</b> → sinter feed</span>
+        <span>sinter feed → <b>printer</b> → ring + walls</span>
+        <span>printed ring + water → <b>dome</b> → food</span>
+      </div>
+    </div>
+    <figure class="figure">
+      <img src="assets/resources/isru.jpg" alt="The Sabatier ISRU plant in the city, with the Rodwell well and the mine on the horizon" loading="lazy">
+      <figcaption>THE DISTRICT IN ONE FRAME — ISRU PLANT CENTER (0.55 KG/H CH₄), RODWELL FAR LEFT, MINE LOWER RIGHT</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">Geometry first: every mechanism that matters is modeled, and the cutaways
+      face the camera.</p>
+    <div class="prose">
+      <p><strong>The propellant loop.</strong> Mars air is 95% CO₂ but only ~600 Pa — density
+        0.015 kg/m³, so feeding the reactor 1.5 kg/h means swallowing <span class="hl">~100 m³ of
+        atmosphere every hour</span> through two dust-filter banks and a two-stage scroll
+        compressor. In the reactor column, CO₂ + 4H₂ → CH₄ + 2H₂O over two Ru/Al₂O₃ beds
+        (ΔH ≈ −165 kJ/mol — the interbed cooling coil exists because the reaction would otherwise
+        sinter its own catalyst). Product water is condensed and electrolyzed in a 13-plate PEM
+        stack; the hydrogen goes back to the reactor, the oxygen is the other half of the
+        propellant. Hydrogen circulates — the plant's net inputs are only water and sky.</p>
+      <p><strong>Zero-boil-off storage.</strong> The three 4 m spheres are vacuum-jacketed with a
+        gold MLI inner vessel; a reverse-turbo-Brayton cold head on each tank cancels heat leak
+        outright, because during 480 unattended sols any boil-off is production thrown away. Their
+        waste heat leaves by radiation only — 23 m² of black panels rejecting ~12 kW against a
+        need of ~9, since convection is not on the menu at 600 Pa.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/resources/isru-cutaway.jpg" alt="Reactor column cutaway showing two catalyst beds and the MLI tank" loading="lazy">
+        <figcaption>REACTOR CUTAWAY — TWO RU/AL₂O₃ BEDS, −165 KJ/MOL EXOTHERM; GOLD MLI VESSEL BEHIND</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/resources/isru-electrolysis.jpg" alt="Electrolysis skid cutaway with the 13-plate PEM stack visible" loading="lazy">
+        <figcaption>PEM SKID CUTAWAY — 13 BIPOLAR PLATES, 0.32 KG/H H₂ RETURNED TO THE REACTOR</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
+      <p><strong>The well that ages.</strong> The Rodwell is not a static source: every 380 L
+        drawn grows the melt cavity by 0.41 m³, the wall area grows with it, and conduction losses
+        rise until the heater can no longer hold the melt. A Stefan moving-boundary model showed
+        the 15 kWe design point survives <span class="hl">a full Mars year (669 sol)</span> while
+        12 kWe dies at ~450 — power buys lifetime, not flow rate. A twin 13 m³ tank bank banks
+        60 sols of global-dust-storm water with 14% margin.</p>
+      <p><strong>The mine that sees.</strong> The RASSOR-class digger navigates by an onboard
+        64×64 CIS camera at 5 Hz — not a game sprite but a designed sensor: QE 0.60 (BSI,
+        FDTD-verified), 17,880 e⁻ full well, 1.76 e⁻ read noise, fed through a full
+        photon-to-DN noise model before the obstacle logic ever sees a pixel. Its motion curves
+        are baked from MuJoCo dynamics under 3.71 m/s² gravity, drum cutting loads included.</p>
+      <p><strong>The printer that knows its limit.</strong> A 12 m portal gantry drives an
+        auger-extrusion head that lays sulfur-bonded regolith at up to <span class="hl">4.8 L/s</span> —
+        concrete that cures by cooling in minutes, not by hydration in hours, which is the whole
+        reason sulfur wins on a waterless planet. The half-built dome on its pad is printed to the
+        material's honest limit: at 6 m height the shell leans 42° and each 160 mm layer overlaps
+        the one below by only 29%, so the rim steps back in short spiral arcs and waits for a
+        prefab cap. The precision budget is counter-intuitive: the beam sags just 0.4 mm under
+        full load but breathes <strong>11.5 mm</strong> across an 80 K Martian day — the gantry's
+        real enemy is thermal drift, handled by a floating bearing and position feedback, not by
+        more steel.</p>
+      <p><strong>The dome that pushes up.</strong> 55 kPa inside a ⌀26 m ETFE membrane is a
+        29 MN uplift — three thousand tonnes trying to leave the planet. That is why the printed
+        regolith foundation ring outweighs the dome it anchors: ballast plus ground anchors must
+        beat uplift by 1.5×, and at 0.38 g weight alone doesn't get there.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/resources/rodwell.jpg" alt="Rodwell ice well rig with drill tower, insulated water line and storage tanks" loading="lazy">
+        <figcaption>RES-RODWELL-01 — 15 KWE HOLDS THE MELT CAVITY FOR &gt;669 SOL</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/resources/mine.jpg" alt="Aerial view of the terraced regolith mine with the crusher tower" loading="lazy">
+        <figcaption>RES-MINE-01 — 50×35 M TERRACED PIT; ROBOT LONG-RUN: 3 CYCLES, MIN CLEARANCE 2.4 M</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/resources/cis-qe.jpg" alt="FDTD quantum-efficiency curves comparing FSI and BSI pixel stacks" loading="lazy">
+      <figcaption>THE ROBOT'S EYE IS A DESIGNED DEVICE — FDTD QE: BSI 0.60 VS FSI, 5 µM PIXEL, SIN AR COAT</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/resources/printer.jpg" alt="Gantry printer site with the half-finished printed dome, feed hopper and enclosed conveyor" loading="lazy">
+        <figcaption>OPS-PRINTER-01 — 12 M GANTRY; THE DOME STOPS AT ITS 29% OVERLAP LIMIT, RIM STEPPED IN SPIRAL ARCS</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/resources/printhead.jpg" alt="Cutaway of the print head showing the auger screw, slurry column and heater rings" loading="lazy">
+        <figcaption>PRINT HEAD CUTAWAY — AUGER, SLURRY COLUMN, HEATER RINGS HOLDING THE 130–140 °C SULFUR WINDOW</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
+    <p class="lead">Every number above, and which run produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>CH₄ rate to fill the MAV in 480 sol</td><td class="num">0.55 kg/h</td><td class="src">mars/EQUIPMENT.md §1 sizing chain</td></tr>
+        <tr><td>Atmosphere swallowed for 1.5 kg/h CO₂</td><td class="num">~100 m³/h</td><td class="src">res-isru-01 info.json · ρ=pM/RT check</td></tr>
+        <tr><td>Electrolysis power (stack / with BOP)</td><td class="num">18 / ~25 kWe</td><td class="src">mars/EQUIPMENT.md §7 power balance</td></tr>
+        <tr><td>Cryo radiator closure</td><td class="num">12 ≥ 9 kW</td><td class="src">res-isru-01 info.json · Stefan–Boltzmann account</td></tr>
+        <tr><td>Tank farm vs one MAV load</td><td class="num">100 vs 35.6 m³</td><td class="src">res-isru-01 info.json · volume account</td></tr>
+        <tr><td>Well life at 15 kWe / at 12 kWe</td><td class="num">&gt;669 / ~450 sol</td><td class="src">TS-01 R1 Stefan moving-boundary model</td></tr>
+        <tr><td>Dust-storm water bank endurance</td><td class="num">700 sol, 0 outage</td><td class="src">TS-01 R1 pressure envelope (twin 13 m³)</td></tr>
+        <tr><td>Dome pressure uplift</td><td class="num">29 MN</td><td class="src">res-dome-01 info.json · pressure-vessel account</td></tr>
+        <tr><td>Foundation ballast requirement</td><td class="num">1.5× ≈ 44 kt</td><td class="src">res-dome-01 info.json · ballast account</td></tr>
+        <tr><td>CIS camera QE / full well / read noise</td><td class="num">0.60 / 17,880 e⁻ / 1.76 e⁻</td><td class="src">CIS device campaigns (TCAD + FDTD)</td></tr>
+        <tr><td>Digger motion under Mars gravity</td><td class="num">3.71 m/s² baked</td><td class="src">MuJoCo dynamics bake · res-mine-01</td></tr>
+        <tr><td>Vision-autonomy long run</td><td class="num">150 s · 3 cycles · 2.4 m</td><td class="src">engine sensor-channel test, mars/STATUS.md</td></tr>
+        <tr><td>Hot-pixel failure cliff</td><td class="num">~12%</td><td class="src">sensor-defect joint experiment · res-mine-01</td></tr>
+        <tr><td>Print flow at full traverse</td><td class="num">4.8 L/s</td><td class="src">models/ops-printer-01/info.json · flow account</td></tr>
+        <tr><td>Dome layer overlap at 6 m height</td><td class="num">29% (limit)</td><td class="src">ops-printer-01 overhang account · r(y) profile</td></tr>
+        <tr><td>Gantry beam sag vs thermal drift</td><td class="num">0.4 / 11.5 mm</td><td class="src">ops-printer-01 stiffness + ΔT 80 K account</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">The honest ledger: wrong by 10×, wrong by 75%, and a cutaway that showed
+      a blank plate.</p>
+    <div class="prose">
+      <p><strong>The lost order of magnitude.</strong> Design basis v1 said the CO₂ intake
+        swallows 1,100 m³/h. Writing the knowledge card forced the closure check —
+        ρ = pM/RT = 0.015 kg/m³ gives <span class="hl">100 m³/h</span>. The number had sat wrong
+        in EQUIPMENT.md until the rule "no number without a ledger anchor" caught it. That rule
+        is why section 03 exists.</p>
+      <p><strong>The optimistic well.</strong> The first well-life estimate used a quasi-steady
+        heat balance and came out ~75% too generous. The Stefan moving-boundary redo showed the
+        cavity's growing wall area steadily eats the heater budget: 12 kWe dies at ~450 sol.
+        The design point moved to 15 kWe, and a second well site (WELL-2, 15.1 m spacing against
+        cavity merge) went into the model as a consequence.</p>
+      <p><strong>Dropped into the radiator field.</strong> The ISRU plant's first placement put
+        it inside the footprint of the power district's 429 m radiator array — coordinates picked
+        blind, geometry clipping straight through the panels. It moved 115 m north; the incident
+        is one reason the city now runs a SAT-based layout audit on every manifest change.</p>
+      <p><strong>Cutaways that showed nothing.</strong> First pass, the PEM stack was stacked
+        along the viewing axis — the cutaway proudly displayed a blank end plate. Rotated 90°,
+        the 13-plate zebra stripes read instantly. Same lesson twice: the radiator bank was first
+        placed behind the 4 m tank spheres and was invisible from the presentation view; it now
+        stands on the platform's open edge.</p>
+      <p><strong>The conveyor that vanished.</strong> In the printer build, the feedstock
+        conveyor was first routed almost exactly along the isometric camera axis — present in
+        the geometry, invisible on screen. It took a screenshot diff to notice a major mechanism
+        was simply not readable, and the whole feed line was rerouted to cross the view. The same
+        build's camera auto-fit framed the site off-center for two rounds: the group bounding
+        box's phantom corners (tall gantry × wide pad, nothing actually there) inflated the frame
+        until the fit was redone against every mesh individually. And one romantic idea died by
+        division: "the site loader can feed the printer" lasted until 38 t/h ÷ 0.44 t per trip
+        returned <span class="hl">86 trips an hour</span> — the mine's haulers do bulk delivery,
+        the loader keeps its dignity doing cleanup.</p>
+      <p><strong>The hot-pixel cliff.</strong> The defect-injection experiment on the mine
+        robot's camera found dead pixels degrade the obstacle logic linearly — but hot pixels hit
+        a cliff near 12%: they drag the auto-exposure down until real terrain falls below
+        threshold and the robot sees phantom obstacles everywhere. A sensor spec became a
+        mission-safety number.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
+    <p class="lead">The district is walkable in the city viewer.</p>
+    <div class="prose">
+      <p>Run the viewer locally (repo README), enable the colony layer, and walk the resource
+        quarter north of the radiator field. Deep link:
+        <span class="src">viewer/?colony=1&amp;x=40&amp;z=5&amp;y=12&amp;yaw=3.14&amp;fly=1</span></p>
+      <p>Worth doing: walk within 25 m of the Sabatier reactor and the knowledge cards pop with
+        the same numbers as section 03; press <strong>V</strong> near any asset to orbit it —
+        the reactor, tank and compressor cutaways all face the default view; find the digger at
+        the mine and watch it run its MuJoCo-baked dig-haul-dump cycle on camera vision alone.
+        At the print site (<span class="src">?inspect=ops-printer-01</span>), look for the fresh
+        bead under the nozzle — it marks exactly where the spiral rim stopped printing.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">mars/EQUIPMENT.md</span> ·
+      Knowledge cards: <span class="src">models/res-isru-01/info.json</span>,
+      <span class="src">viewer/units/res-rodwell-01.info.json</span>,
+      <span class="src">viewer/units/res-mine-01.info.json</span>,
+      <span class="src">viewer/units/res-dome-01.info.json</span>,
+      <span class="src">models/ops-printer-01/info.json</span> ·
+      City assets: <span class="src">models/res-isru-01/model.glb</span>,
+      <span class="src">models/ops-printer-01/model.glb</span>,
+      <span class="src">viewer/units/res-*.js</span> ·
+      Printer asset build: <span class="src">mars-3d-soil/scene.js</span> ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const q=new URLSearchParams(location.search).get('theme');
+  if(q)document.documentElement.setAttribute('data-theme',q);
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

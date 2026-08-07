@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chip Fab — Virtual-Physical Mars City</title>
+<meta name="description" content="An undercity cleanroom running three fab lines — sky130 digital, 65 nm analog, and double-angle Josephson junctions — with every headline number traced to a real run.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--rust);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .flow{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;max-width:var(--textw);
+    font-family:var(--f-mono);font-size:.74rem;letter-spacing:.04em;}
+  .flow span{border:1px solid var(--line-strong);border-radius:999px;padding:5px 12px;color:var(--ink-dim);}
+  .flow span.on{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 60%,transparent);}
+  .lines{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px;}
+  @media(max-width:820px){.lines{grid-template-columns:1fr;}}
+  .line-card{border:1px solid var(--line);border-radius:14px;padding:20px 22px;background:var(--bg-3);}
+  .line-card h3{font-size:1.05rem;margin-bottom:6px;}
+  .line-card .tag{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;}
+  .line-card p{color:var(--ink-dim);font-size:.92rem;margin:.6rem 0 0;}
+  .line-card ul{margin:.7rem 0 0;padding-left:1.1rem;color:var(--ink-dim);font-size:.88rem;}
+  .line-card li{margin:.3rem 0;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="quantum.html">← Prev</a>
+    <a href="undercity.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">ops-fab-01 · yellow bay / white bay · three lines</div>
+    <h1>Chip Fab</h1>
+    <p class="phead__sub">A cleanroom carved into undercity bedrock, running three fab lines whose
+      customers are all in town: a sky130 inference ASIC for the compute center, a 65 nm SPAD
+      readout chip for the sensor network, and double-angle Josephson junctions for the quantum
+      center. One hero wafer walks the whole flow every 104 seconds — and every light that
+      touches it is phase-locked to a number in the ledger below.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Analog DRC</div><div class="spec__v">29 <small>rounds → 0</small></div></div>
+    <div class="spec"><div class="spec__k">JJ yield @ 0.5% spread</div><div class="spec__v">99.6<small>%</small></div></div>
+    <div class="spec"><div class="spec__k">130 nm imaging</div><div class="spec__v">k₁ 0.33 <small>annular</small></div></div>
+    <div class="spec"><div class="spec__k">Wafer loop</div><div class="spec__v">104 <small>s / lap</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">A yellow-bay / white-bay cleanroom under HEPA laminar downflow, sited in
+      bedrock where dust storms and vibration cannot reach a litho stage.</p>
+    <div class="prose">
+      <p>The amber partition fences off the yellow bay — photoresist is blind above 450 nm, so
+      coat track, stepper and the ion implanter (resist <em>is</em> the implant mask) live under
+      yellow light. The white bay holds RIE etch, the double-angle evaporator, the α-Ta sputter
+      tool, a wet bench and CD-SEM metrology; probe, dicing and wire bonding sit in the test
+      corner. Siting is a ledger item, not a mood: surface dust storms raise particle counts a
+      thousandfold, while the cavern gives constant temperature and zero wind vibration.</p>
+      <p>The downflow itself is a number. At 0.35 m/s the piston flow sweeps the full 5.7 m room
+      height in <strong>16 seconds</strong>; a 0.5 µm particle left to settle under Mars gravity
+      would need <strong>11.5 days</strong>. A factor of <span class="hl">~61,000</span> —
+      cleanliness comes from the flow field, not from falling.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/fab/hero-overview.jpg" alt="Cleanroom overview: yellow bay left, white bay right, wafer map screen on the far wall" loading="lazy">
+      <figcaption>THE HALL — YELLOW BAY LEFT, WAFER-MAP WALL AHEAD, DOWNFLOW SWEEP = 16 S</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>One wafer, end to end</h2></div>
+    <p class="lead">A 104-second choreography, written as a pure function of time — jump in at
+      any moment and the state is self-consistent.</p>
+    <div class="flow">
+      <span>AGV dock</span><span class="on">load port</span><span>spin coat</span>
+      <span class="on">rail robot</span><span>expose</span><span>develop</span>
+      <span class="on">AGV crossing</span><span>RIE etch</span><span class="on">probe</span>
+      <span>dice</span><span>home</span>
+    </div>
+    <div class="prose">
+      <p>An AGV carries the hero wafer (cyan edge ring) from its charging dock to the coat
+      track; a SCARA rail robot hands it between track and stepper; the AGV then crosses the fab
+      to the RIE — whose chamber door swings open for it — then serves probe station and dicing
+      saw before returning empty. Causality is enforced, not decorated: <strong>the exposure beam
+      fires only while the wafer sits on the stage, the plasma ignites only after the chamber
+      door seals, and the wafer map repaints die by die only while the probes are down.</strong>
+      After each exposure a reticle handler swaps in the next layer's mask; every 11th lap is a
+      reject lot whose edge ring turns red at the probe verdict.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/fab/rie-cycle.gif" alt="RIE sequence: door swings open, wafer enters, door seals, plasma ignites, wafer exits" loading="lazy">
+        <figcaption>RIE BEAT — DOOR OPENS, WAFER IN, DOOR SEALS, PLASMA ON. 12 S OF A 104 S LAP</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/diemap.jpg" alt="Wafer map wall screen repainting die by die during probe" loading="lazy">
+        <figcaption>WAFER MAP: 37 DIES, 4 REJECTS → Y = 89.2% → D₀ = 6.4 /CM²</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>Three lines, three customers</h2></div>
+    <p class="lead">Every product of this fab ships to another district of the same city — the
+      supply chain closes inside the map.</p>
+    <div class="lines">
+      <div class="line-card" style="--accent:var(--cyan);">
+        <div class="tag" style="color:var(--cyan);">digital · sky130</div>
+        <h3>MB-1 inference ASIC</h3>
+        <p>A character-level bigram language model in silicon, RTL→GDS on an open toolchain,
+        racked in the compute center.</p>
+        <ul>
+          <li>Dual-simulator lockstep, bit-exact over <strong>1,134,185 ns</strong></li>
+          <li>FPGA prototype timing MET, WNS <strong>+3.29 ns</strong></li>
+          <li>4 SRAM macros = 64% of a 1.79 mm² die; <strong>26.3 MB</strong> final GDS</li>
+        </ul>
+      </div>
+      <div class="line-card" style="--accent:var(--amber);">
+        <div class="tag" style="color:var(--amber);">analog · 65 nm</div>
+        <h3>SPAD readout chip</h3>
+        <p>Pixel front-ends and array mux for the city's single-photon sensors — the heaviest
+        verification ledger on any line.</p>
+        <ul>
+          <li>DRC <strong>~29 rounds</strong>; worst block cleaned 51 → 0 violations</li>
+          <li>LVS <strong>11× CORRECT</strong>, 3 parasitic extractions, 4 post-layout sims</li>
+          <li>Post-layout: 3/3 photons captured; 40 Monte-Carlo trip points</li>
+        </ul>
+      </div>
+      <div class="line-card" style="--accent:var(--violet);">
+        <div class="tag" style="color:var(--violet);">superconducting · Al/AlOx/Al</div>
+        <h3>QP-20 Josephson junctions</h3>
+        <p>Dolan double-angle evaporation for the quantum center's 20-qubit chip — the stage in
+        the scene rocks to the real ±28.6°.</p>
+        <ul>
+          <li>Frequency-collision MC: <strong>99.6%</strong> yield at σ<sub>EJ</sub> = 0.5%; collapse at 1%</li>
+          <li>Shadow geometry: 123 nm overlap, <strong>9.2%/deg</strong> tilt sensitivity → trim is mandatory</li>
+          <li>311 airbridges; 87 bond pads pass a dedicated bonding DRC</li>
+        </ul>
+      </div>
+    </div>
+    <figure class="figure">
+      <img src="assets/fab/evap-tilt.jpg" alt="Open-chamber double-angle evaporator with tilted stage and crucibles" loading="lazy">
+      <figcaption>THE EVAPORATOR, MID-TILT — 250 NM BRIDGE STANDOFF → 137 NM SHADOW SHIFT → 123 NM JUNCTION</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>The physics behind the tools</h2></div>
+    <p class="lead">Where a card claimed a mechanism, we ran the calculation. Two rounds:
+      a partially-coherent imaging study for the stepper, and four design calcs for the rest.</p>
+    <div class="prose">
+      <p><strong>Printing 130 nm is not free.</strong> The Abbe simulation says i-line 365 nm
+      passes <em>zero</em> diffraction orders at 130 nm dense pitch (cutoff 358 nm — contrast is
+      exactly 0), and even KrF 248 nm with conventional illumination manages only 0.15 contrast
+      at k₁ = 0.33. What rescues the node is annular off-axis illumination: two-beam imaging at
+      contrast <span class="hl">0.40</span>, NILS 1.25, with aerial depth-of-focus pushed beyond
+      ±2 µm. "i-line for non-critical layers, KrF plus off-axis for critical ones" is diffraction
+      physics, not a cost choice.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/fab/fig1_contrast_vs_cd.png" alt="Aerial image contrast and NILS versus CD for i-line, KrF conventional and KrF annular" loading="lazy">
+        <figcaption>CONTRAST &amp; NILS VS CD — I-LINE DIES BELOW 179 NM; ANNULAR CARRIES 130 NM</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/fig2_aerial_130nm.png" alt="Aerial intensity profiles at 130 nm dense pitch" loading="lazy">
+        <figcaption>130 NM AERIAL IMAGES — CONVENTIONAL 0.15 VS ANNULAR 0.40; I-LINE IS A FLAT LINE</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
+      <p><strong>Round two imaged the actual chip.</strong> A 6% attenuated phase-shift mask
+      lifts NILS from 1.25 to <span class="hl">1.69</span> and exposure latitude from 11% to
+      15% — but MEEF at k₁ = 0.33 is <span class="hl">2.79</span>, so every mask CD error lands
+      on the wafer nearly tripled. Then a 5 × 5 µm clip of MB-1's signed-off poly GDS went
+      straight through the same imaging model: across 392 real gate samples, single-dose
+      printing with no OPC leaves a +13 nm mean bias with a 35 nm (1σ) proximity spread, pulls
+      line ends back by 29 nm (p95: 90 nm), and drops a few slivers entirely — while bridging
+      nothing. OPC and phase-shift masks are not polish; they are the steps that cancel exactly
+      these entries.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/fab/fig8_gds_aerial.png" alt="MB-1 poly layout clip, its aerial image, and printed contour versus drawn geometry" loading="lazy">
+      <figcaption>THE REAL CHIP UNDER THE MODEL — DRAWN | AERIAL | PRINTED CONTOUR. 392 GATES: σ = 35 NM, PULLBACK 29 NM, BRIDGES 0</figcaption>
+    </figure>
+    <div class="prose">
+      <p><strong>Round three closed the loop.</strong> With the process locked — same annular
+      source, same dose calibration — twelve ILT-style pixel iterations corrected only the mask:
+      CD spread fell from 35 to <span class="hl">5.9 nm</span>, line-end pullback from 29 to
+      <span class="hl">4.6 nm</span>, and all fourteen lost slivers came back. The best part is
+      in the corrected mask itself: <strong>hammerheads grew at the line ends on their own.</strong>
+      Nobody wrote that rule — it is the imaging physics' own solution to cancelling pullback,
+      rediscovered by the loop.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/fab/fig9_opc.png" alt="OPC-corrected mask with emergent hammerheads, and printed contours before versus after correction" loading="lazy">
+      <figcaption>CLOSING THE LOOP — OPC MASK (EMERGENT HAMMERHEADS) | BEFORE: σ 35 NM | AFTER: σ 5.9 NM, PULLBACK 4.6 NM, OPENS 0</figcaption>
+    </figure>
+    <div class="prose">
+      <p><strong>Round four pushed the light into the resist.</strong> Silicon reflects 53% at
+      248 nm, printing 70 nm-period standing waves into the film; a transfer-matrix scan lands
+      the anti-reflective coating at 108 nm, crushing residual reflectivity to
+      <span class="hl">0.5%</span> and the dose-vs-thickness swing from 0.48 to 0.06. A
+      Dill-exposure / acid-diffusion / Mack-development chain then grows the actual resist
+      profile: <span class="hl">84.6°</span> sidewalls with 1.4 nm edge ripple under BARC and a
+      30 nm bake diffusion — strip the BARC and the same recipe pays 14% more dose while the
+      sidewalls scallop at triple the ripple.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/fab/fig11_resist_profile.png" alt="Developed resist cross-sections: smooth sidewalls with BARC and PEB versus scalloped sidewalls without BARC" loading="lazy">
+      <figcaption>RESIST PROFILES, 130 NM DENSE — BARC + PEB: 84.6° / 1.4 NM RIPPLE | NO BARC: SCALLOPED, 3.9 NM, +14% DOSE</figcaption>
+    </figure>
+    <div class="prose">
+      <p><strong>Round five put the mask itself on trial.</strong> Every round above treated
+      the reticle as an infinitely thin transmission function — but a real 4× mask is 73 nm of
+      chrome standing on quartz. An in-house RCWA solver (the rigorous-coupled-wave engine
+      behind commercial mask-3D tools, validated to machine precision against Fresnel and to
+      1.0 in energy conservation) diffracted the real stack: order amplitudes land within
+      <span class="hl">3.4%</span> of the thin mask, phases within 5°, and at the wafer that
+      prices out to a <span class="hl">−14 nm</span> best-focus shift plus a 1.4% dose error.
+      Verdict: Kirchhoff holds at 130 nm / 4× — the foundation under every result above is
+      sound, and mask 3D becomes a first-class citizen only at high-NA and EUV.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/fab/fig12_mask3d.png" alt="RCWA mask diffraction orders versus thin mask, and the through-focus contrast shift" loading="lazy">
+      <figcaption>THE MASK ON TRIAL — RCWA ORDERS VS KIRCHHOFF | BEST-FOCUS SHIFT −14 NM: THIN-MASK APPROXIMATION UPHELD</figcaption>
+    </figure>
+    <div class="prose">
+      <p><strong>Round six specified the lens — and then measured one.</strong> Injecting
+      Zernike aberrations into the imaging pupil prices each milliwave at the wafer (with a
+      lesson en route: dense lines are immune to coma shift, so the honest coma metric is
+      iso-dense placement). The budget lands at coma 7.7, astigmatism 19, spherical 8.8 mλ —
+      <span class="hl">5.5 mλ RMS combined, ≈ λ/181</span>, thirteen times tighter than the
+      usual "diffraction-limited" λ/14. Zemax OpticStudio, driven headless through the
+      ZOS-API, then optimized a naive 8-element all-silica 4× objective to convergence: at
+      NA 0.63 it reaches 896 mλ — <span class="hl">163× off spec</span>. That gap is the
+      entire reason real DUV objectives are twenty-plus-element, ten-million-dollar monsters.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/fab/fig13_pupil_budget.png" alt="Aberration sensitivity curves: coma, astigmatism, spherical, with derived budgets" loading="lazy">
+        <figcaption>THE LENS SPEC, DERIVED — 5.5 Mλ RMS ≈ λ/181, 13× TIGHTER THAN MARÉCHAL</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/fig14_lens_vs_budget.png" alt="Achieved RMS wavefront of an optimized 8-element silica lens versus NA, against the litho spec" loading="lazy">
+        <figcaption>THE REALITY — OPTIMIZED 8-ELEMENT LENS VS THE SPEC: 163× SHORT AT NA 0.63</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
+      <p><strong>And then the line ran a real job.</strong> A dry-run tapeout pushed the word
+      MARS — an actual GDS, drawn in a polygon font — through the whole flow: mask, annular
+      imaging, dose-to-size, OPC, resist. First silicon failed honestly: the font carried a
+      90 nm neck in the M (half the process minimum), the printed letter broke in two — and
+      the EPE metric never noticed (<span class="hl">12.4 nm</span>, unchanged); only a
+      topology count caught it. A DRC-driven respin at 280 nm strokes printed all four
+      letters clean at EPE 12.7 nm. The drill's real product is its gap list: layout DRC,
+      topology-aware metrology, mask rule checks, 3D resist, etch transfer — the next
+      roadmap, discovered by taping out.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/fab/fig15_tapeout_mars_respin.png" alt="Tapeout drill: drawn MARS layout, aerial image, printed results without and with OPC, and a resist cross-section" loading="lazy">
+      <figcaption>THE TAPEOUT DRILL, RESPIN — MARS PRINTS CLEAN: 4 → 4 → 4 PIECES, EPE 12.7 NM, STROKES 280 NM</figcaption>
+    </figure>
+    <div class="prose">
+      <p><strong>Then the drill's gap list got worked off.</strong> A layout DRC now exists
+      (minimum width by erosion-split — the naive morphological opening false-flags every
+      right-angle corner; learned the hard way), and run against the v1 layout it flags
+      twenty sub-130 nm junctions — the print had broken exactly at the worst one. A
+      topology metrology (breaks / bridges / missing) catches what EPE cannot, locating the
+      M break precisely. And an anisotropic etch-front model carries the resist profile into
+      the film through three limit gates: ideal RIE inherits the resist's <em>footprint</em>
+      (154 = 154 nm, 90° walls), isotropic undercut matches film depth (295 ≈ 300 nm), and
+      selectivity bookkeeping closes (128 ≈ 130 nm). Production point: the 130 nm resist
+      line lands in the film at <span class="hl">138 nm, 90° sidewalls</span>, with 372 nm
+      of resist to spare. The word is in the film now.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/fab/fig16_drc.png" alt="DRC violations marked on the v1 MARS layout, the located break on the print, and the clean respin" loading="lazy">
+      <figcaption>WORKING OFF THE GAP LIST — DRC FLAGS 20 SUB-RULE JUNCTIONS | TOPOLOGY LOCATES THE BREAK | RESPIN CLEAN</figcaption>
+    </figure>
+    <div class="prose">
+      <p><strong>Two more unit processes joined the ledger.</strong> Thermal: Deal-Grove
+      oxidation gated on its own asymptotics and a textbook anchor (wet 1000 °C/1 h: 435 vs
+      ~410 nm), and the round-2 implant profile annealed into real junctions —
+      <span class="hl">224 / 262 / 319 nm</span> at 950/1000/1050 °C — after the dose-conservation
+      gate caught a plain Gaussian leaking up to 21% of the implant out of the wafer (the
+      surface needs a reflecting boundary). CMP: a Stine pattern-density model over the real
+      MB-1 metal-1 density map puts within-die post-polish variation at
+      <span class="hl">176 nm</span> — comfortable against this node's &gt;±2 µm depth of
+      focus. And the fill-cell counterfactual dissected a slogan: metal-1 owes its uniformity
+      to the power grid, while on poly the 54k decap cells lift the emptiest density bins
+      tenfold — fill is first about uniformity; CMP is only one of its motives.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/fab/fig18_thermal.png" alt="Deal-Grove oxidation curves and implant-anneal junction profiles" loading="lazy">
+        <figcaption>THERMAL — DEAL-GROVE + ANNEAL: JUNCTIONS AT 224/262/319 NM; THE CONSERVATION GATE CAUGHT A LEAKY GAUSSIAN</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/fig19_cmp.png" alt="MB-1 metal density map, effective density after planarization kernel, and the no-fill counterfactual" loading="lazy">
+        <figcaption>CMP ON THE REAL DIE — 176 NM POST-POLISH SPREAD; THE FILL COUNTERFACTUAL, MEASURED NOT ASSERTED</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
+      <p><strong>The last ledger pages: statistics, deposition, metrology.</strong> Yield
+      beyond Poisson: at the same D₀ = 6.4/cm², defects arriving eight to a cluster lift a
+      hypothetical 10× die from 31.8% to <span class="hl">84.7%</span> — clustering is
+      merciful — and the Monte Carlo taught its own lesson: the statistical family follows
+      the clustering <em>mechanism</em> (compound clusters give a rescaled Poisson; regional
+      variation gives the negative binomial; force-fitting NB yields a scale-drifting α).
+      Deposition: line-of-sight sputtering leaves <span class="hl">24%</span> coverage at the
+      bottom of an AR-2 trench — exactly the view factor, 0.244 vs 0.243 — while the
+      low-sticking CVD limit conforms at 0.88. And the CD-SEM got an image-formation model:
+      edge bloom, 3 nm spot, shot noise, σ_CD 1.04 → 0.34 nm under 16-frame averaging,
+      following 1/√N as metrology should.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/fab/fig20_yield.png" alt="Yield versus die area for Poisson and clustered defects, with a clustered wafer map" loading="lazy">
+        <figcaption>YIELD BEYOND POISSON — CLUSTERING LIFTS THE 10× DIE BY +52.9 PP; MECHANISM PICKS THE FAMILY</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/fig21_dep_sem.png" alt="Step coverage versus aspect ratio, SEM waveform with edge bloom, and repeatability versus frame averaging" loading="lazy">
+        <figcaption>STEP COVERAGE = VIEW FACTOR (0.244 ≈ 0.243) | CD-SEM WAVEFORM | σ_CD FOLLOWS 1/√N</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
+      <p><strong>Then the back end closed its own books.</strong> Dicing got a chip-budget
+      model: per-grit engagement δ = feed/(rpm × grits), backside chipping growing by the
+      indentation-fracture scaling c ∝ δ^(2/3) — at 10 mm/s the chip p95 is 19.7 µm, so the
+      30 µm kerf plus both chip margins uses <span class="hl">69.4 µm of the 80 µm street</span>,
+      with 14.3 mm/s as the ceiling. Wire bonding got a process window: the 25 µm Al wedge
+      deformation ratio lands in <span class="hl">r ∈ [1.2, 1.8]</span>, 4.3 gf of pull at
+      center — above the 3 gf spec, below the 7.5 gf wire break — and a unit-slip lesson: a
+      stray ×1000 briefly gave the wire a 7,505 gf "break strength", which is exactly why the
+      sanity gate carries an upper bound.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/fab/fig22_dice_bond.png" alt="Dicing street budget versus feed rate, and wedge bond pull strength versus deformation ratio with the process window shaded" loading="lazy">
+      <figcaption>DICING STREET BUDGET (MAX FEED 14 MM/S) | WEDGE BOND WINDOW R 1.2–1.8, 100% IN WINDOW AT 8% CONTROL</figcaption>
+    </figure>
+    <div class="prose">
+      <p><strong>And the other machines got their numbers too.</strong> First-order LSS ranges
+      put boron at ~114 nm for 30 keV and ~311 nm for 100 keV (checked against SRIM anchors:
+      B/P within 11%, As reads +27% high — a declared bias of the first-order model). The Dolan
+      shadow geometry, evaluated at the scene's own tilt, shows why junction trimming exists at
+      all: holding a 0.5% area spread by geometry would need the tilt repeatable to
+      <span class="hl">0.054°</span>. And the wall screen's wafer map inverts, through a Poisson
+      model, to a defect density of 6.4 /cm² — at which a die ten times MB-1's size would yield
+      only 32%.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/fab/fig4_implant_range.png" alt="LSS projected range of B, P, As in silicon versus energy, with SRIM anchor points" loading="lazy">
+        <figcaption>LSS PROJECTED RANGES, 10–500 KEV — CIRCLES ARE SRIM ANCHORS</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/fig5_dolan_overlap.png" alt="Dolan bridge junction overlap versus evaporation tilt" loading="lazy">
+        <figcaption>DOLAN OVERLAP VS TILT — 9.2%/DEG: GEOMETRY CANNOT HOLD σ_EJ = 0.5%</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
+    <p class="lead">Every number on this page, and the run that produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>i-line cutoff, dense pitch</td><td class="num">358 nm (contrast = 0 below)</td><td class="src">mars-fab/sim/litho_aerial.py</td></tr>
+        <tr><td>KrF conventional @ 130 nm</td><td class="num">contrast 0.15, k₁ = 0.33</td><td class="src">mars-fab/sim/litho_aerial.py</td></tr>
+        <tr><td>KrF annular 0.55–0.85 @ 130 nm</td><td class="num">contrast 0.40, NILS 1.25</td><td class="src">mars-fab/sim/litho_aerial.py</td></tr>
+        <tr><td>Aerial DoF, ±10% CD</td><td class="num">&gt; ±2 µm</td><td class="src">mars-fab/sim/litho_aerial.py</td></tr>
+        <tr><td>att-PSM gain @ 130 nm</td><td class="num">NILS 1.25 → 1.69, EL 11 → 15%</td><td class="src">mars-fab/sim/litho_process.py</td></tr>
+        <tr><td>Mask error enhancement (MEEF)</td><td class="num">2.79 @ 130 nm</td><td class="src">mars-fab/sim/litho_process.py</td></tr>
+        <tr><td>Real-GDS gate CD spread, no OPC</td><td class="num">+13 nm mean, σ 35 nm (392 gates)</td><td class="src">mars-fab/sim/litho_gds2d.py</td></tr>
+        <tr><td>Line-end pullback on MB-1 poly</td><td class="num">29 nm mean, p95 90 nm</td><td class="src">mars-fab/sim/litho_gds2d.py</td></tr>
+        <tr><td>Post-OPC gate CD spread</td><td class="num">σ 5.9 nm (12 iterations)</td><td class="src">mars-fab/sim/litho_opc.py</td></tr>
+        <tr><td>Post-OPC pullback / defects</td><td class="num">4.6 nm · opens 14 → 0</td><td class="src">mars-fab/sim/litho_opc.py</td></tr>
+        <tr><td>Standing waves / BARC design</td><td class="num">Si R 53% → 0.5% @ 108 nm</td><td class="src">mars-fab/sim/litho_resist.py</td></tr>
+        <tr><td>Resist profile (BARC + PEB)</td><td class="num">84.6° sidewall, 1.4 nm ripple</td><td class="src">mars-fab/sim/litho_resist.py</td></tr>
+        <tr><td>Cost of skipping BARC</td><td class="num">+14% dose, 3× scallop ripple</td><td class="src">mars-fab/sim/litho_resist.py</td></tr>
+        <tr><td>Mask-3D order error (73 nm Cr, RCWA)</td><td class="num">≤3.4% amp, ≤5° phase</td><td class="src">mars-fab/sim/litho_mask3d.py</td></tr>
+        <tr><td>Kirchhoff verdict at wafer</td><td class="num">−14 nm focus shift, 1.4% dose</td><td class="src">mars-fab/sim/litho_mask3d.py</td></tr>
+        <tr><td>Pupil aberration spec (derived)</td><td class="num">5.5 mλ RMS ≈ λ/181</td><td class="src">mars-fab/sim/litho_pupil_budget.py</td></tr>
+        <tr><td>Naive 8-element lens @ NA 0.63</td><td class="num">896 mλ — 163× off spec</td><td class="src">mars-fab/sim/litho_lens_zemax.py (ZOS-API)</td></tr>
+        <tr><td>Coma metric lesson</td><td class="num">dense lines immune; iso-dense 0.26 nm/mλ</td><td class="src">mars-fab/sim/litho_pupil_budget.py</td></tr>
+        <tr><td>Tapeout drill: MARS, first silicon</td><td class="num">M broke at a 90 nm neck; EPE blind to it</td><td class="src">mars-fab/sim/tapeout_mars.py</td></tr>
+        <tr><td>Tapeout drill: DRC respin</td><td class="num">4/4 letters, EPE 12.7 nm</td><td class="src">mars-fab/sim/tapeout_mars.py</td></tr>
+        <tr><td>Layout DRC on v1 (min width 130 nm)</td><td class="num">20 violations; print broke at worst</td><td class="src">mars-fab/sim/litho_drc.py</td></tr>
+        <tr><td>Etch transfer, 3 limit gates</td><td class="num">154=154 · 295≈300 · 128≈130 nm</td><td class="src">mars-fab/sim/litho_etch.py</td></tr>
+        <tr><td>MARS line in the film (RIE A=0.9, S=3)</td><td class="num">138 nm CD, 90° sidewall</td><td class="src">mars-fab/sim/litho_etch.py</td></tr>
+        <tr><td>Junction depths, B 30 keV + 30 min anneal</td><td class="num">224/262/319 nm @ 950/1000/1050 °C</td><td class="src">mars-fab/sim/proc_thermal.py</td></tr>
+        <tr><td>Dose-conservation gate catch</td><td class="num">plain Gaussian leaks up to 21%</td><td class="src">mars-fab/sim/proc_thermal.py</td></tr>
+        <tr><td>Post-CMP spread, real MB-1 met1</td><td class="num">176 nm (ρ_eff 0.18–0.53)</td><td class="src">mars-fab/sim/proc_cmp.py</td></tr>
+        <tr><td>Fill counterfactual on poly</td><td class="num">decap lifts min density 10×</td><td class="src">mars-fab/sim/proc_cmp.py</td></tr>
+        <tr><td>Clustering bonus at a 10× die</td><td class="num">31.8% → 84.7% (+52.9 pp)</td><td class="src">mars-fab/sim/proc_yield.py</td></tr>
+        <tr><td>Trench bottom coverage = view factor</td><td class="num">0.244 vs 0.243 (AR 2, PVD)</td><td class="src">mars-fab/sim/proc_dep_sem.py</td></tr>
+        <tr><td>CD-SEM repeatability</td><td class="num">σ 1.04 → 0.34 nm @ 16 frames</td><td class="src">mars-fab/sim/proc_dep_sem.py</td></tr>
+        <tr><td>Dicing street budget (chip p95 19.7 µm)</td><td class="num">69.4 / 80 µm; max feed 14.3 mm/s</td><td class="src">mars-fab/sim/proc_dice_bond.py</td></tr>
+        <tr><td>Wedge bond window, 25 µm Al</td><td class="num">r 1.2–1.8 · 4.3 gf &gt; 3 gf spec</td><td class="src">mars-fab/sim/proc_dice_bond.py</td></tr>
+        <tr><td>Implant ranges B/P/As vs SRIM</td><td class="num">B/P ±11%, As +27%</td><td class="src">mars-fab/sim/fab_calcs.py</td></tr>
+        <tr><td>Dolan overlap &amp; tilt sensitivity</td><td class="num">123 nm · 9.2%/deg</td><td class="src">mars-fab/sim/fab_calcs.py</td></tr>
+        <tr><td>Defect density from wafer map</td><td class="num">D₀ = 6.4 /cm²; 10× die → Y 32%</td><td class="src">mars-fab/sim/fab_calcs.py</td></tr>
+        <tr><td>Downflow sweep vs settling</td><td class="num">16 s vs 11.5 days</td><td class="src">mars-fab/sim/fab_calcs.py</td></tr>
+        <tr><td>MB-1 dual-simulator lockstep</td><td class="num">1,134,185 ns bit-exact</td><td class="src">mars-bigram (iverilog + xsim)</td></tr>
+        <tr><td>MB-1 FPGA prototype timing</td><td class="num">WNS +3.29 ns</td><td class="src">mars-bigram (Vivado, Arty A7)</td></tr>
+        <tr><td>SRAM macro equivalence</td><td class="num">11,069 reads, 0 mismatch</td><td class="src">mars-bigram (OpenRAM TB)</td></tr>
+        <tr><td>MB-1 final GDS</td><td class="num">26.3 MB, routing DRC 0</td><td class="src">mars-bigram (OpenROAD + klayout)</td></tr>
+        <tr><td>Analog DRC convergence</td><td class="num">~29 rounds; arr4 51 → 0</td><td class="src">mars_spad_rox (Calibre DRC)</td></tr>
+        <tr><td>Analog LVS / PEX / post-layout</td><td class="num">11× CORRECT / 3 / 4</td><td class="src">mars_spad_rox (Calibre, xRC, Spectre)</td></tr>
+        <tr><td>Analog Monte-Carlo trip points</td><td class="num">40</td><td class="src">mars_spad_rox (Spectre MC)</td></tr>
+        <tr><td>JJ yield vs σ<sub>EJ</sub></td><td class="num">99.6% @ 0.5%; collapse @ 1%</td><td class="src">quantum-computing/sim (freq-collision MC)</td></tr>
+        <tr><td>QP-20 layout v7</td><td class="num">2,367 polygons, DRC-lite 0</td><td class="src">quantum-computing (gdstk, 7 rounds)</td></tr>
+        <tr><td>Bond-out feasibility</td><td class="num">87 pads, 0 violations</td><td class="src">quantum-computing/sim (bonding DRC)</td></tr>
+        <tr><td>Scene choreography integrity</td><td class="num">520-frame envelope sweep, 0 console errors</td><td class="src">viewer/units/ops-fab-01.js (headless CDP)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <p class="lead">The honest section. Everything below cost real hours.</p>
+    <div class="prose">
+      <p><strong>Conventional illumination failed at 130 nm — a genuine surprise.</strong> The
+      imaging study was expected to bless k₁ = 0.33 and instead returned contrast 0.15: at axial
+      illumination most of the ±1st orders miss the pupil. Annular illumination wasn't an
+      optimization, it was the difference between a fab and a sculpture. The first DoF sweep also
+      saturated its own ±1 µm scan range; extending to ±2.5 µm showed two-beam imaging simply
+      isn't focus-limited, and the page reports that honestly instead of quoting a fake edge.</p>
+      <p><strong>TritonRoute refused constant nets (DRT-0305).</strong> The most-quoted of MB-1's
+      six physical-design pitfalls: tie cells are not optional. The analog line's arr4 block
+      opened at 51 DRC violations and took the bulk of 29 rounds to reach zero — a layout is not
+      done when drawn; it is converged under the rule deck.</p>
+      <p><strong>Geometry can't hold σ<sub>EJ</sub>.</strong> The Dolan calc puts tilt-error
+      sensitivity at 9.2%/deg, so the 0.5% junction spread the yield MC demands would need
+      0.054° tilt repeatability. That number is why the trim step exists — discovered backwards,
+      from a system simulation to a process spec.</p>
+      <p><strong>The real-GDS round had traps of its own.</strong> The first "densest logic"
+      window turned out to be 62% poly coverage — because 54,660 of MB-1's 68,234 placed cells
+      are decap fill, and the density histogram had faithfully found a wall of capacitors.
+      Logic-only filtering dropped it to a sane 27.7%. Then the CD metrology walked off a
+      cliff: in dense regions the printed dark areas of neighbouring lines touch, and an
+      unbounded edge-search returned 3-µm "gates" (σ = 556 nm). Bounding the search window and
+      classifying merged/open features separately brought the statistics back to physics.</p>
+      <p><strong>The resist model taught a lesson about credit.</strong> The no-BARC stack
+      first refused to develop at any dose. One patch shipped two changes — moving the PEB
+      blur from the protection field to the acid field, and calibrating dose-to-size per
+      stack — and the fix was confidently attributed to the first. It wasn't. While building
+      a reproducer for the skill distilled from this pipeline, the "bug" refused to
+      reproduce: a Gaussian blur is linear and blur(1) = 1, so blurring m and blurring acid
+      (= 1 − m) are mathematically identical. An ablation confirmed it — protection-field
+      blur plus per-stack dose calibration reproduces every number to the digit. The real
+      fix was the dose calibration (a reflective stack wastes dose in standing-wave nodes;
+      borrowing the BARC recipe underexposes it). Attribution needs ablation: the passenger
+      change in a two-change patch will happily take the driver's credit.</p>
+      <p><strong>The RCWA solver briefly modelled a laser, not a mask.</strong> In the
+      e<sup>−ikz</sup> convention a passive medium needs a negative imaginary index; chrome
+      entered as 0.85 + 2.01j and became a gain medium, failing the uniform-layer Fresnel gate
+      by 98% — while the energy-conservation gate, which only checks lossless gratings, passed
+      obliviously. Two complementary validation gates, or the bug walks through.</p>
+      <p><strong>The lens optimizer dove off a cliff once.</strong> Raising the magnification
+      constraint's weight from 100 to 1000 made damped least squares tear the seed apart —
+      magnification shot to +0.45, every ray failed to trace, and the merit function reported
+      a flawless 0.0 over a lens that no longer worked. Constraint weights are not seatbelts;
+      the stable recipe was two-stage (converge at weight 100, then polish at 400). And the
+      first budget attempt measured coma by dense-line shift — which is exactly zero, because
+      symmetric illumination cancels it; the overlay killer is the iso-dense difference.</p>
+      <p><strong>Scene engineering bit back too.</strong> The SCARA robot's original 1.10 m reach
+      could not touch both handoff stations; it was rebuilt at 1.05 m with keyframe-exact
+      transfer points. Hidden browser tabs suspend requestAnimationFrame and produced false-dead
+      animations during verification — all sign-off now runs through headless CDP with the
+      choreography clock read directly. And the hero wafer once kept a stale position while
+      invisible, breaking jump-in determinism; hidden segments now park it at a fixed pose.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">07</span><h2>Try it</h2></div>
+    <p class="lead">Walk the line yourself — the fab is a live interior in the city viewer.</p>
+    <div class="prose">
+      <p>Open <a href="../viewer/index.html?interior=ops-fab-01"><span class="src">viewer/index.html?interior=ops-fab-01</span></a>
+      (or enter through the undercity foyer). <strong>WASD</strong> to walk, walk into the exit
+      ring or press <strong>Esc</strong> to leave. Get close to any tool for its bilingual
+      knowledge card (EN toggle top-right); press <strong>V</strong> for the ring menu and fire
+      the <em>EMO stop</em> demo — the whole choreography freezes under red alarm light and
+      resumes without a time-jump. Capture tip: <span class="src">&amp;fabT0=&lt;seconds&gt;</span>
+      shifts the choreography phase, so any beat of the 104 s lap can be reached on demand.</p>
+      <p>Things worth standing next to: the light pipe over the stepper (it only lights during
+      exposure), the RIE door when the AGV arrives, the evaporator's rocking stage, and the wafer
+      map while the probes are down.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/fab/emo.gif" alt="EMO stop demo: production freezes and all three line rings flash red" loading="lazy">
+        <figcaption>EMO STOP — AGV BRAKES MID-AISLE, THREE LINE RINGS GO RED, PRODUCTION RESUMES WITHOUT A JUMP</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/lightpath.jpg" alt="Stepper light path lit during exposure, beam cone on the wafer" loading="lazy">
+        <figcaption>EXPOSURE BEAT — WINDOW → PIPE → FOLD MIRROR → RETICLE → LENS → WAFER, ALL IN PHASE</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Imaging &amp; design calcs: <span class="src">mars-fab/sim/litho_aerial.py</span> ·
+      <span class="src">mars-fab/sim/fab_calcs.py</span> (ledgers <span class="src">LITHO_SIM.md</span>, <span class="src">FAB_CALC.md</span>) ·
+      Line ledgers: <span class="src">mars-bigram</span> · <span class="src">mars_spad_rox</span> ·
+      <span class="src">quantum-computing/DESIGN.md</span> ·
+      City asset: <span class="src">viewer/units/ops-fab-01.js</span> (+ <span class="src">.info.json</span>, 12 bilingual cards) ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

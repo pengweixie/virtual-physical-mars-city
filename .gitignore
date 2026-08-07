@@ -1,4 +1,11 @@
+data/
 __pycache__/
 *.pyc
-Thumbs.db
-.DS_Store
+node_modules/
+# models/: 大文件(GLB/贴图/归档)不入库,但 manifest 与知识卡必须入库
+models/**
+!models/*/
+models/_archive/
+models/_inbox/
+!models/manifest.json
+!models/**/info.json

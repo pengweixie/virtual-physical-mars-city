@@ -1,5 +1,5 @@
 // Builds the Mars ISRU propellant plant (Sabatier methane plant) as a single
-// GLB asset in E:\Claude\mars_buildings. Run from anywhere:
+// GLB asset in mars_buildings. Run from anywhere:
 //   node scripts/build_isru_plant.mjs
 // Geometry is procedural three.js primitives; the rust dust film on upward
 // surfaces is baked into vertex colors so the GLB needs no textures.

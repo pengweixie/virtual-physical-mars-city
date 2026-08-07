@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style> html,body { margin:0; background:#0a0f14; } canvas { display:block; } </style>
+</head>
+<body>
+<script type="importmap">
+{ "imports": { "three": "../node_modules/three/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { build } from '../viewer/units/sci-pan-01.js';
+
+const W = 900, H = 1140;
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H);
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0f14);
+const g = build(THREE);
+scene.add(g);
+
+// frame the instrument: bbox-driven camera on an iso angle facing the cutaway
+const bb = new THREE.Box3().setFromObject(g);
+const c = bb.getCenter(new THREE.Vector3());
+const s = bb.getSize(new THREE.Vector3());
+const R = Math.max(s.x, s.y, s.z);
+const cam = new THREE.PerspectiveCamera(28, W / H, 0.01, 100);
+cam.position.set(c.x + R * 2.0, c.y + R * 0.6, c.z + R * 0.85);
+cam.lookAt(c);
+
+scene.add(new THREE.AmbientLight(0xdfe8f0, 0.55));
+const key = new THREE.DirectionalLight(0xfff2e0, 1.5);
+key.position.set(3, 4, 2.5);
+scene.add(key);
+const rim = new THREE.DirectionalLight(0x8ab8ff, 0.7);
+rim.position.set(-3, 1.5, -2);
+scene.add(rim);
+const low = new THREE.DirectionalLight(0xffd0a0, 0.4);
+low.position.set(0.5, -2, 1);
+scene.add(low);
+
+renderer.render(scene, cam);
+document.title = 'struct-ready';
+</script>
+</body>
+</html>
