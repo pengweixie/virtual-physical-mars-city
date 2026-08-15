@@ -9,3 +9,15 @@ models/_archive/
 models/_inbox/
 !models/manifest.json
 !models/**/info.json
+
+# local machine config - never published (packaging rule 4)
+.claude/settings.local.json
+
+# commercial-tool project files - kept locally, never published (packaging rule 1)
+comsol/*.mph
+comsol/*.java
+comsol/*.class
+comsol/*.class.*
+comsol/*.log
+**/comsol/*.java
+**/comsol/*.mph
