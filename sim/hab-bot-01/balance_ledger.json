@@ -1,0 +1,147 @@
+{
+ "mass_kg": 39.8,
+ "g": 3.71,
+ "z_c": 0.895,
+ "Tc_mars": 0.491,
+ "Tc_earth": 0.302,
+ "ankle_torque_ceiling_Nm": 20.7,
+ "stands": false,
+ "push_recovery": [
+  {
+   "impulse": 2.0,
+   "dv": 0.05,
+   "peak_cp": 0.021,
+   "peak_tau": 11.8,
+   "ok": true
+  },
+  {
+   "impulse": 4.0,
+   "dv": 0.101,
+   "peak_cp": 0.044,
+   "peak_tau": 20.7,
+   "ok": true
+  },
+  {
+   "impulse": 6.0,
+   "dv": 0.151,
+   "peak_cp": 0.068,
+   "peak_tau": 20.7,
+   "ok": true
+  },
+  {
+   "impulse": 8.0,
+   "dv": 0.201,
+   "peak_cp": 0.13,
+   "peak_tau": 20.7,
+   "ok": true
+  },
+  {
+   "impulse": 10.0,
+   "dv": 0.251,
+   "peak_cp": 1.089,
+   "peak_tau": 20.7,
+   "ok": false
+  },
+  {
+   "impulse": 11.0,
+   "dv": 0.276,
+   "peak_cp": 1.085,
+   "peak_tau": 20.7,
+   "ok": false
+  },
+  {
+   "impulse": 12.0,
+   "dv": 0.302,
+   "peak_cp": 1.079,
+   "peak_tau": 20.7,
+   "ok": false
+  },
+  {
+   "impulse": 13.0,
+   "dv": 0.327,
+   "peak_cp": 1.077,
+   "peak_tau": 20.7,
+   "ok": false
+  },
+  {
+   "impulse": 14.0,
+   "dv": 0.352,
+   "peak_cp": 1.071,
+   "peak_tau": 20.7,
+   "ok": false
+  },
+  {
+   "impulse": 16.0,
+   "dv": 0.402,
+   "peak_cp": 1.068,
+   "peak_tau": 20.7,
+   "ok": false
+  },
+  {
+   "impulse": 20.0,
+   "dv": 0.503,
+   "peak_cp": 1.073,
+   "peak_tau": 20.7,
+   "ok": false
+  }
+ ],
+ "max_impulse_Ns": 8.0,
+ "max_dv_ms": 0.201,
+ "capture_point": [
+  {
+   "v": 0.2,
+   "cp_mars": 0.095,
+   "cp_earth": 0.058
+  },
+  {
+   "v": 0.4,
+   "cp_mars": 0.189,
+   "cp_earth": 0.116
+  },
+  {
+   "v": 0.55,
+   "cp_mars": 0.26,
+   "cp_earth": 0.16
+  },
+  {
+   "v": 0.75,
+   "cp_mars": 0.355,
+   "cp_earth": 0.218
+  },
+  {
+   "v": 1.0,
+   "cp_mars": 0.473,
+   "cp_earth": 0.291
+  }
+ ],
+ "v_ankle_limit_mars": 0.296,
+ "v_ankle_limit_earth": 0.481,
+ "step_period_s": 0.9,
+ "stopping": [
+  {
+   "v": 0.3,
+   "cp": 0.142,
+   "d_stop": 0.277,
+   "t_stop": 0.923
+  },
+  {
+   "v": 0.45,
+   "cp": 0.213,
+   "d_stop": 0.415,
+   "t_stop": 0.923
+  },
+  {
+   "v": 0.55,
+   "cp": 0.26,
+   "d_stop": 0.508,
+   "t_stop": 0.923
+  },
+  {
+   "v": 0.75,
+   "cp": 0.355,
+   "d_stop": 0.692,
+   "t_stop": 0.923
+  }
+ ],
+ "d_stop_patrol_m": 0.508
+}

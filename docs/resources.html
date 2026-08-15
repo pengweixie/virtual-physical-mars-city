@@ -189,16 +189,19 @@
         FDTD-verified), 17,880 e⁻ full well, 1.76 e⁻ read noise, fed through a full
         photon-to-DN noise model before the obstacle logic ever sees a pixel. Its motion curves
         are baked from MuJoCo dynamics under 3.71 m/s² gravity, drum cutting loads included.</p>
-      <p><strong>The printer that knows its limit.</strong> A 12 m portal gantry drives an
-        auger-extrusion head that lays sulfur-bonded regolith at up to <span class="hl">4.8 L/s</span> —
-        concrete that cures by cooling in minutes, not by hydration in hours, which is the whole
-        reason sulfur wins on a waterless planet. The half-built dome on its pad is printed to the
-        material's honest limit: at 6 m height the shell leans 42° and each 160 mm layer overlaps
-        the one below by only 29%, so the rim steps back in short spiral arcs and waits for a
-        prefab cap. The precision budget is counter-intuitive: the beam sags just 0.4 mm under
-        full load but breathes <strong>11.5 mm</strong> across an 80 K Martian day — the gantry's
-        real enemy is thermal drift, handled by a floating bearing and position feedback, not by
-        more steel.</p>
+      <p><strong>The printer that is paced by its power meter.</strong> A 12 m portal gantry drives
+        a screw that compacts dry regolith into a bead, and a 2.45 GHz applicator trailing the
+        nozzle sinters it in place — no water, no binder, nothing shipped from Earth. That choice
+        sets the speed: sintering costs about <span class="hl">0.40 kWh per kilogram</span>, the
+        site is allotted 30 kWe of daytime solar, and the arithmetic leaves
+        <strong>75 kg/h while printing</strong> — a bead crawling forward at 0.3 mm/s, roughly
+        600 kg a sol, two to four sols per course. The half-built dome on the pad is printed to two
+        honest limits at once: geometrically, at 6 m the shell leans 42° and each 160 mm layer
+        overlaps the one below by only 29%, so the rim steps back in short spiral arcs to wait for a
+        prefab cap; energetically, its 37 standing courses represent about 100 sols of daylight. The
+        precision budget is counter-intuitive too: the beam sags just 0.4 mm under full load but
+        breathes <strong>11.5 mm</strong> across an 80 K Martian day — the gantry's real enemy is
+        thermal drift, handled by a floating bearing and position feedback, not by more steel.</p>
       <p><strong>The dome that pushes up.</strong> 55 kPa inside a ⌀26 m ETFE membrane is a
         29 MN uplift — three thousand tonnes trying to leave the planet. That is why the printed
         regolith foundation ring outweighs the dome it anchors: ballast plus ground anchors must
@@ -225,7 +228,7 @@
       </figure>
       <figure class="figure">
         <img src="assets/resources/printhead.jpg" alt="Cutaway of the print head showing the auger screw, slurry column and heater rings" loading="lazy">
-        <figcaption>PRINT HEAD CUTAWAY — AUGER, SLURRY COLUMN, HEATER RINGS HOLDING THE 130–140 °C SULFUR WINDOW</figcaption>
+        <figcaption>PRINT HEAD CUTAWAY — AUGER, COMPACTED CHARGE, 2.45 GHZ APPLICATOR SINTERING AT 0.40 KWH/KG</figcaption>
       </figure>
     </div>
   </div>
@@ -251,7 +254,8 @@
         <tr><td>Digger motion under Mars gravity</td><td class="num">3.71 m/s² baked</td><td class="src">MuJoCo dynamics bake · res-mine-01</td></tr>
         <tr><td>Vision-autonomy long run</td><td class="num">150 s · 3 cycles · 2.4 m</td><td class="src">engine sensor-channel test, mars/STATUS.md</td></tr>
         <tr><td>Hot-pixel failure cliff</td><td class="num">~12%</td><td class="src">sensor-defect joint experiment · res-mine-01</td></tr>
-        <tr><td>Print flow at full traverse</td><td class="num">4.8 L/s</td><td class="src">models/ops-printer-01/info.json · flow account</td></tr>
+        <tr><td>Sintering energy per unit mass</td><td class="num">0.40 kWh/kg</td><td class="src">ops-printer-01 energy ledger · cp·ΔT to 1350 K at 63% end-to-end</td></tr>
+        <tr><td>Print rate bought by 30 kWe</td><td class="num">75 kg/h · 600 kg/sol</td><td class="src">models/ops-printer-01/info.json · flow account</td></tr>
         <tr><td>Dome layer overlap at 6 m height</td><td class="num">29% (limit)</td><td class="src">ops-printer-01 overhang account · r(y) profile</td></tr>
         <tr><td>Gantry beam sag vs thermal drift</td><td class="num">0.4 / 11.5 mm</td><td class="src">ops-printer-01 stiffness + ΔT 80 K account</td></tr>
       </tbody>
@@ -290,10 +294,22 @@
         was simply not readable, and the whole feed line was rerouted to cross the view. The same
         build's camera auto-fit framed the site off-center for two rounds: the group bounding
         box's phantom corners (tall gantry × wide pad, nothing actually there) inflated the frame
-        until the fit was redone against every mesh individually. And one romantic idea died by
-        division: "the site loader can feed the printer" lasted until 38 t/h ÷ 0.44 t per trip
-        returned <span class="hl">86 trips an hour</span> — the mine's haulers do bulk delivery,
-        the loader keeps its dignity doing cleanup.</p>
+        until the fit was redone against every mesh individually.</p>
+      <p><strong>The printer was 500× too fast.</strong> The worst error on this page was one
+        nobody could see. The print head's cards were written from terrestrial concrete-printing
+        instinct — a 160×200 mm bead at a quarter-metre per second, 4.8 L/s, a dome in six hours —
+        and none of it was ever checked against an energy account, because the printer had no
+        energy card at all. Writing that missing card closed the loop and detonated the number:
+        sintering regolith costs ~0.40 kWh/kg, so 38 t/h would draw <span class="hl">15 MWe</span>
+        — 140× the city's peak in the early Kilopower era (107 kW), and still ~14× the as-built
+        coincident peak of 1,068 kW on the pwr-grid-01 ledger. The real answer, from the 30 kWe the plant is
+        actually allotted, is 75 kg/h. Every downstream conclusion moved with it: a dome takes a
+        construction season rather than an afternoon; the 26 t silo lasts 43 sols rather than
+        40 minutes; and the verdict on the little site loader flipped outright — the old cards
+        called it hopeless at "86 trips an hour", when the true demand is
+        <strong>1.4 buckets a sol</strong>, comfortably one small robot's day job. The moral is the
+        one this district keeps relearning: a number with no ledger behind it is decoration, and a
+        missing ledger hides errors that a wrong ledger would have caught.</p>
       <p><strong>The hot-pixel cliff.</strong> The defect-injection experiment on the mine
         robot's camera found dead pixels degrade the obstacle logic linearly — but hot pixels hit
         a cliff near 12%: they drag the auto-exposure down until real terrain falls below

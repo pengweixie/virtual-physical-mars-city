@@ -1,0 +1,195 @@
+{
+ "mass_kg": 39.8,
+ "g": 3.71,
+ "actuator_model": {
+  "hip": {
+   "N": 100,
+   "Kt": 0.075,
+   "R": 0.62,
+   "eta": 0.75,
+   "Pidle": 1.1
+  },
+  "knee": {
+   "N": 100,
+   "Kt": 0.075,
+   "R": 0.62,
+   "eta": 0.75,
+   "Pidle": 1.1
+  },
+  "ank": {
+   "N": 80,
+   "Kt": 0.052,
+   "R": 1.15,
+   "eta": 0.72,
+   "Pidle": 0.8
+  },
+  "sh": {
+   "N": 60,
+   "Kt": 0.042,
+   "R": 1.8,
+   "eta": 0.72,
+   "Pidle": 0.6
+  },
+  "elb": {
+   "N": 60,
+   "Kt": 0.038,
+   "R": 2.1,
+   "eta": 0.72,
+   "Pidle": 0.5
+  }
+ },
+ "electronics_W": {
+  "edge_compute": 11.0,
+  "cis_camera": 1.4,
+  "lidar": 2.6,
+  "radio": 6.0,
+  "visor_screen": 1.2,
+  "mcu_sensors": 2.4
+ },
+ "results": {
+  "walk": {
+   "P_act": 70.8,
+   "P_tot": 95.4,
+   "dist": 1.351,
+   "W_joint": {
+    "hip_L": 22.92,
+    "hip_R": 22.18,
+    "knee_L": 8.1,
+    "knee_R": 8.15,
+    "ank_L": 2.84,
+    "ank_R": 2.84,
+    "sh_L": 1.3,
+    "sh_R": 1.3,
+    "elb_L": 0.59,
+    "elb_R": 0.59
+   },
+   "tau_peak": {
+    "hip_L": 43.8,
+    "hip_R": 43.2,
+    "knee_L": 28.6,
+    "knee_R": 27.9,
+    "ank_L": 5.2,
+    "ank_R": 5.1,
+    "sh_L": 2.6,
+    "sh_R": 2.7,
+    "elb_L": 0.7,
+    "elb_R": 0.8
+   },
+   "track_err": {
+    "hip_L": 0.144,
+    "hip_R": 0.144,
+    "knee_L": 0.225,
+    "knee_R": 0.225,
+    "ank_L": 0.225,
+    "ank_R": 0.22,
+    "sh_L": 0.096,
+    "sh_R": 0.096,
+    "elb_L": 0.039,
+    "elb_R": 0.038
+   },
+   "rig_torque_mean": 16.7,
+   "rig_torque_peak": 25.6,
+   "zmp_shift_mean_cm": 11.3,
+   "zmp_shift_peak_cm": 17.3,
+   "zmp_inside_pct": 45.44444444444444
+  },
+  "idle": {
+   "P_act": 37.0,
+   "P_tot": 61.6,
+   "dist": 0.002,
+   "W_joint": {
+    "hip_L": 11.47,
+    "hip_R": 11.47,
+    "knee_L": 5.0,
+    "knee_R": 5.0,
+    "ank_L": 0.81,
+    "ank_R": 0.81,
+    "sh_L": 0.72,
+    "sh_R": 0.72,
+    "elb_L": 0.5,
+    "elb_R": 0.5
+   },
+   "tau_peak": {
+    "hip_L": 26.4,
+    "hip_R": 26.4,
+    "knee_L": 15.4,
+    "knee_R": 15.4,
+    "ank_L": 0.3,
+    "ank_R": 0.3,
+    "sh_L": 0.5,
+    "sh_R": 0.5,
+    "elb_L": 0.0,
+    "elb_R": 0.0
+   },
+   "track_err": {
+    "hip_L": 0.089,
+    "hip_R": 0.089,
+    "knee_L": 0.053,
+    "knee_R": 0.053,
+    "ank_L": 0.013,
+    "ank_R": 0.013,
+    "sh_L": 0.013,
+    "sh_R": 0.013,
+    "elb_L": 0.005,
+    "elb_R": 0.005
+   },
+   "rig_torque_mean": 55.1,
+   "rig_torque_peak": 65.8,
+   "zmp_shift_mean_cm": 37.3,
+   "zmp_shift_peak_cm": 44.6,
+   "zmp_inside_pct": 0.0
+  },
+  "walk_tray": {
+   "P_act": 75.0,
+   "P_tot": 99.6,
+   "dist": 1.339,
+   "W_joint": {
+    "hip_L": 23.39,
+    "hip_R": 23.06,
+    "knee_L": 7.99,
+    "knee_R": 8.24,
+    "ank_L": 3.06,
+    "ank_R": 3.08,
+    "sh_L": 2.2,
+    "sh_R": 2.21,
+    "elb_L": 0.87,
+    "elb_R": 0.88
+   },
+   "tau_peak": {
+    "hip_L": 44.0,
+    "hip_R": 43.1,
+    "knee_L": 28.5,
+    "knee_R": 28.1,
+    "ank_L": 5.5,
+    "ank_R": 5.4,
+    "sh_L": 3.2,
+    "sh_R": 3.2,
+    "elb_L": 2.1,
+    "elb_R": 2.1
+   },
+   "track_err": {
+    "hip_L": 0.145,
+    "hip_R": 0.148,
+    "knee_L": 0.225,
+    "knee_R": 0.225,
+    "ank_L": 0.238,
+    "ank_R": 0.234,
+    "sh_L": 0.105,
+    "sh_R": 0.105,
+    "elb_L": 0.055,
+    "elb_R": 0.054
+   },
+   "rig_torque_mean": 16.9,
+   "rig_torque_peak": 26.3,
+   "zmp_shift_mean_cm": 11.5,
+   "zmp_shift_peak_cm": 17.8,
+   "zmp_inside_pct": 45.22222222222222
+  }
+ },
+ "shift": {
+  "duty": 0.6,
+  "P_mean_W": 81.9,
+  "endurance_h": 3.18,
+  "pack_Wh": 260
+ }
+}

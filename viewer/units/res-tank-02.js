@@ -1,5 +1,5 @@
 // Spare water holding tank (dust-storm water bank) — code asset per MODELS.md §4.
-// Ported from the mars-water-ice project (mars-water-ice\src\).
+// Ported from the mars-water-ice project (E:\Claude\mars-water-ice\src\).
 // 13 m^3 horizontal vessel on cradles with crossover stub + isolation valve.
 // 1 unit = 1 m. Origin = base-center ground point (y=0), +Y up, valve side +Z.
 // Knowledge cards: res-tank-02.info.json (TS-01 R1 storm-bank sizing).

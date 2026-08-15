@@ -5,8 +5,8 @@
 - `viewer/units/sci-swir-01.info.json`(7 卡全双语,sim+physics 全带)
 - `models/manifest.json` 已登记(**pos:null,落位待总控**)
 - `snaps/anim/sci-swir-01.gif`(12 s/960px/1.1 MB,昼扫矿区→入夜仰天气辉凝视→回昼,首尾闭合)
-- 设计册 `mars-swir`(DESIGN.md + sim/01–05 五本账 + out/*.json)
-- 真源:`Codex/2026-07-04\InGaAs` 只读蒸馏,未改动;热签核数字在
+- 设计册 `E:\Claude\mars-swir`(DESIGN.md + sim/01–05 五本账 + out/*.json)
+- 真源:`E:\Codex\2026-07-04\InGaAs` 只读蒸馏,未改动;热签核数字在
   `ingaas-d1ab33a.tar` 内 2026-07-10 物理 TEC 模型 spec(§12.2.1/§12.4),
   主工作树 grep 不到——查数请解 tar。
 
@@ -80,7 +80,7 @@ bbox 与 minY 不变(5.01 / 0.00),manifest size_m 无需改。
 **v3 复验记录**:validate 全 PASS(3316 面,1 WARN 同前)· 包络扫描 minY=0/maxY=3.001 不变 ·
 俯仰昼 +5.9°/夜 −71.6° 收敛 · 城内烟测 scale=1、spinner 绕 z 实测 0.6283 rad/15 s 精确、
 传感器 15 帧/15 s、console 零报错 · 动图重拍 12 s/1.7 MB 首尾闭合(diff 0.166)。
-截图落 `mars-swir\shots`(v3_fw_* 前置滤光轮目检三张)。
+截图落 `E:\Claude\mars-swir\shots`(v3_fw_* 前置滤光轮目检三张)。
 
 **坑账新增两条**(建议进 skill 坑账):
 1. **8462 上传服务是别的 session 的旧实例**,POST 过去片子落到 `mars-radio/shots` ——
@@ -95,7 +95,7 @@ COMSOL 火星散热板 CFD(账 7 已证明辐射主导使其不敏感)。
 ## v4 器件轮追记(TCAD 恢复后,账 13)
 
 `tcad@192.168.88.128` 恢复后补跑 Sentaurus P-2019.03,**40 次有效求解 / 8 次作废 / 3 次工具语法失败**,
-五步 A–E 加两次补跑。deck 与日志全部归档 `mars-swir\tcad\`(含 `logs/iface_section_reference.txt`
+五步 A–E 加两次补跑。deck 与日志全部归档 `E:\Claude\mars-swir\tcad\`(含 `logs/iface_section_reference.txt`
 ——那份 `sdevice -P` 导出的区域/界面规范名清单救了 Step B)。
 
 **结掉了真源 Phase 20/21 悬置一百余阶段的开放问题**:暗电流由**产生复合主导**,三个独立指纹一致
@@ -105,7 +105,7 @@ COMSOL 火星散热板 CFD(账 7 已证明辐射主导使其不敏感)。
 **真源把"最大工艺风险"标在侧壁是押错方向** —— 它那条"必须平面扩散、不得裸刻蚀 mesa"的铁律
 本身正确且值 6 个量级,但风险已被它自己的架构选择消除;真瓶颈是 91.7% 的体 GR。
 
-**发现真源冻结指标的内部冲突**(建议报总控,但**不改 Codex 原项目**,只作设计册记录):
+**发现真源冻结指标的内部冲突**(建议报总控,但**不改 E:\Codex 原项目**,只作设计册记录):
 `10 e⁻/s/px @ −40 °C` 与其 `2.5 µm 全耗尽 p-i-n` 架构差 4 个量级(GR 限反推需 65.6 ms 体寿命),
 且与它自己的"10–60 fps 可接受"互斥(前者要漂移收集、后者要扩散收集)。
 建议指标改为 `−60…−75 °C / 10 e⁻/s/px`,或在 −40 °C 放宽到 1e4 量级。

@@ -8,14 +8,28 @@
       "range": 8,
       "detail": "铜合金内壁燃烧室,壁内铣有再生冷却流道,低温甲烷在喷注入室前先流经壁道带走热量、同时被预热——铜色外观即来自这层高导热室壁。室压是全流量分级燃烧循环拉到极高水平的关键。顶部为喷注面与火炬点火器。",
       "detail_en": "A copper-alloy chamber liner with milled regenerative cooling channels: cryogenic methane sweeps the wall before injection, carrying off heat while preheating itself - the copper look is that high-conductivity liner. Chamber pressure is what the full-flow staged-combustion cycle pushes to record levels. Injector face and torch igniter sit on top.",
-      "specs": { "室壁": "铜合金再生冷却", "室压": "~300 bar（Raptor 2）", "冷却剂": "低温甲烷（先冷却后燃烧）", "点火": "火炬点火器", "循环": "全流量分级燃烧" },
-      "specs_en": { "Liner": "copper alloy, regen-cooled", "Chamber pressure": "~300 bar (Raptor 2)", "Coolant": "cryo methane (cool first, burn after)", "Ignition": "torch igniter", "Cycle": "full-flow staged combustion" },
+      "specs": {
+        "室壁": "铜合金再生冷却",
+        "室压": "~300 bar（Raptor 2）",
+        "冷却剂": "低温甲烷（先冷却后燃烧）",
+        "点火": "火炬点火器",
+        "循环": "全流量分级燃烧"
+      },
+      "specs_en": {
+        "Liner": "copper alloy, regen-cooled",
+        "Chamber pressure": "~300 bar (Raptor 2)",
+        "Coolant": "cryo methane (cool first, burn after)",
+        "Ignition": "torch igniter",
+        "Cycle": "full-flow staged combustion"
+      },
       "sim": [
         "300 bar 室压是全流量循环的产物：两台预燃器把全部推进剂涡轮化后再进主室，泵后压力足以支撑高室压 → 高 Isp"
       ],
       "sim_en": [
         "300 bar is a product of the full-flow cycle: both preburners turbine the entire propellant flow before the main chamber, leaving pump discharge pressure high enough to feed it -> high Isp"
-      ]
+      ],
+      "physics": "再生冷却是能量回收:室壁热流不被丢弃,而是预热将要燃烧的甲烷。铜合金负责把 MW/m² 级热流摊平、壁温压在蠕变线下,甲烷的结焦温度是硬顶——热流随室压增长,冷却能力反过来才是室压的真正上限。",
+      "physics_en": "Regenerative cooling is energy recovery: wall heat is not rejected but pre-heats the very methane about to burn. The copper alloy spreads MW/m2-class flux and holds the wall below creep, with methane coking as the hard ceiling - and since flux grows with chamber pressure, cooling capacity is what really caps Pc."
     },
     {
       "id": "turbopumps",
@@ -24,8 +38,20 @@
       "range": 8,
       "detail": "全流量分级燃烧的标志:两台独立涡轮泵(甲烷泵 / 液氧泵)各由一台预燃器驱动——富燃预燃器(铜色)驱甲烷涡轮、富氧预燃器(钢色)驱液氧涡轮。两股燃气全部注入主室燃尽,无开式排放,效率最高。泵出口高压管接喉部歧管。",
       "detail_en": "The full-flow signature: two independent turbopumps (methane / LOX), each driven by its own preburner - fuel-rich (copper tone) spinning the methane turbine, oxygen-rich (steel tone) spinning the LOX turbine. Both gas streams burn out in the main chamber with no open exhaust: maximum efficiency. Pump discharge lines feed the throat manifold.",
-      "specs": { "涡轮泵": "2（CH₄ / LOX 独立）", "预燃器": "2（富燃 + 富氧）", "特点": "全流量、无开式排放", "驱动": "预燃器燃气驱涡轮" },
-      "specs_en": { "Turbopumps": "2 (CH4 / LOX, independent)", "Preburners": "2 (fuel-rich + oxygen-rich)", "Trait": "full flow, no open exhaust", "Drive": "preburner gas spins the turbines" }
+      "specs": {
+        "涡轮泵": "2（CH₄ / LOX 独立）",
+        "预燃器": "2（富燃 + 富氧）",
+        "特点": "全流量、无开式排放",
+        "驱动": "预燃器燃气驱涡轮"
+      },
+      "specs_en": {
+        "Turbopumps": "2 (CH4 / LOX, independent)",
+        "Preburners": "2 (fuel-rich + oxygen-rich)",
+        "Trait": "full flow, no open exhaust",
+        "Drive": "preburner gas spins the turbines"
+      },
+      "physics": "全流量的要义是\"每一克推进剂先做功再燃烧\":两台预燃器把全部流量变成温度不高的富燃/富氧燃气去驱涡轮,单位流量的做功需求最小,涡轮进口温度就最低——寿命与创纪录室压是同一件事的两面。代价是富氧燃气配管的冶金难题。",
+      "physics_en": "Full flow means every gram of propellant does turbine work before it burns: two preburners turn the entire flow into comparatively cool fuel-rich and oxygen-rich gas, minimizing specific turbine work and hence turbine inlet temperature - engine life and record chamber pressure are two faces of the same coin. The bill is the metallurgy of oxygen-rich plumbing."
     },
     {
       "id": "nozzle",
@@ -34,14 +60,30 @@
       "range": 8,
       "detail": "海平面版钟形喷管,管壁式再生冷却:上段外壁一圈纵向冷却管把甲烷引到喉部歧管环,再回流冷却室壁。喉部/中部/出口三道歧管加强环兼作结构箍。表面棱面即冷却流道走向。出口 Ø≈1.3 m,针对火星稀薄大气优化。",
       "detail_en": "Sea-level bell nozzle with tube-wall regenerative cooling: longitudinal coolant tubes on the upper wall bring methane to the throat manifold ring, then back to cool the chamber liner. Throat, mid and exit manifold rings double as structural hoops; the faceted surface traces the coolant runs. Exit ~1.3 m, tuned for thin Martian air.",
-      "specs": { "型面": "钟形（喉部→扩张段）", "冷却": "管壁式再生冷却", "膨胀比": "SL≈40 / RVac≈90+", "Isp": "~330 s（SL）/ ~375 s（RVac）", "歧管环": "喉部 / 中部 / 出口 3 道", "出口直径": "≈ 1.3 m（海平面版）" },
-      "specs_en": { "Contour": "bell (throat -> expansion)", "Cooling": "tube-wall regenerative", "Expansion ratio": "SL ~40 / RVac ~90+", "Isp": "~330 s (SL) / ~375 s (RVac)", "Manifold rings": "3 (throat / mid / exit)", "Exit diameter": "~1.3 m (SL version)" },
+      "specs": {
+        "型面": "钟形（喉部→扩张段）",
+        "冷却": "管壁式再生冷却",
+        "膨胀比": "SL≈40 / RVac≈90+",
+        "Isp": "~330 s（SL）/ ~375 s（RVac）",
+        "歧管环": "喉部 / 中部 / 出口 3 道",
+        "出口直径": "≈ 1.3 m（海平面版）"
+      },
+      "specs_en": {
+        "Contour": "bell (throat -> expansion)",
+        "Cooling": "tube-wall regenerative",
+        "Expansion ratio": "SL ~40 / RVac ~90+",
+        "Isp": "~330 s (SL) / ~375 s (RVac)",
+        "Manifold rings": "3 (throat / mid / exit)",
+        "Exit diameter": "~1.3 m (SL version)"
+      },
       "sim": [
         "火星大气仅 ~0.6% 地球,海平面版喷管几乎全程处于近真空,SL 猛禽在火表 Isp 接近其真空值,过膨胀损失小"
       ],
       "sim_en": [
         "Mars ambient pressure is only ~0.6% of Earth's: the SL nozzle runs in near vacuum, so a sea-level Raptor delivers close to its vacuum Isp on the surface with little overexpansion loss"
-      ]
+      ],
+      "physics": "喷管把焓换成动能,最优膨胀比由背压决定。火星 ~600 Pa 的环境让海平面钟形喷管全程近似欠膨胀工作、Isp 逼近真空值——所以火星上\"海平面版\"依然高效,真空版只是把同一原理推到更大的面积比。",
+      "physics_en": "A nozzle trades enthalpy for kinetic energy, and the optimum expansion ratio is set by back-pressure. In Mars' ~600 Pa ambient a sea-level bell runs essentially underexpanded everywhere, its Isp approaching the vacuum value - the SL engine stays efficient on Mars, and the vacuum version merely pushes the same principle to a larger area ratio."
     },
     {
       "id": "gimbal",
@@ -50,8 +92,20 @@
       "range": 8,
       "detail": "发动机顶部十字轴万向节,把整机铰接到箱体推力结构上;两台 TVC 液压作动器推拉耳片实现俯仰/偏航摆动,用于上升段与着陆段的姿态控制。接口板集中布置推进剂进口法兰、燃气管与电气接头。",
       "detail_en": "A cross-axis gimbal at the engine head hinges the whole engine to the thrust structure; two TVC hydraulic actuators push-pull on lugs for pitch/yaw deflection during ascent and landing. The interface plate gathers propellant flanges, hot-gas ducts and electrical connectors.",
-      "specs": { "机构": "十字轴万向节", "作动": "2 × TVC 液压作动器", "作用": "推力矢量控制（俯仰/偏航）", "接口": "推进剂法兰 + 燃气管 + 电气" },
-      "specs_en": { "Mechanism": "cross-axis gimbal", "Actuation": "2 x TVC hydraulic actuators", "Role": "thrust vector control (pitch/yaw)", "Interfaces": "propellant flanges + gas ducts + electrical" }
+      "specs": {
+        "机构": "十字轴万向节",
+        "作动": "2 × TVC 液压作动器",
+        "作用": "推力矢量控制（俯仰/偏航）",
+        "接口": "推进剂法兰 + 燃气管 + 电气"
+      },
+      "specs_en": {
+        "Mechanism": "cross-axis gimbal",
+        "Actuation": "2 x TVC hydraulic actuators",
+        "Role": "thrust vector control (pitch/yaw)",
+        "Interfaces": "propellant flanges + gas ducts + electrical"
+      },
+      "physics": "摆动喷管的控制力矩 = T·sinδ·L:推力本身就是执行器,力臂是发动机到质心的距离。着陆构型质心高在 26 m,±15° 摆角给出约 1 rad/s² 的俯仰角加速度——3.6 s 翻完 85° 的翻转机动,权限一路贴着饱和线用。",
+      "physics_en": "A gimballed engine's control torque is T sin(delta) times the engine-to-CG arm: thrust itself is the actuator. With the landing CG 26 m up, +/-15 deg of swing yields about 1 rad/s2 of pitch authority - enough to complete the 85-deg flip in 3.6 s, riding the saturation limit the whole way."
     }
   ]
 }

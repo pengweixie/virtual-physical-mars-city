@@ -1,6 +1,6 @@
 // Rodwell water-ice extraction station — code asset per MODELS.md §4.
 // Ported from the mars-water-ice project's procedural three.js build
-// (mars-water-ice\src\scene.js) at real metric scale: 10 m derrick
+// (E:\Claude\mars-water-ice\src\scene.js) at real metric scale: 10 m derrick
 // over a sealed drill house, insulated DN25 line to a 13 m^3 service tank,
 // icy tailings pile, auxiliary solar panel, staked WELL-2 reserve site.
 // 1 unit = 1 m. Origin = pad-center ground point (y=0 = terrain), +Y up,

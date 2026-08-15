@@ -22,6 +22,10 @@ E 进入地下城 · P 传送到毅力号 · 右下滑块调火星时。
 - `viewer/` — 引擎（main.js）+ 21 个程序化资产模块 + 知识卡 info.json
 - `scripts/` — 数据管线（HiRISE 下载/地形处理/任务更新/模型入库）+
   14 个火箭动力学仿真 + 布局审计/契约校验工具
+- `sim/hab-bot-01/` — 室内人形机器人的全部账本：MuJoCo 步态/平衡/迈步/跑步/
+  抓取、LiDAR 测距蒙卡、CIS 光度与运动模糊、ISO 人机安全、算力与延迟、热
+  （含 COMSOL FEM）、电池老化、语音声学，以及 LiDAR 前端从 RTL 到 GDS 的
+  完整流程。页面与知识卡里的每个数字都引用这里的某个脚本
 - `models/` — GLB 资产与 manifest（水晶城仅保留成品 base_tex.glb）
 - `data/processed/` — 地形成品（原始 HiRISE 由 `scripts/download_data.py` 重新获取）
 - `snaps/` — 六大系统海报及其 HTML 源

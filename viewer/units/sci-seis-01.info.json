@@ -102,8 +102,8 @@
         "VBB band 0.5 Hz": "night: city unmeasurable; day: 7.7e-10 < 2.5e-8 wind",
         "Path attenuation": "Vs 175 m/s, effective scattering Q 10–25 (calibrated daily by the active source)"
       },
-      "sim": "城市噪声账(mars-seis sim/03,振源坐标取 manifest 实际落位):矿场 8 Hz 昼间源压到昼风噪之下需 454 m(Q15)——A 站距矿 967 m、B 站 446 m 均过线;远端节点距 24h 源 877 m(Q15)~1414 m(Q25)可达纯净夜地板,建议撒放 1.2~2.2 km、方位岔开 ≥90°。",
-      "sim_en": "City-noise ledger (mars-seis sim/03, source positions from the real manifest): the 8 Hz daytime mine needs 454 m (Q15) to drop below day wind noise — site A is 967 m and B 446 m, both pass; remote nodes reach the pristine night floor at 877 m (Q15) to 1414 m (Q25) from 24 h sources, hence the recommended scatter at 1.2–2.2 km with azimuths ≥90° apart.",
+      "sim": "城市噪声账(mars-seis sim/03,振源坐标取 manifest 实际落位):矿场(峰 8 Hz)的最紧频带在 2 Hz 边带:压到昼风噪之下需 454 m(Q15)——A 站 967 m 裕度 2.1×;**B 站 446 m 差 8 m(1.7%)恰在线内**,在模型不确定度里但余量为零,选 B 案时矿场是它的第一风险项;远端节点距 24h 源 877 m(Q15)~1414 m(Q25)可达纯净夜地板,建议撒放 1.2~2.2 km、方位岔开 ≥90°。",
+      "sim_en": "City-noise ledger (mars-seis sim/03, source positions from the real manifest): the mine (8 Hz peak) binds at its 2 Hz sideband: 454 m (Q15) to drop below day wind — site A at 967 m has 2.1× margin; **site B at 446 m falls 8 m (1.7%) short**, within model uncertainty but with zero margin, making the mine site B's first risk item; remote nodes reach the pristine night floor at 877 m (Q15) to 1414 m (Q25) from 24 h sources, hence the recommended scatter at 1.2–2.2 km with azimuths ≥90° apart.",
       "physics": "面波振幅 ∝1/√r(柱面几何扩散)× exp(-πfr/QVs)(滞弹+散射);高频先死、低频难躲——所以机械噪声是高频问题、靠距离解决,风噪声是低频问题、靠罩子和夜晚解决。警示:月球完整岩体 Q~3000 几乎不吸收,若实测 Q 偏高,安静半径整体外扩——主动源每天都在量这个参数。",
       "physics_en": "Surface-wave amplitude ∝1/√r (cylindrical spreading) × exp(−πfr/QVs) (anelasticity + scattering); high frequencies die first, low frequencies are hard to escape — machinery noise is a high-frequency problem solved by distance, wind noise a low-frequency problem solved by the shield and the night. Caution: intact lunar rock has Q~3000 and barely absorbs; if measured Q trends high the quiet radii all grow — which the active source measures every single day."
     },
@@ -138,8 +138,8 @@
       "label": "实时震波屏",
       "label_en": "Live Seismogram Screen",
       "range": 25,
-      "detail": "三通道(垂直 Z + 水平 N/E)滚动震波屏:背景微震纹上,小事件约一分半一个、中等事件几分钟一个,P 波先到、S 波更大更慢、尾波指数衰减;水平分量 S 相偏大。每火星日 14:00 发射后 2 秒,屏上出现发射特征波形并触发红色警示——与发射工位隔空联动。演示口径:真实火星约 0.5 事件/sol,屏是约 300 倍加速回放。",
-      "detail_en": "Three-channel (vertical Z + horizontal N/E) scrolling seismogram: over the microseism background, small events arrive about every 90 s and medium ones every few minutes — P first, S larger and slower, coda decaying exponentially; horizontals carry bigger S. Two seconds after each sol's 14:00 launch the launch signature sweeps the screen and turns the status lamp red — a cross-city link with the launch complex. Demo scaling: real Mars sees ~0.5 events/sol, so the screen is a ~300× accelerated replay.",
+      "detail": "三通道(垂直 Z + 水平 N/E)滚动震波屏:背景微震纹上,小事件约一分半一个、中等事件几分钟一个,P 波先到、S 波更大更慢、尾波指数衰减;水平分量 S 相偏大。每火星日 14:00 发射后 2 秒,屏上出现发射特征波形并触发红色警示——与发射工位隔空联动。演示口径:真实火星约 0.5 事件/sol,屏合计约 1100 事件/sol,是约 2000 倍加速回放(评审重算修正,首版误写 300 倍)。",
+      "detail_en": "Three-channel (vertical Z + horizontal N/E) scrolling seismogram: over the microseism background, small events arrive about every 90 s and medium ones every few minutes — P first, S larger and slower, coda decaying exponentially; horizontals carry bigger S. Two seconds after each sol's 14:00 launch the launch signature sweeps the screen and turns the status lamp red — a cross-city link with the launch complex. Demo scaling: real Mars sees ~0.5 events/sol while the screen shows ~1100/sol — a ~2000× accelerated replay (review recount; an earlier version misstated 300×).",
       "specs": {
         "显示窗口": "56 列 × 0.28 s = 15.7 s",
         "事件调度": "90 s / 210 s 窗口制,22% 空窗,确定性哈希(禁 Math.random)",
@@ -273,7 +273,7 @@
         "闭环平坦度": "0.02–2 Hz 内 <0.5 dB(反馈压平 88.7 dB)",
         "极点零点": "1 个原点零点 + 3 极点(0.008 Hz 高通 / 40 Hz 抗混叠共轭对)",
         "相位规格": "0.10° @1 Hz —— 由账 4 的 0.28 ms 叠加精度反推",
-        "标定 SNR": "2.6e8 —— 标定精度不受噪声限制",
+        "标定 SNR": "2.6e6(注入 1e-4 = VEL 档 5%)—— 仍远非噪声受限",
         "真正的限制": "线圈常数温漂 0.5% + 系统延迟重复性 50 µs(=0.018°)"
       },
       "specs_en": {
@@ -281,18 +281,18 @@
         "Closed-loop flatness": "<0.5 dB over 0.02–2 Hz (feedback flattens by 88.7 dB)",
         "Poles & zeros": "1 zero at origin + 3 poles (0.008 Hz high-pass / 40 Hz anti-alias pair)",
         "Phase spec": "0.10° @1 Hz — reasoned backwards from ledger 4's 0.28 ms stack",
-        "Calibration SNR": "2.6e8 — accuracy is not noise-limited",
+        "Calibration SNR": "2.6e6 (inject 1e-4 = 5% of VEL scale) — still far from noise-limited",
         "The real limits": "coil-constant drift 0.5% + system-delay repeatability 50 µs (=0.018°)"
       },
       "sim": [
         "响应与标定账(mars-seis sim/09,8 闸全绿)。**相位精度就是走时精度**:1 Hz 处 1° 相位误差 = 2.8 ms 走时误差,而账 4 的 50 发叠加要 0.28 ms,于是标定规格必须是 0.1° —— 仪器指标不是拍脑袋定的,是从科学产出反推的。",
-        "标定的敌人不是噪声而是重复性:注入 10% 满量程给出 SNR 2.6e8(相位噪声仅 2e-7°),真正的误差来自线圈常数的温度漂移与数字链固定延迟的重复性(50 µs = 0.018° @1 Hz,占 0.1° 预算的 18%)。",
+        "标定的敌人不是噪声而是重复性:注入取 VEL 科学档满量程的 5%(1e-4 m/s²)仍给出 SNR 2.6e6,真正的误差来自线圈常数温漂与数字链固定延迟重复性(50 µs = 0.018° @1 Hz,占 0.1° 预算 18%)。评审补的一刀:首版想注 10% 反馈满量程(1e-2),会把 VEL 档(±2e-3)打饱和——那就只标定了 POS 路径而不是科学通道自己;**标定信号必须留在被标定的那条通道里**。",
         "**内部一致性闸**:低频等效噪声增益比(火星调校 vs 同硬件地球调校)= ω0² 之比 = 17.442048517520224,与账 1 独立算出的 resp_gain 逐位吻合 —— 两本账从不同方向撞到同一个数。",
         "**VBB 与 SP 分工的定量身份**:环增益随频率下滑(0.1 Hz 1068 → 1 Hz 185 → 2 Hz 40 → 5 Hz 6.3),掉到个位数时闭环平坦度开始劣化。这就是 VBB 主带止于 ~2 Hz、更高频交给 SP 三分量的原因,不是分工习惯而是环增益算出来的。"
       ],
       "sim_en": [
         "Response & calibration ledger (mars-seis sim/09, 8 gates green). **Phase accuracy is travel-time accuracy**: 1° of phase error at 1 Hz is 2.8 ms of travel time, and ledger 4's 50-launch stack needs 0.28 ms — so the calibration spec must be 0.1°. Instrument specs here are reasoned backwards from science output, not guessed.",
-        "Calibration's enemy is repeatability, not noise: injecting 10% of full scale gives SNR 2.6e8 (phase noise a mere 2e-7°); the real error comes from the coil constant's thermal drift and the repeatability of the digital chain's fixed delay (50 µs = 0.018° at 1 Hz, 18% of the 0.1° budget).",
+        "Calibration's enemy is repeatability, not noise: injecting just 5% of the VEL science channel's full scale (1e-4 m/s²) still yields SNR 2.6e6; the real error comes from coil-constant thermal drift and fixed-delay repeatability (50 µs = 0.018° at 1 Hz, 18% of the 0.1° budget). A review cut: the first draft injected 10% of the feedback full scale (1e-2), which would saturate the VEL channel (±2e-3) — calibrating only the POS path instead of the science channel itself; **the calibration signal must live inside the channel being calibrated**.",
         "**Internal consistency gate**: the low-frequency equivalent-noise gain ratio (Mars tuning vs the same hardware tuned on Earth) is the ratio of ω0² = 17.442048517520224, matching ledger 1's independently computed resp_gain to the last digit — two ledgers arriving at one number from different directions.",
         "**The quantitative identity of the VBB/SP split**: loop gain falls with frequency (1068 at 0.1 Hz → 185 at 1 Hz → 40 at 2 Hz → 6.3 at 5 Hz), and flatness degrades once it reaches single digits. That is why the VBB band stops near 2 Hz and the SP triaxial takes over above it — a computed boundary, not a convention."
       ],

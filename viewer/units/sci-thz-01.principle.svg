@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="780" viewBox="0 0 1560 780" font-family="Segoe UI, Microsoft YaHei, sans-serif">
+<defs>
+<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334"/></marker>
+<marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#4a90d9"/></marker>
+<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c0392b"/></marker>
+<marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2e8b57"/></marker>
+</defs>
+<rect width="1560" height="780" fill="#fdfcf8"/>
+<text x="780" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#223">sci-thz-01 · 183 GHz 水汽廓线辐射计 — 探测原理 / Sounding Principle</text>
+<text x="780" y="56" text-anchor="middle" font-size="12" fill="#667">压致展宽把「偏置频率」变成「高度旋钮」;摆镜一个机构做四件事;数字为 2026-08-09 评审后冻结口径(out/*.json)</text>
+
+<!-- ================= Panel A ================= -->
+<rect x="18" y="76" width="514" height="600" rx="8" fill="#f7f4ee" stroke="#d8d2c4"/>
+<text x="34" y="102" font-size="15" font-weight="bold" fill="#223">① 线的形成:γ(z) ∝ p(z),高度写在线形里</text>
+<rect x="52" y="140" width="120" height="90" fill="#dce8f5" stroke="#9db8d4"/>
+<rect x="52" y="230" width="120" height="90" fill="#c3d9ef" stroke="#9db8d4"/>
+<rect x="52" y="320" width="120" height="80" fill="#a6c8e8" stroke="#9db8d4"/>
+<rect x="52" y="400" width="120" height="70" fill="#84b4e0" stroke="#9db8d4"/>
+<rect x="52" y="470" width="120" height="14" fill="#8a6a4a"/>
+<text x="46" y="145" text-anchor="end" font-size="11" fill="#556">40 km</text>
+<text x="46" y="235" text-anchor="end" font-size="11" fill="#556">20 km</text>
+<text x="46" y="325" text-anchor="end" font-size="11" fill="#556">10 km</text>
+<text x="46" y="405" text-anchor="end" font-size="11" fill="#556">5 km</text>
+<text x="46" y="475" text-anchor="end" font-size="11" fill="#556">0</text>
+<text x="112" y="188" text-anchor="middle" font-size="11" fill="#456">γ 小 → 只在线心发射</text>
+<text x="112" y="440" text-anchor="middle" font-size="11" fill="#fff">γ 大 → 发射铺满线翼</text>
+<text x="112" y="500" font-size="10.5" fill="#556" text-anchor="middle">水汽混合至 25 km hygropause</text>
+<rect x="250" y="140" width="262" height="240" fill="#fff" stroke="#ccc"/>
+<text x="381" y="132" text-anchor="middle" font-size="12" fill="#445">天顶亮温 Tb(Δν) — 10 pr-µm</text>
+<path d="M258 360 L286 356 L314 344 L342 316 L370 258 L381 196 L392 258 L420 316 L448 344 L476 356 L504 360" fill="none" stroke="#223" stroke-width="2.2"/>
+<line x1="258" y1="368" x2="504" y2="368" stroke="#889"/>
+<text x="381" y="386" text-anchor="middle" font-size="10.5" fill="#667">偏置 |Δν|(对称,DSB 折叠)</text>
+<line x1="381" y1="196" x2="381" y2="372" stroke="#8e44ad" stroke-width="2"/>
+<line x1="371" y1="230" x2="371" y2="372" stroke="#c0392b" stroke-width="2"/>
+<line x1="352" y1="300" x2="352" y2="372" stroke="#e07b39" stroke-width="2"/>
+<line x1="326" y1="336" x2="326" y2="372" stroke="#d4a017" stroke-width="2"/>
+<line x1="296" y1="352" x2="296" y2="372" stroke="#4a90d9" stroke-width="2"/>
+<line x1="262" y1="359" x2="262" y2="372" stroke="#7d8a97" stroke-width="2"/>
+<text x="381" y="190" text-anchor="middle" font-size="9.5" fill="#8e44ad">3M</text>
+<text x="366" y="224" text-anchor="middle" font-size="9.5" fill="#c0392b">10M</text>
+<text x="349" y="294" text-anchor="middle" font-size="9.5" fill="#e07b39">30M</text>
+<text x="323" y="330" text-anchor="middle" font-size="9.5" fill="#d4a017">90M</text>
+<text x="293" y="346" text-anchor="middle" font-size="9.5" fill="#4a90d9">300M</text>
+<text x="264" y="353" text-anchor="middle" font-size="9.5" fill="#7d8a97">1.5G 窗</text>
+<path d="M176 180 C 240 160, 300 170, 372 200" fill="none" stroke="#4a90d9" stroke-width="1.6" marker-end="url(#arb)"/>
+<path d="M176 440 C 240 430, 260 380, 300 356" fill="none" stroke="#c0392b" stroke-width="1.6" marker-end="url(#arr)"/>
+<text x="252" y="152" font-size="10.5" fill="#4a90d9">高层 → 线心(3/10 MHz)</text>
+<text x="212" y="420" font-size="10.5" fill="#c0392b">低层 → 线翼(90/300 MHz)</text>
+<rect x="34" y="528" width="482" height="132" rx="6" fill="#fff" stroke="#d8d2c4"/>
+<text x="48" y="550" font-size="12.5" fill="#223" font-weight="bold">火星把地球仪器的频率轴缩了 81×</text>
+<text x="48" y="572" font-size="11.5" fill="#445">γ(地面)= 37 MHz(6.1 hPa CO₂ ×1.6 展宽比)vs 地球 3.02 GHz;多普勒 224 kHz,59 km 以上接管</text>
+<text x="48" y="592" font-size="11.5" fill="#445">线心 τ = 3.5(10 pr-µm)光学厚;远翼对着 0.4 K 微波背景 → 发射对比度 ~190 K</text>
+<text x="48" y="612" font-size="11.5" fill="#445">强度锚:地球海平面复算 28.0 dB/km 正中 ITU 基准;CO₂ 无偶极矩 → 火星微波天空干净</text>
+<text x="48" y="646" font-size="11" fill="#8a5a18">绝对标度背 γ_CO2 ±10%(待实验室气室);p0 与 T(z) 由气象站实测供给(评审 F4/F5 后规格)</text>
+
+<!-- ================= Panel B ================= -->
+<rect x="548" y="76" width="516" height="600" rx="8" fill="#f7f4ee" stroke="#d8d2c4"/>
+<text x="564" y="102" font-size="15" font-weight="bold" fill="#223">② 扫描与定标:一个摆镜,四件事</text>
+
+<!-- left column: insets -->
+<rect x="564" y="118" width="200" height="146" fill="#fff" stroke="#ccc"/>
+<text x="664" y="136" text-anchor="middle" font-size="11.5" fill="#334" font-weight="bold">tipping:大气自当标准源</text>
+<line x1="586" y1="238" x2="746" y2="238" stroke="#889"/>
+<line x1="586" y1="238" x2="586" y2="150" stroke="#889"/>
+<line x1="592" y1="168" x2="738" y2="226" stroke="#4a90d9" stroke-width="2"/>
+<circle cx="592" cy="168" r="3" fill="#4a90d9"/><circle cx="616" cy="177" r="3" fill="#4a90d9"/><circle cx="650" cy="191" r="3" fill="#4a90d9"/><circle cx="684" cy="204" r="3" fill="#4a90d9"/><circle cx="738" cy="226" r="3" fill="#4a90d9"/>
+<text x="666" y="256" text-anchor="middle" font-size="10" fill="#556">ln V 对 m=sec(za):斜率=−τ,截距=定标点</text>
+<text x="666" y="214" text-anchor="middle" font-size="9.5" fill="#667">杠杆臂 2.0;sec@70.5° 差 2.4%(已修)</text>
+
+<rect x="564" y="286" width="200" height="132" fill="#fff" stroke="#ccc"/>
+<text x="664" y="304" text-anchor="middle" font-size="11.5" fill="#334" font-weight="bold">两点定标(亮温轴)</text>
+<line x1="582" y1="368" x2="748" y2="368" stroke="#334" stroke-width="1.6"/>
+<circle cx="592" cy="368" r="5" fill="#4a90d9"/>
+<circle cx="694" cy="368" r="5" fill="#e07b39"/>
+<circle cx="742" cy="368" r="5" fill="#c0392b"/>
+<text x="600" y="390" text-anchor="middle" font-size="9.5" fill="#4a90d9">冷空 0.469 K</text>
+<text x="694" y="356" text-anchor="middle" font-size="9.5" fill="#e07b39">场景 ~190 K</text>
+<text x="732" y="390" text-anchor="middle" font-size="9.5" fill="#c0392b">黑体 225.6 K</text>
+<text x="664" y="408" text-anchor="middle" font-size="9.5" fill="#667">场景绝对 0.19 K;t_RJ(230)=225.6 是必做换算</text>
+
+<rect x="564" y="440" width="200" height="120" fill="#fff" stroke="#ccc"/>
+<text x="664" y="458" text-anchor="middle" font-size="11.5" fill="#334" font-weight="bold">共模才被定标抵消</text>
+<text x="576" y="480" font-size="9.8" fill="#556">溢出 12.3% 打在随动筒壁上:</text>
+<text x="576" y="496" font-size="9.8" fill="#556">+28 K Tsys、0 K 精度(评审 F7:</text>
+<text x="576" y="512" font-size="9.8" fill="#556">场景单位噪声 ÷η=0.877)</text>
+<text x="576" y="532" font-size="9.8" fill="#8a5a18">地面拾取随扫描角变、不共模 →</text>
+<text x="576" y="548" font-size="9.8" fill="#8a5a18">停位供亮温 + 通道维度解耦合</text>
+
+<text x="564" y="586" font-size="10.5" fill="#c0392b">180° 黑体 = 热端 + 机械零位:</text>
+<text x="564" y="602" font-size="10.5" fill="#c0392b">24 s 回零,热漂移残留 0.00086°</text>
+<text x="564" y="626" font-size="10.5" fill="#2e8b57">140° 地面停位:斜程 1.96 m(近场)</text>
+<text x="564" y="642" font-size="10.5" fill="#2e8b57">测地面亮温;排 LTST 4.6 h(红外=毫米波</text>
+<text x="564" y="658" font-size="10.5" fill="#2e8b57">交叉点),兼防尘停泊/防霜加热姿态</text>
+
+<!-- right column: geometry -->
+<g>
+<rect x="858" y="596" width="120" height="24" fill="#b8b0a0"/>
+<rect x="900" y="520" width="36" height="76" fill="#8a8578"/>
+<circle cx="918" cy="508" r="24" fill="#cfc8ba" stroke="#8a8578" stroke-width="2"/>
+<circle cx="918" cy="508" r="8" fill="#dfe4ea" stroke="#667"/>
+</g>
+<line x1="918" y1="484" x2="918" y2="140" stroke="#4a90d9" stroke-width="2" marker-end="url(#arb)"/>
+<line x1="922" y1="486" x2="1014" y2="190" stroke="#4a90d9" stroke-width="1.6" marker-end="url(#arb)"/>
+<line x1="928" y1="492" x2="1040" y2="268" stroke="#4a90d9" stroke-width="1.6" marker-end="url(#arb)"/>
+<line x1="934" y1="496" x2="1048" y2="330" stroke="#4a90d9" stroke-width="1.6" marker-end="url(#arb)"/>
+<line x1="938" y1="502" x2="1052" y2="400" stroke="#4a90d9" stroke-width="1.6" marker-end="url(#arb)"/>
+<text x="912" y="132" text-anchor="end" font-size="10.5" fill="#345">0°(m=1)</text>
+<text x="1006" y="180" font-size="10.5" fill="#345">30°(1.15)</text>
+<text x="1034" y="260" font-size="10.5" fill="#345">48.2°(1.5)</text>
+<text x="1044" y="322" font-size="10.5" fill="#345">60°(2)</text>
+<text x="1046" y="418" font-size="10.5" fill="#345">70.5°(m=3)</text>
+<circle cx="818" cy="158" r="14" fill="#f2c14e" stroke="#d4a017"/>
+<text x="818" y="188" text-anchor="middle" font-size="9.5" fill="#8a5a18">避日 ±2°(过束 ~900 K)</text>
+<line x1="926" y1="524" x2="1006" y2="620" stroke="#2e8b57" stroke-width="2" marker-end="url(#arg)"/>
+<rect x="984" y="622" width="70" height="10" fill="#8a6a4a"/>
+<text x="1006" y="648" text-anchor="middle" font-size="9.5" fill="#2e8b57">140° · 1.96 m</text>
+<rect x="894" y="626" width="48" height="18" fill="#14161a"/>
+<path d="M898 626 l8 -7 l8 7 M914 626 l8 -7 l8 7" stroke="#c0392b" fill="none"/>
+<line x1="918" y1="532" x2="918" y2="622" stroke="#c0392b" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arr)"/>
+<text x="880" y="662" text-anchor="middle" font-size="9.5" fill="#c0392b">180° 黑体</text>
+<text x="918" y="600" text-anchor="middle" font-size="0" fill="#556">.</text>
+<text x="820" y="560" text-anchor="end" font-size="10.5" fill="#556">摆镜鼓(唯一动件)</text>
+
+<!-- ================= Panel C ================= -->
+<rect x="1080" y="76" width="462" height="600" rx="8" fill="#f7f4ee" stroke="#d8d2c4"/>
+<text x="1096" y="102" font-size="15" font-weight="bold" fill="#223">③ 反演:测到什么,诚实说</text>
+<rect x="1100" y="124" width="200" height="120" fill="#fff" stroke="#ccc"/>
+<text x="1200" y="142" text-anchor="middle" font-size="11.5" fill="#334" font-weight="bold">发射核(通道→高度)</text>
+<path d="M1116 232 C1140 200 1146 170 1140 140" fill="none" stroke="#8e44ad" stroke-width="2"/>
+<path d="M1124 232 C1156 208 1166 184 1162 152" fill="none" stroke="#c0392b" stroke-width="2"/>
+<path d="M1136 232 C1180 216 1196 196 1198 168" fill="none" stroke="#e07b39" stroke-width="2"/>
+<path d="M1152 232 C1210 224 1236 208 1244 186" fill="none" stroke="#4a90d9" stroke-width="2"/>
+<text x="1288" y="238" text-anchor="end" font-size="10" fill="#667">高度↑</text>
+<rect x="1320" y="124" width="202" height="120" fill="#fff" stroke="#ccc"/>
+<text x="1421" y="142" text-anchor="middle" font-size="11.5" fill="#334" font-weight="bold">平均核对角元(OEM)</text>
+<rect x="1338" y="206" width="34" height="28" fill="#4a90d9"/><text x="1355" y="200" text-anchor="middle" font-size="9.5" fill="#334">1.00</text>
+<rect x="1380" y="209" width="34" height="25" fill="#4a90d9"/><text x="1397" y="203" text-anchor="middle" font-size="9.5" fill="#334">0.91</text>
+<rect x="1422" y="210" width="34" height="24" fill="#4a90d9"/><text x="1439" y="204" text-anchor="middle" font-size="9.5" fill="#334">0.88</text>
+<rect x="1464" y="222" width="34" height="12" fill="#d4a017"/><text x="1481" y="216" text-anchor="middle" font-size="9.5" fill="#8a5a18">0.43</text>
+<text x="1355" y="246" text-anchor="middle" font-size="8.5" fill="#667">0-5</text><text x="1397" y="246" text-anchor="middle" font-size="8.5" fill="#667">5-10</text><text x="1439" y="246" text-anchor="middle" font-size="8.5" fill="#667">10-20</text><text x="1481" y="246" text-anchor="middle" font-size="8.5" fill="#667">20-40 km</text>
+<rect x="1100" y="268" width="422" height="128" rx="6" fill="#fff" stroke="#d8d2c4"/>
+<text x="1114" y="290" font-size="12.5" font-weight="bold" fill="#223">产品与精度(场景单位 NEΔT,评审后口径)</text>
+<text x="1114" y="312" font-size="11.5" fill="#445">柱含量:0.45% @1 s → 平台 0.12%(1e-4 增益底);1 pr-µm 冬季低值 ~10 s 进 1%</text>
+<text x="1114" y="332" font-size="11.5" fill="#445">粗廓线:DOF 3.76(线性)/3.21(核迹);层误差 6/19/17/29%(先验 50%)</text>
+<text x="1114" y="352" font-size="11.5" fill="#8a5a18">20–40 km 层 57% 是先验 → 作「受约束上界」发布,不当测量值</text>
+<text x="1114" y="372" font-size="11.5" fill="#445">误差棒:解析 0.34% 低估蒙卡 0.90% 约 3× → 对外用蒙卡数</text>
+<rect x="1100" y="416" width="422" height="132" rx="6" fill="#fff" stroke="#d8d2c4"/>
+<text x="1114" y="438" font-size="12.5" font-weight="bold" fill="#223">城内联动(三条互赖,双向)</text>
+<text x="1114" y="460" font-size="11.5" fill="#445">← T(z):气象站+GCM(尘暴盲 +12.05%、36% 不收敛 → +3.89%,3.1×)</text>
+<text x="1114" y="480" font-size="11.5" fill="#445">← p0:气象站气压计(季节 ±10–15%;固定 610 Pa 反演 +10% 偏柱 −2.5%)</text>
+<text x="1114" y="500" font-size="11.5" fill="#445">← 地表温:sci-weather-01 / sci-ir-01(红外表皮 ≠ 毫米波亮温,差 ~18 K)</text>
+<text x="1114" y="520" font-size="11.5" fill="#2e8b57">→ 尘暴期接棒:尘对 183 GHz 透明(τ≈1.2e-3 @τ_vis=5),光学瞎时本机在岗</text>
+<text x="1114" y="540" font-size="10.5" fill="#667">未扣地面拾取(1.49 K)会让反演整体发散 —— 地面停位是可用/不可用分界</text>
+<rect x="1100" y="568" width="422" height="92" rx="6" fill="#fff" stroke="#d8d2c4"/>
+<text x="1114" y="590" font-size="12.5" font-weight="bold" fill="#223">灵敏度为什么够(千分之一水汽)</text>
+<text x="1114" y="612" font-size="11.5" fill="#445">线窄 81× → 同样分子的峰值截面抬 81×;背景是 0.4 K 近黑冷空</text>
+<text x="1114" y="632" font-size="11.5" fill="#445">发射测量:τ~0.01 也是 ~2 K 信号,对 NEΔT ~0.1 K —— 够且富余</text>
+
+<path d="M532 370 L548 370" stroke="#334" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M1064 370 L1080 370" stroke="#334" stroke-width="2" marker-end="url(#ar)"/>
+<text x="780" y="712" text-anchor="middle" font-size="12" fill="#667">① 大气把高度编码进线形 → ② 摆镜采集天空阶梯 + 自带定标(黑体/冷空/地面/tipping) → ③ OEM 反演出柱 + 3 层粗廓线</text>
+<text x="780" y="736" text-anchor="middle" font-size="11" fill="#99a">E:\Claude\mars-thz · 12 本账 + HFSS 全波 + 独立 Fable 评审(14 findings 全修);城内资产 sci-thz-01 @ (292,-308) 气象站组团</text>
+</svg>

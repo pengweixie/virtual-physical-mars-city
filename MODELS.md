@@ -86,8 +86,9 @@ Rodin 没有 GLB 导出时：把 obj/stl + 贴图丢进 `src/`，转换管线
 - `mate`：刻意共位声明——本资产与 `mate` 指向的资产足迹允许重叠
   （如 veh-rocket-02 立在 ops-spaceport-02 发射台上），布局审计
   `scripts/audit_layout.mjs` 对该对免检，其余任何重叠仍然报错
-- **道路/管廊净空**：审计检查全部城市线性走廊——12 条道路（枢纽放射四条
-  + 纪念公路 + 密度化七支线）与 5 段架空管廊（甲烷加注线/传热三段/水线），
+- **道路/管廊净空**：审计检查全部城市线性走廊——14 条道路（枢纽放射四条
+  + 纪念公路 + 密度化七支线 + 矿场支线/产业连接线）与 7 段架空管廊
+  （甲烷线/液氧线/传热三段/水线/ISRU 进水支管），
   足迹压线 = ROAD CLASH 报错（TT-1 展区压路事故后新增）；线路终点合法服务
   某设施的豁免对写在脚本 ROAD_EXEMPT 里；**改线网时 main.js（SPURS/pipeRack
   调用）与审计脚本 roads 表两处同步改**
@@ -172,6 +173,15 @@ export const builders = {
 
 设计参考：本项目此前给出的各设备工程化描述（组件清单、尺寸标定）直接作为
 设计输入用——它们本来就是按施工说明书写的。
+
+## 4a+. 魔幻城模块（X 键图层，2026-08-11 自 main.js 剥离）
+
+魔幻城整层住在 **`viewer/magic/magic-city.js`**——设计 session 可以直接改这个文件,
+不算碰引擎红线。契约:引擎调用一次 `build(ctx)`,ctx 提供 THREE 单例、magicGroup、
+anims/lights 数组、sampleHeight、renderer、T、sunDirUniform 与水晶 uniform 组
+(逐项注释见模块头)。规则:不 import three、几何全挂 ctx.group、每帧逻辑 push 进
+ctx.anims、点光 push 进 ctx.lights(引擎统一按夜色调强度)。水晶王城 GLB 走
+`models/crystal/2/base_tex.glb` 懒加载,替换资产走 _inbox 照旧。
 
 ## 4b. 室内场景（穿门加载，interior）
 

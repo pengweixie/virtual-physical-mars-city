@@ -1,0 +1,19 @@
+# Yosys synthesis of hab-bot-01's LiDAR digital front end to sky130 HD.
+#
+# Unlike MB-1's 64 kbit CDF (a compiled SRAM macro, blackboxed), the histogram
+# here is INTENTIONALLY synthesized to flip-flops: 15 ch x 70 bins x 12 b =
+# 12.6 kbit. Whether a flop register file beats the L1 ledger's SRAM-macro
+# scaling (1.14 mm^2 / 64 kbit from MB-1) at this small size is exactly the
+# question this run measures.
+#
+# Liberty staged by run_syn.ps1 as syn/sky130_hd_tt.lib. Run from chip/.
+read_liberty -lib syn/sky130_hd_tt.lib
+read_verilog rtl/lidar_fe.v
+hierarchy -top lidar_fe
+synth -top lidar_fe
+dfflibmap -liberty syn/sky130_hd_tt.lib
+abc -liberty syn/sky130_hd_tt.lib
+opt_clean -purge
+tee -o syn/reports/sky130_stat.txt stat -liberty syn/sky130_hd_tt.lib
+tee -o syn/reports/sky130_check.txt check
+write_verilog -noattr syn/netlist/lidar_fe.sky130.v

@@ -39,8 +39,8 @@
     },
     {
       "id": "pwr-storage-01",
-      "name": "储能场（电池阵+再生燃料电池）",
-      "name_en": "Energy Storage Farm",
+      "name": "生存电网（储能场：电池阵+再生燃料电池）",
+      "name_en": "Survival Grid (Energy Storage Farm)",
       "type": "code",
       "module": "units/pwr-storage-01.js",
       "size_m": 60,
@@ -266,7 +266,7 @@
       "name_en": "CZ-10B Launch Complex",
       "type": "code",
       "module": "units/ops-spaceport-02.js",
-      "size_m": 140,
+      "size_m": 148,
       "size_axis": "width",
       "pos": [
         750,
@@ -312,6 +312,24 @@
       ],
       "rotation_deg": 0,
       "sink_m": 0.3,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "res-cryo-01",
+      "name": "低温推进剂罐区与转运站",
+      "name_en": "Cryogenic Propellant Farm & Transfer Station",
+      "type": "code",
+      "module": "units/res-cryo-01.js",
+      "size_m": 84.5,
+      "size_axis": "width",
+      "pos": [
+        -40,
+        -60
+      ],
+      "rotation_deg": -137,
+      "sink_m": 0.45,
       "effects": [
         "glow_windows"
       ]
@@ -404,6 +422,35 @@
       "effects": []
     },
     {
+      "id": "sci-fel-01",
+      "name": "红外/太赫兹自由电子激光装置（10–150 µm）",
+      "name_en": "Infrared / Terahertz Free-Electron Laser (10–150 µm)",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/sci-fel-01.js",
+      "entry": {
+        "pos": [
+          -21,
+          0,
+          1.2
+        ],
+        "yaw": -1.5708
+      },
+      "exitZone": {
+        "pos": [
+          -26.2,
+          7.4
+        ],
+        "radius": 1.8
+      },
+      "size_m": 56,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
       "id": "sci-quantum-01",
       "name": "量子计算中心「玄枢」（QP-20 超导量子计算机）",
       "name_en": "Quantum Computing Center (QP-20 superconducting quantum computer)",
@@ -430,6 +477,27 @@
       "rotation_deg": 0,
       "sink_m": 0,
       "effects": []
+    },
+    {
+      "id": "sci-cryoem-01",
+      "name": "地下城冷冻电镜实验室（300 kV 单颗粒）",
+      "name_en": "Undercity Cryo-EM Laboratory (300 kV single-particle)",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/sci-cryoem-01.js",
+      "size_m": 22,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": [],
+      "exitZone": {
+        "pos": [
+          0,
+          -99
+        ],
+        "radius": 0.01
+      }
     },
     {
       "id": "res-dome-01",
@@ -528,6 +596,26 @@
       "sink_m": 0.08,
       "effects": [
         "blink"
+      ],
+      "placements": [
+        [
+          "netMastA",
+          1500,
+          -1200,
+          0.4
+        ],
+        [
+          "netMastA",
+          -900,
+          -1600,
+          2.1
+        ],
+        [
+          "netPuckC",
+          600,
+          900,
+          1.3
+        ]
       ]
     },
     {
@@ -541,6 +629,25 @@
       "pos": [
         150,
         -40
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.06,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "veh-uav-01",
+      "name": "复合翼无人机与起降坪",
+      "name_en": "Compound-Wing UAV & Pad",
+      "type": "code",
+      "module": "units/veh-uav-01.js",
+      "size_m": 8.23,
+      "size_axis": "depth",
+      "pos": [
+        88,
+        -95
       ],
       "rotation_deg": 0,
       "sink_m": 0.06,
@@ -721,6 +828,24 @@
       ]
     },
     {
+      "id": "res-grain-01",
+      "name": "主粮种植舱",
+      "name_en": "Staple-Crop Module",
+      "type": "code",
+      "module": "units/res-grain-01.js",
+      "size_m": 30,
+      "size_axis": "width",
+      "pos": [
+        190,
+        95
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
       "id": "sci-radio-01",
       "name": "低频射电天文阵",
       "name_en": "Low-Frequency Radio Array (0.5-10 MHz)",
@@ -732,7 +857,7 @@
         -950,
         -545
       ],
-      "rotation_deg": 0,
+      "rotation_deg": 60,
       "sink_m": 1.2,
       "effects": [
         "glow_windows",
@@ -779,12 +904,9 @@
       "name_en": "Thermal IR Imaging Station",
       "type": "code",
       "module": "units/sci-ir-01.js",
-      "size_m": 7.36,
+      "size_m": 7.39,
       "size_axis": "height",
-      "pos": [
-        318,
-        -262
-      ],
+      "pos": null,
       "rotation_deg": -135,
       "sink_m": 0.25,
       "effects": [
@@ -842,6 +964,26 @@
       "sink_m": 0.06,
       "effects": [
         "blink"
+      ],
+      "placements": [
+        [
+          "seisNodeA",
+          600,
+          -700,
+          0.7
+        ],
+        [
+          "seisNodeA",
+          -1500,
+          -1400,
+          1.9
+        ],
+        [
+          "seisNodeB",
+          -200,
+          780,
+          2.8
+        ]
       ]
     },
     {
@@ -858,6 +1000,336 @@
       ],
       "rotation_deg": 0,
       "sink_m": 0.25,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "res-sulfur-01",
+      "name": "硫提取厂（硫酸盐焙烧·Claus 回收）",
+      "name_en": "Sulfur Extraction Plant (sulfate roast + Claus)",
+      "type": "code",
+      "module": "units/res-sulfur-01.js",
+      "size_m": 43,
+      "size_axis": "width",
+      "pos": [
+        70,
+        -70
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "res-eclss-01",
+      "name": "制氧与气体储配站",
+      "name_en": "Oxygen & Gas Storage Plant",
+      "type": "code",
+      "module": "units/res-eclss-01.js",
+      "size_m": 48.2,
+      "size_axis": "width",
+      "pos": [
+        5,
+        60
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "res-recycle-01",
+      "name": "水与固废回收厂",
+      "name_en": "Water & Solid Waste Recycling Plant",
+      "type": "code",
+      "module": "units/res-recycle-01.js",
+      "size_m": 44,
+      "size_axis": "width",
+      "pos": [
+        -300,
+        40
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "pwr-grid-01",
+      "name": "主变电站与配电枢纽",
+      "name_en": "Main Substation & Distribution Hub",
+      "type": "code",
+      "module": "units/pwr-grid-01.js",
+      "size_m": 46.8,
+      "size_axis": "width",
+      "pos": [
+        -205,
+        10
+      ],
+      "sink_m": 0.25,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "pwr-grid-net-01",
+      "name": "埋地电网地表标识散件包",
+      "name_en": "Buried-grid surface marker pack",
+      "type": "code",
+      "module": "units/pwr-grid-net-01.js",
+      "kind": "scatter",
+      "pos": null,
+      "placements": [
+        [
+          "jointPit",
+          -205,
+          -45,
+          0
+        ],
+        [
+          "jointPit",
+          -278,
+          -55,
+          0.6
+        ],
+        [
+          "jointPit",
+          45,
+          15,
+          0
+        ],
+        [
+          "jointPit",
+          150,
+          -120,
+          0.3
+        ],
+        [
+          "jointPit",
+          -684,
+          -220,
+          1.2
+        ],
+        [
+          "jointPit",
+          430,
+          90,
+          0.8
+        ],
+        [
+          "jointPit",
+          330,
+          430,
+          0.2
+        ],
+        [
+          "tapCabinet",
+          -224,
+          84,
+          0
+        ],
+        [
+          "tapCabinet",
+          -96,
+          112,
+          0
+        ],
+        [
+          "tapCabinet",
+          -341,
+          -274,
+          0.4
+        ],
+        [
+          "tapCabinet",
+          -256,
+          -52,
+          2.6
+        ],
+        [
+          "tapCabinet",
+          -366,
+          -24,
+          0.9
+        ],
+        [
+          "tapCabinet",
+          -554,
+          -214,
+          1.8
+        ],
+        [
+          "tapCabinet",
+          294,
+          -294,
+          0.5
+        ],
+        [
+          "tapCabinet",
+          -696,
+          -512,
+          0.2
+        ],
+        [
+          "tapCabinet",
+          742,
+          244,
+          1.1
+        ],
+        [
+          "tapCabinet",
+          494,
+          692,
+          2.2
+        ],
+        [
+          "markerPost",
+          -160,
+          -70,
+          0
+        ],
+        [
+          "markerPost",
+          -500,
+          -160,
+          0
+        ],
+        [
+          "markerPost",
+          600,
+          180,
+          0
+        ],
+        [
+          "markerPost",
+          320,
+          300,
+          0
+        ],
+        [
+          "markerPost",
+          96,
+          -52,
+          0
+        ],
+        [
+          "markerPost",
+          -590,
+          -370,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "sci-cray-01",
+      "name": "高能宇宙线测量站",
+      "name_en": "High-Energy Cosmic-Ray Station (knee-region direct measurement)",
+      "type": "code",
+      "module": "units/sci-cray-01.js",
+      "size_m": 318.88,
+      "size_axis": "width",
+      "pos": [
+        -858,
+        -1199
+      ],
+      "rotation_deg": 172,
+      "sink_m": 0.6,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "ops-dog-01",
+      "name": "地表巡检四足机器人",
+      "name_en": "Surface Patrol Quadruped",
+      "type": "code",
+      "module": "units/ops-dog-01.js",
+      "size_m": 1.07,
+      "size_axis": "length",
+      "pos": [
+        -369,
+        -58.2
+      ],
+      "rotation_deg": 20,
+      "sink_m": 0.02,
+      "effects": [],
+      "mate": "ops-garage-01"
+    },
+    {
+      "id": "ops-garage-01",
+      "name": "巡检狗母港车库",
+      "name_en": "Patrol Dog Home Garage",
+      "type": "code",
+      "module": "units/ops-garage-01.js",
+      "size_m": 6.19,
+      "size_axis": "length",
+      "pos": [
+        -370,
+        -61
+      ],
+      "rotation_deg": 20,
+      "sink_m": 0.05,
+      "effects": []
+    },
+    {
+      "id": "ops-vab-01",
+      "name": "垂直总装测试厂房",
+      "name_en": "Vertical Assembly & Refurbishment Building",
+      "type": "code",
+      "module": "units/ops-vab-01.js",
+      "size_m": 101,
+      "size_axis": "height",
+      "pos": [
+        600,
+        300
+      ],
+      "rotation_deg": 108,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "ops-payload-01",
+      "name": "载荷处理厂房",
+      "name_en": "Payload Processing Facility",
+      "type": "code",
+      "module": "units/ops-payload-01.js",
+      "size_m": 62,
+      "size_axis": "width",
+      "pos": [
+        480,
+        320
+      ],
+      "rotation_deg": 99,
+      "sink_m": 0.25,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "veh-ground-01",
+      "name": "地面车辆队与保障场",
+      "name_en": "Ground Vehicle Fleet & Support Apron",
+      "type": "code",
+      "module": "units/veh-ground-01.js",
+      "size_m": 51,
+      "size_axis": "width",
+      "pos": [
+        700,
+        370
+      ],
+      "rotation_deg": 157,
+      "sink_m": 0.2,
       "effects": [
         "glow_windows",
         "blink"

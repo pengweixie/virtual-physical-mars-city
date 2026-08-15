@@ -1,0 +1,533 @@
+{
+  "id": "sci-cryoem-01",
+  "pois": [
+    {
+      "id": "column",
+      "label": "镜筒立柱（整根前向剖切）",
+      "label_en": "Column, fully sectioned toward the viewer",
+      "range": 22,
+      "detail": "从上到下逐级色标：电子枪（蓝）→ 聚光镜（青）→ 样品台（金）→ 物镜（橙）→ 中间/投影镜（品红）→ 能量过滤器（紫）→ 探测器（绿）。中轴那道发光线就是电子束，在聚光镜与物镜后焦面各收一次腰——那两处是交叉点，不是装饰。300 kV 下电子波长 1.9687 pm，比全城最短的光子（PET 511 keV，2.4263 pm）还短 1.23 倍：这是本城第一台不用光的显微镜。但波长不是分辨率——常规班次只到 2.5 Å，中间差 127 倍，这 127 倍住在透镜里。",
+      "detail_en": "Colour-coded top to bottom: electron gun (blue), condensers (cyan), specimen stage (gold), objective (orange), intermediate/projector lenses (magenta), energy filter (purple), detector (green). The glowing axis is the electron beam, waisting twice — at the condenser crossover and at the objective back focal plane. Those waists are crossovers, not decoration. At 300 kV the wavelength is 1.9687 pm, 1.23x shorter than the shortest photon in the colony (PET's 511 keV line, 2.4263 pm): this is the city's first microscope that does not use light. But wavelength is not resolution — routine sessions reach 2.5 A, a factor of 127 away, and that factor lives in the lens.",
+      "specs": {
+        "加速电压 / 波长": "300 kV / 1.9687 pm（相对论修正 ×1.137）",
+        "球差 Cs / Scherzer 点分辨率": "**3.32 mm / 2.63 Å**（账 10 自研磁静场+光线追迹算出，非取值）",
+        "信息极限": "1.51 Å（肖特基枪 ΔE=0.7 eV）；换冷场枪可到 1.12 Å",
+        "工作欠焦 / 照明半角": "0.8 µm / 50 µrad",
+        "常规交付分辨率": "2.5 Å（中等异质复合物，3×10⁵ 不对称单元）",
+        "良性/对称样品": "1.8 Å（B≈45 Å²，10⁶ 不对称单元）",
+        "色差 Cc": "2.05 mm（账 10 双能量追迹）"
+      },
+      "specs_en": {
+        "High tension / wavelength": "300 kV / 1.9687 pm (relativistic factor x1.137)",
+        "Spherical aberration Cs / Scherzer point resolution": "3.32 mm / 2.63 A (computed in ledger 10 by an in-house field solver plus ray tracing, not a quoted value)",
+        "Information limit": "1.51 A (Schottky FEG, dE = 0.7 eV); 1.12 A with a cold FEG",
+        "Working defocus / illumination semi-angle": "0.8 um / 50 urad",
+        "Routine delivered resolution": "2.5 A (moderately heterogeneous complex, 3e5 asymmetric units)",
+        "Well-behaved symmetric samples": "1.8 A (B ~ 45 A^2, 1e6 asymmetric units)",
+        "Chromatic aberration Cc": "2.05 mm (ledger 10, two-energy ray trace)"
+      },
+      "sim": [
+        "分辨率链逐层记账（mars-cryoem 账 2，12 闸全绿）：① 波长 0.0197 Å 白送 → ② Scherzer 点分辨率 2.50 Å，一步吃掉 127 倍 → ③ CTF 校正把 ② 绕过去（代价：逐张拟合 Δf）→ ④ 信息极限 1.51 Å → ⑤ 剂量墙 × 有限颗粒数 × 样品异质 → 2.51 Å。",
+        "包络逐项预算 @2 Å（k=0.5 Å⁻¹）：时间相干 0.523（焦散 Δ=73.7 Å）× 空间相干 0.836 × 束致运动残差 0.641（σ=0.3 Å）× 残余像散 0.903（A1=10 nm）× 束倾斜 0.972（τ=0.1 mrad）= 0.246，等效 B_inst = 22 Å²。",
+        "**仪器只占 B 的 28%**：B_total = 22（仪器）+ 12（取向对齐 Δθ=0.6°）+ 45（构象异质）= 80 Å²，落在现代 300 kV 好数据集的 40~120 闸内。用 β-半乳糖苷酶 1.9 Å/91k 颗×D2 反解基准样品 B=45 Å²，与本机预算的差全在 B_conf。推论：**买更好的机器是本仪器最不划算的一笔改进**，钱该花在样品制备（账 7）与探测器 DQE（账 5）上。",
+        "自我修正记录：第一版把冰厚也记成 B（B_ice=64 Å²），B_total 冲到 165 被闸判红。错在把一个与空间频率无关的背景乘子当成了 B——冰厚该由能量过滤器治，不该由透镜治。",
+        "**Cs 不再是抄来的（账 10，L3）**：自研轴对称非线性磁静场有限体积求解器（对解析圆环场 1.29%）+ 精确三阶光线追迹（对 Glaser 解析焦距 0.0003%、像差阶次拟合 3.0000）→ 极靴 S=3/D=2 mm、NI=8000 At、B0=1.68 T 下，**f = 4.22 mm、Cs = 3.32 mm、Cc = 2.05 mm**（浸没位形，物方定义）。与原先抄用的 2.70 mm 差 +23%，但 Scherzer ∝ Cs^(1/4)，头条分辨率只动 +5.3%（2.500 → 2.634 Å），B_total 80 → 79 Å² —— **账 2 全部结论方向与量级不变**。注意位形：非浸没（平行光自无穷远）位形给 Cs = 13.9 mm，差 4.2 倍，**位形选错就差一个量级**。"
+      ],
+      "sim_en": [
+        "Resolution chain, layer by layer (mars-cryoem ledger 2, 12/12 gates green): (1) wavelength 0.0197 A is free; (2) Scherzer point resolution 2.50 A costs a factor of 127 in one step; (3) CTF correction goes around (2) at the price of fitting the defocus of every micrograph; (4) information limit 1.51 A; (5) dose wall x finite particle count x specimen heterogeneity -> 2.51 A.",
+        "Envelope budget at 2 A (k = 0.5 A^-1): temporal coherence 0.523 (focus spread 73.7 A) x spatial coherence 0.836 x residual beam-induced motion 0.641 (sigma = 0.3 A) x residual astigmatism 0.903 (A1 = 10 nm) x beam tilt 0.972 (tau = 0.1 mrad) = 0.246, i.e. B_instrument = 22 A^2.",
+        "The instrument is only 28% of B: B_total = 22 (instrument) + 12 (orientation error, 0.6 deg) + 45 (conformational heterogeneity) = 80 A^2, inside the 40-120 A^2 gate for good modern 300 kV data. Inverting the beta-galactosidase benchmark (1.9 A from 91k particles x D2) gives B = 45 A^2 for a benchmark specimen; the whole difference is B_conf. Corollary: buying a better microscope is the worst-value upgrade available here — the money belongs in specimen preparation (ledger 7) and detector DQE (ledger 5).",
+        "Self-correction on record: the first pass booked ice thickness as a B-factor too (B_ice = 64 A^2), pushing B_total to 165 and failing the gate. The error was treating a spatially-frequency-independent background multiplier as a B-factor — ice thickness is the energy filter's problem, not the lens's.",
+        "Cs is no longer a quoted number (ledger 10, L3): an in-house axisymmetric nonlinear magnetostatic finite-volume solver (1.29% against the analytic current-loop field) plus exact third-order ray tracing (0.0003% against the analytic Glaser focal length, aberration order fitted at 3.0000) gives, for S=3/D=2 mm pole pieces at 8000 At and B0=1.68 T: f = 4.22 mm, Cs = 3.32 mm, Cc = 2.05 mm (immersion configuration, object-side definition). That is 23% above the 2.70 mm previously copied from the literature, but Scherzer resolution scales as Cs^(1/4), so the headline moves only 5.3% (2.500 to 2.634 A) and B_total goes 80 to 79 A^2 — every conclusion in ledger 2 keeps its direction and order of magnitude. Configuration matters: the non-immersion case (parallel rays from infinity) gives 13.9 mm, a factor of 4.2 out."
+      ],
+      "physics": [
+        "Scherzer 1936 定理：任何圆对称、静态、无空间电荷的电子透镜，球差系数 Cs 恒为正——好电子透镜不是造不出来，是**不存在**。可用孔径因此被逼到 α_opt=(4λ/Cs)^(1/4)=7.35 mrad，点分辨率退到 0.66·Cs^(1/4)·λ^(3/4)=2.50 Å，比 30 mrad 的衍射极限差 6 倍。",
+        "CTF = −[√(1−w²)·sin χ + w·cos χ]，χ(k) = (π/2)Cs λ³k⁴ − π Δf λ k²。零点处衬度归零，形成 Thon 环；环半径 k_n ≈ √(n/(Δf·λ))。相位衬度成像本质上是**故意用像差把不可见的相位调制变成可见的强度调制**——所以要欠焦，也所以必须逐张把 CTF 反卷回去。",
+        "**Scherzer 定理不必另外证明 —— 它从运动方程里掉出来。**由角动量守恒推出的三阶项里，主项是 −(ηB²)²r³，恒为负：半径越大越聚焦，所以圆磁透镜的球差恒正。（第一版恰恰漏了这一项，算出 Cs 为负，被像差阶次闸当场判红。）"
+      ],
+      "physics_en": [
+        "Scherzer's 1936 theorem: any round, static, space-charge-free electron lens has strictly positive spherical aberration. A good electron lens is not merely hard to build — it does not exist. The usable aperture is therefore pinned at alpha_opt = (4*lambda/Cs)^(1/4) = 7.35 mrad and the point resolution falls to 0.66*Cs^(1/4)*lambda^(3/4) = 2.50 A, six times worse than the 30 mrad diffraction limit.",
+        "CTF = -[sqrt(1-w^2) sin(chi) + w cos(chi)] with chi(k) = (pi/2) Cs lambda^3 k^4 - pi df lambda k^2. Contrast vanishes at the zeros, producing Thon rings at k_n ~ sqrt(n/(df*lambda)). Phase-contrast imaging is fundamentally the deliberate use of aberration to convert invisible phase modulation into visible intensity modulation — hence the defocus, and hence the need to deconvolve the CTF from every single micrograph.",
+        "Scherzer's theorem needs no separate proof — it falls out of the equation of motion. Among the third-order terms derived from angular-momentum conservation, the dominant one is -(etaB^2)^2 r^3, which is always negative: larger radii are focused more strongly, so a round magnetic lens always has positive spherical aberration. (The first pass omitted exactly this term, produced a negative Cs, and was caught red by the aberration-order gate.)"
+      ]
+    },
+    {
+      "id": "detector",
+      "label": "直接电子探测器（计数模式）",
+      "label_en": "Direct electron detector (counting mode)",
+      "range": 18,
+      "detail": "绿色那一级。单个 300 keV 电子穿过 35 µm 减薄硅时沉积 13.6 keV，产生约 3721 个电子空穴对——比城内 CIS 的读出噪声 1.76 e⁻ 大 2100 倍。信号大到这个地步，就不必再测强度，可以直接**数个数**。这就是「直接电子探测」的全部含义，也是这台仪器唯一能在剂量墙上作弊的地方：剂量买不到（账 1），但 DQE 每提高一档，等价于剂量白拿一档。",
+      "detail_en": "The green stage. A single 300 keV electron crossing 35 um of back-thinned silicon deposits 13.6 keV and liberates about 3721 electron-hole pairs — 2100 times the 1.76 e- read noise of the colony's own CIS sensor. When the signal is that large you no longer measure intensity, you count events. That is the whole meaning of 'direct electron detection', and it is the only place in this instrument where the dose wall can be cheated: dose cannot be bought (ledger 1), but every step up in DQE is a step of dose obtained for free.",
+      "specs": {
+        "阵列 / 像素": "4096 × 4096 / 14 µm，背照减薄至 ~35 µm",
+        "计数帧率": "1500 fps（重合损失 0.66%）",
+        "DQE(0) / 带内均值": "**0.91 / 0.87（计数，含 14.4% 伪计数）· 0.93 / 0.69（积分）** —— 账 14",
+        "等价剂量增益": "**×1.25**（计数 vs 积分，蒙卡 + ops-fab-01 的 Geant4 回填）",
+        "事件率 / 数据率": "336 Me⁻/s / 839 MB/s（EER 事件表）",
+        "累积寿命": "~1.7 火星年（占空 50%，1e9 e⁻/px 门槛）；TID 8.08 Mrad/火星年",
+        "外延厚度（自产定型）": "**15 µm 高阻**（原 25 µm，由 fab 的 Geant4/TCAD 回填改定）"
+      },
+      "specs_en": {
+        "Array / pixel": "4096 x 4096 / 14 um, back-thinned to about 35 um",
+        "Counting frame rate": "1500 fps (coincidence loss 0.66%)",
+        "DQE(0) / in-band mean": "0.91 / 0.87 counting (including 14.4% spurious counts), 0.93 / 0.69 integrating (ledger 14)",
+        "Equivalent dose gain": "x1.25 counting vs integrating (Monte Carlo, backfilled with Geant4 results from ops-fab-01)",
+        "Event rate / data rate": "336 Me-/s / 839 MB/s (EER event list)",
+        "Cumulative lifetime": "about 1.7 Mars years at 50% duty (1e9 e-/px threshold); TID 8.08 Mrad per Mars year",
+        "Epitaxial thickness (in-house design point)": "15 um high-resistivity (was 25 um; revised on Geant4/TCAD feedback from ops-fab-01)"
+      },
+      "sim": [
+        "重合损失账（账 5）：物面剂量率 20 e⁻/Å²/s、物面像素 1 Å → 每像素 20 e⁻/s。250 fps 下损失已达 3.9%，500 fps 2.0%，**1500 fps 才压到 0.66%**。这不是自由选择：要么提帧率，要么把曝光拉到 8~10 s 压低剂量率——而拉长曝光会让账 3 的低频漂移吃回去。帧率是唯一没有副作用的解。",
+        "同一笔钱买了三样东西：DQE、隔振（账 3：帧率就是运动校正的截止频率，1500 fps 把'管不着'的振动频带整体右移）、以及事后可调的时间分辨（EER 保留每个事件的时间戳，重建时想切 40 帧还是 400 帧都行）。",
+        "**自产路线图（诚实评估）**：与城内 CIS（res-mine-01/hab-bot-01 导航相机，QE 0.60 / 满阱 17,880 e⁻ / 读噪 1.76 e⁻ / 5 µm 4T PPD，ops-fab-01 CRN65LP 流片）逐道工序对表，硬缺口 **3 道，全部集中在背照减薄模块**：厚外延（≥35 µm 高阻）、临时载片键合、背面激光退火。像素前端、列读出、抗辐照版图都是设计工作量不是工艺缺口；单斜 10 bit ADC 在此帧率下要 1 GHz 计数器不可行，须换列级 SAR/阈值比较器——65 nm LP 完全做得出。阶段 0 进口；阶段 1 自产非成像硅（束流监测/对中相机 256×256@50 fps，正照不减薄）；阶段 2 上背照减薄模块（三台设备一个洁净岛，**同时解锁 DED、背照可见光 CIS 升级与 sci-swir 混成路线**，是最高杠杆的一笔投资）；阶段 3 自产 4k DED——**不承诺时间**。",
+        "**DQE 不再是画出来的曲线（账 12，L3）**：3 万电子的凝聚历史输运蒙卡（Highland 多次散射 + Rutherford 大角尾 + Moyal 能损涨落 + 载流子扩散 + 像素采样与混叠），严格用 DQE(f)=|Ḡ(f)|²/⟨|G(f)|²⟩ 求解；f=0 处与独立算的 Swank 因子**逐位一致**（自洽闸）。结果：DQE(0) 积分 0.93 / 计数 1.00（单电子理想极限），Nyquist 处 0.30 / 0.51，带内均值 0.63 / 0.77 → **剂量白拿 1.92 → 1.24 倍**。方向不变（计数仍是本仪器唯一的白拿），幅度从「差不多两倍剂量」缩到「四分之一倍」。蒙卡还看见经验曲线看不见的三件事：**薄膜背散射只有体材料的 1/10**（35 µm 只有 CSDA 射程的 10%，文献 0.16 是半无限厚靶的值）、**高频 DQE 的损失主要来自采样混叠而不是扩散**（连续域下确定性模糊会在|Ḡ|²/⟨|G|²⟩ 里自动约掉）、以及质心定位误差 5.6 µm。",
+        "**外部验证与回填（账 14）**：ops-fab-01 用 Geant4(Allpix²) + Sentaurus TCAD 回了本站的请求。**互证**：其无衬底 25 µm 结果 3,152 e⁻ 对本册自研蒙卡的 ~3,000 e⁻，差 5.1% —— **不同代码、不同物理列表、不同作者，本册的蒙卡被独立验证。****三处改定**：① 本站担心的「没有衬底所以低估薄器件」**方向错了**（回散射增益对厚度平坦，+49/57/55%）；② 真正的问题是本册**把横向扩散写死 1.8 µm**，而实测一次团簇 Rg 在 25 µm 处已达 3.87 µm —— **本站原推荐的厚度恰恰违反本站自己模型的假设**；③ TCAD 证明三个厚度在 20 V 下全部全耗尽，本站担心的「薄外延不全耗尽」不存在。用 TCAD 的逐厚度扩散（0.73/0.94/1.41 µm）重跑后，**外延定型 25 → 15 µm**（计数带内 DQE 0.866 vs 0.791，好 9.5%），并计入 fab 给的 **14.4% 伪计数**（背散射电子在别处打出的假计数，本册蒙卡无衬底故看不见），计数 DQE(0) 从 0.999 落到 **0.914**，带内被吃掉 11.0%。**剂量白拿 1.24 → 1.25 倍。**"
+      ],
+      "sim_en": [
+        "Coincidence-loss ledger (ledger 5): 20 e-/A^2/s at the specimen with a 1 A object pixel gives 20 e-/s per pixel. Loss is 3.9% at 250 fps, 2.0% at 500 fps and only falls to 0.66% at 1500 fps. This is not a free choice: either raise the frame rate, or stretch the exposure to 8-10 s to lower the dose rate — and a longer exposure hands back the low-frequency drift that ledger 3 fought off. Frame rate is the only side-effect-free solution.",
+        "One purchase buys three things: DQE, vibration isolation (ledger 3 — the frame rate is the motion-correction cut-off, and 1500 fps shifts the whole unrecoverable vibration band upward), and retro-adjustable time resolution (EER keeps a timestamp per event, so the movie can be re-fractionated into 40 or 400 frames at reconstruction time).",
+        "In-house roadmap, honestly priced: comparing process by process against the colony's own CIS (the nav cameras of res-mine-01 / hab-bot-01: QE 0.60, full well 17,880 e-, read noise 1.76 e-, 5 um 4T pinned photodiode, taped out on the ops-fab-01 CRN65LP line), there are exactly 3 hard gaps and all 3 sit in the back-thinning module: thick high-resistivity epitaxy (>=35 um), temporary carrier bonding, and backside laser anneal. Pixel front end, column readout and rad-hard layout are design effort, not process gaps; a 10-bit single-slope ADC would need a 1 GHz counter at this frame rate and must be replaced by column SAR or threshold comparators, which 65 nm LP handles easily. Phase 0: import. Phase 1: build non-imaging silicon in-house (beam monitors, a 256x256 at 50 fps alignment camera, front-illuminated, no thinning). Phase 2: install the back-thinning module — three tools on one clean island, which simultaneously unlocks the DED, a back-illuminated visible CIS upgrade and the sci-swir hybridisation route, making it the highest-leverage investment available. Phase 3: an in-house 4k DED — with no date promised.",
+        "DQE is no longer a drawn curve (ledger 12, L3). A 30,000-electron condensed-history transport Monte Carlo (Highland multiple scattering, Rutherford large-angle tail, Moyal energy-loss straggling, carrier diffusion, pixel sampling and aliasing) evaluates DQE(f) = |Gbar(f)|^2 / <|G(f)|^2> exactly; at f=0 it agrees digit for digit with the independently computed Swank factor, which is the self-consistency gate. Results: DQE(0) is 0.93 integrating and 1.00 counting (the single-electron ideal limit), 0.30 and 0.51 at Nyquist, with in-band means of 0.63 and 0.77 — so the free dose gain falls from 1.92x to 1.24x. The direction is unchanged (counting remains the only free gain this instrument has), but the magnitude shrinks from roughly twice the dose to a quarter more. The Monte Carlo also sees three things the empirical curve could not: thin-film backscatter is only a tenth of the bulk value (35 um is 10% of the CSDA range, while the quoted 0.16 is for a semi-infinite target); the high-frequency DQE loss comes mainly from sampling aliasing rather than diffusion (a deterministic blur cancels out of |Gbar|^2/<|G|^2> in the continuous domain); and the centroiding error is 5.6 um.",
+        "External validation and backfill (ledger 14): ops-fab-01 answered this station's request using Geant4 (Allpix2) and Sentaurus TCAD. Cross-check: their substrate-free 25 um result of 3,152 e- against this book's in-house Monte Carlo at about 3,000 e- differs by 5.1% — different code, different physics list, different author, so the in-house Monte Carlo is independently validated. Three revisions followed. (1) This station's worry that \"no substrate means thin devices are underestimated\" pointed the wrong way: the backscatter gain is flat with thickness (+49/57/55%). (2) The real problem was that this book hardwired lateral diffusion at 1.8 um, while the measured primary-cluster radius of gyration reaches 3.87 um at 25 um — the thickness originally recommended here was precisely the one that violated this book's own model assumption. (3) TCAD showed all three thicknesses fully deplete at 20 V, so the feared partial depletion does not exist. Rerunning with the TCAD per-thickness diffusion (0.73/0.94/1.41 um) moves the epitaxial design point from 25 to 15 um (counting in-band DQE 0.866 versus 0.791, 9.5% better) and folds in the 14.4% spurious count rate they reported (false counts from backscattered electrons landing elsewhere, invisible to a substrate-free Monte Carlo), dropping counting DQE(0) from 0.999 to 0.914 and costing 11.0% of the in-band mean. The free dose gain moves from 1.24x to 1.25x."
+      ],
+      "physics": [
+        "DQE(f) = SNR_out²(f)/SNR_in²(f)。闪烁体路线在每一步都把点扩散开：闪烁体内的光横向跑 30~50 µm（比像素还大）、光纤锥再吃一次 MTF、光电转换把「一个电子」摊成涨落的一团光子（Swank 噪声）。直接探测跳过全部三步；计数模式再消掉 Landau 能损涨落，DQE(0) 从 0.65 抬到 0.90。",
+        "计数模式还带一份物理白送的压缩：绝大多数像素在绝大多数帧里什么也没有，稀疏事件表比稠密强度图更省带宽。同一条链上唯一一次「更准还更便宜」。",
+        "相机是耗材，不是仪器：它自己就是被 8 Mrad/火星年 辐照的样品。30 m 岩层挡掉的宇宙线在这里第二次付钱——地表机房的相机每帧都要吃宇宙线亮迹，地下几乎为零。"
+      ],
+      "physics_en": [
+        "DQE(f) = SNR_out^2(f) / SNR_in^2(f). The scintillator route spreads the point at every step: light diffuses 30-50 um inside the scintillator (wider than a pixel), the fibre-optic taper costs another MTF hit, and photoconversion smears 'one electron' into a fluctuating burst of photons (Swank noise). Direct detection skips all three; counting mode additionally removes Landau energy-loss fluctuations, lifting DQE(0) from 0.65 to 0.90.",
+        "Counting also comes with compression the physics gives away for free: most pixels see nothing in most frames, so a sparse event list is cheaper than a dense intensity map. It is the only place in this chain where more accurate is also cheaper.",
+        "The camera is a consumable, not an instrument: it is itself a specimen under 8 Mrad per Mars year. The cosmic rays stopped by 30 m of rock pay out a second time here — a surface camera eats cosmic-ray tracks in every frame, an underground one almost none."
+      ]
+    },
+    {
+      "id": "iso",
+      "label": "隔振基座与 30 m 岩层（为什么把它埋起来）",
+      "label_en": "Isolation base and 30 m of rock (why this thing is buried)",
+      "range": 22,
+      "detail": "三级被动隔振：气浮腿（f₀=1.5 Hz）→ 8 t 花岗岩惯性块（f₀=4 Hz）→ 柱内软连接（f₀=8 Hz）。但这只是第二重要的那笔账。真正把这座实验室按进地下 30 m 的是**温度**：岩层给出 ±17.7 mK 的年振幅、6.8 µK/h 的温变率，比地球冷冻电镜机房拼死维持的 ±0.1 K/h 好 14,798 倍，而且不用一瓦电。一句话：弹簧能买到的东西不值钱，买不到的才值钱。",
+      "detail_en": "Three passive isolation stages: air legs (f0 = 1.5 Hz), an 8 t granite inertia block (f0 = 4 Hz), and in-column compliant mounts (f0 = 8 Hz). But that is only the second most important ledger. What actually drove this laboratory 30 m underground is temperature: the rock delivers a 17.7 mK annual amplitude and a 6.8 uK/h drift rate — 14,798 times better than the +/-0.1 K/h a terrestrial cryo-EM room fights to hold, and it costs nothing to run. In one line: what a spring can buy is not worth much; what it cannot buy is.",
+      "specs": {
+        "城市振动规格（sci-seis-01 账 3）": "1.2e-6 m/s/√Hz @10 m ≈ VC-D 档",
+        "成像侧要求": "16~1000 Hz 带内柱-台相对位移 < 30 pm（0.3 Å）",
+        "裸地面 / 三级隔振后": "47,364 pm / 13.3 pm（**绝对位移口径**，见下）",
+        "需要衰减": "1579× = 64 dB",
+        "岩层日热波 / 年热波趋肤深度": "0.156 m / 4.04 m（玄武岩 α=8.62e-7 m²/s）",
+        "对应台漂": "2.85e-2 nm/min = 规格的 2.8%（比地表机房好 35 倍）",
+        "30 m 处温度残余（地质地板）": "±17.7 mK 年振幅，6.8 µK/h",
+        "本站自扰动（洞室 11.7 kW）": "投运 1 火星年瞬态 1.02 mK/h = 地质地板的 150 倍",
+        "惯性块热飞轮": "6.32 MJ/K，τ = 35 h —— 1 h 周期室温波动衰减 221 倍",
+        "**成像口径**：样品杆相对极靴差动": "**0.123 pm（16~1000 Hz）= 30 pm 要求的 1/244**；低频段 21.4 pm 归运动校正"
+      },
+      "specs_en": {
+        "City vibration spec (sci-seis-01 ledger 3)": "1.2e-6 m/s/sqrt(Hz) at 10 m, roughly VC-D class",
+        "Imaging requirement": "column-to-stage displacement < 30 pm (0.3 A) rms over 16-1000 Hz",
+        "Bare floor / after three stages": "47,364 pm / 13.3 pm (absolute-displacement convention, see below)",
+        "Attenuation required": "1579x = 64 dB",
+        "Rock thermal skin depth, diurnal / annual": "0.156 m / 4.04 m (basalt, alpha = 8.62e-7 m^2/s)",
+        "Resulting stage drift": "2.85e-2 nm/min = 2.8% of spec (35x better than a surface room)",
+        "Residual temperature at 30 m (geological floor)": "17.7 mK annual amplitude, 6.8 uK/h",
+        "Self-disturbance (11.7 kW cavern load)": "transient 1.02 mK/h at one Mars year = 150x the geological floor",
+        "Inertia block as thermal flywheel": "6.32 MJ/K, tau = 35 h - attenuates a 1 h room ripple 221-fold",
+        "Imaging convention: holder-to-pole-piece differential": "0.123 pm over 16-1000 Hz, i.e. 1/244 of the 30 pm requirement; the 21.4 pm low-frequency part belongs to motion correction"
+      },
+      "sim": [
+        "**与 sci-seis-01 的双向对账（账 3）**。收方：全城隔振线 1.2e-6 m/s/√Hz 在成像带内给 47.4 nm 位移，超要求 1579×，两级只到 1.39× 未达标，**必须上三级**。发方：本站的氮回收压缩机橇是 24 h 源，正是 sci-seis 账 3 点名的那类——2.8 t 惯性底座 + f₀=3 Hz 弹簧把 1470 rpm 二阶不平衡力 200 N 压到 5.0 N，折 10 m 处 1.88e-7 m/s/√Hz = 城市线的 16%，达标。并建议压缩机错峰到白天（城市噪声本来就高），夜间只留缓冲罐：**我省它的夜，它省我的帧。**",
+        "三条反直觉，全部由账算出：① 阻尼把渐近的 f⁻² 拉成 f⁻¹——ζ=0.1 让单级 16 Hz 衰减从 114× 掉到 48×，那是压住共振峰的保险费；② 低频不归弹簧管——每加一级就多一个共振峰，三级在 1~16 Hz 反而比两级差，那 500 nm 从来就该交给运动校正；③ **探测器帧率就是一级隔振**——两级隔振下截止 16 Hz 残余 41.7 pm 不合格，40 fps 降到 3.2 pm、250 fps 降到 0.03 pm。与其加机械级数，不如把帧切细（账 5/6）。",
+        "反推出行业规格（已知答案闸）：要满足 1 nm/min 台漂，按 50 mm 差分钢路径与 α=12e-6/K 反推，机房需 **±0.10 K/h**——正是地球冷冻电镜机房手册上那条线。两条独立路线在这里合上，说明本账的热膨胀积分口径是对的。地表机房刚好卡在规格线上（所以不敢停机），地下只用掉规格的 0.0068%。",
+        "**自我修正 ⑤（账 9 C，审计后补挖）**：上面那个 6.8 µK/h 是**无扰动岩层的地质地板**，不是本仪器实际经历的温度环境 —— 我在房间里放了 11.7 kW。按 Carslaw-Jaeger 半无限固体常热流，内壁 1406 m²、q=8.32 W/m²，投运 1 火星年的壁温升率 **1.02 mK/h，是地质地板的 150 倍**，闸门 G5 判「自扰动主导」。三层防线把它压回去：① 热必须主动带走（稳态后岩壁停在偏置值上不再爬升，但 √t 尾巴长达约 3 火星年 → **建议洞室开挖后空转恒温一年再装机**）；② **8 t 花岗岩惯性块同时是热飞轮**（6.32 MJ/K ÷ 50 W/K → τ=35 h，1 h 周期室温波动衰减 221 倍）；③ 最终指标其实是盘管出水温度稳定度，不是岩层。**交付口径改为柱基漂移 2.85e-2 nm/min = 规格的 2.8%，比地表机房好 35 倍**（原先写的 14,798 倍是拿地质地板去比工程极限，夸大了 421 倍）。结论方向不变——地下仍是选址第一理由——但**岩层不给你恒温，它只是不给你添乱；恒温还得自己做**。",
+        "**账 11（L3）推翻了本卡原先的问法**：整机刚体平动**不产生成像模糊**——样品、物镜、探测器一起平移，像在探测器上是不动的。成像量是**样品杆相对极靴的差动**。四自由度模态+复频响求解器（静态传递率→1、刚性极限复现 SDOF 串乘同量级）给出：高频差动 **0.123 pm，是 30 pm 要求的 1/244**；**把柱内隔振整个拿掉仍达标**，所以「必须上三级」不成立。真正贴线的是**低频差动 21.4 pm**（要求 30 pm），而它恰恰归运动校正管 —— **所以隔振买的不是分辨率，是剂量**：低频差动越小，运动校正需要的分帧越少、每帧信噪越高（直接回到账 1 的剂量预算）。反直觉一条：Q=25 的样品杆共振峰对带内 rms 几乎无贡献（峰高但极窄），**阻尼涂层是白花钱**；有杠杆的是样品杆一阶频率（做细到 150 Hz 会差 2.8 倍）。"
+      ],
+      "sim_en": [
+        "Two-way reconciliation with sci-seis-01 (ledger 3). As a receiver: the colony-wide isolation spec of 1.2e-6 m/s/sqrt(Hz) yields 47.4 nm of displacement inside the imaging band, 1579x over requirement; two stages only reach 1.39x and fail, so a third stage is mandatory. As a source: this station's nitrogen-recovery compressor skid is exactly the kind of 24 h source that sci-seis ledger 3 named. A 2.8 t inertia base on 3 Hz springs cuts the 200 N second-order unbalance force at 1470 rpm down to 5.0 N, which maps to 1.88e-7 m/s/sqrt(Hz) at 10 m, or 16% of the city line — compliant. The station further proposes running the compressor by day, when city noise is high anyway, and leaving only the buffer tank at night: I save its nights, it saves my frames.",
+        "Three counter-intuitive results, all falling out of the arithmetic. (1) Damping converts the asymptotic f^-2 roll-off into f^-1: at zeta = 0.1 a single stage gives 48x at 16 Hz instead of 114x — that is the premium paid to tame the resonance. (2) Low frequencies are not a spring's job: each added stage adds its own resonance, so three stages are worse than two over 1-16 Hz, and those 500 nm always belonged to motion correction. (3) Detector frame rate IS an isolation stage: with two stages, a 16 Hz cut-off leaves 41.7 pm (fail), 40 fps leaves 3.2 pm and 250 fps leaves 0.03 pm. Slicing frames finer beats adding mechanical stages (ledgers 5 and 6).",
+        "Recovering the industry spec as a known-answer gate: requiring 1 nm/min of stage drift, with a 50 mm differential steel path and alpha = 12e-6 /K, demands a room stability of +/-0.10 K/h — precisely the line printed in terrestrial cryo-EM facility manuals. Two independent routes closing here validate the thermal-expansion accounting. A surface room sits exactly on the spec line, which is why it never dares shut down; underground uses 0.0068% of it.",
+        "Self-correction 5 (ledger 9C, dug after the audit): the 6.8 uK/h above is the geological floor of undisturbed rock, not the thermal environment this instrument actually sees - there is an 11.7 kW heater in the room. By the Carslaw-Jaeger constant-flux half-space solution, with 1406 m2 of wall at q = 8.32 W/m2, the wall warms at 1.02 mK/h one Mars year after commissioning, 150x the geological floor; gate G5 rules that self-disturbance dominates. Three defences push it back: (1) the heat must be actively removed - once steady the wall settles at an offset and stops climbing, but the sqrt(t) tail runs about 3 Mars years, so the recommendation is to run the cavern empty and temperature-stabilised for a year before installing; (2) the 8 t granite inertia block doubles as a thermal flywheel (6.32 MJ/K over 50 W/K gives tau = 35 h, attenuating a 1 h room ripple 221-fold); (3) the real figure of merit is the stability of the chilled-water loop, not the rock. The delivered figure becomes 2.85e-2 nm/min of column-base drift, 2.8% of spec and 35x better than a surface room - the earlier 14,798x compared a geological floor against an engineering limit and overstated the case 421-fold. The direction is unchanged, underground is still the primary siting reason, but the rock does not give you stability; it only stops disturbing you. Stability you still build yourself.",
+        "Ledger 11 (L3) overturned the question this card originally asked. Rigid-body translation of the whole microscope produces no image blur: specimen, lens and detector move together and the image stays put on the detector. The imaging-relevant quantity is the holder-to-pole-piece differential. A four-degree-of-freedom modal and frequency-response solver (static transmissibility tends to 1; the rigid limit reproduces the SDOF cascade to the same order) gives a high-frequency differential of 0.123 pm, one part in 244 of the 30 pm requirement — and removing the in-column isolation stage entirely still passes, so \"three stages are mandatory\" does not hold. What actually sits near the line is the 21.4 pm low-frequency differential, and that is precisely what motion correction removes. Isolation therefore buys dose, not resolution: a smaller low-frequency differential means fewer fractions and better per-frame SNR, which feeds straight back into the ledger-1 dose budget. One counter-intuitive result: the Q=25 holder resonance contributes almost nothing to the in-band rms (tall but very narrow), so damping coatings are wasted money; the leverage is in the holder rod's first resonance (thinning it to 150 Hz costs a factor of 2.8)."
+      ],
+      "physics": [
+        "热波在半空间里按 exp(−z/δ) 衰减，δ = √(αP/π)。火星日周期在 30 m 处衰减 e⁻¹⁹²——彻底消失；只有年周期还剩 5.9e-4。岩层卖的不是安静，是**什么都不发生**。",
+        "振动与温度的根本差别在于可购买性：隔振是一个二阶系统，加质量与柔度就能买到 10³ 的衰减，零功耗零维护；恒温只能靠热质量与时间常数买，而火星没有对流散热——地表机房的制冷量全部要靠辐射排掉，代价是常年功耗加一套永不停机的空调（停一次=一天数据作废）。",
+        "岩层还白送第三样：宇宙线屏蔽（与 sci-rad 系列同一本账），直接延长探测器寿命。代价是岩层自身的 U/Th/K 本底——相机腔体内衬要选低放材料，与 sci-deeplab-01 的选材纪律同源。",
+        "半无限固体在常热流下壁温按 √t 增长而升温率按 1/√t 衰减 —— 这条标度就是「先空转一年再装机」有用的原因：等的是 √t 的陡峭前段。而惯性块的一阶热滞后 τ=mc/(hA) 与它的隔振传递率是同一类二端网络，**同一块石头在力学域做低通、在热域也做低通**，只是截止频率差了六个数量级。"
+      ],
+      "physics_en": [
+        "A thermal wave decays as exp(-z/delta) in a half-space with delta = sqrt(alpha*P/pi). At 30 m the Martian diurnal wave is attenuated by e^-192 and simply ceases to exist; only the annual wave survives, at 5.9e-4. What the rock sells is not quiet — it is that nothing happens.",
+        "Vibration and temperature differ fundamentally in purchasability. Isolation is a second-order system: add mass and compliance and you buy 10^3 of attenuation with no power and no maintenance. Temperature can only be bought with thermal mass and time constants, and Mars has no convective sink — every watt of cooling in a surface room must leave by radiation, at the price of continuous power and an air-conditioning plant that may never stop (one stop costs a day of data).",
+        "The rock throws in a third gift: cosmic-ray shielding (the same ledger as the sci-rad family), which directly extends detector life. The price is the rock's own U/Th/K background — camera-chamber liners must be low-activity materials, the same materials discipline as sci-deeplab-01.",
+        "Under constant flux a half-space warms as sqrt(t) while its warming rate decays as 1/sqrt(t) - that scaling is why 'run empty for a year first' works: you are waiting out the steep front of the sqrt. And the inertia block's first-order thermal lag tau = mc/(hA) is the same class of two-port network as its vibration transmissibility: one stone low-passes in the mechanical domain and again in the thermal domain, the two cut-offs merely six orders of magnitude apart."
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "氮回收压缩机橇（火星把废气变成资产）",
+      "label_en": "Nitrogen recovery skid (where waste gas becomes an asset on Mars)",
+      "range": 20,
+      "detail": "地球上，冷冻电镜的蒸发氮直接放掉，因为大气 78% 是氮。火星大气只有 2.6% 是氮（res-eclss-01 进气卡口径），于是这台机器的排气口变成了全城资产负债表上的一行。算出来的数字很难看：本站液氮日耗 27.3 kg/sol，等于全城缓冲气逸散率的 56%——**一台显微镜敞开了喝，不到四个地球月就能把一座城的氮罐抽干**。所以这台橇不是节能优化，是准入条件。",
+      "detail_en": "On Earth a cryo-EM's boil-off nitrogen is simply vented, because 78% of the atmosphere is nitrogen. Mars's atmosphere is 2.6% nitrogen (the res-eclss-01 intake figure), so this machine's exhaust port becomes a line item on the colony balance sheet. The number is ugly: 27.3 kg/sol of liquid nitrogen, equal to 56% of the entire colony's buffer-gas loss rate. One microscope, drinking freely, would empty the city's nitrogen tanks in under four Earth months. This skid is therefore not an efficiency upgrade — it is a condition of entry.",
+      "specs": {
+        "液氮日耗（从漏热算，非抄手册）": "27.3 kg/sol = 33.8 L/sol；18.3 t/火星年",
+        "漏热分解": "autoloader 杜瓦 30 W + 柱内冷阱 12 W + 转注损失 8.4 W = 50.4 W",
+        "占全城缓冲气逸散（49.0 kg/sol）": "56%",
+        "敞开排放耗尽全城 N₂ 储备（3078 kg）": "113 sol",
+        "放掉再造 vs 回收": "8.49 vs 1.23 kWh/kg —— 回收付掉 85% 的账",
+        "N₂ 理想液化功": "764.9 kJ/kg = 0.2125 kWh/kg（文献 768，闸内）",
+        "本站氮系统功率": "1.37 kW（放空方案 9.40 kW）"
+      },
+      "specs_en": {
+        "Liquid nitrogen use (computed from heat leak, not copied from a datasheet)": "27.3 kg/sol = 33.8 L/sol; 18.3 t per Mars year",
+        "Heat-leak breakdown": "autoloader dewar 30 W + in-column cold trap 12 W + transfer losses 8.4 W = 50.4 W",
+        "Fraction of colony buffer-gas loss (49.0 kg/sol)": "56%",
+        "Sols to drain the colony N2 reserve (3078 kg) if vented": "113",
+        "Vent-and-remake vs recover": "8.49 vs 1.23 kWh/kg — recovery pays off 85% of the bill",
+        "Ideal liquefaction work for N2": "764.9 kJ/kg = 0.2125 kWh/kg (literature 768, inside gate)",
+        "Station nitrogen-system power": "1.37 kW (9.40 kW if vented)"
+      },
+      "sim": [
+        "回收链只付液化那一段（账 4）：蒸发气 → 低温回热器（ε=85%，把冷夺回来）→ 缓冲罐 → 无油往复压缩机 → 净化 → 液化机 → 回杜瓦。eclss 的缓冲气造价 5.27 kWh/kg 与 N₂/Ar 精馏 1.8 kWh/kg 全部省掉，只剩液化 1.11 + 压缩 0.12 = 1.23 kWh/kg。省电 198 kWh/sol，但真正的收益是省氮 18.3 t/火星年——**电有 176 MWe 可以浪费，氮没有**。",
+        "**火星特有的第二个结论：根本不必提纯到纯 N₂**。城内缓冲气是 N₂ 58% + Ar 42%（体积）。按 Raoult 算泡点：新装液 80.8 K，分馏到末段富 Ar 时升到 87.3 K——离玻璃态冰的反玻璃化温度 136 K 还有 49 K 余量。冷冻电镜要的不是「氮」，是「77 K 附近的冷」，所以**城里的缓冲气原液直接当冷媒**，与 eclss 卡「多一道提纯是白花电」同一条纪律。附赠：混合液密度 1027 kg/m³（LN₂ 只有 807），体积潜热 184.6 MJ/m³ vs 160.8——**每升多 15% 的冷**，同一只杜瓦多撑 15% 的时间。",
+        "诚实的代价三条（不藏）：① 分馏漂移让液面从 80.8 K 爬到 87.3 K，样品温度随之抬约 9 K，仍远低于 136 K，但热噪与升华率要按 87 K 校准，杜瓦须定期倒空回回收线（回收线本来就有，边际成本≈0）；② 乙烷杯反而更安全——浴温高 3.4 K，乙烷冻结余量从 13.0 K 缩到 9.6 K，**更好控**（账 7）；③ Ar 导热只有 N₂ 的三分之二（eclss 罐组卡已记），杜瓦颈部漏热要按 Ar 重算，本账的 30 W 已含 15% 余量。"
+      ],
+      "sim_en": [
+        "The recovery loop pays only for re-liquefaction (ledger 4): boil-off gas -> cryogenic recuperator (85% effective, taking the cold back) -> buffer tank -> oil-free reciprocating compressor -> purification -> liquefier -> back to the dewar. The 5.27 kWh/kg that ECLSS spends making buffer gas and the 1.8 kWh/kg of N2/Ar distillation both disappear, leaving 1.11 (liquefaction) + 0.12 (compression) = 1.23 kWh/kg. That saves 198 kWh/sol, but the real return is 18.3 t of nitrogen per Mars year: there are 176 MWe of electricity to waste, and no nitrogen at all.",
+        "The second Mars-specific conclusion: purifying to pure N2 is unnecessary. The colony buffer gas is 58% N2 / 42% Ar by volume. A Raoult bubble-point calculation gives 80.8 K for fresh liquid, rising to 87.3 K as fractionation enriches the argon — still 49 K below the 136 K devitrification temperature of vitreous ice. Cryo-EM does not need nitrogen; it needs cold at around 77 K. So the raw colony buffer-gas liquid is used directly as coolant, following the same discipline as the ECLSS card ('one more purification step is wasted electricity'). Bonus: the mixture's liquid density is 1027 kg/m^3 against 807 for LN2, giving 184.6 MJ/m^3 of volumetric latent heat versus 160.8 — 15% more cold per litre, so the same dewar lasts 15% longer.",
+        "Three honest costs, none hidden. (1) Fractionation drifts the bath from 80.8 K to 87.3 K, raising specimen temperature by about 9 K; still far below 136 K, but thermal noise and sublimation rates must be calibrated at 87 K and the dewar must be periodically dumped back into the recovery loop (which exists anyway, so marginal cost is nil). (2) The ethane cup is actually safer: a bath 3.4 K warmer shrinks the freezing margin from 13.0 K to 9.6 K, which is easier to hold (ledger 7). (3) Argon conducts only two-thirds as well as nitrogen (already booked on the ECLSS tank card), so dewar-neck heat leak must be recomputed for argon — the 30 W above already carries 15% margin."
+      ],
+      "physics": [
+        "在一颗大气压只有地球 0.6% 的行星上，「空气」是要开采的矿产。压缩功随压比的对数增长，稀薄意味着每一克有用气体都要先驱动几十克废气穿过压缩机——所以火星上惰性气体的价格逼近氧气（res-eclss-01 的原话）。这笔账不是电账，是物质账：火星的稀缺不写在电表上。",
+        "理想液化功 W_min = T₀Δs − Δh：从 300 K 常压气到 77.4 K 饱和液，Δh=431 kJ/kg、Δs=3.986 kJ/kg/K，W_min=765 kJ/kg。真实液化机只有卡诺的 8~30%（本站按中型闭式循环 15%）。回热器的价值在于：431 kJ/kg 里有 232 是显热，回收 85% 就等于把一半的活白拿。",
+        "地球上的氩是「杂质」，火星上的氩是白送的冷——因为行星大气把 CO₂ 冻走后剩下的天然就是这个比例。成分是被行星决定的，不是被工程师决定的。"
+      ],
+      "physics_en": [
+        "On a planet whose surface pressure is 0.6% of Earth's, 'air' is a mineral you mine. Compression work grows with the logarithm of the pressure ratio, and thinness means every useful gram must first drive dozens of grams of waste gas through the compressor — which is why inert gases on Mars approach the price of oxygen (res-eclss-01's own words). This is not an electricity ledger but a materials ledger: Martian scarcity does not show up on the power meter.",
+        "The ideal liquefaction work is W_min = T0*ds - dh: from 300 K gas at ambient pressure to saturated liquid at 77.4 K, dh = 431 kJ/kg and ds = 3.986 kJ/kg/K give W_min = 765 kJ/kg. Real liquefiers achieve 8-30% of Carnot (this station assumes 15% for a mid-size closed cycle). The recuperator earns its place because 232 of those 431 kJ/kg are sensible heat: recovering 85% of it is half the job obtained for free.",
+        "On Earth argon is an impurity; on Mars it is free cold — because freezing out the CO2 leaves exactly that ratio behind. The composition was decided by the planet, not by the engineers."
+      ]
+    },
+    {
+      "id": "control",
+      "label": "控制间双屏：实况显微图 + FFT Thon 环",
+      "label_en": "Control room, twin screens: live micrograph and FFT Thon rings",
+      "range": 20,
+      "detail": "左屏是正在累积的显微图，颗粒一颗颗浮现；右屏是它的功率谱，Thon 环由内向外逐圈清晰。屏下那条从琥珀收敛到绿的曲线是样品台漂移，按 exp(−t/45 s) 衰减，跌到 1 nm/min 才允许开束——**电子束不是随时可以开的，剂量预算只有一份**。这两块屏合起来就是采集员的全部判据：环能数到第几圈，决定这一张进不进数据集。",
+      "detail_en": "The left screen shows the micrograph accumulating, particle by particle; the right shows its power spectrum, with Thon rings sharpening from the centre outward. The curve below, converging from amber to green, is stage drift decaying as exp(-t/45 s); the beam is only allowed on once it falls below 1 nm/min — the beam cannot be switched on at will, because there is only one dose budget. Together these two screens are the operator's entire decision basis: how many rings can be counted decides whether this exposure joins the dataset.",
+      "specs": {
+        "采集节拍": "曝光 2.5 s + 束移换孔 3.0 s；每 6 孔移一次台（14 s）→ 7.83 s/张",
+        "产出": "7,366 张电影 / sol（占空 65%）",
+        "落盘数据": "5.2 TB/sol（EER 无损压缩 3×；未压缩 15.5 TB）",
+        "专线带宽": "平均 174 MB/s，峰值 839 MB/s",
+        "单结构算力": "246 GPU-h（预处理 39 实时 + 后处理 207 可排队；单结构 7,950 张电影）",
+        "集群定容": "8 卡 / 8.1 kW（挂 ops-compute-01）",
+        "本站总负荷": "19.8 kW —— 把地下城单块从 376 推到 396 kW",
+        "在线存储池": "324 TB 滚动，归档增量 155 TB/火星年",
+        "年利用率（诚实排班）": "~19% —— 40 结构/火星年只吃掉满负荷产能的 6.5%，其余是筛网与失败数据集",
+        "一期口径（2048²×10 µm，免版图拼接）": "数据 **1.3 TB/sol**、存储池 **81 TB**、**年利用率 76%**；GPU-h/结构与卡数功率不变"
+      },
+      "specs_en": {
+        "Acquisition cadence": "2.5 s exposure + 3.0 s image-shift hop; stage move every 6 holes (14 s) -> 7.83 s per movie",
+        "Throughput": "7,366 movies per sol at 65% duty",
+        "Data written": "5.2 TB/sol (EER losslessly compressed 3x; 15.5 TB uncompressed)",
+        "Dedicated link bandwidth": "174 MB/s average, 839 MB/s peak",
+        "Compute per structure": "246 GPU-h (39 real-time preprocessing + 207 queueable; 7,950 movies per structure)",
+        "Cluster sizing": "8 GPUs / 8.1 kW, hosted at ops-compute-01",
+        "Total station load": "19.8 kW, raising the undercity block from 376 to 396 kW",
+        "Online storage pool": "324 TB rolling, 155 TB per Mars year to archive",
+        "Annual utilisation (honest scheduling)": "about 19% - 40 structures per Mars year consume only 6.5% of full capacity; the rest is screening and failed datasets",
+        "Phase-1 convention (2048 x 2048 at 10 um, no reticle stitching)": "1.3 TB/sol, 81 TB online pool, 76% annual utilisation; GPU-h per structure, card count and power all unchanged"
+      },
+      "sim": [
+        "**「显微镜的一半在机房里」是保守说法（账 6）**：重建集群 8.1 kW 对显微镜整机 7.5 kW = 1.08 倍，机房那一半比镜筒这一半还大 8%。敏感性诚实标注——比值主要由返工系数决定：返工 1× → 8 卡/8.1 kW/1.08；3× → 8 卡/1.08；6×（本账取值）→ 8 卡/1.08；12× → 16 卡/16.2 kW/2.17。返工系数不是保守而是事实：分类分错、掩模画错、对称判错、颗粒挑重、参数扫描，没有人一遍做对。",
+        "存储保留期三档不是一档（账 6）：原始 EER 保留 30 sol（够重跑一次运动校正）= 155 TB；剂量加权求和图只留进了项目的那 35% = 155 TB/火星年；颗粒栈每项目 350 GB 保留至发表+2 年；最终密度图与模型几十 MB，**全链条只有这一项配说永久**。「永久保存原始数据」在火星上不是美德，是不会算账。",
+        "热账与选址（账 6）：19.8 kW 全部要变成必须抵达天空的热（pwr-grid-01 账 8 的纪律）。但**机房必须放在计算中心，不能放洞室**——机房的热是随作业波动的变负荷，会毁掉岩层白送的 6.8 µK/h 恒温（账 3）。这是本册里几何与账互相约束最直接的一处。",
+        "**自我修正 ④（账 8 B.3 的 G5 判红）**：第一版写「4000 张电影/结构」是拍的。由视场闭合反推：4096 px × 1.0 Å/px = 0.410 µm 见方 = 0.168 µm²，冰上颗粒面密度取 450/µm²、可用率 50% → **38 颗/电影**，3×10⁵ 个不对称单元需 **7,950 张**。4000 张等价于要求面密度 894/µm²，中等异质 300 kDa 复合物做不到。修正后单结构 246 GPU-h（仍在 150~600 闸内），**卡数定容不变**（预处理按 张/sol 定，不按 张/结构 定）。**账 2 颗粒数 / 账 6 电影数 / 账 7 制样浓度三本账在这里第一次连成一条线。**",
+        "顺带炸出一个更大的事实（账 8 B.3b）：40 结构/火星年 × 7,950 = 318k 张「有效」电影，而本机满负荷产能是 4.92M 张/火星年 —— **有效产出只占 6.5%**。加上筛网与失败数据集（经验 ×3）年利用率约 **19%**，即每火星年约 130 个采集 sol。**这不是设计缺陷，是冷冻电镜设施的真实生活**：机时的大头花在「这张网能不能用」上。它同时解释了本卡的两件事——为什么求和图只留 35%，以及为什么后处理要乘返工系数 6。**排班含义：本站不是 24/7 满负荷设备，年电耗按 ~30% 占空计更诚实。**",
+        "**一期口径（账 14）**：ops-fab-01 回执决定探测器分期 —— 一期走 2048²×10 µm（免版图拼接），二期再上 4096²×14 µm。视场缩到 1/4 → 每张电影颗粒数 37.7 → 9.4、单结构电影数 7,947 → 31,789。连锁反应有三条反直觉的：① **单结构 GPU-h 不变（246）**——帧小 4 倍与张数多 4 倍精确抵消，后处理 207 GPU-h 与探测器尺寸无关；② **卡数与功率也不变**（预处理按「张/sol」定容，而张/sol 由采集节拍定，与探测器无关）；③ **数据率反而降到 1/4**（5.2 → 1.3 TB/sol），一期在存储与网络上是减负。**代价全部落在利用率：19% → 76%** —— 仪器从「远未饱和」变成「接近饱和」，40 结构/火星年仍做得到但余量被吃光。**二期上拼接不是为了性能，是为了把余量赎回来。**"
+      ],
+      "sim_en": [
+        "'Half the microscope is in the machine room' is the conservative version (ledger 6): the reconstruction cluster draws 8.1 kW against 7.5 kW for the whole microscope, so the machine-room half is 8% larger than the column half. Sensitivity is stated honestly — the ratio is driven by the rework factor: 1x rework gives 8 GPUs / 8.1 kW / 1.08; 3x the same; 6x (this ledger's value) the same; 12x gives 16 GPUs / 16.2 kW / 2.17. Rework is not conservatism but fact: misassigned classes, badly drawn masks, wrong symmetry calls, duplicate picks, parameter sweeps — nobody gets it right the first time.",
+        "Retention is three tiers, not one (ledger 6): raw EER kept 30 sols (enough to rerun motion correction) = 155 TB; dose-weighted sums kept only for the 35% that enter a project = 155 TB per Mars year; particle stacks 350 GB per project until publication plus two years; final density maps and models, tens of megabytes, are the only item in the whole chain that deserves the word permanent. On Mars, 'keep the raw data forever' is not a virtue, it is a failure to do arithmetic.",
+        "Heat and siting (ledger 6): all 19.8 kW must eventually reach the sky (the discipline of pwr-grid-01 ledger 8). But the machine room must live at the compute centre, not in this cavern — its heat is a load that swings with the job queue, and that would destroy the 6.8 uK/h stability the rock gives for free (ledger 3). This is the most direct place in the book where the geometry and the ledgers constrain each other.",
+        "Self-correction 4 (gate G5 in ledger 8B.3): the first pass simply asserted 4000 movies per structure. Closing it against the field of view: 4096 px at 1.0 A/px is 0.410 um square = 0.168 um2; at 450 particles/um2 on the ice with a 50% usable fraction that is 38 particles per movie, so 3e5 asymmetric units need 7,950 movies. The old 4000 implied a particle density of 894/um2, unreachable for a moderately heterogeneous 300 kDa complex. Corrected, a structure costs 246 GPU-h - still inside the 150-600 gate - and the GPU count is unchanged, because preprocessing is sized per sol, not per structure. Ledger 2 (particle count), ledger 6 (movie count) and ledger 7 (preparation concentration) close into a single chain here for the first time.",
+        "A larger fact fell out of it (ledger 8B.3b): 40 structures per Mars year at 7,950 movies each is 318k productive movies against a full-load capacity of 4.92M per Mars year - productive output is 6.5% of capacity. Adding screening and failed datasets (empirically 3x) gives about 19% annual utilisation, roughly 130 collection sols per Mars year. This is not a design flaw but the real life of a cryo-EM facility: most machine time goes into deciding whether a grid is usable at all. It also explains two numbers on this card - why only 35% of dose-weighted sums are kept, and why post-processing carries a rework factor of 6. Scheduling implication: this is not a 24/7 machine, and annual energy is more honestly booked at about 30% duty.",
+        "Phase-1 convention (ledger 14): ops-fab-01's reply phases the detector — phase 1 uses 2048x2048 at 10 um (no reticle stitching), phase 2 moves to 4096x4096 at 14 um. The field of view shrinks to a quarter, so particles per movie fall from 37.7 to 9.4 and movies per structure rise from 7,947 to 31,789. Three consequences are counter-intuitive. (1) GPU-hours per structure are unchanged at 246: frames four times smaller exactly cancel four times as many of them, and the 207 GPU-h of post-processing does not depend on detector size. (2) Card count and power are likewise unchanged, because preprocessing is sized per movie per sol and the movie rate is set by acquisition cadence, not by the detector. (3) The data rate actually falls to a quarter (5.2 to 1.3 TB/sol), so phase 1 unloads storage and network. The entire cost lands on utilisation: 19% to 76%. The instrument goes from far from saturated to nearly saturated; 40 structures per Mars year remain feasible but the margin is gone. Phase 2 stitching is therefore not about performance — it is about buying the margin back."
+      ],
+      "physics": [
+        "Thon 环是 CTF 零点的可视化：环半径 k_n ≈ √(n/(Δf·λ))。环变椭圆 = 像散；环沿某方向提前糊掉 = 该方向漂移；环能数到第几圈 = 这一张的信息传到了哪一档。一张功率谱同时报告三件事，这就是为什么它值一整块屏。",
+        "剂量墙（账 1）决定了颗粒数必须是十万量级，十万量级颗粒决定了机房。这条链是单向的：镜筒只负责把 10⁵ 个颗粒各拍一张几乎全是噪声的图，**把噪声变成结构的那一步，才是这台仪器真正在做的事**。",
+        "台位稳定用的是指数弛豫：x'(t) = 25 nm/s · exp(−t/45 s)，跌到 1 nm/min 门槛要等 329 s。这 329 s 只在每个盒开头付一次，12 位盒能拍几千张，摊薄到每张不到 1 s——不进节拍瓶颈。这就是 autoloader 存在的经济学理由。"
+      ],
+      "physics_en": [
+        "Thon rings are the CTF zeros made visible, at radii k_n ~ sqrt(n/(df*lambda)). Elliptical rings mean astigmatism; rings that blur early along one direction mean drift along it; the number of countable rings says how far the information actually got. One power spectrum reports three things at once, which is why it earns a whole screen.",
+        "The dose wall (ledger 1) forces particle counts into the hundred-thousands, and hundred-thousands of particles force a machine room. The chain runs one way: the column merely takes one nearly-pure-noise image of each of 1e5 particles; turning that noise into a structure is what this instrument actually does.",
+        "Stage settling is exponential relaxation: x'(t) = 25 nm/s * exp(-t/45 s), reaching the 1 nm/min threshold after 329 s. That 329 s is paid once per cassette, and a 12-slot cassette yields thousands of exposures, so it amortises to under 1 s each and never becomes the cadence bottleneck. That is the economic justification for the autoloader."
+      ]
+    },
+    {
+      "id": "plunge",
+      "label": "plunge 冷冻工作站（为什么不用液氮直接冻）",
+      "label_en": "Plunge-freezing station (why not simply drop it into liquid nitrogen)",
+      "range": 16,
+      "detail": "腔内那只黄铜小杯装的是液态乙烷，93 K；它泡在 81 K 的冷媒浴里。全流程最反直觉的一步就在这里：**最冷的液体冻得最慢**。液氮 77 K 已经在自己的沸点上，室温样品一碰就膜沸腾，蒸汽层隔热，冷速只有 2.5e3 K/s，玻璃化门槛 1e5 过不去，冰会结晶，图上全是布拉格斑点，样品报废。乙烷离沸点还有 92 K，它只能老老实实地导热——1.55e5 K/s，过关。",
+      "detail_en": "The small brass cup inside the chamber holds liquid ethane at 93 K, sitting in an 81 K coolant bath. The most counter-intuitive step of the whole workflow is here: the coldest liquid freezes slowest. Liquid nitrogen at 77 K is already at its boiling point, so a room-temperature specimen triggers film boiling on contact; the vapour blanket insulates and the cooling rate is only 2.5e3 K/s, short of the 1e5 K/s vitrification threshold. The ice crystallises, the image fills with Bragg spots, the specimen is dead. Ethane is still 92 K below its boiling point and has no choice but to conduct — 1.55e5 K/s, which passes.",
+      "specs": {
+        "乙烷 / 液氮冷速": "1.55e5 vs 2.5e3 K/s（差 62 倍）",
+        "玻璃化门槛": ">1e5 K/s；反玻璃化温度 136 K",
+        "冷速由谁决定": "铜网热容 51.7 J/m²/K —— 比水膜+碳膜大 116 倍",
+        "过冷时间": "293 K → 136 K 只用 1.02 ms；插入速度 >1 m/s",
+        "乙烷工作窗口": "熔点 90.4 K ~ 沸点 184.6 K（只有 94.2 K 宽）",
+        "冷媒浴温": "80.8 K（城内缓冲液，账 4）→ 距乙烷冻结 9.6 K",
+        "设计冰厚": "40 nm（非弹背景 11%，能量过滤器删掉）"
+      },
+      "specs_en": {
+        "Cooling rate, ethane vs liquid nitrogen": "1.55e5 vs 2.5e3 K/s (62x)",
+        "Vitrification threshold": "> 1e5 K/s; devitrification temperature 136 K",
+        "What sets the cooling rate": "the copper grid's heat capacity, 51.7 J/m^2/K — 116x that of the water plus carbon film",
+        "Quench time": "293 K to 136 K in 1.02 ms; plunge speed above 1 m/s",
+        "Ethane working window": "melting 90.4 K to boiling 184.6 K, only 94.2 K wide",
+        "Coolant bath temperature": "80.8 K (colony buffer-gas liquid, ledger 4), 9.6 K above ethane freezing",
+        "Design ice thickness": "40 nm (11% inelastic background, removed by the energy filter)"
+      },
+      "sim": [
+        "冷速由铜网定，不由样品定（账 7）：φ3.05 mm、25 µm 厚、开孔率 40% 的铜网面热容 51.7 J/m²/K，而 100 nm 水膜 + 20 nm 碳膜只有 0.45——**差 116 倍**。所以选冷媒时要算的是把铜网冷下来的能力，不是把样品冷下来的能力。这一条决定了整个选型。",
+        "**账 4 的缓冲液冷媒在这里第二次得分**：浴温从纯 LN₂ 的 77.4 K 抬到 80.8 K，乙烷冻结余量从 13.0 K 缩到 9.6 K——**更好控，不是更差**（地球实验室最常见的翻车之一就是乙烷冻成白泥）。同一个决定在账 4 省了 1.8 kWh/kg 的精馏，在账 7 顺手降低了操作风险。",
+        "全链温度：乙烷杯 93 K → 盒 81 K → cassette 81 K → 过渡真空腔 81 K → 样品台 ~100 K，全程离 136 K 至少 43 K 余量。真空里的第二个敌人是「冷即是泵」：1e-5 Pa 下水汽以 129 单层/h 往最冷表面沉积（Hertz-Knudsen 实算）——**柱内冷阱不是配件**，它的 12 W 漏热占账 4 氮日耗的 24%，那 24% 全部买给「不让样品结霜」这一件事。"
+      ],
+      "sim_en": [
+        "The grid, not the specimen, sets the cooling rate (ledger 7): a 3.05 mm, 25 um copper grid at 40% open area has an areal heat capacity of 51.7 J/m^2/K, while a 100 nm water film plus 20 nm carbon film has only 0.45 — a factor of 116. Coolant selection is therefore about the ability to cool the grid, not the specimen. That single fact drives the whole choice.",
+        "The buffer-gas coolant from ledger 4 scores a second time here: raising the bath from 77.4 K (pure LN2) to 80.8 K shrinks the ethane-freezing margin from 13.0 K to 9.6 K — easier to hold, not harder. (Freezing the ethane into white sludge is one of the commonest failures in terrestrial laboratories.) The same decision saved 1.8 kWh/kg of distillation in ledger 4 and reduced operational risk in ledger 7.",
+        "Temperatures along the chain: ethane cup 93 K, clipped grid 81 K, cassette 81 K, load-lock 81 K, stage about 100 K — never less than 43 K below 136 K. The second enemy in vacuum is that cold surfaces are pumps: at 1e-5 Pa water vapour deposits on the coldest surface at 129 monolayers per hour (Hertz-Knudsen, computed). The in-column cold trap is not an accessory; its 12 W of heat leak is 24% of the nitrogen consumption in ledger 4, and all of that 24% buys one thing: no frost on the specimen."
+      ],
+      "physics": [
+        "莱顿弗罗斯特效应：当液体接触远高于其沸点的表面时，界面立刻汽化形成蒸汽膜，换热系数从 ~2e4 W/m²K 崩到 ~3e2——两个数量级。液氮的沸点 77.4 K 比室温样品低 216 K，注定膜沸腾；乙烷 93 K 时离沸点还有 92 K，界面维持液相接触。选冷媒的判据不是「多冷」，是「离自己的沸点多远」。",
+        "玻璃态冰的价值不止「冻住」：非晶态无布拉格衍射，不往图上撒粉；77~87 K 下次级自由基扩散被冻住，把二次损伤半径压到 nm 级——这就是低温 20~30 MGy 与常温约 0.2 MGy 之间那 100 倍的来源（账 1）。冷冻买的是二次化学的赦免，买不到一次电离的赦免。",
+        "等离子清洗不是清洁工序，是流体力学工序：碳膜天生疏水（接触角 70~90°），3 µL 液滴会缩成珠而不铺开。Ar/O₂ 辉光把接触角压到 <10°，铺展系数 γ(cosθ−1) 从 −59 mN/m 变到 −1 mN/m。没有这一步，后面全都白做。"
+      ],
+      "physics_en": [
+        "The Leidenfrost effect: when a liquid meets a surface far above its boiling point, the interface vaporises instantly into an insulating vapour film and the heat-transfer coefficient collapses from about 2e4 W/m^2K to about 3e2 — two orders of magnitude. Liquid nitrogen boils 216 K below a room-temperature specimen and is condemned to film boiling; ethane at 93 K is still 92 K below its own boiling point and maintains liquid contact. The criterion for a cryogen is not how cold it is but how far it is from its own boiling point.",
+        "Vitreous ice does more than freeze things. Being amorphous, it produces no Bragg diffraction and adds no powder to the image; and at 77-87 K the diffusion of secondary radicals is frozen out, confining secondary damage to nanometre radii. That is the origin of the hundredfold gap between the 20-30 MGy cryogenic limit and the roughly 0.2 MGy room-temperature one (ledger 1). Freezing buys an amnesty from secondary chemistry, never from primary ionisation.",
+        "Glow-discharge cleaning is a fluid-mechanics step, not a cleanliness step: carbon films are natively hydrophobic (contact angle 70-90 degrees), so a 3 uL drop beads instead of spreading. An Ar/O2 glow drives the contact angle below 10 degrees, moving the spreading coefficient gamma(cos(theta)-1) from -59 mN/m to -1 mN/m. Without it, everything downstream is wasted."
+      ]
+    },
+    {
+      "id": "desalt",
+      "label": "高氯酸盐脱除台（火星样品的第一道闸）",
+      "label_en": "Perchlorate removal bench (the first gate for any Martian sample)",
+      "range": 16,
+      "detail": "三根柱子从琥珀到清亮，就是耶泽罗沉积物提取液的脱盐过程。这不是提纯偏好，是**物理否决**：Mg(ClO₄)₂ 卤水密度随浓度线性上升，到 35 wt% 时正好等于蛋白的 1.35 g/cm³——相位衬度看的是投影势的差，密度一样就没有差，**蛋白在卤水里彻底隐形**。不是信噪比变差，是图上什么都没有。与 res-dome-hall-01 的洗盐卡同一套化学，但目标严 100 倍：那边给作物根系定 <0.05 wt%，这里要 <50 mM。",
+      "detail_en": "The three columns running from amber to clear are the desalting of a Jezero sediment extract. This is not a purity preference but a physical veto: the density of Mg(ClO4)2 brine rises linearly with concentration and reaches exactly the 1.35 g/cm^3 of protein at 35 wt%. Phase contrast responds to differences in projected potential, and equal densities mean no difference — the protein becomes literally invisible in brine. Not a worse signal-to-noise ratio; nothing in the image at all. Same chemistry as the salt-washing card of res-dome-hall-01, with a target a hundred times tighter: that bench sets <0.05 wt% for crop roots, this one needs <50 mM.",
+      "specs": {
+        "原土高氯酸盐": "~0.5 wt%（res-dome-hall-01 土层剖面卡口径）",
+        "衬度归零浓度": "35 wt% 卤水（ρ = 1.35 = 蛋白密度）",
+        "上样目标": "总盐 <50 mM（≈0.5 wt%），衬度保住 99%",
+        "所需脱盐倍数": "10×（单柱 200× 一次即可，串两次留余量）",
+        "工艺": "温和水相抽提 1:10 / 4 °C / 2 h → 离心 + 0.22 µm → 脱盐柱 ×2 → 超滤浓缩",
+        "上样浓度": "0.5~2 mg/mL（每孔 50~200 颗，对上账 6 的节拍）"
+      },
+      "specs_en": {
+        "Perchlorate in native regolith": "about 0.5 wt% (res-dome-hall-01 soil-profile card)",
+        "Contrast-null concentration": "35 wt% brine (rho = 1.35 = protein density)",
+        "Loading target": "total salt below 50 mM (about 0.5 wt%), preserving 99% of contrast",
+        "Desalting factor required": "10x (a single column gives 200x; two in series leave margin)",
+        "Process": "gentle aqueous extraction 1:10, 4 C, 2 h -> centrifuge + 0.22 um -> two desalting columns -> ultrafiltration",
+        "Loading concentration": "0.5-2 mg/mL, giving 50-200 particles per hole to match the ledger-6 cadence"
+      },
+      "sim": [
+        "三条互不相关的理由，任何一条都足以否决「不洗直接上」（账 7）：① **衬度归零**（上文，硬否决线）；② **氧化剂**——高氯酸盐在紫外/铁催化下产生活性氯，直接把要找的分子机器拆掉，这给采样到上样这一段定了时钟：提取液必须在几小时内完成脱盐，不能过夜；③ **结晶核**——高浓度盐在急冷时先于水析出，每一颗盐晶都是冰的形核中心，账 7 的玻璃化直接失败。**盐不是背景，盐是玻璃化的敌人。**",
+        "科学叙事的落点：耶泽罗是古湖床，如果这里曾有生命，它的分子机器就藏在沉积岩里。冷冻电镜是唯一能把「疑似生物结构」看到近原子分辨率的仪器——但账 2 给出诚实分档：最难的火星原生样品（C1、构象杂、B≈160 A²）在 3×10⁵ 颗时只到 3.4 Å，而不是标定样品那档 1.51 Å。**发现生命痕迹的那张图，会比 apoferritin 糊得多**，这一点必须写在前面。",
+        "**叙事修正（账 15，2026-08-15）**：本卡上面那段「耶泽罗是古湖床，如果这里曾有生命，分子机器就藏在沉积岩里」是**建站假设**，账 15 第一次给它记账，结论是**它不成立**：岩石内禀 U/Th/K 在 3.5 Gyr 里交付 9.56 MGy，把 300 kDa 复合物平均打断 991 次；分子结构的辐射寿命只有约 6 Myr。**古沉积样品仍要脱盐、仍值得看，但看的是形态学与耐辐照有机质，不是分子结构。**本站的主力样品改为本城自己的生物系统（详见网格库卡）——它们同样带高氯酸盐（温室土/堆肥/根际），**所以本卡这套脱盐工艺不但没有作废，反而从「偶尔用」变成「天天用」。**"
+      ],
+      "sim_en": [
+        "Three independent reasons, any one of which vetoes loading unwashed extract (ledger 7). (1) Contrast nulling, above — the hard veto. (2) Oxidant: under UV or iron catalysis perchlorate liberates reactive chlorine species that take apart the very molecular machines being looked for, which puts a clock on the sampling-to-loading interval — the extract must be desalted within hours, never left overnight. (3) Nucleation: concentrated salts precipitate ahead of water during a quench, and every salt crystal is a nucleation centre for ice, so vitrification simply fails. Salt is not background; salt is the enemy of vitrification.",
+        "Where the science narrative lands: Jezero is an ancient lake bed, and if life was ever here its molecular machinery is in the sediment. Cryo-EM is the only instrument that can take a suspected biological structure to near-atomic resolution — but ledger 2 grades that honestly: the hardest native Martian sample (C1 symmetry, conformationally messy, B about 160 A^2) reaches only 3.4 A at 3e5 particles, not the 1.51 A of a calibration specimen. The image that shows a trace of life will be considerably blurrier than apoferritin, and that must be said up front.",
+        "Narrative revision (ledger 15, 2026-08-15): the passage above about Jezero being an ancient lake bed holding molecular machinery was a founding assumption, and ledger 15 costed it for the first time. It does not hold: the rock's intrinsic U/Th/K delivered 9.56 MGy over 3.5 Gyr, breaking on average 991 bonds in a 300 kDa complex, and the radiolytic lifetime of molecular structure is only about 6 Myr. Ancient sediment still needs desalting and is still worth looking at, but for morphology and radiation-resistant organics rather than molecular structure. The station's primary samples become the colony's own biological systems (see the grid-store card) — which carry perchlorate too (greenhouse soil, compost, rhizosphere), so this desalting process is not obsoleted but promoted from occasional to daily use."
+      ],
+      "physics": [
+        "相位衬度成像的信号来自投影静电势的**差**，而势与密度几乎成正比。蛋白 1.35、玻璃态冰 0.93 g/cm³，差 0.42 就是全部本钱；卤水密度 ρ≈1.0+w 每增加 1 wt% 就吃掉这本钱的 2.4%。这是本册唯一一条与信噪比无关、纯粹由介质密度决定的硬约束。",
+        "高氯酸盐在火星上无处不在（凤凰号首次原位确认，多站点复现），它同时是三样东西：ISRU 的氧仓库（res-eclss-01 算过 0.573 kg O₂/kg 盐）、农业的毒物（res-dome-hall-01 的洗盐账）、以及结构生物学的隐形斗篷。同一种盐，在三本账上有三个完全不同的身份。"
+      ],
+      "physics_en": [
+        "Phase-contrast signal comes from differences in projected electrostatic potential, and potential tracks density closely. Protein at 1.35 against vitreous ice at 0.93 g/cm^3 gives 0.42 of working capital; brine at rho ~ 1.0 + w consumes 2.4% of that capital per weight percent. It is the only hard constraint in this book that has nothing to do with signal-to-noise and everything to do with the density of the medium.",
+        "Perchlorate is everywhere on Mars (first confirmed in situ by Phoenix, reproduced at many sites) and is simultaneously three things: an oxygen store for ISRU (res-eclss-01 computes 0.573 kg O2 per kg of salt), a poison for agriculture (the salt-washing ledger of res-dome-hall-01), and an invisibility cloak for structural biology. One salt, three completely different identities across three ledgers."
+      ]
+    },
+    {
+      "id": "autoloader",
+      "label": "autoloader 与杜瓦：一张快照的剂量预算",
+      "label_en": "Autoloader and dewar: one snapshot's worth of dose",
+      "range": 18,
+      "detail": "12 位盒仓泡在冷媒里，机械臂取盒、送样、退样，全程不许回温到 136 K。它搬运的东西比看起来贵得多：每一格铜网只能被拍一次。电子剂量毁样是硬墙——50 e⁻/Å² 的总预算换算成吸收剂量是 64 MGy，而其中只有前 3.6 e⁻/Å² 买得到 2 Å 的信息，剩下 46 全部用来「把颗粒对准」。用完样品就死，没有第二次。",
+      "detail_en": "A twelve-slot cassette magazine sits in coolant while the arm fetches, loads and unloads — never letting anything warm past 136 K. What it carries is far more expensive than it looks: each grid square can be photographed exactly once. Electron dose damage is a hard wall. The 50 e-/A^2 total budget converts to 64 MGy of absorbed dose, of which only the first 3.6 e-/A^2 buys information at 2 A; the remaining 46 are spent purely on being able to align the particles. When it is spent, the specimen is dead. There is no second attempt.",
+      "specs": {
+        "总剂量 / 分帧": "50 e⁻/Å² / 40 分数帧 × 2.5 s → 1.25 e⁻/Å² 每帧",
+        "折吸收剂量": "64 MGy（与晶体学 Henderson/Garman 上限同量级）",
+        "2 Å 信息的临界曝光": "3.6 e⁻/Å²（Grant & Grigorieff 曲线，@3 Å 为 4.34）",
+        "剂量去向": "4 买分辨率 + 46 买「能把颗粒对准」",
+        "盒仓 / 冷区温度": "12 位 cassette / 81 K 冷媒液面下",
+        "换盒后稳定时间": "329 s（漂移 exp(−t/45 s) 跌到 1 nm/min）"
+      },
+      "specs_en": {
+        "Total dose / fractionation": "50 e-/A^2 over 40 fractions in 2.5 s, i.e. 1.25 e-/A^2 per fraction",
+        "Absorbed-dose equivalent": "64 MGy, the same order as the Henderson/Garman limit in crystallography",
+        "Critical exposure for 2 A information": "3.6 e-/A^2 (Grant & Grigorieff curve; 4.34 at 3 A)",
+        "Where the dose goes": "4 buys resolution, 46 buys the ability to align particles",
+        "Magazine / cold-zone temperature": "12-slot cassette, below an 81 K coolant surface",
+        "Settling time after a cassette change": "329 s, as drift exp(-t/45 s) falls to 1 nm/min"
+      },
+      "sim": [
+        "剂量-分辨率账（账 1）：100 nm 玻璃冰中非弹散射几率 24.9%（λ_inel=350 nm），每入射电子沉积 7.46 eV → 50 e⁻/Å² = 64 MGy。两条完全独立的口径（电子学的 e⁻/Å² 与晶体学的 MGy）在这里合上，说明冷冻电镜的剂量墙与同步辐射的剂量墙是同一堵墙——**这是物理常数，不是工艺水平**。",
+        "临界曝光曲线 N_e(d) = 0.245·q^−1.665 + 2.81：20 Å 的轮廓能撑到 38.7 e⁻/Å²，10 Å 撑到 14.1，3 Å 只有 4.34，2 Å 只有 3.59。信息按分辨率分层死亡——这就是分帧采集加剂量加权的全部理由：不是拍一张，是拍一叠，每一帧按它还剩多少信息加权。",
+        "单幅图的散粒噪声账：1 Å 像素上只有 50 个电子、散粒噪声 14%；2 Å 处经包络衰减后有效衬度只剩百分之几 → 单颗粒 SNR 远低于 1 → 必须平均十万量级颗粒 → 账 6 的机房。**结论不是把剂量加大（墙在那儿），是把颗粒数加大。**"
+      ],
+      "sim_en": [
+        "Dose-resolution ledger (ledger 1): in 100 nm of vitreous ice the inelastic scattering probability is 24.9% (mean free path 350 nm), depositing 7.46 eV per incident electron, so 50 e-/A^2 equals 64 MGy. Two entirely independent conventions — the electron-optics e-/A^2 and the crystallographic MGy — close here, showing that the cryo-EM dose wall and the synchrotron dose wall are the same wall. It is a physical constant, not a level of craftsmanship.",
+        "The critical-exposure curve N_e(d) = 0.245 q^-1.665 + 2.81 gives 38.7 e-/A^2 of survival at 20 A, 14.1 at 10 A, 4.34 at 3 A and 3.59 at 2 A. Information dies in layers ordered by resolution, which is the entire reason for fractionated acquisition with dose weighting: not one picture, but a stack in which each frame is weighted by how much information it still carries.",
+        "Shot-noise accounting for a single image: a 1 A pixel receives only 50 electrons, so shot noise is 14%; after envelope attenuation the effective contrast at 2 A is a few percent, leaving single-particle SNR far below 1. Hence averaging over hundred-thousands of particles, hence the machine room of ledger 6. The conclusion is not to raise the dose — the wall is there — but to raise the particle count."
+      ],
+      "physics": [
+        "300 keV 电子在生物物质中，非弹散射约为弹性散射的 3 倍，每次非弹沉积约 30 eV——足以打断任何共价键。成像用的是弹性散射，损伤来自非弹散射，二者比例由原子序数决定，工程师无从干预。这就是「剂量墙」的物理定义。",
+        "冷冻不能免除一次电离，只能免除二次化学：77~87 K 下自由基被冻在原地，二次损伤半径压到 nm 级。这就是低温 20~30 MGy 与常温约 0.2 MGy 之间那 100 倍。玻璃态冰的三重身份——结构固定剂、低背景介质、自由基笼子——每一重都在这笔账里出现。",
+        "autoloader 的存在理由是经济学而非便利：每次换盒要付 329 s 的稳定时间（账 7），12 位盒把这笔固定成本摊到几千张电影上。没有它，账 6 的 7,366 张/sol 直接腰斩。"
+      ],
+      "physics_en": [
+        "For 300 keV electrons in biological matter, inelastic scattering is roughly three times as likely as elastic, and each inelastic event deposits about 30 eV — enough to break any covalent bond. Imaging uses the elastic events, damage comes from the inelastic ones, and their ratio is fixed by atomic number, beyond any engineer's reach. That is the physical definition of the dose wall.",
+        "Freezing grants no amnesty from primary ionisation, only from secondary chemistry: at 77-87 K radicals are frozen in place and secondary damage is confined to nanometres. That is the hundredfold gap between the 20-30 MGy cryogenic limit and roughly 0.2 MGy at room temperature. Vitreous ice plays three roles — structural fixative, low-background medium, radical cage — and every one of them appears in this ledger.",
+        "The autoloader exists for economics rather than convenience: each cassette change costs 329 s of settling (ledger 7), and a twelve-slot magazine spreads that fixed cost over thousands of movies. Without it, the 7,366 movies per sol of ledger 6 would be roughly halved."
+      ]
+    },
+    {
+      "id": "lineage",
+      "label": "测量谱系板：全城最短的那道波",
+      "label_en": "Measurement-lineage board: the shortest wave in the colony",
+      "range": 18,
+      "detail": "墙上这排从左到右越来越短的色柱，是这座城全部测量仪器的波长谱系：射电阵（sci-radio-01，米级）→ 太赫兹辐射计（sci-thz-01，1.6 mm）→ 红外（sci-ir-01）→ 短波红外（sci-swir-01，1.7 µm）→ 可见光 CIS → 紫外（sci-uv-01）→ X 射线 → 511 keV 湮灭光子（2.4263 pm）。最右端那格发蓝光的，不是光子：300 kV 电子的德布罗意波长 1.9687 pm，比全城最短的光子还短 1.23 倍。**谱系图右端之外的第一台不用光的显微镜。**",
+      "detail_en": "The colour bars on this wall, shortening from left to right, are the wavelength lineage of every measuring instrument in the colony: the radio array (sci-radio-01, metres), the terahertz radiometer (sci-thz-01, 1.6 mm), infrared (sci-ir-01), short-wave infrared (sci-swir-01, 1.7 um), visible-light CIS, ultraviolet (sci-uv-01), X-rays, and the 511 keV annihilation photon at 2.4263 pm. The blue-lit bar at the far right is not a photon at all: the de Broglie wavelength of a 300 kV electron is 1.9687 pm, 1.23 times shorter than the shortest photon in the city. It is the first microscope here that does not use light, one step beyond the right-hand end of the chart.",
+      "specs": {
+        "300 kV 电子波长": "1.9687 pm（非相对论值 2.239，γ 修正 ×1.137）",
+        "电子速度": "0.7765 c —— 相对论不是修饰，是主项",
+        "对照 511 keV 湮灭光子": "2.4263 pm（PET 口径）",
+        "比值": "电子波短 1.232 倍",
+        "但实际分辨率": "2.5 Å —— 比波长大 127 倍（账 2）",
+        "127 倍的去向": "Scherzer 定理（透镜）占绝大部分，其余归剂量墙与样品异质"
+      },
+      "specs_en": {
+        "Wavelength of a 300 kV electron": "1.9687 pm (non-relativistic 2.239, gamma factor x1.137)",
+        "Electron speed": "0.7765 c — relativity is the leading term, not a correction",
+        "Reference, 511 keV annihilation photon": "2.4263 pm (the PET figure)",
+        "Ratio": "the electron wave is 1.232 times shorter",
+        "Actual resolution, however": "2.5 A, a factor of 127 above the wavelength (ledger 2)",
+        "Where the 127 goes": "mostly Scherzer's theorem (the lens); the rest to the dose wall and specimen heterogeneity"
+      },
+      "sim": [
+        "λ = h/√(2m₀eV(1+eV/2m₀c²))，代 300 kV 得 1.9687 pm（闸 1.966~1.971，绿）；511 keV 光子 hc/E = 2.4263 pm（闸 2.42~2.43，绿）。两条独立公式把谱系的最后一格钉死。",
+        "这块板同时是本册最重要的一条警告：**波长早就够了，不够的是透镜，和只准拍一张的样品**。全城其他仪器的分辨率大多受衍射极限约束（λ/D），只有这一台受 Scherzer 定理与剂量墙约束——它是谱系里唯一一台「物理给得起、工程给不起」的仪器。"
+      ],
+      "sim_en": [
+        "lambda = h / sqrt(2 m0 e V (1 + eV / 2 m0 c^2)) gives 1.9687 pm at 300 kV (gate 1.966-1.971, green); the 511 keV photon gives hc/E = 2.4263 pm (gate 2.42-2.43, green). Two independent formulas nail down the final entry in the lineage.",
+        "This board is also the book's most important warning: the wavelength has been sufficient all along — what is insufficient is the lens, and a specimen that may only be photographed once. Most other instruments in the colony are limited by diffraction (lambda/D); this one alone is limited by Scherzer's theorem and the dose wall. It is the only instrument in the lineage where physics can afford what engineering cannot."
+      ],
+      "physics": [
+        "德布罗意关系 λ = h/p 对有质量粒子同样成立，而动量可以靠加速电压随便加大——这就是电子显微镜能绕过光学衍射极限的根本原因。300 kV 下电子跑到 0.78 c，相对论修正把波长再压短 13.7%。",
+        "代价写在同一条关系里：动量越大越难偏转，所以电子透镜只能用磁场，而磁透镜受 Scherzer 定理约束 Cs 恒正。**把波长做短的那件事，同时把透镜做坏了**——这是本城谱系右端最深的一条物理讽刺。"
+      ],
+      "physics_en": [
+        "The de Broglie relation lambda = h/p holds for massive particles too, and momentum can be raised at will with accelerating voltage — which is the fundamental reason an electron microscope can step past the optical diffraction limit. At 300 kV the electron reaches 0.78 c, and the relativistic correction shortens the wavelength by a further 13.7%.",
+        "The price is written into the same relation: larger momentum is harder to deflect, so electron lenses must be magnetic, and magnetic lenses are bound by Scherzer's theorem to strictly positive spherical aberration. The very act of shortening the wavelength ruins the lens — the deepest physical irony at the right-hand end of the colony's lineage."
+      ]
+    },
+    {
+      "id": "hvsupply",
+      "label": "300 kV 高压罐（充本地 CO₂，不进口 SF₆）",
+      "label_en": "300 kV high-voltage tank (filled with local CO2, no imported SF6)",
+      "range": 18,
+      "detail": "中间那只卧式压力容器是 300 kV 高压发生器的绝缘罐。地球 TEM 的标准答案是 2~4 bar SF₆，但 SF₆ 在火星**无源**，全靠进口且每次检修放气。换个角度：CO₂ 是火星大气的 95.1%，eclss 进气塔天天在冻它，而 CO₂ 恰好是常见气体里绝缘强度**最高**的一个（Townsend B=466，比空气高 28%）。**3 bar 本地 CO₂ ≈ 1 bar SF₆。**这与 pwr-grid-01 母线管「充 2 bar 本地 CO₂」是同一个答案——两个互不相干的子系统独立走到同一处。",
+      "detail_en": "The horizontal pressure vessel in the middle is the insulating tank of the 300 kV generator. The terrestrial answer is 2-4 bar of SF6, but SF6 has no Martian source: every kilogram is imported and every service vents some. Turn it around - CO2 is 95.1% of the Martian atmosphere, the ECLSS intake tower freezes it out daily, and CO2 happens to have the highest dielectric strength among common gases (Townsend B = 466, 28% above air). Three bar of local CO2 is about one bar of SF6. This is the same answer pwr-grid-01 reached for its busduct (2 bar of local CO2) - two unrelated subsystems arriving independently at the same place.",
+      "specs": {
+        "设计耐压": "450 kV（= 300 kV × 1.5 绝缘配合）",
+        "介质": "本地 CO₂ 3 bar（Townsend A=20 /cm·Torr, B=466 V/cm·Torr）",
+        "均匀场气隙 / 等效场强": "4.67 cm / 96 kV/cm（对照 SF₆ 常压 89 kV/cm）",
+        "工程气隙（流注 ÷2 × 场增强 ÷1.5）": "14.0 cm → 罐体内径 ≥58 cm",
+        "加速管": "20 cm、8 级分压环，每级 37.5 kV / 25 mm（沿面 1.5 kV/mm）",
+        "舱内大气绝缘折扣": "有效 B 251.7 vs 地球空气 365 —— **低 31%，元凶是氩**",
+        "泄漏后果": "整罐泄空 → 洞室 CO₂ 增量 0.048 vol%，对生保限值裕度 10×"
+      },
+      "specs_en": {
+        "Design withstand": "450 kV (= 300 kV x 1.5 insulation coordination)",
+        "Medium": "local CO2 at 3 bar (Townsend A = 20 /cm/Torr, B = 466 V/cm/Torr)",
+        "Uniform-field gap / equivalent strength": "4.67 cm / 96 kV/cm (versus 89 kV/cm for SF6 at 1 bar)",
+        "Engineering gap (streamer /2 x field enhancement /1.5)": "14.0 cm, so tank bore >= 58 cm",
+        "Accelerator tube": "20 cm with 8 grading rings, 37.5 kV per 25 mm stage (1.5 kV/mm along the surface)",
+        "Indoor-atmosphere insulation discount": "effective B 251.7 versus 365 for Earth air - 31% lower, argon to blame",
+        "Consequence of a full leak": "cavern CO2 rises 0.048 vol%, a 10x margin against the life-support limit"
+      },
+      "sim": [
+        "口径对齐先行（账 8 A.1）：用 pwr-grid-01 的 CO₂ Townsend 系数复算它自己的三个结论——帕邢最低点 **249.0 V**、火星 610 Pa 下对应 **1.17 mm**、1 m 均匀气隙 **27.5 kV**——**逐位吻合**，说明两册用的是同一套系数，可以并表。",
+        "**第一个反转：本站不在火星大气里。**洞室是地下城加压舱（70 kPa，O₂ 26.5% + 缓冲气 N₂58%+Ar42%），所以 pwr-grid-01「火星从 1 kV 就起电晕」那条**不直接适用**——它说的是地表 610 Pa 的架空线。但舱内也不轻松：摩尔加权有效 B = 251.7，**比地球空气低 31%**，元凶是氩（B 只有 180）。**「空气绝缘」的地球经验数字在这座城里要打七折——这条全城通用，已报总控。**",
+        "**第二个反转：加速管本体不归帕邢管。**管内是真空，气体电离机制不成立；长度由**陶瓷绝缘子沿面闪络**（分级良好的 Al₂O₃ 在真空中约 1.5 kV/mm）定 → 300 kV / 1.5 = **20 cm**，8 级分压环每级 37.5 kV / 25 mm，电极面场 3.0 MV/m（对体真空场致发射判据 10 MV/m 有 3.3× 余量）。**加速管的长度不是电子光学定的，是绝缘定的。**（第一版几何只画了 3 圈分压环，本轮补齐 8 圈。）",
+        "废气也有下家：CO₂ 放电分解产物（CO + O₂）装吸附柱，检修放气走 eclss 的 CO₂ 母管回收 → Sabatier。对照 SF₆ 泄漏——窒息性重气 + 强温室气体，在密闭地下城里必须写进应急预案。**这一项也白拿。**"
+      ],
+      "sim_en": [
+        "Calibration first (ledger 8A.1): re-deriving pwr-grid-01's own three results with its CO2 Townsend coefficients gives a Paschen minimum of 249.0 V, a 1.17 mm gap at Mars ambient 610 Pa, and 27.5 kV across a 1 m uniform gap - matching digit for digit, so both books use the same coefficients and their numbers can be tabled together.",
+        "First reversal: this station is not in the Martian atmosphere. The cavern is a pressurised undercity volume (70 kPa, 26.5% O2 plus N2/Ar buffer at 58/42), so pwr-grid-01's 'corona starts at 1 kV on Mars' does not transfer - that statement concerns overhead lines at 610 Pa. Indoors is not free either: the mole-weighted effective B is 251.7, 31% below Earth air, and the culprit is argon (B of only 180). Terrestrial rules of thumb for air insulation must be discounted about 30% throughout this city - a colony-wide finding, already reported.",
+        "Second reversal: the accelerator tube itself is not a Paschen problem. Its interior is vacuum, where the gas-ionisation mechanism does not exist; the length is set by surface flashover along the ceramic insulator (about 1.5 kV/mm for well-graded alumina in vacuum), giving 300 kV / 1.5 = 20 cm with eight grading stages of 37.5 kV per 25 mm and an electrode surface field of 3.0 MV/m - a 3.3x margin against the 10 MV/m bulk field-emission criterion. The length of an accelerator tube is set by insulation, not by electron optics. The first geometry drew only three grading rings; all eight are now modelled.",
+        "Even the waste has a customer: CO2 discharge products (CO and O2) are caught on an adsorber, and service venting returns to the ECLSS CO2 header and on to Sabatier. Compare an SF6 leak - an asphyxiant heavy gas and a potent greenhouse gas that would need its own emergency procedure in a sealed underground city. Another item free of charge."
+      ],
+      "physics": [
+        "帕邢定律 V_b = B·pd / [ln(A·pd) − ln(ln(1+1/γ))]：击穿电压只是乘积 pd 的函数，不是 p 与 d 各自的函数。把气压提高三倍与把间隙拉大三倍在这条曲线上等价——但**压力比空间便宜得多**，所以高压设备总是选择加压而不是加大。",
+        "为什么氩这么不耐压：单原子气体没有振动/转动自由度吸收电子能量，电子在两次碰撞之间更容易积累到电离能，电离系数 α 上升、B 下降。**同一条物理让氩在账 4 里是白送的冷（体积潜热高 15%），在这里却是绝缘的负担。**行星决定了大气成分，成分同时给两本账签了名，一正一负。"
+      ],
+      "physics_en": [
+        "Paschen's law, V_b = B*pd / [ln(A*pd) - ln(ln(1+1/gamma))], makes breakdown a function of the product pd alone, not of pressure and gap separately. Tripling the pressure and tripling the gap are equivalent on that curve - but pressure is far cheaper than space, which is why high-voltage equipment is pressurised rather than enlarged.",
+        "Why argon insulates so poorly: a monatomic gas has no vibrational or rotational modes to absorb electron energy, so between collisions electrons reach the ionisation potential more easily; the ionisation coefficient rises and B falls. The same physics that makes argon free cold in ledger 4 (15% more volumetric latent heat) makes it an insulation burden here. The planet fixed the atmospheric composition, and that composition signed two ledgers with opposite signs."
+      ]
+    },
+    {
+      "id": "gridstore",
+      "label": "网格库：这里排队的是什么样品（保存极限账）",
+      "label_en": "Grid store: what is actually queued here (the preservation ledger)",
+      "range": 18,
+      "detail": "三只杜瓦里泡着冻好的载网，等机时。**但这张卡要回答的是一个比机时更根本的问题：这里应该排队的，到底是什么样品？**本站的建站叙事写着「耶泽罗是古湖床，如果这里曾有生命，它的分子机器就藏在沉积岩里」——那句话是**假设**，直到账 15 才第一次被算。算完的结论是：**岩石自己在 35 亿年里已经把样品打散了。**账 1 说 50 e⁻/Å² = 64 MGy 一次性毁掉样品；账 15 说岩石内禀的 U/Th/K 在 3.5 Gyr 里交付了 **9.56 MGy**，把一个 300 kDa 复合物平均打断 **991 次**。**剂量墙出现了两次，而岩石先到。**",
+      "detail_en": "Three dewars hold vitrified grids waiting for beam time. But this card answers a question more fundamental than scheduling: what should actually be queued here? The founding narrative of this laboratory says that Jezero is an ancient lake bed and that if life was ever here, its molecular machinery lies in the sediment. That was an assumption, and ledger 15 is the first time anyone costed it. The answer is that the rock has already taken the samples apart. Ledger 1 sets the destruction budget at 50 e-/A^2 = 64 MGy delivered once; ledger 15 finds that the rock's own U/Th/K delivered 9.56 MGy over 3.5 Gyr, breaking on average 991 bonds in a 300 kDa complex. The dose wall appears twice, and the rock got there first.",
+      "specs": {
+        "岩石内禀剂量率（今日）": "1.60 Gy/ka（K 0.415 wt% / U 0.2 ppm / Th 0.7 ppm，火星沉积物口径）",
+        "35 亿年累积内禀剂量": "**9.56 MGy**（含衰变修正 ×1.71 —— K-40 早期活度高 7.0 倍）",
+        "地表 GCR": "76 mGy/yr（MSL/RAD 实测）→ 3.5 Gyr 累积 266 MGy",
+        "采样埋深要求": "**>1.9 m**，且须从未进入表层 2 m",
+        "300 kDa 复合物平均断键": "**991 次**",
+        "分子结构的辐射寿命": "**≈6 Myr**（300 kDa）；随分子量反比：2 kDa 906 Myr / 1 MDa 1.8 Myr"
+      },
+      "specs_en": {
+        "Intrinsic rock dose rate (present day)": "1.60 Gy/ka (K 0.415 wt%, U 0.2 ppm, Th 0.7 ppm; Martian sediment values)",
+        "Accumulated intrinsic dose over 3.5 Gyr": "9.56 MGy (including a x1.71 decay correction; K-40 was 7.0x more active early on)",
+        "Surface galactic cosmic rays": "76 mGy/yr (measured by MSL/RAD), giving 266 MGy over 3.5 Gyr",
+        "Required sampling depth": "deeper than 1.9 m, and never previously within 2 m of the surface",
+        "Mean bond scissions in a 300 kDa complex": "991",
+        "Radiolytic lifetime of molecular structure": "about 6 Myr at 300 kDa, inversely with mass: 906 Myr at 2 kDa, 1.8 Myr at 1 MDa"
+      },
+      "sim": [
+        "内禀剂量（账 15.1）：按光释光测年的无限基质换算系数（K 1.025、U 3.039、Th 0.807 Gy/ka），火星沉积物今日剂量率 1.60 Gy/ka，落在地球沉积物 2~4 Gy/ka 的同一带内。**但必须做衰变修正**：K-40 半衰期 1.25 Gyr 比样品年龄还短，3.5 Gyr 前活度是今天的 7.0 倍，时间积分把累积剂量从 5.59 抬到 **9.56 MGy**。",
+        "宇宙线（账 15.2）：地表 76 mGy/yr 在 3.5 Gyr 累积 266 MGy，比内禀大 28 倍 —— **地表样品毫无希望**。按 Λ≈100 g/cm²、ρ=2 g/cm³ 衰减，要把 GCR 压到内禀水平以下需埋深 **>1.9 m**。对深层古沉积这是自然满足的；**真正被 GCR 毁掉的是新近出露面**。与 sci-deeplab-01 同一条屏蔽账，只是这次算的是样品不是探测器。",
+        "**计次论证（账 15.3，本卡的核心）**：低温与常温、水合与干燥的耐受差别量级不确定，所以不用「限值」论证，改用「计次」：每次断键约 30 eV，9.56 MGy 打进 300 kDa 复合物 = 29,721 eV = **991 次断键**。而单颗粒冷冻电镜要的不是「有分子」，是**十万个一模一样的分子**（账 2）。辐射损伤是随机的 —— **哪怕分子还在，它们也不再互为副本，无法平均。**反解「平均挨不到一次」的年龄上限：300 kDa 只有 **6 Myr**，且**随分子量反比**（2 kDa 906 Myr、1 MDa 1.8 Myr）——**冷冻电镜的目标恰恰是最大的那一类。**",
+        "**叙事修正（账 15.4）**：主力负载不是 35 亿年前的化石分子，而是四类真实目标 —— ① 现存/新近生物（1 Myr 仅 1.6 kGy）② **本城自己的生物**：115 人的微生物组、res-dome-hall-01 的根际、res-recycle-01 的堆肥菌群、res-eclss-01 的生保菌群 —— **零剂量史、天天在产、且直接关系全城运行**；③ 矿物与包裹有机质（矿物不怕 10 MGy，MicroED 可用）；④ 前生命化学实验产物。账 8B 说过「仪器不是瓶颈，样品才是」——**样品其实一直都在，只是目光放错了地方。**",
+        "**这本账没有推翻的东西**：账 1~14 的仪器结论一条都不用改；高氯酸盐脱除（账 7）依然是准入条件，因为温室土/堆肥/根际样品同样带高氯酸盐。改的只是「这台仪器为什么在这里」那一句话 —— 而且改完之后理由更强：不是「也许能看到 35 亿年前的生命」，而是**「一座 115 人的封闭城市，它的生物系统必须有人能看到分子层面」**。"
+      ],
+      "sim_en": [
+        "Intrinsic dose (ledger 15.1): using the infinite-matrix conversion factors of luminescence dating (K 1.025, U 3.039, Th 0.807 Gy/ka), Martian sediment yields 1.60 Gy/ka today, inside the same band as terrestrial sediment at 2-4 Gy/ka. A decay correction is essential: K-40 has a 1.25 Gyr half-life, shorter than the sample age, so it was 7.0 times more active 3.5 Gyr ago, and the time integral lifts the accumulated dose from 5.59 to 9.56 MGy.",
+        "Cosmic rays (ledger 15.2): 76 mGy/yr at the surface accumulates to 266 MGy over 3.5 Gyr, 28 times the intrinsic dose — surface samples are hopeless. With an attenuation length of about 100 g/cm^2 at a density of 2 g/cm^3, suppressing cosmic rays below the intrinsic level requires burial deeper than 1.9 m. Deep ancient sediment satisfies this naturally; what cosmic rays destroy is recently exhumed surfaces. This is the same shielding ledger as sci-deeplab-01, applied to the specimen instead of the detector.",
+        "Counting argument (ledger 15.3, the core of this card): the tolerance difference between cryogenic and ambient, hydrated and dry, is uncertain in magnitude, so instead of arguing from a dose limit this ledger counts events. At roughly 30 eV per bond scission, 9.56 MGy deposited in a 300 kDa complex is 29,721 eV, or 991 scissions. Single-particle cryo-EM does not need molecules to exist; it needs a hundred thousand identical copies (ledger 2). Radiation damage is stochastic, so even surviving molecules are no longer copies of one another and cannot be averaged. Inverting for the age at which the mean falls below one hit gives about 6 Myr at 300 kDa, scaling inversely with mass (906 Myr at 2 kDa, 1.8 Myr at 1 MDa) — and cryo-EM targets precisely the largest class.",
+        "Narrative revision (ledger 15.4): the main workload is not fossil molecules from 3.5 Gyr ago but four real target classes. (1) Extant or recent biology, if any: 1 Myr accumulates only 1.6 kGy. (2) The colony's own biology — the microbiome of 115 people, the rhizosphere of res-dome-hall-01, the compost consortia of res-recycle-01, the life-support cultures of res-eclss-01 — with zero dose history, produced daily, and directly tied to the colony running. (3) Minerals and encapsulated organics, where 10 MGy is harmless and MicroED applies. (4) Products of prebiotic chemistry experiments. Ledger 8B already said the instrument is not the bottleneck, the samples are; the samples were there all along, and the gaze was pointed the wrong way.",
+        "What this ledger does not overturn: every instrument conclusion in ledgers 1-14 stands unchanged, and perchlorate removal (ledger 7) remains a condition of entry, because greenhouse soil, compost and rhizosphere samples carry perchlorate too. What changes is only the sentence explaining why this instrument is here — and the revised reason is stronger: not \"we might see life from 3.5 Gyr ago\" but \"a sealed city of 115 people needs someone able to see its biology at the molecular level\"."
+      ],
+      "physics": [
+        "**放射性衰变使古老样品的剂量史前重后轻。**任何半衰期短于样品年龄的核素（这里是 K-40，1.25 Gyr）在早期贡献远大于今天，时间积分必须按 D = D₀·(T½/ln2)·(2^(T/T½)−1) 做，不能用今日剂量率乘年龄 —— 那样会低估 1.71 倍。",
+        "**辐射损伤对单颗粒平均是二次伤害。**它不只减少信号，更把「互为副本」这个前提破坏掉：每个分子被打坏的位置不同，等价于账 2 里那个 B_conf（构象/组成异质性）被推到无穷大。**这就是为什么「分子还在」和「结构可解」是两回事。**",
+        "**辐射寿命随分子量反比**，因为吸收能量 ∝ 质量而容许的断键数是常数（<1 次）。这条标度律的方向对结构生物学最不利：**越值得看的大机器，radiolytic 寿命越短。**"
+      ],
+      "physics_en": [
+        "Radioactive decay front-loads the dose history of ancient samples. Any nuclide with a half-life shorter than the sample age — here K-40 at 1.25 Gyr — contributed far more early than it does now, so the time integral must use D = D0 (T_half/ln2)(2^(T/T_half) - 1) rather than multiplying today's dose rate by the age, which underestimates by a factor of 1.71.",
+        "For single-particle averaging, radiation damage does secondary harm: it does not merely reduce signal, it destroys the premise that the molecules are copies of one another. Each survivor is broken in a different place, which is equivalent to driving the B_conf term of ledger 2 (conformational and compositional heterogeneity) to infinity. That is why \"the molecule is still there\" and \"the structure is solvable\" are entirely different statements.",
+        "Radiolytic lifetime scales inversely with molecular mass, because absorbed energy scales with mass while the tolerated number of scissions is a constant of order one. The direction of this scaling law is maximally unhelpful to structural biology: the larger and more interesting the machine, the shorter its radiolytic lifetime."
+      ]
+    }
+  ]
+}

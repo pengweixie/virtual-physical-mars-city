@@ -10,8 +10,8 @@
       "detail_en": "An unmanned sentinel 1.5-2.2 km out from the hub: a 2.2 m taper pole carries a mini hot-film head, the base barometer puck breathes through a gooseneck, PV plus battery keep it alive, and a UHF whip relays minute packets to the hub. Tripod ballast bags hold it down — no foundation needed.",
       "specs": { "杆高": "2.2 m", "测风": "迷你热膜头", "气压": "墩内膜盒", "回传": "UHF → 主站", "锚固": "三脚配重袋" },
       "specs_en": { "Height": "2.2 m", "Wind": "mini hot-film head", "Pressure": "capsule in puck", "Uplink": "UHF → hub", "Anchor": "tripod ballast" },
-      "sim": "观测网三角定位账(sim_network_triangulation.py,蒙卡 N=4000):主站+3 远端到达时差平面波最小二乘反演前锋矢量——速度 σ 4-5%、方位 σ 2.2-2.8°(前锋 ~100 m 皱褶主导);最上风杆 2.2 km 给 1-3.5 分钟提前量",
-      "sim_en": "Network triangulation account (sim_network_triangulation.py, MC N=4000): plane-wave least squares on hub + 3 remote arrival times retrieves the front vector — speed sigma 4-5%, heading sigma 2.2-2.8 deg (dominated by ~100 m front roughness); the most upwind pole at 2.2 km buys 1-3.5 minutes of lead",
+      "sim": "观测网三角定位账(sim_network_triangulation.py,蒙卡 N=4000):主站+3 远端到达时差平面波最小二乘反演前锋矢量——速度 σ 4-5%、方位 σ 2.2-2.8°(前锋 ~100 m 皱褶主导);最上风杆 2.2 km 给 73-220 s(1.2-3.7 分钟)提前量",
+      "sim_en": "Network triangulation account (sim_network_triangulation.py, MC N=4000): plane-wave least squares on hub + 3 remote arrival times retrieves the front vector — speed sigma 4-5%, heading sigma 2.2-2.8 deg (dominated by ~100 m front roughness); the most upwind pole at 2.2 km buys 73-220 s (1.2-3.7 minutes) of lead",
       "physics": "单站只能报「前锋到了」;t_i = t₀ + s·x_i 的平面波模型里,3 根远端是解出二维慢度矢量的最小闭合(2 站只有一条基线)——网才能报「从哪来、多快、几分钟到」,矢量喂给穹顶闭风口、吊装停工与发射场 hold;小时级尘暴生成预警仍归主站 τ 光度计",
       "physics_en": "A single station can only say 'the front is here'; in the plane-wave model t_i = t0 + s·x_i, three remotes are the minimal closure to solve the 2D slowness vector (two stations give just one baseline) — only the network can say 'from where, how fast, minutes to arrival', feeding dome vent closures, crane stand-downs and launch holds; hour-scale storm-genesis warning stays with the hub photometer"
     },
@@ -24,8 +24,8 @@
       "detail_en": "The 2.8 m tall variant: twin ring electrodes count grain impacts and the top ball reads the triboelectric field — at a storm front, dust flux and E-field jump before visibility does, giving the sharpest arrival signature for triangulation; the amber beacon flashes to mark the high-wind work zone.",
       "specs": { "杆高": "2.8 m", "尘通量": "双环电极(计数/电流双模)", "静电": "球头探针", "信标": "琥珀闪烁" },
       "specs_en": { "Height": "2.8 m", "Dust flux": "twin rings (count/current)", "E-field": "ball probe", "Beacon": "amber flash" },
-      "sim": "前端与主站同账(sim_dust_flux.py / sim_efield_probe.py):晴天单粒计数 SNR 625、尘暴切积分电流 42 pA;电场量程按 610 Pa CO₂ 帕邢击穿 ~28 kV/m 封顶",
-      "sim_en": "Front ends share the hub accounts (sim_dust_flux.py / sim_efield_probe.py): clear-weather single-grain counting at SNR 625, storms switch to 42 pA integrating current; the E-field range is capped by the ~28 kV/m Paschen breakdown of CO2 at 610 Pa",
+      "sim": "前端与主站同账(sim_dust_flux.py / sim_efield_probe.py):晴天单粒计数 SNR 625、尘暴切积分电流模式(主站口径 41.7 nA);电场量程按 610 Pa CO₂ 帕邢击穿 ~28 kV/m 封顶",
+      "sim_en": "Front ends share the hub accounts (sim_dust_flux.py / sim_efield_probe.py): clear-weather single-grain counting at SNR 625, storms switch to integrating-current mode (41.7 nA at the hub's geometry); the E-field range is capped by the ~28 kV/m Paschen breakdown of CO2 at 610 Pa",
       "physics": "前锋的尘幕携带跃移起电的电荷,尘通量/电场阶跃比气压签名更陡——到达时刻检测得越锐,三角定位的时差误差越小",
       "physics_en": "The front's dust curtain carries saltation-charged grains; flux and E-field step more sharply than the pressure signature — the sharper the arrival detection, the smaller the triangulation timing error"
     },

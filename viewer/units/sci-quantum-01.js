@@ -1,6 +1,6 @@
 // sci-quantum-01 —— 地下城量子计算中心「玄枢」(QP-20, 20 比特超导 transmon)
 // 契约(室内场景 §4b):米制;原点=厅中心地面;入口朝 +Z;引擎平地 y=0,尺寸夹取 size_m/2。
-// 设计真源:quantum-computing\DESIGN.md (L1 冻结 + L2 scqubits/QuTiP 12 脚本
+// 设计真源:E:\Claude\quantum-computing\DESIGN.md (L1 冻结 + L2 scqubits/QuTiP 12 脚本
 //   + L3 HFSS 全波 9 工程 + GDS v7 版图) —— 知识卡数字全部出自该台账。
 // 核心不做黑盒:稀释制冷机以「检修态」呈现——真空罐由天车吊离,300K→MXC 六级
 //   镀金板吊灯、同轴走线、磁屏蔽内的 QP-20 芯片全部裸露;读出链(TWPA/隔离器/HEMT)

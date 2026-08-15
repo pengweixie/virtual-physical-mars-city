@@ -7,8 +7,16 @@
       "range": 9,
       "detail": "三圈梯田从外到内逐级抬高:外圈叶菜(矮)、中圈番茄豆类(中)、内圈块茎与谷物试验田(高)。抬升角度按 Jezero 冬至正午太阳高度算——最矮的作物也晒得到最斜的光。",
       "detail_en": "Three rings step upward from rim to center: leafy greens outside (short), tomatoes and legumes in the middle, tubers and trial grain inside (tall). The step angle was set by the noon solar elevation at Jezero's winter solstice - even the shortest crop catches the lowest light.",
-      "specs": { "面积": "~320 m² 种植面(三环合计)", "梯度": "0.45 → 1.55 m 逐环抬升", "轮作": "叶菜 30 天 / 番茄 75 天 / 马铃薯 90 天" },
-      "specs_en": { "Area": "~320 m2 of beds across three rings", "Rise": "0.45 to 1.55 m ring by ring", "Rotation": "greens 30 d / tomato 75 d / potato 90 d" },
+      "specs": {
+        "面积": "~320 m² 种植面(三环合计)",
+        "梯度": "0.45 → 1.55 m 逐环抬升",
+        "轮作": "叶菜 30 天 / 番茄 75 天 / 马铃薯 90 天"
+      },
+      "specs_en": {
+        "Area": "~320 m2 of beds across three rings",
+        "Rise": "0.45 to 1.55 m ring by ring",
+        "Rotation": "greens 30 d / tomato 75 d / potato 90 d"
+      },
       "sim": "产量账:马铃薯在受控环境 ~25 t/ha·季 → 内环试验田折合 ~0.9 t/季;全穹合计热量供给 ~6 人份主粮 + 全城叶菜——温室管「新鲜」,主力口粮仍靠地下城水培墙扩产。",
       "sim_en": "Yield ledger: controlled-environment potato runs ~25 t/ha per season - the inner ring nets ~0.9 t. The dome altogether covers staple calories for ~6 people plus greens for the whole town: it owns freshness while the undercity's hydroponic walls scale the staples.",
       "physics": "环形梯田是把「行距遮挡」问题旋转对称化:直排温室的南北遮挡在这里变成了半径方向的高度差,任何太阳方位角都成立。",
@@ -21,10 +29,26 @@
       "range": 6,
       "detail": "梯田端头特意切开:上层是洗过的 regolith 混堆肥,中层砾石导水,底层防渗膜。火星原土含 ~0.5 wt% 高氯酸盐,对人有毒——先水洗(洗出液送电解产氧),再接种地球带来的菌群,才成为「土」。",
       "detail_en": "The bed ends are cut open on purpose: washed regolith blended with compost on top, a gravel drain layer, an impermeable liner below. Raw Martian dirt carries ~0.5 wt% perchlorate, toxic to humans - it is water-washed (the brine goes to electrolysis for oxygen), then inoculated with imported microbiota, before it earns the name soil.",
-      "specs": { "上层": "洗盐 regolith + 堆肥接菌", "中层": "砾石导水层", "底层": "防渗膜(水一滴不还给火星)", "高氯酸盐": "原土 ~0.5 wt% → 洗后 <0.05%" },
-      "specs_en": { "Top": "washed regolith with compost and microbes", "Middle": "gravel drainage", "Bottom": "impermeable liner - not one drop returned to Mars", "Perchlorate": "~0.5 wt% raw, <0.05% after washing" },
-      "sim": "洗盐账:每吨土约需 2 m³ 洗水,但洗出的高氯酸盐溶液电解反而产 O₂ 和盐酸原料——毒物在账本上翻成了资源,这一步由 ISRU 化学线代工。",
-      "sim_en": "Washing ledger: about 2 m3 of water per tonne of soil, but electrolyzing the perchlorate brine yields O2 and HCl feedstock - the poison flips into a resource, subcontracted to the ISRU chemical line.",
+      "specs": {
+        "上层": "洗盐 regolith + 堆肥接菌",
+        "中层": "砾石导水层",
+        "底层": "防渗膜(水一滴不还给火星)",
+        "高氯酸盐": "原土 ~0.5 wt% → 洗后 <0.05%"
+      },
+      "specs_en": {
+        "Top": "washed regolith with compost and microbes",
+        "Middle": "gravel drainage",
+        "Bottom": "impermeable liner - not one drop returned to Mars",
+        "Perchlorate": "~0.5 wt% raw, <0.05% after washing"
+      },
+      "sim": [
+        "洗盐账:每吨土约需 2 m³ 洗水,但洗出的高氯酸盐溶液电解反而产 O₂ 和盐酸原料——毒物在账本上翻成了资源,这一步由 ISRU 化学线代工。",
+        "堆肥来源补记：res-recycle-01 堆肥反应器，9.44 t/火星年（干粪+不可食生物量+厨余+纤维素调理料，C/N 配到 27，55~65 °C 灭菌 3 天）；按掺 10 wt%、上层 0.3 m 计，每火星年可新建 210 m² 苗床——现有 320 m² 约 1.5 个火星年翻一倍。洗出液蒸干后的高氯酸盐残盐送 res-eclss-01 脱除支线：Mg(ClO₄)₂ → MgCl₂ + 4O₂ 放热分解，0.573 kg O₂/kg 盐，边际电耗 0.24 kWh/kg O₂。"
+      ],
+      "sim_en": [
+        "Washing ledger: about 2 m3 of water per tonne of soil, but electrolyzing the perchlorate brine yields O2 and HCl feedstock - the poison flips into a resource, subcontracted to the ISRU chemical line.",
+        "Compost provenance, on the books at last: the res-recycle-01 compost reactor, 9.44 t per Mars year (dried solids, inedible biomass, kitchen waste and cellulose bulking, C/N tuned to 27, pasteurised 3 days at 55-65 C). At 10 wt% blend and a 0.3 m top layer that builds 210 m2 of new beds per Mars year - the existing 320 m2 doubles in about 1.5 Mars years. The wash-out perchlorate salt, dried, goes to the res-eclss-01 strip line: Mg(ClO4)2 to MgCl2 + 4 O2, exothermic, 0.573 kg O2 per kg of salt at 0.24 kWh/kg O2 marginal."
+      ],
       "physics": "高氯酸盐是强氧化剂,却也是氧的仓库:ClO₄⁻ 里四个氧原子等着被电化学赎回。火星农业的第一步不是播种,是解毒——而解毒本身有产出。",
       "physics_en": "Perchlorate is an aggressive oxidizer - and an oxygen warehouse: four oxygen atoms per ClO4- waiting for electrochemical ransom. Martian farming starts not with sowing but with detox, and the detox pays."
     },
@@ -35,8 +59,16 @@
       "range": 9,
       "detail": "塔顶水箱重力配水,双侧喷灌臂两分钟转一圈,滴头对准每一环的根区——中心一根轴喂全场,管路最短、无死角。臂上同时挂补光灯环:白天转的是水,晚上转的是光。",
       "detail_en": "The tower tank feeds by gravity; the twin booms sweep once every two minutes, drip heads addressing each ring's root zone - one axis waters the whole floor with minimum pipe and no dead corner. The boom doubles as the light ring's mount: by day it turns water, by night it turns light.",
-      "specs": { "配水": "塔顶水箱重力供,滴灌为主", "臂": "双侧 8.8 m,0.5 rpm", "补光": "暖白 + 洋红交替灯环(尘暴季主力)" },
-      "specs_en": { "Water": "gravity from the tower tank, drip-first", "Boom": "twin 8.8 m arms at 0.5 rpm", "Lights": "alternating warm-white and magenta ring - storm-season mainstay" },
+      "specs": {
+        "配水": "塔顶水箱重力供,滴灌为主",
+        "臂": "双侧 8.8 m,0.5 rpm",
+        "补光": "暖白 + 洋红交替灯环(尘暴季主力)"
+      },
+      "specs_en": {
+        "Water": "gravity from the tower tank, drip-first",
+        "Boom": "twin 8.8 m arms at 0.5 rpm",
+        "Lights": "alternating warm-white and magenta ring - storm-season mainstay"
+      },
       "sim": "灌溉账:滴灌把蒸发损失压到喷淋的 1/5;穹内闭环回收后,每公斤蔬菜的净水成本 ~2 L——地球露天农业的 1/100 量级。",
       "sim_en": "Irrigation ledger: drip cuts evaporative loss to a fifth of spray; with the dome's closed recovery, net water cost lands near 2 L per kilogram of produce - two orders below open-field Earth farming.",
       "physics": "中心枢轴灌溉是地球圆田(center-pivot)的火星回声——几何没变,变的是水价:在地球它省人力,在火星它省的是用井寿命计价的水。",
@@ -49,8 +81,16 @@
       "range": 7,
       "detail": "火星没有蜜蜂——番茄豆类靠气流与振动授粉:立扇制造脉动风,巡检时再用振动棒逐株补点。叶菜和块茎根本不需要授粉,这正是首批作物名单的隐藏筛选条件之一。",
       "detail_en": "There are no bees on Mars - tomatoes and legumes are pollinated by airflow and vibration: the fans pulse the canopy, and inspection rounds touch up stubborn trusses with a vibrating wand. Greens and tubers need no pollination at all, which quietly shaped the first-crop shortlist.",
-      "specs": { "方式": "脉动气流 + 手持振动棒", "免授粉作物": "叶菜/马铃薯(名单筛选条件)", "备份": "人工授粉刷(全员都会)" },
-      "specs_en": { "Method": "pulsed airflow plus handheld vibration wand", "No-pollination crops": "greens and potato (a shortlist criterion)", "Backup": "hand brushes - everyone is trained" },
+      "specs": {
+        "方式": "脉动气流 + 手持振动棒",
+        "免授粉作物": "叶菜/马铃薯(名单筛选条件)",
+        "备份": "人工授粉刷(全员都会)"
+      },
+      "specs_en": {
+        "Method": "pulsed airflow plus handheld vibration wand",
+        "No-pollination crops": "greens and potato (a shortlist criterion)",
+        "Backup": "hand brushes - everyone is trained"
+      },
       "sim": "坐果账:番茄自花授粉,只需 6-8 Hz 的花序振动即可释放花粉;气流+振动组合坐果率 ~85%,与温室蜂授粉差距 <10%——不值得为此维持一个昆虫生态。",
       "sim_en": "Fruit-set ledger: tomato is self-fertile and needs only 6-8 Hz truss vibration to shed pollen; airflow plus wand reaches ~85% set, within 10% of bumblebee service - not worth maintaining an insect ecology for.",
       "physics": "花药是个音叉:共振频率附近的振动让花粉逃逸最大化——大黄蜂的「嗡」就是生物进化出的定频激振器,这里用电机复刻。",
@@ -63,8 +103,16 @@
       "range": 7,
       "detail": "温湿度桩组成穹内的传感网;白天膜透阳光,天光膜内衬把光散匀;夜里外面 -80 ℃,双层气枕加中央补光把棚温托在 18 ℃ 以上。穹壳凝结的水珠顺膜滑进环槽——夜里的「露水」也是账上的资产。",
       "detail_en": "The climate stakes form the dome's sensor net. By day the skin admits sunlight, the liner diffusing it evenly; by night, with -80 C outside, the double cushions and center lights hold the canopy above 18 C. Condensation slides down the skin into the ring gutter - even the night dew is on the books.",
-      "specs": { "夜间温差": "外 -80 ℃ / 内 ≥18 ℃", "保温": "双层 ETFE 气枕 + 层间干 CO₂", "传感": "温湿度桩网 + 膜面结露监测" },
-      "specs_en": { "Night split": "-80 C outside, >=18 C inside", "Insulation": "double ETFE cushions with dry CO2 gap", "Sensing": "climate-stake net plus skin-condensation watch" },
+      "specs": {
+        "夜间温差": "外 -80 ℃ / 内 ≥18 ℃",
+        "保温": "双层 ETFE 气枕 + 层间干 CO₂",
+        "传感": "温湿度桩网 + 膜面结露监测"
+      },
+      "specs_en": {
+        "Night split": "-80 C outside, >=18 C inside",
+        "Insulation": "double ETFE cushions with dry CO2 gap",
+        "Sensing": "climate-stake net plus skin-condensation watch"
+      },
       "sim": "热账:⌀26 m 穹夜间散热 ~90 kW(U≈0.9 W/m²K 双层气枕),由补光废热+电加热兜底——农业穹顶的夜间电耗与它的灯几乎同量级,这笔账在电网侧合并计提。",
       "sim_en": "Heat ledger: the 26 m dome loses ~90 kW on a cold night (U ~ 0.9 W/m2K for double cushions), covered by lamp waste heat plus trim heaters - a farm dome's night power is the same order as its lights, booked jointly on the grid side.",
       "physics": "温室效应本尊:膜对可见光透明、对热红外半透明,加上气枕断对流——在一颗大气薄到留不住热的行星上,人造温室效应是农业存在的前提。",

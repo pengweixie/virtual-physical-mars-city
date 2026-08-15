@@ -1,13 +1,13 @@
 // viewer/units/sci-radio-01.js — 低频射电天文阵（0.5–10 MHz）
-// 设计册 mars-radio（八本解析账）
+// 设计册 E:\Claude\mars-radio（十本解析账）
 // 单资产内摆阵（非 scatter）：干涉阵的基线就是仪器本身——28 桩坐标由设计册
-// sim/02_array.py 确定性生成（种子 20260806，最小间距 18 m），缆道相位配长，
+// sim/02_array.py 确定性生成（种子 20260806，最小间距 18 m），缆道电长实测标定，
 // 不能交给引擎随机撒放。全阵无转动部件（指向纯电子波束合成）＝spinners 留空是设计特征。
 //
 // v2 深挖（几何全部由账反推）：
 //   刀片臂        ← 账5：短偶极子是电容分压高阻探头，C_a 是唯一几何杠杆（+46% / +1.06 dB）
 //   桩顶 LNA 盒   ← 账5：放大器必须在天线端子上（挪到桩下 C_in 10→25 pF，0.5 MHz 损失 12%→24%）
-//   桩基剖切单元  ← 账5/6：射频分配（偏置 T + 共模扼流）+ 定标注入耦合器 + 电源，端子后的第一段链路
+//   桩基剖切单元  ← 账5/6/9：射频分配（偏置 T + 共模扼流 + 带定滤波罐）+ 定标注入耦合器 + 电源
 //                   馈线定版同轴（非模拟光纤）：账6 的 50 ppm/K 与 duct 卡的铜束由此自洽；
 //                   代价是 160 m 尺度上 28 根屏蔽层的地环路 → 每桩一只共模扼流圈
 //   缆沟剖切      ← 账6：埋深 0.35 m，火星昼夜热波趋肤深度只有 3.6 cm
@@ -53,7 +53,7 @@ export function build(THREE) {
     white:  new THREE.MeshLambertMaterial({ color: 0xdfd9d2 }),
     whiteD: new THREE.MeshLambertMaterial({ color: 0xcac2b8 }),
     orange: new THREE.MeshLambertMaterial({ color: 0xd4772a }),
-    copper: new THREE.MeshLambertMaterial({ color: 0x8a5a33 }),   // 缆道=相位配长馈线
+    copper: new THREE.MeshLambertMaterial({ color: 0x8a5a33 }),   // 缆道=电长标定馈线
     pv:     new THREE.MeshLambertMaterial({ color: 0x24344e }),
     pier:   new THREE.MeshLambertMaterial({ color: 0x8d7663 }),
     green:  new THREE.MeshLambertMaterial({ color: 0x3d6b4f }),
@@ -105,7 +105,7 @@ export function build(THREE) {
       box(0.07, 3.0, 0.07, M.darker, dx * 3.35, -0.5, dz * 3.35, g); // 端锚桩（下延 2 m）
     }
     box(0.08, 0.08, 0.08, tipMat, 0, 5.38, 0, g);                 // 桩顶微光（夜）
-    // 桩基接收单元：端子后的第一段链路（定标注入 / 模拟光纤 / 电源）
+    // 桩基接收单元：端子后的第一段链路（偏置 T / 定标注入 / 共模扼流 / 电源）
     if (!cut) {
       box(0.36, 0.5, 0.3, M.whiteD, 0.42, 0.3, 0, g);             // 闭合机箱
       box(0.06, 0.16, 0.02, M.violet, 0.6, 0.42, 0.16, g);        // 定标注入口（全阵同色）
@@ -136,7 +136,7 @@ export function build(THREE) {
   };
   LAYOUT.forEach(([mx, mz], i) => mast(mx, mz, i === CUTAWAY));
 
-  // ---- 相位配长缆道：方舱辐射到每桩（地面盖板/标识条，实缆埋 0.35 m）----
+  // ---- 缆道（电长标定馈线）：方舱辐射到每桩（地面盖板/标识条，实缆埋 0.35 m）----
   const _a = new THREE.Vector3(), _b = new THREE.Vector3();
   for (const [mx, mz] of LAYOUT) {
     const d = Math.hypot(mx, mz);
@@ -199,7 +199,7 @@ export function build(THREE) {
   box(0.62, 0.3, 0.18, M.alu, -1.35, 0.32, -0.78, SH);            // 抗混叠滤波盘（账9：6 阶,50 MS/s 才建得出来）
   for (let i = 0; i < 4; i++)
     box(0.06, 0.06, 0.05, M.darker, -1.55 + i * 0.13, 0.32, -0.68, SH);
-  rack(0, M.green, 'rack_beam');                                  // F+X 引擎 465 GFLOP/s
+  rack(0, M.green, 'rack_beam');                                  // F+X 引擎 605 GFLOP/s + 147 GB DRAM 环
   rack(1.35, M.whiteD, 'rack_clock');                             // 铷钟
   box(0.34, 0.5, 0.4, M.violet, 1.35, 0.35, -0.2, SH);            // 定标注入源（紫链起点）
   box(0.09, 0.06, 0.05, calMat, 1.35, 0.62, -0.2, SH);            // 注入指示（animate 自驱）
@@ -234,7 +234,7 @@ export function build(THREE) {
     box(2.4, 0.05, 0.1, M.alu, px, 1.2, -1.68, PV).rotation.z = 0.42;
     box(2.4, 0.05, 0.1, M.alu, px, 1.2, 1.68, PV).rotation.z = 0.42;
   }
-  box(0.9, 1.1, 0.7, M.white, 1.9, 0.55, -1.4, PV);               // 夜班电池柜（1.7 kWh）
+  box(0.9, 1.1, 0.7, M.white, 1.9, 0.55, -1.4, PV);               // 夜班电池柜（2.3 kWh 可用 / 2.9 装机）
   box(4.4, 0.06, 0.16, M.copper, -4.3, 0.05, 0.35, group);
 
   // ---- 通讯桅（0.33 Mbit/s 动态谱回传；原始电压走 SSD 而非链路）----

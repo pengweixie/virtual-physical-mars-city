@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>sci-fel-01 interior preview</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#07060a}
+#ui{position:fixed;top:12px;right:12px;display:flex;flex-direction:column;gap:8px;z-index:10;font-family:system-ui}
+#ui button{padding:9px 14px;font-size:14px;border-radius:8px;cursor:pointer;
+  background:rgba(24,22,30,.85);color:#e9e2f2;border:1px solid rgba(255,255,255,.18)}
+#tip{position:fixed;left:12px;top:12px;color:#cfd6e8;font:12.5px/1.6 system-ui;opacity:.8;z-index:10}
+#hud{position:fixed;right:12px;top:210px;padding:8px 12px;font:12.5px/1.7 system-ui;border-radius:8px;
+  color:#cfe4ff;background:rgba(24,22,30,.85);white-space:pre;z-index:10}
+</style>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+               "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
+</script>
+</head>
+<body>
+<div id="tip">室内资产预览（?unit=sci-fel-01）· 拖动旋转 · 滚轮缩放<br>
+控制台可用：__unit / __scene / __THREE / __renderer / cam(x,y,z,tx,ty,tz) / animT(t) / draw() / shotSize(w,h)</div>
+<div id="ui">
+  <button id="bPlay">⏸ 暂停动画</button>
+  <button id="bA">📷 全景</button>
+  <button id="bB">📷 波荡器</button>
+  <button id="bC">📷 dump</button>
+  <button id="bD">📷 光束线</button>
+  <button id="bScan">📐 包络扫描</button>
+</div>
+<div id="hud"></div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const q = new URLSearchParams(location.search);
+const unitId = q.get('unit') || 'sci-fel-01';
+const { meta, build } = await import(`../viewer/units/${unitId}.js?ts=${Date.now()}`);
+document.title = unitId + ' interior preview';
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth || 1280, innerHeight || 720);
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0806);
+const camera = new THREE.PerspectiveCamera(55, (innerWidth || 1280) / (innerHeight || 720), 0.05, 400);
+const controls = new OrbitControls(camera, renderer.domElement);
+
+// 室内照明：与引擎 enterInterior 一致（半球 0.45 + 模块声明的点光）
+scene.add(new THREE.HemisphereLight(0xffffff, 0x404040, 0.45));
+
+const unit = build(THREE);
+scene.add(unit);
+for (const l of unit.userData.lights || []) {
+  const pl = new THREE.PointLight(l.color ?? 0xffffff, 2 + (l.range ?? 20) * 0.3, l.range ?? 20, 2);
+  pl.position.set(...l.pos);
+  unit.add(pl);
+}
+
+const cam = (x, y, z, tx = 0, ty = 1.4, tz = -2) => {
+  camera.position.set(x, y, z); controls.target.set(tx, ty, tz); controls.update();
+};
+cam(-24, 3.0, 3.0, 6, 1.6, -2.2);
+window.cam = cam;
+window.__unit = unit; window.__scene = scene; window.__THREE = THREE; window.__renderer = renderer;
+window.shotSize = (w, h) => { renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); };
+window.draw = () => renderer.render(scene, camera);
+
+// 引擎运动词汇模拟（spinners / oscillators / animate）
+const spinners = unit.userData.spinners || [];
+const oscs = (unit.userData.oscillators || []).map((o) => {
+  const node = typeof o.node === 'string' ? unit.getObjectByName(o.node) : o.node;
+  const prop = o.prop || 'rotation', axis = o.axis || 'y';
+  return { ...o, node, prop, axis, base: node ? node[prop][axis] : 0 };
+});
+let playing = true, tsim = 0;
+window.animT = (t) => {
+  for (const s of spinners) {
+    const n = typeof s.node === 'string' ? unit.getObjectByName(s.node) : s.node;
+    if (n) n.rotation[s.axis || 'y'] = t * (s.rpm || 1) * Math.PI / 30;
+  }
+  for (const o of oscs) if (o.node)
+    o.node[o.prop][o.axis] = o.base + o.amp * Math.sin(2 * Math.PI * (t / o.period) + (o.phase || 0));
+  if (unit.userData.animate) unit.userData.animate(t, 1 / 60, { t, dt: 1 / 60, night: 0 });
+};
+animT(0);
+
+const hud = document.getElementById('hud');
+const stats = () => {
+  unit.updateMatrixWorld(true);
+  let tris = 0, minY = 1e9, maxY = -1e9, meshes = 0;
+  unit.traverse((o) => {
+    if (!o.isMesh) return;
+    meshes++;
+    const g = o.geometry;
+    const c = (g.index ? g.index.count : g.attributes.position.count) / 3;
+    tris += o.isInstancedMesh ? c * o.count : c;
+    const b = new THREE.Box3().setFromObject(o);
+    minY = Math.min(minY, b.min.y); maxY = Math.max(maxY, b.max.y);
+  });
+  const bb = new THREE.Box3().setFromObject(unit), s = bb.getSize(new THREE.Vector3());
+  return { tris: Math.round(tris), meshes, minY: +minY.toFixed(3), maxY: +maxY.toFixed(2),
+    size: [+s.x.toFixed(2), +s.y.toFixed(2), +s.z.toFixed(2)] };
+};
+const st = stats();
+hud.textContent = `${unitId}\ntris ${st.tris} · meshes ${st.meshes}\nbbox ${st.size.join(' × ')}\nminY ${st.minY} maxY ${st.maxY}\nsize_m(meta) ${meta.size_m}`;
+
+document.getElementById('bPlay').onclick = (e) => {
+  playing = !playing; e.target.textContent = playing ? '⏸ 暂停动画' : '▶ 播放动画';
+};
+document.getElementById('bA').onclick = () => cam(-24, 3.0, 3.0, 6, 1.6, -2.2);
+document.getElementById('bB').onclick = () => cam(-4.5, 2.3, 1.6, 0.6, 1.5, -2.0);
+document.getElementById('bC').onclick = () => cam(4.0, 3.0, 0.0, 9.2, 1.3, -6.9);
+document.getElementById('bD').onclick = () => cam(10.0, 3.0, 1.6, -2.0, 1.6, 6.5);
+document.getElementById('bScan').onclick = () => {
+  let worstY = 1e9, worstT = 0;
+  for (let t = 0; t < 48; t += 0.05) {
+    animT(t);
+    unit.updateMatrixWorld(true);
+    unit.traverse((o) => {
+      if (!o.isMesh) return;
+      const b = new THREE.Box3().setFromObject(o);
+      if (b.min.y < worstY) { worstY = b.min.y; worstT = +t.toFixed(2); }
+    });
+  }
+  hud.textContent += `\n包络扫描 T=48s: worstY ${worstY.toFixed(3)} @ t=${worstT}`;
+};
+
+addEventListener('resize', () => {
+  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+});
+renderer.setAnimationLoop(() => {
+  if (playing) { tsim += 1 / 60; animT(tsim); }
+  controls.update();
+  renderer.render(scene, camera);
+});
+</script>
+</body>
+</html>

@@ -252,8 +252,34 @@ export function build(THREE) {
     const d = box(2.4, 0.04, 0.5, M.white, Math.sin(a) * 16, PAD_TOP + 0.02, Math.cos(a) * 16);
     d.rotation.y = a;
   }
-  box(9, 0.12, 26, roadMat, 0, 0.06, 34);                         // 通道硬化路面
-  for (const lx of [-4.2, 4.2]) box(0.3, 0.04, 26, M.orange, lx, 0.14, 34);
+  // ---- 通道口挡墙(traverse)+ 折线绕行道路 ----
+  // 土堤在 +Z 留了 12 m 开口(±11.5°),那是全场唯一没有遮挡的方向:低角喷砂
+  // 可沿开口长驱直出(见 scripts/sim_ejecta_shadow_ops_spaceport_01.py)。
+  // 于开口外 z=52 m 设 26 m 长挡墙,遮断角 ±14° > 开口 ±11.5°,视线全断;
+  // 道路折向东侧绕行,绕行车位方位角 17~21°,仍在主堤遮挡内。
+  {
+    const bafShape = new THREE.Shape();          // 对称梯形断面:底宽 12、顶宽 3、高 4
+    bafShape.moveTo(-6, 0); bafShape.lineTo(-1.5, 4);
+    bafShape.lineTo(1.5, 4); bafShape.lineTo(6, 0);
+    bafShape.closePath();
+    const baf = new THREE.Mesh(
+      new THREE.ExtrudeGeometry(bafShape, { depth: 26, bevelEnabled: false }), M.soil);
+    baf.rotation.y = Math.PI / 2;                // 截面立在 x-y,只转 y 让长度沿世界 X
+    // 注:Extrude 沿局部 +Z 从 0 挤到 depth,转 y 后变成世界 X 的 0→26,
+    // 故 x 要给 -13 才对中开口(给 +13 会整体偏到 x∈[13,39],开口全漏)
+    baf.position.set(-13, 0, 52);
+    group.add(baf);
+    for (const sx of [-11, 0, 11])               // 墙顶红闪警示桩
+      box(0.3, 0.3, 0.3, beaconRed, sx, 4.5, 52);
+  }
+  box(9, 0.12, 22, roadMat, 0, 0.06, 32);                         // 通道硬化路面(直段,止于挡墙前)
+  for (const lx of [-4.2, 4.2]) box(0.3, 0.04, 22, M.orange, lx, 0.14, 32);
+  {                                                               // 绕行折线:东折 → 北出
+    const legA = box(9, 0.12, 16, roadMat, 9.5, 0.06, 45);
+    legA.rotation.y = -0.62;
+    const legB = box(9, 0.12, 20, roadMat, 18, 0.06, 58);
+    legB.rotation.y = -0.15;
+  }
   const fan = new THREE.Mesh(new THREE.CircleGeometry(56, 12, -Math.PI / 2 - 0.16, 0.32), mat(0x6b3a24, 0));
   fan.rotation.x = -Math.PI / 2;                                  // +Z 羽流冲刷扇
   fan.position.y = 0.03;

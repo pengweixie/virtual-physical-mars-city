@@ -132,7 +132,7 @@
   <div class="wrap">
     <div class="label">sci-weather-01 · sci-weather-net-01 · sci-rad-01 · sci-rad-02/03/04</div>
     <h1>Environment Watch</h1>
-    <p class="phead__sub">Two stations stand 26 m apart on the north-east highland, wired to the
+    <p class="phead__sub">Two stations stand 28 m apart on the north-east highland, wired to the
       same alarm bus: a 10 m lattice mast that measures the air, and a Timepix4 particle camera
       that measures what comes through it. A net of silicon-carbide sentinels covers the rest of
       the depth axis — a trio on the fusion perimeter, one thirty metres down, one at three
@@ -164,7 +164,7 @@
       scout helicopter and freezes outdoor lifting. Three remote poles scattered 1.5–2.2 km out
       turn a single reading into a vector — where the front is coming from, and how many minutes
       are left.</p>
-      <p>The radiation station 26 m away answers a different question with the same urgency. Its
+      <p>The radiation station 28 m away answers a different question with the same urgency. Its
       Timepix4 camera records every particle as a track, and <strong>classifies by track shape</strong>
       rather than by energy: electrons curl, protons run straight, heavy ions burn short and bright.
       A solar particle event announces itself as a change in the picture, not in a single scalar.
@@ -175,7 +175,7 @@
     </div>
     <figure class="figure">
       <img src="assets/environment/hero-cluster.jpg" alt="The weather mast and the radiation station standing together on the north-east highland" loading="lazy">
-      <figcaption>THE CLUSTER — WEATHER MAST (RIGHT, 10 M) AND TIMEPIX4 TRACK SCREEN (LEFT), 26 M APART, ONE ALARM BUS</figcaption>
+      <figcaption>THE CLUSTER — WEATHER MAST (RIGHT, 10 M) AND TIMEPIX4 TRACK SCREEN (LEFT), 28 M APART, ONE ALARM BUS</figcaption>
     </figure>
     <div class="fig2">
       <figure class="figure">
@@ -399,8 +399,8 @@
         <tr><td>Langley σ(I₀): hazy → stable → 4-morning</td><td class="num">5.9% → 1.5% → 0.73%</td><td class="src">mars-weather/sim_sun_tracking.py</td></tr>
         <tr><td>Night τ from stellar extinction (mV ≤ 3)</td><td class="num">σ 0.003–0.01</td><td class="src">mars-weather/sim_skycam_imaging.py</td></tr>
         <tr><td>Storm E-field ceiling (Paschen, CO₂ 610 Pa)</td><td class="num">28 kV/m</td><td class="src">mars-weather/sim_efield_probe.py</td></tr>
-        <tr><td>Dust grain counting SNR / storm current mode</td><td class="num">625 · 42 pA</td><td class="src">mars-weather/sim_dust_flux.py</td></tr>
-        <tr><td>Front vector from remote poles / warning lead</td><td class="num">σ_v 4–5%, σ_az 2.2–2.8° · 1–3.5 min</td><td class="src">mars-weather/sim_network_triangulation.py</td></tr>
+        <tr><td>Dust grain counting SNR / storm current mode</td><td class="num">625 · 41.7 nA</td><td class="src">mars-weather/sim_dust_flux.py</td></tr>
+        <tr><td>Front vector from remote poles / warning lead</td><td class="num">σ_v 4–5%, σ_az 2.2–2.8° · 1.2–3.7 min</td><td class="src">mars-weather/sim_network_triangulation.py</td></tr>
         <tr class="grp"><td colspan="3">Surface radiation station — mars_rad, 4 accounts</td></tr>
         <tr><td>Surface GCR dose equivalent</td><td class="num">0.66 mSv/sol · 234 mSv/yr</td><td class="src">mars_rad/sim/01_dose_ledger.py</td></tr>
         <tr><td>Dose e-folding depth (three-point closure)</td><td class="num">λ_H 44 g/cm²</td><td class="src">mars_rad/sim/01_dose_ledger.py</td></tr>

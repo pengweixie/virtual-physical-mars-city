@@ -1,0 +1,299 @@
+{
+  "id": "res-cryo-01",
+  "pois": [
+    {
+      "id": "loadout",
+      "label": "转运鹤管与罐车泊位（头条账：管线 vs 罐车）",
+      "label_en": "Load-out arms and tanker bay (headline ledger: pipeline vs tanker)",
+      "range": 40,
+      "detail": "本站的结论写在这里：星舰发射场区 (500,700) 与本站之间**不铺低温管线**，改由低温罐车走 1.44 km 公路运输。三条鹤管臂（蓝=LOX、绿=LCH₄、灰=回气）摆到罐车顶部快接盘，回气软管把顶出的气相送回罐区而不是排空。一次 1200 t 加注 = 114 趟，一台罐车 42 趟/sol，配两台（一台冗余）。开这一账时我们本以为蒸发会判管线死刑——结果不是。",
+      "detail_en": "This is where the ledger's verdict is written down: there is no cryogenic pipeline between here and the starship pad at (500,700). Liquid goes by road tanker over 1.44 km instead. Three articulated arms (blue for LOX, green for LCH4, grey for vapour return) swing onto the tanker's quick-disconnect plate, and the vapour-return hose sends displaced ullage home rather than to the sky. One 1200 t Starship load is 114 trips; one tanker manages 42 trips per sol, so the fleet is two with one spare. We opened this ledger expecting boil-off to condemn the pipeline. It did not.",
+      "specs": {
+        "罐车容量": "12.8 m³ 可用 = 14.6 t LOX / 5.4 t LCH₄",
+        "整备/总重": "7.3 t / 21.9 t（火星重量 81 kN）",
+        "往返周期": "35 min（2.9 km 行驶 + 12 min 接卸 + 16 min 泵送）",
+        "鹤管臂": "3 条，铰点摆臂（oscillator，周期 20/23/26 s）",
+        "去向": "ops-spaceport-01 场区日用罐（2×Ø3.5×12 m，231 m³）"
+      },
+      "specs_en": {
+        "Tanker capacity": "12.8 m3 usable = 14.6 t LOX or 5.4 t LCH4",
+        "Tare / gross": "7.3 t / 21.9 t (81 kN of weight on Mars)",
+        "Round-trip cycle": "35 min (2.9 km driving + 12 min hook-up + 16 min pumping)",
+        "Arms": "three, on hinged swing pivots (oscillators, 20/23/26 s)",
+        "Destination": "the day tanks at ops-spaceport-01 (2 x dia 3.5 x 12 m, 231 m3)"
+      },
+      "sim": [
+        "账 2（547 m 真空夹套液体管线）：稳态输送的损失比 f = q'L/(ṁ·h_fg)，**与管径无关**——粗管装得多、流得也慢，每公斤收到的焦耳一样。城内 200 kWe 涓流时 LOX 停留 149 h、损失 68 %；1.6 MWe 时 8.6 %；60 sol 集中转运时才降到 1.1 %",
+        "账 3（罐车）：规范操作 1.0 %/趟（141 kg），失范操作 8.9 %/趟（1300 kg），差 9 倍——三个可避免的罚项：罐体回温冷却 292 kg、无回气排空 79 kg、3→1.5 bar 节流闪蒸 910 kg",
+        "牵引能耗 5.2 kWh/往返 = 0.36 Wh/kg，仅为制造该推进剂 15900 Wh/kg 的 0.002 %；6 mbar 气动阻力 2.9 N = 滚阻的 0.06 %",
+        "账 8 判决：热力学**拒绝裁决**（管线集中转运 1.1 % vs 罐车 1.0 %）。定夺的是二阶项——场区每 0.64~5.1 个会合窗口才用一次，24.5 t 真空夹套走廊的占空比只有 4 %；而公路无论如何都得修（人员/消防/货运/箭体本身都走公路）"
+      ],
+      "sim_en": [
+        "Account 2 (547 m vacuum-jacketed liquid line): the steady-flow loss fraction is f = q'L/(mdot h_fg), and it is INDEPENDENT OF PIPE DIAMETER - a fatter pipe holds more liquid but moves it proportionally slower, so every kilogram collects the same joules. At the city's 200 kWe trickle the LOX dwells 149 h and 68 % of it boils; at 1.6 MWe, 8.6 %; only in a 60-sol transfer campaign does it fall to 1.1 %.",
+        "Account 3 (tanker): 1.0 % per trip (141 kg) under disciplined operation, 8.9 % (1300 kg) without it - a factor of nine, from three avoidable penalties: 292 kg to re-chill a vessel that was allowed to warm, 79 kg of ullage vented for want of a return hose, and 910 kg of flash from throttling 3 bar down to 1.5.",
+        "Traction costs 5.2 kWh per round trip = 0.36 Wh/kg, which is 0.002 % of the 15900 Wh/kg the ISRU spent making it. Aerodynamic drag at 6 mbar is 2.9 N, 0.06 % of rolling resistance.",
+        "Account 8, the verdict: the thermodynamics REFUSES to decide (1.1 % for a campaign-mode pipeline against 1.0 % per tanker trip). What decides is second order - the pad fires once every 0.64 to 5.1 synodic windows, so a 24.5 t vacuum-jacketed corridor would run at a 4 % duty cycle, and the road has to be built regardless because crew, fire response, cargo and the vehicle itself all arrive by road."
+      ],
+      "physics": [
+        "管线的损失正比于**停留时间**，罐车的损失正比于**趟次**。流量小的时候两者天差地别：涓流下 500 m 管线就是一只 500 m 长、停留 6 天的杜瓦瓶；罐车不管流量多小，一趟永远只有 35 分钟",
+        "闪蒸分数 = c_p,l·ΔT/h_fg，LOX 为 0.8 %/K——**一开尔文的过热就是千分之八的载重**。这就是为什么规范账里最大的一项不是漏热而是 1 K 的饱和失配"
+      ],
+      "physics_en": [
+        "A pipeline's loss scales with DWELL TIME; a tanker's scales with TRIPS. At low throughput those are worlds apart: at trickle flow a 500 m line is a 500 m long dewar with a six-day residence time, while a tanker trip is thirty-five minutes no matter how slowly the plant is producing.",
+        "The flash fraction is c_p,l dT / h_fg, which for LOX is 0.8 % per kelvin - ONE KELVIN OF SUPERHEAT COSTS EIGHT PARTS PER THOUSAND OF THE LOAD. That is why the largest item in the disciplined column is not heat leak at all but a single kelvin of saturation mismatch."
+      ]
+    },
+    {
+      "id": "lox_bay",
+      "label": "液氧罐区（2×Ø9.6 m 真空夹套球罐，剖切一只）",
+      "label_en": "LOX bay (2 x dia 9.6 m vacuum-jacketed spheres, one sectioned)",
+      "range": 45,
+      "detail": "两只 Ø9.6 m 球罐，共 973 t 容量（星舰一发需 939 t LOX）。右侧一只沿 94° 楔面剖开，从外到内依次是：真空夹套外壳 → 60 层 MLI 金色隔热被 → 内压力容器 → 78 % 液位的液氧。裙座上一圈橙色 G-10 垫块是唯一可选的导热通路——它占整机漏热的 13 %。上方百叶遮阳棚白天挡太阳、夜里放行 145 K 的天空。",
+      "detail_en": "Two dia. 9.6 m spheres holding 973 t between them (a Starship wants 939 t of LOX). The right-hand vessel is cut open along a 94-degree wedge: outer vacuum jacket, then the gold 60-layer MLI blanket, then the inner pressure vessel, then liquid oxygen at a 78 % fill. The ring of orange G-10 pads on the support skirt is the only conduction path that is a design choice, and it carries 13 % of the whole heat leak. The louvred shade above blocks the sun by day and lets the 145 K night sky through after dark.",
+      "specs": {
+        "容量": "926 m³ 几何 / 973 t @92 % 装填",
+        "隔热": "60 层 MLI @20 层/cm，真空夹套，2.0× 现场劣化系数",
+        "漏热 / 蒸发": "178 W = 74 kg/sol = 0.0076 %/sol（满罐）",
+        "表面比": "0.60 m²/t（罐车是 2.23 m²/t）",
+        "防火堤": "34×28 m，堤高 1.2 m（110 % 规则只要 0.49 m）"
+      },
+      "specs_en": {
+        "Capacity": "926 m3 geometric, 973 t at 92 % fill",
+        "Insulation": "60-layer MLI at 20 layers/cm inside a hard vacuum jacket, 2.0x field-degradation",
+        "Heat leak / boil-off": "178 W = 74 kg/sol = 0.0076 %/sol with full tanks",
+        "Surface ratio": "0.60 m2/t (the road tanker is 2.23 m2/t)",
+        "Bund": "34 x 28 m with a 1.2 m dike (the 110 % rule needs only 0.49 m)"
+      },
+      "sim": [
+        "闸（账 5b）：地球大型 LOX 储罐经验值 0.1~1 %/天。同一只容器放在 300 K 环境算出 0.017 %/天——落在带内偏好的一端，因为 60 层 MLI + 硬真空夹套本来就是航天级选择（带的 0.1 % 端是珍珠岩真空，1 % 端是泡沫）。**闸通过，偏离已解释：是环境温度，不是隔热魔法**",
+        "火星再赠 2.3×：辐射驱动 (210⁴−90⁴)/(300⁴−90⁴)=0.234，导热驱动 ∫k dT 之比 =0.485",
+        "账 5c **自我修正**：本账原本想证明「火星上被动储存不可能」——算出来不是。60 层 MLI 满罐只丢 100 kg/sol（含甲烷），对 310 kg/sol 的产能是难受不是致命。真正的边界是隔热等级：200 kWe 下 MLI-60 需 4789 sol 装满（无蒸发理想值 3865）、珍珠岩真空 8180 sol、聚氨酯泡沫**永远装不满**（天花板 261 t）",
+        "由此得到的结论比原来那句窄，但有用得多：**蒸发不禁止火星上的被动储存，它禁止的是按地球 LNG 的方式储存**。而且 1600 kWe 时四种隔热等级都收敛到 490~610 sol——隔热是**贫穷技术**，功率最少时最要命"
+      ],
+      "sim_en": [
+        "Gate (account 5b): large terrestrial LOX storage runs 0.1-1 %/day. The identical vessel computed at 300 K ambient gives 0.017 %/day - inside the band at the good end, which is where a 60-layer MLI blanket in a hard vacuum jacket belongs (the 0.1 % end of that band is evacuated perlite, the 1 % end is foam). The gate passes and the deviation is explained: it is ambient temperature, not insulation magic.",
+        "Mars then adds a further 2.3x: the radiative driver (210^4-90^4)/(300^4-90^4) = 0.234 and the conduction driver, the ratio of the conductivity integrals, = 0.485.",
+        "Account 5c is a SELF-CORRECTION. It set out to prove that passive storage is impossible on Mars, and the arithmetic said otherwise: with a 60-layer blanket a full farm loses only 100 kg/sol against 310 kg/sol of production - painful, not fatal. The real boundary is the insulation class. At 200 kWe, MLI-60 fills in 4789 sol against an ideal 3865; evacuated perlite takes 8180 sol; polyurethane foam NEVER fills at all, ceiling 261 t.",
+        "The conclusion that survives is narrower than the one we wanted and far more useful: boil-off does not forbid passive storage on Mars, it forbids storing propellant the way Earth stores LNG. And at 1600 kWe every insulation class converges to 490-610 sol - insulation is a POVERTY technology, worth most when you have the least power."
+      ],
+      "physics": [
+        "MLI 的漏热用 Lockheed 关联式分解为固体导热项（正比于层密度^2.63 与 T_m·ΔT）与辐射项（正比于 ε·(T_h^4.67−T_c^4.67)）。210 K 环境下辐射项只占 21 %，所以火星的好处主要来自更冷的**辐射驱动**而非发射率",
+        "球罐的蒸发率 ∝ 表面积/质量 ∝ M^(−1/3)：把 1200 t 装进 4 只球比装进 1 只贵 26 %，但账 7a 的溢流账让这笔钱花得值"
+      ],
+      "physics_en": [
+        "MLI heat leak splits, via the Lockheed correlation, into a solid-conduction term (scaling as layer density^2.63 and as T_m x dT) and a radiation term (scaling as emissivity times T_h^4.67 - T_c^4.67). At a 210 K ambient the radiation term is only 21 % of the total, so Mars's advantage comes mostly from a colder RADIATIVE DRIVER rather than from anything about emissivity.",
+        "A sphere's boil-off rate goes as surface over mass, i.e. as M^(-1/3): splitting 1200 t across four spheres instead of one costs 26 % more boil-off, and account 7a's spill ledger is what makes that money worth spending."
+      ]
+    },
+    {
+      "id": "coldbox",
+      "label": "中央冷箱（唯一的制冷机）与零蒸发",
+      "label_en": "The one cold box: liquefier and zero-boil-off plant",
+      "range": 40,
+      "detail": "全城唯一的低温制冷机。它同时干两件事：把管廊送来的常温气体液化，以及把罐区的蒸发气重新拿回来（零蒸发）。剖开的正面露出钎焊铝板翅式换热器叠层与顶部的透平膨胀机（spinner）；旁边橇上两台压缩机风扇是机器的热端。为什么是一台大的而不是四十台小的——见下面的账。",
+      "detail_en": "The city's only cryogenic refrigerator, doing two jobs at once: liquefying the ambient-temperature gas that arrives on the manifold, and taking back the farm's boil-off (zero boil-off). The sectioned face shows the stack of brazed-aluminium plate-fin heat exchangers with the turbo-expander on top (a spinner); the two compressor fans on the skid beside it are the machine's warm end. Why one big machine instead of forty little ones is the whole point of the ledger below.",
+      "specs": {
+        "液化负荷": "11.8 kW 冷量（1.6 MWe 全建成时 28.0 g/s 推进剂）",
+        "零蒸发负荷": "328 W（LOX 178 + LCH₄ 149）",
+        "电耗": "液化 24/7 对 280 K 散热 191 kWe；夜班 45 % 占空对 190 K 散热 1907 kWh/sol",
+        "零蒸发电耗": "sol 平均 3.9 kWe（并入大冷箱）",
+        "散热": "6 面板 × 24 m² = 144 m²，按 280 K 白班工况定型"
+      },
+      "specs_en": {
+        "Liquefaction duty": "11.8 kW of refrigeration (28.0 g/s of propellant at the 1.6 MWe build-out)",
+        "Zero-boil-off duty": "328 W (178 for LOX, 149 for LCH4)",
+        "Electrical": "191 kWe running 24/7 against a 280 K radiator; 1907 kWh/sol running night-only at 45 % duty against 190 K",
+        "ZBO electrical": "3.9 kWe sol-averaged, riding the big cold box",
+        "Heat rejection": "6 panels, 144 m2 total, sized on the 280 K day-shift case"
+      },
+      "sim": [
+        "账 4b **规模定律**：制冷机效率随尺寸涨——0.3 kW 机器只到 4 % Carnot，11.8 kW 机器到 12 %。同样的负荷拆成 40 台 ISRU 随机小冷箱要 292 kWe，做成一台要 96 kWe，**差 3 倍**。这是本资产作为独立建筑存在的理由",
+        "闸：res-isru-01 卡自报每台 RTB 6 kWe × 40 = 240 kWe，与我们估的 292 kWe 同量级、同方向（我们的稍保守）——规模定律被本城自己的硬件锚住了",
+        "账 5d **零蒸发回报比 17:1**：每 sol 省下的 100 kg 推进剂按 15.9 kWh/kg 折算相当于 65 kWe 的 ISRU 产能，而制冷机只吃 3.9 kWe。注意这 3.9 kWe 是**并入大冷箱**的结果：单独买一台 328 W 小冷机要 14.6 kWe，差 3.8 倍",
+        "账 5e **夜班液化**：同样的推进剂，24/7 对 280 K 天空要 4718 kWh/sol，夜里 45 % 占空对 190 K 天空只要 1907 kWh/sol，**省 60 %**。代价是白天的气要存起来——47 m³ / 20 bar 的受气罐，就是场区北侧那两只卧式罐"
+      ],
+      "sim_en": [
+        "Account 4b, the SCALING LAW: cryocooler efficiency rises with size - a 0.3 kW machine reaches 4 % of Carnot, an 11.8 kW machine reaches 12 %. The same duty split across forty ISRU-mounted skids costs 292 kWe; done once in a central box it costs 96 kWe. A factor of three, and the reason this asset exists as a separate building.",
+        "Gate: res-isru-01's own card gives 6 kWe of reverse-turbo-Brayton per unit, so forty units is 240 kWe - the same class as our 292 kWe estimate for forty small boxes, and ours is the conservative side. The scaling law is anchored by the city's own hardware.",
+        "Account 5d, ZERO BOIL-OFF PAYS BACK 17:1: the 100 kg/sol it saves is worth 65 kWe of continuous ISRU capacity at 15.9 kWh/kg, and the refrigerator eats 3.9 kWe. That 3.9 kWe depends on riding the big cold box - a standalone 328 W machine would want 14.6 kWe, 3.8x worse.",
+        "Account 5e, THE NIGHT SHIFT: liquefying the same propellant costs 4718 kWh/sol running 24/7 against a 280 K sky and 1907 kWh/sol running night-only at 45 % duty against 190 K - a 60 % saving. The price is buffering the daylight gas: 47 m3 at 20 bar, which is exactly the pair of horizontal receivers on the north side of the site."
+      ],
+      "physics": [
+        "制冷电耗 = Q·(T_h−T_c)/(T_c·η_Carnot)。火星把 T_h 从地球的 300 K 拉到白天 280 K、夜里 190 K，于是 90 K 处的 W/W 从 19.4 降到 17.5 再降到 9.2——**夜里制冷比在地球便宜一半**",
+        "与 sci-swir-01 账 4「制冷白送」同源：那台 SWIR 焦面靠火星夜自然滑到 −74 °C 而无需开制冷机。同一颗行星、同一份折扣、不同的客户"
+      ],
+      "physics_en": [
+        "Refrigeration power is Q(T_h - T_c)/(T_c x efficiency-of-Carnot). Mars pulls T_h from Earth's 300 K down to 280 K by day and 190 K by night, so the watts-per-watt at 90 K falls from 19.4 to 17.5 to 9.2 - refrigeration after dark on Mars is half the price it is on Earth.",
+        "The same gift sci-swir-01's account 4 books as 'free cooling', where its SWIR focal plane coasts to -74 C overnight with the cooler switched off. One planet, one discount, different customers."
+      ]
+    },
+    {
+      "id": "gas_header",
+      "label": "常温气体管廊接口（走廊里跑的是气，不是液）",
+      "label_en": "Ambient-temperature gas header (what crosses the corridor is gas, not liquid)",
+      "range": 35,
+      "detail": "北侧门架上接 res-isru-01 来的 105 m 管廊：**裸钢管、不保温、不做真空夹套**，这是设计而不是省钱。ISRU 出来的氧气和甲烷以环境温度走过来，在本站液化。同一套停留时间的算术既判了 547 m 液体管线，也判了 110 m 液体管线——涓流下任何液体管线都是慢速杜瓦瓶。旁边两只 20 bar 卧式受气罐把白天的气存下来给夜班冷箱。",
+      "detail_en": "The portal frame on the north side takes the 105 m manifold from res-isru-01: BARE STEEL, no insulation, no vacuum jacket - by design, not by economy. Oxygen and methane leave the ISRU at ambient temperature, travel warm, and are liquefied here. The same dwell-time arithmetic that condemns a 547 m liquid line condemns a 110 m one: at trickle flow any liquid line is a slow dewar. The two 20 bar horizontal receivers beside it hold the daylight gas for the night shift.",
+      "specs": {
+        "管廊": "105 m，GOX DN50 + GCH₄ DN40，裸钢，≤10 bar",
+        "流速 / 压降": "0.88 m/s，547 m 上仅 0.97 kPa（线压的 0.16 %）",
+        "压缩功": "4.5 kW = 0.045 kWh/kg = 生产能耗的 0.28 %",
+        "受气罐": "2 × Ø3 × 8 m，20 bar，共约 47 m³",
+        "上游 / 下游": "res-isru-01 → 本站冷箱"
+      },
+      "specs_en": {
+        "Manifold": "105 m, GOX DN50 plus GCH4 DN40, bare steel, 10 bar maximum",
+        "Velocity / pressure drop": "0.88 m/s, and only 0.97 kPa over 547 m - 0.16 % of line pressure",
+        "Compression work": "4.5 kW = 0.045 kWh/kg = 0.28 % of production energy",
+        "Receivers": "2 x dia 3 x 8 m at 20 bar, about 47 m3 in total",
+        "Upstream / downstream": "res-isru-01 into this site's cold box"
+      },
+      "sim": [
+        "账 4a **唯一的真约束**：甲烷不能在管里冷凝。裸的积尘钢管在最坏的火星夜（天空 145 K、地面 180 K、ε=0.3）平衡在 178 K；CH₄ 露点 3 bar 时 127 K、6 bar 138 K、10 bar 149 K、**20 bar 165 K 只剩 13 K 裕度**。设计规则：气体主管 ≤10 bar",
+        "账 4c 装机质量：547 m 真空夹套液体走廊 24.5 t（含两端 50 t 批次缓冲），常温气体主管 + 电缆 8.0 t，两台罐车 14.6 t（其中 8 t 底盘是本来就要的重型运输）",
+        "账 2 反直觉闸：6 mbar **不**能替代真空夹套。610 Pa、200 K 下 CO₂ 平均自由程只有 4.8 µm，25 mm 夹层的 Kn = 1.9e-4，是彻底的连续介质——稀薄大气抑制的是对流（Gr ∝ ρ²，降 2.8 万倍），对导热毫无作用。夹层一旦失真空，漏热从 0.37 W/m 跳到 8.7 W/m（24 倍）"
+      ],
+      "sim_en": [
+        "Account 4a, the ONE REAL CONSTRAINT: do not condense the methane in the pipe. A bare dusty steel line settles at 178 K on the worst Martian night (145 K sky, 180 K ground, emissivity 0.3), while the CH4 dew point is 127 K at 3 bar, 138 K at 6 bar, 149 K at 10 bar and 165 K at 20 bar - only 13 K of margin. Design rule: keep the gas mains at or below 10 bar.",
+        "Account 4c, installed mass: the 547 m vacuum-jacketed liquid corridor is 24.5 t including the 50 t batch buffers it forces at both ends; the warm gas main plus power cable is 8.0 t; two road tankers are 14.6 t, of which 8 t is chassis a city with a mine and a haul road wants anyway.",
+        "Account 2 holds a counter-intuitive gate: 6 mbar does NOT substitute for a vacuum jacket. At 610 Pa and 200 K the CO2 mean free path is 4.8 um, so across a 25 mm annulus the Knudsen number is 1.9e-4 and the gas is fully continuum. A thin atmosphere suppresses CONVECTION (Grashof goes as density squared, down by 28000x) and does nothing whatever to conduction. Lose the annulus vacuum and the heat leak jumps from 0.37 to 8.7 W/m, a factor of 24."
+      ],
+      "physics": [
+        "常温气体走廊的漏热恒等于零，因为管里和管外同温——这是唯一能让 500 m 走廊完全退出热力学账本的办法",
+        "气体的低密度让流量根本不是问题：28 g/s 推进剂在 DN50 里只有 0.88 m/s，压降是线压的千分之一点六。**管子按热力学定，不按流体力学定**"
+      ],
+      "physics_en": [
+        "A warm gas corridor has identically zero heat leak because the inside and the outside are at the same temperature. It is the only way to remove a 500 m corridor from the thermodynamic ledger entirely.",
+        "Gas density makes throughput a non-issue: 28 g/s of propellant moves at 0.88 m/s in a DN50 line and drops 1.6 parts per thousand of the line pressure. The pipe is sized by thermodynamics, not by fluid mechanics."
+      ]
+    },
+    {
+      "id": "ch4_bay",
+      "label": "液甲烷罐区与火星低温的便宜与代价",
+      "label_en": "LCH4 bay: what Martian cold gives, and what it charges",
+      "range": 45,
+      "detail": "两只 Ø8.8 m 球罐，277 t（一发需 261 t）。绿环是甲烷服务色。这一区收着火星低温账的两笔：赠款是环境冷（同一只罐比在地球省 2.3 倍漏热、比在地球少一半的预冷钢材）；账单是 6 mbar——**液态甲烷在火星环境压力下根本不存在**。它的三相点是 90.7 K / 11.7 kPa，而火星地表只有 0.61 kPa，低了 19 倍：失压的甲烷罐不会沸腾，它会冻成固体。每只甲烷容器和管线都带压力下限联锁。",
+      "detail_en": "Two dia. 8.8 m spheres holding 277 t (a Starship wants 261 t). The green band is methane service colour. This bay carries both halves of the Martian cryogenic ledger. The gift is ambient cold: the same vessel leaks 2.3x less heat here than on Earth and needs half the steel-chilling enthalpy. The bill is 6 mbar - LIQUID METHANE CANNOT EXIST AT MARTIAN AMBIENT PRESSURE. Its triple point is 90.7 K at 11.7 kPa and the surface sits at 0.61 kPa, nineteen times lower: a methane vessel that loses pressure does not boil, it freezes solid. Every methane vessel and line on this site carries a pressure-floor interlock.",
+      "specs": {
+        "容量": "714 m³ / 277 t @92 %",
+        "漏热 / 蒸发": "149 W = 26 kg/sol = 0.0094 %/sol",
+        "最低罐压": "11.7 kPa（= 19 × 火星环境压力）",
+        "固态甲烷升华温度": "73.4 K @610 Pa",
+        "与液氧区间距": "球壳净距 24 m，独立防火堤"
+      },
+      "specs_en": {
+        "Capacity": "714 m3, 277 t at 92 % fill",
+        "Heat leak / boil-off": "149 W = 26 kg/sol = 0.0094 %/sol",
+        "Minimum tank pressure": "11.7 kPa, i.e. 19 times Martian ambient",
+        "Solid CH4 sublimation temperature": "73.4 K at 610 Pa",
+        "Separation from the LOX bay": "24 m shell to shell, separately bunded"
+      },
+      "sim": [
+        "账 6a **赠款：6 mbar 是一台免费过冷器**。LOX 在火星环境压力下的饱和温度只有 59.3 K，比 1 atm 沸点低 30.9 K。打开一个排气阀就得到 SpaceX 在地球上要用专门液氮厂才能做到的致密化：密度 +13.3 %，939 t 载荷省 97 m³ 罐容，并且过冷液体在转运时**完全免疫**账 3 里那个 0.8 %/K 的闪蒸项",
+        "但赠款有条款：火星地表压力季节性摆动 4.0~8.7 mbar，对应 LOX 饱和温度 57.7~60.7 K，而三相点是 54.4 K——**最不利时只剩 3.3 K 就冻住**。所以：加注期间受控致密化，储存期间不要待在那里",
+        "账 6d 三项独立赠款同向：辐射驱动 ×0.234、导热驱动 ×0.485、304 不锈钢预冷焓 ×0.498（地球 81 kJ/kg → 火星 40 kJ/kg）",
+        "账 6e 账单：全球尘暴把夜空关上。190 K 散热器净通量从 τ=0.5 的 31.7 W/m² 跌到 τ=5 的 13.1 W/m²，夜班折扣连续数周归零——所以冷箱按白班 280 K 定型，夜班只当红利"
+      ],
+      "sim_en": [
+        "Account 6a, THE GIFT: 6 mbar is a free subcooler. The saturation temperature of LOX at Martian ambient is only 59.3 K, 30.9 K below its one-atmosphere boiling point. Opening a vent valve buys the densification SpaceX needs a dedicated liquid-nitrogen plant to achieve on Earth: 13.3 % denser, 97 m3 of tank volume saved on a 939 t load, and a subcooled liquid is completely immune to the 0.8 %/K flash term that dominates account 3.",
+        "The gift has terms. Martian surface pressure swings seasonally between 4.0 and 8.7 mbar, putting the LOX saturation temperature between 57.7 and 60.7 K against a 54.4 K triple point - only 3.3 K from freezing solid at the worst of it. So densify under control during the loading campaign, and do not store there.",
+        "Account 6d: three independent gifts all point the same way - radiative driver x0.234, conduction driver x0.485, and the chill-down enthalpy of 304 stainless x0.498 (81 kJ/kg on Earth, 40 kJ/kg here).",
+        "Account 6e, the bill: a global dust storm closes the night sky. Net flux from a 190 K radiator falls from 31.7 W/m2 at optical depth 0.5 to 13.1 W/m2 at 5, and the night discount vanishes for weeks. Hence the cold box is sized on the 280 K day case and the night shift is treated as a bonus."
+      ],
+      "physics": [
+        "甲烷三相点压力 11.7 kPa 高于火星地表 0.61 kPa，因此在火星露天不存在液相区——泄漏的甲烷直接凝华成雪。液氧的三相点压力只有 146 Pa，低于地表压力，所以液氧反而可以敞口存在（并且顺手被过冷 31 K）",
+        "预冷账的两个温度：把钢从 210 K 冷到 90 K 只需 40 kJ/kg，从 300 K 则要 81 kJ/kg。火星把所有「停机再启动」类操作的代价**直接砍半**"
+      ],
+      "physics_en": [
+        "Methane's triple-point pressure of 11.7 kPa lies above Mars's 0.61 kPa, so there is no liquid region in the open air here at all - leaked methane goes straight to snow. Oxygen's triple point is at 146 Pa, BELOW the surface pressure, which is why liquid oxygen can exist in an open vessel on Mars, and gets 31 K of subcooling thrown in.",
+        "The chill-down ledger has two temperatures: cooling steel from 210 K to 90 K takes 40 kJ/kg, from 300 K it takes 81 kJ/kg. Mars halves the price of every stop-and-restart operation on the site."
+      ]
+    },
+    {
+      "id": "vent",
+      "label": "安全：防火堤、放空立管与火星上真正会烧的东西",
+      "label_en": "Safety: bunds, cold vents, and what actually burns on Mars",
+      "range": 40,
+      "detail": "地球上几乎每条低温安全规则都是因为有空气：对流把溢流烧干、空气稀释蒸气、空气提供氧化剂。火星三样都没有，于是每条规则都要重推，其中两条推出来是反的。场区没有火炬塔——只有加温的冷放空立管，因为纯甲烷泄漏在火星上根本点不着。",
+      "detail_en": "Almost every cryogenic safety rule on Earth exists because of air: convection boils the spill away, air dilutes the vapour, air supplies the oxidiser. Mars has none of the three, so each rule has to be re-derived and two of them come out backwards. There is no flare stack on this site - only warmed cold-vent stacks, because a pure methane release on Mars cannot be ignited at all.",
+      "specs": {
+        "防火堤": "LOX 34×28 m / CH₄ 30×26 m，堤高 1.2 m",
+        "最大单罐": "426 m³ = 486 t LOX（110 % 规则只要 0.49 m 堤高）",
+        "放空立管": "15 m（LOX）/ 13 m（CH₄），带加温盘管",
+        "泄放能力": "0.06 kg/s，Ø7 mm 临界孔/罐（夹层失真空工况 12 kW）",
+        "分区": "液氧区与甲烷区净距 24 m，各自独立堤"
+      },
+      "specs_en": {
+        "Bunds": "34 x 28 m for LOX, 30 x 26 m for CH4, both with a 1.2 m dike",
+        "Largest single vessel": "426 m3 = 486 t of LOX (the 110 % rule needs only a 0.49 m dike)",
+        "Vent stacks": "15 m for LOX, 13 m for CH4, with warming coils",
+        "Relief capacity": "0.06 kg/s through a dia 7 mm choked orifice per sphere (12 kW lost-vacuum case)",
+        "Separation": "24 m clear between the LOX and methane bays, each separately bunded"
+      },
+      "sim": [
+        "账 7a **溢流不会自己蒸发掉**：486 t 液氧溢进堤内，地球上靠对流（3147 W/m²）加暖混凝土 4.8 h 烧干；火星没有对流、地面低 120 K、液池闪蒸到 59 K，要 **3.3 天，17 倍**。防火堤在这颗星球上不是临时容器，是一座会站上大半周的氧湖——这也是为什么把 1200 t 分成四只球而不是一只",
+        "账 7b **羽流方向和地球相反**：氧气比空气重（32 vs 29）所以地球上 GOX 泄漏贴地积聚；氧气比火星大气轻（32 vs 43.5）所以这里的泄漏会飘走——但要先暖过 154 K。冷的时候仍然下沉。故立管高、带加温、朝上排。甲烷的临界温度只有 77 K，出阀就已经在上浮",
+        "账 7c **可燃性**：火星大气含氧 0.13 vol %（约 0.8 Pa 分压），纯甲烷释放没有氧化剂，地球 LNG 那套「蒸气云爆炸/闪火/喷射火」词汇在这里全部需要一次**同时发生的双物料泄漏**才成立——这就是 24 m 间距和双堤的由来",
+        "同一账里有一条我们**只敢弱持**：6 mbar 的氧气云大概低于普通高分子的火焰传播压力下限（文献 2~5 kPa，火星 0.61 kPa）。裕度是真的但数据不是火星条件下测的，我们不拿 4 倍裕度当安全论证。真正设计进去的是与压力无关的危险：浸过液氧的有机物无论环境压力都对冲击敏感、30 kPa 纯氧宇航服贴着液氧泄漏就是一场服内火、59 K 的液体接触即毁组织并使钢脆化"
+      ],
+      "sim_en": [
+        "Account 7a, THE SPILL DOES NOT EVAPORATE ITSELF. 486 t of LOX into the bund clears in 4.8 h on Earth, where convection delivers 3147 W/m2 onto warm concrete. On Mars there is no convection, the ground starts 120 K colder and the pool flashes to 59 K, so it takes 3.3 DAYS - seventeen times longer. The bund on this planet is not a temporary containment but a standing oxygen lake that outlives most of a week, which is also why 1200 t is split across four spheres instead of one.",
+        "Account 7b, THE PLUME GOES THE OTHER WAY. Oxygen is heavier than air (32 against 29) so a terrestrial GOX release pools at ground level; oxygen is lighter than the Martian atmosphere (32 against 43.5) so the same release floats away - but only once it has warmed past 154 K. Cold, it still sinks. Hence stacks that are tall, warmed and discharge upward. Methane crosses at 77 K and is buoyant before it leaves the valve.",
+        "Account 7c, FLAMMABILITY. The Martian atmosphere is 0.13 vol % oxygen, about 0.8 Pa partial pressure, so a pure methane release has no oxidiser and the entire terrestrial LNG vocabulary - vapour cloud explosion, flash fire, jet fire - requires a SIMULTANEOUS double release to mean anything here. That is where the 24 m separation and the two separate bunds come from.",
+        "One conclusion in the same account we hold only LOOSELY: a gaseous oxygen cloud at 6 mbar is probably below the pressure at which ordinary polymers sustain flame propagation (literature puts the limit at 2-5 kPa, Mars ambient is 0.61 kPa). The margin is real but the data are not for Martian conditions and we will not build a safety case on a factor of four. What is designed for instead are the hazards that do not care about pressure: LOX-soaked organics are shock-sensitive at any ambient, a 30 kPa pure-oxygen suit beside a LOX leak is a suit fire waiting to happen, and 59 K liquid destroys tissue and embrittles steel on contact."
+      ],
+      "physics": [
+        "液池蒸发速率由地面瞬态导热 q=kΔT/√(παt) 与辐射两项组成；地球多出来的一项是自然对流 h≈15 W/m²K，正是它把地球溢流事故变成一个下午而不是一整周",
+        "浮力翻转温度 T = T_amb·M_气/M_大气：氧 154 K、甲烷 77 K。这个公式在地球给出的是「永远下沉」，在火星给出的是「暖了就飘」"
+      ],
+      "physics_en": [
+        "Pool evaporation is the sum of a transient ground-conduction term, q = k dT / sqrt(pi alpha t), and a radiative term. The extra term Earth has is natural convection at about 15 W/m2K, and it alone is what turns a terrestrial spill into an afternoon rather than most of a week.",
+        "The buoyancy crossover is T = T_ambient x M_gas / M_atmosphere: 154 K for oxygen, 77 K for methane. On Earth that formula says 'always sinks'; on Mars it says 'floats once warm'."
+      ]
+    },
+    {
+      "id": "receivers",
+      "label": "加注规模与窗口节奏：这是季节性场区，不是常驻发射场",
+      "label_en": "Fill scale and window cadence: this is a seasonal site, not a working spaceport",
+      "range": 35,
+      "detail": "这两只受气罐存的是白天的气，也存着本站最重要的一个定位判断。星舰满箱要 1200 t 推进剂；一台 res-isru-01 一 sol 出 62 kg。用今天的 200 kWe 攒一发要 3865 sol（考虑蒸发 4789 sol）——**5 个会合窗口，十年出一发**。即使按 ops-spaceport-01 卡自己写的「40 台并联 / 1.6 MWe」，也要 483 sol，刚好一个窗口一发。所以 (500,700) 的场区应当被登记为**季节性场区**：常年空置、窗口前 60 sol 才活过来。",
+      "detail_en": "These two receivers hold the daylight gas, and also the single most important positioning judgement this site makes. A full Starship load is 1200 t; one res-isru-01 unit makes 62 kg per sol. At today's 200 kWe the city needs 3865 sol to accumulate one load, or 4789 sol allowing for boil-off - FIVE SYNODIC WINDOWS, one launch per decade. Even at the '40 units in parallel, 1.6 MWe' that ops-spaceport-01's own card calls for, it is 483 sol, about one launch per window. So the site at (500,700) should be registered as a SEASONAL facility: empty for years and alive only in the sixty sols before a window.",
+      "specs": {
+        "星舰满箱": "1200 t（O/F 3.6 → LOX 939 t + LCH₄ 261 t）",
+        "单台 res-isru-01": "62.1 kg/sol（13.5 kg/sol CH₄ × 4.6）",
+        "200 kWe（今天）": "310 kg/sol → 4789 sol = 6.3 个窗口",
+        "1600 kWe（卡上规划）": "2484 kg/sol → 491 sol = 0.65 个窗口",
+        "会合窗口": "759 sol（780 天）",
+        "推进剂能价": "15.9 kWh/kg = 57 MJ/kg"
+      },
+      "specs_en": {
+        "Starship full load": "1200 t (O/F 3.6, so 939 t LOX and 261 t LCH4)",
+        "One res-isru-01 unit": "62.1 kg/sol (13.5 kg/sol of CH4 times 4.6)",
+        "200 kWe, today": "310 kg/sol, so 4789 sol = 6.3 windows",
+        "1600 kWe, as the card plans": "2484 kg/sol, so 491 sol = 0.65 windows",
+        "Synodic window": "759 sol (780 days)",
+        "Energy price of propellant": "15.9 kWh/kg = 57 MJ/kg"
+      },
+      "sim": [
+        "账 1 **一公斤的价格**：res-isru-01 的 40 kWe 包络除以 62.1 kg/sol 得 15.9 kWh/kg = 57 MJ/kg。同一公斤液氧的汽化潜热只有 0.213 MJ/kg——**烧掉它比造它便宜 268 倍**。这条汇率是本册每一笔损失的计价单位，也提前判了零蒸发的赢面",
+        "账 1 孤岛测量：ops-spaceport-01 足迹边缘到最近道路 462 m、到最近管廊（pipe-ch4）450 m、到 res-isru-01 直线 817 m。修复只需 547 m 新路（两段，第二段沿土堤门轴进场），不需要任何低温管线",
+        "账 8d **给总控的旁证发现**：城内现有 pipe-lox / pipe-ch4 两条 703 m 管廊（res-isru-01 → CZ-10B）如果按液体理解，在今天的涓流流量下按同一套停留时间算术会损失 88 %。最省事的处置不动一寸几何：把它们**声明为常温气体主管**（本册账 4 认为它们本来就该是），液化器摆到 CZ-10B 端。管子长得一模一样，只是说明改了",
+        "定位建议：把 ops-spaceport-01 的卡片从「上游 res-isru-01（管线）」改成「上游 res-cryo-01（公路罐车）」，并注明季节性运行"
+      ],
+      "sim_en": [
+        "Account 1, THE PRICE OF A KILOGRAM: res-isru-01's 40 kWe envelope divided by 62.1 kg/sol gives 15.9 kWh/kg = 57 MJ/kg. The latent heat of vaporisation of the same kilogram of LOX is 0.213 MJ/kg - boiling it away is 268 times cheaper than making it. That exchange rate is the unit every loss in this ledger is priced in, and it settles the zero-boil-off question before the machine is even sized.",
+        "Account 1, the isolation measured: from the ops-spaceport-01 footprint edge it is 462 m to the nearest road, 450 m to the nearest pipe rack (pipe-ch4) and 817 m in a straight line to res-isru-01. The fix is 547 m of new road in two segments, the second arriving on the berm gate axis, and no cryogenic pipeline whatever.",
+        "Account 8d, A FINDING ABOUT SOMEBODY ELSE'S ASSET: the city's existing pipe-lox and pipe-ch4 racks run 703 m from res-isru-01 to the CZ-10B complex. Read as liquid lines, the same dwell arithmetic says they lose 88 % of what they carry at today's trickle flow. The cheapest resolution moves no geometry at all: declare them WARM GAS mains - which account 4 says they should be anyway - and put the liquefier at the CZ-10B end. The pipes look identical; only the caption changes.",
+        "Positioning recommendation: change ops-spaceport-01's card from 'upstream res-isru-01 (pipeline)' to 'upstream res-cryo-01 (road tanker)', and note that the site is seasonal."
+      ],
+      "physics": [
+        "会合窗口 759 sol 与装满时间 4789 sol 的比值就是场区的占空比：4 %。基础设施应当按占空比而不是按峰值需求配置——这条是本册从热力学转向后勤学的转折点",
+        "受气罐的存在本身是一条时间尺度论证：ISRU 24 h 连续产气，冷箱只在夜里 45 % 的时段便宜，两者之间必须垫一个 0.55 sol 的缓冲——47 m³ @20 bar"
+      ],
+      "physics_en": [
+        "The ratio of the 759-sol window to the 4789-sol fill time IS the site's duty cycle: 4 %. Infrastructure should be sized on duty cycle rather than on peak demand, and that is the hinge on which this ledger turns from thermodynamics to logistics.",
+        "The receivers exist because of a mismatch of timescales: the ISRU makes gas around the clock, but the cold box is only cheap during the 45 % of the sol that is night, so something has to buffer 0.55 sol between them - 47 m3 at 20 bar."
+      ]
+    }
+  ]
+}

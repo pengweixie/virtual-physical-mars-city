@@ -1,0 +1,77 @@
+{
+  "id": "pwr-grid-net-01",
+  "pois": [
+    {
+      "id": "readingtheground",
+      "label": "怎么在地表读一张埋在地下的电网",
+      "label_en": "How to read a buried grid from the surface",
+      "range": 18,
+      "detail": "火星城的输电网一根架空线都没有——帕邢账把它全部赶到地下（见 pwr-grid-01）。代价是电网变成隐形基础设施：脚下有什么、去哪里、多少伏，全看不见。这包散件是解法：把拓扑编码进三件沿走廊撒放的小物件，规则一眼可学。色带报电压等级（琥珀 13.8 kV 交流、红/蓝 ±10 kV 直流、青 1500 V、绿 400 V、紫 48 V，与变电站内同色因果链一致）；桩顶人字牌指着电缆去的方向；接线井说明电缆在这儿可以被挖出来修；分接柜是取电点。于是走在城里不用看图，也知道脚下埋着什么。",
+      "detail_en": "Mars City's grid has no overhead line anywhere - the Paschen account drove all of it underground (see pwr-grid-01). The price is that the grid becomes invisible infrastructure: what is under your feet, where it goes and at what voltage are all unreadable. This pack is the answer, encoding the topology into three small objects scattered along the corridors under a rule you can learn at a glance. The colour band gives the voltage level (amber 13.8 kV AC, red/blue +/-10 kV DC, cyan 1500 V, green 400 V, violet 48 V - the same colour chain used inside the substation); the chevron on the post points the way the cable goes; a joint pit says the cable can be dug up and repaired here; a tap cabinet is a take-off point. Walk the city and you can read the grid without a drawing.",
+      "specs": {
+        "件型": "走向标桩 / 接线井 / 沿廊分接柜",
+        "面数": "144 / 312 / 300（单件预算 500）",
+        "撒放依据": "16 条走廊，7,024 m（设计册账 3 走廊表）",
+        "标桩间距建议": "干线 50 m，支线 100 m",
+        "接线井间距建议": "≤250 m，且每个转角必设"
+      },
+      "specs_en": {
+        "Pieces": "route marker post / joint pit / corridor tap cabinet",
+        "Triangles": "144 / 312 / 300 (budget 500 each)",
+        "Placement basis": "16 corridors, 7,024 m (ledger 3 corridor table)",
+        "Suggested post spacing": "50 m on trunks, 100 m on spurs",
+        "Suggested pit spacing": "250 m or less, and one at every change of direction"
+      },
+      "sim": [
+        "间距不是美学，是故障定位账（账4 威胁排序第 2 位）：地球上电缆故障靠一辆带脉冲发生器的车沿线走查；火星上没有人会为了找一处故障在尘暴里走完 705 m 的发射场干线。所以每条中压回路都由 IT 制绝缘监测端到端看着，加上换流器侧的行波测距——不出门就能给出到故障点的距离。标桩上的里程号就是把那个距离翻译成一个可以派挖掘队去的地点。标桩存在的理由是这个，不是装饰。",
+        "为什么每件都带一根联结柱（账2）：火星尘暴的建模电场 1~25 kV/m 与 610 Pa 下 21 kV/m 的长间隙击穿场强是同一个数——尘暴期大气本身就在击穿边缘。地表任何金属件都不许悬空，一律联结到等电位网。所以连一根标桩都有铜柱和绿色联结板。"
+      ],
+      "sim_en": [
+        "The spacing is not aesthetics, it is the fault-location account (ledger 4, threat rank 2): on Earth you find a cable fault by driving a thumper van along the route; on Mars nobody is walking the 705 m launch trunk in a dust storm to find one. So every MV circuit is watched end to end by the IT-system insulation monitor plus travelling-wave fault location at the converter, which gives a distance-to-fault without a field visit. The chainage number on the post is what turns that distance into a place you can send a dig crew. That is why the posts exist, not decoration.",
+        "Why every piece carries a bonding stud (ledger 2): modelled Martian dust-storm fields of 1-25 kV/m and the 21 kV/m long-gap breakdown field at 610 Pa are the same number - during a dust event the ambient atmosphere is at breakdown. Nothing above ground may be left floating, so even a marker post gets a copper stud and a green bonding plate."
+      ],
+      "physics": [
+        "埋地是被两条独立物理约束共同逼出来的：帕邢（6 mbar 下 20 kV 裸导线要 123 mm 直径才不电晕）和射电静默（sci-radio-01 账 4 要求全城 HF 排放守在 1e-13 W/Hz 量级，而电晕是宽带 HF 源）。两条都指向同一个答案，于是地表可读性就成了必须单独解决的问题。"
+      ],
+      "physics_en": [
+        "Burial is forced by two independent physical constraints at once: Paschen (a bare 20 kV conductor at 6 mbar needs a 123 mm diameter to stay out of corona) and radio quiet (sci-radio-01's account 4 requires the city's HF emission to stay near 1e-13 W/Hz, and corona is a broadband HF source). Both point at the same answer, which is what makes surface legibility a problem that has to be solved separately."
+      ]
+    },
+    {
+      "id": "tapcabinet",
+      "label": "沿廊分接柜：为什么它是密封的",
+      "label_en": "The corridor tap cabinet: why it is sealed",
+      "range": 14,
+      "detail": "从干线取电给沿途设施的分接点。柜体全密封、带顶盖压条挡尘、七片辐射散热鳍（火星没有对流可用，机柜只能靠辐射排热），门上是「带电勿开」警示条，旁边留一扇密封观察窗——不开门就能读表。这不是过度设计：帕邢账要求任何 250 V 以上的部位处处无气隙，而 6 mbar 的 CO₂ 恰好把 0.5~4 mm 的缝隙放在击穿最容易发生的地方。一扇随手打开的柜门，在地球上是维护动作，在火星上是引弧动作。",
+      "detail_en": "The take-off point that feeds trackside facilities from the trunk. The cabinet is fully sealed, with a lipped roof to shed dust, seven radiating fins (there is no convection to use on Mars, so a cabinet rejects heat by radiation alone), a 'do not open live' warning strip on the door, and a sealed viewport beside it so the meters can be read without opening. This is not over-design: the Paschen account requires no gas gap anywhere above 250 V, and 6 mbar of CO2 puts gaps of 0.5 to 4 mm exactly where breakdown is easiest. A casually opened cabinet door is a maintenance action on Earth and an arc-initiation action on Mars.",
+      "specs": {
+        "尺寸": "1.20 × 1.55 × 0.72 m（含墩 1.91 m 高）",
+        "进线": "±10 kV 直流或 1500 V 直流",
+        "出线": "1500 V 或 400 V 直流",
+        "400 V 击穿窗口": "0.59 – 4.3 mm 裸气隙",
+        "散热": "纯辐射，七鳍"
+      },
+      "specs_en": {
+        "Size": "1.20 x 1.55 x 0.72 m (1.91 m tall with plinth)",
+        "Incoming": "+/-10 kV DC or 1500 V DC",
+        "Outgoing": "1500 V or 400 V DC",
+        "400 V breakdown window": "0.59 - 4.3 mm bare gap",
+        "Heat rejection": "radiation only, seven fins"
+      },
+      "sim": [
+        "帕邢窗口逐级（账2）：400 V 在 0.59~4.3 mm 的裸气隙内击穿；1500 V 在 0.46~30 mm；10 kV 在 0.43~308 mm。只有 48 V 在任何间距都击不穿——它低于 249 V 的全局最低点。所以本柜的 400 V 出线端子必须在密封壳内，而环境观测群站内那些敞开的 48 V 端子不需要任何压力包封。",
+        "口径互引：mars-heli 充电柜把地板电压定在 21.6 V，正是同一本账的另一端——那册算出 400 V 母线会落在 0.6~4 mm 的击穿窗口里，于是选了低压大电流。本柜把 400 V 用起来了，代价是它必须是一只压力容器。"
+      ],
+      "sim_en": [
+        "The Paschen windows, level by level (ledger 2): 400 V breaks down across any bare gap from 0.59 to 4.3 mm; 1500 V from 0.46 to 30 mm; 10 kV from 0.43 to 308 mm. Only 48 V cannot break down at any gap, because it sits below the 249 V global minimum. So this cabinet's 400 V terminations must live inside a sealed envelope, while the open 48 V terminals inside each environmental station need no pressure enclosure at all.",
+        "Shared calibre: the mars-heli charge dock set its floor voltage at 21.6 V from the other end of this same account - that session found a 400 V bus would sit inside the 0.6-4 mm breakdown window and chose low voltage and high current instead. This cabinet does use 400 V, and the price is that it has to be a pressure vessel."
+      ],
+      "physics": [
+        "散热鳍在火星上做的是辐射不是对流：610 Pa 下自然对流的 Rayleigh 数比地球低约 5000 倍，mars-heli 的柜体热账实测下来对流只占散热通道的 15%。所以鳍片的价值在于增加看得见天空的表面积，而不是增加与空气的接触面积——鳍间距要按视角因子而不是按边界层厚度来定。"
+      ],
+      "physics_en": [
+        "The fins radiate rather than convect: at 610 Pa the Rayleigh number for free convection is about 5000x lower than on Earth, and the mars-heli cabinet thermal account measured convection at only 15% of the heat path. So the value of a fin here is the extra area that can see the sky, not the extra area in contact with air - fin pitch is set by view factor, not by boundary-layer thickness."
+      ]
+    }
+  ]
+}

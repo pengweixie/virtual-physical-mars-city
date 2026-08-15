@@ -1,0 +1,10 @@
+{
+ "mass_kg": 39.8,
+ "zmp_cm_per_Nm": 0.677,
+ "idle_ankle_trim": 0.25,
+ "idle_rig_torque": 15.23,
+ "walk_ankle_trim": 0.2,
+ "walk_hip_trim": 0.0,
+ "walk_rig_torque": 14.56,
+ "walk_zmp_margin": -0.196
+}

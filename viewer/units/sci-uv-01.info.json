@@ -23,12 +23,14 @@
       "sim": [
         "Sentaurus TCAD 光谱响应(账 R2,-5 V,300 K):UV-C 器件 R@270 = 0.117 A/W(EQE 53.7%)、R@280 = 0.107;UV-B 器件峰 300 nm 0.127 A/W;UV-A 器件峰 340 nm 0.168 A/W。",
         "带外抑制(同一条 R(λ) 曲线):UV-C 管 R@310 = 2e-4 A/W(585:1)、R@365 < 1e-6(>10⁵:1)——太阳 UV-A 比 UV-C 强 20 倍也污染不了通道。",
-        "三通道 TMM 光扫各 89 个波长点,有效层吸收峰 82%/81%/96%。"
+        "三通道 TMM 光扫各 89 个波长点,有效层吸收峰 82%/81%/96%。",
+        "评审更正(架构口径):±10° 天顶筒**不是辐照度通道**——Jezero 18.4°N 正午太阳天顶角 6.8–43.6°,只有很少季节太阳进得了 ±10° 视场。正确分工:**剂量/辐照度产品走漫射球+光纤路径**(余弦收集),天顶筒是**天顶天空辐射亮度通道**(纯漫射观测,配合漫射球给出直射/漫射拆分,正是余弦自修正需要的第二观测量)。两条路径共用三色码,不共用光学口径。"
       ],
       "sim_en": [
         "Sentaurus TCAD spectral response (ledger R2, -5 V, 300 K): the UV-C device gives R@270 = 0.117 A/W (EQE 53.7%) and R@280 = 0.107; the UV-B device peaks at 300 nm with 0.127 A/W; the UV-A device peaks at 340 nm with 0.168 A/W.",
         "Out-of-band rejection from the same R(lambda) curve: the UV-C diode gives R@310 = 2e-4 A/W (585:1) and R@365 below 1e-6 (>1e5:1) — solar UV-A is 20x stronger than the UV-C band and still cannot contaminate the channel.",
-        "Three TMM optical sweeps of 89 wavelength points each; peak active-layer absorption 82% / 81% / 96%."
+        "Three TMM optical sweeps of 89 wavelength points each; peak active-layer absorption 82% / 81% / 96%.",
+        "Review correction (architecture): the +-10 degree zenith tubes are NOT the irradiance channels — at Jezero, 18.4 N, the noon solar zenith angle runs 6.8 to 43.6 degrees, so the Sun enters a +-10 degree field only in a narrow season. The correct division: the dose and irradiance products come from the diffuser-plus-fibre path (cosine collection), while the tubes are zenith sky-RADIANCE channels — a pure-diffuse observation which, paired with the diffuser, yields the direct-to-diffuse split that the cosine self-correction needs as its second observable. The two paths share the colour code, not the optical aperture."
       ],
       "physics": "响应度的上限是 R = η·qλ/hc:270 nm 处每个光子带 4.6 eV,即使量子效率 100% 也只有 0.218 A/W。测到 0.117 就是 EQE 54%——剩下的一半丢在窗口层吸收和入射面反射上,不是电学损失。",
       "physics_en": "Responsivity is capped by R = eta * q * lambda / hc: at 270 nm each photon carries 4.6 eV, so even unity quantum efficiency yields only 0.218 A/W. Measuring 0.117 means EQE 54% — the missing half is lost to window-layer absorption and front-surface reflection, not to anything electrical."
@@ -125,7 +127,7 @@
         "扩散体": "PTFE,厚 4 mm",
         "总透过": "T ≈ 0.10(含滤光片)",
         "UV-C 通道光电流": "34-451 nA(τ 5 → 0.3)",
-        "余弦响应": "半球实测 f2 = 7.5%(40° 内 <2.1%,70° 处 −16.8%);<3% 需成形漫射体",
+        "余弦响应": "架构定版:石英罩心对传感器 + 罩内平板成形漫射片;散射半球方案经光线追迹否决(f2 27.7%)",
         "噪声等效辐照度": "1.7e-6 W/m²(1 s 积分)· SNR 1.1e6"
       },
       "specs_en": {
@@ -133,15 +135,15 @@
         "Diffuser": "PTFE, 4 mm thick",
         "Total throughput": "T about 0.10 including the filter",
         "UV-C channel photocurrent": "34-451 nA as tau goes from 5 to 0.3",
-        "Cosine response": "plain hemisphere gives f2 = 7.5% (under 2.1% within 40 deg, -16.8% at 70 deg); reaching 3% requires a shaped diffuser",
+        "Cosine response": "Architecture settled: quartz dome centred on the sensor with a flat shaped diffuser inside; the scattering-dome option was ray-traced and rejected (f2 27.7%)",
         "Noise-equivalent irradiance": "1.7e-6 W/m2 at 1 s integration, SNR 1.1e6"
       },
       "sim": [
         "火星地表紫外光谱账(账 R4):Thuillier 级 TOA 表 / 1.524² → CO₂ 柱 2.25e23 cm⁻²(截面按 Yoshino 1996 拟合,τ=1 截止 197 nm) → 尘埃辐射传输蒙特卡洛(HG 相函数 g=0.70,单散射反照率 0.63,地表反照率 0.05,2e5 光子)。",
         "τ=0.5 正午:UV 总量(200-400 nm)37.1 W/m²,UV-C 带 1.90 W/m²;尘埃总透过率 τ=0.3→0.83、1→0.60、2→0.35、5→0.063。",
         "通道光电流(⌀5 mm 光阑 × T=0.10 × R=0.117 A/W):UV-C 通道 410 nA @τ0.5——跨阻放大轻松可测,不需要斩波或锁相。",
-        "测量精度账(账 R7):余弦响应不是卡上原写的「<3% 到 70°」——PTFE 半球加遮光环实为各向同性 f2 = 7.5%,40° 内才 <2.1%,70° 处 −16.8%,主导项是 60° 之后陡升的 Fresnel 反射而非遮挡。要 <3% 必须把「成形漫射体轮廓」写成设计要求。",
-        "但这个误差是**恒为负的偏差**(始终欠报),在剂量告警仪上是不安全的方向,所以必须修正而不是塞进预算——而修正所需的两个量这台仪器自己都有:太阳天顶角来自时钟+纬度,漫射比来自**它自己 UV-A 通道反演的 τ**。三通道设计自带余弦自修正闭环,设 τ 不确定度 15%,修正后残余 1.25%。",
+        "方向响应裁决(账 R9,光线追迹):画出的 PTFE 散射半球作为余弦收集器**不可用**——蒙特卡洛全几何(局部 Fresnel + 壳内漫透 + 腔内回收 + 黑底探测口)给出 70° 处**过响应 +65%**、各向同性 f2 = 27.7%,口径整形最好也只到 24%,对回收假设稳健(β 0.3–0.7 → 25–31%)。R7 平板模型的 −16.8% 与「恒为负」符号论证同被证伪:真半球是**高报**。",
+        "设计定版(账 R9):采用**总辐射表架构**——石英透明半球罩以传感器为球心(指向球心的光线全为径向 = 处处近法向入射,罩透过率与天空方向无关;有限口径带来的最大局部角 24°,Fresnel 变化 <0.5%),余弦加权交给罩下的**平板成形 PTFE 漫射片 + 遮光环**(平板 f2 7.5%,成形轮廓是商用 2–5% 的路径)。可见的半球即石英保护罩,漫射片在罩内。自修正闭环机制不变(天顶角 + UV-A 通道 τ),修正表待成形轮廓定版后用真曲线生成。",
         "噪声反而无关紧要:1 Hz 带宽下信号散粒噪声 3.6e-13 A、TIA Johnson 4.1e-15 A,SNR 1.1e6,NEI = 1.7e-6 W/m²,在总预算里占 0.001%。**这台仪器是标定受限而非噪声受限**——修正后 1σ 合计 7.2%,主导项是漫射体积尘(5%)与响应度标定(4%),力气该花在那里而不是放大器上。",
         "火卫一凌日 = 免费的原位标定(账 R8):火卫一角径 0.14-0.20° 对太阳 0.35°,永远遮不满(环食),遮挡 16-33%、历时约 30 s。**关键是它只调制直射分量,漫射纹丝不动**——所以凹陷深度直接读出直射/漫射拆分比,而那正是余弦自修正需要的量。凹陷深度:τ=0.5 时 12.8-26.2%,τ=5 尘暴里仍有 1.7-3.5%,SNR 均在 1e4 以上。火卫一每隔几天来一次,于是反复凌日把 R7 里假设的「τ 反演不确定度 15%」独立钉死。"
       ],
@@ -149,8 +151,8 @@
         "Mars surface UV spectrum ledger (R4): a Thuillier-class top-of-atmosphere table divided by 1.524^2, then a 2.25e23 cm-2 CO2 column (Yoshino-1996 cross-section fit, tau = 1 cutoff at 197 nm), then a dust radiative-transfer Monte Carlo (Henyey-Greenstein g = 0.70, single-scattering albedo 0.63, surface albedo 0.05, 2e5 photons).",
         "At tau = 0.5 and local noon: 37.1 W/m2 total UV over 200-400 nm and 1.90 W/m2 in the UV-C band; total dust transmission runs 0.83 at tau 0.3, 0.60 at 1, 0.35 at 2 and 0.063 at 5.",
         "Channel photocurrent (5 mm aperture times T = 0.10 times R = 0.117 A/W) is 410 nA in UV-C at tau 0.5 — comfortably measurable with a transimpedance stage, no chopping or lock-in needed.",
-        "Measurement-accuracy ledger (R7): the cosine response is not the '<3% to 70 deg' this card originally claimed — a PTFE hemisphere with a shade ring actually gives an isotropic f2 of 7.5%, staying under 2.1% only within 40 deg and reaching -16.8% at 70 deg, dominated by Fresnel reflection climbing past 60 deg rather than by ring occlusion. Reaching 3% makes a shaped diffuser profile a design requirement.",
-        "That error is a systematically NEGATIVE bias — the station always under-reports — which on a dose-alarm instrument is the unsafe direction, so it has to be corrected rather than merely budgeted. Both quantities the correction needs are already on board: solar zenith angle from the clock and site latitude, and diffuse fraction from the station's own UV-A channel optical-depth retrieval. The three-channel design closes its own cosine correction loop; at 15% uncertainty on tau the residual is 1.25%.",
+        "Directional-response verdict (ledger R9, ray-traced): the scattering PTFE hemisphere as drawn is UNUSABLE as a cosine collector — a full-geometry Monte Carlo (local Fresnel, in-shell diffusion, cavity recycling, black base with a detector port) gives +65% OVER-response at 70 degrees and an isotropic f2 of 27.7%, no better than 24% under port shaping, robust against the recycling assumption (beta 0.3-0.7 gives 25-31%). Both the R7 flat-plate figure of -16.8% and its always-negative sign argument are falsified: the real dome over-reports.",
+        "Design decision (ledger R9): adopt the pyranometer architecture — a CLEAR quartz hemisphere centred on the sensor (rays toward the centre are radial, hence near-normal incidence everywhere, making the dome's transmission direction-independent; the finite port subtends at most 24 degrees of local incidence, under 0.5% of Fresnel variation), with the cosine weighting done by a flat shaped PTFE diffuser and shade ring beneath it (flat plate gives f2 7.5%; a shaped profile is the route to the commercial 2-5%). The visible hemisphere is the quartz weather dome; the diffuser sits inside. The self-correction loop is unchanged (zenith angle plus the UV-A channel's tau); its correction table awaits the shaped profile's true curve.",
         "Noise turns out to be irrelevant: at 1 Hz the signal shot noise is 3.6e-13 A against 4.1e-15 A of TIA Johnson noise, for SNR 1.1e6 and a noise-equivalent irradiance of 1.7e-6 W/m2 — 0.001% of the budget. The instrument is calibration-limited, not noise-limited: the corrected 1-sigma total is 7.2%, dominated by diffuser dust deposition (5%) and responsivity calibration (4%), so that is where the effort belongs rather than in the amplifier.",
         "A Phobos transit is a free in-situ calibration (ledger R8): Phobos subtends 0.14-0.20 degrees against the Sun's 0.35, so it never covers the disc — the transit is annular, 16 to 33% obscuration lasting about 30 s. What matters is that it modulates only the direct beam while leaving the diffuse component untouched, so the depth of the dip reads out the direct-to-diffuse split directly — exactly the quantity the cosine self-correction needs. The dip runs 12.8-26.2% at tau 0.5 and is still 1.7-3.5% inside a tau 5 storm, at SNR above 1e4 throughout. Phobos transits recur every few days, so they independently pin down the 15% optical-depth uncertainty that R7 had to assume."
       ],

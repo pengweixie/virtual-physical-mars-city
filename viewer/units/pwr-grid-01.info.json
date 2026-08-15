@@ -1,0 +1,353 @@
+{
+  "id": "pwr-grid-01",
+  "pois": [
+    {
+      "id": "ledger",
+      "label": "全城用电台账（本站的头条）",
+      "label_en": "The city electricity ledger (this station's headline)",
+      "range": 45,
+      "detail": "火星城被人分三次定过电力规模，相差 1600 倍，却从没有人写下哪个数字属于哪条母线：EQUIPMENT.md §7 的 107 kWe 日峰值（6 台 Kilopower 时代）、pwr-storage-01 的 833 kW 孤岛设计点、power.html 的 176 MWe 净电。五张知识卡引用「the grid」，指的其实不是同一个东西。本站存在的第一个理由，就是那张缺失的表。逐项统计 50 件资产后：全城连接负荷 704 kW 均值 / 1,068 kW 同时率峰值。",
+      "detail_en": "Mars City has been scoped for power three times, 1600x apart, and nobody ever wrote down which number belongs to which busbar: 107 kWe day peak in EQUIPMENT.md s7 (the six-Kilopower era), pwr-storage-01's 833 kW islanded design point, and power.html's 176 MWe net. Five knowledge cards cite 'the grid' meaning three different things. The first reason this station exists is the sheet that was missing. Totalled item by item across 50 assets: the city draws 704 kW mean and 1,068 kW coincident peak.",
+      "specs": {
+        "连接负荷（均值）": "707 kW",
+        "同时率峰值": "1,075 kW（负荷率 0.66）",
+        "ISRU 战役峰值": "2,628 kW",
+        "净供电": "176,000 kW → 裕度 165×",
+        "最大单块负荷": "地下城 376 kW（芯片厂/量子/深地/FEL）"
+      },
+      "specs_en": {
+        "Connected load (mean)": "707 kW",
+        "Coincident peak": "1,075 kW (load factor 0.66)",
+        "ISRU campaign peak": "2,628 kW",
+        "Net supply": "176,000 kW -> 165x margin",
+        "Largest load block": "undercity 376 kW (fab / quantum / deep lab / FEL)"
+      },
+      "sim": [
+        "对账（账1，8 闸全绿）：390 与 176 从来不矛盾，是同一台机器在两条母线上的读数。975 MW 热 × 40% sCO₂ = 390 MWe 发电机端；83 MW 低杂波射频 ÷ 40% 速调管壁插效率 = 208 MWe 直接走回等离子体电流驱动；再扣 6.5 MWe 低温站与厂用电 = 176 MWe 出厂界。再循环率 54.9%，工程 Q_e = 1.82。两张卡都没错——两张卡都没说自己指的是哪条母线。",
+        "光伏定位（账1）：2.9 MWp 峰值 = 聚变净电的 1.65%，晴日 14.7 MWh 对反应堆的 4,340 MWh。pwr-storage-01 不是城市电源，它那套风暴叙事也不是城市的风暴预案——它是一座自洽的孤岛微网，833 kW 设计点经过验证，按孤岛引用它才对。",
+        "反应堆到底是为谁建的（账1）：全城只吃掉反应堆的 0.40%。剩下 99.6% 按 5.45 kWh/kg（veh-rocket-02 台账口径）折算，是每个会合窗口约 618 kt 甲烷/液氧，约 515 箱满载星舰。pwr-fusion-01 从来不是按城市定容的，是按推进剂出口工业定容的，城市是长在它旁边的零头。",
+        "**负荷侧二次闭合（账 8）**：五个「我推导的」负荷占台账均值 ~45%，此前只有计算中心做过双路闭合。方法可推广——火星没有对流，每一瓦进去的电都要变成必须抵达天空的热。芯片厂用卡上写的送风量独立复算（82 m³/s × 2 K 盘管温差 = 138 kW 对我的 135 kW，**差 2%，全册最强闭合**）；量子中心用制冷链复算 31 kW 对 40 kW；矿场**改口**——筛分机按筛面面积定容不按处理量，3 层筛塔就是 6 kW，我原先按运输业拍的 3 kW 偏低，台账已上调 6.6→9.6 kW；深地实验室**没闭上**并如实标注：7.3 kW 独立复现、12 kW 是口径边界差（热力学功耗 vs 系统功耗）、**41 kW（68%）是纯假设的建筑服务**，在它自己的 session 定价前必须带此caveat 引用。"
+      ],
+      "sim_en": [
+        "The reconciliation (ledger 1, 8/8 gates): 390 and 176 were never in conflict - they are the same machine read at two different busbars. 975 MW thermal x 40% sCO2 = 390 MWe at the generator terminals; 83 MW of lower-hybrid RF divided by 40% klystron wall-plug efficiency = 208 MWe walking straight back into the current drive; less 6.5 MWe of cryoplant and station auxiliaries = 176 MWe across the plant fence. Recirculating fraction 54.9%, engineering Q_e = 1.82. Neither card was wrong - neither card said which busbar it meant.",
+        "Where PV sits (ledger 1): 2.9 MWp is 1.65% of the fusion net, and 14.7 MWh on a clear sol against the reactor's 4,340 MWh. pwr-storage-01 is not the city's power source and its dust-storm narrative is not the city's dust-storm plan - it is a self-contained island microgrid whose 833 kW design point is verified, and citing it as an island is the correct way to cite it.",
+        "What the reactor is actually for (ledger 1): the city consumes 0.40% of it. The other 99.6%, converted at 5.45 kWh/kg (the veh-rocket-02 ledger's rate), is about 618 kilotonnes of methalox per synod - roughly 515 full Starship loads. pwr-fusion-01 was never sized for the city. It was sized for a propellant export industry, and the city is the rounding error living next door.",
+        "Second closure on the load side (ledger 8): the five loads I DERIVED are ~45% of the ledger mean and only the compute centre had ever been closed twice. The method generalises - Mars has no convection, so every watt in must become heat that reaches the sky. The chip fab re-derives from the airflow its own card states (82 m3/s x a 2 K coil rise = 138 kW against my 135 kW - 2% apart, the strongest closure in the dossier); the quantum centre re-derives from the refrigeration chain at 31 kW against 40 kW; the MINE WAS CORRECTED - a vibrating screen is sized by deck area, not throughput, so the modelled three-deck tower costs 6 kW and my 3 kW lump had priced it as haulage, raising the ledger from 6.6 to 9.6 kW. The deep lab DOES NOT CLOSE and is labelled so: 7.3 kW re-derives independently, 12 kW is a declared boundary mismatch (thermodynamic duty vs system power), and 41 kW - 68% - is pure assumption about building services."
+      ],
+      "physics": [
+        "为什么台账必须按母线记账：任何发电装置都有毛功率、再循环、净出力三个不同的数，托卡马克的再循环特别大，因为维持等离子体电流本身就是一台 208 MW 的负载。把三者混为一谈，就会得到「390 还是 176」这种伪矛盾。",
+        "台账方法论：卡上没写功率的资产，用它自己的散热几何反推。火星没有对流，一栋建筑排掉多少热就等于它用掉多少电——计算中心 8 台机架 × 5 kW = 40 kW，与它那面辐射墙在 320 K 对 210 K 天空排 43.6 kW 独立闭合。散热面积就是火星上的电表。"
+      ],
+      "physics_en": [
+        "Why a ledger must be kept per busbar: every generating plant has three different numbers - gross, recirculating, net - and a tokamak's recirculation is unusually large, because sustaining the plasma current is itself a 208 MW load. Conflate them and you manufacture a fake contradiction like '390 or 176'.",
+        "The ledger's method: where a card states no power, close it against the asset's own heat-rejection geometry. Mars has no convection, so what a building rejects is what it draws - the compute center's 8 racks at ~5 kW each give 40 kW, and its radiator wall independently rejects 43.6 kW at 320 K to a 210 K sky. On Mars, radiator area is the power meter."
+      ]
+    },
+    {
+      "id": "busduct",
+      "label": "帕邢陷阱：为什么火星城没有一座输电铁塔",
+      "label_en": "The Paschen trap: why Mars City has no transmission towers",
+      "range": 32,
+      "detail": "这根琥珀色的充压管是全城唯一的交流线路，长 72 m，从发电机端进到整流厅为止——同步发电机产生交流，这件事没得商量，进了厅就整流成直流。它是压力容器而不是裸导线，因为 6 mbar 的 CO₂ 正落在帕邢曲线击穿最低点附近：任何毫米级气隙在 249 V 就会击穿。管内充 2 bar 本地 CO₂——火星大气 95% 是 CO₂，绝缘气体是白送的，一台压缩机就够，不用从地球运 SF₆。",
+      "detail_en": "This amber pressurised duct is the only alternating-current run in the city, 72 m of it, from the generator terminals to the rectifier hall - a synchronous machine makes AC and nothing can be done about that, so it is rectified the moment it arrives. It is a pressure vessel rather than a bare conductor because 6 mbar of CO2 sits almost exactly on the Paschen minimum: any millimetre-scale gap breaks down at 249 V. The duct is filled with 2 bar of local CO2 - the Martian atmosphere is 95% CO2, so the insulating gas is free and needs a compressor, not a shipment of SF6 from Earth.",
+      "specs": {
+        "帕邢最低点": "249 V @ 1.17 mm 气隙",
+        "同一最低点在地球": "落在 7.0 µm——实验室里才碰得到",
+        "1 m 均匀气隙耐压": "火星 27.5 kV / 地球 2,234 kV（81× 惩罚）",
+        "管内充气": "2 bar 本地 CO₂，裕度 6×",
+        "唯一交流段长": "72 m"
+      },
+      "specs_en": {
+        "Paschen minimum": "249 V at a 1.17 mm gap",
+        "Same minimum on Earth": "falls at 7.0 um - a laboratory condition",
+        "1 m uniform gap holds": "27.5 kV on Mars vs 2,234 kV on Earth (81x penalty)",
+        "Duct fill": "2 bar of local CO2, 6x margin",
+        "Length of the only AC run": "72 m"
+      },
+      "sim": [
+        "电晕判决（账2）：8 m 高的 20 kV 裸导线，按 Peek 密度标度在 δ=0.0084 下要 123 mm 直径才不起电晕；同样电流按载流量只需 5.5 mm。金属用量 493 倍。33 kV 交流要 212 mm。132 kV 在 8 m 高度上根本无解——先得把线抬高才谈得上建。地球上电晕逼你加粗导线是 300 kV 以上的事，火星从 1 kV 就开始。",
+        "口径互引（账2）：本册与 mars-heli 充电柜账共用同一套 Townsend 系数（CO₂：A=20 /cm·Torr，B=466 V/cm·Torr，γ=0.02，610 Pa），复算得 249 V @1.17 mm 与该册逐位一致。那册问「充电地板为什么是 21.6 V 而不是 400 V」，本册把同一个问题问给一整座城。",
+        "交叉校验（账2）：Peek 经验密度项外推到 δ=0.0084（比标定处低两个数量级）给 25.2 kV/m，Townsend 电离积分给 27.5 kV/m，两条独立路线差 9%。这个吻合才是上面那条电晕账敢用的依据。",
+        "还有第三个理由（账2）：电晕是宽带高频噪声源。城里有一座低频射电阵 sci-radio-01（0.3–30 MHz），它的账4 把判据写死了——「EMC 受控城区」约 1e-13 W/Hz 才闭合，失控城区 1e-9 在任何距离都不闭合。一条常年电晕的架空线正是把城市从前者推到后者的标准做法。就算电气上勉强可行，射电阵也一票否决。"
+      ],
+      "sim_en": [
+        "The corona verdict (ledger 2): a bare 20 kV conductor 8 m up needs a 123 mm diameter to stay out of corona at delta = 0.0084 by Peek's density scaling; the same current asks for only 5.5 mm on ampacity. That is 493x the metal. At 33 kV AC it becomes 212 mm. At 132 kV there is no solution at 8 m height at all - the line would have to be raised before it could be built. On Earth corona-driven oversizing starts above 300 kV. On Mars it starts at 1 kV.",
+        "Shared calibre (ledger 2): this dossier uses the same Townsend coefficients as the mars-heli charge-dock account (CO2: A=20 /cm.Torr, B=466 V/cm.Torr, gamma=0.02, 610 Pa) and reproduces 249 V at 1.17 mm digit for digit. That session asked why the charging floor runs at 21.6 V and not 400 V; this one asks the same question of a whole city.",
+        "Cross-check (ledger 2): Peek's empirical density term, extrapolated to delta = 0.0084 - two decades below where it was fitted - gives 25.2 kV/m, while the Townsend ionisation integral gives 27.5 kV/m. Two independent routes, 9% apart. That agreement is what licenses the corona account above.",
+        "And a third reason (ledger 2): corona is a broadband HF noise source, and the city owns a low-frequency radio array, sci-radio-01 (0.3-30 MHz). Its account 4 fixes the pass/fail line: an EMC-controlled city at ~1e-13 W/Hz closes, an uncontrolled one at ~1e-9 W/Hz does not close at any distance. A permanently corona-discharging overhead line is the textbook way to move a city from the first class to the second. Even if the electrics were survivable, the radio array vetoes towers outright."
+      ],
+      "physics": [
+        "帕邢定律 V_b = Bpd / [ln(Apd) − ln(ln(1+1/γ))]：击穿电压只是 pd 乘积的函数。降低气压不等于提高绝缘——它只是把最坏的 pd 挪到更大的间距上。地球把毫米级间距放在曲线右支（安全），火星把毫米级间距放在最低点（最危险）。所以在火星上，能击穿的不是空旷的天，是螺栓法兰里那一丝缝。",
+        "火星唯一送的礼物是风载：30 m/s 的风在 ρ=0.02 kg/m³ 下只有 9 Pa，地球同速 540 Pa，铁塔可以做得极轻。但它立刻收回去——裸露的铝导线每个火星日温摆 90 K，300 m 档距每天伸缩 62 cm，是地球输电线从未经历过的弛度-张力循环。这份礼物付不起电晕的账。"
+      ],
+      "physics_en": [
+        "Paschen's law, V_b = Bpd / [ln(Apd) - ln(ln(1+1/gamma))]: breakdown depends only on the pressure-distance product. Lowering the pressure does not improve insulation - it moves the worst case to a larger gap. Earth puts millimetre gaps on the safe right-hand branch; Mars puts them at the minimum. So on Mars the thing that breaks down is not the open sky, it is the wisp of a gap inside a bolted flange.",
+        "The one gift Mars gives an overhead line is wind load: 30 m/s at 0.02 kg/m3 presses only 9 Pa against Earth's 540 Pa, so the towers could be feather-light. It takes the gift back immediately - an exposed aluminium conductor swings 90 K every sol, so a 300 m span changes length by 62 cm daily, a sag-and-tension cycle no Earth line ever sees. The gift does not pay for the corona."
+      ]
+    },
+    {
+      "id": "valvehall",
+      "label": "阀厅与电压等级：为什么全城走直流",
+      "label_en": "The valve hall and the voltage ladder: why the city runs on DC",
+      "range": 30,
+      "detail": "两台 4 MVA 变流单元并列（N-1 冗余）：A 台闭壳运行，B 台开盖检修，露出三层晶闸管阀模块与红蓝冷却歧管。左侧变流变压器把发电机的 13.8 kV 交流降到换流阀合适的电压，阀厅整流成 ±10 kV 直流双极，红极蓝极从阀塔顶爬过前檐、下到电缆沟出线头墙。全城此后再无交流。",
+      "detail_en": "Two converter blocks side by side (N-1): block A closed and running, block B opened for maintenance to expose three tiers of thyristor valve modules and the red/blue coolant manifolds. On the left the converter transformer steps the generator's 13.8 kV down to the valve winding voltage, and the hall rectifies it to a bipolar +/-10 kV DC. The red and blue poles climb over the front eave and drop into the cable-trench headwall. Beyond this point there is no AC anywhere in the city.",
+      "specs": {
+        "变流单元": "2 × 4 MVA（N-1，单台即覆盖 ISRU 战役峰值 1.5×）",
+        "干线": "±10 kV 直流双极（极间 20 kV）",
+        "区配": "1500 V 直流",
+        "用电": "400 V 直流（与 veh-heli-01 充电柜进线同级）",
+        "仪表站": "48 V 直流",
+        "全网 I²R": "16 条走廊 7,024 m 共 14.0 kW"
+      },
+      "specs_en": {
+        "Converter blocks": "2 x 4 MVA (N-1; either alone covers the ISRU campaign peak 1.5x)",
+        "Trunk": "+/-10 kV DC bipolar (20 kV pole-to-pole)",
+        "District": "1500 V DC",
+        "Utilisation": "400 V DC (same bus the veh-heli-01 dock takes)",
+        "Instrument sites": "48 V DC",
+        "Whole-network I2R": "14.0 kW over 16 corridors and 7,024 m"
+      },
+      "sim": [
+        "质量定律（账3）：定损耗下导体质量 ∝ 1/V²，此外没有别的东西按这个标度。同样 1.2 MW 送 2 km、损耗 2%，400 V 要 457 t 铝，10 kV 只要 731 kg——625 倍。地球上这是钱的问题，火星上这是几箱星舰的问题。20 kV 以上导体转为载流量/机械最小截面限制，再升压买不到金属，只买到绝缘成本——最优就停在这里。",
+        "直流对交流（账3）：同损耗、同峰值绝缘应力下，双极直流的导体质量是三相交流的 0.50（(2×0.75)/3，精确值）；再换铝代铜（0.494）合计 0.25。教科书上直流赢在长距离，但 2 km 的城市根本用不上那条理由：33 kV 电缆 2 km 的充电电流才 3 A。真正的理由是负荷本身——速调管调制器、电解槽、电池阵、LED 补光、每一台变频驱动的泵与压缩机、计算、FEL 储能库、直升机充电柜、机器人充电、深地高压，全是直流负荷。真正需要交流的负荷：一个都没有。交流母线的唯一作用是被再整流一次，每次 1.5~2%。",
+        "1~2 km 干线实算（账3）：变电站→工业节点→矿场节点→长十乙工位共 1,126 m，送 400 kW。20 kV 极间下是 20 A、0.26 kW 损耗（0.06%）、12 V 压降（0.06%），用 271 kg 铝。同一件事放在直升机柜想要的 400 V 上，每根导体要 5,304 mm²、共 32.1 t 铝。整个取舍就是这一行。",
+        "诚实的代价（账3）：直流没有过零点，机械开断确实更难。答案是几乎用不上——换流器微秒级封锁清故障，隔离开关随后冷分闸，正是 mars-heli 充电柜在 21.6 V 上已经写死的时序（「变流器先降到零，接触器零电流分闸，0.5 s 死区」），同一套纪律放大 1000 倍电压。残余风险是直流母线电容储能：20 kV 下 5 mF = 1.0 MJ，确实是弧闪源，靠分布式电容 + 限流电抗 + 泄放时序管住。",
+        "损耗链与右定容（账7）：初稿写的「98.5% 效率」是个占位数，我一边批评直升机册的 92% 占位、一边把同样的东西留在自己的散热定容里。付清后：4 MVA 变流块在额定点 98.0%，但城市从不在额定点运行——704 kW 城市均值下它只带 18% 负荷，效率 96.6%，因为 69% 的损耗根本不管城市在干什么（变压器铁损、阀冷、厂房服务 24 h 常转）。这正是直升机充电柜那本账放大 1000 倍：那册的结论是「待机主导：空转一个 sol 烧掉实际充电转换损耗的 5 倍」。并由此推翻自己的定容：初稿 2×12 MVA 是为「留增容余量」拍的，没论证过。N-1 只需覆盖战役工况 2.6 MW 加裕度，2×4 MVA 即可（战役 1.5×、今日峰值 3.7×），而 12 MVA 的铁损 24 h 常烧，比 4 MVA 多 14.7 kW = 每火星年 243 MWh，占全城总耗电 2.1%——为一个没人要的余量。连带修好散热排：12 MVA 下本厅需 16 块辐射板而模型只画了 9 块（当时并不知道自己画少了）；右定容到 4 MVA 后只需 6 块，模型的 9 块反而有裕度。**付清假设与右定容是同一件事，单做任何一件都会留下窟窿。**"
+      ],
+      "sim_en": [
+        "The mass law (ledger 3): at fixed fractional loss, conductor mass goes as 1/V^2 and nothing else in this problem does. The same 1.2 MW over 2 km at 2% loss needs 457 t of aluminium at 400 V and 731 kg at 10 kV - a factor of 625. On Earth that argument is about money; on Mars it is about Starships. Above 20 kV the conductor becomes ampacity- and minimum-section-limited, so more voltage buys no more metal and only more insulation cost. The optimum stops there.",
+        "DC versus AC (ledger 3): at equal loss and equal peak insulation stress, a bipolar DC link needs 0.50 of the conductor mass of three-phase AC ((2 x 0.75)/3, exact), and aluminium over copper takes that to 0.25. The textbook DC argument is long distance, and a 2 km city cannot use it - a 33 kV cable over 2 km draws all of 3 A of charging current. The real argument is the load list: klystron modulators, electrolysers, the battery field, LED grow lights, every VFD-driven pump and compressor, computing, the FEL storage bank, the helicopter dock, robot chargers, the deep lab's HV. Loads that genuinely want AC: none. An AC bus here would exist purely to be rectified again, at 1.5-2% a time.",
+        "The 1-2 km trunk, computed (ledger 3): substation -> industry node -> mine node -> the CZ-10B pad is 1,126 m delivering 400 kW. At 20 kV pole-to-pole that is 20 A, 0.26 kW of I2R (0.06%) and 12 V of drop (0.06%), on 271 kg of aluminium. The same job on the 400 V bus the helicopter dock wants would need 5,304 mm2 per conductor and 32.1 tonnes of aluminium. The whole trade is that one line.",
+        "The honest cost (ledger 3): DC has no current zero, so mechanical interruption under load is genuinely harder. The answer is that it is almost never needed - converter blanking clears faults in microseconds and the isolators open cold, which is exactly the sequence the mars-heli dock already specifies at 21.6 V ('converter output ramps to zero, contactor opens at zero current, 0.5 s dead time'), the same discipline at 1000x the voltage. The residual hazard is stored DC-link energy: 5 mF at 20 kV is 1.0 MJ and that IS an arc-flash source, handled by distributed capacitance behind limiting inductors plus a bleed sequence.",
+        "Loss chain and right-sizing (ledger 7): the \"98.5% efficient\" in my first draft was a placeholder - I criticised the heli session for its 92% placeholder while leaving the same thing in my own radiator sizing. Paid off: a 4 MVA block computes to 98.0% at its rating, but the city never runs it at rating. At the 704 kW city mean it is 18% loaded and 96.6% efficient, because 69% of the loss does not care what the city is doing - transformer iron, valve cooling and building services run continuously. This is the heli dock account at 1000x the scale; that session found \"standby dominates: idling the cabinet burns 5x the conversion loss of an actual charge\". It also overturns my own rating: the 2 x 12 MVA of the first draft was picked for \"growth room\" and never justified. N-1 only has to cover the 2.6 MW campaign case with margin, so 2 x 4 MVA does it (1.5x on the campaign, 3.7x on today), and 12 MVA blocks burn 14.7 kW more continuously in transformer iron - 243 MWh per Mars year, 2.1% of everything the city consumes, for headroom nobody asked for. It fixed the radiator as a side effect: at 12 MVA this hall would have needed 16 panels against the 9 modelled, and I had not noticed; right-sized to 4 MVA it needs 6 and the modelled bank has margin. Paying off the assumption and right-sizing are the same act."
+      ],
+      "physics": [
+        "为什么定损耗下 m ∝ 1/V²：I = P/V，损耗 I²R = fP 定出 R = fV²/P，而 R = 2ρL/A 定出 A ∝ P/(fV²)，质量 = 2AL·ρ_m ∝ L²P/(fV²)。一条式子同时解释了「为什么升压」和「为什么升到 20 kV 就该停」。",
+        "介质应力：交流绝缘必须扛住峰值 √2·V_rms，而直流工作电压就是峰值。同一根按峰值定容的电缆，走直流能多送 41% 的电压。"
+      ],
+      "physics_en": [
+        "Why m goes as 1/V^2 at fixed loss: I = P/V; setting I^2R = fP gives R = fV^2/P; and R = 2*rho*L/A gives A proportional to P/(f V^2), so mass = 2AL*rho_m goes as L^2 P/(f V^2). One expression explains both why to raise the voltage and why to stop at 20 kV.",
+        "Dielectric stress: AC insulation must withstand a peak of sqrt(2) x V_rms, whereas on DC the working voltage IS the peak. The same cable, qualified to the same peak, carries 41% more voltage on DC."
+      ]
+    },
+    {
+      "id": "trench",
+      "label": "电缆沟：帕邢把你赶到地下，地下再罚你一次",
+      "label_en": "The cable trench: Paschen drives you under, and the ground punishes you for it",
+      "range": 26,
+      "detail": "三段掀盖露出沟内三层电缆：红 +10 kV 极、蓝 −10 kV 极、绿 等电位联结导体，同色因果链从阀厅一直贯到走廊标桩。沟不是装饰——它是散热设备。火星风化层导热只有 0.04 W/mK（InSight HP³ 实测），是地球土壤的三十分之一；单回路直埋没问题，把六回路捆进变电站出线口就会烧穿。",
+      "detail_en": "Three lids are lifted to show the three cable tiers inside: the red +10 kV pole, the blue -10 kV pole, and the green equipotential bonding conductor - the same colour chain that runs from the valve hall all the way out to the route marker posts. The trench is not decoration, it is heat-rejection equipment. Martian regolith conducts heat at 0.04 W/mK (measured by InSight's HP3 mole), a thirtieth of Earth soil: one buried circuit is fine, and bundling six of them at the substation outlet burns through.",
+      "specs": {
+        "沟净宽 / 埋深": "1.9 m / 电缆埋深 1.0 m",
+        "风化层导热": "0.04 W/mK（地球土壤 1.2）",
+        "单回路直埋": "305 K —— 余量 58 K（IEC 60287 全热路）",
+        "6 回路直埋": "315 K —— 通过（账 3 曾算成 425 K，高估温升 2 倍）",
+        "6 回路带盖沟": "247 K —— 多 68 K 余量",
+        "导体": "铝，不是铜"
+      },
+      "specs_en": {
+        "Trench width / burial depth": "1.9 m / cables at 1.0 m",
+        "Regolith conductivity": "0.04 W/mK (Earth soil 1.2)",
+        "One circuit, direct buried": "305 K - 58 K of margin (full IEC 60287 circuit)",
+        "Six circuits, direct buried": "315 K - PASSES (ledger 3 computed 425 K, a 2x overstatement of the rise)",
+        "Six circuits, lidded trench": "247 K - 68 K more margin",
+        "Conductor": "aluminium, not copper"
+      },
+      "sim": [
+        "载流量账（账3）：I ∝ √(ΔT·k)。火星在 210 K 环境下允许 153 K 温升（地球只有 75 K），但导热差三十倍，净结果是直埋电缆只有地球载流量的 26%——四倍降容。改用烧结风化层回填（k=0.8 W/mK）后升到 117%，比地球还好，因为火星冷 78 K。负债直接翻成红利，而回填料正是 ops-printer-01 以 0.40 kWh/kg 在产的东西。",
+        "为什么模型里是沟不是管：单回路 2.1 W/m，直埋 246 K 完全够。变电站出线口六回路并束 12.8 W/m，直埋 424 K 当场失败，带盖沟槽 247 K 通过——盖板向 210 K 天空辐射是极好的散热面，0.04 W/mK 的土是极差的。所以本站出线口做沟、区节点以远做直埋单回路，几何就是这本热账的可视化。",
+        "反向的代价（账2）：直埋换来热稳定。风化层昼夜热波趋肤深度只有 3.6 cm、年波 0.94 m，埋 1.0 m 后昼夜温摆完全消失（衰减 e⁻²⁷），只剩 ±8.7 K 的季节项——同一条扩散率 4.7e-8 m²/s 与 sci-radio-01 的相位配长馈线账、hab-village-01 的覆土账共用。躺在敞沟里的电缆反而要吃满 45 K 日温摆，必须蛇形敷设留伸缩量。",
+        "为什么是铝（账3）：等损耗下铝质量是铜的 0.494 倍——(ρ_Al/ρ_Cu)×(ρ_m,Al/ρ_m,Cu)。这与地球本能相反，而且长期看铝是这两种金属里火星能自产的那个：斜长石到处都是，自然铜不是。",
+        "**自我推翻（账 9，L1→L2）**：本卡原先说「6 回路直埋 424 K 烧穿，所以要沟」。把账 3 那一项 ln(2d/r)/(2πk) 换成完整 IEC 60287 热路后，这句话不成立。两处错：①**互热被高估 2 倍**——我把单回路温升直接乘 N，等于假设 30 cm 外的邻缆与电缆对自己表面耦合得一样强；正确的镜像法给出邻缆只耦合 45%，6 回路 30 cm 实际是 **315 K，通过**。②**电缆外径当成固定 60 mm**——95 mm² 成缆其实只有 27 mm，细缆外部热阻更高，所以这一项反而是**乐观**的，三条干线因此上调截面（G-B/G-E 95→120，G-D 120→185 mm²，代价 109 kg 铝）。**所以电缆沟的理由要重说**：它不是「不挖沟就烧穿」，而是**沟保证了间距**——15 cm 挤在一起是 343 K，30 cm 是 315 K，沟里是 247 K。沟买的是 68 K 余量、施工间距和检修通道，不是免于熔毁。几何不变，理由变了。顺带：完整 IEC 的八项里有四项在这里恒为零——直流没有介质损耗、没有护套涡流、没有铠装损耗，火星没有液态水所以没有土壤干化。**火星直流电缆的热学比地球交流的更简单。**"
+      ],
+      "sim_en": [
+        "The ampacity account (ledger 3): I goes as sqrt(dT.k). At 210 K ambient Mars allows a 153 K rise where Earth allows 75 K, but the conductivity is thirty times worse, and the net is that a directly buried cable carries 26% of its Earth ampacity - a four-fold derating. With sintered-regolith thermal backfill at k = 0.8 W/mK it reaches 117%, better than Earth, because Mars is 78 K colder. The liability inverts into a bonus, and the backfill is exactly what ops-printer-01 already makes at 0.40 kWh/kg.",
+        "Why the model shows a trench and not a duct bank: one circuit dissipates 2.1 W/m and direct burial lands it at 246 K, which is fine. Bundle six circuits at the substation outlet and the same ground must take 12.8 W/m: direct burial goes to 424 K and fails outright, while a lidded trench holds 247 K, because a lid radiating to a 210 K sky is an excellent heat sink and 40 mW/mK of regolith is a terrible one. So the station has a trench at its outlet and buried single circuits beyond the district nodes. The geometry is this thermal account made visible.",
+        "The cost in the other direction (ledger 2): burial buys thermal stability. The regolith diurnal skin depth is only 3.6 cm and the annual 0.94 m, so at 1.0 m the daily cycle is gone entirely (attenuated by e^-27) and only a +/-8.7 K seasonal term survives - the same 4.7e-8 m2/s diffusivity that sci-radio-01's phase-matched feeder account and hab-village-01's regolith-cover account both use. A cable lying in an open trench takes the full 45 K daily swing instead and must be laid snaked with expansion allowance.",
+        "Why aluminium (ledger 3): at equal loss, aluminium is 0.494 of copper's mass - (rho_Al/rho_Cu) x (rho_m,Al/rho_m,Cu). That is the opposite of the usual Earth instinct, and in the long run aluminium is the one of the two that Mars can make: plagioclase feldspar is everywhere, native copper is not.",
+        "SELF-OVERTURNED (ledger 9, L1 -> L2): this card used to say \"six circuits direct-buried reach 424 K and burn through, which is why there is a trench\". Replacing ledger 3's single ln(2d/r)/(2.pi.k) term with the full IEC 60287 thermal circuit shows that is not true. Two errors: (1) MUTUAL HEATING OVERSTATED 2x - I multiplied the single-circuit rise by N, which assumes a neighbour 30 cm away couples as strongly as the cable to its own surface; the proper image method gives 45%, and six circuits at 30 cm actually reach 315 K and PASS. (2) CABLE DIAMETER TAKEN AS A FIXED 60 mm - a finished 95 mm2 cable is 27 mm, and a thinner cable has HIGHER external thermal resistance, so that assumption was optimistic; three trunks were up-sized as a result (G-B/G-E 95->120, G-D 120->185 mm2, costing 109 kg of aluminium). SO THE TRENCH NEEDS A DIFFERENT JUSTIFICATION: it is not \"dig a trench or melt\". It is that THE TRENCH IS WHAT GUARANTEES THE SPACING - six circuits packed at 15 cm reach 343 K, at 30 cm 315 K, in a lidded trench 247 K. The trench buys 68 K of margin, enforced spacing and maintenance access. The geometry does not change; the argument does. Incidentally, four of IEC 60287's eight terms are identically zero here: DC has no dielectric loss, no sheath eddy loss and no armour loss, and Mars has no liquid water to dry out. A Martian DC cable is thermally SIMPLER than an Earth AC one."
+      ],
+      "physics": [
+        "埋地线源温升 ΔT = q·ln(2d/r)/(2πk)：导热率进分母，所以火星把同一条电缆的温升放大三十倍。而辐射散热完全不看气压——盖板对天空的 εσ(T⁴−T_sky⁴) 在 6 mbar 和 1 atm 下一模一样。火星上「让热跑掉」的正确答案永远是给它一片能看见天的表面。",
+        "火星把两个矛盾的要求同时压在电缆上：帕邢要它离开空气，热学要它离开土。带盖沟槽是同时满足两者的唯一形状——固体绝缘让气体不参与电路，敞开的盖板让热直接辐射到天。"
+      ],
+      "physics_en": [
+        "Buried line source: dT = q.ln(2d/r)/(2.pi.k). Conductivity sits in the denominator, so Mars multiplies the same cable's temperature rise thirty-fold. Radiative rejection, by contrast, does not care about pressure at all - the lid's eps.sigma.(T^4 - T_sky^4) to the sky is identical at 6 mbar and at 1 atm. On Mars the right answer to 'get the heat out' is always to give it a surface that can see the sky.",
+        "Mars presses two contradictory requirements onto the same cable: Paschen wants it out of the air, thermodynamics wants it out of the soil. A lidded trench is the only shape that satisfies both - solid insulation keeps the gas out of the circuit, and an exposed lid radiates straight to the sky."
+      ]
+    },
+    {
+      "id": "bonding",
+      "label": "火星没有「地」：等电位联结网，不是接地极",
+      "label_en": "There is no earth on Mars: an equipotential bonding mesh, not an earth electrode",
+      "range": 24,
+      "detail": "这条绿黄双色导体和它的七只测试端子不是接地网——火星上没有可用的地。干燥低温的风化层电阻率在 10⁷~10⁹ Ω·m 量级，一根在地球湿土里给 34 Ω 的 3 m 接地棒，在这里给 34 MΩ。所以全城采用 IT 制不接地系统 + 连续绝缘监测：第一次接地故障不跳闸，只报警并定位，供电继续——在断电即人命的地方，这才是对的行为。这张网做的是均压、监测参考和屏蔽，故障电流走专设的金属回流导体，绝不走大地。",
+      "detail_en": "This green-and-yellow conductor and its seven test studs are not an earthing grid - there is no usable earth on Mars. Dry, cold regolith runs 1e7 to 1e9 ohm.m, so a 3 m rod that gives 34 ohm in moist Earth soil gives 34 megohm here. The city is therefore wired as an IT system - unearthed, isolated, with continuous insulation monitoring: a first earth fault trips nothing, it is annunciated and located while supply continues, which is the correct behaviour where loss of supply is a life-safety event. This mesh equalises potential, references the monitor and screens. Fault current comes home on a dedicated metallic return, never through the ground.",
+      "specs": {
+        "风化层电阻率": "10⁷–10⁹ Ω·m（地球湿土 100）",
+        "3 m 接地棒": "火星 3.35e7 Ω / 地球 33.5 Ω",
+        "100×100 m 埋网": "443 kΩ —— 仍然无用",
+        "要做到 5 Ω 需电极半径": "5,000 km",
+        "火星半径": "3,390 km",
+        "系统制式": "IT 不接地 + 连续绝缘监测"
+      },
+      "specs_en": {
+        "Regolith resistivity": "1e7-1e9 ohm.m (moist Earth soil 100)",
+        "3 m rod": "3.35e7 ohm on Mars vs 33.5 ohm on Earth",
+        "100 x 100 m buried mesh": "443 kohm - still useless",
+        "Electrode radius for 5 ohm": "5,000 km",
+        "Radius of Mars": "3,390 km",
+        "System earthing": "IT (unearthed) with continuous insulation monitoring"
+      },
+      "sim": [
+        "闸门（账2）：要达到地球变电站设计的 5 Ω，等效电极半径需 5,000 km，而火星半径 3,390 km。所需接地极比这颗行星本身还大。IT 制不是一种偏好，是唯一可行解。",
+        "一条早就摆在那里的旁证（账2）：mars-heli 充电柜的损耗清单里有一项「insulation monitor + contactor hold, 0.70 W」。绝缘监测器正是不接地系统才需要、接地系统不需要的东西。那册把它写进了预算却没说为什么——这就是为什么。",
+        "尘暴的耦合（账2）：火星尘暴与尘卷风的建模电场是 1~25 kV/m，而 610 Pa 下长间隙击穿场强 21 kV/m。两者是同一个数——这正是电致起电被认为由辉光放电自限的原因。对电网的含义是：尘暴期大气本身就在击穿边缘，所以地面上任何金属件都不许悬空，一律联结到这张网。",
+        "两个要求撞成同一个答案（账2/4）：帕邢要求所有 ≥250 V 的部位处处无气隙，防尘要求所有机柜密封。两条完全独立的物理约束指向同一件硬件。于是风暴工况对本站不产生额外成本——密封本来就是必须的。"
+      ],
+      "sim_en": [
+        "The gate (ledger 2): reaching the 5 ohm an Earth substation is designed to would need an electrode of equivalent radius 5,000 km, against a planetary radius of 3,390 km. The required earth electrode is larger than the planet. The IT system is not a preference, it is the only option.",
+        "A piece of corroborating evidence that was already sitting there (ledger 2): the mars-heli dock loss chain carries a line item, 'insulation monitor + contactor hold, 0.70 W'. An insulation monitor is what an unearthed system needs and an earthed one does not. That session budgeted it without saying why. This is why.",
+        "The dust coupling (ledger 2): modelled Martian dust-storm and dust-devil fields run 1-25 kV/m, and the long-gap breakdown field at 610 Pa is 21 kV/m. They are the same number, which is why the electrification is believed to be self-limiting by glow discharge. For the grid it means that during a dust event the ambient atmosphere is AT breakdown, so nothing above ground may be left floating - every metal object bonds to this mesh.",
+        "Two requirements collapsing onto one answer (ledgers 2 and 4): Paschen demands no gas gap anywhere above 250 V, and dust ingress demands every cubicle be sealed. Two entirely independent physical constraints point at the same hardware, so the storm case costs this station nothing extra - the sealing was mandatory anyway."
+      ],
+      "physics": [
+        "接地棒电阻 R = ρ/(2πL)·[ln(4L/a) − 1]：电阻率是唯一的自由量，而它在火星上高六个数量级。地球接地系统的全部直觉——故障电流入地、等电位、跨步电压——都建立在「大地是导体」这个前提上，火星没有这个前提。",
+        "但要分清两件在地球上重合、在火星上分开的事：风化层在 1e8 Ω·m 下的介电弛豫时间只有 7 ms，所以稳态下它仍是一个合格的静电参考面；它只是一个完全不合格的故障电流通道。"
+      ],
+      "physics_en": [
+        "Rod resistance R = rho/(2.pi.L).[ln(4L/a) - 1]: resistivity is the only free quantity, and on Mars it is six orders of magnitude higher. Every Earth intuition about earthing - fault current into the ground, equipotential bonding, step voltage - rests on the premise that the ground is a conductor. Mars does not supply that premise.",
+        "But keep apart two things that coincide on Earth and separate on Mars: at 1e8 ohm.m the dielectric relaxation time of regolith is only 7 ms, so in steady state it is still an adequate ELECTROSTATIC reference. It is a hopeless FAULT-CURRENT path."
+      ]
+    },
+    {
+      "id": "switchgear",
+      "label": "孤岛运行与减载阶梯",
+      "label_en": "Islanding and the load-shedding ladder",
+      "range": 24,
+      "detail": "八台密封开关柜，一台开门露出真空灭弧室——火星上唯一正确的开断介质，因为真空断路器本来就是密封的，根本不理会外面 6 mbar 的坏气压。这排柜子是减载阶梯的硬件：聚变堆一停，进线开关分闸，全城切到储能场 PCS 的下垂控制，然后按四级阶梯逐层甩负荷。分级依据不是「谁重要」，而是「断一次要付多少代价」。",
+      "detail_en": "Eight sealed switchgear cubicles, one with its door open to show the vacuum interrupter - the only correct interrupting medium on Mars, because a vacuum bottle is hermetic by construction and simply ignores the bad pressure outside. This line-up is the hardware of the shedding ladder: when the reactor stops, the incomer opens, the city transfers to droop control on the storage PCS, and load is shed in four tiers. The tiers are ranked not by importance but by what an interruption costs.",
+      "specs": {
+        "T1 生存": "78 kW → 电池独撑 10.3 sol",
+        "T1+T2 受保护": "217 kW → 3.7 sol",
+        "T1..T3": "482 kW → 1.7 sol",
+        "全城不减载": "610 kW → 1.33 sol",
+        "储能 PCS": "2 MW（覆盖同时率峰值 1.87×）",
+        "可用电量": "20 MWh（DoD 80% × EOL 80%）"
+      },
+      "specs_en": {
+        "T1 survival": "78 kW -> 10.3 sol on the battery alone",
+        "T1+T2 protected": "217 kW -> 3.7 sol",
+        "T1..T3": "482 kW -> 1.7 sol",
+        "Whole city, unshed": "610 kW -> 1.33 sol",
+        "Storage PCS": "2 MW (1.87x the coincident peak)",
+        "Usable energy": "20 MWh (DoD 80% x EOL 80%)"
+      },
+      "sim": [
+        "孤岛从来不是功率问题（账4）：2 MW 的 PCS 覆盖全城 610 kW 不减载负荷，裕度 3.28 倍——电池接得住整座城。它是能量问题：20 MWh ÷ 610 kW = 33 h = 1.33 sol。孤岛是一只秒表，不是一堵墙，减载阶梯就是上发条的方式。",
+        "没人写下来的那次闭合（账4）：pwr-storage-01 的 L3 调度链验证过，场区在光伏残余 15% 下可以零失负荷扛住 145 kW 三十个 sol。本册独立算出火星城 T1 生存层（应急生保 + 舱室热 + 通信 + 电梯 + 气闸 + 火震站）是 78 kW。145 ÷ 78 = 1.85 倍。这两个数出自两个 session、为两件不同的事算的，互不知情，却对得上。这也给 pwr-storage-01 改了名：它不是「另一张电网」，它是**生存电网**——聚变停机时让三十个人活下去的那套东西，而它的容量之所以刚好够，是因为让人活下去的物理不在乎你把它写进哪本账。",
+        "两种停机两种打法（账4）：反应堆跳闸是小时级，电池不减载直接扛过去；磁体失超是数周级，第一个 sol 就减到 T1+T2 并住在那里——晴天光伏 14.8 MWh/sol 对受保护层 5.3 MWh/sol 是 2.8 倍，孤岛在晴天根本不在秒表上，电池只需要过夜。RFC 再生燃料电池是给「失超恰好撞上黑尘暴」留的尾部保险。",
+        "厂站孤岛不是城市孤岛（账4）：聚变厂自身辅助电耗 6.5 MWe，是整座城储能 PCS 额定的 3.25 倍——城市电池根本不可能维持磁体低温，差得不是一点。低温站停机后 1500 t 冷质从 20 K 漂到 30 K 只要 1.6 h、到 50 K 约 11 h，撑过这个窗口需要 71 MWh，是全城储能的 3.6 倍。所以全站失电时磁体只能泄放：15 GJ 环向场储能倒进 power.html 已经写明的 15 kV 泄放回路，约 100 t 电阻体在 300 K 温升下吸掉。本站的规则因此很清楚——pwr-grid-01 不试图反送反应堆，进线开关分闸，城市自己走，厂站自己管磁体。",
+        "短路与保护（账7，这本账在前六本里缺席）：直流母线上没有一台旋转电机，所以没有次暂态分量——每一个电源都是一台可以被叫停的变流器。停不住的只有电容里和电缆电感里已经存在的能量。**修正账 3 一处拍脑袋**：那里写「5 mF @20 kV = 1.0 MJ 弧闪」，按 40 kJ/MVA 能量常数正经定容后是 0.80 mF / 160 kJ，**猜大了 6.2 倍**（方向偏安全是运气不是方法）。一台 1 mH 串联限流电抗把极间金属性短路的电流上升率压到 20 A/µs，固态断路器 50 µs 动作时电流仅 943 A（额定 4.7 倍），需吸收 472 J。**热稳定完全不成为约束**：全网最细的 6 mm² 火震支线在这个故障下能撑 0.40 s，对 50 µs 开断时间是 7000 倍裕度——地球配电里常常是 I²t 定电缆截面，这里永远不会。弧闪能量 24 J，对照交流方案（100 ms 快速断路器）的 400 kJ 是 **1.7 万倍之差**：MVDC 对要爬进柜子干活的人也更安全，这是账 3 当时没有、否则一定会用的论据。"
+      ],
+      "sim_en": [
+        "Islanding is never a power problem (ledger 4): a 2 MW PCS covers the city's 610 kW unshed load with 3.28x margin - the battery can pick up the whole city. It is an energy problem: 20 MWh / 610 kW = 33 h = 1.33 sol. Islanding is a stopwatch, not a wall, and the shedding ladder is how you wind it.",
+        "The closure nobody wrote down (ledger 4): pwr-storage-01's L3 dispatch chain verified that the field carries 145 kW for 30 sols at 15% residual sun with zero load-shed. This dossier independently computes Mars City's T1 survival tier - emergency ECLSS, cabin thermal, comms, the lift, the airlocks, the seismic station - at 78 kW. 145 / 78 = 1.85x. Two sessions, two unrelated purposes, neither aware of the other, and the numbers close. It also renames pwr-storage-01: it is not 'the other grid', it is THE SURVIVAL GRID, the thing that keeps thirty people alive through a fusion outage - and its capability is adequate because the physics of keeping people alive does not care which ledger you wrote it in.",
+        "Two kinds of outage, two plays (ledger 4): a reactor trip is hours, so ride it unshed on the battery. A magnet quench is weeks, so shed to T1+T2 on sol 1 and live there - clear-sol PV delivers 14.8 MWh against the protected tier's 5.3 MWh/sol, 2.8x, so in clear weather the island is not on a stopwatch at all and the battery only bridges the nights. The regenerative fuel-cell loop is tail insurance for a quench that coincides with a black storm.",
+        "The plant island is not the city island (ledger 4): the fusion plant's own auxiliaries draw 6.5 MWe, 3.25 times the entire city storage PCS rating - the city battery cannot keep the magnets cold, and it is not close. With the cryoplant stopped, 1500 t of cold mass drifts from 20 K to 30 K in 1.6 h and to 50 K in about 11 h, and holding that window would take 71 MWh, 3.6x the whole city store. So on a total station blackout the magnets are dumped: 15 GJ of toroidal-field energy into the 15 kV dump circuit power.html already specifies, roughly 100 t of resistor at a 300 K rise. The rule for this station is therefore clean - pwr-grid-01 does not attempt to back-feed the reactor. The incomer opens, the city goes to droop, and the plant looks after its own magnets.",
+        "Short circuit and protection (ledger 7, the book missing from the first six): not one rotating machine sits on the DC bus, so there is no subtransient contribution - every source is a converter that can be told to stop. The only energy that cannot be told to stop is what is already in the capacitors and the cable inductance. It corrects a guess in ledger 3: that book wrote \"5 mF at 20 kV = 1.0 MJ of arc flash\", and sized properly from a 40 kJ/MVA energy constant it is 0.80 mF / 160 kJ - the guess was 6.2x high, conservative in the safe direction by luck rather than method. A 1 mH series limiting reactor holds the rate of rise on a bolted pole-to-pole fault to 20 A/us, so a solid-state breaker acting in 50 us sees only 943 A (4.7x rated) and absorbs 472 J. Thermal withstand never binds: the thinnest conductor on the grid, the 6 mm2 seismic feeder, survives that fault for 0.40 s against a 50 us clearing time - a margin of 7000. On Earth I2t routinely sizes a distribution cable; here it never will. Arc energy is 24 J against 400 kJ for the AC alternative with a fast 100 ms breaker - 17,000x - so MVDC is also the safer choice for whoever has to work inside these cubicles, an argument ledger 3 did not have and would have used."
+      ],
+      "physics": [
+        "真空断路器在火星上是「本来就对」的选择：它靠的是弧后没有可电离气体，而这件事在密封瓶里与外界气压无关。相反，任何依赖环境空气吹弧或自恢复的开断方式，在 6 mbar 下都落进最坏的帕邢区——低气压意味着更长的平均自由程，电弧一旦引燃反而更容易维持。",
+        "分级判据用「代价」而非「重要性」：Rodwell 取水井看着可以停，但它的 Stefan 移动边界账说 12 kW 以下井在 450 sol 内报废——停它不省电，是毁掉一个水源。这类不可逆资产（液氙靶、稀释制冷机、作物）才是 T2 的定义。"
+      ],
+      "physics_en": [
+        "A vacuum interrupter is the answer that was already right for Mars: it works because there is no ionisable gas after arc extinction, and inside a sealed bottle that has nothing to do with the pressure outside. Anything that relies on ambient air to blow or self-restore the arc lands in the worst part of the Paschen curve at 6 mbar - low pressure means a longer mean free path, so an arc once struck is easier to sustain, not harder.",
+        "The tiers rank cost, not importance: the Rodwell well looks sheddable, but its Stefan moving-boundary account says the well dies within 450 sol below 12 kW - shedding it does not save power, it destroys a water source. Irreversible assets like that (the liquid-xenon target, the dilution refrigerator, the crops) are what defines T2."
+      ]
+    },
+    {
+      "id": "scada",
+      "label": "SCADA 控制间与风暴季应急序列",
+      "label_en": "SCADA room and the dust-storm sequence",
+      "range": 22,
+      "detail": "屏上是全城实时潮流：琥珀柱是 13.8 kV 交流进线，红蓝柱是两条直流极，绿柱是等电位监测回路，青柱是区配。这间屋子每年真正要执行一次的程序，是尘暴季应急序列——而它最反直觉的地方在于，全球尘暴期间城市负荷是**上升**的，不是下降的。",
+      "detail_en": "The screen carries the live city power flow: the amber bar is the 13.8 kV AC incomer, red and blue are the two DC poles, green is the insulation-monitoring loop and cyan the district feeders. The one procedure this room genuinely has to run each year is the dust-storm sequence - and its most counter-intuitive feature is that during a global storm the city's load goes UP, not down.",
+      "specs": {
+        "基线同时率峰值": "1,068 kW",
+        "尘暴工况峰值": "1,649 kW（1.54×）",
+        "占供电": "0.94%",
+        "散热阵最坏工况": "597 MW ≥ 585 MW 需求",
+        "散热阵真正失效需天空温度": "291 K（火星做不到）"
+      },
+      "specs_en": {
+        "Baseline coincident peak": "1,068 kW",
+        "Dust-storm peak": "1,649 kW (1.54x)",
+        "Fraction of supply": "0.94%",
+        "Radiator field, worst case": "597 MW against a 585 MW need",
+        "Sky temperature that would actually fail it": "291 K (Mars cannot do this)"
+      },
+      "sim": [
+        "五步序列（账4）：① τ>1，光伏出力下滑，储能场停止外送转为由干线充电，+597 kW；② τ>3，直射低于 25%，温室补光从补充档跳到全人工光周期，+35 kW——两张温室卡都写着补光「是尘暴季的主力，不是备份」；③ 地表 EVA 与车辆作业暂停，打印工地、矿场、物流场站、直升机与工位服务退出，−45 kW；④ 散热阵积尘：不动作，余量够，等尘暴过去再清洗；⑤ 电致起电逼近击穿场强：不动作——答案在设计里就做好了，全部联结、全部密封。",
+        "尘暴碰不到反应堆（账4）：尘暴影响聚变出力的唯一通道是散热阵的天空温度。等效天空温度从 210 K 升到 240 K 只损失约 1% 排热能力，而真要让 4.65 万 m² 板面失守，天空得升到 291 K。真正的敏感项方向相反：积尘抬高太阳吸收率，这在**晴天**咬人（597 MW 对 585 MW 需求，2% 余量），尘暴期日照塌了反而缓解。散热板清洗是一项电网可用性事项——已作为跨资产备注报给 pwr-radiator-01，本册未改动其卡片。",
+        "所以那句话才成立（账4）：对火星城而言，全球尘暴是一次后勤与磨蚀事件，不是一次电力事件。这句话只有在城市不再靠太阳供电之后才为真，而目前没有任何一张卡这么说——因为 pwr-storage-01 的叙事早于反应堆落地。按孤岛读它，它完全正确。"
+      ],
+      "sim_en": [
+        "The five-step sequence (ledger 4): (1) tau > 1, PV falls and the storage field stops exporting and charges from the trunk instead, +597 kW; (2) tau > 3, direct beam below 25%, greenhouse lamps step from top-up to a full artificial photoperiod, +35 kW - both greenhouse cards say supplemental light is 'the dust-storm mainstay, not a backup'; (3) surface EVA and vehicle operations suspend, so the print works, mine, depot, helicopter and pad services drop out, -45 kW; (4) dust on the radiator field: no action, the margin holds, clean it after the storm clears; (5) triboelectric charging approaching the breakdown field: no action - the answer was designed in, everything bonded and everything sealed.",
+        "The storm cannot touch the reactor (ledger 4): the only channel by which dust reaches fusion output is the radiator field's sky temperature. Raising the effective sky from 210 K to 240 K costs about 1% of rejection, and actually defeating 4.65e4 m2 of panel would need a 291 K sky. The real sensitivity runs the other way: dust deposition raises solar absorptance, and that bites on CLEAR days (597 MW against a 585 MW need, 2% margin), easing during a storm when the insolation collapses. Panel cleaning is a grid-availability item - flagged to pwr-radiator-01 as a cross-asset note; its cards were not changed here.",
+        "Which is why the sentence holds (ledger 4): for Mars City a global dust storm is a logistics and abrasion event, not a power event. That is only true because the city stopped being solar-powered, and no card currently says it - because pwr-storage-01's narrative predates the reactor landing. Read as the island case, that card is entirely correct."
+      ],
+      "physics": [
+        "尘暴让负荷上升的机理很简单：城市的两项与光照耦合的负荷方向都是「变暗就多用电」——温室补光要补回丢掉的光合光子，储能场丢掉的充电量要由干线顶上。而供电侧与光照几乎无关。太阳变暗只会让电网变忙。",
+        "散热阵为什么不怕尘：辐射排热 ∝ (T_rad⁴ − T_sky⁴)，而 600 K 的四次方对 210~240 K 的四次方是压倒性的——天空项在能量平衡里本来就只占 1.5%，怎么抬也抬不动。"
+      ],
+      "physics_en": [
+        "The mechanism that raises load in a storm is simple: both of the city's light-coupled loads move the same way - darker means more electricity. The greenhouse lamps must replace the photons the sky stopped delivering, and the charge the PV field stopped making has to come from the trunk. The supply side, meanwhile, barely couples to sunlight at all. A darker sky only makes the grid busier.",
+        "Why the radiator field does not fear dust: radiative rejection goes as (T_rad^4 - T_sky^4), and 600 K to the fourth power overwhelms 210-240 K to the fourth. The sky term is only about 1.5% of the energy balance to begin with, so nothing you do to it matters."
+      ]
+    },
+    {
+      "id": "seisfeed",
+      "label": "火震站埋地低压支线：全网最小的负荷，最多的约束",
+      "label_en": "The seismic feeder: the smallest load on the grid, with the most constraints",
+      "range": 22,
+      "detail": "西侧分支沟的第一座接线井，是通往 sci-seis-01 火震监测站那一路 400 V 直流支线的起点。该站只要 24 W——全网最小的负荷——但它的账 8 向总控提了一条红线：这根电缆既是供电通道也是振动通道，必须埋地，并且要避开通往主要振源的直线。算下来，最顺手的直连路由违反了这条红线，差 5.2°。",
+      "detail_en": "The first joint pit on the west branch is where the 400 V DC feeder to sci-seis-01, the seismic monitoring station, begins. That station draws 24 W - the smallest load on the grid - but its account 8 handed main control a red line: this cable is a vibration channel as well as a power channel, so it must be buried and must stay off the straight line to the major vibration sources. Run the numbers and the obvious direct route violates that red line by 5.2 degrees.",
+      "specs": {
+        "供电": "400 V 直流，6 mm² 铝双芯，埋深 1.0 m",
+        "负荷": "24 W 均值 / 50 W 峰值",
+        "路由": "折线 655 m（直连 547 m）",
+        "绕行代价": "+109 m，+3.5 kg 铝",
+        "对各振源最小方位分离": "30.2°（原直连 5.2°）",
+        "减载分级": "T1 —— 不得甩负荷"
+      },
+      "specs_en": {
+        "Supply": "400 V DC, 6 mm2 Al pair, buried 1.0 m",
+        "Load": "24 W mean / 50 W peak",
+        "Route": "655 m dogleg (547 m direct)",
+        "Cost of the detour": "+109 m, +3.5 kg of aluminium",
+        "Worst source-bearing separation": "30.2 deg (5.2 deg on the direct route)",
+        "Shedding tier": "T1 - never shed"
+      },
+      "sim": [
+        "红线核查（账5）：从站址 (-700,-520) 直连枢纽节点的路由，与该站到聚变泵的方位只差 5.2°、到地下城竖井 6.6°、到 ISRU 压缩机 13.8°，全是 24 h 连续振源。改走折线：出站 300 m 先走开，与每个连续振源至少分离 30°，再折向枢纽，全长 655 m。只把约束加在第一段上是有道理的——耦合是近场的，缆传振动沿全线入地，但只有站址几百米内的那段会抬到本底之上。",
+        "本册对该站的新贡献：为什么这根线必须是直流（账5）。常见的辩护「50 Hz 本来就在地震频带之上」是错的辩护，正是它会放一根交流线过关。问题不在载波，在包络：绕组与母线电磁力 ∝ I²，交流线以 100 Hz 嗡鸣而幅度跟随负荷电流平方——该站自身日负荷在 289 与 585 Wh/sol 之间摆动，是 4.1 倍的力比，周期一个 sol，落在 ~1e-5 Hz，稳稳地在 VBB 频带里，载波在哪儿都救不了。100 kHz DC-DC 变换器的磁致伸缩基频在 200 kHz，比 VBB 带顶（2 Hz）高 5 个数量级，输出力在负荷变化时是一个台阶而不是被调制的音调。定版规则：本支线全程不得出现工频磁性元件，末级用无风扇 100 kHz DC-DC。",
+        "Ω 环到底在干什么（账5）：它不是质量-弹簧隔振器（自身共振在 60 Hz 附近，真隔振器要远低于 1 Hz），它是柔度元件，该比的是它的轴向刚度对墩基刚度。环 11.9 kN/m 对夯实座上的墩基 108 MN/m（Vs 150 m/s），比值 9,100 倍 = 79 dB。这解释了该站账 8 自己的结果：单埋地、单装环都停在 2.0e-9，两者齐上才到 2.0e-11。两种措施打的是两条不同的路径——环杀终端路径（电缆当作撑进墩子的支杆），埋地加绕行杀分布路径（电缆沿全线向地里辐射）。谁也替不了谁，这正是他们的数字所说的。"
+      ],
+      "sim_en": [
+        "The red-line check (ledger 5): the direct route from the vault at (-700,-520) to the hub node leaves within 5.2 degrees of the bearing to the fusion pumps, 6.6 degrees of the undercity shaft and 13.8 degrees of the ISRU compressors - all 24-hour continuous sources. The delivered route doglegs: 300 m out of the vault on a bearing at least 30 degrees clear of every continuous source, then a turn for the hub, 655 m total. Putting the constraint on the first leg only is deliberate - the coupling that matters is near field, and only the part within a few hundred metres of the vault arrives above the site floor.",
+        "What this dossier adds for that station: why the feeder must be DC (ledger 5). The usual defence - '50 Hz is above the seismic band anyway' - is the wrong defence, and it is the one that would have let an AC feeder through. The problem is not the carrier, it is the envelope. Winding and busbar forces go as I^2, so an AC feeder hums at 100 Hz with an amplitude tracking the load current squared, and this station's own duty swings between 289 and 585 Wh/sol - a factor of 4.1 in force, once per sol, landing at ~1e-5 Hz, squarely inside the VBB band no matter where the carrier sits. A 100 kHz DC-DC converter puts its magnetostrictive fundamental at 200 kHz, five decades above the VBB top of 2 Hz, and its DC output force is a step when the load changes rather than a modulated tone. Rule: no line-frequency magnetics anywhere on this branch, and a fanless 100 kHz DC-DC as the last stage.",
+        "What the omega loop actually does (ledger 5): it is not a mass-spring isolator - its own resonance is near 60 Hz and a real isolator would need to sit far below 1 Hz. It is a compliance element, and the right comparison is its axial stiffness against the pier foundation's. Loop 11.9 kN/m against 108 MN/m for a footing on the tamped seat the station already specifies (Vs 150 m/s): a ratio of 9,100, or 79 dB. That explains their own account 8 result - burial alone and the loop alone both stop at 2.0e-9, and only both together reach 2.0e-11. The two mitigations attack two different paths: the loop kills the terminal path (cable as a strut into the pier) while burial plus the dogleg kills the distributed path (cable radiating into the ground along its run). Neither can cover for the other, which is exactly what their numbers said."
+      ],
+      "physics": [
+        "为什么方位角是对的判据：缆传振动沿电缆全线连续入地，到达仪器的能量按路径几何与散射衰减叠加。若电缆走向与「站→振源」的连线几乎重合，缆传路径与地传路径在同一方位上同相叠加，两者不再互相独立；拉开 30° 以上，两条路径的到时与慢度分离，站上的偏振分析才能把它们分开。",
+        "48 V 是火星上唯一能敞着接的电压（账2）：它低于 249 V 的帕邢全局最低点，任何间距都击不穿。所以环境观测群那一路走 400 V 埋地进站、在站内才降到 48 V——现场敞开的接线端子恰好都在站内。"
+      ],
+      "physics_en": [
+        "Why bearing is the right criterion: cable-borne vibration enters the ground continuously along the whole run, and what reaches the instrument is the sum over path geometry and scattering attenuation. If the cable's direction nearly coincides with the station-to-source line, the cable-borne and ground-borne paths arrive from the same azimuth and stop being independent; open them by more than 30 degrees and their arrival times and slownesses separate, so the station's own polarisation analysis can tell them apart.",
+        "48 V is the only voltage on Mars that is safe in the open (ledger 2): it lies below the 249 V global Paschen minimum and cannot strike an arc at any gap. That is why the environmental-cluster spur runs buried at 400 V and steps down to 48 V inside each station - the exposed field terminations are all indoors."
+      ]
+    }
+  ]
+}

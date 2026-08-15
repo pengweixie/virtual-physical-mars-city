@@ -88,12 +88,49 @@ const roads = [
   { name: 'dome-link',      a: [95, 20],     b: [95, 44],    w: 4 },
   { name: 'village-spur',   a: [-350, -100], b: [-290, -55], w: 4 },
   { name: 'launch-highway', a: [178, -40],   b: [705, 220],  w: 5 },
+  { name: 'mine-spur',      a: [100, -125],  b: [138, -122], w: 5 },
+  { name: 'industry-link',  a: [100, -125],  b: [100, -14],  w: 5 },
+  { name: 'crawlerway',     a: [600, 300],   b: [750, 250],  w: 12 },
+  { name: 'crawler-park',   a: [600, 300],   b: [700, 370],  w: 12 },
+  { name: 'payload-link',   a: [480, 320],   b: [600, 300],  w: 6 },
+  { name: 'campus-tie',     a: [636, 190],   b: [600, 300],  w: 5 },
   // utility corridors: elevated pipe racks (mirrored from main.js pipeRack calls)
   { name: 'pipe-ch4',       a: [52, 32],     b: [725, 235],  w: 2 },
   { name: 'pipe-heat-1',    a: [-140, 58],   b: [-109, 70],  w: 2 },
   { name: 'pipe-heat-2',    a: [-109, 70],   b: [-109, 132], w: 2 },
   { name: 'pipe-heat-3',    a: [-109, 132],  b: [-84, 352],  w: 2 },
   { name: 'pipe-h2o',       a: [2, 106],     b: [80, 72],    w: 2 },
+  { name: 'pipe-lox',       a: [55, 22],     b: [728, 225],  w: 2 },
+  { name: 'pipe-h2o-isru',  a: [63, 79],     b: [44, 45],    w: 2 },
+  { name: 'pipe-roast',     a: [68, -50],    b: [50, -2],    w: 2 },
+  { name: 'pipe-o2-sulfur-1', a: [70, -70],  b: [0, 20],     w: 2 },
+  { name: 'pipe-o2-sulfur-2', a: [0, 20],    b: [5, 60],     w: 2 },
+  { name: 'pipe-o2-city-1', a: [5, 60],      b: [-105, -25], w: 2 },
+  { name: 'pipe-o2-city-2', a: [-105, -25],  b: [-250, -105], w: 2 },
+  { name: 'pipe-o2-city-3', a: [-250, -105], b: [-330, -70], w: 2 },
+  { name: 'pipe-o2-city-4', a: [-330, -70],  b: [-330, -38], w: 2 },
+  { name: 'pipe-co2-sab',   a: [5, 60],      b: [40, 25],    w: 2 },
+  { name: 'pipe-sew',       a: [-330, -30],  b: [-300, 40],  w: 2 },
+  // buried cable trenches (mirrored from the cableTrench calls; G-Q vertical
+  // riser has no surface footprint and is deliberately absent)
+  { name: 'G-A',  a: [-140, 40],   b: [-205, 10],   w: 2 },
+  { name: 'G-B',  a: [-205, 10],   b: [-230, 90],   w: 1 },
+  { name: 'G-C1', a: [-205, 10],   b: [-160, -5],   w: 1 },
+  { name: 'G-C2', a: [-160, -5],   b: [-100, -5],   w: 1 },
+  { name: 'G-C3', a: [-100, -5],   b: [-90, 120],   w: 1 },
+  { name: 'G-D1', a: [-205, 10],   b: [-300, 10],   w: 1 },
+  { name: 'G-D2', a: [-300, 10],   b: [-350, -100], w: 1 },
+  { name: 'G-E',  a: [-205, 10],   b: [45, 15],     w: 1 },
+  { name: 'G-F',  a: [45, 15],     b: [150, -120],  w: 1 },
+  { name: 'G-G',  a: [150, -120],  b: [750, 250],   w: 1 },
+  { name: 'G-H',  a: [150, -120],  b: [500, 700],   w: 1 },
+  { name: 'G-J',  a: [-350, -100], b: [-350, -280], w: 1 },
+  { name: 'G-K1', a: [-350, -100], b: [-684, -220], w: 1 },
+  { name: 'G-K2', a: [-684, -220], b: [-700, -520], w: 1 },
+  { name: 'G-L',  a: [-350, -100], b: [-250, -46],  w: 1 },
+  { name: 'G-M',  a: [-350, -100], b: [-372, -18],  w: 1 },
+  { name: 'G-N',  a: [-350, -100], b: [-560, -220], w: 1 },
+  { name: 'G-P',  a: [150, -120],  b: [300, -300],  w: 1 },
 ];
 try {                                               // memorial highway to rover
   const m = JSON.parse(readFileSync(
@@ -127,6 +164,30 @@ const ROAD_EXEMPT = new Set([
   'res-isru-01|pipe-ch4', 'ops-spaceport-02|pipe-ch4', 'veh-rocket-02|pipe-ch4',
   'pwr-fusion-01|pipe-heat-1', 'pwr-radiator-01|pipe-heat-3',
   'res-rodwell-01|pipe-h2o', 'res-dome-01|pipe-h2o',
+  'res-isru-01|pipe-lox', 'ops-spaceport-02|pipe-lox', 'veh-rocket-02|pipe-lox',
+  'res-isru-01|pipe-h2o-isru',      // the Sabatier's water inlet, by design
+  'res-mine-01|mine-spur',          // spur ends at the pit load-out apron
+  // launch campus roads terminate at their buildings by design
+  'ops-vab-01|crawlerway', 'ops-spaceport-02|crawlerway', 'veh-rocket-02|crawlerway',
+  'ops-vab-01|crawler-park', 'veh-ground-01|crawler-park',
+  'ops-vab-01|payload-link', 'ops-payload-01|payload-link',
+  'ops-vab-01|campus-tie',
+  'res-sulfur-01|pipe-roast', 'res-isru-01|pipe-roast',   // kiln <-> electrolyser
+  // life-support corridors terminate at their facilities by design
+  'res-sulfur-01|pipe-o2-sulfur-1', 'res-eclss-01|pipe-o2-sulfur-2',
+  'res-eclss-01|pipe-o2-city-1', 'hab-tunnel-01|pipe-o2-city-4',
+  'res-eclss-01|pipe-co2-sab', 'res-isru-01|pipe-co2-sab',
+  'hab-tunnel-01|pipe-sew', 'res-recycle-01|pipe-sew',
+  // grid corridors terminate at (or feed) these facilities by design
+  'pwr-fusion-01|G-A', 'pwr-grid-01|G-A', 'pwr-grid-01|G-B', 'pwr-storage-01|G-B',
+  'pwr-grid-01|G-C1', 'ops-compute-01|G-C3', 'pwr-grid-01|G-D1', 'pwr-grid-01|G-E',
+  'hab-tunnel-01|G-D2',   // buried run through the gate-berm toe, deliberate
+  'res-mine-01|G-P',      // node-S sits at the mine junction with G-F/G-G/G-H
+  'res-isru-01|G-E', 'res-isru-01|G-F', 'res-mine-01|G-F', 'res-mine-01|G-G',
+  'ops-spaceport-02|G-G', 'veh-rocket-02|G-G', 'res-mine-01|G-H',
+  'ops-spaceport-01|G-H', 'veh-rocket-01|G-H', 'com-station-01|G-J',
+  'sci-seis-01|G-K2', 'hab-village-01|G-L', 'hab-lift-01|G-M', 'hab-tunnel-01|G-M',
+  'sci-obs-01|G-N', 'sci-weather-01|G-P',
 ]);
 for (const r of rects) {
   for (const rd of roads) {

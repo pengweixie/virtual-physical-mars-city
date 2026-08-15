@@ -1,9 +1,9 @@
 // ops-fab-01 —— 地下城芯片厂(洁净室,一厂三线) · v2 质感升级版
 // 契约(室内场景 §4b):米制;原点=厅中心地面;入口朝 +Z;引擎平地 y=0。
 // 设计真源(知识卡数字全部有锚点):
-//   数字线  mars-bigram   MB-1 sky130 RTL→GDS(die 1660×1080 µm,~2100 单元)
-//   模拟线  mars_spad_rox TSMC CRN65LP(DRC 29 轮/LVS 11 CORRECT/PEX 3/后仿 4)
-//   超导线  quantum-computing QP-20(双角度蒸发结/修调 σ≤0.5%/311 空气桥)
+//   数字线  E:\Claude\mars-bigram   MB-1 sky130 RTL→GDS(die 1660×1080 µm,~2100 单元)
+//   模拟线  E:\Claude\mars_spad_rox TSMC CRN65LP(DRC 29 轮/LVS 11 CORRECT/PEX 3/后仿 4)
+//   超导线  E:\Claude\quantum-computing QP-20(双角度蒸发结/修调 σ≤0.5%/311 空气桥)
 // v2(对齐 qp20_machine 质感基线):光泽 PBR 机身、CatmullRom 弧形线缆束、
 //   三条产线主机底座发光环(青=数字/铜=模拟/紫=超导)、RIE 观察窗等离子体辉光、
 //   吊顶服务立管、暗色对比布光;POI/门位/entry/exit 与 v1 完全一致。

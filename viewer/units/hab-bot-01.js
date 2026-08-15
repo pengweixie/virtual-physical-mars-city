@@ -45,6 +45,7 @@ export function build(THREE) {
     visor:  new THREE.MeshStandardMaterial({ color: 0x10151c, roughness: 0.25, metalness: 0.3 }), // 面罩玻璃
     dark:   new THREE.MeshStandardMaterial({ color: 0x1a1d22, roughness: 0.7 }),
     pad:    new THREE.MeshStandardMaterial({ color: 0xb8860b, roughness: 0.4, metalness: 0.6 }),  // 充电触点铜色
+    pcbGreen: new THREE.MeshStandardMaterial({ color: 0x1f5132, roughness: 0.55 }), // 计算板阻焊绿
   };
   const ledMat = new THREE.MeshStandardMaterial({ color: 0x0a2a0a, emissive: 0x35e055, emissiveIntensity: 1.6, roughness: 0.5 });
   const dockLed = new THREE.MeshStandardMaterial({ color: 0x2a1c05, emissive: 0xffb020, emissiveIntensity: 1.6, roughness: 0.5 });
@@ -122,6 +123,9 @@ export function build(THREE) {
   box(0.14, 0.035, 0.012, M.dark, 0, 0.16, 0.082, torsoP);              // 窗框缝
   box(0.11, 0.012, 0.014, lidarEmit, 0, 0.16, 0.084, torsoP);           // 发射条
   [-0.085, 0.085].forEach(x => cyl(0.011, 0.011, 0.014, 8, M.visor, x, 0.16, 0.084, Math.PI / 2, 0, torsoP));
+  // 扬声器格栅(LiDAR 窗下方):5 条横栅
+  [-0.024, -0.012, 0, 0.012, 0.024].forEach(dy =>
+    box(0.09, 0.006, 0.010, M.dark, 0, 0.085 + dy, 0.083, torsoP));
   // 状态灯（胸口右上）
   const led = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.028, 0.012), ledMat);
   led.position.set(0.09, 0.30, 0.083);
@@ -129,7 +133,23 @@ export function build(THREE) {
   // 背包：电池舱 + 通讯天线（推理在城内计算中心,机器人只带边缘感知）
   box(0.20, 0.24, 0.06, M.shellD, 0, 0.20, -0.108, torsoP);
   box(0.16, 0.05, 0.02, M.orange, 0, 0.30, -0.128, torsoP);             // 电池橙色提手
-  box(0.14, 0.16, 0.012, M.dark, 0, 0.16, -0.142, torsoP);              // 散热格
+  // 边缘计算板:做成检修口露板式,而不是塞进壳里——核心不做黑盒,大脑要看得见。
+  // 反射层 1.34 MOPS 全部在这块板上;认知层(识人/SLAM/对话)差 3 个数量级,
+  // 跑在城内计算中心 ops-compute-01(与 MB-1 同一条硅生态)。
+  [[0, 0.185], [0, 0.085]].forEach(([x, y]) =>                          // 检修口上下框
+    box(0.16, 0.014, 0.014, M.shellD, x, y, -0.141, torsoP));
+  [[-0.073, 0.135], [0.073, 0.135]].forEach(([x, y]) =>                 // 左右框
+    box(0.014, 0.086, 0.014, M.shellD, x, y, -0.141, torsoP));
+  box(0.13, 0.09, 0.0016, M.pcbGreen, 0, 0.135, -0.1452, torsoP);       // 计算板
+  box(0.024, 0.024, 0.0035, M.dark, -0.026, 0.148, -0.1477, torsoP);    // 应用处理器 SoC
+  box(0.030, 0.016, 0.003, M.joint, 0.024, 0.152, -0.1475, torsoP);     // LPDDR
+  box(0.014, 0.010, 0.0025, M.joint, 0.026, 0.126, -0.1472, torsoP);    // eMMC
+  box(0.017, 0.017, 0.003, M.dark, -0.026, 0.115, -0.1475, torsoP);     // LiDAR 前端 ASIC
+  box(0.028, 0.028, 0.005, M.grey, -0.026, 0.148, -0.1517, torsoP);     // SoC 散热片
+  [-0.005, 0.004].forEach(dz =>                                         // 散热片鳍
+    box(0.028, 0.003, 0.005, M.grey, -0.026, 0.148 + dz * 3, -0.1545, torsoP));
+  [-0.052, 0.052].forEach(x =>                                          // 板对板连接器
+    box(0.005, 0.055, 0.004, M.pad, x, 0.135, -0.1468, torsoP));
   cyl(0.006, 0.006, 0.14, 6, M.grey, 0.08, 0.42, -0.12, 0, 0, torsoP);  // 天线
   cyl(0.012, 0.012, 0.02, 8, M.orange, 0.08, 0.50, -0.12, 0, 0, torsoP);
 
@@ -177,13 +197,25 @@ export function build(THREE) {
   neck.add(headScan);
   box(0.20, 0.17, 0.19, M.shell, 0, 0.115, -0.005, headScan);           // 头壳（顶 1.645）
   box(0.16, 0.02, 0.15, M.shellD, 0, 0.21, -0.005, headScan);           // 顶盖压条
+  // 麦克风阵列 ×6,头顶环布——离胸口下方的谐波减速器最远(自噪账:齿轮啸叫
+  // 是主噪声源;L2 波形级仿真:行走单麦 −22 dB、波束后仍 −14 → 要谈先站定)
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2;
+    box(0.012, 0.006, 0.012, M.dark, 0.062 * Math.sin(a), 0.222, 0.062 * Math.cos(a) - 0.005, headScan);
+  }
   // 面罩：AI 眼镜造型——前屏 + 两侧斜切角 + 镜腿
   box(0.19, 0.085, 0.016, M.visor, 0, 0.115, 0.094, headScan);          // 面罩玻璃
   [[-0.102, 0.075], [0.102, 0.075]].forEach(([x, z]) => {
     const p = box(0.016, 0.085, 0.05, M.visor, x, 0.115, z, headScan);  // 斜切侧角
     p.rotation.y = x > 0 ? -0.5 : 0.5;
   });
-  box(0.20, 0.014, 0.02, M.joint, 0, 0.165, 0.095, headScan);           // 眉框(镜框上梁)
+  // 面罩保护框:跌倒账(sim/fall_dynamics.py)说头部着地速度是质心的 1.84 倍
+  // ——它在绕踝杠杆的最远端,4.46 m/s、132 J,而面罩玻璃只有 16 J 的压溃容量。
+  // 所以上下框做成比屏面凸出 3 mm,先着地的是框不是玻璃(手机凸边同理)。
+  box(0.20, 0.014, 0.022, M.joint, 0, 0.165, 0.107, headScan);          // 上护框(兼镜框上梁)
+  box(0.20, 0.012, 0.022, M.joint, 0, 0.068, 0.107, headScan);          // 下护框
+  [-0.098, 0.098].forEach(x =>                                          // 两侧护角
+    box(0.014, 0.10, 0.022, M.joint, x, 0.117, 0.104, headScan));
   // 镜腿：左腿前端=导航相机窗,右腿外侧=丝印彩蛋
   [[-1, 'L'], [1, 'R']].forEach(([sg]) => {
     box(0.014, 0.03, 0.16, M.joint, sg * 0.104, 0.13, 0.01, headScan);  // 镜腿沿头侧
@@ -246,6 +278,13 @@ export function build(THREE) {
   box(0.30, 0.10, 0.14, M.joint, -0.07, 0.68, 0, dock).rotation.y = Math.PI / 2; // 下托檐
   [[-0.05, 0.98], [-0.05, 1.06]].forEach(([dx, y]) =>
     box(0.012, 0.03, 0.10, M.pad, dx, y, 0, dock));                     // 两条铜触点(对接胸背触点高度)
+  // 回反条 ×2:终端引导链的 LiDAR 信标(2.5~3 m 段);相机段用下面的琥珀 LED
+  [-0.10, 0.10].forEach(dz => {
+    const r = new THREE.Mesh(new THREE.BoxGeometry(0.010, 0.16, 0.025),
+      new THREE.MeshStandardMaterial({ color: 0xf0f0f0, roughness: 0.15, metalness: 0.8 }));
+    r.position.set(-0.045, 0.90, dz);
+    dock.add(r);
+  });
   const dLed = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.05, 0.05), dockLed);
   dLed.position.set(-0.045, 1.16, 0);
   dock.add(dLed);
@@ -266,7 +305,8 @@ export function build(THREE) {
   // POI 锚点（知识卡 info.json 对应）
   [['poi_visor', 0, 1.505, 0.10, headScan, 0, 0.115, 0.10],
    ['poi_lidar', 0, 0, 0, torsoP, 0, 0.16, 0.09],
-   ['poi_battery', 0, 0, 0, torsoP, 0, 0.20, -0.14],
+   ['poi_battery', 0, 0, 0, torsoP, 0, 0.24, -0.13],
+   ['poi_compute', 0, 0, 0, torsoP, 0, 0.135, -0.135],
    ['poi_gait', 0, 0, 0, body, 0.10, 0.46, 0],
   ].forEach(([nm, , , , parent, x, y, z]) => {
     const a = new THREE.Object3D();
@@ -335,17 +375,28 @@ export function build(THREE) {
   // 步态相位与混合权重（v m/s, w rad/s -> 全身关节）
   const PH = { walk: 0, turn: 0, greetW: 0 };
   const STRIDE = GAIT.walk.speed * GAIT.walk.T;                         // 1.351 m/圈
+  // 曲线的周期均值:降速时按"人降速主要靠缩短步幅"缩放摆幅,而不是拖慢步频
+  // ——曲线要绕各自的均值缩放,否则会连姿态偏置(如肘 -0.42)一起压掉。
+  const GMEAN = {};
+  for (const k of Object.keys(GAIT.walk)) {
+    if (!Array.isArray(GAIT.walk[k])) continue;
+    GMEAN[k] = GAIT.walk[k].reduce((a, b) => a + b, 0) / GAIT.walk[k].length;
+  }
   function applyGait(t, dt, v, w) {
-    PH.walk += Math.abs(v) * dt / STRIDE;
+    // 步幅随速度收缩:0.30 m/s 限速下步幅 0.57 m、周期 1.9 s(每步 0.95 s)
+    const ampK = clamp(Math.abs(v) / GAIT.walk.speed, 0.42, 1);
+    PH.walk += Math.abs(v) * dt / (STRIDE * ampK);
     PH.turn += Math.abs(w) / 0.9 * dt / GAIT.turn.T;
     const idlePh = (t / GAIT.idle.T) % 1;
-    const wWalk = ss01(Math.abs(v) / 0.25);
+    const wWalk = ss01(Math.abs(v) / 0.15);
     const wTurn = (1 - wWalk) * ss01(Math.abs(w) / 0.4);
     const wIdle = 1 - wWalk - wTurn;
-    const J = ch =>
-      wIdle * cyc(GAIT.idle, ch, idlePh) +
-      wWalk * cyc(GAIT.walk, ch, PH.walk) +
-      wTurn * cyc(GAIT.turn, ch, PH.turn);
+    const J = ch => {
+      const mu = GMEAN[ch] ?? 0;
+      const wk = mu + (cyc(GAIT.walk, ch, PH.walk) - mu) * ampK;
+      return wIdle * cyc(GAIT.idle, ch, idlePh) + wWalk * wk +
+             wTurn * cyc(GAIT.turn, ch, PH.turn);
+    };
     legs.L.hip.rotation.x = J('hip_L');
     legs.R.hip.rotation.x = J('hip_R');
     legs.L.knee.rotation.x = J('knee_L');
@@ -368,10 +419,22 @@ export function build(THREE) {
    * 5) 胸口闪光 LiDAR:15 束 x 90°,20 m,Raycaster 对场景根求交
    *    (工程近似;链路预算见知识卡:3 uJ/脉冲 @905nm, PDE 40.3%)
    * ========================================================== */
+  // 参数经 sim/lidar_ranging.py 蒙卡重定标:初版 3 µJ/脉冲 + 64 微元看着
+  // "SNR 74 裕度巨大",实为每微元 86 光子——SiPM 全饱和、光子数不可知、
+  // 距离行走无法校正。60 nJ + 1024 微元才落在光子计数线性区。
   const LIDAR = {
     n: 15, fov: Math.PI / 2, range: 20, hz: 6,
-    profile: new Float32Array(15).fill(20), stamp: -1, scans: 0,
+    E_pulse_nJ: 60, cells: 1024, pulse_ns: 1.5,
+    R_SAT: 2.0,                                 // 内于此距离 SiPM 饱和(见下)
+    profile: new Float32Array(15).fill(20),     // 测得距离(含噪声)
+    truth: new Float32Array(15).fill(20),       // 几何真值(调试对照)
+    sat: new Uint8Array(15),                    // 1 = 该方向饱和
+    stamp: -1, scans: 0,
   };
+  // 测距精度 σ(R)=0.267·R^0.36 cm(2.5~20 m 线性区,蒙卡 400 次/点拟合)。
+  // ≤2 m 全微元触发:距离读数不可信,但"饱和"本身是可靠的近距二值信号——
+  // 避障要的正是"有东西很近",不是"它在 0.83 m 还是 0.91 m"。
+  const lidarSigma = R => 0.00267 * Math.pow(Math.max(0.3, R), 0.36);
   const _ray = new THREE.Raycaster();
   _ray.far = LIDAR.range;
   const _o = new THREE.Vector3(), _d = new THREE.Vector3(), _q = new THREE.Quaternion();
@@ -406,7 +469,17 @@ export function build(THREE) {
       _d.set(Math.sin(a), 0, Math.cos(a)).applyQuaternion(_q).normalize();
       _ray.set(_o, _d);
       const hit = _ray.intersectObjects(targets, true)[0];
-      const dist = hit ? hit.distance : LIDAR.range;
+      const truth = hit ? hit.distance : LIDAR.range;
+      LIDAR.truth[i] = truth;
+      // 测距物理:近距饱和(读数不可信但"近"可信)/ 远距加真实测距噪声
+      let dist;
+      if (truth <= LIDAR.R_SAT) {
+        LIDAR.sat[i] = 1;
+        dist = LIDAR.R_SAT;                     // 饱和只报"≤2 m",不谎报精度
+      } else {
+        LIDAR.sat[i] = 0;
+        dist = truth + lidarSigma(truth) * gauss();
+      }
       LIDAR.profile[i] = dist;
       if (dbgLines.visible) {                                           // 世界系 -> group 本地
         const gp = group.worldToLocal(_o.clone());
@@ -419,6 +492,7 @@ export function build(THREE) {
   }
   // 前扇区最近距 / 左右侧净空(避障用)
   const lidarFront = () => Math.min(LIDAR.profile[6], LIDAR.profile[7], LIDAR.profile[8]);
+  const lidarFrontSat = () => !!(LIDAR.sat[6] || LIDAR.sat[7] || LIDAR.sat[8]);
   const lidarSide = left => {
     let s = 0;
     for (let i = 0; i < 6; i++) s += LIDAR.profile[left ? 9 + i : i];
@@ -431,9 +505,13 @@ export function build(THREE) {
   const W = 64, H = 64;
   const sensor = { id: 'nav', camera: eye, width: W, height: H, hz: 5, data: null, frame: 0, stamp: 0 };
   group.userData.sensors = [sensor];
+  // 室内型号相对矿场型号换了镜头:f/1.4 而非 f/2.0(通光 ×2),并把玄关照度
+  // 要求写进接口(≥120 lux——走廊照明标准,人也需要)。依据是运动模糊账:
+  // 沿用矿场标定时 AE 收敛到 ~280 ms,转向 1 rad/s 会让 64px 画面糊 15 px,
+  // 视觉全程不可信。灵敏度提 5.6 倍后曝光落到 ~50 ms,模糊回到 1.5 px 以内。
   const CIS = {
     N: 64, FWC: 17880, LSB: 16.5, READ: 1.76, DARK: 170,
-    expMs: 30, EXP0: 12, KEXP: 13400,          // 室内暗,初始曝光放宽,AE 自收敛
+    expMs: 30, EXP0: 12, KEXP: 75000,          // f/1.4 + 120 lux 玄关照度标定
     meanDN: 0, dn: new Uint8ClampedArray(W * H),
     deadRate: 0, hotRate: 0, readMult: 1, defMap: null, _defKey: -1,
   };
@@ -453,7 +531,14 @@ export function build(THREE) {
     return r * Math.cos(6.2832 * v);
   };
   const dnFrame = new Uint16Array(W * H);
-  const VIS = { hazL: 0, hazR: 0 };
+  const VIS = { hazL: 0, hazR: 0, blurPx: 0, frozen: false };
+  // 运动模糊(sim/perception_safety.py):iFOV 19.1 mrad/px,曝光 expMs 内
+  // 前方 2 m 目标的像移 = (v·t/d + ω·t)/iFOV。>1.5 px 时暗区分割不可信。
+  const IFOV = (70 * Math.PI / 180) / W;
+  function blurPixels(v, w) {
+    const t = CIS.expMs / 1000;
+    return (Math.abs(v) * t / 2.0 + Math.abs(w) * t) / IFOV;
+  }
   function perceive(px) {
     const dkey = CIS.deadRate * 1e4 + CIS.hotRate;
     if (dkey !== CIS._defKey) { buildDefMap(); CIS._defKey = dkey; }
@@ -502,15 +587,60 @@ export function build(THREE) {
     const u = (k / 24) * Math.PI * 2;
     WPS.push(p8(u));
   }
-  // 电量账本(知识卡同源):行走 80 W / 待机 12 W / 充电 150 W / 260 Wh 电池;
-  // 演示加速 x60(1 真秒=1 分钟班次时间),4h 班次在演示里约 4 分钟
-  const BATT = { soc: 0.86, CAP: 260, P_WALK: 80, P_IDLE: 12, P_CHG: 150, ACCEL: 60 };
+  // ===== 限速器:三条独立物理取交集(sim/perception_safety.py + stepping_ctrl.py)
+  //   ① 运动模糊:as-built f/1.4 + 玄关 120 lux → 曝光 43 ms → v ≤ 1.33 m/s
+  //      (首版 f/2.0 + 50 lux 曝光 190 ms 时限值只有 0.30,转 1 rad/s 糊 10 px)
+  //   ② 平衡:允许迈捕获步后 v ≤ 0.45 m/s（5/5 扰动通过；禁止迈步时仅 0.30）
+  //   ③ ISO/TS 15066 接触力:3 mm 泡沫、50 ms 接触、280 N 瞬态限 → v ≤ 0.35 m/s
+  // 当前唯一咬住的是 ③ 接触力。换 15 mm 柔性蒙皮可放到 0.84 m/s,届时 ② 平衡
+  // 0.45 成为新瓶颈,再快就得改步态控制器本身——升级顺序是算出来的,不是猜的。
+  // 转向限由模糊给出 0.67 rad/s;超过则冻结视觉危险量、只用 LiDAR(真机同样
+  // 不信任转向中的视觉分割)。
+  const GOV = { V_MAX: 0.35, W_MAX: 1.0, W_VISION_OK: 0.67 };
+  // 跑步能力(sim/running_ctrl.py):Raibert 三分律控制器实测——真跑步
+  // 0.59 m/s @26% 飞行占比,弹跳步态可到 1.00 m/s @71%(火星低重力让飞行占比
+  // 几乎翻倍:同一控制器在地球只有 33~41%,与阿波罗月面兔跳同源)。
+  // 但**任何**跑步速度都违反 ISO/TS 15066 接触力限:0.6 m/s 撞人 478 N = 1.7×
+  // 280 N 瞬态限。所以巡逻永不跑,只在疏散模式解锁,且解锁前必须确认 SSM
+  // 半径内无人——安全逻辑不是"提醒",是硬门控。
+  const RUN = { V_MAX: 0.59, on: false, blockedBy: '' };
+  // 安全距离分两套(SSM 只对"会朝你走来的人"成立,墙不会主动接近):
+  //   人:S = v_human(T_react+T_stop) + v_robot·T_react + d_stop + C + Z ≈ 2.4 m
+  //   静态障碍:只需自己的制动距离(0.35 m/s 捕获步 ≈ 0.32 m)+ 不确定度与余量
+  const SAFE = { HUMAN_SLOW: 2.40, HUMAN_STOP: 1.6, STATIC: 0.90, EMERG: 0.45,
+    // ISO/TS 15066 定义四种协作模式,资产此前只实现了 SSM(速度与分离监控)。
+    // 问题在于 SSM 的分离距离里"人的接近速度"项占主导:哪怕机器人完全静止,
+    // 公式仍要求 1.97 m——严格执行的话它永远递不出东西。第二种模式(功率与
+    // 力限制 PFL)才允许近距共处,而本机静止时本就够格:挥手 13 N、意外启动
+    // 93 N,都远低于 280 N 胸部瞬态限(只有跌倒 494 N 不合格,但那靠不摔来防,
+    // 不靠距离)。所以:静止 → PFL,允许人靠到 0.65 m;要动 → 先恢复 SSM。
+    PFL: 0.65 };
+  // 电量账本经过两轮修正,方向相反:
+  //   ① 执行器功耗原本拍 80 W → 从 MuJoCo 的 τ·ω 积分实算 70.8 W(含谐波减速器
+  //      铜损与静耗),电池一度从 260 Wh 提到 340 Wh;
+  //   ② 电子功耗原本拍 24.6 W(其中"边缘计算 11 W")→ 从实际算法逐条数出反射层
+  //      只要 1.34 MOPS,A53 级应用处理器 2.2 W 就够,电子降到 15.8 W。
+  // 净效果:行走 86.6 W / 站立 52.8 W / 班次均值 74.1 W(含语音),4 h 班次 296.4 Wh。
+  // 容量五改五个原因(账驱动设计的活样本):260→340(执行器功耗实算上修)
+  // →300(电子功耗实算下修)→370(改按寿命末期算裕度,sim/endgame_budget.py)
+  // →380(语音硬件 +1.0 W 打穿了 370 的 EOL 裕度 −0.1%,sim/voice_budget.py)
+  // →480(充电账 sim/charging_budget.py:EOL 定容用了 0-100% 全容量,循环计数却用
+  //   25-95% 窗口——两半账本没乘过。乘起来 380 的窗口只有 266 Wh<296.4,4h 承诺
+  //   第一天就差 25 分钟。自洽重定:窗口 15-95%,480 Wh 在 EOL 窗口内 307 Wh,
+  //   裕度 +3.6%;大电池循环更浅,FEC 寿命 500→643,双重受益)。
+  // P_CHG 是桩端供电;在桩净充电 ≈135 W(扣自耗 9.4 W×链效率——托檐承重,
+  // 执行器断电传感器休眠;0.27C 到 95% 顶棚全程 CC,CV 尾巴在顶棚之上不存在)。
+  const BATT = { soc: 0.86, CAP: 480, P_WALK: 88, P_IDLE: 54, P_CHG: 150, P_NET: 135, ACCEL: 60 };
   const S = {
     mode: 'baked',                              // 遥测:baked|auto
     state: 'patrol',                            // patrol|greet|toDock|charge
     pos: { x: 0, z: 0 }, head: 0, v: 0, w: 0,
-    wp: 0, pauseT: 0, greetCool: 0, avoidT: 0, expr: '',
+    wp: 0, pauseT: 0, greetCool: 0, avoidT: 0, expr: '', coop: 'SSM', listenT: 0,
+    playerEyeY: null,
   };
+  // 语音子系统(sim/voice_budget.py):唤醒词+VAD 本地常开(~30 MOPS),
+  // ASR/对话/TTS 走城内(往返 189 ms,语音不在安全环);断链保 ~20 条本地意图。
+  const VOICE = { listening: false, localIntents: 20 };
   const DOCK_AT = { x: 4.95, z: 0 }, DOCK_HEAD = Math.PI / 2;           // 面向 +X 贴墙
   const angTo = (tx, tz) => {
     let e = Math.atan2(tx - S.pos.x, tz - S.pos.z) - S.head;
@@ -520,7 +650,7 @@ export function build(THREE) {
   };
 
   // 表情屏(spec:待机◡ 巡逻→ 避障! 迎宾◠ 充电z)
-  const FACE = { idle: '◡ ◡', patrol: '→ →', alert: '! !', greet: '◠ ◠', charge: 'z z', low: '▂ ▂' };
+  const FACE = { idle: '◡ ◡', patrol: '→ →', alert: '! !', greet: '◠ ◠', charge: 'z z', low: '▂ ▂', run: '≫ ≫', listen: '≈ ≈' };
   let lastFaceKey = '';
   function drawFace(expr) {
     const key = expr + '|' + Math.round(BATT.soc * 20);
@@ -545,6 +675,7 @@ export function build(THREE) {
   const _pv = new THREE.Vector3();
   function playerLocal(ctx) {
     const p = ctx && (ctx.player || ctx.playerPos);
+    if (ctx && typeof ctx.playerEyeY === 'number') S.playerEyeY = ctx.playerEyeY;
     if (!p) return null;
     if (Array.isArray(p)) _pv.set(p[0], p[1] || 0, p[2]);
     else if (p.isVector3) _pv.copy(p);
@@ -572,9 +703,10 @@ export function build(THREE) {
   }
   function faceByState() {
     if (S.state === 'charge') setExpr('charge');
-    else if (BATT.soc < 0.25 || S.state === 'toDock') setExpr('low');
-    else if (PH.greetW > 0.5) setExpr('greet');
+    else if (BATT.soc < 0.20 || S.state === 'toDock') setExpr('low');
+    else if (PH.greetW > 0.5) setExpr(S.listenT > 1.5 ? 'listen' : 'greet');
     else if (S.avoidT > 0) setExpr('alert');
+    else if (RUN.on && Math.abs(S.v) > GOV.V_MAX) setExpr('run');
     else if (Math.abs(S.v) > 0.05) setExpr('patrol');
     else setExpr('idle');
   }
@@ -626,24 +758,65 @@ export function build(THREE) {
     S.avoidT = Math.max(0, S.avoidT - dt);
     let v = 0, w = 0;
     if (GREET.on && S.state !== 'toDock' && S.state !== 'charge') S.state = 'greet';
-    else if (S.state === 'greet' && !GREET.on) S.state = 'patrol';
+    else if (S.state === 'greet' && !GREET.on) { S.state = 'patrol'; VOICE.listening = false; S.listenT = 0; }
+
+    RUN._lastPlayer = pl;
+    // 跑步门控:人一旦进入 SSM 半径立刻降回步行(每帧检查,不可绕过)
+    if (RUN.on) {
+      const dh = pl ? Math.hypot(pl.x - S.pos.x, pl.z - S.pos.z) : Infinity;
+      if (dh < SAFE.HUMAN_SLOW) { RUN.on = false; RUN.blockedBy = 'human in SSM radius'; }
+      else if (BATT.soc < 0.15) { RUN.on = false; RUN.blockedBy = 'battery'; }
+    }
+    const V_CAP = RUN.on ? RUN.V_MAX : GOV.V_MAX;
 
     if (S.state === 'patrol') {
       const wp = WPS[S.wp];
       const steer = angTo(wp.x, wp.z);
-      v = Math.abs(steer) < 0.8 ? 0.55 : 0.10;
-      w = clamp(steer * 1.6, -1.0, 1.0);
+      v = Math.abs(steer) < 0.8 ? V_CAP : 0.08;
+      w = clamp(steer * 1.6, -GOV.W_MAX, GOV.W_MAX);
       if (Math.hypot(wp.x - S.pos.x, wp.z - S.pos.z) < 0.55) S.wp = (S.wp + 1) % WPS.length;
-      if (BATT.soc < 0.25) S.state = 'toDock';
+      // 地板 0.15(充电账:去桩行程+迎宾打断+一次重试合计 <2% SOC,15% 是余量;
+      // EOL 时地板=58 Wh=6h 在桩信标待机)。跑步电量闸 0.15 与地板重合——正要
+      // 回桩的机器人本就不该跑。
+      if (BATT.soc < 0.15) S.state = 'toDock';
     } else if (S.state === 'greet') {
       const steer = pl ? angTo(pl.x, pl.z) : 0;                         // 停下,面向玩家
       v = 0;
       w = clamp(steer * 2.0, -1.2, 1.2) * PH.greetW;
+      // 语音:面向完成 1.5 s 后进入聆听(sim/voice_acoustics_l2.py)。站定才聆听
+      // 不是礼仪是物理——行走自噪波束后仍 −14 dB。唤醒词本地,上传时指示灯亮
+      // (隐私可见性做成硬的,与跑步门控同理)。断链降级:~20 条本地意图。
+      VOICE.listening = PH.greetW > 0.9 && Math.abs(steer) < 0.25;
+      S.listenT = VOICE.listening ? (S.listenT + dt) : 0;
     } else if (S.state === 'toDock') {
-      const steer = angTo(DOCK_AT.x, DOCK_AT.z);
-      v = Math.abs(steer) < 0.8 ? 0.5 : 0.08;
-      w = clamp(steer * 1.6, -1.0, 1.0);
-      if (Math.hypot(DOCK_AT.x - S.pos.x, DOCK_AT.z - S.pos.z) < 0.22) S.state = 'align';
+      // 航位推算漂移模型(sim/endgame_budgets 里程计账):腿式里程计 ~2%/m,
+      // 从巡逻远端到桩 ~10.6 m 路径 → 到桩误差 σ≈21 cm,而对接容差只有 8 cm。
+      // 纯航位推算不可能对接成功——此前"对接 <0.1 m"是仿真位置=真值的产物。
+      // 终端引导链:LiDAR 墙法向+回反条(2.5~3 m,±7 cm)→ 相机对桩 LED
+      // (≤1.5 m,±2 cm)→ 机械浮动触点(±5 cm)。注意分段是被 LiDAR 自己的
+      // 饱和账逼出来的:≤2 m 只报"近"不报距离,所以 LiDAR 修正必须在 2 m 外
+      // 完成、把最后一段交给相机。
+      if (S.odoT === undefined) {                 // 进入回充腿:采样本次漂移
+        const mag = 0.02 * Math.hypot(DOCK_AT.x - S.pos.x, DOCK_AT.z - S.pos.z) * 1.25;
+        const ang = rnd() * 6.2832;
+        S.odo = { x: mag * Math.sin(ang), z: mag * Math.cos(ang) };
+        S.odoT = 0; S.dockLock = false;
+      }
+      const dTrue = Math.hypot(DOCK_AT.x - S.pos.x, DOCK_AT.z - S.pos.z);
+      if (!S.dockLock && dTrue < 3.0) S.dockLock = true;      // 信标捕获
+      if (S.dockLock) {                          // 引导链修正,τ≈0.8 s
+        S.odo.x *= Math.max(0, 1 - dt / 0.8);
+        S.odo.z *= Math.max(0, 1 - dt / 0.8);
+      }
+      // 导航目标 = 桩位 − 里程计误差(机器人以为自己在别处)
+      const steer = angTo(DOCK_AT.x - S.odo.x, DOCK_AT.z - S.odo.z);
+      // 末段减速进漏斗:容差 8 cm(引导链账),0.22 m 的旧闸门与它矛盾——
+      // 评审后收紧;近桩线性减速保证能在容差内停住。
+      v = Math.abs(steer) < 0.8
+        ? Math.min(GOV.V_MAX, Math.max(0.04, 0.3 * (dTrue - 0.02)))
+        : 0.08;
+      w = clamp(steer * 1.6, -GOV.W_MAX, GOV.W_MAX);
+      if (dTrue < 0.08 && S.dockLock) S.state = 'align';
     } else if (S.state === 'align') {
       let e = DOCK_HEAD - S.head;                                       // 原地对准充电触点
       while (e > Math.PI) e -= 2 * Math.PI;
@@ -652,23 +825,40 @@ export function build(THREE) {
       if (Math.abs(e) < 0.1) S.state = 'charge';
     } else if (S.state === 'charge') {
       v = 0; w = 0;
-      if (BATT.soc > 0.95) { S.state = 'patrol'; S.wp = 0; }
+      if (BATT.soc > 0.95) { S.state = 'patrol'; S.wp = 0; S.odoT = undefined; }
     }
 
-    // LiDAR 近距避障(<1.2 m 转向净空侧;<0.5 m 急停原地转)——回充末段豁免
+    // ---- 人的安全距离(SSM):人会主动朝你走来,墙不会,所以两套阈值 ----
+    // S = v_human(T_react+T_stop) + v_robot·T_react + d_stop + C + Z = 2.32 m @0.3 m/s
+    if (pl && S.state !== 'charge') {
+      const dh = Math.hypot(pl.x - S.pos.x, pl.z - S.pos.z);
+      // 减速带 = SSM 反解 v(d) = (d - S0)/(T_react + T_stop),S0 = 1.97 m。
+      // 首版用 1.6→2.4 m 线性斜坡,在 2.0 m 处给 0.175 m/s 而严格 SSM 只允许
+      // 0.027——带内超限最多 6.5×,且 toDock 时 greet 被抑制、该路径真实可达。
+      // 评审修正:按公式反解,任何距离上的速度都满足自己的安全账。
+      if (dh < SAFE.HUMAN_STOP) v = 0;                        // 社交停止距(greet)
+      else v = Math.min(v, Math.max(0, (dh - 1.97) / 1.137)); // SSM 反解
+    }
+    // ---- 静态障碍:只需自己的制动距离(捕获步 0.28 m @0.3 m/s)+ 余量 ----
     const docking = (S.state === 'toDock' && Math.hypot(DOCK_AT.x - S.pos.x, DOCK_AT.z - S.pos.z) < 1.6)
       || S.state === 'align' || S.state === 'charge';
     if (!docking && S.state !== 'greet') {
       const f = lidarFront();
-      if (f < 1.2) {
+      const satNear = lidarFrontSat();          // 饱和 = "≤2 m 有东西",距离不可信但存在可信
+      if (satNear || f < SAFE.STATIC) {
         const turnL = lidarSide(true) > lidarSide(false);
-        w = clamp(w + (turnL ? 1.2 : -1.2) * (1.2 - f), -1.4, 1.4);
-        v = Math.min(v, Math.max(0, (f - 0.5) * 0.6));
+        const urgency = satNear ? 1.0 : (SAFE.STATIC - f) / SAFE.STATIC;
+        w = clamp(w + (turnL ? 1.2 : -1.2) * urgency, -GOV.W_MAX, GOV.W_MAX);
+        v = satNear ? 0 : Math.min(v, Math.max(0, (f - SAFE.EMERG) * 0.6));
         S.avoidT = 0.6;
       }
-      // 视觉暗区(CIS 亮度分割):暗侧回避、减速
-      const hz = VIS.hazL + VIS.hazR;
-      if (v > 0.2 && hz > 0.06) {
+      // 视觉暗区(CIS 亮度分割)——但只在视觉可信时采纳:
+      // 190 ms 曝光下转向 1 rad/s 会让 64px 画面糊掉 10 px,此时视觉只剩噪声,
+      // 真机同样处理(转向中不信视觉里程计/分割),这里冻结危险量只用 LiDAR。
+      VIS.blurPx = blurPixels(v, w);
+      VIS.frozen = Math.abs(w) > GOV.W_VISION_OK || VIS.blurPx > 1.5;
+      const hz = VIS.frozen ? 0 : VIS.hazL + VIS.hazR;
+      if (v > 0.15 && hz > 0.06) {
         w += (VIS.hazL > VIS.hazR ? -1 : 1) * 1.2 * Math.min(1, hz * 4);
         v *= Math.max(0.3, 1 - hz * 3);
         S.avoidT = 0.6;
@@ -678,10 +868,13 @@ export function build(THREE) {
     if (Math.abs(S.pos.x) > 4.3 && !docking || S.pos.z > 8.5 || S.pos.z < -9.3) {
       const back = angTo(0, 0);
       w = clamp(back * 2, -1.2, 1.2);
-      v = Math.min(v, 0.3);
+      v = Math.min(v, V_CAP);
     }
-    // 电量账本(演示加速 x60)
-    const P = S.state === 'charge' ? -BATT.P_CHG : (Math.abs(v) > 0.05 ? BATT.P_WALK : BATT.P_IDLE);
+    v = Math.min(v, V_CAP);                     // 限速器最后一道闸(三重物理/跑步模式)
+    // 电量账本(演示加速 x60)。充电用净功率:桩供 150 W 里 9.4 W 养机器人
+    // 自己(MCU+电台,托檐承重执行器断电),链效率 96% → 入芯 135 W——
+    // 旧账「150 W 全进电池,1.7 h 充满」快了 1.4 倍(sim/charging_budget.py)
+    const P = S.state === 'charge' ? -BATT.P_NET : (Math.abs(v) > 0.05 ? BATT.P_WALK : BATT.P_IDLE);
     BATT.soc = clamp(BATT.soc - P * BATT.ACCEL * dt / 3600 / BATT.CAP, 0, 1);
     // 差速积分
     S.head += w * dt;
@@ -690,17 +883,34 @@ export function build(THREE) {
     S.v = v; S.w = w;
     applyGait(t, dt, v, w);
     applyBody();
-    // 迎宾/充电时颈部朝向玩家/回正
+    // 迎宾:颈部转向玩家 + 按对方眼高俯仰注视(sim/hri_proxemics.py)。
+    // 面罩眼高 1.50 m。对站立成人是 +3.6°(略仰,友好);对坐轮椅者或儿童,
+    // 交接距离处需要俯 24.8°——不低头的话视线越过对方头顶,读作无视。
+    // ctx.playerEyeY 可选(相对挂载点地面的眼高);缺省按成人 1.60 m。
     if (pl && PH.greetW > 0.02) {
       const na = angTo(pl.x, pl.z);
       neck.rotation.y = clamp(na, -0.6, 0.6) * PH.greetW;
-    } else neck.rotation.y *= Math.max(0, 1 - 3 * dt);
+      const dh = Math.max(0.4, Math.hypot(pl.x - S.pos.x, pl.z - S.pos.z));
+      const eyeY = S.playerEyeY ?? 1.60;
+      // 符号:three.js 正 rotation.x = 面朝向压向 -Y = 低头。注视角(上为正)
+      // 要取负才是关节角。首版没取负,机器人对坐轮椅者抬头看天花板——评审修正。
+      neck.rotation.x = clamp(-Math.atan2(eyeY - 1.50, dh), -0.20, 0.55) * PH.greetW;
+    } else {
+      neck.rotation.y *= Math.max(0, 1 - 3 * dt);
+      neck.rotation.x *= Math.max(0, 1 - 3 * dt);
+    }
+    // 协作模式遥测:静止即 PFL(可近距交接),一旦要动就回到 SSM
+    S.coop = (Math.abs(v) < 0.02 && Math.abs(w) < 0.05) ? 'PFL' : 'SSM';
     faceByState();
     // 状态灯:巡逻绿/充电琥珀呼吸
     if (S.state === 'charge') {
       ledMat.emissive.setHex(0xffb020);
       ledMat.emissiveIntensity = 1.1 + 0.6 * Math.sin(t * 2.2);
       dockLed.emissiveIntensity = 1.1 + 0.6 * Math.sin(t * 2.2);
+    } else if (VOICE.listening && S.listenT > 1.5) {
+      ledMat.emissive.setHex(0x40c8ff);          // 聆听/流式上传指示(隐私硬指示)
+      ledMat.emissiveIntensity = 1.3 + 0.5 * Math.sin(t * 4);
+      dockLed.emissiveIntensity = 1.6;
     } else {
       ledMat.emissive.setHex(BATT.soc < 0.25 ? 0xff4030 : 0x35e055);
       ledMat.emissiveIntensity = 1.6;
@@ -744,9 +954,25 @@ export function build(THREE) {
   group.userData.actions = {
     '雷达可视化': () => { dbgLines.visible = !dbgLines.visible; },
     '召回充电': () => { if (S.mode === 'auto') S.state = 'toDock'; },
+    // 疏散跑步:解锁 0.59 m/s(真跑步实测值)。有人在 SSM 半径内则拒绝解锁——
+    // 跑步撞人 478 N 是 ISO 瞬态限的 1.7 倍,这不是可以"小心一点"绕过的事。
+    '疏散跑步': () => {
+      if (S.mode !== 'auto') { RUN.blockedBy = 'baked mode'; return; }
+      const p = RUN._lastPlayer;
+      if (p && Math.hypot(p.x - S.pos.x, p.z - S.pos.z) < SAFE.HUMAN_SLOW) {
+        RUN.on = false; RUN.blockedBy = 'human in SSM radius';
+        return;
+      }
+      RUN.on = !RUN.on;
+      RUN.blockedBy = '';
+    },
   };
   group.userData.autonomy = S;                  // 只读遥测:mode/state/pos/soc 经 BATT
   group.userData.battery = BATT;
+  group.userData.governor = GOV;                // 限速器(三重物理约束的交集)
+  group.userData.safety = SAFE;                 // SSM 安全距离
+  group.userData.run = RUN;                     // 跑步模式遥测(on / blockedBy)
+  group.userData.voice = VOICE;                 // 语音遥测(listening / localIntents)
   group.userData.lidar = LIDAR;
   group.userData.cis = CIS;
   group.userData.vis = VIS;                     // 视觉危险量遥测(幻影基准测试用)

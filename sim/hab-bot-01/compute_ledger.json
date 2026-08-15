@@ -1,0 +1,125 @@
+{
+ "mb1_reference": {
+  "cells": 2100,
+  "logic_area_um2": 33123,
+  "sram_kbit": 64,
+  "sram_area_mm2": 1.14,
+  "fmax_MHz": 173
+ },
+ "tasks": [
+  {
+   "name": "CIS imaging model",
+   "ops_per_call": 122880,
+   "hz": 5,
+   "mops": 0.6144,
+   "note": "30 ops/px x 4096 px"
+  },
+  {
+   "name": "scan-band mean + AE",
+   "ops_per_call": 3072,
+   "hz": 5,
+   "mops": 0.01536,
+   "note": "accumulate + exposure update"
+  },
+  {
+   "name": "dark-region split",
+   "ops_per_call": 3072,
+   "hz": 5,
+   "mops": 0.01536,
+   "note": "threshold compare + L/R tally"
+  },
+  {
+   "name": "LiDAR histogram + peak",
+   "ops_per_call": 48780,
+   "hz": 6,
+   "mops": 0.29268,
+   "note": "15 beams x (1024 stamps + 70 bins)"
+  },
+  {
+   "name": "gait playback (12 ch)",
+   "ops_per_call": 144,
+   "hz": 200,
+   "mops": 0.0288,
+   "note": "cyclic interpolation + blend"
+  },
+  {
+   "name": "forward kinematics + CoM",
+   "ops_per_call": 660,
+   "hz": 200,
+   "mops": 0.132,
+   "note": "11 bodies, 4x4 transforms"
+  },
+  {
+   "name": "capture-point balance",
+   "ops_per_call": 400,
+   "hz": 200,
+   "mops": 0.08,
+   "note": "CoM state, ZMP, ankle torque"
+  },
+  {
+   "name": "leg IK (2 legs)",
+   "ops_per_call": 240,
+   "hz": 200,
+   "mops": 0.048,
+   "note": "two-link closed form + frame rotation"
+  },
+  {
+   "name": "state machine + nav",
+   "ops_per_call": 300,
+   "hz": 60,
+   "mops": 0.018,
+   "note": "waypoints, SSM gate, geofence, battery"
+  },
+  {
+   "name": "visor screen render",
+   "ops_per_call": 49152,
+   "hz": 2,
+   "mops": 0.098304,
+   "note": "expression canvas, redrawn on change"
+  }
+ ],
+ "total_mops": 1.343,
+ "cognitive": [
+  {
+   "name": "person recognition (MobileNet-ish, 64x64)",
+   "gops": 0.05,
+   "note": "10 MFLOP/frame at 5 Hz"
+  },
+  {
+   "name": "visual SLAM (sparse, indoor)",
+   "gops": 0.3,
+   "note": "~300 MOPS sustained"
+  },
+  {
+   "name": "speech front-end + intent",
+   "gops": 0.15,
+   "note": "keyword + parse"
+  },
+  {
+   "name": "task planning / dialogue (LLM class)",
+   "gops": 50.0,
+   "note": "orders of magnitude beyond any battery-powered edge SoC"
+  }
+ ],
+ "latency": {
+  "local_s": 0.1091,
+  "remote_s": 0.189,
+  "ssm_budget_s": 0.217
+ },
+ "power": {
+  "electronics": {
+   "compute": 2.2,
+   "radio": 6.0,
+   "lidar_frontend": 2.6,
+   "mcu_sensors": 2.4,
+   "camera": 1.4,
+   "visor": 1.2
+  },
+  "total_W": 15.8,
+  "old_asserted_W": 24.6,
+  "walk_W": 86.6,
+  "idle_W": 52.8,
+  "shift_mean_W": 73.1,
+  "pack_for_4h_Wh": 300
+ }
+}

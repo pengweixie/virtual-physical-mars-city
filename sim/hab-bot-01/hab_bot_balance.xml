@@ -1,0 +1,102 @@
+<!-- hab-bot-01 balance model — the honest one.
+     Differences from hab_bot.xml (the bake rig):
+       * FLAT feet (box contact) — a foot must be able to exert pitch torque,
+         which is the entire basis of the ankle strategy. Round point-feet
+         cannot, which is why the rig model could only stand on its boom.
+       * NO pitch spring. root_pitch is a free hinge, so the robot must hold
+         itself up. If the controller is wrong, it falls over — as it should.
+       * Ankles are TORQUE actuators (motor), not position servos: the balance
+         law commands ZMP, and ZMP is realized as ankle torque.
+     Mars gravity 3.71. Sign map identical to hab_bot.xml (js = -mj sagittal). -->
+<mujoco model="hab-bot-01-balance">
+  <compiler angle="radian"/>
+  <option gravity="0 0 -3.71" timestep="0.001"/>
+  <default>
+    <joint damping="1.2" armature="0.01"/>
+    <geom friction="1.0 0.005 0.0001" density="900"/>
+    <position kp="300" kv="18" forcerange="-150 150"/>
+  </default>
+  <worldbody>
+    <geom name="floor" type="plane" size="20 20 0.1" rgba="0.5 0.4 0.35 1"/>
+    <body name="pelvis" pos="0 0 0.84">
+      <joint name="root_y" type="slide" axis="0 1 0" damping="0.02"/>
+      <joint name="root_z" type="slide" axis="0 0 1" damping="0.02"/>
+      <joint name="root_pitch" type="hinge" axis="1 0 0" damping="0.05"/>
+      <geom name="pelvis_g" type="box" size="0.10 0.07 0.06" mass="6"
+            contype="0" conaffinity="0"/>
+      <geom name="torso_g" type="box" size="0.115 0.08 0.24" pos="0 0 0.30"
+            mass="14" contype="0" conaffinity="0"/>
+      <geom name="head_g" type="sphere" size="0.10" pos="0 0 0.68" mass="3.5"
+            contype="0" conaffinity="0"/>
+
+      <body name="thigh_L" pos="-0.10 0 0">
+        <joint name="hip_L" type="hinge" axis="1 0 0" range="-1.2 1.2"/>
+        <geom type="capsule" fromto="0 0 0  0 0 -0.38" size="0.05" mass="3.2"
+              contype="0" conaffinity="0"/>
+        <body name="shank_L" pos="0 0 -0.38">
+          <joint name="knee_L" type="hinge" axis="1 0 0" range="-1.8 0.05"/>
+          <geom type="capsule" fromto="0 0 0  0 0 -0.38" size="0.04" mass="2.2"
+                contype="0" conaffinity="0"/>
+          <body name="foot_L" pos="0 0 -0.38">
+            <joint name="ank_L" type="hinge" axis="1 0 0" range="-0.8 0.8"/>
+            <!-- flat sole: heel at y=-0.08, toe at y=+0.14 relative to ankle -->
+            <geom name="foot_L_g" type="box" size="0.05 0.11 0.025"
+                  pos="0 0.03 -0.055" mass="0.95"/>
+          </body>
+        </body>
+      </body>
+      <body name="thigh_R" pos="0.10 0 0">
+        <joint name="hip_R" type="hinge" axis="1 0 0" range="-1.2 1.2"/>
+        <geom type="capsule" fromto="0 0 0  0 0 -0.38" size="0.05" mass="3.2"
+              contype="0" conaffinity="0"/>
+        <body name="shank_R" pos="0 0 -0.38">
+          <joint name="knee_R" type="hinge" axis="1 0 0" range="-1.8 0.05"/>
+          <geom type="capsule" fromto="0 0 0  0 0 -0.38" size="0.04" mass="2.2"
+                contype="0" conaffinity="0"/>
+          <body name="foot_R" pos="0 0 -0.38">
+            <joint name="ank_R" type="hinge" axis="1 0 0" range="-0.8 0.8"/>
+            <geom name="foot_R_g" type="box" size="0.05 0.11 0.025"
+                  pos="0 0.03 -0.055" mass="0.95"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="uarm_L" pos="-0.215 0 0.48">
+        <joint name="sh_L" type="hinge" axis="1 0 0" range="-1.5 1.5" damping="0.6"/>
+        <geom type="capsule" fromto="0 0 0  0 0 -0.26" size="0.035" mass="1.1"
+              contype="0" conaffinity="0"/>
+        <body name="farm_L" pos="0 0 -0.26">
+          <joint name="elb_L" type="hinge" axis="1 0 0" range="-0.1 2.0" damping="0.4"/>
+          <geom type="capsule" fromto="0 0 0  0 0 -0.24" size="0.03" mass="0.7"
+                contype="0" conaffinity="0"/>
+        </body>
+      </body>
+      <body name="uarm_R" pos="0.215 0 0.48">
+        <joint name="sh_R" type="hinge" axis="1 0 0" range="-1.5 1.5" damping="0.6"/>
+        <geom type="capsule" fromto="0 0 0  0 0 -0.26" size="0.035" mass="1.1"
+              contype="0" conaffinity="0"/>
+        <body name="farm_R" pos="0 0 -0.26">
+          <joint name="elb_R" type="hinge" axis="1 0 0" range="-0.1 2.0" damping="0.4"/>
+          <geom type="capsule" fromto="0 0 0  0 0 -0.24" size="0.03" mass="0.7"
+                contype="0" conaffinity="0"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position name="a_hip_L" joint="hip_L"/>
+    <position name="a_hip_R" joint="hip_R"/>
+    <position name="a_knee_L" joint="knee_L"/>
+    <position name="a_knee_R" joint="knee_R"/>
+    <!-- ankles: direct torque. The balance law commands a ZMP; ZMP is ankle
+         torque divided by vertical load, so torque is the natural interface.
+         gear limit 20 N.m ~ the physical ceiling F_z * foot half-length. -->
+    <motor name="a_ank_L" joint="ank_L" ctrlrange="-25 25"/>
+    <motor name="a_ank_R" joint="ank_R" ctrlrange="-25 25"/>
+    <position name="a_sh_L" joint="sh_L" kp="55" kv="5"/>
+    <position name="a_sh_R" joint="sh_R" kp="55" kv="5"/>
+    <position name="a_elb_L" joint="elb_L" kp="35" kv="3"/>
+    <position name="a_elb_R" joint="elb_R" kp="35" kv="3"/>
+  </actuator>
+</mujoco>

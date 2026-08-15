@@ -2,7 +2,7 @@
 // 契约(MODELS.md §4):1u=1m;原点=村心广场地面点;+Y 上;THREE 传入;纯色材质。
 // 使命:密度资产 —— 一个母体 ×16 变体实例(标准/端头气闸/L 角舱/公共舱),
 //   三排联排覆土舱 + 短廊网 + 村心广场,读作"一片聚落"不是拼色积木。
-// 设计输入(mars-village design_accounts.json 五本账):
+// 设计输入(E:\Claude\mars-village design_accounts.json 五本账):
 //   2 m 覆土 GCR 234→6.2 mSv/yr(38×) · 昼夜温波 2 m=55 皮肤深度全灭 ·
 //   半圆柱膜应力 0.7 mm vs 方盒平板 53 mm(76×) · 覆土压重仅内压 17% ·
 //   短廊并 16 舱为一个气压域(全村 2 气闸,互引 hab-tunnel gate 卡) ·

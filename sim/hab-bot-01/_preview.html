@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!-- hab-bot-01 dev preview: loads hab-foyer-01 + hab-bot-01, emulates the
+     engine vocabulary (animate ctx / oscillators / sensor channel / actions)
+     plus a WASD-driven player marker feeding ctx.player.
+     Serve from the directory ABOVE the mars repo, e.g.
+       cd .. && python -m http.server 8130
+       open http://localhost:8130/mars-bot/_preview.html?debug=1
+     Snapshot: window.snap('name') posts a JPEG to the shot server on :8462. -->
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>hab-bot-01 preview</title>
+<style>
+  body { margin: 0; background: #000; color: #cde; font: 12px/1.5 monospace; overflow: hidden; }
+  #hud { position: fixed; left: 10px; top: 10px; background: rgba(8,12,16,.75); padding: 8px 10px;
+         border: 1px solid #234; white-space: pre; z-index: 5; }
+  #pip { position: fixed; right: 10px; top: 10px; width: 128px; height: 128px;
+         border: 1px solid #234; image-rendering: pixelated; z-index: 5; }
+  #btns { position: fixed; left: 10px; bottom: 10px; z-index: 5; }
+  button { background: #123; color: #cde; border: 1px solid #345; margin-right: 6px;
+           font: 12px monospace; padding: 4px 8px; cursor: pointer; }
+</style>
+</head>
+<body>
+<div id="hud">loading…</div>
+<canvas id="pip" width="64" height="64"></canvas>
+<div id="btns">
+  <button id="bLidar">雷达可视化</button>
+  <button id="bDock">召回充电</button>
+  <button id="bMode">baked/auto</button>
+  <button id="bSensor">传感器供帧: ON</button>
+  <button id="bSnap">截图</button>
+</div>
+<script type="importmap">
+{ "imports": { "three": "/mars/node_modules/three/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+const ts = Date.now();
+const foyerMod = await import('/mars/viewer/units/hab-foyer-01.js?ts=' + ts);
+const botMod = await import('/mars/viewer/units/hab-bot-01.js?ts=' + ts);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0806);
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.05, 200);
+
+const foyer = foyerMod.build(THREE);
+scene.add(foyer);
+for (const l of foyer.userData.lights || []) {
+  const pl = new THREE.PointLight(l.color ?? 0xffffff, 2 + (l.range ?? 20) * 0.3, l.range ?? 20, 2);
+  pl.position.set(...l.pos);
+  foyer.add(pl);
+}
+scene.add(new THREE.HemisphereLight(0xffffff, 0x404040, 0.45));
+
+// mount the bot per the recommended host_pos
+const bot = botMod.build(THREE);
+bot.position.set(0, 0.3, -9.5);
+foyer.add(bot);
+const S = bot.userData.autonomy, BATT = bot.userData.battery,
+      LIDAR = bot.userData.lidar, CIS = bot.userData.cis;
+const sensor = bot.userData.sensors[0];
+
+// engine vocabulary: oscillators + animate(t,dt,ctx)
+const anims = [];
+for (const o of bot.userData.oscillators || []) {
+  const node = typeof o.node === 'string' ? bot.getObjectByName(o.node) : o.node;
+  if (!node) continue;
+  const prop = o.prop || 'rotation', ax = o.axis || 'y';
+  const base = node[prop][ax], w = Math.PI * 2 / (o.period || 4);
+  anims.push((t) => { node[prop][ax] = base + (o.amp || 0.3) * Math.sin(t * w + (o.phase || 0)); });
+}
+
+// player marker (WASD moves it; ctx.player = world pos)
+const player = new THREE.Group();
+const capMat = new THREE.MeshStandardMaterial({ color: 0x4a7fd0, roughness: 0.6 });
+const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 1.3, 12), capMat);
+cap.position.y = 0.95; player.add(cap);
+const head = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 10), capMat);
+head.position.y = 1.72; player.add(head);
+player.position.set(0, 0.3, -3.5);
+scene.add(player);
+const keys = {};
+addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
+addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
+
+// orbit camera (drag + wheel)
+let az = 0.6, el = 0.45, dist = 12;
+const target = new THREE.Vector3(0, 1.4, -9.5);
+let drag = false, px = 0, py = 0;
+addEventListener('mousedown', e => { if (e.target === renderer.domElement) { drag = true; px = e.clientX; py = e.clientY; } });
+addEventListener('mouseup', () => drag = false);
+addEventListener('mousemove', e => {
+  if (!drag) return;
+  az -= (e.clientX - px) * 0.005; el = Math.min(1.4, Math.max(0.05, el + (e.clientY - py) * 0.005));
+  px = e.clientX; py = e.clientY;
+});
+addEventListener('wheel', e => dist = Math.min(30, Math.max(2, dist + e.deltaY * 0.01)));
+
+// sensor channel emulation (engine driveSensors equivalent, 5 Hz)
+let sensorOn = true, nextCap = 0;
+const rt = new THREE.WebGLRenderTarget(sensor.width, sensor.height);
+function driveSensor(t) {
+  if (!sensorOn || t < nextCap) return;
+  nextCap = t + 1 / (sensor.hz || 5);
+  if (!sensor.data) sensor.data = new Uint8Array(sensor.width * sensor.height * 4);
+  renderer.setRenderTarget(rt);
+  renderer.render(scene, sensor.camera);
+  renderer.readRenderTargetPixels(rt, 0, 0, sensor.width, sensor.height, sensor.data);
+  renderer.setRenderTarget(null);
+  sensor.frame++; sensor.stamp = t;
+}
+
+// buttons
+bLidar.onclick = () => bot.userData.actions['雷达可视化']();
+bDock.onclick = () => bot.userData.actions['召回充电']();
+bMode.onclick = () => { S.disabled = !S.disabled; };
+bSensor.onclick = () => { sensorOn = !sensorOn; bSensor.textContent = '传感器供帧: ' + (sensorOn ? 'ON' : 'OFF'); };
+bSnap.onclick = () => snap('manual');
+
+const pipCtx = document.getElementById('pip').getContext('2d');
+const pipImg = pipCtx.createImageData(64, 64);
+const clock = new THREE.Clock();
+let simT = 0;
+
+function step(dt) {
+  simT += dt;
+  const spd = keys.shift ? 3.5 : 1.6;
+  if (keys.w) player.position.z -= spd * dt;
+  if (keys.s) player.position.z += spd * dt;
+  if (keys.a) player.position.x -= spd * dt;
+  if (keys.d) player.position.x += spd * dt;
+  driveSensor(simT);
+  const ctx = { t: simT, dt, night: false, player: player.position.toArray() };
+  for (const f of anims) f(simT, dt);
+  bot.userData.animate(simT, dt, ctx);
+}
+
+function draw() {
+  camera.position.set(
+    target.x + dist * Math.cos(el) * Math.sin(az),
+    target.y + dist * Math.sin(el),
+    target.z + dist * Math.cos(el) * Math.cos(az));
+  camera.lookAt(target);
+  renderer.render(scene, camera);
+  // PIP: CIS 8-bit preview frame (origin bottom-left -> flip)
+  for (let y = 0; y < 64; y++) for (let x = 0; x < 64; x++) {
+    const v = CIS.dn[(63 - y) * 64 + x];
+    const i = (y * 64 + x) * 4;
+    pipImg.data[i] = pipImg.data[i + 1] = pipImg.data[i + 2] = v; pipImg.data[i + 3] = 255;
+  }
+  pipCtx.putImageData(pipImg, 0, 0);
+  hud.textContent =
+    `mode ${S.mode}  state ${S.state}  expr ${S.expr}\n` +
+    `pos ${S.pos.x.toFixed(2)},${S.pos.z.toFixed(2)}  head ${S.head.toFixed(2)}\n` +
+    `v ${S.v.toFixed(2)}  w ${S.w.toFixed(2)}  soc ${(BATT.soc * 100).toFixed(0)}%\n` +
+    `lidar front ${Math.min(LIDAR.profile[6], LIDAR.profile[7], LIDAR.profile[8]).toFixed(2)} m  scans ${LIDAR.scans}\n` +
+    `CIS exp ${CIS.expMs.toFixed(1)} ms  meanDN ${CIS.meanDN.toFixed(0)}  frame ${sensor.frame}\n` +
+    `player ${player.position.x.toFixed(1)},${player.position.z.toFixed(1)}  (WASD 移动, 拖拽转视角)`;
+}
+
+function loop() {
+  requestAnimationFrame(loop);
+  step(Math.min(clock.getDelta(), 0.1));
+  draw();
+}
+loop();
+
+// synchronous snapshot (works in background tabs: no rAF dependency)
+window.snap = (name, fast) => {
+  if (fast) for (let i = 0; i < Math.round(fast / 0.05); i++) step(0.05);  // fast-forward sim
+  draw();
+  return fetch('http://127.0.0.1:8462/' + (name || 'shot'),
+    { method: 'POST', body: renderer.domElement.toDataURL('image/jpeg', 0.85) })
+    .then(r => r.text());
+};
+window.__bot = { bot, S, BATT, LIDAR, CIS, sensor, player, step, setView(a, e, d, tx, ty, tz) {
+  az = a; el = e; dist = d;
+  if (tx !== undefined) target.set(tx, ty, tz);
+} };
+addEventListener('resize', () => {
+  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+});
+</script>
+</body>
+</html>

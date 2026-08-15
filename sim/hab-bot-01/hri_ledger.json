@@ -1,0 +1,95 @@
+{
+ "zones": [
+  {
+   "name": "intimate",
+   "lo": 0.0,
+   "hi": 0.46
+  },
+  {
+   "name": "personal",
+   "lo": 0.46,
+   "hi": 1.2
+  },
+  {
+   "name": "social",
+   "lo": 1.2,
+   "hi": 3.7
+  },
+  {
+   "name": "public",
+   "lo": 3.7,
+   "hi": 99.0
+  }
+ ],
+ "hri_preferences": {
+  "human_approaches_robot": 0.65,
+  "robot_approaches_human": 1.2,
+  "first_encounter": 1.6,
+  "seated_or_child": 1.4
+ },
+ "asset_distances": {
+  "greet_trigger": 2.4,
+  "slow_band": 2.4,
+  "stop": 1.6
+ },
+ "ssm_vs_comfort": {
+  "S_moving": 2.32,
+  "S_by_speed": [
+   {
+    "v": 0.35,
+    "S": 2.37
+   },
+   {
+    "v": 0.2,
+    "S": 2.2
+   },
+   {
+    "v": 0.1,
+    "S": 2.08
+   },
+   {
+    "v": 0.0,
+    "S": 1.97
+   }
+  ],
+  "comfort_approach": 1.2,
+  "ratio": 1.93
+ },
+ "pfl": {
+  "F_arm": 13,
+  "F_start": 93,
+  "F_topple": 494,
+  "limit_chest": 280.0,
+  "handover_distance": 0.65,
+  "qualifies_stationary": true
+ },
+ "gaze": {
+  "eye_height_robot": 1.5,
+  "partners": [
+   {
+    "partner": "standing adult",
+    "eye_h": 1.6,
+    "angle_1p6": 3.6,
+    "angle_0p65": 8.7
+   },
+   {
+    "partner": "standing child (8 yr)",
+    "eye_h": 1.2,
+    "angle_1p6": -10.6,
+    "angle_0p65": -24.8
+   },
+   {
+    "partner": "seated / wheelchair",
+    "eye_h": 1.2,
+    "angle_1p6": -10.6,
+    "angle_0p65": -24.8
+   },
+   {
+    "partner": "crouching adult",
+    "eye_h": 0.9,
+    "angle_1p6": -20.6,
+    "angle_0p65": -42.7
+   }
+  ]
+ }
+}

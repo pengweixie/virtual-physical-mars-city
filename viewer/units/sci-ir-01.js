@@ -1,6 +1,6 @@
 // sci-ir-01 — 热红外成像站(8-14 µm VOx 微测辐射热计 640×512 / 锗 f/1 / 云台塔站)
 // 契约 MODELS.md §4:1u=1m、原点=基座地面点、+Y 上、正面朝 +Z、THREE 由查看器传入。
-// 设计册 mars-ir(五本账):像元热模型 NETD 47.3mK/τ7.7ms(FD 交叉验证 +9.9%)、
+// 设计册 E:\Claude\mars-ir(五本账):像元热模型 NETD 47.3mK/τ7.7ms(FD 交叉验证 +9.9%)、
 // 锗 f/1 光学 FOV 30.7°、场景辐射 180-290K 昼夜对比度反转、TEC vs MCT 51:1 功率账、
 // 无快门 NUC 残差预算 55mK。知识卡 sim 字段全部引用 mars-ir/out/*.json。
 // 动画:云台方位/俯仰=oscillators 缓扫,柜风扇=spinner;animate 只管热图屏——
@@ -13,7 +13,7 @@ export const meta = {
   id: 'sci-ir-01',
   name: '热红外成像站',
   name_en: 'Thermal IR Imaging Station',
-  size_m: 7.36,            // 实测包围盒长边(y 高 7.36 含 -0.6 入地裙边,validate INFO)
+  size_m: 7.39,            // 实测包围盒长边(y 高 7.39 含 -0.6 入地裙边;俯角翻正后尾鳍略抬,validate INFO)
   size_axis: 'height',
   effects: ['glow_windows', 'blink'],
 };
@@ -187,7 +187,11 @@ export function build(THREE) {
 
   const el = new THREE.Group(); el.name = 'gimbal_el';
   el.position.set(0, 0.5, 0); az.add(el);
-  el.rotation.x = -0.16;                              // 基准姿态:俯视城(oscillator 绕此振荡,范围 -0.26..-0.06,地面常驻画面下半)
+  // 基准姿态:俯视城。three.js rotation.x **正**方向才是前向(+z)压低
+  // (实证:front(0,0,1) 经 rx=+0.16 旋转后 y=-0.159 即向下)。首版写成 -0.16
+  // 让相机仰视 9°,城内热屏天空占 2/3——fable review 抓出并翻转。
+  // oscillator ±0.10 绕此振荡 → 俯角范围 +0.06..+0.26 rad(3°..15° 下俯)。
+  el.rotation.x = 0.16;
   // 耳轴端盖
   const trun1 = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.1, 14), mDark);
   trun1.rotation.z = Math.PI / 2; trun1.position.set(-0.245, 0, 0); el.add(trun1);
@@ -330,9 +334,9 @@ export function build(THREE) {
   // 机头三锚**不挂 head**:引擎在加载时一次性烘焙锚点世界坐标(main.js addPois),
   // updatePois 之后不再重读;而 addPois 前有 await fetch(info.json)——挂在会动的
   // 云台上会在随机扫描相位上烘焙,标签飘到机头 0.7 m 外。故按"移动件锚静态起始位"
-  // 约定,取机头基准姿态(az=0, el=-0.16)下的等效 root 局部坐标。
+  // 约定,取机头基准姿态(az=0, el=+0.16 俯视)下的等效 root 局部坐标。
   const headY = pedY + 0.42 + 0.5;                 // 机头原点高度(az 座 + 叉臂)
-  const cE = Math.cos(-0.16), sE = Math.sin(-0.16);
+  const cE = Math.cos(0.16), sE = Math.sin(0.16);
   const headPoi = (name, hx, hy, hz) =>            // 机头局部 → root 局部(仅 el 俯仰)
     poi(name, hx, headY + hy * cE - hz * sE, hy * sE + hz * cE);
   headPoi('poi_fpa', 0.15, 0, -0.05);              // 剖切侧看 FPA/TEC 链

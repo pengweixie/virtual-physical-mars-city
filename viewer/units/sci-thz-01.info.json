@@ -26,18 +26,62 @@
       },
       "sim": [
         "指向与斜程账(sim_antenna.py):倾斜扫描的货币不是增益(扩展源无所谓)而是气质量标度——0.06° 指向误差在 za=70.5° 只造成 0.30% 的 τ 标度误差;平大气 sec 近似对球面修正的偏差 2.4%@70.5°,已入反演;窗口通道 τ≈0.005 单轮 tipping 可解到 ~15%",
-        "热漂移与回零账(sim_mech_frost.py):首轮归因于铝-钢差胀算出 113% 超预算是错的——对称双板轭架同步膨胀不产生倾斜,倾斜要不对称;真机制是向阳/背阴 15 K 横向梯度弯曲 1.30 m 立柱 0.129°(预算 216%)。修法不加硬件:黑体硬限位既是辐射基准也是机械零位,热弯曲时常数 ~1 h 而回零周期 24 s,残留仅 0.00009°",
-        "地面停位账(sim_beameff.py):主镜远旁瓣的地面拾取夹在 1e-5 K(理想衍射)与 8.9 K(0.95 主瓣效率)之间跨 6 个量级,设计阶段定不下来;而 tipping 阶梯自身分不开它(与 sec(za) 律相关系数 0.87)。140° 地面停位把这个无法分析的偏差变成可测系数——地表亮温=ε 0.93×地表温度,由 sci-weather-01 与 sci-ir-01 独立提供",
+        "热漂移与回零账(sim_mech_frost.py):首轮归因于铝-钢差胀算出 113% 超预算是错的——对称双板轭架同步膨胀不产生倾斜,倾斜要不对称;真机制是向阳/背阴 15 K 横向梯度弯曲 1.30 m 立柱 0.129°(预算 216%)。修法不加硬件:黑体硬限位既是辐射基准也是机械零位,热弯曲时常数 ~1 h 而回零周期 24 s,残留仅 0.00086°",
+        "地面停位账(sim_beameff/groundcal.py,评审 F2 后定量化):主镜远旁瓣地面拾取在设计阶段夹在 1e-5~8.9 K 跨 6 量级;tipping 阶梯与 sec 律相关 0.87(VIF 4.0)——评审拆掉了首稿那个自造阈值的布尔判决,换成三个数:理想两参数拟合统计后验 0.041 K(含增益漂移底)、0.03 K sec 律模型误差经共线性泄漏 0.002 K、需求 0.392 K。结论修正:**阶梯在理想模型下统计够用**,但通道维度拟合(相关仅 0.18)完全不依赖 sec 律形状,是稳健路径;140° 停位供地面亮温(近场,账 10),地表温度由 sci-weather-01 与 sci-ir-01 独立提供",
         "轴承低温账(sim_mech_frost.py):−123 ℃ 下润滑脂 µ 由 0.0025 涨到 0.35,启动力矩 350 mNm、裕度掉到 2.5× 且需预热循环;MoS₂ 溅射干膜 µ=0.015、15 mNm、裕度 7.6×"
       ],
       "sim_en": [
         "Pointing & slant account (sim_antenna.py): for an extended scene the currency is not gain but the airmass scale — a 0.06-deg pointing error costs only 0.30% in tau scale at za=70.5; the flat-sec approximation deviates 2.4% from the spherical integral there (folded into retrieval); window-channel tau ~0.005 resolves to ~15% per tipping ladder",
-        "Thermal drift and re-homing (sim_mech_frost.py): the first pass blamed Al-vs-steel differential expansion and got 113% of budget — wrong, a symmetric two-plate yoke expands symmetrically and does not tilt; tilt needs asymmetry. The real driver is a 15 K sun-shade gradient bending the 1.30 m column by 0.129 deg (216% of budget). The fix adds no hardware: the blackbody hard stop is both the radiometric reference and the mechanical home, and with a ~1 h bending time constant against a 24 s re-home the residual is 0.00009 deg",
-        "Ground-stop account (sim_beameff.py): ground pickup through the primary's far sidelobes brackets between 1e-5 K (ideal diffraction) and 8.9 K (the 0.95 beam-efficiency claim) — six orders, unresolvable at design stage; and the tipping ladder cannot separate it either (correlation 0.87 with the sec(za) law). The 140-deg ground stop converts that unanalysable bias into a measured coefficient: ground brightness is emissivity 0.93 times a surface temperature that sci-weather-01 and sci-ir-01 supply independently",
+        "Thermal drift and re-homing (sim_mech_frost.py): the first pass blamed Al-vs-steel differential expansion and got 113% of budget — wrong, a symmetric two-plate yoke expands symmetrically and does not tilt; tilt needs asymmetry. The real driver is a 15 K sun-shade gradient bending the 1.30 m column by 0.129 deg (216% of budget). The fix adds no hardware: the blackbody hard stop is both the radiometric reference and the mechanical home, and with a ~1 h bending time constant against a 24 s re-home the residual is 0.00086 deg",
+        "Ground-stop account (sim_beameff/groundcal.py, quantified after review F2): design-stage far-sidelobe pickup brackets six decades (1e-5 to 8.9 K); the tipping ladder correlates 0.87 with the sec-law (VIF 4.0) — review removed the first draft's invented-threshold boolean verdict and replaced it with three numbers: idealised 2-parameter statistical posterior 0.041 K (gain-drift floor included), 0.002 K leakage from a 0.03 K sec-law model error through the collinearity, 0.392 K required. Corrected conclusion: the ladder IS statistically sufficient under an exact model, but the channel-dimension fit (correlation just 0.18) does not lean on the sec-law shape at all and remains the robust path; the 140-deg stop supplies ground brightness (near field, account 10) with surface temperature from sci-weather-01 and sci-ir-01 independently",
         "Cold bearing account (sim_mech_frost.py): at -123 C grease friction rises from mu 0.0025 to 0.35 — 350 mNm break-away, margin down to 2.5x and needing a warm-up cycle; sputtered MoS2 dry film gives mu 0.015, 15 mNm, margin 7.6x"
       ],
       "physics": "tipping 原理:ln(信号) 对气质量 m=sec(za) 回归,斜率就是天顶不透明度 τ、截距就是定标点——把大气自己当标准源,与气象站光度计的 Langley 法是同一个母题",
       "physics_en": "Tipping principle: regress ln(signal) on airmass m = sec(za); the slope IS the zenith opacity and the intercept the calibration point — the atmosphere itself is the standard source, the same motif as the met station's Langley method on its sun photometer"
+    },
+    {
+      "id": "schematic",
+      "label": "工程图板(探测原理 + 电路)",
+      "label_en": "Drafting Board (sounding principle + circuit)",
+      "range": 12,
+      "detail": "坪角上的展板把两张设计图搬进城里,用三维查看器唯一能渲染的形式——几何。左半是火星 183 GHz 水汽线的形状与六个通道刻度(紫=3 MHz 线心到灰=1.5 GHz 窗口),这就是探测原理本身:压致展宽让 γ(z)∝p(z),偏置频率因此成为高度旋钮。右半的表盘是摆镜四停位:蓝=天顶阶梯(0→70.5°)、绿=140° 地面停位、红=180° 黑体。完整图纸(含接收机电路、反并联肖特基对、OCXO 锁相本振链)见 figure 字段所列文件。",
+      "detail_en": "The easel at the pad corner brings the two design drawings into the city in the only form a 3D viewer can render — geometry. Its left half is the shape of the martian 183 GHz water line with the six channel ticks (violet 3 MHz core through grey 1.5 GHz window): that IS the sounding principle, since pressure broadening makes gamma(z) ~ p(z) and turns frequency offset into an altitude knob. The dial on the right is the scan drum's four stops: blue = zenith ladder (0 to 70.5 deg), green = 140 deg ground stop, red = 180 deg blackbody. The full drawings — receiver chain, antiparallel Schottky pair, OCXO-locked LO chain — are the files listed under `figure`.",
+      "specs": {
+        "原理图": "sci-thz-01.principle.svg(线形成 / 扫描定标 / 反演三联)",
+        "电路图": "sci-thz-01.circuit.svg(射频链 / 混频器元件级 / 本振锁相 / 管家)",
+        "板上左半": "线形 + 6 通道刻度(3/10/30/90/300 MHz + 1.5 GHz 窗)",
+        "板上右半": "四停位表盘(天空阶梯 / 140° 地面 / 180° 黑体 / 零位)",
+        "图纸口径": "2026-08-09 独立评审后冻结数字(out/*.json)"
+      },
+      "specs_en": {
+        "Principle drawing": "sci-thz-01.principle.svg (line formation / scan+calibration / retrieval)",
+        "Circuit drawing": "sci-thz-01.circuit.svg (RF chain / mixer at component level / LO PLL / housekeeping)",
+        "Board, left half": "line shape + 6 channel ticks (3/10/30/90/300 MHz + 1.5 GHz window)",
+        "Board, right half": "four-stop dial (sky ladder / 140 deg ground / 180 deg blackbody / home)",
+        "Drawing vintage": "numbers frozen after the 2026-08-09 independent review (out/*.json)"
+      },
+      "figure": [
+        {
+          "src": "units/sci-thz-01.principle.svg",
+          "caption": "探测原理:线的形成 → 摆镜扫描与四重定标 → OEM 反演与城内联动",
+          "caption_en": "Sounding principle: line formation -> scanning and fourfold calibration -> OEM retrieval and city links"
+        },
+        {
+          "src": "units/sci-thz-01.circuit.svg",
+          "caption": "仪器电路:射频→中频→FFT 谱仪,反并联肖特基对元件级,OCXO 锁相本振链,管家与接口",
+          "caption_en": "Instrument circuit: RF to IF to FFT spectrometer, antiparallel Schottky pair at component level, OCXO-locked LO chain, housekeeping and interfaces"
+        }
+      ],
+      "sim": [
+        "图纸即账本索引:板上左半的线形来自账 1(γ=37 MHz,窄地球 81×,线心 τ=3.5)与账 2(通道集与 DOF 3.76);右半四停位来自账 4(气质量阶梯 1→3)、账 10(140° 停位斜程 1.96 m、排 LTST 4.6 h)、账 6(180° 硬限位兼机械零位,24 s 回零)。电路图上的每个数字都能追到 out/*.json 的同名条目——包括评审后新增的两条硬件规格(DRO 锁相 OCXO 需 2 ppm;p0 由气象站气压计供给)。",
+        "契约说明:MODELS.md §5 的知识卡字段只有 label/detail/specs/sim/physics,没有图片项。本卡的 `figure` 是新增的可选字段,数据已就位但引擎当前不渲染——**请总控裁决是否在 main.js 的卡片构建处加一行 <img>**(红线:设计 session 不改 main.js)。在此之前,城内可见的载体是这块几何图板;把 <img> 塞进 detail 虽然因 innerHTML 能生效,但全 repo 无先例、会破坏 detail 的纯文本语义,且 1560 px 图在 380 px 卡里读不了。"
+      ],
+      "sim_en": [
+        "The board is an index into the ledgers: its line shape comes from account 1 (gamma = 37 MHz, 81x narrower than Earth, line-centre tau 3.5) and account 2 (channel set, DOF 3.76); the four-stop dial from account 4 (airmass ladder 1 to 3), account 10 (the 140-deg stop at 1.96 m slant, scheduled LTST 4.6 h) and account 6 (the 180-deg hard stop doubling as mechanical home, re-zeroed every 24 s). Every number on the circuit drawing traces to a same-named entry in out/*.json — including the two hardware specs the review added (DRO phase-locked to OCXO, 2 ppm; p0 supplied by the met-station barometer).",
+        "Contract note: MODELS.md section 5 defines only label/detail/specs/sim/physics for knowledge cards — there is no image field. The `figure` entry on this card is a NEW optional field: the data is in place but the engine does not render it yet, so the overseer is asked to decide whether to add one <img> line to the card builder in main.js (design sessions do not edit main.js). Until then the in-city carrier is this geometric board. Injecting <img> into `detail` would technically work because the builder uses innerHTML, but no info.json in the repo does that, it breaks the plain-text contract other consumers depend on, and a 1560 px drawing is unreadable in a 380 px card regardless."
+      ],
+      "physics": "为什么图纸值得进城:这台仪器的核心机理是\"看不见\"的——压致展宽、DSB 折叠、两点定标的共模抵消,都没有可直接观察的几何。展板与柜门 FFTS 屏是把这些机理外化的两个装置,它们讲同一个故事:线有多窄、通道落在哪、镜子转到哪一档。",
+      "physics_en": "Why the drawings belong in the city: this instrument's core mechanisms are invisible — pressure broadening, sideband folding, the common-mode cancellation of two-point calibration have no directly observable geometry. The board and the FFTS door screen are the two devices that externalise them, and they tell one story: how narrow the line is, where the channels sit, and which stop the mirror has turned to."
     },
     {
       "id": "optics",
@@ -53,7 +97,7 @@
         "喇叭": "波纹锥,口径 r=2.31 mm,~17.4 dBi",
         "面形预算": "λ/60 = 27 µm rms(管增益)",
         "表面相关长度": "≥2 mm 金刚石车削(管地面拾取)",
-        "缝沿处理": "滚圆 ≥3λ 或锯齿(压边缘绕射 0.077 K)"
+        "缝沿处理": "滚圆 ≥3λ 或锯齿(锦上添花——评审后地面向边缘项 0.0004 K)"
       },
       "specs_en": {
         "Primary": "150 mm off-axis paraboloid, f/D 1.2",
@@ -62,20 +106,20 @@
         "Horn": "corrugated cone, r=2.31 mm, ~17.4 dBi",
         "Surface rms": "lambda/60 = 27 um (controls gain)",
         "Surface corr. length": ">=2 mm, diamond-turned (controls ground pickup)",
-        "Slot rim": "rolled >=3 lambda or serrated (cuts the 0.077 K edge term)"
+        "Slot rim": "rolled >=3 lambda or serrated (belt-and-braces; post-review ground-directed edge term 0.0004 K)"
       },
       "sim": [
         "喇叭全波背书(hfss_horn_183.py,HFSS 2026.1 无头,几何比 mars-com-relay 32 GHz 先例缩 5.7×):光壁锥喇叭代理,旋转体一体成形+内腔体积断言 92.4 mm³,辐射边界按面分类(与 PEC 壁共面的面绝不赋辐射——Ka 喇叭先例最贵一坑);结果 18.33 dBi / S11 −28.0 dB / FWHM 20°(E)×24°(H)——高斯光学预测 FWHM≈23.5°、-12 dB 边缘锥削全波正中,解析 17.4 dBi 的 0.69 效率假设保守 0.9 dB,准光账照单成立",
         "远旁瓣数值账(sim_sidelobe.py):账8a 把地面拾取悬在 1e-5~8.9 K 跨 6 量级,本账把三源各自算出——截断衍射(数值 Hankel:缝处截断 −35.3 dB,20° 处 −85.8 dB)1.7e-3 K 可忽略、鼓缝边缘绕射 1.5e-3 K 可忽略、**Ruze 表面散射主导 1.49 K**。关键发现:σ=27 µm 只决定散射掉 4.2% 的功率(增益规格),**散射到哪里由表面相关长度决定**——同样 27 µm 下 c=0.5 mm 给 7.33 K、c=2 mm 给 1.49 K、c=5 mm 给 0.0002 K,跨三个量级全来自一条账4 从没写过的规格。故新增规格:相关长度 ≥2 mm=单点金刚石车削(进给纹)而非研磨抛光,比收紧 rms 便宜且才是真正管用的参数。三个数值 bug 由主瓣效率闸门抓获(0.459 vs 声称 0.95):u=k·sinθ 在 θ>90° 折回让后半球镜像成主瓣;孔径积分只对前向半球有效,修正后 0.958 对 0.95 一致",
-        "边缘绕射严格化与形状误差棒(sim_shapeerr.py,补账10 自己声明的局限):①**账8b 的边缘项被低估 51×**——把手写 scaling 换成半平面 Sommerfeld 精确绕射系数(UTD/PTD 的正则解)后,鼓缝边缘绕射份额 7.7e-4 而非 1.5e-5,折合 **0.077 K = 0.19 K 定标预算的 40%**;账8b 的三源**排序**仍成立(Ruze 仍大 ~20×),但\"可忽略\"这个标签不成立,它进误差表当第二项;缓解是几何性的且便宜:缝沿滚圆到几个波长半径或做锯齿,写进机械图即可,不是重设计。②形状误差棒:相关长度 c 在 1–5 mm 间让地面项**幅度**变几个量级,但归一化**形状**最大只偏 0.45(形状由地平线几何主导,不由散射物理主导)——不确定的物理恰好全在被拟合的那个量上,方向是对的。③用错形状做联合反演:**答案按规格是否达标劈成两半**——c=1.5–5 mm(达标)时自由幅度参数几乎完美吸收误配,水汽柱最多偏 0.25%,账10 的局限在该区间内关闭;但 c=1 mm(研磨面而非金刚石车削)时柱偏 **5.82%**,既吸收不掉也不可接受。**故相关长度规格做两份工,而账8b 只知道第一份**:它既压地面拾取幅度,又让 za 形状足够接近假设值使联合拟合成立——不达标要付两次代价"
+        "边缘绕射与形状误差棒(sim_shapeerr.py,评审 F3 后重做、结论翻回):首稿把 99% 分位截断的半平面 Sommerfeld 积分称作'精确解'得 0.077 K=预算 40%——评审证明该数由截断旋钮决定(98%→99.9% 摆 ×15),恰是本账批判账 8b 的失误模式换壳。去旋钮版把物理劈开:影界能量跟光束走、打场景不打地面;地面向扇区从 ψ_min=90°−za=19.5° 起(扫描几何钉死,非选取)积分自行收敛 → **0.0004 K=预算 0.23%,回到可忽略**;总绕射功率以 UTD 区间(3.9e-4~6.0e-3)悬置,花 Tsys 不花定标;缝沿滚圆/锯齿降级为锦上添花。形状误差棒结论不变:c 在 1–5 mm 让幅度变几个量级但归一化形状最大偏 0.45;错形状反演按规格劈两半(达标 c≥1.5 mm 柱偏 ≤0.25%、研磨面 c=1 mm 柱偏 5.82%)——**相关长度规格做两份工**"
       ],
       "sim_en": [
         "Horn full-wave backing (hfss_horn_183.py, headless HFSS 2026.1, 5.7x smaller than the mars-com-relay 32 GHz precedent): smooth-wall conical stand-in, solid-of-revolution build with a 92.4 mm3 cavity-volume assertion, radiation boundary classified per face (never on faces coincident with the PEC wall — the costliest Ka-horn lesson); results 18.33 dBi / S11 -28.0 dB / FWHM 20 deg (E) x 24 deg (H) — the Gaussian-optics prediction (FWHM ~23.5 deg, -12 dB edge taper) lands dead-on, the analytic 17.4 dBi was 0.9 dB conservative in its 0.69 efficiency assumption; the quasi-optics ledger stands as written",
         "Numerical far-sidelobe account (sim_sidelobe.py): account 8a left ground pickup bracketed across six decades (1e-5 to 8.9 K); this one computes all three sources — truncation diffraction (numerical Hankel: clipped at -35.3 dB, -85.8 dB at 20 deg) 1.7e-3 K negligible, slot-edge diffraction 1.5e-3 K negligible, and **Ruze surface scatter dominant at 1.49 K**. The key finding: sigma=27 um sets only HOW MUCH power scatters (4.2%, the gain spec), while WHERE it goes is set by the surface correlation length — at the same 27 um, c=0.5 mm gives 7.33 K, c=2 mm gives 1.49 K, c=5 mm gives 0.0002 K, three decades from a spec account 4 never wrote down. Hence the new requirement: correlation length >=2 mm, i.e. single-point diamond turning (feed-mark limited) rather than abrasive polishing — cheaper than tightening rms and the parameter that actually governs the term. Three numerical bugs were caught by the beam-efficiency gate (0.459 vs the claimed 0.95): u = k sin(theta) folds back past 90 deg, mirroring the back hemisphere into the main beam; aperture integration is only valid over the forward hemisphere, and after the fix the gate reads 0.958 against 0.95",
-        "Rigorous edge diffraction and a shape error bar (sim_shapeerr.py, closing the caveat account 10 declared on itself): (1) **account 8b understated the edge term 51x** — replacing its hand-written scaling with the exact Sommerfeld half-plane diffraction coefficient (the canonical solution UTD/PTD are built from) gives a diffracted fraction of 7.7e-4 rather than 1.5e-5, worth **0.077 K = 40% of the 0.19 K calibration budget**. Account 8b's RANKING of the three sources survives (Ruze still dominates by ~20x) but its label 'negligible' does not, and the term now belongs in the error table as the second contributor; mitigation is geometric and cheap — roll the slot rim to a few-wavelength radius or serrate it, a note on the mechanical drawing rather than a redesign. (2) Shape error bar: correlation length from 1 to 5 mm swings the ground term's AMPLITUDE by orders of magnitude but its normalised SHAPE by at most 0.45, because the shape is dominated by horizon geometry rather than scattering physics — the uncertain physics lives entirely in the quantity being fitted, which is the right way round. (3) Retrieving with a mis-specified shape SPLITS on whether the machining spec is met: in spec (c = 1.5-5 mm) the free amplitude absorbs the error almost perfectly and the water column moves at most 0.25%, closing account 10's caveat over that range; out of spec (c = 1 mm, a lapped rather than diamond-turned finish) the column takes 5.82%, neither absorbable nor acceptable. **The correlation-length spec therefore does two jobs where account 8b knew only of the first**: it caps the ground-pickup amplitude AND holds the za-shape close enough for the joint fit to remain valid. Missing it costs twice over"
+        "Edge diffraction and the shape error bar (sim_shapeerr.py, reworked after review F3 — the verdict flipped back): the first draft called a 99th-percentile-clipped Sommerfeld integral 'exact' and got 0.077 K = 40% of budget; the review showed that knob swings the answer x15 — the same failure mode this account had criticised in account 8b, in a new shell. The knob-free version splits the physics: boundary energy follows the BEAM onto the scene, not the ground; the ground-facing sector starts at psi_min = 90-za = 19.5 deg (pinned by scan geometry, not chosen) where the integral converges by itself -> 0.0004 K = 0.23% of budget: NEGLIGIBLE after all. The TOTAL diffracted power stays open as a UTD bracket (3.9e-4 to 6.0e-3) and costs Tsys, not calibration; rim rolling/serration drops to belt-and-braces. The shape-error conclusions stand: c from 1-5 mm swings the amplitude by orders while the normalised shape moves at most 0.45; retrieving with the wrong shape splits on the spec (in-spec c>=1.5 mm costs <=0.25% column, a lapped c=1 mm finish costs 5.82%) — the correlation-length spec does two jobs"
       ],
       "physics": "高斯波束链:喇叭腰 w0=1.49 mm,-12 dB 边缘锥削照亮 f/D=1.2 的镜沿(23.5°)——锥削压旁瓣、抬主瓣效率,代价是口径效率 0.72;0.74°≈1.18λ/D 就是这笔交易的定价。而远旁瓣的物理与主瓣完全不同:它由表面误差的**空间频率谱**决定——rms 管散射多少、相关长度管散射角宽(Bragg 式 sinθ≈λ/c),所以镜面加工要写两条独立规格",
-      "physics_en": "Gaussian-beam chain: horn waist w0 = 1.49 mm, -12 dB edge taper illuminating the f/D=1.2 rim at 23.5 deg — taper buys low sidelobes and 0.95 main-beam efficiency at the cost of 0.72 aperture efficiency; 0.74 deg = 1.18 lambda/D is the price tag of that trade"
+      "physics_en": "Gaussian-beam chain: horn waist w0 = 1.49 mm, -12 dB edge taper illuminating the f/D=1.2 rim at 23.5 deg — taper buys low sidelobes and 0.958 main-beam efficiency at the cost of 0.72 aperture efficiency; 0.74 deg = 1.18 lambda/D is the price tag of that trade. And the far sidelobes obey entirely different physics from the main beam: they are set by the SPATIAL FREQUENCY SPECTRUM of the surface error — rms fixes how much power scatters, correlation length fixes how wide it scatters (Bragg-like, sin(theta) ~ lambda/c) — which is why the mirror drawing carries two independent finish specs"
     },
     {
       "id": "receiver",
@@ -90,7 +134,8 @@
         "对照": "LNA 优先 514/435 K——差 1.5×,不决定性",
         "中频": "0–1.6 GHz FFT 频谱仪",
         "通道": "3/10/30/90/300 MHz + 1.5 GHz 窗口",
-        "NEΔT@1s": "0.48–0.02 K"
+        "NEΔT@1s": "天线单位 0.48–0.02 K;场景单位(÷η=0.877)0.56–0.03 K",
+        "本振": "DRO 锁相 10 MHz OCXO(漂移需 <0.37 MHz=2 ppm,自由 DRO 差 1–2 量级)"
       },
       "specs_en": {
         "Scheme": "DSB, LO parked on line center (symmetric line, no sideband penalty)",
@@ -98,17 +143,20 @@
         "Alternative": "LNA-first 514/435 K — 1.5x, not decisive",
         "IF": "0-1.6 GHz FFT spectrometer",
         "Channels": "3/10/30/90/300 MHz + 1.5 GHz window",
-        "NEDT@1s": "0.48-0.02 K"
+        "NEDT@1s": "antenna units 0.48-0.02 K; scene units (/eta=0.877) 0.56-0.03 K",
+        "LO": "DRO phase-locked to 10 MHz OCXO (drift must be <0.37 MHz = 2 ppm; free-running fails by 1-2 orders)"
       },
       "sim": [
         "接收机账(sim_receiver.py):级联首轮把转换损耗热噪声与厂商 Tmix 双计算出 1991 K——修正后混频优先 744 K(DSB)正中 MHS 类 600–900 K 遗产区间;火星夜被动冷到 210 K 再赚 12%",
-        "通道与反演账(sim_weighting.py):γ(z)∝p(z),偏置频率就是高度旋钮;雅可比 SVD 奇异值 195/27/4.2/1.5 → DOF 3.6 = 柱含量+3 层粗廓线(如实声明,不是精细廓线);3 MHz 线心通道是第二轮加的——20–40 km 层误差从 45% 压到 30%;柱 0.52%@1 s",
-        "灵敏度收官(sim_sensitivity.py):火星水汽是地球千分之一,但线窄 81× 把峰值截面抬 81×、背景是 0.4 K 冷空——10 pr-µm 柱误差 0.45%@1s→0.13%@60s;北半球冬季 1 pr-µm 低值 ~10 s 也进 1%。灵敏度不是问题,绝对标度才是:γ_CO2 展宽系数 ±10% 待一次实验室气室测量退役"
+        "通道与反演账(sim_weighting.py,评审后重跑:场景单位 NEΔT+真 ln 导数):γ(z)∝p(z),偏置频率就是高度旋钮;雅可比 SVD 奇异值 318/38/6.9/1.9 → DOF 3.76 = 柱含量+3 层粗廓线(如实声明,不是精细廓线);3 MHz 线心通道是第二轮加的——没有它 20–40 km 层贴着先验不动;柱 0.45%@1 s(历史值 3.63/0.52% 为评审前口径)",
+        "灵敏度收官(sim_sensitivity.py):火星水汽是地球千分之一,但线窄 81× 把峰值截面抬 81×、背景是 0.4 K 冷空——10 pr-µm 柱误差 0.45%@1s→0.13%@60s;北半球冬季 1 pr-µm 低值 ~10 s 也进 1%。灵敏度不是问题,绝对标度才是:γ_CO2 展宽系数 ±10% 待一次实验室气室测量退役",
+        "LO 频稳账(sim_receiver.py,评审 F4 补):「LO 停线心」是 3 MHz 通道的存在前提。DSB 折叠对 LO 偏移是偶函数——一阶抵消,折叠误差由曲率决定(1 MHz 漂移只折 0.24 K,比单边带斜率 1.55 K/MHz 松一个量级);要求漂移 <0.37 MHz=2 ppm@×12。自由运转 DRO 温漂 1–5 ppm/℃ × 昼夜数十 K=10–100+ ppm,差 1–2 个量级——**DRO 必须锁相 OCXO 基准**(5e-9 级,余量 >400×),真实硬件项"
       ],
       "sim_en": [
         "Receiver account (sim_receiver.py): the first cascade pass double-counted conversion-loss thermal noise against the vendor Tmix and got 1991 K — corrected, mixer-first lands at 744 K DSB, inside the MHS-class 600-900 K heritage bracket; passive night cooling to 210 K buys another 12%",
-        "Channels & retrieval account (sim_weighting.py): gamma(z) ~ p(z), so frequency offset IS the altitude knob; Jacobian SVD singular values 195/27/4.2/1.5 → DOF 3.6 = column + 3-layer coarse profile (declared honestly — not a fine profile); the 3 MHz core channel was added in round two, pulling the 20-40 km layer from 45% to 30%; column 0.52% @1 s",
-        "Sensitivity closure (sim_sensitivity.py): Mars carries 1/1000 of Earth's vapor, but the 81x narrower line piles the same molecules 81x higher in peak cross-section, seen against a 0.4 K sky — 10 pr-um column to 0.45% @1s, 0.13% @60s; even the 1 pr-um northern-winter low reaches 1% in ~10 s. Sensitivity is not the problem; absolute scale is: the gamma_CO2 broadening coefficient carries ±10% until one lab gas-cell measurement retires it"
+        "Channels & retrieval account (sim_weighting.py, rerun post-review with scene-unit NEDT and true ln derivatives): gamma(z) ~ p(z), so frequency offset IS the altitude knob; Jacobian SVD singular values 318/38/6.9/1.9 -> DOF 3.76 = column + 3-layer coarse profile (declared honestly — not a fine profile); the 3 MHz core channel was added in round two — without it the 20-40 km layer sat at prior; column 0.45% @1 s (the historical 3.63 / 0.52% were pre-review conventions)",
+        "Sensitivity closure (sim_sensitivity.py): Mars carries 1/1000 of Earth's vapor, but the 81x narrower line piles the same molecules 81x higher in peak cross-section, seen against a 0.4 K sky — 10 pr-um column to 0.45% @1s, 0.13% @60s; even the 1 pr-um northern-winter low reaches 1% in ~10 s. Sensitivity is not the problem; absolute scale is: the gamma_CO2 broadening coefficient carries ±10% until one lab gas-cell measurement retires it",
+        "LO stability account (sim_receiver.py, added per review F4): 'LO parked on line centre' is what the 3 MHz channel's existence rests on. DSB folding is EVEN in LO offset — first order cancels, and the folded error is curvature-limited (1 MHz of drift folds to just 0.24 K, an order softer than the 1.55 K/MHz single-sideband slope); the requirement is drift < 0.37 MHz = 2 ppm at x12. A free-running DRO drifts 1-5 ppm/degC times tens of kelvin per sol = 10-100+ ppm — off by one to two orders. The DRO must be phase-locked to an OCXO reference (5e-9 class, >400x margin): a real hardware item"
       ],
       "physics": "压致展宽 γ∝p:6.1 hPa 的 CO₂ 把地球 3.02 GHz 的线压到 37 MHz——通道全塞在 ±300 MHz 内,地球同类仪器摆 ±7 GHz;线心到 59 km 高度以上才轮到多普勒(224 kHz)接管。DSB 折叠无惩罚是对称线的独有便宜:两个边带载着同一条线,ALMA WVR 同法",
       "physics_en": "Pressure broadening gamma ~ p: 6.1 hPa of CO2 squeezes Earth's 3.02 GHz line to 37 MHz — all channels fit inside ±300 MHz where terrestrial sounders spread over ±7 GHz; Doppler (224 kHz) only takes over above 59 km. The free lunch of DSB folding is unique to a symmetric line: both sidebands carry the same channel, as on the ALMA WVR"
@@ -138,13 +186,13 @@
       },
       "sim": [
         "定标账(sim_receiver.py):两点内插到线心场景(~190 K)的绝对不确定度 0.19 K——热端 ±0.2 K 与冷端 ±0.5 K 各按杠杆比传播;增益稳定性 1e-4 假设由 30 s 两点节奏保住,对应积分曲线 0.12% 的柱精度平台",
-        "冷端透明度审计(sim_window.py):整条定标链压在「窗口通道 0.4–0.9 K」这一句上,故对前向模型做完整性审计——CMB 362.9 mK(77%)+ H₂O 远翼 81.6 + 尘 24.8 + O₂ 118 GHz 翼 0.51 + CO₂ 碰撞诱导 0.023 = 0.470 K,季节 0.403–0.938 K,恰落在假设带内,0.19 K 定标不变。前向模型不需要新项——空结果本身就是结论,正是它授权拿天空当定标标准",
-        "该账两处方法修正:O₂ 首轮编了个强度常数量纲没对、算出 τ=7.79(痕量气体让天空不透明,荒谬),改用与线形账同法从地球实测锚定再按 vmr·p² 标度;另外首轮的结论文本是预先写死的、与自己打印的数字矛盾,现已改为由数字生成并加断言闸(任何单项 >0.5 K 直接 assert 失败)"
+        "冷端透明度审计(sim_window.py,评审后 O₂ 修正):整条定标链压在「窗口通道 0.4–0.9 K」上——CMB 362.9 mK(77%)+ H₂O 远翼 81.6 + 尘 24.8 + CO₂ 碰撞诱导 0.023 + O₂ 118 GHz 翼 0.002 = **0.469 K**,季节 0.402–0.938 K 恰落假设带内,0.19 K 定标不变。空结果本身就是结论——它授权拿天空当定标标准",
+        "方法修正三连(评审 F6/F13):O₂ 首轮编常数得 τ=7.79(荒谬)→ 地球锚定重做;评审又抓出重做版代码只乘了一个 p 而注释文档全称 vmr·p²(差 83×,保守向)——已补第二个 p 与 p² 吸收体的 H/2 标高。另一条必做声明:**定标软件对黑体用瑞利-金斯等效亮温**——t_RJ(230 K)@183 GHz=225.6 K,那 −4.4 K 是换算不是误差(与场景、冷端同一亮温轴才能内插),PT100 ±0.2 K 仍是不确定度主项"
       ],
       "sim_en": [
         "Calibration account (sim_receiver.py): two-point interpolation to the ~190 K line-center scene carries 0.19 K absolute — hot ±0.2 K and cold ±0.5 K each propagated by lever ratio; the 1e-4 gain-stability assumption is earned by the 30-s cadence and maps to the 0.12% column-precision plateau",
-        "Cold-reference transparency audit (sim_window.py): the whole calibration chain rests on 'the window channel sees 0.4-0.9 K', so the forward model was audited for completeness — CMB 362.9 mK (77%) + H2O far wing 81.6 + dust 24.8 + O2 118 GHz wing 0.51 + CO2 collision-induced 0.023 = 0.470 K, seasonal 0.403-0.938 K, landing inside the assumed band and leaving the 0.19 K figure intact. The model needed no new terms — the null result IS the finding, because it is what licenses using the sky as a calibration standard",
-        "Two method fixes in that account: the O2 term first used an invented strength constant with unchecked units and returned tau=7.79 (a trace gas making the sky opaque — absurd); it was redone by the same Earth-anchored-then-scaled method as the line-shape account, with vmr x p^2 scaling. And the first draft's verdict text was hard-coded and contradicted its own printout; it is now generated from the numbers with an assertion gate (any single term above 0.5 K fails the run)"
+        "Cold-reference transparency audit (sim_window.py, O2 corrected post-review): the whole chain rests on 'the window channel sees 0.4-0.9 K' — CMB 362.9 mK (77%) + H2O far wing 81.6 + dust 24.8 + CO2 collision-induced 0.023 + O2 118 GHz wing 0.002 = 0.469 K, seasonal 0.402-0.938 K, inside the assumed band; the 0.19 K figure stands. The null result IS the finding — it licenses the sky as a calibration standard",
+        "Three method fixes (review F6/F13): the O2 term first used an invented constant (tau = 7.79, absurd) and was redone by Earth anchoring; the review then caught the redone CODE multiplying only one factor of p while comment, README and card all said vmr x p^2 (83x, conservative direction) — the second p and the H/2 scale height of a p^2 absorber are now in. And one mandatory declaration: the calibration software uses the RAYLEIGH-JEANS equivalent brightness of the hot load — t_RJ(230 K) at 183 GHz is 225.6 K, and that -4.4 K is a conversion, not an error (hot, scene and cold must sit on the same brightness axis to interpolate); the PT100's +/-0.2 K remains the dominant uncertainty"
       ],
       "physics": "辐射计方程 ΔT=Tsys/√(Bτ) 只管随机噪声,长积分的真敌人是增益漂移——两点定标把系统响应线(斜率+截距)每 30 s 重画一次;火星送的便宜:670 K 系统对 ~190 K 场景,冷空冷端天然免费,不用背液氮上火星",
       "physics_en": "The radiometer equation dT = Tsys/sqrt(B tau) covers only random noise; the real enemy of long integration is gain drift — two-point calibration redraws the response line (slope + intercept) every 30 s. Mars' gift: against the ~190 K scene of a 670 K system, the cold-sky reference is free — no liquid nitrogen shipped to Mars"
@@ -171,12 +219,12 @@
         "Deposition bound": "6.4 um/h (4.7% of a wavelength per night)"
       },
       "sim": [
-        "结霜账两次修正(sim_mech_frost.py):首轮固定混合比算出 10 pr-µm 霜点 196.3 K 对 190 K 夜、判「镜面结霜」——但那同时意味着大气自己过饱和,不可能;火星水汽夜间凝结析出(Viking 拍到地表霜),近地面 vmr 被钳在饱和值,10 pr-µm 白天水汽整夜析出 64.6%",
+        "结霜账两次修正(sim_mech_frost.py):首轮固定混合比算出 10 pr-µm 霜点 196.3 K 对 190 K 夜、判「镜面结霜」——但那同时意味着大气自己过饱和,不可能;火星水汽夜间凝结析出(Viking 拍到地表霜),近地面 vmr 被钳在饱和值,10 pr-µm 白天水汽的近地面分压被钳低 64.6%(局地钳制比,不是列柱析出份额——评审 F9 修正措辞)",
         "第二轮又搞反:问题不是「镜面是否低于霜点」(饱和大气里所有面都低于),而是「谁最冷」。裸地 ε=0.95 全天空视场过冷 4.12 K,镜面 ε=0.05 缝内遮挡只过冷 0.22 K——镜面反而是最不冷的面之一,这解释了为什么 Viking 拍到的是地表霜不是设备霜",
         "沉积率(Hertz-Knudsen 上界 6.39 µm/h,整夜 76.7 µm=4.7% 波长,光学无害但逐 sol 累积且此温度下不升华)对局地供应限(10 m 层只够 0.0075 µm):真值由平流补给决定夹在两界之间,地面拿走大部分。首轮把根号写反得 1e26 µm/h,是量级常识抓出来的"
       ],
       "sim_en": [
-        "Frost account, corrected twice (sim_mech_frost.py): the first pass held the mixing ratio fixed, found a 196.3 K frost point against a 190 K night and declared the mirror frosts — but that also says the ATMOSPHERE is supersaturated, which is impossible; martian vapor condenses out overnight (Viking imaged surface frost) and near-surface vmr is clamped to saturation, with 64.6% of a 10 pr-um daytime load raining out",
+        "Frost account, corrected twice (sim_mech_frost.py): the first pass held the mixing ratio fixed, found a 196.3 K frost point against a 190 K night and declared the mirror frosts — but that also says the ATMOSPHERE is supersaturated, which is impossible; martian vapor condenses out overnight (Viking imaged surface frost) and near-surface vmr is clamped to saturation, with the NEAR-SURFACE partial pressure clamped 64.6% below its daytime value (a local clamp, not a column-condensation fraction — wording fixed per review F9)",
         "The second pass had it backwards too: the question is not 'is the mirror below the frost point' (in a saturated atmosphere everything is) but 'which surface is coldest'. Bare ground at emissivity 0.95 with a full sky view sub-cools 4.12 K; the mirror at 0.05 behind a slot only 0.22 K — the optic is among the LEAST cold surfaces, which is exactly why Viking imaged frost on the ground and not on hardware",
         "Deposition: Hertz-Knudsen upper bound 6.39 um/h (76.7 um per night = 4.7% of a wavelength — optically harmless but it accumulates sol after sol and never sublimes at these temperatures) against a local supply limit of 0.0075 um from a 10 m layer; the truth is set by advective resupply between those bounds, and the ground takes most of it. The first pass inverted the root and returned 1e26 um/h — caught by an order-of-magnitude sanity check, not by re-derivation"
       ],
@@ -192,26 +240,26 @@
       "detail_en": "The cable tray runs 11 m northeast to the met station (sci-weather-01); in a dust storm the two instruments hand the baton back and forth: at tau>3 the sun photometer's direct beam drops to 2.7% and the optical chain goes blind, while dust is nearly transparent at 183 GHz (tau_183 ~ 1e-3 at tau_vis=5) — this radiometer keeps the vapor record running. In return, storm heating of the middle atmosphere (+25 K) would bias a blind retrieval by +3.8%; ingesting the met station's surface T plus GCM tightens T(z) to ±5 K and cuts the bias to +0.8%. Green lamp = link OK, amber flash = storm mode (same alert source as the met station's cabin). The vapor record also feeds ISRU: the atmospheric side of the Rodwell and propellant-plant ledgers.",
       "specs": {
         "尘不透明度": "τ_183 ≈ 1e-3 @ τ_vis=5(Rayleigh)",
-        "盲反演偏差": "+3.8%(尘暴 T 廓线未知)",
-        "接入气象站 T(z)": "+0.8%(±5 K)",
         "互引": "sci-weather-01 光度计卡(τ>3)/设备舱卡(预警灯)",
-        "季节量程": "1–40 pr-µm(Jezero 年循环)"
+        "季节量程": "1–40 pr-µm(Jezero 年循环)",
+        "尘暴退化": "盲 +12.05%(36% 不收敛)→ 接气象站 T(z) +3.89%,3.1× 改善(闭环口径;线性估计 +3.6%→+0.7%)",
+        "气压互赖": "p0 由气象站气压计供给(CO₂ 季节循环 ±10–15%;固定 610 Pa 反演 +10% 偏柱 −2.5%,实测后归零)"
       },
       "specs_en": {
         "Dust opacity": "tau_183 ~ 1e-3 at tau_vis=5 (Rayleigh)",
-        "Blind storm bias": "+3.8% (storm T(z) unknown)",
-        "With met T(z)": "+0.8% (±5 K)",
         "Cross-ref": "sci-weather-01 photometer card (tau>3) / cabin card (alert lamp)",
-        "Seasonal range": "1-40 pr-um (Jezero annual cycle)"
+        "Seasonal range": "1-40 pr-um (Jezero annual cycle)",
+        "Storm degradation": "blind +12.05% (36% non-convergent) -> +3.89% with met T(z), a 3.1x gain (closed-loop; the linear estimate reads +3.6% -> +0.7%)",
+        "Pressure hook": "p0 from the met-station barometer (CO2 cycle swings it 10-15%; a fixed-610-Pa retrieval takes -2.5% per +10%, measured p0 zeroes it)"
       },
       "sim": [
         "尘暴退化账(sim_sensitivity.py):r_eff=1.5 µm 玄武尘在 1.64 mm 波长深处 Rayleigh 区,Q_abs∝2πr/λ → τ_vis=5 折到 183 GHz 只剩 ~1e-3;真正的退化项是温度廓线——把尘暴加热(+25 K@5–30 km,地面 −10 K)喂进正演、反演仍用平静廓线:柱偏 +3.8%;T(z) 收到 ±5 K 后 +0.8%。这就是联动卡的账:光学瞎了它顶上,它的偏差靠气象站压住",
-        "最优估计闭环账(sim_oem.py):把全册误差源真的注进 Rodgers 迭代反演做闭环真值检验——①迭代不可省:一次线性化(账2/5 做法)在远离先验的真态上把柱报成 +20.21%,迭代 OEM 是 −0.24%;②真平均核 DOF 3.29(线性 SVD 报 3.63),对角元 0-5 km 1.00 / 5-10 km 0.93 / 10-20 km 0.89 是真测量,而 20-40 km 只有 0.47——53% 是先验漏过来的,该层必须作\"受约束上界\"发布不能当测量值;③**推翻一条**:未扣除的 1.49 K 地面拾取(账8b)不是让柱偏几个百分点,而是让反演**全部发散**——窗口通道只有 0.4 K 大气信号,宽带 1.49 K 旁瓣偏置是它的 370%,直接摧毁冷参考;接地面停位扣到 10% 残差后同一项只花 +2.69% 且反演良态——**地面停位是可用与不可用的分界,不是改善**;④尘暴 T(z) 盲反演 +12.98% 且 27% 试次不收敛,接气象站 T(z) 后 +3.84%,账5 声称的 ~5× 改善被闭环证实;⑤诚实警告:收敛点解析协方差报 0.29% 1σ 而蒙卡实际散布 0.83%——线性化误差棒低估约 3×(饱和线心通道的曲率),对外发布用蒙卡数字不用矩阵对角元",
+        "最优估计闭环账(sim_oem.py,评审后重跑):①迭代不可省——一次线性化在远离先验真态上偏 +19.44%,迭代 OEM −0.24%;②真平均核 DOF 3.21(线性 SVD 3.76),对角元 1.00/0.91/0.88 是真测量而 20–40 km 仅 0.43=57% 先验,该层作受约束上界发布;③推翻一条:未扣 1.49 K 地面拾取让反演**全部发散**(窗口通道仅 0.4 K 信号),接 140° 地面停位扣到 10% 后 +2.85% 且良态——停位是可用/不可用分界;④尘暴盲 +12.05%(36% 不收敛)接气象站后 +3.89%=**3.1× 改善**(账 5 线性估计 ~5×,闭环为准——评审 F11 抓出旧文硬编码 5x);⑤解析误差棒 0.34% 低估蒙卡 0.90% 约 3×,对外用蒙卡数",
         "地面停位标定精度专账(sim_groundcal.py):账9 让\"扣到 10% 残差\"承担了可用/不可用的分界,故这条假设必须自己有账。**陷阱**:sci-ir-01 测的 8–14 µm 表皮温度**不是** 183 GHz 看到的温度——毫米波穿透 1.1 cm 与昼夜热趋肤深度 3.8 cm 同量级,毫米波亮温是深度加权的热波:振幅只有表面的 0.76、相位滞后 0.9 火星小时,直接拿红外读数当地面亮温整日最大偏 18 K。解法不加硬件:把停位排在两条曲线交叉的 LTST 4.6 h,±0.5 h 调度漂移只花 2.3 K。**账8a 的说法被修正**:2 m 处地面深在 27.5 m 夫琅禾费距离之内,近场没有远场方向图——这个停位测的是地面**亮温**(口径投影 0.17 m 全落地面,读数干净),不是远场旁瓣耦合系数。精度需求反推:耦合份额 f=0.0075,要守住 0.149 K 残差需地面亮温知道到 20 K;实际可得 5.8 K(发射率 0.92±0.03 给 5.3 K + 调度残差 2.3 K)→ **余量 3.4×,账9 的假设成立**。而耦合系数本身可由数据自解:把它加进 OEM 状态向量后后验 1σ 0.016(先验 0.5)、DOF 1.00、与各水汽层最大相关仅 0.18——**通道维度做到了天顶角维度做不到的分离**(账8a 的 tipping 相关 0.87 失败):宽带地面项给六个通道加同样的亮温,而水汽在线心加 190 K、在窗口只加 0.4 K,这个谱特征就是解简并的钥匙"
       ],
       "sim_en": [
         "Storm degradation account (sim_sensitivity.py): 1.5-um basaltic dust sits deep in the Rayleigh regime at 1.64 mm, Q_abs ~ 2pi r/lambda, so tau_vis=5 folds to ~1e-3 at 183 GHz; the real degradation is the temperature profile — feeding storm heating (+25 K at 5-30 km, -10 K at the surface) into the forward model while retrieving with the calm profile biases the column +3.8%; tightening T(z) to ±5 K cuts it to +0.8%. That is the linkage ledger: when optics go blind this instrument takes over, and the met station holds down its bias",
-        "Optimal-estimation closed loop (sim_oem.py): every error source in the book injected into a Rodgers iterated retrieval against synthetic truth — (1) iteration is not optional: one-shot linearisation (what accounts 2/5 did) mis-states the column by +20.21% for a truth state far from the prior, against -0.24% for iterated OEM; (2) the true averaging-kernel DOF is 3.29 (linear SVD said 3.63), with diagonals 1.00 / 0.93 / 0.89 for the lowest three layers but only 0.47 for 20-40 km — that layer is 53% prior and must be published as a constrained upper bound, not a measurement; (3) ONE FINDING OVERTURNED: an uncorrected 1.49 K ground pickup (account 8b) does not merely bias the column, it makes every retrieval DIVERGE — the window channel holds just 0.4 K of atmospheric signal, so a broadband 1.49 K sidelobe offset is 370% of it and destroys the cold reference; with the ground stop measuring the coupling to 10% the same term costs +2.69% and the retrieval is well behaved, which makes that stop the line between usable and unusable rather than an improvement; (4) storm T(z) blind gives +12.98% with 27% of trials failing to converge, and the met-station link brings it to +3.84% — the ~5x improvement account 5 claimed, confirmed in closed loop; (5) honest caveat: the linearised covariance reports 0.29% 1-sigma where Monte-Carlo scatter is 0.83%, so the analytic error bar understates the spread ~3x (curvature of the saturated core channels) — publish the Monte-Carlo number, not the matrix diagonal",
+        "Optimal-estimation closed loop (sim_oem.py, rerun post-review): (1) iteration is not optional — one-shot linearisation errs +19.44% far from prior vs -0.24% iterated; (2) true kernel DOF 3.21 (linear SVD 3.76), diagonals 1.00/0.91/0.88 genuinely measured while 20-40 km sits at 0.43 = 57% prior, published as a constrained upper bound; (3) one finding overturned: an uncorrected 1.49 K ground pickup makes every retrieval DIVERGE (the window channel holds just 0.4 K of signal); with the 140-deg ground stop trimming it to 10% the cost is +2.85% and well-behaved — the stop is the usable/unusable line; (4) storm-blind +12.05% (36% non-convergent) drops to +3.89% with the met link = a 3.1x gain (account 5's linear ~5x superseded; review F11 caught the hard-coded '5x'); (5) the analytic error bar (0.34%) understates Monte-Carlo scatter (0.90%) by ~3x — publish the MC number",
         "Ground-stop calibration account (sim_groundcal.py): account 9 made \"corrected to 10% residual\" carry the line between a usable and an unusable instrument, so that assumption needed its own ledger. THE TRAP: the 8-14 um skin temperature sci-ir-01 measures is NOT the temperature the 183 GHz radiometer sees — microwave penetration (1.1 cm) is comparable to the diurnal thermal skin depth (3.8 cm), so the millimetre brightness is a depth-weighted thermal wave damped to 0.76 of the surface amplitude and lagging 0.9 martian hours; taking the IR reading at face value errs by up to 18 K over a sol. The fix needs no hardware: schedule the stop at LTST 4.6 h where the two curves cross, where a +/-0.5 h slip costs only 2.3 K. ACCOUNT 8A CORRECTED: at 2 m the ground sits far inside the 27.5 m Fraunhofer distance, and a near-field stare has no far-field pattern — this stop measures ground BRIGHTNESS (the 0.17 m aperture projection lands entirely on ground, giving a clean reading), not the far-field sidelobe coupling. Requirement back-out: with coupling fraction f = 0.0075, holding the 0.149 K residual needs ground brightness known to 20 K; 5.8 K is achievable (emissivity 0.92+/-0.03 gives 5.3 K, scheduling residual 2.3 K) — a 3.4x margin, so account 9's assumption stands. The coupling itself is then retrievable from the data: added to the OEM state vector it comes back with posterior 1-sigma 0.016 against a 0.5 prior, DOF 1.00, and at most 0.18 correlation with any water layer — the CHANNEL dimension achieves what the zenith-angle dimension could not (account 8a's tipping correlation of 0.87). A broadband ground term adds the same brightness to all six channels while water adds 190 K at line centre and 0.4 K in the window, and that spectral signature is the key that breaks the degeneracy"
       ],
       "physics": "同一场尘暴在 0.88 µm 是几何光学的消光墙(2πr/λ≈11),在 1.64 mm 是 Rayleigh 尘埃(2πr/λ≈0.006)——波长选择就是穿透力选择,这是把太赫兹补进气象组团的全部理由;而辐射计测的是发射不是消光,失去的只是先验,不是信号",

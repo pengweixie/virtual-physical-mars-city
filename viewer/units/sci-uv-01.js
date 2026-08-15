@@ -2,7 +2,7 @@
 // UV monitoring station: three-channel filter radiometer (UV-A 365 / UV-B 310 /
 // UV-C 270 nm) on AlGaN photodiodes (solar-blind Al0.45GaN for UV-C), diffuser
 // sphere, data kiosk, EVA UV-advisory lamp stack.
-// Design ledger: mars-uv (R1 composition-cutoff / R2-R3 Sentaurus TCAD
+// Design ledger: E:\Claude\mars-uv (R1 composition-cutoff / R2-R3 Sentaurus TCAD
 // spectral response, dark current, CV / R4 Mars UV Monte-Carlo dose account).
 // Colour causality chain: channel ring colours on the tubes = screen spectrum
 // bars = cutaway filter disc (UV-C violet / UV-B blue / UV-A amber).

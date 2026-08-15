@@ -1,0 +1,281 @@
+{
+ "mass": 39.80000000000001,
+ "analytic": {
+  "v_walk_run_mars": 1.248,
+  "v_walk_run_earth": 2.03,
+  "propulsion": [
+   {
+    "t_stance": 0.1,
+    "dv_mars": 0.371,
+    "dv_earth": 0.981,
+    "steps_to_1ms": 3
+   },
+   {
+    "t_stance": 0.15,
+    "dv_mars": 0.556,
+    "dv_earth": 1.472,
+    "steps_to_1ms": 2
+   },
+   {
+    "t_stance": 0.22,
+    "dv_mars": 0.816,
+    "dv_earth": 2.158,
+    "steps_to_1ms": 2
+   },
+   {
+    "t_stance": 0.3,
+    "dv_mars": 1.113,
+    "dv_earth": 2.943,
+    "steps_to_1ms": 1
+   }
+  ],
+  "flight": [
+   {
+    "v_takeoff": 0.3,
+    "t_flight_mars": 0.162,
+    "t_flight_earth": 0.061,
+    "h_mars": 0.012
+   },
+   {
+    "v_takeoff": 0.5,
+    "t_flight_mars": 0.27,
+    "t_flight_earth": 0.102,
+    "h_mars": 0.034
+   },
+   {
+    "v_takeoff": 0.8,
+    "t_flight_mars": 0.431,
+    "t_flight_earth": 0.163,
+    "h_mars": 0.086
+   }
+  ],
+  "impact": [
+   {
+    "v": 0.35,
+    "momentum": 13.9,
+    "force_50ms": 279,
+    "over_iso": 1.0
+   },
+   {
+    "v": 0.6,
+    "momentum": 23.9,
+    "force_50ms": 478,
+    "over_iso": 1.71
+   },
+   {
+    "v": 1.0,
+    "momentum": 39.8,
+    "force_50ms": 796,
+    "over_iso": 2.84
+   },
+   {
+    "v": 1.5,
+    "momentum": 59.7,
+    "force_50ms": 1194,
+    "over_iso": 4.26
+   }
+  ]
+ },
+ "trials": [
+  {
+   "v_des": 0.6,
+   "T_stance": 0.2,
+   "T_flight": 0.16,
+   "thrust": 0.05,
+   "ok": true,
+   "t": 8.0,
+   "dist": 3.864,
+   "v_mean": 0.483,
+   "steps": 21,
+   "duty": 0.453,
+   "flight_frac": 0.547,
+   "peak_z": 0.859
+  },
+  {
+   "v_des": 0.6,
+   "T_stance": 0.18,
+   "T_flight": 0.22,
+   "thrust": 0.075,
+   "ok": true,
+   "t": 8.0,
+   "dist": 4.031,
+   "v_mean": 0.504,
+   "steps": 18,
+   "duty": 0.319,
+   "flight_frac": 0.681,
+   "peak_z": 0.913
+  },
+  {
+   "v_des": 0.9,
+   "T_stance": 0.16,
+   "T_flight": 0.22,
+   "thrust": 0.09,
+   "ok": false,
+   "t": 7.93,
+   "dist": 6.074,
+   "v_mean": 0.766,
+   "steps": 18,
+   "duty": 0.294,
+   "flight_frac": 0.706,
+   "peak_z": 1.023
+  },
+  {
+   "v_des": 0.9,
+   "T_stance": 0.14,
+   "T_flight": 0.26,
+   "thrust": 0.1,
+   "ok": true,
+   "t": 8.0,
+   "dist": 6.089,
+   "v_mean": 0.761,
+   "steps": 18,
+   "duty": 0.291,
+   "flight_frac": 0.709,
+   "peak_z": 0.963
+  },
+  {
+   "v_des": 1.2,
+   "T_stance": 0.14,
+   "T_flight": 0.26,
+   "thrust": 0.1,
+   "ok": false,
+   "t": 4.63,
+   "dist": 3.449,
+   "v_mean": 0.746,
+   "steps": 12,
+   "duty": 0.314,
+   "flight_frac": 0.686,
+   "peak_z": 1.004
+  },
+  {
+   "v_des": 1.2,
+   "T_stance": 0.12,
+   "T_flight": 0.3,
+   "thrust": 0.11,
+   "ok": true,
+   "t": 8.0,
+   "dist": 8.017,
+   "v_mean": 1.002,
+   "steps": 20,
+   "duty": 0.293,
+   "flight_frac": 0.707,
+   "peak_z": 1.07
+  },
+  {
+   "v_des": 0.6,
+   "T_stance": 0.3,
+   "T_flight": 0.08,
+   "thrust": 0.03,
+   "ok": true,
+   "t": 8.0,
+   "dist": 3.134,
+   "v_mean": 0.392,
+   "steps": 19,
+   "duty": 0.754,
+   "flight_frac": 0.246,
+   "peak_z": 0.839
+  },
+  {
+   "v_des": 0.6,
+   "T_stance": 0.34,
+   "T_flight": 0.06,
+   "thrust": 0.022,
+   "ok": true,
+   "t": 8.0,
+   "dist": 2.803,
+   "v_mean": 0.35,
+   "steps": 19,
+   "duty": 0.823,
+   "flight_frac": 0.177,
+   "peak_z": 0.832
+  },
+  {
+   "v_des": 0.9,
+   "T_stance": 0.28,
+   "T_flight": 0.09,
+   "thrust": 0.035,
+   "ok": true,
+   "t": 8.0,
+   "dist": 4.756,
+   "v_mean": 0.594,
+   "steps": 20,
+   "duty": 0.736,
+   "flight_frac": 0.264,
+   "peak_z": 0.844
+  },
+  {
+   "v_des": 0.9,
+   "T_stance": 0.32,
+   "T_flight": 0.07,
+   "thrust": 0.028,
+   "ok": true,
+   "t": 8.0,
+   "dist": 4.533,
+   "v_mean": 0.566,
+   "steps": 19,
+   "duty": 0.804,
+   "flight_frac": 0.196,
+   "peak_z": 0.838
+  }
+ ],
+ "earth_trials": [
+  {
+   "v_des": 0.6,
+   "T_stance": 0.18,
+   "T_flight": 0.22,
+   "thrust": 0.075,
+   "ok": true,
+   "t": 8.0,
+   "dist": 4.171,
+   "v_mean": 0.521,
+   "steps": 29,
+   "duty": 0.675,
+   "flight_frac": 0.325,
+   "peak_z": 0.848
+  },
+  {
+   "v_des": 1.2,
+   "T_stance": 0.12,
+   "T_flight": 0.3,
+   "thrust": 0.11,
+   "ok": true,
+   "t": 8.0,
+   "dist": 7.83,
+   "v_mean": 0.979,
+   "steps": 37,
+   "duty": 0.595,
+   "flight_frac": 0.405,
+   "peak_z": 0.856
+  }
+ ],
+ "ran": true,
+ "best": {
+  "v_des": 1.2,
+  "T_stance": 0.12,
+  "T_flight": 0.3,
+  "thrust": 0.11,
+  "ok": true,
+  "t": 8.0,
+  "dist": 8.017,
+  "v_mean": 1.002,
+  "steps": 20,
+  "duty": 0.293,
+  "flight_frac": 0.707,
+  "peak_z": 1.07
+ },
+ "low_flight_best": {
+  "v_des": 0.9,
+  "T_stance": 0.28,
+  "T_flight": 0.09,
+  "thrust": 0.035,
+  "ok": true,
+  "t": 8.0,
+  "dist": 4.756,
+  "v_mean": 0.594,
+  "steps": 20,
+  "duty": 0.736,
+  "flight_frac": 0.264,
+  "peak_z": 0.844
+ },
+ "verdict": "sustained airborne gait achieved"
+}

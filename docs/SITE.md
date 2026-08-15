@@ -81,6 +81,8 @@ session 认领制作。**凡与本文件冲突的做法,以本文件为准;想�
 | environment | Environment Watch | ⬜ 待认领 | 建议 mars-weather × mars_rad 合稿 |
 | flight | Flight Ops | ⬜ 待认领 | 建议 mars-heli session |
 | town | The Town | ✅ | 总控(村落数字取自 mars-village 五本账;场站/温室排/管廊为总控自建资产) |
+| grid | The Grid | ✅ | mars-grid session |
+| works | The Works | ⬜ 待认领 | 重工业与大科学装置合稿(sci-fel-01 / sci-cryoem-01 / res-sulfur-01 / res-eclss-01+recycle / 发射园区 VAB+载荷楼+履带车)。建议 mars-fel 主笔(账最厚),其余按 §7 供稿 |
 
 ## 7. 器件级素材供稿(器件/芯片 session 侧)
 

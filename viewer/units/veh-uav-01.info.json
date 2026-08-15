@@ -1,0 +1,190 @@
+{
+ "id": "veh-uav-01",
+ "pois": [
+  {
+   "id": "uav",
+   "range": 22,
+   "label": "veh-uav-01 复合翼 VTOL 无人机",
+   "label_en": "veh-uav-01 Compound-Wing VTOL UAV",
+   "detail": "四升力旋翼 + 一巡航桨的 quad-plane:翼展 6.31 m、MTOW 31.7 kg、巡航 71 m/s。火星大气密度只有地球的 1/68,靠旋翼悬停极贵(轴功率 4046 W)、靠机翼巡航便宜(1139 W)。起降用旋翼、航段用机翼 —— 这个构型不是选出来的,是被密度逼出来的。",
+   "detail_en": "Quad-plane with four lift rotors and one pusher: 6.31 m span, 31.7 kg MTOW, 71 m/s cruise. Mars air is 1/68 of Earth's, so rotor hover costs 4046 W of shaft power while wing-borne cruise costs 1139 W. Rotors for takeoff, wing for range — the configuration is forced by density, not chosen.",
+   "specs": {
+    "翼展": "6.31 m",
+    "MTOW": "31.74 kg",
+    "巡航速度": "71.2 m/s",
+    "巡航升阻比": "11.1",
+    "失速速度": "56.0 m/s"
+   },
+   "specs_en": {
+    "Span": "6.31 m",
+    "MTOW": "31.74 kg",
+    "Cruise": "71.2 m/s",
+    "Cruise L/D": "11.1",
+    "Stall": "56.0 m/s"
+   },
+   "sim": [
+    "总体闭环(01_sizing.py):翼载 29.6 N/m²、桨盘载荷 14.7 N/m² 下质量闭环残差 0.004%。",
+    "阵风过载被 CL_max 封顶:气动过载 2.85 vs 失速封顶 1.76 —— 火星上阵风先让飞机失速而不是先把它掰断,所以它是**可控性问题不是强度问题**。全机结构因此处处贴工艺下限,裕度 12~18×。",
+    "盘旋半径 942 m,地球同速同过载只要 356 m:低 g 把除数变小、高失速速度把被除数变大,同一件事放大两次。"
+   ],
+   "physics": "低密度同时抬高失速速度与悬停功率,而两者对构型的要求相反 —— 复合翼是同时满足两者的唯一解。"
+  },
+  {
+   "id": "transition",
+   "range": 18,
+   "pos": [
+    0,
+    1.6,
+    0
+   ],
+   "label": "过渡走廊 —— 旋翼与机翼的交班",
+   "label_en": "Transition Corridor",
+   "detail": "过渡从 0.5 倍失速速度起、到 67 m/s 完成,历时 161 s。交班**按动压而非按行程**:舵面权限正比于动压,过渡起点只有巡航的 1/16,按行程线性退旋翼会出现两边都不够的窗口。",
+   "detail_en": "Transition runs from half stall speed to 67 m/s over 161 s. The handover schedules on dynamic pressure, not on progress: surface authority scales with q, which at entry is 1/16 of cruise. A linear retire would open a window where neither effector is strong enough.",
+   "specs": {
+    "过渡时长": "161 s",
+    "过渡完成速度": "67.2 m/s",
+    "峰值电功率": "4.8 kW",
+    "副翼": "22% 翼面积"
+   },
+   "specs_en": {
+    "Duration": "161 s",
+    "Completion": "67.2 m/s",
+    "Peak electrical": "4.8 kW",
+    "Aileron": "22% of wing"
+   },
+   "sim": [
+    "交班律由**需求反解**(16_control_design.py):rotor_frac = clamp((L_need − q·k_ail)/L_roll, 0, 1),L_need = 2× 阵风滚转力矩 = 30.7 N·m。线性行程法全程最小滚转权限只有 32.8 N·m(需求的 0.60×),需求反解法恒等于 30.7。",
+    "副翼由 12% 加大到 22% 翼面积,增重仅 139 g,换旋翼在过渡完成时退净;否则巡航段桨仍需约 40% 转速空转,耗 55 Wh/架次(飞行能量的 7%)。",
+    "**偏航的交班方向与滚转相反**:滚转是旋翼强(21.6 N·m)舵面弱(13.2),偏航是旋翼弱(6.0,只有反扭矩)舵面强(9.5)→ 偏航旋翼在 62 m/s 就退净,滚转要到 87。"
+   ],
+   "physics": "舵面靠动压产生力矩、旋翼靠转速,两者随速度的增长规律不同,所以交班必须以权限而非时间为准。"
+  },
+  {
+   "id": "thermal",
+   "range": 14,
+   "pos": [
+    0.15,
+    1.0,
+    0.1
+   ],
+   "label": "双温区 —— 过夜比飞行更费电",
+   "label_en": "Two Thermal Zones",
+   "detail": "机身剖开处是本机最反直觉的部分:航电舱(薄保温)与电池分舱(金色 MLI + 厚气凝胶)。火星夜温 −90 ℃,舱的热时间常数只有 2.1 h 而夜长 12.3 h —— **保温层是减速器不是屏障**,必须加热。而加热每 sol 要 90 Wh。",
+   "detail_en": "The cutaway exposes the least intuitive part of this vehicle: an avionics bay with thin insulation and a battery sub-enclosure in gold MLI plus thick aerogel. Mars nights reach −90 °C; the cabin's thermal time constant is 2.1 h against a 12.3 h night, so insulation only slows the loss — heating is unavoidable, at 90 Wh per sol.",
+   "specs": {
+    "舱内设定点": "-55 ℃",
+    "机身保温": "15 mm",
+    "电池充电闭锁": "0 ℃(析锂)",
+    "夜间保温": "90 Wh/sol"
+   },
+   "specs_en": {
+    "Cabin setpoint": "-55 °C",
+    "Fuselage insulation": "15 mm",
+    "Charge lockout": "0 °C (Li plating)",
+    "Night heating": "90 Wh/sol"
+   },
+   "sim": [
+    "舱内热模型(13_cabin_thermal.py):τ = C/UA = 2.10 h vs 夜长 12.3 h → 比值 0.17。要让 τ 追上夜长需保温 17 mm 以上,而机身内径只有 149 mm —— 几何上走不通,只能加热。",
+    "**双温区是必需的**:舱温压到 −55 ℃ 省航电的电,但电池 <0 ℃ 不能充电,而太阳翼方案要求每个 sol 白天都充。单节点模型表达不了这个冲突。好消息是充电损耗自发热(充 1281 Wh 的 5%)几乎白送了白天的电池保温。",
+    "焊点疲劳回灌:加热时舱内 ΔT=35 K → 0603 焊点裕度 2.07×;休眠不加热 ΔT=57 K → 0.92×(<1)。按 Miner 累积(668 sol 含休眠 45 sol)总损伤 D=0.52 —— 撑得住,但总裕度从 2.2× 降到 1.9×。**省电与活得久是有交换比的。**"
+   ],
+   "physics": "稀薄大气让对流几乎消失,热只能靠辐射走。同一件事让白天排不掉太阳热、夜里留不住内部热。"
+  },
+  {
+   "id": "solar",
+   "range": 14,
+   "pos": [
+    0,
+    1.15,
+    -1.2
+   ],
+   "label": "上翼面太阳翼 —— 补能闭环",
+   "label_en": "Wing-Top Solar Array",
+   "detail": "翼面深色阵列 0.59 m²(翼面积的 15%)。它是被一次热分析逼出来的:原设计没有任何补能装置,而每 sol 支出 682 Wh、电池只有 1095 Wh —— **1.6 个 sol 就耗尽**,任务却要求 668 sol。",
+   "detail_en": "The dark array covers 0.59 m² (15% of wing area). It exists because a thermal analysis exposed an architectural hole: the original design had no recharge at all, drawing 682 Wh per sol from a 1095 Wh pack — empty in 1.6 sols against a 668-sol mission.",
+   "specs": {
+    "阵列面积": "0.59 m²",
+    "产出": "676 Wh/(m²·sol)",
+    "电池": "1281 Wh",
+    "可铺余量": "4.2×"
+   },
+   "specs_en": {
+    "Array area": "0.59 m²",
+    "Yield": "676 Wh/(m²·sol)",
+    "Battery": "1281 Wh",
+    "Layout margin": "4.2x"
+   },
+   "sim": [
+    "补能闭环(14_energy_closure.py)是真正的质量螺旋:过夜保温耗电 → 电池更大 → 机身更大 → 表面积更大 → 保温更耗电。四条正反馈,只有一条负反馈(机翼变大 → 可铺面积变大)。按原规格(−40 ℃ 器件 + 3 mm 保温 + 105 km),**质量螺旋没有不动点 —— 那个设计不存在解**。",
+    "推荐点:军级 −55 ℃ 器件 + 航程 94 km + 机身保温 15 mm → MTOW 31.74 kg。增长因子 6:1 落在飞机的正常区间(3~8);反常的是**直接增重 3.7 kg 里有 2.8 kg 是纯为过夜保暖的电池**,比载荷还重。病根在热,不在能源架构。",
+    "尘暴生存:全球尘暴期发电近乎归零。只保电池不冻坏(−40 ℃ 电解液线)可撑 16 sol;电池分舱保温加到 53 mm(+272 g)可撑到 40 sol。但 IMU/MCU 的存储下限只有 −40/−65 ℃,**不能整舱放任冷透**,要再分一个小热区。"
+   ],
+   "physics": "太阳翼是症状的解药,病因是器件的低温规格 —— 热控的真正设计变量是元件温度等级,不是保温层厚度。"
+  },
+  {
+   "id": "nav",
+   "range": 12,
+   "pos": [
+    0,
+    0.75,
+    0.1
+   ],
+   "label": "无 GNSS、无磁场的导航",
+   "label_en": "Navigation Without GNSS or Magnetic Field",
+   "detail": "火星没有全球磁场,航向只能靠太阳敏;机腹下视相机 + 激光测高给速度与高度。三片 IMU **异厂**(2×TDK + 1×Bosch)不是为了多一票,而是因为同厂器件的零偏温漂**相关** —— 三取二对共模完全无感。",
+   "detail_en": "Mars has no global magnetic field, so heading comes only from a sun sensor; a belly camera plus laser altimeter supply velocity and height. The three IMUs deliberately span two vendors (2x TDK + 1x Bosch) — not for an extra vote, but because same-vendor bias drift is correlated and two-out-of-three is blind to common mode.",
+   "specs": {
+    "IMU": "2×ICM-42688 + 1×BMI088",
+    "航向源": "太阳敏(唯一)",
+    "无基准可信时长": "30 min",
+    "倾角信噪比": "地球的 1/2.64"
+   },
+   "specs_en": {
+    "IMU": "2x ICM-42688 + 1x BMI088",
+    "Heading source": "Sun sensor (only)",
+    "Dead-reckoning limit": "30 min",
+    "Tilt SNR": "1/2.64 of Earth"
+   },
+   "sim": [
+    "重力只有 3.71 m/s²:加计零偏 20 mm/s² 在火星造成 0.31° 倾角偏差,地球只有 0.12° —— **分母是行星给的**,换更好的加计只能改分子。",
+    "陀螺零偏必须**在线**估计:上电重复性 1800 °/hr、温漂 1800 °/hr,而任务要求 13 °/hr,差两个数量级。起飞前标定一次远远不够。",
+    "共模量化:同厂三片一起漂 0.5 °/s,而判异门限 2 °/s —— 表决全票通过而姿态在稳定跑偏。表决器因此做了两层,第二层专盯'同厂两片一致偏离异厂片'。",
+    "惯量按分块刚体算(15_inertia.py):Ixx=29.0、Iyy=6.2、Izz=34.6 kg·m²。经验式 m(0.25b)² 会偏 2.7 倍 —— 它假设质量沿展向均布,而 6.2 kg 电池全在中心线上。Ixx 的 82% 来自机翼,而 5.44 m 翼展正是低密度逼出来的:**同一个量既是气动的结果,也是滚转迟钝的原因**。"
+   ],
+   "physics": "没有磁场就没有绝对航向的备份;太阳敏在夜间与尘暴中失效,那时航向误差随时间无界增长。"
+  },
+  {
+   "id": "pad",
+   "range": 16,
+   "pos": [
+    2.0,
+    0.3,
+    0
+   ],
+   "label": "起降坪与 brownout",
+   "label_en": "Landing Pad and Brownout",
+   "detail": "坪面 H 标线、触地圈与四角进近灯。真正的难点在最后 5 m:桨盘诱导速度 22.4 m/s(地球同盘载只有 2.4),5 m 以下扬尘遮住下视相机 —— 那正是最需要速度信息的时候。",
+   "detail_en": "The pad carries an H marking, a touchdown ring and four approach beacons. The hard part is the last 5 m: induced velocity through the disc is 22.4 m/s (2.4 on Earth at the same disc loading), and below 5 m the raised dust blinds the downward camera — exactly when velocity data matters most.",
+   "specs": {
+    "诱导速度": "22.4 m/s",
+    "扬尘高度": "5 m",
+    "设计触地速度": "0.67 m/s",
+    "掀翻临界横向速度": "0.32 m/s"
+   },
+   "specs_en": {
+    "Induced velocity": "22.4 m/s",
+    "Brownout onset": "5 m",
+    "Design touchdown": "0.67 m/s",
+    "Tip-over critical": "0.32 m/s"
+   },
+   "sim": [
+    "触地速度按**单腿**吸能反推:坡度 10° 与 20 cm 石块都会造成一点先着,全部动能进一条腿 → 1.00 m/s,留 1.5× 裕度得 0.67。四点同时着地能吸到 2.00 m/s,但**不能按那个设计**。",
+    "尘区里没有水平速度观测,横向速度只能靠加计零偏积分:慢降(0.3 m/s,16 s)给 0.32 m/s > 掀翻临界 0.32;改成快降 1.0 m/s(4.8 s)+ 进场段标定零偏后只有 0.024 m/s,13× 裕度。**这两条是强制项不是优化** —— 27 cm 轮距够用是被它们救的。",
+    "VIO 在尘区是**丢弃**不是降权:被尘污染的光流是**系统性错的**,降权意味着还在按权重把错误信息掺进速度估计。",
+    "接触判定不能等测高读 0:腿先着地时机身还在 72 cm 高,测高永远读不到 0 —— 判据是测高 <15 cm **或**加计冲击 >2 g,冲击优先。"
+   ],
+   "physics": "稀薄大气要求更快的桨盘下洗才能产生同样推力,于是着陆扬尘比地球严重得多。"
+  }
+ ]
+}

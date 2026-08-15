@@ -1,6 +1,6 @@
 // Atmospheric LiDAR ground station — code asset per MODELS.md §4.
 // Ported from the mars_lidar project's procedural Blender build
-// (mars_lidar\build_mars_lidar.py) at real metric scale: a wedge
+// (E:\Claude\mars_lidar\build_mars_lidar.py) at real metric scale: a wedge
 // enclosure (1.6 x 1.2 m, 20 deg sloped roof, 2.2 m at the back), twin
 // biaxial optical ports (TX beam expander + RX Ø125 mm telescope), a 9-fin
 // radiator wall, a 3.47 m meteorology mast, sealed cable glands, four

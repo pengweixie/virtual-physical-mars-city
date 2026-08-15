@@ -1,7 +1,7 @@
 // sci-weather-net-01 — 气象观测网远端杆(scatter 散件包,sci-weather-01 的城外围观测网)
 // 契约:导出 meta + builders;每 builder 接收 THREE 返回 Group;1u=1m、原点=地面中心、
 // 每件 ≤800 三角形;夜光→userData.nightMats、闪烁→userData.blinkMats;撒放归引擎/总控。
-// 存在意义(设计轮 #14, mars-weather\sim_network_triangulation.py):
+// 存在意义(设计轮 #14, E:\Claude\mars-weather\sim_network_triangulation.py):
 // 主站+3 远端的到达时差平面波反演给出尘暴前锋速度矢量(σ_v 4-5% / σ_az 2-3°,
 // 提前量 1-3.5 分钟)——单站只能报"来了",网才能报"从哪来、多快、几分钟到"。
 // 建议撒放:主站 (300,-300) 外围 1.5~2.2 km、方位岔开 ≥90°,3 件(A/B/C 各一)。

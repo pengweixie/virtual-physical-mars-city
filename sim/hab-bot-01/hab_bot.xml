@@ -1,0 +1,114 @@
+<!-- hab-bot-01 simplified biped for gait baking (mujoco-bake pipeline).
+     Mars gravity 3.71 m/s^2. MuJoCo frame: z-up, y-forward.
+     Sign mapping table (write it down, don't wing it):
+       | quantity        | three.js (asset)        | MuJoCo (sim)      | map        |
+       | forward         | +z                      | +y                | -          |
+       | hip/knee/ankle/shoulder sagittal | rotation.x (thigh fwd = NEGATIVE) | hinge +x (thigh fwd = POSITIVE) | js = -mj |
+       | torso pitch     | rotation.x (+ = lean fwd) | root_pitch (+ = lean back) | js = -mj |
+       | heave           | position.y              | root z            | js = mj - z0 |
+     Planarized support: pelvis rides on slide-y + slide-z + hinge-pitch
+     (gait-trainer boom equivalent; pitch gets a soft spring so the walker
+     cannot topple — we bake sagittal joint curves + bob, not falls).
+     Visual-asset dimensions (must match hab-bot-01.js):
+       hip height 0.84, thigh 0.38, shank 0.38, ankle height 0.08,
+       shoulder height 1.32, upper arm 0.26, forearm 0.24, total 1.65. -->
+<mujoco model="hab-bot-01-gait">
+  <!-- angle=radian: MJCF defaults to DEGREES — leaving that would compile
+       range="-1.5 1.5" as +/-1.5 deg and pin every joint at its limit -->
+  <compiler angle="radian"/>
+  <option gravity="0 0 -3.71" timestep="0.002"/>
+  <default>
+    <joint damping="1.2" armature="0.01"/>
+    <geom friction="1.0 0.005 0.0001" density="900"/>
+    <position kp="300" kv="18" forcerange="-150 150"/>
+  </default>
+  <worldbody>
+    <geom name="floor" type="plane" size="20 20 0.1" rgba="0.5 0.4 0.35 1"/>
+    <body name="pelvis" pos="0 0 0.84">
+      <joint name="root_y" type="slide" axis="0 1 0" damping="0.5"/>
+      <joint name="root_z" type="slide" axis="0 0 1" damping="2"/>
+      <joint name="root_pitch" type="hinge" axis="1 0 0"
+             stiffness="150" damping="30"/>
+      <geom name="pelvis_g" type="box" size="0.10 0.07 0.06" mass="6"
+            contype="0" conaffinity="0"/>
+      <!-- torso + head: rigid with pelvis (visual torso pitch = root_pitch) -->
+      <geom name="torso_g" type="box" size="0.115 0.08 0.24" pos="0 0 0.30"
+            mass="14" contype="0" conaffinity="0"/>
+      <geom name="head_g" type="sphere" size="0.10" pos="0 0 0.68" mass="3.5"
+            contype="0" conaffinity="0"/>
+
+      <!-- ============ legs (hip at z offset 0, thigh 0.38, shank 0.38) ==== -->
+      <body name="thigh_L" pos="-0.10 0 0">
+        <joint name="hip_L" type="hinge" axis="1 0 0" range="-1.2 1.2"/>
+        <geom type="capsule" fromto="0 0 0  0 0 -0.38" size="0.05" mass="3.2"
+              contype="0" conaffinity="0"/>
+        <body name="shank_L" pos="0 0 -0.38">
+          <joint name="knee_L" type="hinge" axis="1 0 0" range="-1.8 0.05"/>
+          <geom type="capsule" fromto="0 0 0  0 0 -0.38" size="0.04" mass="2.2"
+                contype="0" conaffinity="0"/>
+          <body name="foot_L" pos="0 0 -0.38">
+            <joint name="ank_L" type="hinge" axis="1 0 0" range="-0.8 0.8"/>
+            <!-- round sole (point contact, can roll) breaks the flat-foot
+                 closed-chain lock; box is visual-only -->
+            <geom name="foot_L_g" type="sphere" size="0.05" pos="0 0.02 -0.03"
+                  mass="0.9"/>
+            <geom type="box" size="0.05 0.11 0.02" pos="0 0.03 -0.06" mass="0.05"
+                  contype="0" conaffinity="0"/>
+          </body>
+        </body>
+      </body>
+      <body name="thigh_R" pos="0.10 0 0">
+        <joint name="hip_R" type="hinge" axis="1 0 0" range="-1.2 1.2"/>
+        <geom type="capsule" fromto="0 0 0  0 0 -0.38" size="0.05" mass="3.2"
+              contype="0" conaffinity="0"/>
+        <body name="shank_R" pos="0 0 -0.38">
+          <joint name="knee_R" type="hinge" axis="1 0 0" range="-1.8 0.05"/>
+          <geom type="capsule" fromto="0 0 0  0 0 -0.38" size="0.04" mass="2.2"
+                contype="0" conaffinity="0"/>
+          <body name="foot_R" pos="0 0 -0.38">
+            <joint name="ank_R" type="hinge" axis="1 0 0" range="-0.8 0.8"/>
+            <geom name="foot_R_g" type="sphere" size="0.05" pos="0 0.02 -0.03"
+                  mass="0.9"/>
+            <geom type="box" size="0.05 0.11 0.02" pos="0 0.03 -0.06" mass="0.05"
+                  contype="0" conaffinity="0"/>
+          </body>
+        </body>
+      </body>
+
+      <!-- ============ arms (decorative dynamics: swing servo'd, no contact) -->
+      <body name="uarm_L" pos="-0.215 0 0.48">
+        <joint name="sh_L" type="hinge" axis="1 0 0" range="-1.5 1.5" damping="0.6"/>
+        <geom type="capsule" fromto="0 0 0  0 0 -0.26" size="0.035" mass="1.1"
+              contype="0" conaffinity="0"/>
+        <body name="farm_L" pos="0 0 -0.26">
+          <joint name="elb_L" type="hinge" axis="1 0 0" range="-0.1 2.0" damping="0.4"/>
+          <geom type="capsule" fromto="0 0 0  0 0 -0.24" size="0.03" mass="0.7"
+                contype="0" conaffinity="0"/>
+        </body>
+      </body>
+      <body name="uarm_R" pos="0.215 0 0.48">
+        <joint name="sh_R" type="hinge" axis="1 0 0" range="-1.5 1.5" damping="0.6"/>
+        <geom type="capsule" fromto="0 0 0  0 0 -0.26" size="0.035" mass="1.1"
+              contype="0" conaffinity="0"/>
+        <body name="farm_R" pos="0 0 -0.26">
+          <joint name="elb_R" type="hinge" axis="1 0 0" range="-0.1 2.0" damping="0.4"/>
+          <geom type="capsule" fromto="0 0 0  0 0 -0.24" size="0.03" mass="0.7"
+                contype="0" conaffinity="0"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position name="a_hip_L" joint="hip_L"/>
+    <position name="a_hip_R" joint="hip_R"/>
+    <position name="a_knee_L" joint="knee_L"/>
+    <position name="a_knee_R" joint="knee_R"/>
+    <position name="a_ank_L" joint="ank_L" kp="25" kv="1.5"/>
+    <position name="a_ank_R" joint="ank_R" kp="25" kv="1.5"/>
+    <position name="a_sh_L" joint="sh_L" kp="55" kv="5"/>
+    <position name="a_sh_R" joint="sh_R" kp="55" kv="5"/>
+    <position name="a_elb_L" joint="elb_L" kp="35" kv="3"/>
+    <position name="a_elb_R" joint="elb_R" kp="35" kv="3"/>
+  </actuator>
+</mujoco>

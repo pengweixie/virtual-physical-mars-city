@@ -1,7 +1,7 @@
 // sci-swir-01 — 短波红外勘探/气辉相机站(InGaAs 0.9-1.7 um 科学相机城市化部署)
 // 契约 MODELS.md §4:1u=1m、原点=基座地面点、+Y 上、正面朝 +Z、THREE 由查看器传入。
-// 器件真源:Codex/2026-07-04\InGaAs(640x512/15um InGaAs/InP PIN + CTIA ROIC,
-//   TEC -40C,COMSOL 物理热模型 3.85A 定版签核);火星化五本账:mars-swir。
+// 器件真源:E:\Codex\2026-07-04\InGaAs(640x512/15um InGaAs/InP PIN + CTIA ROIC,
+//   TEC -40C,COMSOL 物理热模型 3.85A 定版签核);火星化五本账:E:\Claude\mars-swir。
 // 相机机身按真机 1:1(70x70x120 mm)装云台;站体(桅杆/柜/标定板)为城市化部署件。
 // 动画:云台方位=声明式 oscillator 缓扫;俯仰=animate 昼低仰角(扫矿区)/夜高仰角
 //   (朝天测 1.27um 气辉)平滑切换;滤光轮 spinner;§4c 感知通道假彩色 SWIR 小屏

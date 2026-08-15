@@ -138,7 +138,7 @@
     <div class="spec"><div class="spec__k">Hover, 5 kg</div><div class="spec__v">604 W<small> rotor · 805 W elec</small></div></div>
     <div class="spec"><div class="spec__k">Rotor</div><div class="spec__v">1,698<small> rpm · tip Ma 0.667</small></div></div>
     <div class="spec"><div class="spec__k">Baked loop</div><div class="spec__v">80 s<small> 269 revs · closes exactly</small></div></div>
-    <div class="spec"><div class="spec__k">Cold start</div><div class="spec__v">−20 °C<small> trips in 1 s</small></div></div>
+    <div class="spec"><div class="spec__k">Cold start</div><div class="spec__v">−20 °C<small> trips in 1 s · 23 min preheat</small></div></div>
   </div>
 </div>
 
@@ -331,6 +331,43 @@
       0.027% fade per 70%-DoD cycle: 740 sorties to the 80% line, 82% left after a Mars year of daily
       flying — one pack swap per Mars year, filed next to the spare blades.</p>
     </div>
+    <div class="prose">
+      <h3 style="font-size:1.05rem;margin-top:34px;color:var(--ink);">Three things the lumped model was hiding</h3>
+      <p>That 0.08 W/K was an assumption, and three operating rules were hanging off it — so it got
+      derived. At 610 Pa the CO₂ mean free path is <strong>5.3 µm</strong> against a 20 nm aerogel
+      pore: Knudsen number 265, gas conduction suppressed to 0.01 mW/(m·K) where the same blanket on
+      Earth would carry 1.49. The blanket therefore costs almost nothing — and the real bottleneck is
+      the <em>skin radiating to the sky</em>. With the gold MLI at ε ≈ 0.1 the pack leaks
+      <strong>0.069 W/K</strong>; with an ordinary painted skin it would leak 0.15. The gold film is
+      doing thermal work, not just cosplaying Ingenuity. The assumed number was 14% conservative:
+      docked heating is really <strong>94 Wh/sol</strong> and unheated survival <strong>5.0 h</strong>
+      — the same-sol recovery rule survives its own correction.</p>
+      <p>Second, "preheat before you fly" never had a duration. On an 18-cell 3×6 thermal network with
+      a 20 W film heater from a −20 °C soak, the <strong>coldest edge cell needs 23 minutes and
+      7.7 Wh</strong> to cross 0 °C, and at that moment there is <strong>12.2 K of spread</strong>
+      across the pack. A single-node model watching the mean would have cleared the aircraft at
+      17 minutes — <strong>26% optimistic</strong>, and the cell that trips the cutoff is never the
+      average one.</p>
+      <p>Third, the 0 °C rule was written for a new pack. End-of-life resistance is 60% higher, which
+      lifts the minimum temperature for the 900 W spin-up transient from −19.5 °C to
+      <strong>−4.9 °C</strong> — 14.5 K of margin eaten by age. It never crosses zero, and that is the
+      useful result: the 0 °C line is a <strong>charging constraint</strong> (lithium plating on the
+      anode), not a power one, and it stays valid for the whole life of the pack.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/flight/batt_deep_insulation.png" alt="Pack heat-loss conductance versus skin emissivity, and aerogel conductivity versus ambient pressure" loading="lazy">
+        <figcaption>KNUDSEN-KILLED GAS CONDUCTION — THE LEAK IS SET BY SKIN EMISSIVITY: 0.069 W/K GOLD vs 0.15 PAINTED.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/flight/batt_deep_preheat.png" alt="Preheat transient showing coldest cell, mean and hottest cell crossing the 0 C line at different times" loading="lazy">
+        <figcaption>PREHEAT FROM −20 °C — COLDEST CELL AT 23 min / 7.7 Wh; THE MEAN CROSSES 6 min EARLIER AND LIES.</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/flight/batt_deep_ageing.png" alt="Minimum preheat temperature versus sorties flown, and deliverable power versus temperature for three ages" loading="lazy">
+      <figcaption>AGEING — THE SPIN-UP LINE CLIMBS −19.5 → −4.9 °C OVER 740 SORTIES BUT NEVER REACHES THE 0 °C PLATING LINE.</figcaption>
+    </figure>
     <div class="fig2">
       <figure class="figure">
         <img src="assets/flight/batt_discharge.png" alt="Cell voltage, state of charge and pack temperature across the sortie from three start temperatures" loading="lazy">
@@ -339,6 +376,104 @@
       <figure class="figure">
         <img src="assets/flight/batt_thermal.png" alt="Sol temperature cycle with docked heater line and off-pad self-heating survival curve" loading="lazy">
         <figcaption>SOL THERMAL BUDGET — 109 Wh/SOL ON THE DOCK; 26 h OF SELF-HEAT OFF IT, AT THE COST OF THE WHOLE PACK.</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
+      <h3 style="font-size:1.05rem;margin-top:34px;color:var(--ink);">Landing on the plug</h3>
+      <p>A connector needs ±5 mm of alignment. Landing dispersion is <strong>250 mm</strong>, 1 σ per
+      axis — two orders of magnitude apart, so a plug would need a funnel or a robot arm, i.e. one more
+      mechanism to freeze shut in the cold. The pad instead carries an <strong>alternating-polarity
+      electrode floor</strong>: 100 mm conductor bands separated by 15 mm insulating gaps, and two
+      12 mm gold contacts under each foot pad. Touchdown is the connection.</p>
+      <p><strong>The first version of that floor shorted three landings out of four.</strong> It was
+      sized on the obvious rule — bands wider than the foot pad — and a 110 mm pad simply walks across
+      a 40 mm gap and bridges both polarities: 20,000 simulated landings returned
+      <strong>76.7% shorts</strong>. The binding rule is not <em>band &gt; pad</em>, it is
+      <em>gap &gt; contact</em>. Splitting each pad into two 12 mm contacts (smaller than the gap, so
+      one contact can never bridge two bands), spacing them half a period apart so the pair always
+      straddles opposite polarities, mounting the pairs on legs 1/3 and 2/4 at right angles so some
+      pair always crosses the stripes, and giving every contact its own diodes turns the same floor
+      into <strong>99.4% first-try connection with zero shorts</strong>, at any heading, with 7.8
+      contacts live on average. The remaining 0.6% hops and re-lands.</p>
+      <p>Contact physics is comfortable: 4.64 N per pad gives a 136 µm Holm constriction spot and
+      1.09 mΩ per pad, so the loop drops <strong>9.8 mV at 4.5 A</strong> and wastes 0.04 W. Against
+      a 2% voltage budget there is <strong>44× headroom for dust film</strong> — and every touchdown
+      wipes the gold. Upstream, the cabinet serialises the job: 20 W of preheat for 23 min, then C/2
+      for 65 min, then a 51 min CV taper — a <strong>138 min turnaround at a 100 W peak</strong>, which
+      keeps the pad on a light branch circuit. A 200 Wh buffer brick holds the pack at 0 °C for 53 h
+      if the feeder browns out, because the storm that grounds the aircraft is the same storm that
+      takes down the grid.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/flight/charge_electrode.png" alt="Connect and short rates versus contact width, and 160 simulated landings over the stripe map" loading="lazy">
+        <figcaption>CONTACT NARROWER THAN THE GAP — 99.4% CONNECT, 0% SHORT OVER 20,000 LANDINGS AT σ = 0.25 m.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/flight/charge_timeline.png" alt="Dock power draw and state of charge across preheat, constant current and CV taper" loading="lazy">
+        <figcaption>PAD TURNAROUND — PREHEAT, THEN C/2, THEN TAPER: 138 min AND 143 Wh AT A 100 W PEAK.</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/flight/electrode-night.jpg" alt="The electrode floor pulsing amber and blue at night while the helicopter charges" loading="lazy">
+      <figcaption>CHARGING AFTER DUSK — THE ONLY PATCH OF GROUND IN THE CITY THAT LIGHTS UP.</figcaption>
+    </figure>
+    <div class="prose">
+      <h3 style="font-size:1.05rem;margin-top:34px;color:var(--ink);">Why the floor runs at 21.6 volts</h3>
+      <p>Any engineer trained on Earth reaches for the same fix when a link carries 4.5 A: step the
+      voltage up, shrink the current, watch the I²R loss fall by two orders of magnitude. On Mars that
+      instinct is a fire. <strong>Paschen's law has a minimum</strong> — breakdown voltage does not
+      climb monotonically with gap, because too small a gap gives electrons no room to ionise and too
+      large a one starves them between collisions — and at 610 Pa in CO₂ that minimum sits at
+      <strong>249 V across a 1.17 mm gap</strong>. A 1.17 mm gap is not hypothetical: it is what opens
+      between contact and band <em>every single time the aircraft lifts off</em>.</p>
+      <p>At 21.6 V the floor has <strong>11.5× margin</strong> against that minimum and cannot strike
+      an arc at any separation whatsoever (the 15 mm design gap would need 900 V). A 400 V bus would
+      sit inside the breakdown window from <strong>0.59 to 4.3 mm</strong> — precisely the range the
+      contacts sweep through on every landing and departure. Low voltage and high current is not a
+      compromise on this planet; it is the only safe corner of the map, and it is why the contact
+      resistance ledger above had to be so careful.</p>
+      <p>The same physics sets the disconnect sequence. Silver contacts arc above 12 V and 0.4 A, the
+      floor runs at 21.6 V and 4.5 A, and DC gives you no zero crossing to hide behind — separating
+      under load would erode the gold plating that the 44× dust margin depends on. So the contacts
+      never break current: converter soft-stops in 50 ms, contactor opens cold, bus bleeds down, and
+      only then do the rotors get their spin-up command. <strong>The floor going dark 0.5 s before
+      the blades move is not an art beat.</strong></p>
+      <p>Opening the cabinet paid off one more debt. The <strong>92% efficiency</strong> I had carried
+      through every charging account was a placeholder; costing the isolated LLC stage term by term —
+      switching, transformer copper and core, synchronous rectification, control, insulation monitor —
+      gives 2.9 W of loss and <strong>97.1%</strong>. Grid energy per sortie corrects from 150 to
+      <strong>142.6 Wh</strong> and the peak draw from 106 to 100 W. And the bottleneck immediately
+      moved somewhere I had not been looking: conversion costs 6.8 Wh per charge, while
+      <strong>idling the cabinet for the rest of the sol burns 33.5 Wh</strong> — five times more.
+      Standby, not conversion, is what the dock actually spends energy on.</p>
+      <p>Finally, the cooling fins. At 610 Pa the Rayleigh number collapses from Earth's 5.8 × 10¹⁰ to
+      2.1 × 10⁶ — it scales as ρ² — leaving a convection coefficient of 0.27 W/(m²·K), so
+      <strong>85% of the heat leaves by radiation</strong>. Fins work by convection and mostly radiate
+      into each other: <strong>the fins I had modelled were decoration</strong>, and they have been
+      replaced by a high-emissivity panel. Not that it matters much — 2.9 W raises the cabinet by
+      0.25 K. Heat rejection was never the constraint. The cold end is: −93 °C nights are handled with
+      −55 °C-rated parts and a 15 W, 10-minute local warm-up, because holding the whole cabinet warm
+      overnight would cost 400 Wh/sol — more than three sorties of flight energy.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/flight/dock_paschen.png" alt="CO2 Paschen curve at 610 Pa with the 21.6 V floor and the 400 V bus breakdown window" loading="lazy">
+        <figcaption>PASCHEN AT 610 Pa — MINIMUM 249 V AT 1.17 mm, THE GAP EVERY TAKEOFF OPENS. 400 V WOULD ARC.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/flight/dock_efficiency.png" alt="LLC loss breakdown and where the dock spends energy" loading="lazy">
+        <figcaption>LOSS CHAIN — 2.9 W, η = 97.1%. STANDBY (33.5 Wh/SOL) DWARFS CONVERSION LOSS (6.8 Wh).</figcaption>
+      </figure>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/flight/dock_thermal.png" alt="Convection coefficient versus pressure and the conductance split between convection and radiation" loading="lazy">
+        <figcaption>CONVECTION DIES WITH DENSITY — 85% RADIATIVE, SO THE COOLING FINS WERE DECORATION.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/flight/dock-cutaway.jpg" alt="The charge cabinet cut open: violet high-voltage bar, isolation transformer, power and control boards, heater mat" loading="lazy">
+        <figcaption>CABINET CUT OPEN — 400 V BAR (VIOLET) → TRANSFORMER → COPPER LV BUS → CONTACTOR → CONTROL.</figcaption>
       </figure>
     </div>
     <div class="callout">
@@ -380,6 +515,21 @@
         <tr><td>Endurance · range</td><td class="num">10.6 min · 7.6 km</td><td class="src">heli_design.py × heli_batt_sim.py</td></tr>
         <tr><td>Docked heater · off-pad survival</td><td class="num">109 Wh/sol · 4.5 h unheated</td><td class="src">mars-heli/scripts/heli_batt_sim.py</td></tr>
         <tr><td>Pack life to 80%</td><td class="num">740 sorties</td><td class="src">mars-heli/scripts/heli_batt_sim.py</td></tr>
+        <tr><td>Aerogel k_eff at 610 Pa · Knudsen number</td><td class="num">5.8 mW/(m·K) · Kn 265</td><td class="src">mars-heli/scripts/heli_batt_deep.py</td></tr>
+        <tr><td>Derived pack conductance (gold MLI vs painted)</td><td class="num">0.069 · 0.15 W/K</td><td class="src">mars-heli/scripts/heli_batt_deep.py</td></tr>
+        <tr><td>Docked heating · unheated survival, re-derived</td><td class="num">94 Wh/sol · 5.0 h</td><td class="src">mars-heli/scripts/heli_batt_deep.py</td></tr>
+        <tr><td>Preheat to 0 °C, coldest cell · spread</td><td class="num">23 min / 7.7 Wh · 12.2 K</td><td class="src">mars-heli/scripts/heli_batt_deep.py</td></tr>
+        <tr><td>Spin-up temperature line, new → end of life</td><td class="num">−19.5 → −4.9 °C</td><td class="src">mars-heli/scripts/heli_batt_deep.py</td></tr>
+        <tr><td>Electrode floor: connect · short (20k landings)</td><td class="num">99.4% · 0%</td><td class="src">mars-heli/scripts/heli_charge_sim.py</td></tr>
+        <tr><td>Rejected first floor design (band &gt; pad)</td><td class="num">76.7% shorts</td><td class="src">mars-heli/scripts/heli_charge_sim.py</td></tr>
+        <tr><td>Contact drop · dust-film headroom</td><td class="num">9.8 mV · 44×</td><td class="src">mars-heli/scripts/heli_charge_sim.py</td></tr>
+        <tr><td>Pad turnaround · peak draw · energy</td><td class="num">138 min · 100 W · 142.6 Wh</td><td class="src">mars-heli/scripts/heli_charge_sim.py</td></tr>
+        <tr><td>Paschen minimum, CO₂ at 610 Pa</td><td class="num">249 V at 1.17 mm</td><td class="src">mars-heli/scripts/heli_dock_core.py</td></tr>
+        <tr><td>Floor margin to breakdown · 400 V arc window</td><td class="num">11.5× · 0.59–4.3 mm</td><td class="src">mars-heli/scripts/heli_dock_core.py</td></tr>
+        <tr><td>LLC converter loss · efficiency</td><td class="num">2.9 W · 97.1%</td><td class="src">mars-heli/scripts/heli_dock_core.py</td></tr>
+        <tr><td>Standby vs conversion energy</td><td class="num">33.5 vs 6.8 Wh</td><td class="src">mars-heli/scripts/heli_dock_core.py</td></tr>
+        <tr><td>Cabinet radiative share · temperature rise</td><td class="num">84.8% · 0.25 K</td><td class="src">mars-heli/scripts/heli_dock_core.py</td></tr>
+        <tr><td>Dock buffer hold-up at 3.8 W</td><td class="num">200 Wh → 53 h</td><td class="src">mars-heli/scripts/heli_charge_sim.py</td></tr>
         <tr><td>Loop closure (rotor revolutions · matrix diff)</td><td class="num">269 · 0</td><td class="src">in-engine transform-tree comparison at t = 0 vs 80</td></tr>
         <tr><td>Terrain clearance at cruise</td><td class="num">24.0 m</td><td class="src">in-engine sampleHeight, 70 route points</td></tr>
         <tr><td>Lateral clearance from the mine</td><td class="num">20.1 m</td><td class="src">in-engine bounding-box measurement</td></tr>
@@ -393,7 +543,7 @@
 <section class="band band--alt">
   <div class="wrap">
     <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
-    <p class="lead">Four reworks worth writing down, one of which was a safety margin that had quietly evaporated.</p>
+    <p class="lead">Five reworks worth writing down: a safety margin that had quietly evaporated, and a geometric rule that turned out to be about the wrong pair of objects.</p>
     <div class="broke">
       <div class="broke__item">
         <div class="broke__h"><span class="n">01</span><span>The patrol circle had 4.5 m of clearance, not 20</span></div>
@@ -406,7 +556,17 @@
         same thing, and only one of them is what the aircraft flies past.</p>
       </div>
       <div class="broke__item">
-        <div class="broke__h"><span class="n">02</span><span>"Too simple" — the first airframe was a box on sticks</span></div>
+        <div class="broke__h"><span class="n">02</span><span>The charging floor shorted 3 landings out of 4</span></div>
+        <p>The electrode floor was first sized on the intuitive rule — make the conductor bands wider
+        than the foot pad, 160 mm bands against a 110 mm pad. The Monte Carlo came back with
+        <strong>76.7% shorts</strong>: a pad wider than the 40 mm insulating gap steps across it and
+        bridges both polarities, and no amount of extra band width fixes that. The rule that binds is
+        <em>gap wider than whatever touches it</em>, so the fix was to shrink what touches: two 12 mm
+        contacts per pad instead of one 110 mm slab. Same floor, same landing dispersion, 99.4%
+        connect and zero shorts. The intuitive geometric rule was about the wrong pair of objects.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__h"><span class="n">03</span><span>"Too simple" — the first airframe was a box on sticks</span></div>
         <p>The first delivery flew correctly and looked like a prop: a plain fuselage box, straight
         legs, flat plank blades. The rework rebuilt it against Ingenuity's actual construction — gold
         MLI over carbon decks, a camera plate with a real lens barrel, two-segment compliant legs, and
@@ -417,7 +577,7 @@
         the parked bounding box and every animation contract left untouched.</p>
       </div>
       <div class="broke__item">
-        <div class="broke__h"><span class="n">03</span><span>The gold fuselage rendered black</span></div>
+        <div class="broke__h"><span class="n">04</span><span>The gold fuselage rendered black</span></div>
         <p>The MLI blanket was first built as a <span class="src">MeshStandardMaterial</span> at
         metalness 0.75 — physically the right call, and it came out near-black, because a metal with
         no environment map has nothing to reflect. Replaced with a Lambert gold plus a lighter
@@ -425,7 +585,7 @@
         other fix, but not for one 40 cm box.</p>
       </div>
       <div class="broke__item">
-        <div class="broke__h"><span class="n">04</span><span>The headless GIF recorder produced 0.5 fps of nothing</span></div>
+        <div class="broke__h"><span class="n">05</span><span>The headless GIF recorder produced 0.5 fps of nothing</span></div>
         <p>The city's standard capture tool drives a headless browser, which on this machine falls back
         to software rendering: 12 frames in 24 seconds, and the pre-roll script ran before the asset had
         finished loading. The animated card was instead captured deterministically from a visible page —

@@ -1,0 +1,66 @@
+{
+ "acoustics": {
+  "V_m3": 1680,
+  "S_m2": 928,
+  "alpha": 0.12,
+  "RT60_s": 2.43,
+  "critical_distance_m": 1.5,
+  "greet_distance_m": 1.6
+ },
+ "ego_noise": {
+  "eta_acoustic": 1e-05,
+  "source": "gear-mesh mechanical power",
+  "walking_dB_at_mic": 73,
+  "standing_dB_at_mic": 54,
+  "speech_dB_at_mic": 61,
+  "snr_walking_dB": -12,
+  "snr_standing_dB": 7,
+  "policy": "converse while stationary (= the PFL state)"
+ },
+ "split": [
+  {
+   "task": "wake word + VAD",
+   "where": "local, always-on",
+   "mops": 30,
+   "note": "privacy: raw audio never leaves"
+  },
+  {
+   "task": "beamform + dereverb",
+   "where": "local DSP",
+   "mops": 150,
+   "note": "must run at the mics"
+  },
+  {
+   "task": "streaming ASR",
+   "where": "city",
+   "mops": 3000,
+   "note": "turn latency budget ~300 ms >> 189 ms RTT"
+  },
+  {
+   "task": "dialogue / intent (LLM)",
+   "where": "city",
+   "mops": 50000.0,
+   "note": "already in the compute ledger"
+  },
+  {
+   "task": "TTS",
+   "where": "city, audio streamed",
+   "mops": 500,
+   "note": "canned phrases cached locally"
+  }
+ ],
+ "power": {
+  "audio_W": {
+   "mics_codec": 0.25,
+   "dsp_beamform": 0.4,
+   "speaker_avg": 0.3,
+   "amp_idle": 0.05
+  },
+  "total_W": 1.0,
+  "shift_mean_W": 74.1,
+  "pack_old": 370,
+  "pack_new": 380,
+  "eol_margin_370": -0.001,
+  "eol_margin_380": 0.026
+ }
+}

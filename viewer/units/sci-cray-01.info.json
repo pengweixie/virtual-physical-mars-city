@@ -1,0 +1,439 @@
+{
+ "id": "sci-cray-01",
+ "pois": [
+  {
+   "id": "atmos",
+   "label": "大气厚度对照台 · 为什么火星做不了广延簇射",
+   "label_en": "Atmospheric Depth Monument - Why Mars Cannot Do Air Showers",
+   "range": 40,
+   "detail": "这根 10.33 m 高的蓝柱就是地球大气,1 m = 100 g/cm²,1:1 真比例;柱上那道橙环是 10¹⁹ eV 质子簇射发育到极大的深度(787 g/cm²)。旁边那根 16 cm 的红片,是**整个火星大气**。火星地表气压 610 Pa、重力 3.71 m/s²,垂直气柱只有 16.44 g/cm²;火星大气(95% CO₂)的辐射长度是 35.75 g/cm²,所以整层大气**不到半个辐射长度**(0.460 X₀),也只有强子作用长度的 0.34 倍。地球那套「荧光望远镜看簇射发光 + 地面阵列采簇射足迹 → 反推原初粒子」在这里全部失效:簇射根本来不及长出来。旁边还立着一根空框——那是月球,0 g/cm²。火星因此给了一件地球永远给不了的礼物:**原初粒子几乎不衰减地直接打到地面**,可以直接测它本身。",
+   "detail_en": "The 10.33 m blue column is Earth's atmosphere at 1 m = 100 g/cm2, true 1:1 scale; the amber ring marks where a 10^19 eV proton shower reaches maximum (787 g/cm2). The 16 cm red sliver beside it is the ENTIRE Martian atmosphere. At 610 Pa surface pressure and g = 3.71 m/s2 the vertical column is 16.44 g/cm2; the radiation length of Martian air (95% CO2) is 35.75 g/cm2, so the whole atmosphere is less than half a radiation length (0.460 X0) and only 0.34 hadronic interaction lengths. Earth's method - fluorescence telescopes watching the shower glow plus a ground array sampling the shower footprint, then inverting to the primary - fails completely here: the shower has no room to develop. The empty frame is the Moon, 0 g/cm2. Mars therefore hands you a gift Earth never can: the primary particle arrives at the ground essentially unattenuated, so you can measure the primary itself.",
+   "specs": {
+    "火星垂直气柱": "16.44 g/cm²(610 Pa / 3.711 m·s⁻²)",
+    "地球 / 月球": "1033.2 / 1.8×10⁻¹¹ g/cm²",
+    "火星大气辐射长度": "35.75 g/cm²(95% CO₂ + 2.7% N₂ + 1.6% Ar)",
+    "整层厚度": "0.460 X₀ · 0.34 λ_int",
+    "10¹⁵ eV 质子直达地面概率": "80%(铁核 48%)",
+    "首作用二次粒子横向漂移": "0.42 mm @10¹⁸ eV"
+   },
+   "specs_en": {
+    "Mars vertical column": "16.44 g/cm2 (610 Pa / 3.711 m s^-2)",
+    "Earth / Moon": "1033.2 / 1.8e-11 g/cm2",
+    "Radiation length of Martian air": "35.75 g/cm2 (95% CO2 + 2.7% N2 + 1.6% Ar)",
+    "Whole atmosphere": "0.460 X0 - 0.34 interaction lengths",
+    "P(10^15 eV proton reaches ground intact)": "80% (iron nuclei 48%)",
+    "Lateral drift of first-interaction secondaries": "0.42 mm at 10^18 eV"
+   },
+   "sim": [
+    "账 1(设计册 mars-cray,5 道闸全绿):Heitler-Matthews 一维输运级联解。**已知答案闸**——代入地球参数得 X_max(p, 10¹⁹ eV) = 787 g/cm²(文献 ~800)、伸长率 55.4 g/cm²/decade(文献 ~58);模型唯一的自由度(有效多重数 A_N/B_N 与弹性 K)由这两道闸校准,之后**原样搬到火星、不再调一个参数**。",
+    "同一模型在火星:10¹⁸ eV 质子在整层大气里产生的电子数只有地球同能簇射极大的 1.0×10⁻⁸;要发展到极大需要 737 g/cm²,火星只有 16.4 —— 差 45 倍。",
+    "作用者(约 20~29%)的平均首作用深度只有 7.8 g/cm²(高度 8.0 km),残余厚度 8.7 g/cm² = 0.24 X₀;其能量主体的二次粒子横向只漂 0.42 mm ——「簇射」在火星是一根铅笔,不是一片足迹。"
+   ],
+   "sim_en": [
+    "Ledger 1 (design book mars-cray, 5/5 gates green): a 1-D transport solution of the Heitler-Matthews cascade. KNOWN-ANSWER GATE - fed Earth parameters it returns X_max(p, 10^19 eV) = 787 g/cm2 (literature ~800) and an elongation rate of 55.4 g/cm2/decade (literature ~58). The model's only free knobs (effective multiplicity A_N/B_N and elasticity K) are calibrated on those two gates and then carried to Mars unchanged - not one parameter is retuned.",
+    "The same model on Mars: a 10^18 eV proton produces, through the entire atmosphere, only 1.0e-8 of the electrons that the same shower has at maximum on Earth. Reaching maximum needs 737 g/cm2; Mars offers 16.4 - a factor 45 short.",
+    "For the ~20-29% that do interact, the mean first-interaction depth is just 7.8 g/cm2 (8.0 km altitude), leaving 8.7 g/cm2 = 0.24 X0 of atmosphere. The energy-carrying secondaries drift only 0.42 mm laterally: on Mars the 'shower' is a pencil, not a footprint."
+   ],
+   "physics": [
+    "簇射发育的尺子是**质量厚度**,不是几何高度:电磁级联按 X/X₀ 倍增,强子级联按 X/λ_int 分裂。火星大气的质量厚度不到地球的 1/60,两把尺子都读不出刻度。",
+    "垂直气柱 X = P/g 是流体静力学的直接结论:单位面积上方的全部气体重量除以重力加速度。火星气压低 166 倍、重力小 2.6 倍,两者部分抵消后仍差 63 倍。",
+    "成分测量的系统误差为什么被**物理性地**消除:地球上原初粒子的电荷只能从簇射形状(X_max)与 μ 子数反推,而这两者都依赖 TeV 以上无实验数据支撑的强子作用模型,给出 Δ⟨lnA⟩ ~ 0.5–1.0 的系统误差。火星上粒子本人到场,电荷是**量出来的**——这条系统误差不存在。"
+   ],
+   "physics_en": [
+    "Shower development is measured in COLUMN DENSITY, not geometric height: electromagnetic cascades double per X/X0, hadronic cascades split per X/lambda_int. Martian air offers under 1/60 of Earth's column density - neither ruler has any ticks left.",
+    "The vertical column X = P/g follows directly from hydrostatics: the weight of all gas above unit area, divided by gravity. Mars has 166x less pressure and 2.6x less gravity; after partial cancellation it is still 63x thinner.",
+    "Why the composition systematic is eliminated PHYSICALLY: on Earth the primary's charge can only be inferred from shower shape (X_max) and muon number, both of which lean on hadronic interaction models with no accelerator data above a few TeV, contributing a systematic of order 0.5-1.0 in <lnA>. On Mars the particle itself shows up and the charge is MEASURED - that systematic simply does not exist."
+   ]
+  },
+  {
+   "id": "carpet",
+   "label": "地表电荷组 · 成分是读出来的,不是拟合出来的",
+   "label_en": "Surface Charge Stack - Composition Is Read Out, Not Fitted",
+   "range": 32,
+   "detail": "24×24 m 的取样地毯,分 16 块 6×6 m 模块。每块模块顶上是三面 2 cm 塑料闪烁体(蓝灰)加一面交叉条径迹面(青),1 m 见方分块、WLS 光纤 + SiPM 读出。一个完好抵达地面的原初核在里面留下的电离能损正比于 Z²:质子 4.15 MeV,铁核 3739 MeV,相差 900 倍——**电荷不用反推,直接读**。三面取截尾均值压掉 Landau 长尾,青色径迹面给出天顶角,把 dE/dx ∝ 1/cosθ 的路径长度改正做掉。紫色井盖是 8 口 Askaryan 天线井,黄绿是光纤——**全场没有一根射频铜缆**(那是为了不污染射电阵的观测带,见外围桩卡)。",
+   "detail_en": "A 24 x 24 m sampling carpet split into sixteen 6 x 6 m modules. Each module carries three 2 cm plastic-scintillator charge planes (blue-grey) plus one crossed-strip tracking plane (teal), segmented at 1 m and read out with WLS fibre and SiPM. A primary nucleus that reaches the ground intact deposits ionisation proportional to Z-squared: 4.15 MeV for a proton, 3739 MeV for iron - a factor 900. The charge is not inferred, it is read. A truncated mean over three planes suppresses the Landau tail, and the teal tracking plane supplies the zenith angle for the dE/dx ~ 1/cos(theta) path-length correction. The violet caps are the eight Askaryan antenna wells; yellow-green is optical fibre - there is not one RF copper cable on site (see the perimeter-post card).",
+   "specs": {
+    "取样面积": "24 × 24 m = 576 m²(16 块 6×6 m 模块)",
+    "地表叠层": "3 面 × 2 cm 电荷组(1 m 分块)+ 1 面交叉条径迹面(25 cm 条)",
+    "MIP 沉积": "4.15 MeV / 面(dE/dx = 2.009 MeV·g⁻¹cm²)",
+    "电荷分辨 σ_Z": "H 0.023 · C 0.126 · Si 0.279 · Fe 0.502 电荷单位",
+    "单元素分辨": "≥3σ 一直到 Z ≈ 14;更高 Z 分到元素族",
+    "角分辨": "1.54°(需求 1.92°,由电荷的路径长度改正反推)"
+   },
+   "specs_en": {
+    "Sampling area": "24 x 24 m = 576 m2 (sixteen 6 x 6 m modules)",
+    "Surface stack": "3 charge planes x 2 cm (1 m tiles) + 1 crossed-strip tracker (25 cm strips)",
+    "MIP deposit": "4.15 MeV per plane (dE/dx = 2.009 MeV g^-1 cm2)",
+    "Charge resolution sigma_Z": "H 0.023 - C 0.126 - Si 0.279 - Fe 0.502 charge units",
+    "Element-by-element": "at least 3 sigma up to Z ~ 14; element groups above that",
+    "Angular resolution": "1.54 deg (requirement 1.92 deg, set by the charge path-length correction)"
+   },
+   "sim": [
+    "账 4(4 道闸全绿):Bethe 公式自算塑闪 MIP dE/dx = 2.009 MeV/(g/cm²)(PDG 最小电离闸);Landau 宽度 ξ = 0.1535·(Z/A)·ρx 在 3 cm 参考板上给 0.256 MeV(闸 B)。逐事例 Moyal 抽样 4 万次 + 截尾均值 → 上表的 σ_Z。",
+    "面数扫描定版:同样 6 cm 总厚度下 2×3.0 cm 给 σ_Z(Fe)=0.59、3×2.0 cm 给 0.50、4×1.5 cm 给 0.46 —— **杠杆是截尾样本数不是厚度**;取 3 面,省下的 576 只 SiPM 换成径迹条(账 6)。",
+    "账 6:角分辨的需求是**电荷逼出来的**,不是天文逼出来的。tanθ·δθ 必须小于 Landau 项之半 → σ_θ ≤ 1.92°;纯分块方案最好只有 3.9°(且要 13824 通道),交叉条方案用 1536 通道拿到 1.54°。"
+   ],
+   "sim_en": [
+    "Ledger 4 (4/4 gates green): Bethe's formula gives plastic-scintillator MIP dE/dx = 2.009 MeV/(g cm^-2), matching the PDG minimum-ionising gate; the Landau width xi = 0.1535 (Z/A) rho x is 0.256 MeV on a 3 cm reference plate (gate B). Forty thousand per-event Moyal samples plus a truncated mean produce the sigma_Z table above.",
+    "The plane-count scan set the design: at the same 6 cm total thickness, 2 x 3.0 cm gives sigma_Z(Fe) = 0.59, 3 x 2.0 cm gives 0.50 and 4 x 1.5 cm gives 0.46 - the lever is the NUMBER OF TRUNCATION SAMPLES, not thickness. Three planes were chosen, and the 576 SiPMs saved went into tracker strips (ledger 6).",
+    "Ledger 6: the angular-resolution requirement is driven by the CHARGE measurement, not by astronomy. tan(theta)*delta-theta must stay below half the Landau term, giving sigma_theta <= 1.92 deg. The best pure-tile option reaches only 3.9 deg and costs 13824 channels; crossed strips reach 1.54 deg on 1536 channels."
+   ],
+   "physics": [
+    "Bethe-Bloch 的能损正比于入射粒子电荷的平方,因为库仑作用的振幅 ∝ Z、截面 ∝ Z²。这是**运动学恒等式**,不含任何强子作用模型 —— 这正是本站相对地球阵列的全部优势所在。",
+    "但同一个 Z² 也是量程灾难:Fe 的信号是质子的 900 倍。塑闪-SiPM 链路必须做双增益(主路走 Z≤4,1:30 衰减抽头走 Z 5–28),否则 25 µm 胞的 SiPM 在 Fe 上要吃 19% 的饱和亏损。",
+    "路径长度是电荷测量的隐形杀手:粒子斜穿板时穿过的物质厚度 ∝ 1/cosθ,若角度错 8°,θ=30° 处的 dE/dx 就错 8%,足以把 Fe 的 σ_Z 从 0.5 打到 1.1。所以角分辨在这里不是天文指标,是**电荷指标**。"
+   ],
+   "physics_en": [
+    "Bethe-Bloch energy loss scales as the square of the projectile charge, because the Coulomb amplitude goes as Z and the cross-section as Z-squared. That is a KINEMATIC IDENTITY containing no hadronic-interaction model - which is precisely this station's whole advantage over an Earth array.",
+    "The same Z-squared is a dynamic-range disaster: iron gives 900x a proton's signal. The scintillator-SiPM chain therefore needs dual gain (main path for Z <= 4, a 1:30 attenuated tap for Z = 5-28), otherwise a 25 um-cell SiPM suffers 19% saturation deficit on iron.",
+    "Path length is the hidden killer of charge measurement: an inclined track crosses material as 1/cos(theta), so an 8 deg angular error costs 8% in dE/dx at theta = 30 deg - enough to blow sigma_Z(Fe) from 0.5 to 1.1. Angular resolution here is a CHARGE specification, not an astronomy one."
+   ]
+  },
+  {
+   "id": "shaft",
+   "label": "剖切地层柱 · 风化层是一台免费的千吨量能器",
+   "label_en": "Cutaway Soil Column - The Regolith Is a Free Kilotonne Calorimeter",
+   "range": 40,
+   "detail": "地下的东西被地形挡死,所以把一整段地层**抬到地面上 1:1 展开**:柱顶那道岩面就是地面基准,往下是真实深度。六道琥珀板是 0.35 / 0.90 / 1.60 / 2.40 / 3.40 / 4.70 m 的埋深取样层,最深那道背面贴着第二块青色径迹面;顶上蓝灰三面加青色一面就是地表叠层。左侧那串会自上而下点亮的亮点是级联本身——膝区簇射的极大落在 2.67 m。右边那根 8 m 深的井里是紫色 Askaryan 偶极子;斜穿柱体的紫杆是**真角度**的切伦科夫射线(53.6°),所以这块展台横向 8.6 m 也是 1:1 的:天线到簇射轴的水平距离 7.2 m = (8−2.67)·tan53.6°。",
+   "detail_en": "Anything below grade would be hidden by the terrain, so an entire soil section is raised above ground and shown 1:1: the rock face on top is the ground datum, and everything below is at true depth. The six amber plates are the buried sampling layers at 0.35 / 0.90 / 1.60 / 2.40 / 3.40 / 4.70 m; the deepest carries the second teal tracking plane on its underside, and the three blue-grey plus one teal plates on top are the surface stack. The string of lights that fires downward is the cascade itself - the knee-region shower maximum sits at 2.67 m. The 8 m well on the right holds the violet Askaryan dipole, and the violet rod crossing the column is the Cherenkov ray at its TRUE angle of 53.6 deg - which is why the 8.6 m width is also 1:1: the 7.2 m horizontal offset equals (8 - 2.67) tan(53.6 deg).",
+   "specs": {
+    "风化层成分": "Rocknest APXS 玄武质,⟨Z⟩ = 13.5,⟨A⟩ = 22.6",
+    "辐射长度 X₀": "23.18 g/cm² = 14.5 cm @ρ 1.6",
+    "莫里哀半径 R_M": "11.86 g/cm² = 7.4 cm",
+    "核作用长度 λ_I": "104.6 g/cm² = 65.4 cm",
+    "窖深 / 层数": "5.0 m(800 g/cm²)/ 6 层",
+    "膝区簇射极大": "427 g/cm² = 2.67 m",
+    "纵向包容": "81.6% @10¹⁵ eV(其余由 Γ 剖面拟合外推)",
+    "挖方": "26×26×5 m = 3380 m³ ≈ 84 个火星日"
+   },
+   "specs_en": {
+    "Regolith composition": "Rocknest APXS basaltic, <Z> = 13.5, <A> = 22.6",
+    "Radiation length X0": "23.18 g/cm2 = 14.5 cm at rho 1.6",
+    "Moliere radius": "11.86 g/cm2 = 7.4 cm",
+    "Nuclear interaction length": "104.6 g/cm2 = 65.4 cm",
+    "Cellar depth / layers": "5.0 m (800 g/cm2) / 6 sampling planes",
+    "Knee-region shower max": "427 g/cm2 = 2.67 m",
+    "Longitudinal containment": "81.6% at 10^15 eV (the rest extrapolated by a gamma-profile fit)",
+    "Excavation": "26 x 26 x 5 m = 3380 m3, about 84 sols"
+   },
+   "sim": [
+    "账 2(6 道闸全绿):Tsai 混合物公式自算 X₀,**已知答案闸**——石英 SiO₂ 得 27.05 g/cm²(PDG 27.05)、铅的莫里哀半径 1.62 cm(教科书 1.6)。λ_I 的截面参数 σ = 38.0·A^0.726 mb 不是抄来的,是用 PDG 的水 83.3 与铁 132.1 两个已知值联立解出来的(闸 B)。",
+    "纵向剖面用**账 1 已校准的同一个级联核**、零参数改动,只把介质换成风化层:X_max 从 10¹² eV 的 1.59 m 走到 10¹⁸ eV 的 3.37 m;L95 与 PDG 强子量能器工程式 λ_I(2.6+0.4lnE) 在 10¹⁸ eV 差 2%、10¹⁵ eV 差 27%(闸 D,低 Z 介质本该更长尾)。",
+    "井深权衡:3 m 只包 41%、5 m 包 82%、6 m 包 91%。取 5.0 m —— 再深 1 m 只买 4 个百分点却要多挖 676 m³。",
+    "**为什么是一个整窖而不是 24 个独立井**:同样 576 m² 拆成 24 个 3.4 m 见方的井只要 1387 m³ 挖方,但簇射轴在 4.7 m 深处横移 4.7·tanθ,小井只能收 θ<17°,实心角掉到 1/12 —— 省下的挖方买不回孔径。",
+    "成分的第二条腿:X_max(p) = 427 vs X_max(Fe) = 339 g/cm²,差 88 g/cm² = 55 cm 深度差(叠加模型)。这条只是旁证,主腿是地表 dE/dx。"
+   ],
+   "sim_en": [
+    "Ledger 2 (6/6 gates green): X0 computed from Tsai's mixture formula. KNOWN-ANSWER GATES - quartz SiO2 returns 27.05 g/cm2 (PDG 27.05) and lead's Moliere radius 1.62 cm (textbook 1.6). The interaction cross-section sigma = 38.0 A^0.726 mb was not copied from anywhere: it was solved from PDG's two known values for water (83.3) and iron (132.1) simultaneously (gate B).",
+    "The longitudinal profile uses THE SAME calibrated cascade kernel as ledger 1 with zero parameter changes, only swapping the medium for regolith: X_max runs from 1.59 m at 10^12 eV to 3.37 m at 10^18 eV. L95 agrees with the PDG hadron-calorimeter formula lambda_I (2.6 + 0.4 ln E) to 2% at 10^18 eV and 27% at 10^15 eV (gate D - a low-Z medium legitimately has a longer tail).",
+    "Depth trade: 3 m contains 41%, 5 m contains 82%, 6 m contains 91%. Five metres was chosen - one more metre buys 4 percentage points and costs 676 m3 of digging.",
+    "WHY ONE CELLAR RATHER THAN 24 SEPARATE PITS: splitting the same 576 m2 into twenty-four 3.4 m pits needs only 1387 m3, but the shower axis walks 4.7 tan(theta) sideways by the deepest layer, so a small pit accepts only theta < 17 deg and the solid angle collapses by 12x. The excavation saved cannot buy the aperture back.",
+    "The second leg of composition: X_max(p) = 427 vs X_max(Fe) = 339 g/cm2, a 88 g/cm2 = 55 cm depth difference in the superposition model. This is corroboration only; the primary leg is the surface dE/dx."
+   ],
+   "physics": [
+    "空间直接测量的头号约束是**量能器质量**:要停住 10¹⁵ eV 的核子级联需要 ~8 λ_I 的物质,在轨道上是几十吨的发射成本,所以 DAMPE/CALET 级仪器的量能器只有 ~1.6 λ_I,能段在 10¹⁴–10¹⁵ eV 就到顶。火星把这笔质量白送:脚下的风化层就是 8 λ_I,而且是**免费**的。",
+    "级联在土里比在空气里紧凑三个量级:X₀ 从 35.75 g/cm² 的空气变成 14.5 cm 的土,莫里哀半径只有 7.4 cm——所以取样板不需要横向很大,却必须**纵向排满**。",
+    "20% 的能量落在 5 m 之外的尾巴里,靠 Γ 函数(Gaisser-Hillas)纵向拟合外推。这不是偷懒:6 个采样点足以定住三参数剖面,尾部外推的残余误差远小于风化层密度 ±0.2 g/cm³ 带来的深度标度误差。"
+   ],
+   "physics_en": [
+    "The number-one constraint on direct measurement in space is CALORIMETER MASS: stopping a 10^15 eV nucleonic cascade needs about 8 interaction lengths of material, which is tens of tonnes of launch cost. That is why DAMPE- and CALET-class instruments carry only ~1.6 interaction lengths and run out of energy reach around 10^14-10^15 eV. Mars donates that mass: the regolith underfoot is 8 interaction lengths, and it is free.",
+    "A cascade in soil is three orders of magnitude more compact than in air: X0 goes from 35.75 g/cm2 of air to 14.5 cm of ground, and the Moliere radius is just 7.4 cm - so the sampling plates need little lateral extent but must be stacked densely in DEPTH.",
+    "About 20% of the energy sits in the tail beyond 5 m and is recovered by fitting a Gaisser-Hillas longitudinal profile. That is not a shortcut: six sampling points pin down a three-parameter profile, and the residual extrapolation error is far smaller than the depth-scale error from the regolith density uncertainty of +/-0.2 g/cm3."
+   ]
+  },
+  {
+   "id": "aperture",
+   "label": "曝光与定位牌 · GZK 够不着,科学目标定在膝区",
+   "label_en": "Exposure & Scope Board - The Ankle Is Out of Reach; the Science Is the Knee",
+   "range": 30,
+   "detail": "牌上亮着的那一段是本站真正覆盖的能段(10¹¹–4×10¹⁶ eV),暗着的那一小段是够不着的踝区。地球的地面阵列靠一件事活着:簇射的地面足迹有几平方公里,所以 1600 个相距 1.5 km 的水箱能定义 3000 km² 的孔径——探测器物理面积只有 0.016 km²,孔径却被放大了 18 万倍。账 1 把这条路堵死:火星没有足迹。**孔径 = 探测器物理面积本身,一点不多。**于是稀疏铺开在火星毫无意义:地球必须稀疏,火星必须密集。外围那 8 根桩因此不承担孔径职责,只做三件事——全场符合否决、自发射合规哨、场界。",
+   "detail_en": "The bright band on the board is the energy range this station actually covers (10^11 to 4x10^16 eV); the dim stub is the ankle it cannot reach. Earth's ground arrays live off one fact: the shower footprint on the ground spans square kilometres, so 1600 tanks on a 1.5 km grid define a 3000 km2 aperture - a physical detector area of only 0.016 km2 amplified 187,500-fold. Ledger 1 closes that door: Mars has no footprint. THE APERTURE IS THE PHYSICAL DETECTOR AREA, NOTHING MORE. Spreading out is therefore pointless here: Earth must be sparse, Mars must be dense. The eight perimeter posts consequently carry no aperture duty at all - they do field-wide coincidence veto, self-emission compliance monitoring, and site boundary.",
+   "specs": {
+    "孔径": "1135 m²·sr(垂直有效面积 529 m²,窖壁效率 68%)",
+    "占空比": "100%(无云无月无昼夜限制;地球荧光望远镜 13%)",
+    "5 火星年曝光": "1.07×10⁴ m²·sr·yr = DAMPE 5 年的 7100 倍",
+    "5 火星年事例数": ">10¹⁵ eV 3400 · >3×10¹⁵ 525 · >10¹⁶ 47 · >3×10¹⁶ 5.3",
+    "可达能量(≥10 事例)": "2.2×10¹⁶ eV",
+    ">10¹⁸ eV": "1991 地球年一个 —— 判决:够不着,不做"
+   },
+   "specs_en": {
+    "Aperture": "1135 m2 sr (529 m2 vertical effective area, 68% cellar-wall efficiency)",
+    "Duty cycle": "100% (no cloud, no moonlight, no day/night gate; Earth fluorescence detectors manage 13%)",
+    "Exposure in 5 Mars years": "1.07e4 m2 sr yr = 7100x DAMPE's five-year exposure",
+    "Events in 5 Mars years": ">10^15 eV 3400 - >3e15 525 - >10^16 47 - >3e16 5.3",
+    "Reach (at least 10 events)": "2.2e16 eV",
+    "Above 10^18 eV": "one event per 1991 Earth years - verdict: unreachable, not attempted"
+   },
+   "sim": [
+    "账 3(4 道闸全绿):三段积分谱参数化,**已知答案闸**——复现 J(>10¹⁵ eV) = 1/m²/yr 与 J(>10¹⁸ eV) = 1/km²/yr 两个锚点,并顺带给出 J(>10¹⁹) = 1.8 /km²/世纪(与民间「1/km²/世纪」的说法对上)。平板几何因子闸:数值积分给 π sr。",
+    "孔径按窖的真几何积分:∫A_fid(θ,φ)cosθ dΩ,其中 A_fid 扣掉簇射轴在 4.7 m 深处的横移与 0.5 m 芯余量 → 1135 m²·sr,是理想平板 1662 的 68%。",
+    "**踝区的正面判决**:要在 10¹⁸ eV 拿到 1 事例/年需要孔径 2.3×10⁶ m²·sr = 0.72 km² 的取样板 = 3.6×10⁶ m³ 挖方 = 全城采掘机满负荷 135 火星年。够不着。定版科学目标:**膝区(10¹⁴–10¹⁶·⁵ eV)的能谱与成分**,而且是全太阳系唯一在该能段做直接测量的地方。",
+    "触发不是符合,是**脉冲高度**:单个 GCR 质子穿过一面板给 4.15 MeV,10¹⁴ eV 级联在极大层单板给 32 万倍;地表 576 m² 上 5.8 MHz 的单粒子率靠这个倍数就全挡在门外。"
+   ],
+   "sim_en": [
+    "Ledger 3 (4/4 gates green): a three-segment integral-spectrum parametrisation. KNOWN-ANSWER GATES - it reproduces both anchors J(>10^15 eV) = 1 per m2 per year and J(>10^18 eV) = 1 per km2 per year, and incidentally yields J(>10^19) = 1.8 per km2 per century, matching the folklore figure. A flat-plate geometry-factor gate returns pi sr by numerical integration.",
+    "The aperture integrates the cellar's real geometry: the integral of A_fid(theta, phi) cos(theta) over solid angle, where A_fid subtracts the axis walk at 4.7 m depth plus a 0.5 m core margin - giving 1135 m2 sr, or 68% of the ideal flat plate's 1662.",
+    "THE ANKLE VERDICT, STATED PLAINLY: one event per year at 10^18 eV would need an aperture of 2.3e6 m2 sr = 0.72 km2 of sampling plate = 3.6e6 m3 of excavation = 135 Mars years of the city's excavator at full load. Out of reach. Scope is therefore fixed on the KNEE (10^14 to 10^16.5 eV) spectrum and composition - the only place in the solar system where that band is measured directly.",
+    "The trigger is not a coincidence, it is PULSE HEIGHT: a single GCR proton crossing one plane deposits 4.15 MeV, while a 10^14 eV cascade deposits 324,000 times that in the plane at maximum. The 5.8 MHz singles rate over 576 m2 is rejected by that ratio alone."
+   ],
+   "physics": [
+    "地球阵列的孔径放大来自一个几何事实:10¹⁹ eV 簇射在地面铺开数 km 的粒子毯,任何一个 10 m² 水箱只要落在毯子里就报告一次事例。火星没有毯子,所以没有放大——每一平方米孔径都要真花一平方米的板加 5 m 挖方。",
+    "占空比是火星白送的第二件礼物:地球的荧光望远镜要无月晴夜,占空比 13%;地面阵列虽 100% 却拿不到 X_max。火星的直接测量 24 小时全天候,而且昼夜温差反而让 SiPM 在夜里更安静。",
+    "流量掉得比面积涨得快:膝区之上积分谱指数是 −2,能量升 10 倍事例掉 100 倍。这就是为什么「再挖大一点」永远追不上踝区——这不是工程问题,是谱的形状问题。"
+   ],
+   "physics_en": [
+    "An Earth array's aperture amplification rests on one geometric fact: a 10^19 eV shower spreads a particle carpet kilometres wide, so any 10 m2 tank that falls inside the carpet records the event. Mars has no carpet, hence no amplification - every square metre of aperture costs a real square metre of plate plus 5 m of digging.",
+    "Duty cycle is Mars's second free gift: Earth's fluorescence telescopes need moonless clear nights and manage 13%, while ground arrays run 100% but never see X_max. Direct measurement on Mars runs around the clock, and the cold nights actually make the SiPMs quieter.",
+    "Flux falls faster than area can grow: above the knee the integral spectral index is -2, so a factor 10 in energy costs a factor 100 in events. That is why 'just dig bigger' can never reach the ankle - it is not an engineering problem, it is the shape of the spectrum."
+   ]
+  },
+  {
+   "id": "shelter",
+   "label": "数据方舱 · 屏蔽室、读出链与城内闭环",
+   "label_en": "Data Shelter - Shielded Room, Readout Chain and the In-City Loop",
+   "range": 26,
+   "detail": "朝观察侧整面剖开:里面那只五面铝壳就是 ≥60 dB 的屏蔽室,橙色是密封压条,**开口面也剖开了**,三个机柜看得见——蓝灰 = 4140 路前端与 ADC,琥珀 = 触发与纵向剖面拟合,白 = OCXO 授时单元。左下那排黄绿是光纤配线架:全场 4140 路信号进方舱,**没有一根射频铜缆**。**器件这一栏本站没有做选型,做的是复用**:SiPM 微胞直接用 spad40_sentaurus 的 40 µm NUV 胞(PDE 目标 0.60 @420 nm,正对塑闪 425 nm 发射峰),**一个新 mask 都不开**;读出与 mars_spad_rox 共用 CRN65LP 的 PDK、HV 域划分纪律与已签核的 −100 °C 冷角,但不共用像素电路——那颗是光子计数,本站要的是模拟电荷积分。塑闪基体的聚苯乙烯由 res-isru-01 的 CO₂ 链制取,从地球运的只有 1 t 荧光染料。",
+   "detail_en": "Cut open on the viewing side: the five-panel aluminium box inside is the >=60 dB shielded room, orange strips are the gasket seams, and its open face is cut away too so the three racks show - blue-grey for the 4140 front-end and ADC channels, amber for trigger and longitudinal-profile fitting, white for the OCXO timing unit. The yellow-green rack at lower left is the fibre patch panel: all 4140 signal channels enter the shelter and NOT ONE of them is RF copper. THE DEVICES HERE WERE NOT SELECTED, THEY WERE REUSED: the SiPM microcell is spad40_sentaurus's 40 um NUV cell taken as-is (PDE target 0.60 at 420 nm, matched to the scintillator's 425 nm emission peak) - NOT ONE NEW MASK IS CUT. The readout shares mars_spad_rox's CRN65LP PDK, its HV-domain partitioning discipline and its already-signed-off -100 C cold corner, but not its pixel circuit: that one counts photons, this one integrates charge. The polystyrene scintillator base comes from res-isru-01's CO2 chain; only 1 t of fluorescent dopant ships from Earth.",
+   "specs": {
+    "通道数": "5868(地表电荷组 3456 SiPM + 径迹 1536 SiPM + 能量层 864 PIN + 射电 12)",
+    "SiPM(复用,不新开)": "spad40_sentaurus 40 µm NUV 胞,6×6 mm ×4992 只 ≈ 6.1 片晶圆;量程分档做在**光学侧**",
+    "光产额 / 量程": "130 pe/MIP;高档 9/10 根光纤(Z≲3)+ 低档 1 根+ND×10(Z 3–26),重叠区自互标定",
+    "读出 ASIC": "65 颗 × 64 ch,CRN65LP —— 占一片 200 mm 晶圆的 6.0%",
+    "新增器件级工作": "只有 BV(T) 偏压跟踪环(过压 6 V,不是 mars_spad_rox 的 40.7 V)",
+    "塑闪总量": "97.9 m³ = 101 t(染料 1.04 t 来自地球)",
+    "功耗 / 数据": "90 W(城网主供)/ 19.6 MB·sol⁻¹",
+    "能量分辨": "σ_E/E = 2.4–3.1%(统计);密度标度系统 ±6% → 测井后 ±3%",
+    "埋深能量层器件": "**PIN 光电二极管 ⌀10 mm ×864**(不是 SiPM:该处量程要 1→1.5×10⁹ MIP,SiPM 的 22500 个胞不够)"
+   },
+   "specs_en": {
+    "Channels": "5868 (3456 SiPM on the charge planes + 1536 SiPM on the tracker + 864 PIN on the energy layers + 12 radio)",
+    "SiPM (reused, no new variant)": "spad40_sentaurus 40 um NUV cell, 6 x 6 mm x 4992, about 6.1 wafers; the range is split OPTICALLY",
+    "Light yield / range": "130 pe/MIP; high branch on 9 of 10 fibres (Z up to ~3), low branch on 1 fibre with an x10 ND coating (Z 3-26), overlapping for mutual calibration",
+    "Readout ASIC": "65 dies x 64 ch on CRN65LP - 6.0% of one 200 mm wafer",
+    "New device-level work": "only the BV(T) bias-tracking loop (6 V overvoltage, not mars_spad_rox's 40.7 V)",
+    "Scintillator": "97.9 m3 = 101 t (1.04 t of dopant from Earth)",
+    "Power / data": "90 W from the city grid / 19.6 MB per sol",
+    "Energy resolution": "sigma_E/E = 2.4-3.1% statistical; density-scale systematic +/-6%, +/-3% after logging",
+    "Energy-layer device": "Si PIN photodiodes, 10 mm diameter, x864 - NOT SiPMs: that layer needs 1 to 1.5e9 MIP of range and 22500 cells cannot reach it"
+   },
+   "sim": [
+    "账 4:光链锚在 LHAASO-ED 的实测(1 m²×1 cm 塑闪 + WLS 光纤 + PMT ≈ 30 pe/MIP),按厚度 2×、SiPM PDE/PMT QE 2.4×、光纤束对 6×6 mm SiPM 的耦合面积惩罚 0.2× → **28.8 pe/MIP**。**量程问题不靠新器件解决**:复用的 40 µm 胞在 6×6 mm 上有 22500 个胞,Fe 单面 2.4×10⁴ pe 会吃 39% 饱和,但 1:30 衰减抽头上只剩 811 pe、饱和 1.8%;主路到 Z≈14 才越过 10% 线,两路在 Z 4–10 重叠自互标定 —— **所以不需要开 25 µm 胞距的新变体**。",
+    "能量重建 MC:6 层取样 + Gaisser-Hillas 三参数拟合,10¹⁵ eV 质子 σ_E/E = 2.4%、铁 2.1%。**闸 D**:取样/强子涨落项(20%/√E[GeV])在 10¹⁵ eV 只有 0.02%,比总误差小 4 个量级 —— 证明本站的分辨率完全由「纵向外推 + 密度标度」决定,**与强子作用模型无关**,这正是账 1 承诺的那件事。",
+    "暗计数:火星把制冷白送——夜间 190 K 比地球实验室常温低 100 K,SiPM 暗计数低 4 个量级,无需任何制冷。**但这里必须与 mars_spad_rox 分道**:那颗天文像素固定偏压 88 V、过压 40.7 V,120 K 昼夜带来的 2.1 V 漂移只占过压 5.2%,所以它敢不做 BV(T) 环;本站 SiPM 过压只有 6 V,同样 2.1 V 就是 **35% 的过压变化 → 增益同幅摆动,电荷测量直接报废**。所以本站唯一必须新做的器件级工作,就是按 spad40_mars 的 BV(T) 表做偏压跟踪环(曲线是凸的,不能线性拟合)。两站结论不同不是打架,是过压不同。",
+    "与 sci-radio-01 的反差:那边原始流 39 Gbit/s、147 GB 环缓存;这边全站一天 ~20 MB。**宇宙线站的瓶颈从来不是链路,是曝光。**",
+    "账 9(3 闸绿,**本册第三处自我修正**):把器件卡摆到电路输入端才看清 —— **SiPM 的饱和发生在器件内部,在它后面接任何衰减器都无效**(1.3×10⁸ 与 2.5×10⁴ 个光电子在输出端都钳在 22500 胞)。量程只能在**光学侧**分档;而真正的大头不是铁核,是埋深能量层:膝区簇射在极大层单块板上是 1.5×10⁷ MIP,比铁核高 4 个量级 → 该层改用**无增益、无胞可打完、天然线性的 PIN 光电二极管**,顺带砍掉能量重建里的饱和修正项。"
+   ],
+   "sim_en": [
+    "Ledger 4: the light chain is anchored on LHAASO-ED's measured performance (1 m2 x 1 cm scintillator with WLS fibre and a PMT, about 30 pe/MIP), scaled by 2x thickness, 2.4x for SiPM PDE over PMT QE, and a 0.2x coupling penalty for a fibre bundle onto a 6 x 6 mm SiPM - giving 28.8 pe/MIP. THE DYNAMIC-RANGE PROBLEM IS NOT SOLVED WITH A NEW DEVICE: the reused 40 um cell gives 22500 cells on 6 x 6 mm, so iron's 2.4e4 pe in one plane would cost 39% saturation - but on the 1:30 attenuated tap it is 811 pe at 1.8%. The main path only crosses the 10% line near Z = 14, and the two paths overlap over Z = 4-10 for mutual calibration, so NO 25 um-pitch variant needs to be cut.",
+    "Energy-reconstruction Monte Carlo: six sampling layers plus a three-parameter Gaisser-Hillas fit gives sigma_E/E = 2.4% for 10^15 eV protons and 2.1% for iron. GATE D: the sampling/hadronic fluctuation term (20%/sqrt(E in GeV)) is only 0.02% at 10^15 eV, four orders below the total - proving the resolution is set entirely by longitudinal extrapolation and the density scale, and is INDEPENDENT OF HADRONIC MODELS, exactly as ledger 1 promised.",
+    "Dark counts: Mars donates the cooling. Night-time 190 K is 100 K below an Earth lab bench, dropping SiPM dark rate by four orders with no cooler at all. BUT THIS IS WHERE THE DESIGN PARTS COMPANY WITH mars_spad_rox: that astronomy pixel runs at a fixed 88 V with 40.7 V of overvoltage, so the 2.1 V drift across a 120 K diurnal swing is only 5.2% of overvoltage and it can safely skip a BV(T) loop. This station's SiPM has just 6 V of overvoltage, where the same 2.1 V is a 35% swing - gain moves with it and the charge measurement is destroyed. Hence the one piece of device-level work this station really must do: a bias-tracking loop following the spad40_mars BV(T) table, which is convex and must not be fitted with a straight line. The two conclusions do not conflict; the overvoltages differ.",
+    "Contrast with sci-radio-01: that station streams 39 Gbit/s raw into a 147 GB ring buffer; this one produces about 20 MB per sol. A cosmic-ray station is never link-limited, it is exposure-limited.",
+    "Ledger 9 (3/3 gates, the design book's THIRD self-correction): putting the device card at the circuit input made it visible that SIPM SATURATION HAPPENS INSIDE THE DEVICE, so no attenuator placed after it helps - 1.3e8 and 2.5e4 photoelectrons both clamp to the same 22500 fired cells. The range therefore has to be split OPTICALLY. And the real range problem is not iron but the buried energy layers: a knee-region cascade puts 1.5e7 MIP into a single plate at shower maximum, four orders above iron - so those layers use gain-free, cell-free, intrinsically linear PIN photodiodes instead, which also removes the saturation correction from the energy reconstruction."
+   ],
+   "physics": [
+    "为什么不用 SiC:mars_rad_sic 的 4H-SiC PiN 在中子哨兵上无可替代(Eg 3.26 eV,300 K 生成电流比硅低 9×10¹⁷,盲可见光、免冷却),但 MIP 在 50 µm SiC 里只留 ~5×10³ 电子空穴对,不够。塑闪 + SiPM 的光增益才是大面积 MIP 探测的唯一经济解。**同一座城,不同的物理需求,不同的器件 —— 但都是已有的器件。**",
+    "屏蔽室不是保护自己,是保护别人:本站是全城最「数字」的科学站之一(4140 路 ADC),而 sci-radio-01 的观测带 0.5–10 MHz 正是开关噪声与时钟谐波的老家。见外围桩卡。",
+    "聚苯乙烯的化学链条(Sabatier → 乙烯 → 苯 → 苯乙烯)是全城 ISRU 的一次真实压力测试:101 t 基体全部本地造,只有 ~1 wt% 的 PPO 与 0.03% 的 POPOP 必须从地球运。**这是全站唯一的地球依赖项。**"
+   ],
+   "physics_en": [
+    "Why not SiC: the 4H-SiC PiN from mars_rad_sic is irreplaceable in the neutron sentinels (3.26 eV bandgap, generation current 9e17 times lower than silicon at 300 K, blind to visible light, no cooling) - but a MIP leaves only about 5e3 electron-hole pairs in 50 um of SiC, which is not enough. The optical gain of scintillator plus SiPM is the only affordable answer for large-area MIP detection. Same city, different physics requirement, different device - but every one of them already exists.",
+    "The shielded room does not protect this station, it protects a neighbour: this is one of the most digital science sites in the city (4140 ADC channels), and sci-radio-01's observing band of 0.5-10 MHz is exactly where switching noise and clock harmonics live. See the perimeter-post card.",
+    "The polystyrene chemistry chain (Sabatier, then ethylene, benzene, styrene) is a genuine stress test of the city's ISRU: all 101 t of matrix is made locally, and only about 1 wt% PPO plus 0.03% POPOP must come from Earth. That is the station's single Earth dependency."
+   ]
+  },
+  {
+   "id": "screen",
+   "label": "事例显示屏 · 真通量的对数间隔",
+   "label_en": "Event Display - Real Flux, Logarithmic Spacing",
+   "range": 26,
+   "detail": "五块面板:左下是 24×24 m 取样板的平面图,命中格随事例亮起;左上是能量与电荷双标尺;中上是到达方向天图(圆心 = 天顶);下方琥珀是六层纵向剖面,级联自上而下逐层填出来——屏上第一行是最深层;右上紫色是 Askaryan 射电波形,只有 2.4×10¹⁴ eV 以上的事例才会出现。同时地上那块被命中的模块会亮,剖切柱里的六层会**按级联下行的次序**依次点亮。屏上事例的能量按真实积分谱的分位数取,形状是真的;**时间轴被压缩过**——真实通量下 >10¹⁵ eV 一天才一个、>10¹⁶ eV 要等 73 天,不压缩就没得看。",
+   "detail_en": "Five panels: bottom left is a plan view of the 24 x 24 m sampling plate with the struck cell lighting up; top left carries the energy and charge gauges; top centre is the arrival-direction sky map (centre = zenith); the amber block below is the six-layer longitudinal profile, filling top-down as the cascade descends - the first screen row is the deepest layer; the violet panel at top right is the Askaryan radio waveform, which only appears for events above 2.4e14 eV. In step with the screen, the struck surface module lights up and the six plates in the cutaway column fire IN CASCADE ORDER. Event energies are drawn at quantiles of the real integral spectrum, so the distribution is genuine; the TIME AXIS IS COMPRESSED - at true flux an event above 10^15 eV arrives once a day and one above 10^16 eV takes 73 days, so uncompressed there would be nothing to watch.",
+   "specs": {
+    "超循环": "150 s,48 个事例,纯 t 分段确定性哈希调度",
+    "每十倍程事例数": "26 / 11 / 5 / 3 / 2 / 1(10¹¹→10¹⁶ eV)",
+    "真实等待时间": ">10¹³ 35 s · >10¹⁴ 29 min · >10¹⁵ 24 h · >10¹⁶ 73 d · >3×10¹⁶ 1.8 yr",
+    "屏上压缩比": "每十倍程约 20×(真实通量每十倍程掉 50×,屏上只掉 2.5×)",
+    "射电通道门限": "2.4×10¹⁴ eV(账 5)",
+    "零转动部件": "全站没有任何指向或旋转机构 —— 设计特征"
+   },
+   "specs_en": {
+    "Super-cycle": "150 s, 48 events, deterministic hash schedule as a pure function of t",
+    "Events per decade": "26 / 11 / 5 / 3 / 2 / 1 from 10^11 to 10^16 eV",
+    "True waiting times": ">10^13 eV 35 s - >10^14 29 min - >10^15 24 h - >10^16 73 d - >3e16 1.8 yr",
+    "On-screen compression": "about 20x per decade (true flux drops 50x per decade, the display only 2.5x)",
+    "Radio-channel threshold": "2.4e14 eV (ledger 5)",
+    "Zero moving parts": "no pointing or rotating mechanism anywhere on site - a design feature"
+   },
+   "sim": [
+    "事例率直接来自账 3 的谱与孔径:>10¹³ eV 0.029 Hz、>10¹⁵ eV 每天 1 个、>10¹⁶ eV 每 73 天 1 个。屏上按 26/11/5/3/2/1 排,是把真实的 50×/十倍程压成 2.5×/十倍程,**能量分布形状仍按真谱取分位数**。",
+    "纵向剖面的填充用 Gaisser-Hillas,X_max 随 log₁₀E 从 255 走到 539 g/cm²(账 2 的真值),所以高能事例的剖面峰**看得见地更深**。",
+    "全循环包络扫描(T=150 s,步长 0.05 s):minY 恒 −2.20、maxY 11.63;循环闭合差 0、同 t 复现差 0;一循环内 40 次模块点亮、点亮时长共 35.2 s。"
+   ],
+   "sim_en": [
+    "Event rates come straight from ledger 3's spectrum and aperture: 0.029 Hz above 10^13 eV, one per day above 10^15 eV, one per 73 days above 10^16 eV. The display's 26/11/5/3/2/1 allocation compresses the true 50x-per-decade fall to 2.5x per decade, while the ENERGY DISTRIBUTION still follows real-spectrum quantiles.",
+    "The profile fills using Gaisser-Hillas with X_max running from 255 to 539 g/cm2 with log10(E), the true values from ledger 2 - so a higher-energy event visibly peaks DEEPER.",
+    "Full-cycle envelope scan (T = 150 s, 0.05 s steps): minY constant at -2.20, maxY 11.63; loop-closure difference 0, same-t reproducibility 0; 40 module light-ups per cycle totalling 35.2 s lit."
+   ],
+   "physics": [
+    "宇宙线谱是幂律,所以「等一个大事例」的时间也是幂律:能量升 10 倍,等待时间长 50–100 倍。这条指数把整个学科的实验策略钉死——想看得更高只能把孔径乘上去,而账 3 已经证明火星乘不动。",
+    "为什么屏上要显示纵向剖面而不只是一个能量数字:剖面的峰位就是 X_max,而 X_max 与簇射极大附近的形状是能量重建的**全部信息来源**(6 个点定三参数)。屏上那条填充线就是重建过程本身。",
+    "零转动部件不是省事:本站不需要跟踪任何目标(膝区带电粒子早被银河磁场打乱,没有点源可指),没有指向机构就没有轴承、没有润滑、没有尘密封,也没有给火震站与射电阵制造振动和电磁噪声的机会。"
+   ],
+   "physics_en": [
+    "The cosmic-ray spectrum is a power law, so the wait for a big event is a power law too: a factor 10 in energy costs a factor 50-100 in waiting time. That exponent pins down the whole field's experimental strategy - reaching higher means multiplying aperture, and ledger 3 has already shown Mars cannot multiply it.",
+    "Why the display shows a longitudinal profile rather than just an energy number: the peak position IS X_max, and the shape near shower maximum is the ENTIRE information source for energy reconstruction (six points constraining three parameters). The filling bar on screen is the reconstruction itself.",
+    "Zero moving parts is not laziness: this station tracks nothing (knee-region charged particles were randomised by the galactic field long ago, there is no point source to aim at), and with no pointing mechanism there are no bearings, no lubricant, no dust seals - and no chance to inject vibration or electromagnetic noise into the seismic station and the radio array."
+   ]
+  },
+  {
+   "id": "radio",
+   "label": "Askaryan 射电通道 · 全反射把天线赶到地下",
+   "label_en": "Askaryan Radio Channel - Total Internal Reflection Forces the Antennas Underground",
+   "range": 26,
+   "detail": "风化层里的级联有 20~25% 的电荷过剩(正电子湮灭 + 康普顿电子被拖进来),在波长大于横向尺度(莫里哀半径 7.4 cm)的频段上相干辐射——给出一个与能量**线性**、与取样涨落**无关**的独立能标。但这条通道有一个负结果,而且它改了架构:**下行级联的切伦科夫锥永远打不出地面**。风化层 n = 1.68,切伦科夫角 53.6°,全反射临界角只有 36.4°;把天顶角从 0° 扫到 89°,锥上出射方向的最小入射角始终 ≥37.4°,一次都进不了临界角以内。地表天线在物理上收不到本站的脉冲,所以天线必须埋——8 口 8 m 深的井。同一个全反射反过来白送一条抗干扰:地面来的干扰折射进土后只能落在 36.4° 以内,而信号在 53.6°,**到达角本身就是甄别器**。",
+   "detail_en": "A cascade in regolith carries a 20-25% negative charge excess (positron annihilation plus dragged-in Compton electrons) and radiates coherently at wavelengths longer than its transverse size (Moliere radius 7.4 cm) - giving an energy scale that is LINEAR in energy and independent of sampling fluctuations. But this channel has a negative result that changed the architecture: THE CHERENKOV CONE OF A DOWNGOING CASCADE CAN NEVER ESCAPE THE SURFACE. Regolith has n = 1.68, so the Cherenkov angle is 53.6 deg while the critical angle for total internal reflection is only 36.4 deg. Sweeping the zenith angle from 0 to 89 deg, the minimum incidence angle anywhere on the cone never drops below 37.4 deg - never inside the critical angle. Surface antennas physically cannot receive this station's pulses, so the antennas must be buried: eight wells, 8 m deep. The same total internal reflection then hands back a free discriminant: interference from above refracts into a cone within 36.4 deg of vertical, while the signal sits at 53.6 deg - THE ARRIVAL ANGLE ITSELF SEPARATES THEM.",
+   "specs": {
+    "介电常数 / 折射率": "ε′ = 2.84,n = 1.684(Olhoeft-Strangway ε′ = 1.919^ρ)",
+    "切伦科夫角 / 临界角": "53.6° / 36.4°(全反射余量 1.0°,全天顶角无解)",
+    "频段": "100–500 MHz,陷波 390–450 MHz(城市 UHF)",
+    "衰减长度": "157 m @300 MHz(tanδ = 1.2×10⁻³,Apollo 月壤经验式)",
+    "天线井": "8 口 × 8 m 深,井位 ±6 / ±12 m",
+    "信噪比": "SNR 21 @10¹⁵ eV · 212 @10¹⁶ eV → 门限 2.4×10¹⁴ eV",
+    "方向": "σ_θ 0.05°(统计)→ 0.5–1°(折射率廓线主导)"
+   },
+   "specs_en": {
+    "Permittivity / index": "eps' = 2.84, n = 1.684 (Olhoeft-Strangway eps' = 1.919^rho)",
+    "Cherenkov / critical angle": "53.6 deg / 36.4 deg (1.0 deg of TIR margin, no solution at any zenith angle)",
+    "Band": "100-500 MHz with a 390-450 MHz notch for city UHF",
+    "Attenuation length": "157 m at 300 MHz (tan delta = 1.2e-3, Apollo lunar-regolith formula)",
+    "Antenna wells": "eight, 8 m deep, placed at +/-6 and +/-12 m",
+    "Signal to noise": "21 at 10^15 eV, 212 at 10^16 eV, giving a 2.4e14 eV threshold",
+    "Direction": "sigma_theta 0.05 deg statistical, 0.5-1 deg once the index profile dominates"
+   },
+   "sim": [
+    "账 5(4 道闸全绿):**已知答案闸**——冰(n = 1.78)的切伦科夫角自算 55.8°;冷冰 300 MHz 衰减长度 0.99 km(文献 ~1 km);ZHS/Alvarez-Muñiz 冰参数化在 1 m/1 TeV 复现 2.53×10⁻⁷ V/m/MHz。",
+    "**全反射闸**:对 θ_z = 0…89° 逐点扫描切伦科夫锥的全部方位,锥上出射方向的最小入射角下确界 37.4°,比临界角 36.4° 大 1.0° —— 无解,而且这个 1.0° 就是全部余量,说明结论是**紧的**,不是量级上的粗判。",
+    "场强按 ν₀ ∝ 1/R_M 缩放到风化层(1.64 GHz);8 口井在 8 m 深处的切伦科夫环半径 3.7–16.9 m(相干角宽 18.9°),覆盖整块取样板 —— 代价是幅度随位置变,需逐事例几何改正。",
+    "射电为什么值得做:它给量能器一个**完全独立、与强子模型完全无关**的能标(相干辐射场 ∝ E,没有取样涨落),并且感知的是取样板看不见的那 97% 的介质体积;它还与 sci-radio-01 共用台址与技术。"
+   ],
+   "sim_en": [
+    "Ledger 5 (4/4 gates green). KNOWN-ANSWER GATES: the Cherenkov angle in ice (n = 1.78) computes to 55.8 deg; the 300 MHz attenuation length in cold ice comes out at 0.99 km against a literature value near 1 km; and the ZHS / Alvarez-Muniz ice parametrisation reproduces 2.53e-7 V/m/MHz at 1 m and 1 TeV.",
+    "THE TIR GATE: scanning every azimuth of the Cherenkov cone for zenith angles from 0 to 89 deg, the infimum of the exit incidence angle is 37.4 deg - a full 1.0 deg above the 36.4 deg critical angle. No solution exists, and that 1.0 deg is the entire margin, which shows the conclusion is TIGHT rather than an order-of-magnitude hand wave.",
+    "Field strength is scaled to regolith through nu_0 proportional to 1/R_M (1.64 GHz). Eight wells at 8 m depth see Cherenkov rings of 3.7-16.9 m radius (coherence half-width 18.9 deg), covering the whole sampling plate - at the price of position-dependent amplitude that needs a per-event geometry correction.",
+    "Why radio earns its keep: it gives the calorimeter a completely independent, hadronic-model-free energy scale (coherent field is linear in E, with no sampling fluctuation), it senses the 97% of the medium volume the sampling plates never touch, and it shares site and technology with sci-radio-01."
+   ],
+   "physics": [
+    "Askaryan 效应:高能级联在介质中跑出净负电荷(束缚电子被康普顿散射拖进簇射,正电子在飞行中湮灭),这团负电荷比波长小的时候辐射是相干的,功率 ∝ N² ∝ E²,场强 ∝ E。相干性正是它能当能标的原因——**幅度直接就是能量,不用统计平均**。",
+    "为什么与 sci-radio-01 共享台址是物理理由而不是行政便利:两站都要求电磁静默的远郊,两站都要 ns 级以上的共同时基,而且两站的技术栈(低噪声射频前端、宽带数字化、干涉定向)是同一套。差别在频段——射电阵在 0.5–10 MHz 听太阳与银河,本站在 100–500 MHz 听脚下的级联。",
+    "折射率廓线是本通道的真误差源:风化层密实度随深度变,n 也随之变,射线不是直线。统计精度 0.05° 毫无意义,真实误差由 dn/n ~ 3% 定在 0.5–1°。"
+   ],
+   "physics_en": [
+    "The Askaryan effect: a high-energy cascade in a dense medium develops a net negative charge (bound electrons are Compton-dragged into the shower while positrons annihilate in flight). While that charge blob is smaller than the wavelength the emission is coherent, so power goes as N-squared, i.e. as E-squared, and field strength is linear in E. That coherence is exactly what makes it usable as an energy scale - THE AMPLITUDE IS THE ENERGY, with no statistical averaging needed.",
+    "Why co-siting with sci-radio-01 is physics rather than administrative convenience: both stations need an electromagnetically quiet outpost, both need a shared time base, and both use the same technology stack (low-noise RF front ends, wideband digitisation, interferometric direction finding). Only the band differs - the array listens to the Sun and the Galaxy at 0.5-10 MHz, this station listens to cascades underfoot at 100-500 MHz.",
+    "The refractive-index profile is this channel's real error source: regolith compaction varies with depth, so n varies and rays are not straight. The 0.05 deg statistical precision is meaningless; the real error is set at 0.5-1 deg by a dn/n of order 3%."
+   ]
+  },
+  {
+   "id": "edge",
+   "label": "外围桩 · 授时链、自发射合规与三段能谱",
+   "label_en": "Perimeter Post - Timing Chain, Emission Compliance and the Three-Tier Spectrum",
+   "range": 40,
+   "detail": "八根桩摆在 145 m 半径上,每根是一块地表闪烁体 + 太阳板 + 授时天线 + 一只朝射电阵方向的 0.5–10 MHz 监测环。它们不承担孔径(账 3),只做三件事:①全场符合否决——宇宙线只打一根柱,电磁瞬态与 SEP 洪水打全场;②**自发射合规哨**——合规不是算出来的,是量出来的;③场界。关于授时有一条反直觉的结论:本站是全城**对授时要求最松**的科学站,松了 4 个量级。火星没有簇射足迹,所以没有多站符合,阵列内根本不做到达时间差重建;站内射电干涉要 1.8 ns,但 8 口井共用同一块 ADC 和同一个时钟,是仪器内部的事。真正需要外部时基的只有绝对 UT,而火星自转 1° 要 247 s,科学需求只有 1 s。所以**沿用 sci-seis-01 那条链,一颗新钟不买**。",
+   "detail_en": "Eight posts stand on a 145 m radius, each carrying a surface scintillator, a solar panel, a timing antenna and a 0.5-10 MHz monitor loop aimed at the radio array. They contribute no aperture at all (ledger 3) and do exactly three jobs: field-wide coincidence veto (a cosmic ray hits one column, an electrical transient or an SEP flood hits everything); SELF-EMISSION COMPLIANCE MONITORING - compliance is measured, not calculated; and site boundary. On timing there is a counter-intuitive result: this is the LOOSEST timing requirement of any science station in the city, by four orders of magnitude. Mars has no shower footprint, hence no multi-station coincidence, so no inter-station time-difference reconstruction is done at all. In-station radio interferometry needs 1.8 ns, but all eight wells share one ADC and one clock - that is internal to the instrument. The only thing needing an external time base is absolute UT, and since Mars rotates 1 deg in 247 s the science requirement is just 1 s. Hence: ADOPT THE sci-seis-01 CHAIN UNCHANGED AND BUY NO NEW CLOCK.",
+   "specs": {
+    "授时链": "站上 OCXO(0.089 ms/sol)+ 每火星日经 UHF 与 sci-radio-01 铷钟同步",
+    "绝对时间裕度": "11236×(需求 1 s)",
+    "对照组": "地球式 150 m 基线打 0.1° 需 0.87 ns —— 火星没有这条需求",
+    "站内参考": "100 MHz(不是 10 MHz,见下)",
+    "自发射判据": "在射电阵处 ≤ 天空底功率的 1%",
+    "最小距离": "566 m(MIL-STD-461G RE102 合规前提下)",
+    "落位候选": "A (−1430, −905) 距射电阵 600 m(推荐)/ B (−592, −1076) 640 m"
+   },
+   "specs_en": {
+    "Timing chain": "site OCXO (0.089 ms per sol) synchronised each sol over UHF to the sci-radio-01 rubidium clock",
+    "Absolute-time margin": "11236x against a 1 s requirement",
+    "Control case": "an Earth-style 150 m baseline aiming at 0.1 deg would need 0.87 ns - Mars has no such requirement",
+    "Site reference": "100 MHz, deliberately not 10 MHz (see below)",
+    "Self-emission criterion": "at most 1% of the sky-noise power at the radio array",
+    "Minimum distance": "566 m assuming MIL-STD-461G RE102 compliance",
+    "Siting candidates": "A (-1430, -905), 600 m from the array (recommended); B (-592, -1076), 640 m"
+   },
+   "sim": [
+    "账 6(3 道闸全绿):**已知答案闸**——火星自转 1° = 246.6 s;地球式 150 m 基线 0.1° 需 σ_t = 0.87 ns(这正是 Auger/LHAASO 要 GPS 的原因);均匀分块位置分辨 = a/√12 的 MC 复现。多站符合概率算实:单次强子作用在 1–10 GeV 段只产生 ~12 个 μ,摊在半径 ~937 m 的盘上,面密度 4.2×10⁻⁶/m²,576 m² 上期望 0.002 个 —— **符合率 0.2%,不存在**。",
+    "账 7(3 道闸全绿):Cane 1979 银河背景给 1 MHz 处 T_sky ~10⁷ K → 天空场谱密度 4.86 nV/m/√Hz。按 MIL-STD-461G RE102(24 dBµV/m @1 m)合规发射,最紧的是 0.5 MHz(天空底掉得比我方快)→ 满足 1% 判据的最小距离 566 m。若比 RE102 高 40 dB(未屏蔽的商用 DAQ 就是这个量级)需要 57 km ——**纯距离永远不闭合**,与 sci-radio-01 账 4 同一个结论。",
+    "**10 MHz 参考被否**:射电阵谱分辨 ~3 kHz,一根时钟谐波把功率全压进一个频道,相对宽带噪声再恶化 5.2 dB;而 10 MHz 正好压在其观测带上边缘。定版:站内参考 100 MHz、本地分频、只在屏蔽机柜内走;与射电阵之间只走 1 PPS + 光纤。",
+    "三段能谱叙事:sci-pan-01 MiniPAN 轨道磁谱仪 10⁸–2×10¹¹ eV(磁刚度给动量与电荷符号)→ **本站 10¹¹–4×10¹⁶ eV 直接测量**(重叠 0.3 个十倍程,能标可交叉定标)→ sci-rad-04 深地 μ 哨兵(3000 m 岩下 ~26 天一跳,是积分率计不是谱仪)。本站上限之上**没有人接** —— 这是诚实的路线图终点。",
+    "与 sci-rad-01 的分工:剂量由能流主导,能流 ∝ E^−0.7,本站带宽(>10¹¹ eV)只占 >10⁸ eV 能流的 0.79% → 对剂量几乎无贡献;反过来 sci-rad-01 关心的 10⁸–10¹⁰ eV 被太阳调制支配,对银河源加速的天体物理谱几乎无信息。**那是剂量学,这是天体物理**,共用的只有 SEP 报警通道。"
+   ],
+   "sim_en": [
+    "Ledger 6 (3/3 gates green). KNOWN-ANSWER GATES: Mars rotates 1 deg in 246.6 s; an Earth-style 150 m baseline aiming at 0.1 deg needs sigma_t = 0.87 ns (precisely why Auger and LHAASO need GPS); and a Monte Carlo reproduces the a/sqrt(12) resolution of uniform segmentation. The multi-station coincidence probability is computed rather than asserted: a single hadronic interaction yields only about 12 muons in the 1-10 GeV band, spread over a disc of radius ~937 m, giving 4.2e-6 per m2 and 0.002 expected hits on 576 m2 - a 0.2% coincidence rate, i.e. none.",
+    "Ledger 7 (3/3 gates green): Cane's 1979 galactic background gives T_sky of order 1e7 K at 1 MHz, hence a sky field spectral density of 4.86 nV/m/rtHz. For an emitter compliant with MIL-STD-461G RE102 (24 dBuV/m at 1 m), the tightest frequency is 0.5 MHz (the sky floor falls faster than our emission), setting a minimum distance of 566 m for the 1% criterion. An emitter 40 dB above RE102 - which is what an unshielded commercial DAQ actually is - would need 57 km: DISTANCE ALONE NEVER CLOSES, the same conclusion sci-radio-01 reached in its ledger 4.",
+    "THE 10 MHz REFERENCE WAS REJECTED: the array's spectral resolution is about 3 kHz, so a single clock harmonic concentrates all its power into one channel, a further 5.2 dB worse than broadband noise - and 10 MHz sits exactly on the upper edge of their observing band. The design uses a 100 MHz site reference, divided locally, routed only inside the shielded rack, with nothing but 1 PPS over fibre going to the array.",
+    "The three-tier spectral narrative: sci-pan-01 MiniPAN in orbit covers 1e8 to 2e11 eV (magnetic rigidity giving momentum and charge sign); THIS STATION covers 1e11 to 4e16 eV by direct measurement, overlapping by 0.3 of a decade so the energy scales can be cross-calibrated; and the sci-rad-04 deep-underground muon sentinel under 3000 m of rock ticks about once per 26 days as an integral rate meter, not a spectrometer. Above this station's ceiling NOBODY takes over - that is the honest end of the roadmap.",
+    "Division of labour with sci-rad-01: dose is dominated by energy flux, which scales as E^-0.7, so this station's band above 1e11 eV carries only 0.79% of the energy flux above 1e8 eV and contributes almost nothing to dose. Conversely the 1e8-1e10 eV band that sci-rad-01 cares about is dominated by solar modulation and carries almost no information about galactic source acceleration. THAT IS DOSIMETRY, THIS IS ASTROPHYSICS - the only shared channel is the SEP alert."
+   ],
+   "physics": [
+    "为什么台址必须在射电阵附近却又不能太近:近了要共享铷钟与静默环境(本站的 100–500 MHz 射电通道同样怕城市 UHF),远了才压得住自己的数字噪声。这个矛盾没有「最优距离」可言——账 7 证明距离只能保证「即使 60 dB 屏蔽室完全失效也刚好不超标」,真正的工作余量必须来自屏蔽、光纤与频率规划三条杠杆。",
+    "推荐候选 A 在射电阵**背向城区**的一侧,代价说明白:拿不到射电阵对城常驻零陷的 −30 dB 白送(偏离 173°),RFI 全靠三杠杆自己扛。收益是本站的 Askaryan 带离城市 UHF 更远(1692 m vs 1228 m)。",
+    "聚变堆的中子晕在 A 点是 6.9×10⁻³ n/cm²/s,约为 GCR 反照中子本底的 1.4%,而本站的触发靠 3×10⁵ 倍的脉冲高度 —— 中子在这里连本底都算不上。这条不是为了自证清白,是为了把「不同科学站互相是否是本底」这个问题在城里算一次。"
+   ],
+   "physics_en": [
+    "Why the site must be near the radio array yet not too near: near enough to share the rubidium clock and the quiet environment (this station's own 100-500 MHz channel fears city UHF just as much), far enough to suppress its own digital noise. There is no 'optimum distance' to be had - ledger 7 shows distance only guarantees that the station would still just pass EVEN IF the 60 dB shielded room failed completely. The working margin must come from shielding, fibre and frequency planning.",
+    "Candidate A sits on the side of the array facing AWAY from the city, and the cost is stated plainly: it forfeits the array's standing city-facing null (off by 173 deg) and its free 30 dB, so RFI must be beaten by the three levers alone. The gain is that this station's Askaryan band sits further from city UHF (1692 m versus 1228 m).",
+    "The fusion plant's neutron halo at site A is 6.9e-3 n/cm2/s, about 1.4% of the GCR albedo neutron background - and this station triggers on a pulse-height ratio of 3e5, so neutrons do not even qualify as background here. The point of computing it is not self-exoneration but to settle, once, whether the city's science stations are backgrounds to one another."
+   ]
+  },
+  {
+   "id": "readout",
+   "label": "读出链 · 探测器自带 10⁶ 倍增益时,前端该做的是分压不是放大",
+   "label_en": "The Readout Chain - When the Detector Already Has 10^6 Gain, the Front End Should Divide, Not Amplify",
+   "range": 20,
+   "detail": "机柜里那 5868 路前端不是同一种电路。**SiPM 支路不用电荷灵敏放大器**:22500 个胞满量程输出 12 nC,想用 CSA 在 1.5 V 摆幅内吞下要 8 nF 的反馈电容、片上 4 mm²/通道 —— 否决。SiPM 自己的 3.37×10⁶ 倍增益已经把信号顶到「53 Ω 无源端接就够」的水平,τ = R·C_term = 101 ns 天然就是积分窗,静态电流为零。**PIN 支路正相反**:增益 1,必须真 CSA(C_f 20 pF),再串一级 CR-RC 成形(τ = 300 ns)。两条链都在 ops-fab-01 的 CRN65LP 上用 Spectre 跑过 tt/27 °C 与 ss/−100 °C 两角。",
+   "detail_en": "The 5868 front-end channels in those racks are not one circuit. THE SIPM BRANCH USES NO CHARGE-SENSITIVE AMPLIFIER: 22500 cells deliver 12 nC at full scale, and swallowing that inside a 1.5 V swing would need an 8 nF feedback capacitor - 4 mm2 per channel on die. Rejected. The SiPM's own gain of 3.37e6 already lifts the signal to where a passive 53 ohm termination suffices, and tau = R*C_term = 101 ns is the integration window for free, at zero quiescent current. THE PIN BRANCH IS THE OPPOSITE: gain of one, so it needs a real CSA (20 pF feedback) followed by a CR-RC shaper at tau = 300 ns. Both chains were simulated in Spectre on ops-fab-01's CRN65LP process at tt/27 C and ss/-100 C.",
+   "specs": {
+    "SiPM 支路": "53 Ω 无源端接 + 闭环反相放大 G = −R_f/R_in = −5,1.03 mW/ch",
+    "PIN 支路": "CSA C_f 20 pF + CR-RC τ=300 ns,40.4 mV/pC,6.97 mW/ch",
+    "线性": "SiPM 档内 ≤1%;PIN 四点(10¹³–10¹⁶ eV)1.44%",
+    "冷角漂移(27 → −100 °C)": "SiPM 门积分 0.20%;PIN 0.03–0.10%",
+    "噪声": "PIN ENC 5.7×10³ e⁻,阈值端 SNR 33(未成形时 12)",
+    "PSRR @2 MHz": "SiPM 28 dB · PIN 39 dB —— 全链最弱的一环",
+    "由此新增的指标": "前端 die 处 1–10 MHz 电源纹波 ≤ 20 mV;每 die 串联磁珠(~1 µH+1 Ω)+ 10 µF ∥ 100 nF(小电容串 0.5 Ω 阻尼)",
+    "版图(账 16)": "cray_ota33 两级运放 76.9×23.0 µm;DRC 0 / LVS CORRECT 双首过;最大寄生 9.3 fF;后仿增益漂移 +0.049%"
+   },
+   "specs_en": {
+    "SiPM branch": "passive 53 ohm termination plus a closed-loop inverting stage, G = -R_f/R_in = -5, 1.03 mW/ch",
+    "PIN branch": "CSA with 20 pF feedback plus a CR-RC shaper at tau = 300 ns, 40.4 mV/pC, 6.97 mW/ch",
+    "Linearity": "SiPM within a gain band under 1%; PIN across four decades (1e13 to 1e16 eV) 1.44%",
+    "Corner drift (27 to -100 C)": "SiPM gated integration 0.20%; PIN 0.03-0.10%",
+    "Noise": "PIN ENC 5.7e3 electrons; threshold SNR 33, against 12 before shaping",
+    "PSRR at 2 MHz": "SiPM 28 dB, PIN 39 dB - the weakest link in the whole chain",
+    "Requirement this created": "supply ripple at the front-end die under 20 mV from 1 to 10 MHz; per die, a series ferrite bead (~1 uH + 1 ohm) into 10 uF in parallel with 100 nF (0.5 ohm damping on the small one)",
+    "Layout (ledger 16)": "cray_ota33 two-stage op-amp, 76.9 x 23.0 um; DRC clean and LVS CORRECT first pass; largest parasitic 9.3 fF; post-layout gain shift +0.049%"
+   },
+   "sim": [
+    "账 10–13(Spectre 18.1 / CRN65LP,IC618 VM 实跑):v1 开环共源级实测冷角漂 +13%、MIP→Fe 压缩 −9% —— 因为增益 = gm·R_D,而 gm 同时随温度与摆幅变。v2 把环闭上(增益改由电阻比定)后压缩降到 ≤1%;残余 +2.8% 的峰值漂移改用**门积分**读出后降到 0.20%。",
+    "PIN 支路连翻三次案:①10¹⁶ 的钳位**不是压摆,是输出摆幅**(CSA 输出被反馈钉在参考电平上、信号向下摆,可用余量就是参考电平本身;参考 1.0 V 钳 1.00 V、改 1.4 V 钳 1.40 V,一比一对上)②账 11 报的「+7.5% 增益误差」把源电流放进仿真积分之后,证明是**我的电荷账错了**,电路实际偏低 3%③10¹³ 的窄脉冲被自适应步长跳过、只注入了 13% 的电荷 —— 加 maxstep 后恢复到 99.3%,**这条是仿真设置问题,却先伪装成了电路缺陷**。",
+    "成形级(账 13–14)把顶点冷角漂移从 +2.68% 压到 0.04%、ENC 从 1.5×10⁴ 降到 5.7×10³ e⁻。τ 三档扫出极小值(7070 / 5723 / 5734 e⁻ @100 / 300 / 1000 ns):100 ns 太短(小信号冷角差 3.8%)、1000 ns 已被 τ_fb = 4 µs 的弹道亏损吃掉 10% 增益,**300 ns 是被两边夹出来的**。另一条:CSA 输出向下摆、成形级反相后向上摆,**两级的参考电平必须分开**(2.1 V / 0.9 V),共用一个参考时顶点会削在 920 mV。",
+    "账 14 的 PSRR 是全链最弱的一环,而且和账 7 **正面打架**:为了躲开 sci-radio-01 的 0.5–10 MHz,开关电源基频被推到 ≥2 MHz,而前端 PSRR 恰好从 ~1 MHz 起以 20 dB/decade 下滑。100 mV 纹波在 2 MHz 上等效 0.12 个 MIP 的电荷误差(SiPM 支路)。**解不在放大器,在配电** —— 但手算的「1 Ω + 10 µF」上机一仿就翻车:10 µF 的 2 nH ESL 让它在 10 MHz 差 37.7 dB,双值去耦还会反谐振。定版是**串联磁珠 + 阻尼双值去耦**,全带 61–95 dB,最差 0.0028 MIP(账 15)。",
+    "账 16 把前端反复用到的那只两级运放画成了版图:`cray_ota33`,CRN65LP 3.3 V 器件,76.9×23.0 µm,96 根栅指并成 8 只管。**DRC 0 与 LVS CORRECT 双首过**;且过的不是「工具没报」而是「工具会报却没报」——毒化版图(CO 0.09→0.07 µm)让 Calibre 报了整整 2215 次 CO.W.1,毒化网表(M6 的 W 100→88 µm)让 LVS 立刻 INCORRECT。Calibre xRC 提出的最大寄生 9.3 fF,是补偿电容 2 pF 的 0.47%:后仿中频增益 +0.049%、带宽 11.22 MHz 分毫未动。**闭环结论画完版图后原样成立。**"
+   ],
+   "sim_en": [
+    "Ledgers 10-13, run in Spectre 18.1 on CRN65LP on the IC618 VM: the v1 open-loop common-source stage measured +13% corner drift and -9% compression from MIP to iron, because its gain is gm*R_D and gm moves with both temperature and signal swing. Closing the loop in v2 (gain set by a resistor ratio) cut compression to under 1%, and switching the residual +2.8% peak drift to GATED INTEGRATION brought it to 0.20%.",
+    "The PIN branch was misdiagnosed three times running: (1) the 1e16 clipping was NOT slew rate but OUTPUT HEADROOM - the CSA output is pinned at the reference level by feedback and the signal swings down, so the available room IS the reference; at 1.0 V it clipped at 1.00 V, at 1.4 V it clipped at 1.40 V, one for one. (2) The '+7.5% gain error' reported in ledger 11 turned out, once the source current was integrated inside the simulation, to be an error in MY OWN charge bookkeeping - the circuit is actually 3% low. (3) The narrow 1e13 pulse was being stepped over by the adaptive timestep, injecting only 13% of its charge; adding maxstep restored 99.3%. THAT ONE WAS A SIMULATION SETTING MASQUERADING AS A CIRCUIT DEFECT.",
+    "The shaper (ledgers 13-14) cut top-point corner drift from +2.68% to 0.04% and ENC from 1.5e4 to 5.7e3 electrons. Sweeping three shaping times found a minimum (7070 / 5723 / 5734 electrons at 100 / 300 / 1000 ns): 100 ns is too short (3.8% small-signal corner spread) and 1000 ns already loses 10% of gain to ballistic deficit against the 4 us feedback constant, so 300 ns is squeezed out from both sides. Separately: the CSA output swings down while the inverting shaper swings up, so THE TWO STAGES NEED DIFFERENT REFERENCE LEVELS (2.1 V and 0.9 V) - sharing one clips the top point at 920 mV.",
+    "Ledger 14's PSRR is the weakest link in the chain, and it collides head-on with ledger 7: to dodge sci-radio-01's 0.5-10 MHz band the switching supplies were pushed above 2 MHz, and front-end PSRR happens to roll off at 20 dB per decade from about 1 MHz. A 100 mV ripple at 2 MHz is worth 0.12 MIP of charge error on the SiPM branch. THE FIX IS IN POWER DISTRIBUTION, NOT THE AMPLIFIER - but the hand-calculated '1 ohm + 10 uF' failed its own simulation: the capacitor's 2 nH ESL costs 37.7 dB at 10 MHz, and naive two-value decoupling anti-resonates. The final network is a SERIES FERRITE BEAD INTO DAMPED DUAL DECOUPLING: 61-95 dB across the band, worst case 0.0028 MIP (ledger 15).",
+    "Ledger 16 laid out the two-stage op-amp the front end keeps reusing: cray_ota33, CRN65LP 3.3 V devices, 76.9 x 23.0 um, 96 gate fingers merging into 8 transistors. DRC CLEAN AND LVS CORRECT, BOTH FIRST PASS - and the zeros were proven honest by poisoning: shrinking all contacts from 0.09 to 0.07 um made Calibre fire CO.W.1 exactly 2215 times, and shrinking one W in the netlist from 100 to 88 um flipped LVS to INCORRECT. The largest extracted parasitic is 9.3 fF, 0.47% of the 2 pF compensation cap: post-layout midband gain moved +0.049% and the 11.22 MHz bandwidth did not move at all. THE CLOSED-LOOP CONCLUSIONS SURVIVE THE LAYOUT UNCHANGED."
+   ],
+   "physics": [
+    "为什么「探测器自带增益时前端该分压」:噪声要求被 SiPM 的 3.4×10⁶ 倍增益推到了任何 65 nm 放大器都轻松满足的地方(裕度 >10³),于是前端的难点从**噪声**换成了**量程与线性**。同一条链上 PIN 没有增益,噪声就重新变成真约束 —— 所以它需要 CSA + 成形,而 SiPM 不需要。**同一座站里两种读出哲学,分界线是探测器有没有内禀增益。**",
+    "成形级的作用不是「滤波」,是**把峰值的定义权从运放手里夺回来**:未成形时峰值由环路阻尼决定,而阻尼随温度变;成形后峰位由 RC 定死(实测 t_pk/τ = 1.07),峰值就只跟电荷成正比。这也是为什么 SiPM 支路可以不加成形 —— 它改用门积分,面积对带宽一阶不敏感,同样把定义权拿了回来。",
+    "PSRR 之所以是最弱环,是因为它是唯一一条**不能靠闭环治好**的通道:闭环把信号增益的温漂与非线性都吃掉了,但电源到输出的耦合本身就在环路之外的电流镜与偏置支路上。这类问题的解永远在**上游**(去耦、二次滤波、差分化),不在放大器的拓扑里。"
+   ],
+   "physics_en": [
+    "Why a front end should divide rather than amplify when the detector already has gain: the SiPM's 3.4e6 pushes the noise requirement somewhere any 65 nm amplifier meets with three orders to spare, so the hard part shifts from NOISE to RANGE AND LINEARITY. On the same station the PIN diode has no gain, so noise becomes a real constraint again - which is why it needs a CSA and a shaper and the SiPM does not. TWO READOUT PHILOSOPHIES IN ONE STATION, divided by whether the detector has intrinsic gain.",
+    "A shaper's job here is not filtering, it is TAKING THE DEFINITION OF THE PEAK BACK FROM THE AMPLIFIER. Unshaped, the peak is set by loop damping, and damping moves with temperature. Shaped, the peak time is fixed by an RC (measured t_peak/tau = 1.07) and the peak height tracks only the charge. It is also why the SiPM branch can skip shaping: gated integration takes the same definition back, because area is insensitive to bandwidth to first order.",
+    "PSRR is the weakest link because it is the one path a feedback loop cannot cure: the loop absorbs the drift and non-linearity of the signal gain, but supply-to-output coupling lives in the current mirrors and bias branches that sit outside the loop. Problems of that shape are always solved UPSTREAM - decoupling, secondary filtering, going differential - never in the amplifier topology."
+   ]
+  }
+ ]
+}

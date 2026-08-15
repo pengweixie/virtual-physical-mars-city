@@ -1,0 +1,152 @@
+{
+ "camera": {
+  "fov_deg": 70.0,
+  "npix": 64,
+  "pitch_um": 5.0,
+  "f_number": 1.4,
+  "lens_T": 0.9,
+  "QE": 0.6,
+  "FWC": 17880,
+  "LSB": 16.5,
+  "READ": 1.76,
+  "DARK": 170.0,
+  "target_DN": 400
+ },
+ "scene": {
+  "illuminance_lux": 120.0,
+  "floor_albedo": 0.3,
+  "lm_per_W": 250.0,
+  "photon_energy_J": 3.61e-19
+ },
+ "e_per_s_per_px": 686867.5,
+ "exposure_ms_for_DN400": 9.6,
+ "ifov_mrad": 19.09,
+ "blur": [
+  {
+   "t_ms": 20,
+   "walk055": 0.29,
+   "walk030": 0.16,
+   "turn10": 1.05,
+   "turn04": 0.42
+  },
+  {
+   "t_ms": 50,
+   "walk055": 0.72,
+   "walk030": 0.39,
+   "turn10": 2.62,
+   "turn04": 1.05
+  },
+  {
+   "t_ms": 100,
+   "walk055": 1.44,
+   "walk030": 0.79,
+   "turn10": 5.24,
+   "turn04": 2.1
+  },
+  {
+   "t_ms": 190,
+   "walk055": 2.74,
+   "walk030": 1.49,
+   "turn10": 9.95,
+   "turn04": 3.98
+  },
+  {
+   "t_ms": 260,
+   "walk055": 3.75,
+   "walk030": 2.04,
+   "turn10": 13.62,
+   "turn04": 5.45
+  }
+ ],
+ "blur_limit_px": 1.5,
+ "v_max_blur": 1.332,
+ "w_max_blur": 0.666,
+ "ssm": [
+  {
+   "v": 0.3,
+   "S": 2.32,
+   "d_human": 1.82,
+   "d_robot": 0.07,
+   "d_stop": 0.28
+  },
+  {
+   "v": 0.45,
+   "S": 2.49,
+   "d_human": 1.82,
+   "d_robot": 0.1,
+   "d_stop": 0.41
+  },
+  {
+   "v": 0.55,
+   "S": 2.6,
+   "d_human": 1.82,
+   "d_robot": 0.12,
+   "d_stop": 0.51
+  },
+  {
+   "v": 0.75,
+   "S": 2.83,
+   "d_human": 1.82,
+   "d_robot": 0.16,
+   "d_stop": 0.69
+  }
+ ],
+ "ssm_params": {
+  "v_human": 1.6,
+  "T_sense_lidar": 0.16666666666666666,
+  "T_ctrl": 0.05,
+  "C": 0.1,
+  "Z": 0.05
+ },
+ "contact": [
+  {
+   "shell": "rigid shell",
+   "dt": 0.02,
+   "f_055": 1094,
+   "f_030": 597,
+   "v_limit": 0.141
+  },
+  {
+   "shell": "3 mm foam",
+   "dt": 0.05,
+   "f_055": 438,
+   "f_030": 239,
+   "v_limit": 0.352
+  },
+  {
+   "shell": "15 mm compliant skin",
+   "dt": 0.12,
+   "f_055": 182,
+   "f_030": 100,
+   "v_limit": 0.844
+  }
+ ],
+ "F_transient_N": 280.0,
+ "governor": {
+  "v_blur": 1.332,
+  "v_balance": 0.45,
+  "v_balance_ankle_only": 0.296,
+  "balance_note": "with capture stepping (robust 5/5; edge case 0.70 m/s)",
+  "v_contact": 0.352,
+  "v_governed": 0.352,
+  "w_governed": 0.666,
+  "binding": "contact",
+  "limit_order": [
+   [
+    "contact force",
+    0.352
+   ],
+   [
+    "balance (stepping)",
+    0.45
+   ],
+   [
+    "motion blur",
+    1.3318282809549753
+   ]
+  ],
+  "upgrade": {
+   "v_with_15mm_skin": 0.844
+  }
+ }
+}

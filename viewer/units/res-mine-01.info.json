@@ -110,8 +110,8 @@
         2.8
       ],
       "range": 30,
-      "detail": "受料斗（斗内可见来料）→ 30° 封闭输送带桥（顶部检修天窗露出皮带）→ 6 m 筛分塔。塔身朝料堆侧整面剖切，露出工艺核心：三层倾斜振动筛自上而下粗/中/细，筛板颜色与三座产品料堆一一对应，顶部偏心轴驱动。三条溜槽从各层筛口滑到塔脚同色落料堆——一种土进去、三种料出来，因果全程可见。",
-      "detail_en": "Receiving hopper with the feed visible inside, a 30-degree enclosed belt bridge with service hatches along its top, and a 6 m screening tower. The tower is cut away on the stockpile side to show the process: three inclined vibrating decks grading coarse to fine from top to bottom, deck colours matched one-to-one with the three product piles, driven by an eccentric shaft at the head. Three chutes carry each fraction down to a same-coloured pile at the base - one soil in, three products out, cause and effect visible the whole way.",
+      "detail": "受料斗（斗内可见来料）→ 30° 封闭输送带桥（顶部检修天窗露出皮带）→ 6 m 筛分塔。塔身朝料堆侧整面剖切，露出工艺核心：三层倾斜振动筛自上而下粗/中/细，筛板颜色与三座产品料堆一一对应，顶部偏心轴驱动。三条溜槽从各层筛口滑到塔脚同色落料堆——一种土进去、三种料出来，因果全程可见。三堆各有去处：细料经矿场支线运往 ops-printer-01 烧结成打印料，中料作建筑骨料供工地，粗料回填掩体覆土（hab-tunnel-01 的 60 m 土脊、掩土舱村的 2 m 覆盖层都吃这一堆）——出坑后走矿场支线接东干道，再由产业连接线北上工业区。",
+      "detail_en": "Receiving hopper with the feed visible inside, a 30-degree enclosed belt bridge with service hatches along its top, and a 6 m screening tower. The tower is cut away on the stockpile side to show the process: three inclined vibrating decks grading coarse to fine from top to bottom, deck colours matched one-to-one with the three product piles, driven by an eccentric shaft at the head. Three chutes carry each fraction down to a same-coloured pile at the base - one soil in, three products out, cause and effect visible the whole way. Each pile has a destination: fines go down the mine spur to ops-printer-01 to be sintered into print feedstock, medium serves as construction aggregate, and coarse becomes shielding backfill - the 60 m berm at hab-tunnel-01 and the 2 m cover over the hab village both eat from that pile. Everything leaves the pit on the mine spur, joins the east trunk, and turns north up the industry link.",
       "specs": {
         "塔高": "6 m（剖切展示）",
         "筛层": "3 层（粗深褐/中锈红/细浅灰）",

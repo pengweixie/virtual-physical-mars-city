@@ -33,7 +33,9 @@
         "L1 hand check: all six at full thrust give 13.8 MN against ~1420 t Mars liftoff mass (5.27 MN weight) -> liftoff T/W = 2.6 (healthy)",
         "Landing lights the sea-level engines only, and surplus thrust is the core problem: one engine deep-throttled to 40% still holds T/W > 1, so no hover - only a continuous deceleration straight to touchdown (see the header-tank card, L2)",
         "L2 plume analysis (scripts/sim_plume_veh_rocket_01.py): self-induced dust from ~180 m up, cratering of bare soil below ~23 m, ~1.4 MPa pad load at touchdown -> the pad must be sinter-hardened; sandblast reach spans hundreds of meters to 3 km, hence the move to the dedicated launch/recovery site ops-spaceport-01 (whose layout this plume analysis independently validated)"
-      ]
+      ],
+      "physics": "推重比的分母是当地重力——同一台发动机在火星上 T/W 是地球的 2.65 倍（g 3.71 对 9.81）。上升时这是白送的性能;着陆时它变成诅咒:最小节流 × 最少发动机数给出的推力仍大于着陆质量的火星重量,悬停在物理上不存在。",
+      "physics_en": "Thrust-to-weight carries local gravity in its denominator: the same engine scores 2.65x higher on Mars (g 3.71 vs 9.81 m/s2). Free performance on ascent - a curse on landing, where minimum throttle times minimum engine count still out-thrusts the lander's Mars weight, so hover physically does not exist."
     },
     {
       "id": "main-tanks",
@@ -69,7 +71,9 @@
         "L2 insight: max-Q is only 6 kPa (vs ~30-40 kPa on Earth) - the thin atmosphere allows a low, flat, dv-saving trajectory with nearly negligible drag",
         "Return-mission ledger (scripts/sim_mission_veh_rocket_01.py): surface -> low Mars orbit -> TEI totals dv 6.43 km/s (ascent 4.02 + TEI 2.23 + reserve); 1200 t of propellant carries 133 t home, consistent with the 100-150 t handover figure",
         "ISRU coupling: refilling 1200 t locally takes res-isru-01 (0.062 t/sol) x40 units in parallel / ~1.6 MWe to make a single launch window - the power scale jumps to pwr-fusion class (EQUIPMENT.md sec. 9)"
-      ]
+      ],
+      "physics": "齐奥尔科夫斯基方程里 Δv 只认质量比的对数——共底省下的每一吨结构 1:1 变成载荷或余量。1200 t 推进剂配 120 t 干重、质量比 ~11,是甲烷箭从火星表面单级入轨再回地球的入场券。",
+      "physics_en": "In the rocket equation dv sees only the log of the mass ratio, so every tonne of structure the common dome saves becomes a tonne of payload or margin, one for one. A mass ratio of ~11 - 1200 t of propellant on 120 t of dry mass - is the price of admission for a methalox single stage off Mars and home."
     },
     {
       "id": "header-tanks",
@@ -103,7 +107,9 @@
         "L2 landing sim (1-DOF RK4, scripts/sim_descent_veh_rocket_01.py): braking dv ~470 m/s, touchdown <2 m/s; after closing the entry/flip chain the baseline became terminal 400 m/s with ignition at 4 km -> ~38 t total, 24% margin in a 50 t header",
         "L2 insight: thrust is grossly surplus - one Raptor at full power gives T/W = 2.8, and even at the 40% throttle floor a single engine still holds T/W = 1.13: no hovering on Mars, only continuous deceleration to touchdown",
         "Headers separate from mains: keep propellant settled and intakes wet through the 3-5 g lateral flip maneuver"
-      ]
+      ],
+      "physics": "着陆点火时主罐近空:残液在侧向机动下贴壁乱晃,泵口吸进一口气就是熄火。头罐小而满,反推加速度把液面钉在出流口上——进气口永远见液,这是把着陆推进剂单独分罐的全部理由。",
+      "physics_en": "At landing ignition the main tanks are nearly empty: the residue sloshes across the walls under lateral maneuvering, and one gulp of gas at a pump inlet is an engine-out. Header tanks are small and full - the burn's own deceleration pins the liquid onto the outlet, so the intake always sees liquid. That is the entire case for separate landing tanks."
     },
     {
       "id": "flaps",
@@ -133,7 +139,9 @@
         "L2 entry corridor (2-DOF lifting body, scripts/sim_entry_veh_rocket_01.py): direct entry at 5.7 km/s admits flight-path angles of only [-13, -12] deg (shallower skips out, steeper exceeds 5 g0) - far narrower and steeper than Earth; nominal -13 deg peaks at 4.9 g0 and 376 kW/m2 stagnation heating (the TPS load case)",
         "L2 flip maneuver (3-DOF pitch + closed-loop TVC, scripts/sim_flip_veh_rocket_01.py): 85 deg to vertical in 3.6 s, losing 1.4 km of altitude and 379 m sideways -> ignition must come at >= 4 km; touchdown lateral velocity 0.7 m/s meets the tip-over criterion",
         "L3 TPS conduction (headless COMSOL cross-checked <1% against an independent finite-difference model, comsol/tps_tile.java): the entry heat-flux history into the tile+steel stack peaks the surface at ~1640 K (radiation-balance dominated), and 3 cm of tile keeps the steel wall at just 300 K - Mars entry is thermally mild; tile thickness is sized by Earth return"
-      ]
+      ],
+      "physics": "腹部朝下把迎风面积从 ~64 m² 变成 ~640 m²,而终端速度 ∝ 1/√(C_d·A)——姿态本身就是减速板。四翼差动移动压心实现配平与转弯:不靠升力也能控姿,这是升阻比只有 0.3 的钝体唯一可用的操纵语言。",
+      "physics_en": "Falling belly-first turns ~64 m2 of frontal area into ~640 m2, and terminal velocity scales as 1/sqrt(Cd A) - attitude itself is the airbrake. Differential flap deflection walks the centre of pressure to trim and steer: control without lift, the only language a blunt body with L/D 0.3 can speak."
     },
     {
       "id": "crew-decks",
@@ -155,7 +163,9 @@
         "Sleep pods": "4",
         "Circulation": "central well + ladder",
         "Alignment": "hatch / portholes / observation windows"
-      }
+      },
+      "physics": "飞行中的加速度永远沿体轴——上升 3.6 g₀、着陆反推 4.7 g_mars 都把\"下\"压向发动机方向,甲板必须垂直体轴堆叠。停泊时火星 0.38 g 让同一布置直接当楼房用:一套甲板,两种重力场通吃。",
+      "physics_en": "Every acceleration in flight is along the body axis - 3.6 g0 on ascent, 4.7 g_mars in the landing burn - so \"down\" always points at the engines and decks must stack perpendicular to that axis. Parked on Mars at 0.38 g the same stack simply works as a building: one deck layout, two gravity fields."
     },
     {
       "id": "landing-legs",
@@ -187,7 +197,9 @@
         "L2 tip-over criterion (rigid body pivoting about the downhill support edge, scripts/sim_tipover_veh_rocket_01.py): laden CG at 26 m gives a static slope limit of 11 deg; recommended landing-site slope < 7 deg",
         "L2 dynamics: laden on flat ground the critical touchdown lateral velocity is 2.0 m/s, dropping to 0.6 m/s on an 8-deg slope; typical residuals run 1-3 m/s -> steep slopes (>8 deg) leave no margin, tip-over is the binding landing constraint",
         "Empty return config (CG 19 m, slope limit 16 deg) is far more stable; the binding case is the laden arrival"
-      ]
+      ],
+      "physics": "倾覆是一场能量对赌:触地横向动量经角动量守恒变成绕下坡脚垫棱的转动能,翻得过 mgL(1−cos(α−θ)) 的势垒才会倒。质心越高 α 越小、势垒越浅——\"又高又窄\"的构型天生静态裕度单薄,这就是坡度限制的来源。",
+      "physics_en": "Tipping is an energy contest: touchdown lateral momentum converts - angular momentum is conserved through the impact - into rotation about the downhill footpad edge, and the vehicle falls only if that energy clears the mgL(1-cos(alpha-theta)) barrier. A taller CG shrinks alpha and flattens the barrier: tall-and-narrow is intrinsically short on static margin, which is where the slope limit comes from."
     }
   ]
 }

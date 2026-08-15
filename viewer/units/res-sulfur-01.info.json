@@ -1,0 +1,201 @@
+{
+  "id": "res-sulfur-01",
+  "pois": [
+    {
+      "id": "receiving",
+      "label": "选矿受料口（品位就是一切）",
+      "label_en": "Ore receiving (grade is everything)",
+      "range": 22,
+      "detail": "受料斗只吃矿场（res-mine-01）台阶上专门圈出的高硫酸盐层——不是普通风化层。斗内赭黄色料就是硫酸盐富集相（钙/镁硫酸盐与黄钾铁矾），螺旋给料机计量后送进预热塔。普通火星土约 6 wt% SO₃、折合 2.4 wt% 硫；选出来的层能到 10 wt% 硫。",
+      "detail_en": "The receiving hopper takes only the high-sulfate horizon flagged on the mine benches (res-mine-01) - not ordinary regolith. The ochre charge visible in the hopper is the sulfate-rich phase (calcium and magnesium sulfates with jarosite); a screw feeder meters it into the preheat tower. Ordinary Martian soil runs about 6 wt% SO3, some 2.4 wt% sulfur; the selected horizon reaches 10 wt%.",
+      "specs": {
+        "给料量": "45 kg/h（1.1 t/sol，连续）",
+        "选矿品位": "10 wt% S（普通土 2.4 wt%）",
+        "料斗容积": "≈ 5 m³",
+        "上游": "res-mine-01 台阶选采"
+      },
+      "specs_en": {
+        "Feed rate": "45 kg/h (1.1 t/sol, continuous)",
+        "Selected grade": "10 wt% S (ordinary soil 2.4 wt%)",
+        "Hopper volume": "about 5 m3",
+        "Upstream": "selective bench mining at res-mine-01"
+      },
+      "sim": "品位杠杆：每产 1 kg 硫要处理 1/(品位×回收率) 的矿。10 wt% 料是 11 kg，2.4 wt% 的普通土是 46 kg——同一台窑、同一度电，处理量差 4.2 倍。全厂的显热账、窑径、给料机全部按品位标定，选矿口是这条链最便宜的一道工序。",
+      "sim_en": "The grade lever: producing 1 kg of sulfur means processing 1/(grade x recovery) of ore - 11 kg of the 10 wt% horizon, but 46 kg of ordinary soil. Same kiln, same kilowatt, 4.2x the throughput. The whole sensible-heat ledger, the kiln diameter and the feeder are all sized off grade, which makes selective mining the cheapest step in the chain.",
+      "physics": "火星的硫是被地质过程免费富集过的：水蒸发留下硫酸盐蒸发岩，成层成脉。选采就是在收这份地质红利——把上游品位提一倍，比下游任何设备优化都省电。",
+      "physics_en": "Mars has already concentrated its sulfur for free: evaporating water left sulfate evaporites in beds and veins. Selective mining simply collects that geological dividend, and doubling the feed grade saves more power than any downstream equipment optimisation can."
+    },
+    {
+      "id": "preheat",
+      "label": "预热塔（接聚变余热）",
+      "label_en": "Preheat tower (on fusion reject heat)",
+      "range": 22,
+      "detail": "三段逆流固体换热塔：下行的冷矿与上行的窑尾热气逆流接触，出窑气把热还给进料。塔底另接一路保温热管，来自聚变站（pwr-fusion-01）的余热回路——低温段的升温根本不必用电。",
+      "detail_en": "A three-stage counter-current solids heat exchanger: cold ore descends against the kiln's rising exhaust, so the outgoing gas hands its heat back to the incoming charge. An insulated line enters at the base from the fusion plant's reject-heat loop (pwr-fusion-01), so the low-temperature part of the climb costs no electricity at all.",
+      "specs": {
+        "塔高": "8.4 m（三段逆流）",
+        "固体换热回收": "≈ 60%",
+        "余热接口": "聚变站 600 K 回路",
+        "预热出口": "≈ 550 K",
+        "高氯酸盐脱除": "350~450 °C 段先脱除并抽走 O₂（3.9 kg O₂/sol）"
+      },
+      "specs_en": {
+        "Tower height": "8.4 m (three counter-current stages)",
+        "Solids heat recovery": "about 60%",
+        "Waste-heat tie-in": "600 K loop from the fusion plant",
+        "Preheat outlet": "about 550 K",
+        "Perchlorate strip": "removed in the 350-450 C section, 3.9 kg O2/sol drawn off"
+      },
+      "sim": [
+        "显热账：把 11 kg 矿从 210 K 升到窑温 1173 K 需 cp·ΔT ≈ 0.8×963×11 ≈ 8.5 MJ/kg S。逆流换热回收 60% 后剩 3.4 MJ；其中 210→550 K 这段（占 35%）由聚变余热白拿，真正要电的只剩 ≈2.2 MJ/kg S ≈ 0.6 kWh/kg S。",
+        "窑内是 H₂ 还原气氛：高氯酸盐若随料进 900 °C 窑，分解出的氧会当场与氢化合成水——等于烧氢。在预热塔 350~450 °C 段先脱除，每 sol 白拿 3.9 kg O₂，同时省下 0.49 kg H₂（约 27 kWh 电解电）。出料接 res-eclss-01 高氯酸盐支线。"
+      ],
+      "sim_en": [
+        "Sensible-heat ledger: lifting 11 kg of ore from 210 K to the kiln's 1173 K costs cp x delta_T = 0.8 x 963 x 11, about 8.5 MJ per kg of sulfur. Counter-current recovery of 60% leaves 3.4 MJ, and the 210-550 K stretch - 35% of the climb - comes free off the fusion loop. Only about 2.2 MJ/kg S, some 0.6 kWh/kg S, has to be bought as electricity.",
+        "The kiln runs a hydrogen atmosphere: perchlorate that rides the feed into the 900 C zone hands its oxygen straight to the hydrogen - burning reductant to make water. Stripped in the 350-450 C preheat section instead, it yields 3.9 kg of O2 per sol for free and saves 0.49 kg of H2 (about 27 kWh of electrolysis). The offtake joins the res-eclss-01 perchlorate branch."
+      ],
+      "physics": "余热的品位决定它能干什么：600 K 的回路推不动 1173 K 的分解反应，但推得动前一半升温。分级用热——低品位热做预热、高品位电做反应——是这类厂省电的通用手法。",
+      "physics_en": "What waste heat can do is set by its temperature: a 600 K loop cannot drive decomposition at 1173 K, but it can drive the first half of the climb. Cascading heat this way - low-grade heat for preheat, high-grade electricity for the reaction - is the standard move that makes such plants affordable."
+    },
+    {
+      "id": "kiln",
+      "label": "回转还原焙烧窑（工艺核心）",
+      "label_en": "Rotary reduction kiln (process core)",
+      "range": 30,
+      "detail": "整厂的心脏，朝观察侧剖开：耐火衬、灼热料床、六片抄板与齿圈传动都露在外面。窑体 4° 倾斜、1.5 rpm，料靠重力从高端走到低端。通入来自 ISRU 电解的 H₂ 做还原剂，在 ~900 °C 把硫酸盐还原：CaSO₄ + 4H₂ → CaS + 4H₂O。氢在这里被氧化成水——它是搬氧的车，不是燃料。",
+      "detail_en": "The heart of the plant, cut open toward the viewer: refractory lining, the glowing charge bed, six lifter flights and the girth-gear drive are all left visible. The shell is inclined 4 degrees and turns at 1.5 rpm, so gravity walks the charge from the high end to the low. Hydrogen from the ISRU electrolysis enters as the reductant and at about 900 C converts the sulfate: CaSO4 + 4H2 -> CaS + 4H2O. The hydrogen is oxidised to water here - it is the vehicle that carries oxygen away, not a fuel.",
+      "specs": {
+        "窑体": "内径 1.3 m × 11 m，倾角 4°",
+        "转速": "1.5 rpm（连续运转，不随昼夜停机）",
+        "焙烧温度": "≈ 900 °C 还原气氛",
+        "还原剂": "H₂ 1.0 kg/h（循环，非消耗）",
+        "产物": "CaS 固相 + 水蒸气"
+      },
+      "specs_en": {
+        "Shell": "1.3 m bore x 11 m, inclined 4 deg",
+        "Rotation": "1.5 rpm, continuous - never cycled with the sun",
+        "Roast temperature": "about 900 C, reducing atmosphere",
+        "Reductant": "1.0 kg/h H2, circulated rather than consumed",
+        "Products": "solid CaS plus water vapour"
+      },
+      "sim": [
+        "反应热账：CaSO₄ + 4H₂ → CaS + 4H₂O 的 ΔH ≈ −16 kJ/mol，近乎热中性——窑不是在给反应供能，是在维持温度。真正的能量全部押在再生氢那一步。",
+        "为什么 24 h 连转：窑体加耐火衬热质量约 9 t，一次冷启动要 6 MJ 以上并且热冲击开裂衬里。打印机可以跟着太阳开停机，回转窑不行——它必须挂在聚变基荷上。"
+      ],
+      "sim_en": [
+        "Reaction heat: CaSO4 + 4H2 -> CaS + 4H2O carries a delta_H of about -16 kJ/mol, essentially thermoneutral. The kiln is not powering the reaction, it is holding temperature; the real energy is all spent regenerating the hydrogen.",
+        "Why it runs 24 h: shell plus refractory is roughly 9 t of thermal mass, a cold start costs over 6 MJ and thermal shock cracks the lining. The printer can start and stop with the sun; a rotary kiln cannot, so it hangs on the fusion baseload instead."
+      ],
+      "physics": "硫酸盐里的硫已经是最高氧化态（+6）。要拿到单质硫必须移走 4 个氧、给硫还回 6 个电子——这是一道逆着自然放热方向走的反应。氢在窑里只是把氧接走，账最终落在电解那一端：地球的硫之所以便宜，是因为它从油气里出来时早就是还原态的 H₂S，火星没有这份便宜。",
+      "physics_en": "Sulfur in sulfate is already at its highest oxidation state, +6. Getting elemental sulfur means stripping four oxygens and returning six electrons - a reaction run backwards against the direction nature releases energy. Hydrogen in the kiln only ferries the oxygen away; the bill lands at the electrolyser. Earth's sulfur is cheap because it arrives from oil and gas already reduced as H2S. Mars grants no such discount."
+    },
+    {
+      "id": "claus",
+      "label": "Claus 两级硫回收",
+      "label_en": "Two-stage Claus recovery",
+      "range": 22,
+      "detail": "窑气经旋风除尘后进两级 Claus 反应器（朝前剖开，可见催化剂床）。CaS 水解出的 H₂S 与部分氧化得到的 SO₂ 按 2:1 反应生成单质硫：2H₂S + SO₂ → 3S + 2H₂O，放热，靠级间冷凝把硫抽出来推动平衡。两级串联把回收率顶到 97%，尾气再经洗涤塔排空。",
+      "detail_en": "After cyclone dedusting the kiln gas passes two Claus converters, cut open at the front to show the catalyst beds. Hydrogen sulfide hydrolysed off the CaS meets partially oxidised SO2 in a 2:1 ratio to make elemental sulfur: 2H2S + SO2 -> 3S + 2H2O. The reaction is exothermic, and condensing sulfur out between stages pulls the equilibrium forward. Two stages in series reach 97% recovery, with the tail gas scrubbed before it is vented.",
+      "specs": {
+        "反应器": "卧式 ×2（4.2 m / 3.6 m）",
+        "催化剂": "活性氧化铝固定床",
+        "反应温度": "220~250 °C",
+        "单级回收": "~90%（两级 97%）",
+        "全链回收": "≈ 90%（含焙烧损失）"
+      },
+      "specs_en": {
+        "Converters": "2 horizontal vessels, 4.2 m and 3.6 m",
+        "Catalyst": "activated alumina fixed bed",
+        "Temperature": "220-250 C",
+        "Per-stage recovery": "about 90% (97% over two)",
+        "Chain recovery": "about 90% including roast losses"
+      },
+      "sim": "回收率的价值：从 90% 提到 97% 看着只多 7 个点，但对应的是尾气硫排放减少 70%——在没有雨水冲刷的稀薄大气里，逸散的 SO₂ 会长期滞留并腐蚀下风向的涂装与密封件。第二级 Claus 是买设备寿命，不是买产量。",
+      "sim_en": "What recovery is worth: 90% to 97% looks like seven points, but it cuts sulfur leaving with the tail gas by 70%. In a thin atmosphere with no rain to wash it out, escaped SO2 lingers and attacks coatings and seals downwind. The second Claus stage buys equipment life, not tonnage.",
+      "physics": "Claus 反应是放热且可逆的，温度越低平衡越靠产物一侧，但太低硫会在催化剂上冷凝堵床。所以工程解是「多级 + 级间冷凝」：每级在允许的最低温度跑，把硫抽走再进下一级——用移出产物代替降温来推平衡。",
+      "physics_en": "The Claus reaction is exothermic and reversible: the cooler it runs the further the equilibrium favours sulfur, but run it too cool and sulfur condenses in the bed and plugs it. The engineering answer is staging with interstage condensation - each stage sits at the lowest temperature it can, sulfur is pulled out, and the next stage starts again. Removing the product replaces cooling as the way to drive equilibrium."
+    },
+    {
+      "id": "sulfur",
+      "label": "液硫池与浇铸块垛",
+      "label_en": "Molten sulfur pit and cast blocks",
+      "range": 22,
+      "detail": "冷凝器把硫以液态放进保温池——池面那层琥珀色就是 140 °C 的液硫。一路经伴热管去储罐待运，一路浇进模子冷却成亮黄硫块（就是场地东侧那垛）。硫在这里第一次以单质出现，颜色本身就是这条链的收据。",
+      "detail_en": "The condenser drops sulfur as a liquid into a heated pit - the amber surface is molten sulfur at 140 C. One path runs through trace-heated pipe to the storage tank for shipment, the other is cast into moulds and cooled into the bright yellow blocks stacked east of the plant. This is where sulfur first appears as an element, and the colour is the chain's receipt.",
+      "specs": {
+        "产量": "4.1 kg/h（100 kg/sol）",
+        "液硫温度": "140 °C（黏度谷底）",
+        "储罐": "Ø3.4 m × 4.4 m，全程伴热",
+        "产品形态": "液硫（管输）/ 浇铸块（堆存）"
+      },
+      "specs_en": {
+        "Output": "4.1 kg/h (100 kg/sol)",
+        "Liquid temperature": "140 C, the viscosity minimum",
+        "Storage tank": "3.4 m dia x 4.4 m, fully trace-heated",
+        "Product form": "molten (piped) or cast blocks (stockpiled)"
+      },
+      "sim": "对打印机的意义：100 kg/sol 硫按 30% 粘结比可配 333 kg/sol 硫混凝土。若给硫记全额生产能耗（14 kWh/kg），这种混凝土要 4.2 kWh/kg，是烧结（0.40）的十倍；但若把硫算作制氧的副产（见控制间卡），边际能耗只剩熔融的 0.085 kWh/kg——比烧结便宜 4.7 倍。同一种材料，成本差 50 倍，全看你怎么记账。",
+      "sim_en": "What it means for the printer: 100 kg/sol of sulfur binds 333 kg/sol of sulfur concrete at a 30% binder fraction. Charge the sulfur its full production energy of 14 kWh/kg and that concrete costs 4.2 kWh/kg, ten times sintering at 0.40. Treat the sulfur as a by-product of oxygen production, as the control-room card argues, and the marginal cost is only the 0.085 kWh/kg of melting - 4.7x cheaper than sintering. Same material, a 50x spread in cost, decided entirely by how the books are kept.",
+      "physics": "硫熔体的黏度有个反常谷：120~150 °C 最稀，再往上到 160 °C 因链状聚合黏度暴涨上千倍。所有伴热、泵和浇铸都必须锁在这个窄窗口里——这也是硫混凝土能重熔修补的原因：加热到 140 °C 它就重新变回可浇筑的液体，裂缝可以焊，结构可以拆了再用。",
+      "physics_en": "Molten sulfur has an anomalous viscosity minimum: it is thinnest at 120-150 C, and above about 160 C chain polymerisation raises viscosity a thousandfold. Every trace heater, pump and mould has to stay inside that narrow window. It is also why sulfur concrete can be repaired by remelting: heat it back to 140 C and it becomes castable again, so cracks can be welded and structures dismantled and reused."
+    },
+    {
+      "id": "tailings",
+      "label": "脱硫尾料（回流给打印机）",
+      "label_en": "Desulfurised tailings (returned to the printer)",
+      "range": 22,
+      "detail": "焙烧后的固相经封闭输送落到灰白料堆——颜色变了就是脱硫完成的证据：赭黄的硫酸盐相变成了 CaS/MgO 为主的灰白料。这堆不是废渣：粗料直接当打印骨料与防辐射堆料回给 ops-printer-01，一吨矿进来没有一吨废物出去。",
+      "detail_en": "The roasted solids ride an enclosed conveyor down to the pale grey pile, and the colour change is itself the proof of desulfurisation: the ochre sulfate phase has become a CaS and MgO bearing grey. This is not waste rock - the coarse fraction goes straight back to ops-printer-01 as printing aggregate and radiation-shielding fill. A tonne of ore in does not put a tonne of waste out.",
+      "specs": {
+        "尾料量": "1.0 t/sol",
+        "成分": "CaS / MgO 为主的脱硫固相",
+        "去向": "打印骨料 + 防辐射堆料",
+        "颜色": "赭黄 → 灰白（脱硫的可视证据）"
+      },
+      "specs_en": {
+        "Tailings": "1.0 t/sol",
+        "Composition": "desulfurised solids, mainly CaS and MgO",
+        "Destination": "print aggregate and radiation-shielding fill",
+        "Colour": "ochre to pale grey - desulfurisation made visible"
+      },
+      "sim": "物料闭合：1.1 t/sol 进料 → 0.1 t 硫 + 1.0 t 尾料，无外排固废。尾料作骨料回用还省掉了矿场为打印机单独开一条骨料线的运力——这条链上每一吨土被用了两次。",
+      "sim_en": "Mass closure: 1.1 t/sol in, 0.1 t of sulfur and 1.0 t of tailings out, with no solid waste stream. Reusing the tailings as aggregate also saves the mine from running a separate aggregate line for the printer - on this chain every tonne of soil is used twice.",
+      "physics": "脱硫后的 CaS 遇水会缓慢放出 H₂S，因此尾料只作干态骨料与掩埋屏蔽，不进温室区、不靠近水线——在没有雨水稀释的环境里，把化学活性物料放在哪，本身就是安全设计。",
+      "physics_en": "Desulfurised CaS slowly releases H2S if it meets water, so the tailings are only used dry, as aggregate and buried shielding, never near the greenhouses or the water line. With no rain to dilute anything, where you put chemically active material is itself a safety decision."
+    },
+    {
+      "id": "control",
+      "label": "控制间与全厂能量账",
+      "label_en": "Control room and the plant ledger",
+      "range": 20,
+      "detail": "PLC 控制间与电源撬块。这台厂真正的产品其实有两个：硫，和氧。窑里被氢夺走的氧最终在 ISRU 的电解槽里以 O₂ 放出——每产 1 kg 硫，同时释放 2 kg 氧气，而且全程不消耗一滴水。整条链是否划算，要用这两种产物一起结账。",
+      "detail_en": "The PLC room and power skid. This plant really makes two products: sulfur and oxygen. The oxygen that hydrogen strips in the kiln is finally released as O2 in the ISRU electrolyser - every kilogram of sulfur liberates two kilograms of oxygen, and not one drop of water is consumed along the way. Whether the chain pays has to be settled on both products together.",
+      "specs": {
+        "厂内电力": "≈ 8 kWe（窑传动/风机/伴热，连续）",
+        "电解负荷": "≈ 55 kWe（在 res-isru-01，需扩容 3×）",
+        "副产氧": "8.2 kg/h（200 kg/sol）",
+        "耗水": "0（氢氧全循环）",
+        "占城市电力": "63 kWe / 390 MWe ≈ 0.016%"
+      },
+      "specs_en": {
+        "Plant electrical": "about 8 kWe for drives, blowers and trace heating, continuous",
+        "Electrolysis load": "about 55 kWe, sited at res-isru-01, which must grow 3x",
+        "Oxygen co-product": "8.2 kg/h (200 kg/sol)",
+        "Water consumed": "zero - hydrogen and oxygen both recirculate",
+        "Share of city power": "63 kWe of 390 MWe, about 0.016%"
+      },
+      "sim": [
+        "净反应账：CaSO₄ → CaS + 2O₂，ΔH ≈ +1128 kJ/mol S = 35.3 MJ/kg S 的热力学下限；按电解 70% 效率即 14 kWh/kg S。折到副产氧上是 7.0 kWh/kg O₂——与水电解制氧的 7.1 kWh/kg 几乎相同。",
+        "结论翻转：既然两条路制氧的电价一样，而这条路不喝水，那么硫就是白得的。城市每 sol 的氧需求（推进剂 48 kg + 乘组 3.4 kg + 裕度）本就要付这笔电；把制氧口从水电解挪到硫酸盐还原，等于用同一度电顺手拿到 100 kg/sol 硫，同时把 669 sol 的井留给人喝。",
+        "口径更新（res-eclss-01 总账）：乘组代谢氧 99.1 kg O₂/sol（115 人口径，替代早期 4 人 3.4 kg 口径）。本厂副产氧 200 kg/sol 是全城代谢氧的第一供应商，覆盖需求（含气闸损失与堆肥好氧）1.57 倍——这条接线在 res-eclss-01 交付时才第一次被写进氧账。"
+      ],
+      "sim_en": [
+        "Net reaction: CaSO4 -> CaS + 2 O2 carries delta_H of about +1128 kJ per mol of sulfur, a thermodynamic floor of 35.3 MJ/kg S, or 14 kWh/kg S at 70% electrolyser efficiency. Charged against the oxygen instead that is 7.0 kWh per kg of O2 - all but identical to the 7.1 kWh/kg of making oxygen by water electrolysis.",
+        "Which flips the verdict: if both routes cost the same per kilogram of oxygen and this one drinks no water, the sulfur comes free. The city already has to pay that power for its oxygen (48 kg/sol of oxidiser, 3.4 kg/sol for the crew, plus margin). Moving part of the oxygen supply from water electrolysis to sulfate reduction buys 100 kg/sol of sulfur with the same kilowatt-hours, and leaves the 669-sol well to the people.",
+        "Ledger update (res-eclss-01): crew metabolic oxygen is 99.1 kg/sol at the 115-person census, replacing the early 4-crew 3.4 kg figure. This plant 200 kg/sol of by-product oxygen is the city primary metabolic supply, covering demand - airlock losses and compost aeration included - 1.57x. The connection was first written into the oxygen ledger when res-eclss-01 shipped."
+      ],
+      "physics": "两条制氧路线的电价撞在一起不是巧合：不论氧原来绑在水里还是硫酸盐里，把它取下来的键能是同一个量级，而电解那一步是共用的。所以真正的差别不在能量，在于你愿意消耗什么——水，还是矿。在一个靠一口井活着的城市里，这个选择不难做。",
+      "physics_en": "That the two oxygen routes cost the same is no coincidence: whether the oxygen was bound in water or in sulfate, prying it loose costs bond energies of the same order, and the electrolysis step is shared. The real difference is not energy but what you are willing to consume - water, or ore. In a city that lives off a single well, that choice is not a hard one."
+    }
+  ]
+}

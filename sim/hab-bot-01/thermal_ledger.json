@@ -1,0 +1,50 @@
+{
+ "ambient_C": 22.0,
+ "h_total": 10.65,
+ "body_area_m2": 1.15,
+ "heat_W": {
+  "actuators": 70.8,
+  "electronics": 15.8,
+  "total": 86.6
+ },
+ "body_dT_K": 7.1,
+ "joints": [
+  {
+   "joint": "hip",
+   "P": 22.92,
+   "dT_alone": 71.7,
+   "dT_limb": 15.7,
+   "T_winding": 50.3
+  },
+  {
+   "joint": "knee",
+   "P": 8.1,
+   "dT_alone": 29.2,
+   "dT_limb": 6.5,
+   "T_winding": 33.4
+  },
+  {
+   "joint": "ank",
+   "P": 2.84,
+   "dT_alone": 14.8,
+   "dT_limb": 5.6,
+   "T_winding": 29.8
+  }
+ ],
+ "hip_tau_min": 32.9,
+ "duty_max": 1.0,
+ "run_hip_W": 44.0,
+ "run_time_to_limit_min": null,
+ "earth": {
+  "hip_W": 129.9,
+  "T_winding_C": 182.5,
+  "exceeds_limit": true
+ },
+ "hand": {
+  "payload_kg": 3.0,
+  "F_needed": 11.2,
+  "F_avail": 32.4,
+  "factor_mars": 2.9,
+  "factor_earth": 1.1
+ }
+}

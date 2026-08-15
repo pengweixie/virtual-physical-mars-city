@@ -8,10 +8,28 @@
       "range": 25,
       "detail": "Ingenuity → Mars Science Helicopter 路线的城市化侦察型:共轴双旋翼 ⌀1.8 m,总重 5.0 kg。桅顶太阳能板、机腹电池舱与云台导航相机(64×64@2 Hz 感知通道)、四条弹性腿。任务:散热阵/管线走廊巡检、尘暴后全城快速评估。",
       "detail_en": "City-scale scout on the Ingenuity → Mars Science Helicopter lineage: coaxial twin rotors, 1.8 m diameter, 5.0 kg gross. Mast-top solar panel, belly battery bay and gimbal nav camera (64x64@2 Hz sensor channel), four compliant legs. Missions: radiator/pipeline patrol, post-dust-storm citywide survey.",
-      "specs": { "总重": "5.0 kg", "旋翼直径": "1.8 m(共轴)", "电池": "1.1 kg · 187 Wh", "巡航速度": "12 m/s" },
-      "specs_en": { "Gross mass": "5.0 kg", "Rotor diameter": "1.8 m (coaxial)", "Battery": "1.1 kg / 187 Wh", "Cruise speed": "12 m/s" },
-      "sim": ["悬停功率账(动量理论,heli_design.py):T=18.55 N,桨盘载荷 7.29 N/m²,诱导速度 v_i=14.6 m/s → 理想 272 W ÷ FM 0.45 = 轴功率 604 W,电功率 805 W。同一架机在地球:v_i 仅 2.8 m/s、轴功率 306 W——火星重量小 2.6 倍,功率反而 ~2 倍,单位推力功率代价 5.2×。", "前飞功率平衡 P(V)(trim_sim,锚定悬停账分解 κ=1.53/Cd0=0.06):巡航 11.8 m/s = 诱导 354 + 型阻 193 + 废阻 1.4 W → 电功率 731 W,电池仿真假设的 740 W 被独立验证(差 -1.2%)。火星废阻近乎为零(ρ 低),U 型曲线右支几乎不抬——最省电速度远在 33 m/s(582 W),12 m/s 巡航是导航/阵风裕度定的,不是气动最优。", "配平账(trim_sim):平飞前倾仅 0.9°(废阻+桨毂 H 力都小);但加速 2.35 m/s² 需前倾 atan(a/g)=32.4°,地球同加速度只要 13.5°——g 小让火星机动姿态陡 2.4×。烘焙动画:配平角按物理值,加速倾角展示压到 ~14°(与旋翼 ÷7.1 同类展示约定)。"],
-      "sim_en": ["Hover power (momentum theory, heli_design.py): T=18.55 N, disk loading 7.29 N/m2, induced velocity 14.6 m/s -> ideal 272 W / FM 0.45 = 604 W shaft, 805 W electric. Same airframe on Earth: v_i only 2.8 m/s, 306 W shaft - on Mars weight is 2.6x lower yet power is ~2x higher, a 5.2x power-per-newton penalty.", "Forward-flight power balance P(V) (trim_sim, decomposing the hover ledger into kappa=1.53 / Cd0=0.06): cruise at 11.8 m/s = 354 W induced + 193 W profile + 1.4 W parasite -> 731 W electric, independently verifying the 740 W the battery sim assumed (-1.2%). Parasite power is nearly zero on Mars (low rho), so the U-curve's right branch barely rises - minimum power sits way out at 33 m/s (582 W); the 12 m/s ops cruise is set by nav and gust margins, not aero optimum.", "Trim ledger (trim_sim): level-flight nose-down is only 0.9 deg (parasite drag and hub H-force are both tiny); but accelerating at 2.35 m/s2 demands atan(a/g) = 32.4 deg vs 13.5 deg on Earth for the same accel - low g makes Mars maneuvers 2.4x steeper. Baked loop: trim shown at physical value, accel tilt capped at ~14 deg (a display convention, same family as the /7.1 rotor rpm)."],
+      "specs": {
+        "总重": "5.0 kg",
+        "旋翼直径": "1.8 m(共轴)",
+        "电池": "1.1 kg · 187 Wh",
+        "巡航速度": "12 m/s"
+      },
+      "specs_en": {
+        "Gross mass": "5.0 kg",
+        "Rotor diameter": "1.8 m (coaxial)",
+        "Battery": "1.1 kg / 187 Wh",
+        "Cruise speed": "12 m/s"
+      },
+      "sim": [
+        "悬停功率账(动量理论,heli_design.py):T=18.55 N,桨盘载荷 7.29 N/m²,诱导速度 v_i=14.6 m/s → 理想 272 W ÷ FM 0.45 = 轴功率 604 W,电功率 805 W。同一架机在地球:v_i 仅 2.8 m/s、轴功率 306 W——火星重量小 2.6 倍,功率反而 ~2 倍,单位推力功率代价 5.2×。",
+        "前飞功率平衡 P(V)(trim_sim,锚定悬停账分解 κ=1.53/Cd0=0.06):巡航 11.8 m/s = 诱导 354 + 型阻 193 + 废阻 1.4 W → 电功率 731 W,电池仿真假设的 740 W 被独立验证(差 -1.2%)。火星废阻近乎为零(ρ 低),U 型曲线右支几乎不抬——最省电速度远在 33 m/s(582 W),12 m/s 巡航是导航/阵风裕度定的,不是气动最优。",
+        "配平账(trim_sim):平飞前倾仅 0.9°(废阻+桨毂 H 力都小);但加速 2.35 m/s² 需前倾 atan(a/g)=32.4°,地球同加速度只要 13.5°——g 小让火星机动姿态陡 2.4×。烘焙动画:配平角按物理值,加速倾角展示压到 ~14°(与旋翼 ÷7.1 同类展示约定)。"
+      ],
+      "sim_en": [
+        "Hover power (momentum theory, heli_design.py): T=18.55 N, disk loading 7.29 N/m2, induced velocity 14.6 m/s -> ideal 272 W / FM 0.45 = 604 W shaft, 805 W electric. Same airframe on Earth: v_i only 2.8 m/s, 306 W shaft - on Mars weight is 2.6x lower yet power is ~2x higher, a 5.2x power-per-newton penalty.",
+        "Forward-flight power balance P(V) (trim_sim, decomposing the hover ledger into kappa=1.53 / Cd0=0.06): cruise at 11.8 m/s = 354 W induced + 193 W profile + 1.4 W parasite -> 731 W electric, independently verifying the 740 W the battery sim assumed (-1.2%). Parasite power is nearly zero on Mars (low rho), so the U-curve's right branch barely rises - minimum power sits way out at 33 m/s (582 W); the 12 m/s ops cruise is set by nav and gust margins, not aero optimum.",
+        "Trim ledger (trim_sim): level-flight nose-down is only 0.9 deg (parasite drag and hub H-force are both tiny); but accelerating at 2.35 m/s2 demands atan(a/g) = 32.4 deg vs 13.5 deg on Earth for the same accel - low g makes Mars maneuvers 2.4x steeper. Baked loop: trim shown at physical value, accel tilt capped at ~14 deg (a display convention, same family as the /7.1 rotor rpm)."
+      ],
       "physics": "P = T·√(T/2ρA)/FM。ρ=0.017 kg/m³ 是地球海平面的 1/72:悬停必须把稀得多的气流加速到高得多的诱导速度(v_i ∝ 1/√ρ),g 小 2.6 倍抵不过 ρ 小 72 倍——这就是火星飞行器'又轻又费电'的根因。",
       "physics_en": "P = T*sqrt(T/(2*rho*A))/FM. At rho=0.017 kg/m3 (1/72 of sea level) hover must accelerate a far thinner stream to far higher induced velocity (v_i ~ 1/sqrt(rho)); the 2.6x weaker gravity cannot offset 72x thinner air - why Mars aircraft are light yet power-hungry."
     },
@@ -22,10 +40,26 @@
       "range": 20,
       "detail": "上下两副 2 叶宽弦薄板桨,反向旋转,扭矩自平衡免尾桨。桨尖橙色警示段。展示转速为可读性降速,真实转速见账本。",
       "detail_en": "Two 2-blade wide-chord thin-plate rotors spinning in opposite directions - torque self-balanced, no tail rotor. Orange tip stripes. Viewer rpm is slowed for readability; true rpm in the ledger.",
-      "specs": { "真实转速": "1698 rpm(桨尖 Ma 0.667)", "展示转速": "240 rpm(÷7.1)", "实度 σ": "0.1415(4×0.10 m 弦)", "桨叶雷诺数": "~1.9×10⁴" },
-      "specs_en": { "True speed": "1698 rpm (tip Ma 0.667)", "Viewer speed": "240 rpm (/7.1)", "Solidity": "0.1415 (4 x 0.10 m chord)", "Blade Reynolds": "~1.9e4" },
-      "sim": ["桨尖马赫账:冷 CO₂ 声速 ~240 m/s,桨尖 ≤0.7 Ma → R=0.9 m 转速上限 1783 rpm;工作点 V_tip=160 m/s = 1698 rpm,C_T/σ=0.118。低 Re 账:Re=ρVc/μ≈1.9×10⁴(地球直升机 ~5×10⁶,差 280 倍),光滑翼型 (L/D)max 从 O(100) 塌到 ~20(McMasters–Henderson)。", "共轴扭矩平衡(trim_sim):下旋翼吃上旋翼收缩尾流,等转速扭矩配平时推力分摊 59/41(上/下);对两副孤立旋翼的干扰因子 1.30(Leishman 经典值 1.28 旁证);无尾桨,偏航=转速差动:±5% 转速差 → 0.34 N·m 差扭矩 → 173°/s² 偏航角加速度。展示层 ±240 rpm 保持对称(269 整圈闭合约束),真实配平偏置写在这里。"],
-      "sim_en": ["Tip-Mach ledger: cold-CO2 sound speed ~240 m/s, tip <=0.7 Ma -> 1783 rpm ceiling at R=0.9 m; operating point V_tip=160 m/s = 1698 rpm, C_T/sigma=0.118. Low-Re ledger: Re=rho*V*c/mu ~ 1.9e4 (Earth helicopter ~5e6, 280x higher); smooth-airfoil (L/D)max collapses from O(100) to ~20 (McMasters-Henderson).", "Coax torque balance (trim_sim): the lower rotor swallows the upper's contracted wake; at equal rpm the torque-balanced thrust split is 59/41 upper/lower, interference factor 1.30 vs an isolated pair (Leishman's classic 1.28 corroborates). No tail rotor - yaw is differential rpm: a 5% bias gives 0.34 N m and 173 deg/s2 yaw acceleration. The +/-240 rpm display stays symmetric (269-rev loop closure); the real trim bias lives here."],
+      "specs": {
+        "真实转速": "1698 rpm(桨尖 Ma 0.667)",
+        "展示转速": "240 rpm(÷7.1)",
+        "实度 σ": "0.1415(4×0.10 m 弦)",
+        "桨叶雷诺数": "~1.9×10⁴"
+      },
+      "specs_en": {
+        "True speed": "1698 rpm (tip Ma 0.667)",
+        "Viewer speed": "240 rpm (/7.1)",
+        "Solidity": "0.1415 (4 x 0.10 m chord)",
+        "Blade Reynolds": "~1.9e4"
+      },
+      "sim": [
+        "桨尖马赫账:冷 CO₂ 声速 ~240 m/s,桨尖 ≤0.7 Ma → R=0.9 m 转速上限 1783 rpm;工作点 V_tip=160 m/s = 1698 rpm,C_T/σ=0.118。低 Re 账:Re=ρVc/μ≈1.9×10⁴(地球直升机 ~5×10⁶,差 280 倍),光滑翼型 (L/D)max 从 O(100) 塌到 ~20(McMasters–Henderson)。",
+        "共轴扭矩平衡(trim_sim):下旋翼吃上旋翼收缩尾流,等转速扭矩配平时推力分摊 59/41(上/下);对两副孤立旋翼的干扰因子 1.30(Leishman 经典值 1.28 旁证);无尾桨,偏航=转速差动:±5% 转速差 → 0.34 N·m 差扭矩 → 173°/s² 偏航角加速度。展示层 ±240 rpm 保持对称(269 整圈闭合约束),真实配平偏置写在这里。"
+      ],
+      "sim_en": [
+        "Tip-Mach ledger: cold-CO2 sound speed ~240 m/s, tip <=0.7 Ma -> 1783 rpm ceiling at R=0.9 m; operating point V_tip=160 m/s = 1698 rpm, C_T/sigma=0.118. Low-Re ledger: Re=rho*V*c/mu ~ 1.9e4 (Earth helicopter ~5e6, 280x higher); smooth-airfoil (L/D)max collapses from O(100) to ~20 (McMasters-Henderson).",
+        "Coax torque balance (trim_sim): the lower rotor swallows the upper's contracted wake; at equal rpm the torque-balanced thrust split is 59/41 upper/lower, interference factor 1.30 vs an isolated pair (Leishman's classic 1.28 corroborates). No tail rotor - yaw is differential rpm: a 5% bias gives 0.34 N m and 173 deg/s2 yaw acceleration. The +/-240 rpm display stays symmetric (269-rev loop closure); the real trim bias lives here."
+      ],
       "physics": "a=√(γRT):CO₂ 分子重(γ=1.29, R=189)、又冷,声速只有地球的 70%,压缩性墙来得早;Re<7×10⁴ 层流分离让常规翼型失效,上弯薄板反而占优。两堵墙一起把设计推向:大桨盘 + 近声速桨尖 + 宽薄弯板桨叶——旋翼占整机比例远超地球直升机的原因。",
       "physics_en": "a=sqrt(gamma*R*T): heavy cold CO2 gives 70% of Earth's sound speed, so the compressibility wall arrives early; below Re~7e4 laminar separation kills conventional airfoils and cambered thin plates win. Together the two walls force: big disk + near-sonic tips + wide thin cambered blades - why the rotor dominates the airframe."
     },
@@ -34,24 +68,54 @@
       "label": "烧结 regolith 停机坪",
       "label_en": "Sintered-Regolith Helipad",
       "range": 25,
-      "detail": "⌀10 m 烧结圆坪 + H 标线 + 外环线,四角进近灯(红闪),周边防尘裙边与围桩。坪面由 3D 打印工地同款微波烧结工艺制成。",
-      "detail_en": "10 m sintered disc with H marking and perimeter ring, four blinking approach lights, dust skirt and marker posts. Surface made by the same microwave sintering used at the printer yard.",
-      "specs": { "坪径": "10 m(裙边 13.4 m)", "进近灯": "4 × 红闪", "下洗诱导速度": "14.6 m/s" },
-      "specs_en": { "Pad diameter": "10 m (13.4 m with skirt)", "Approach lights": "4 x red blink", "Downwash velocity": "14.6 m/s" },
-      "sim": "悬停诱导速度 14.6 m/s 的下洗直接打在坪心——Ingenuity 每次起降都实测到扬尘。烧结硬面 + 裙边把尘源锁在坪外,起降扬尘(查看器里的尘环)只剩薄膜级。",
-      "sim_en": "The 14.6 m/s hover downwash hits the pad center - Ingenuity measured dust lofting on every takeoff. A sintered hard surface plus skirt confines dust sources outside the pad; the takeoff dust ring in the viewer is all that remains.",
-      "physics": "尘粒起动阈值取决于表面剪切应力 τ~ρv²:火星 ρ 低,但 14.6 m/s 诱导流仍超松散 regolith 的起动阈;烧结把表面结合强度提高几个量级,从源头消除坪心尘暴。",
-      "physics_en": "Dust lifting depends on surface shear stress ~ rho*v^2: even in thin air the 14.6 m/s induced flow exceeds the threshold of loose regolith; sintering raises surface cohesion by orders of magnitude, killing the dust source at the pad."
+      "detail": "⌀10 m 烧结圆坪 + H 标线 + 外环线,四角进近灯(红闪),周边防尘裙边与围桩。坪面由 3D 打印工地同款微波烧结工艺制成。 坪边风向袋在火星几乎永远是垂的——8 m/s 的\"大风\"动压只有 0.54 Pa,远不足以吹满需要 ~30 Pa 的袋子;真正决定能不能飞的是气象站的风与尘数据。",
+      "detail_en": "10 m sintered disc with H marking and perimeter ring, four blinking approach lights, dust skirt and marker posts. Surface made by the same microwave sintering used at the printer yard. The windsock at the pad edge hangs limp almost always: an 8 m/s breeze carries only 0.54 Pa of dynamic pressure against the ~30 Pa needed to inflate it, so what actually clears a flight is the weather station's wind and dust feed.",
+      "specs": {
+        "坪径": "10 m(裙边 13.4 m)",
+        "进近灯": "4 × 红闪",
+        "下洗诱导速度": "14.6 m/s",
+        "风向袋动压@8 m/s": "0.54 Pa（地球同风速 39 Pa）"
+      },
+      "specs_en": {
+        "Pad diameter": "10 m (13.4 m with skirt)",
+        "Approach lights": "4 x red blink",
+        "Downwash velocity": "14.6 m/s",
+        "Windsock q @8 m/s": "0.54 Pa (39 Pa on Earth)"
+      },
+      "sim": [
+        "悬停诱导速度 14.6 m/s 的下洗直接打在坪心——Ingenuity 每次起降都实测到扬尘。烧结硬面 + 裙边把尘源锁在坪外,起降扬尘(查看器里的尘环)只剩薄膜级。",
+        "q=½ρv²:8 m/s 在火星只有 0.54 Pa,袋身常态下垂 ~42°。停飞规则挂气象站:光深 τ>2 时能见度与尘进旋翼头风险超限,升力反而不受影响——ρ 在尘暴里几乎不变,所以停飞线画在光学不在气动。"
+      ],
+      "sim_en": [
+        "The 14.6 m/s hover downwash hits the pad center - Ingenuity measured dust lofting on every takeoff. A sintered hard surface plus skirt confines dust sources outside the pad; the takeoff dust ring in the viewer is all that remains.",
+        "q = 0.5 rho v^2: 8 m/s carries just 0.54 Pa here, so the sock droops ~42 deg. The no-fly rule hangs off the weather station: above optical depth tau = 2 visibility and dust ingestion go out of limits while lift barely changes (rho is nearly constant in a storm) - the line is drawn by optics, not aerodynamics."
+      ],
+      "physics": [
+        "尘粒起动阈值取决于表面剪切应力 τ~ρv²:火星 ρ 低,但 14.6 m/s 诱导流仍超松散 regolith 的起动阈;烧结把表面结合强度提高几个量级,从源头消除坪心尘暴。",
+        "尘暴遮光但不增密:τ=2 时日照掉到 ~14%,对太阳能机是死刑,对城网充电的机只是导航问题——所以停飞线画在光学(相机导航签证)而不是气动上。"
+      ],
+      "physics_en": [
+        "Dust lifting depends on surface shear stress ~ rho*v^2: even in thin air the 14.6 m/s induced flow exceeds the threshold of loose regolith; sintering raises surface cohesion by orders of magnitude, killing the dust source at the pad.",
+        "Dust storms block light but don't thicken air: at tau=2 insolation drops to ~14% - fatal for solar aircraft, merely a navigation problem for a grid-charged one. Hence the no-fly line is drawn by optics (camera nav) not aerodynamics."
+      ]
     },
     {
       "id": "dock",
-      "label": "机库 / 充电坞",
-      "label_en": "Hangar / Charging Dock",
+      "label": "机库与备件架",
+      "label_en": "Hangar & Spares Rack",
       "range": 20,
-      "detail": "小棚(卷帘门半开)+ 充电桩 + 状态屏(夜光)。库内桨叶备件架与工具箱——桨叶是低 Re 消耗件,砂尘侵蚀桨尖后整副换。",
-      "detail_en": "Shed with half-rolled door, charging post and glowing status screen. Inside: spare-blade rack and toolbox - blades are low-Re consumables, replaced as a pair once dust erodes the tips.",
-      "specs": { "每架次回充": "~131 Wh", "供电": "城网(聚变 176 MWe)", "顶板太阳能": "涓流保温/应急" },
-      "specs_en": { "Recharge per sortie": "~131 Wh", "Power": "city grid (fusion, 176 MWe)", "Solar panel": "trickle heater / backup" },
+      "detail": "小棚(卷帘门半开)+ 状态屏(夜光)。库内桨叶备件架与工具箱——桨叶是低 Re 消耗件,砂尘侵蚀桨尖后整副换;电池包每火星年一换,两者是这架机仅有的两类耗材。充电装备见电极坪与功率机柜卡。",
+      "detail_en": "Shed with a half-rolled door and a glowing status screen. Inside: the spare-blade rack and toolbox - blades are low-Re consumables replaced as a pair once dust erodes the tips, and the pack is swapped once a Mars year. Those two are the aircraft's only consumables. For the charging hardware see the electrode-floor and power-cabinet cards.",
+      "specs": {
+        "每架次回充": "~131 Wh",
+        "供电": "城网(聚变 176 MWe)",
+        "顶板太阳能": "涓流保温/应急"
+      },
+      "specs_en": {
+        "Recharge per sortie": "~131 Wh",
+        "Power": "city grid (fusion, 176 MWe)",
+        "Solar panel": "trickle heater / backup"
+      },
       "sim": "能量账:电池包 1.10 kg / 194 Wh 标称(见电池组卡),冷减额+着陆储备后可用 131 Wh → 悬停 9.8 min / 巡航 10.6 min。充电规则(batt_sim):先预热到 0 ℃ 以上(析锂线)再 C/2 充,约 75 min 满;在坞过夜保温 109 Wh/sol(平均 4.4 W)由城网买单。不像 Ingenuity 靠太阳能等一个 sol——聚变城的直升机是'加油站模式'。",
       "sim_en": "Energy ledger: 1.10 kg / 194 Wh nameplate pack (see battery card), 131 Wh usable after cold derate + landing reserve -> 9.8 min hover / 10.6 min cruise. Charge rule (batt_sim): preheat above 0 C (Li-plating line) then C/2, ~75 min to full; overnight docked heating costs 109 Wh/sol (4.4 W avg) on the grid. Unlike Ingenuity waiting a sol on solar, a fusion city runs its helicopter gas-station style.",
       "physics": "Li-ion 低温内阻升高 + 必须保留着陆功率余量,可用能取 70%;电池能量密度(~170 Wh/kg)是整机 5 kg 预算里最重的单项权衡——多一分钟续航 = 多 ~80 g 电池 = 更高的悬停功率,自耗式收敛。",
@@ -62,29 +126,125 @@
       "label": "电池组(6s3p)",
       "label_en": "Battery Pack (6s3p)",
       "range": 18,
-      "pos": [0.7, 0.5, 0.7],
+      "pos": [
+        0.7,
+        0.5,
+        0.7
+      ],
       "detail": "机腹金色保温舱:18 节 18650 功率型电芯 6 串 3 并,10 mm 气凝胶包覆 + 加热膜 + BMS。起飞前必须在坞上预热——火星的锂电池冷启动死于功率,不是能量。",
       "detail_en": "Gold insulated belly bay: 18x 18650 power cells in 6s3p, 10 mm aerogel wrap, film heater and BMS. Preheat on dock is mandatory - on Mars a cold Li-ion pack dies of power, not energy.",
-      "specs": { "构型": "6s3p × 18650(3.0 Ah 功率型)", "标称": "194 Wh · 21.6 V", "包重/比能": "1.10 kg · 177 Wh/kg", "悬停电流": "37 A(单芯 4.1C,余量 1.2×)" },
-      "specs_en": { "Layout": "6s3p x 18650 (3.0 Ah power cell)", "Nameplate": "194 Wh / 21.6 V", "Pack mass": "1.10 kg / 177 Wh/kg", "Hover current": "37 A (4.1C per cell, 1.2x headroom)" },
-      "sim": "电-热耦合 ECM 整架次仿真(heli_batt_sim.py,130.7 Wh 剖面):-20 ℃ 冷浸起飞→起转 1 s 端电压跌破 2.8 V 保护(内阻 3.7×);0 ℃ 预热后整架次完成,着陆 SoC 27.3%(>20% 储备),I²R 自热把包从 0 ℃ 推到 47 ℃(R(T) 耦合自调节,<70 ℃ 限)。热账:在坞保温 109 Wh/sol(城网);迫降野外无加热 4.5 h 触 -40 ℃ 损伤线,5 W 自热可撑 26 h 但烧光整包→迫降必须当日回收。寿命:0.7 DoD 每循环衰减 0.027%,740 架次到 80%,一火星年(668 架次)后余 82% → 每火星年换包,机库备件架第二类耗材。",
-      "sim_en": "Coupled electro-thermal ECM over the full sortie (heli_batt_sim.py, 130.7 Wh profile): -20 C cold-soak takeoff trips the 2.8 V cutoff 1 s into spin-up (3.7x resistance); preheated to 0 C the sortie completes, landing at 27.3% SoC (>20% reserve) while I2R self-heating drives the pack 0 -> 47 C (R(T) coupling self-regulates, under the 70 C limit). Thermal ledger: 109 Wh/sol docked heating (grid); stranded off-pad it hits the -40 C damage line in 4.5 h unheated, or survives 26 h on 5 W self-heat while draining the whole pack - a downed heli must be recovered same-sol. Life: 0.027% fade per 0.7-DoD cycle, 740 sorties to 80%, 82% left after one Mars year (668 sorties) - pack swap every Mars year, the hangar rack's second consumable.",
+      "specs": {
+        "构型": "6s3p × 18650(3.0 Ah 功率型)",
+        "标称": "194 Wh · 21.6 V",
+        "包重/比能": "1.10 kg · 177 Wh/kg",
+        "悬停电流": "37 A(单芯 4.1C,余量 1.2×)"
+      },
+      "specs_en": {
+        "Layout": "6s3p x 18650 (3.0 Ah power cell)",
+        "Nameplate": "194 Wh / 21.6 V",
+        "Pack mass": "1.10 kg / 177 Wh/kg",
+        "Hover current": "37 A (4.1C per cell, 1.2x headroom)"
+      },
+      "sim": [
+        "电-热耦合 ECM 整架次仿真(heli_batt_sim.py,130.7 Wh 剖面):-20 ℃ 冷浸起飞→起转 1 s 端电压跌破 2.8 V 保护(内阻 3.7×);0 ℃ 预热后整架次完成,着陆 SoC 27.3%(>20% 储备),I²R 自热把包从 0 ℃ 推到 47 ℃(R(T) 耦合自调节,<70 ℃ 限)。热账:在坞保温 109 Wh/sol(城网);迫降野外无加热 4.5 h 触 -40 ℃ 损伤线,5 W 自热可撑 26 h 但烧光整包→迫降必须当日回收。寿命:0.7 DoD 每循环衰减 0.027%,740 架次到 80%,一火星年(668 架次)后余 82% → 每火星年换包,机库备件架第二类耗材。",
+        "深挖三账(heli_batt_deep.py):①隔热系数从假设变推导——610 Pa 下 CO₂ 分子平均自由程 5.3 µm 对上气凝胶 20 nm 孔径,Kn=265,气相导热被压到 0.01 mW/(m·K)(地球同款毯 1.49),k_eff 5.8 mW/(m·K);算下来漏热瓶颈不在毯子(导热 0.167 W/K)而在**外皮辐射**(金 MLI ε≈0.1 给 0.069 W/K,若换成涂装皮 ε≈0.85 则 0.15 W/K)——金膜是在做热工,不只是像 Ingenuity。原假设 0.08 W/K 偏保守 14%(在坞保温实为 94 Wh/sol、无加热迫降存活 5.0 h)。②预热瞬态(18 芯 3×6 热网络,20 W 加热膜,−20 ℃ 冷浸):**最冷的边缘电芯 23 min / 7.7 Wh 才过 0 ℃**,此刻芯间温差 12.2 K;单节点集总模型只看均值会说 17 min——乐观 26%,预热计时必须盯最冷芯。③老化耦合:内阻到 EOL 涨 60%,起转 900 W 的最低温度从 −19.5 ℃ 抬到 −4.9 ℃(吃掉 14.5 K 裕度)——但**始终没越过 0 ℃**,说明卡上的 0 ℃ 规则真正绑定的是充电析锂,不是起转功率。"
+      ],
+      "sim_en": [
+        "Coupled electro-thermal ECM over the full sortie (heli_batt_sim.py, 130.7 Wh profile): -20 C cold-soak takeoff trips the 2.8 V cutoff 1 s into spin-up (3.7x resistance); preheated to 0 C the sortie completes, landing at 27.3% SoC (>20% reserve) while I2R self-heating drives the pack 0 -> 47 C (R(T) coupling self-regulates, under the 70 C limit). Thermal ledger: 109 Wh/sol docked heating (grid); stranded off-pad it hits the -40 C damage line in 4.5 h unheated, or survives 26 h on 5 W self-heat while draining the whole pack - a downed heli must be recovered same-sol. Life: 0.027% fade per 0.7-DoD cycle, 740 sorties to 80%, 82% left after one Mars year (668 sorties) - pack swap every Mars year, the hangar rack's second consumable.",
+        "Deep dive (heli_batt_deep.py): (1) the insulation figure went from assumed to derived - at 610 Pa the CO2 mean free path is 5.3 um against a 20 nm aerogel pore, Kn = 265, so gas conduction collapses to 0.01 mW/(m K) (1.49 for the same blanket on Earth) and k_eff is 5.8 mW/(m K). The bottleneck turns out not to be the blanket (0.167 W/K) but the skin radiating (0.069 W/K with gold MLI at eps 0.1, versus 0.15 W/K for a painted skin at 0.85) - the gold film is doing thermal work, not just looking like Ingenuity. The assumed 0.08 W/K was 14% conservative: docked heating is really 94 Wh/sol and unheated off-pad survival 5.0 h. (2) Preheat transient on an 18-cell 3x6 network with a 20 W film heater from a -20 C soak: the coldest edge cell needs 23 min and 7.7 Wh to cross 0 C, with 12.2 K of spread across the pack at that moment; a lumped model watching the mean would have called it at 17 min - 26% optimistic. Time the preheat on the coldest cell. (3) Ageing: end-of-life resistance is 60% higher, lifting the minimum temperature for the 900 W spin-up from -19.5 C to -4.9 C - it eats 14.5 K of margin but never crosses 0 C, which shows the card's 0 C rule is really a charging (Li-plating) constraint, not a power one."
+      ],
       "physics": "低温下电解液粘度与电荷转移阻抗按 Arrhenius 增长(0 ℃ 1.9×、-20 ℃ 3.7×),可用功率 P_max=V_oc²/4R 随之塌方——能量还在,功率没了。0 ℃ 以下充电锂离子来不及嵌入石墨、析出金属锂(枝晶短路),所以充电线画在 0 ℃;NCA 循环衰减近似 ∝DoD^1.1。",
       "physics_en": "Electrolyte viscosity and charge-transfer impedance grow Arrhenius-like in the cold (1.9x at 0 C, 3.7x at -20 C), collapsing deliverable power P_max = V_oc^2/4R - the energy is still there, the power is not. Below 0 C intercalation cannot keep up and metallic lithium plates out (dendrite shorts), so the charging line is drawn at 0 C; NCA cycle fade scales roughly with DoD^1.1."
     },
     {
-      "id": "windsock",
-      "label": "风向袋(垂着的)",
-      "label_en": "Windsock (Drooping)",
+      "id": "charge",
+      "label": "充电机柜(整流/预热/缓冲)",
+      "label_en": "Charge Cabinet (rectifier, preheat, buffer)",
       "range": 18,
-      "detail": "标准橙白风向袋——但在火星它几乎永远是垂的。起降前飞控读的是 sci-weather-01 气象站的风与尘数据,袋子更多是给人看的作业传统。",
-      "detail_en": "A standard orange-and-white windsock - that on Mars hangs limp almost always. Flight control reads wind and dust from weather station sci-weather-01; the sock is mostly tradition for human eyes.",
-      "specs": { "动压@8 m/s": "0.54 Pa(地球同风速 39 Pa)", "袋身垂角": "~42°", "停飞规则": "尘暴光深 τ > 2" },
-      "specs_en": { "Dyn. pressure @8 m/s": "0.54 Pa (39 Pa on Earth)", "Droop angle": "~42 deg", "No-fly rule": "dust optical depth tau > 2" },
-      "sim": "q=½ρv²:8 m/s 的'大风'在火星只有 0.54 Pa 动压,吹不满需要 ~30 Pa 的袋子 → 常态下垂 ~42°。停飞规则:气象站 τ>2 时能见度与尘进旋翼头风险超限,升力反而不受影响——ρ 在尘暴里几乎不变。",
-      "sim_en": "q = 0.5*rho*v^2: a 'strong' 8 m/s breeze carries only 0.54 Pa on Mars, far below the ~30 Pa needed to inflate the sock -> it droops ~42 deg. No-fly rule: at station tau > 2, visibility and dust ingestion exceed limits - lift is unaffected, since rho barely changes in a storm.",
-      "physics": "尘暴遮光但不增密:τ=2 时日照掉到 ~14%,对太阳能机是死刑,对城网充电的机只是导航问题——所以停飞线画在光学(相机导航签证)而不是气动上。",
-      "physics_en": "Dust storms block light but don't thicken air: at tau=2 insolation drops to ~14% - fatal for solar aircraft, merely a navigation problem for a grid-charged one. Hence the no-fly line is drawn by optics (camera nav) not aerodynamics."
+      "detail": "坪西的功率机柜,朝坪面剖开:400 V 高压端子排(紫)→ 隔离变压器 → 低压母排(铜,与坪面正极同色)→ 接触器 → 控制板与绝缘监测,底层是冷启动加热片。柜侧挂 200 Wh 缓冲电池,柜后静电接地棒插入铜接地板——尘暴带电,坪面是全场唯一大面积裸露导体。背面是高发射率黑辐射板,不是散热鳍(理由见账)。",
+      "detail_en": "The power cabinet west of the pad, cut open toward the pad: a 400 V terminal bar (violet) feeds the isolation transformer, then the low-voltage bus bars (copper, the same colour as the floor's positive polarity), the contactor, and the control and insulation-monitor boards, with a cold-start heater mat at the bottom. A 200 Wh buffer brick hangs on its flank and a static-discharge rod drops into a copper ground plate - dust storms carry charge and the floor is the largest exposed conductor on site. The back is a high-emissivity radiator panel rather than cooling fins, for reasons in the ledger.",
+      "specs": {
+        "充电制式": "C/2 恒流 4.5 A → 恒压收尾",
+        "峰值取电": "100 W（预热与充电不重叠）",
+        "一次周转": "138 min（预热 23 + 恒流 65 + 恒压 51）",
+        "每架次取电": "142.6 Wh",
+        "缓冲电池": "200 Wh LiFePO₄（断电保温 53 h）",
+        "变换器": "隔离半桥 LLC,400 V → 21.6 V,100 kHz",
+        "效率 / 损耗": "97.1% / 2.9 W（原假设 0.92 已作废）",
+        "待机功耗": "1.5 W → 33.5 Wh/sol（大头）"
+      },
+      "specs_en": {
+        "Charge profile": "C/2 constant current 4.5 A, then CV taper",
+        "Peak draw": "100 W (preheat and charge never overlap)",
+        "Turnaround": "138 min (23 preheat + 65 CC + 51 CV)",
+        "Grid energy per sortie": "142.6 Wh",
+        "Buffer": "200 Wh LiFePO4 (53 h of heating through an outage)",
+        "Converter": "isolated half-bridge LLC, 400 V to 21.6 V, 100 kHz",
+        "Efficiency / loss": "97.1% / 2.9 W (the assumed 0.92 is retired)",
+        "Standby": "1.5 W -> 33.5 Wh/sol (the dominant term)"
+      },
+      "sim": [
+        "充电时序账(heli_charge_sim.py):先 20 W 预热 23 min(最冷芯判据,见电池卡)再转 C/2 恒流 65 min、恒压收尾 51 min → **一次周转 138 min**,理论上一个 sol 能飞 10 架次(实际受任务与日照限制)。加热与充电刻意串行,峰值取电只有 106 W——坪区馈线因此是一条轻载支路,不用为一架 5 kg 的飞机拉动力电缆。",
+        "缓冲账:把电池包稳在 0 ℃ 只需 3.8 W(隔热系数 0.069 W/K × 55 K),200 Wh 缓冲柜可撑 53 h ≈ 2.2 sol。选它的理由是耦合的:**能把飞机按在地面上的尘暴,恰恰也是能让馈线掉电的尘暴**——停飞与断电是同一个事件,保温不能跟着停。",
+        "效率链账(heli_dock_core.py,**还上 0.92 这笔债**):隔离半桥 LLC 逐项拆开——原边导通 0.01 W + 开关残余 0.45 + 变压器铜损 0.14 + 磁损 0.50 + 同步整流 0.20 + 滤波 0.12 + 控制与栅驱 0.80 + 绝缘监测与接触器保持 0.70 = **2.9 W,效率 97.1%**(若城网送交流还要 PFC 前级,降到 94.2%)。原先一路带着走的 0.92 是占位数,偏低 5 个点:每架次取电从 150 Wh 修正为 **142.6 Wh**、峰值从 106 W 修正为 **100 W**。**瓶颈随即迁移**:一次充电的变换损耗只有 6.8 Wh,而机柜在一个 sol 剩下的 21.4 h 里待机要烧 **33.5 Wh——是转换损耗的 5 倍**。改法是让绝缘监测深睡、靠触点检测唤醒,可降到 ~4 Wh/sol。",
+        "火星散热账:610 Pa 下 Rayleigh 数从地球的 5.8×10¹⁰ 掉到 2.1×10⁶(ρ² 标度),自然对流系数只剩 0.27 W/(m²·K) —— **84.8% 的热量靠辐射离开机柜**。结论很直接:**原来那排散热鳍在火星是装饰品**(鳍靠对流工作,且鳍间互相辐射抵消),已换成背面高发射率黑板;2.9 W 损耗只让柜体升温 0.25 K,散热从来不是这台机柜的约束。真正的约束在另一头:夜间 −93 ℃,做法是选 −55 ℃ 宽温元件 + 首充前 10 min × 15 W 局部预热(2.5 Wh),而不是整夜保温整个柜子(那要 ~17 W、400 Wh/sol,比三个架次的飞行能量还贵)。",
+        "断弧时序账:银触点的最小起弧判据是 12 V / 0.4 A,而坪面工作在 21.6 V / 4.5 A,两项都超,且直流没有过零点帮忙——带电分离会烧蚀镀金层,而电极坪的 44 倍尘膜余量正是建立在那层镀金上。所以触点**从不断电流**:变换器先软停到零(~50 ms)→ 接触器零电流分断 → 母线经泄放电阻放电 → 才发出起转指令。烘焙回路里这段已经存在:**电极坪在旋翼起转前 0.5 s 熄灭**,那不是美术节奏,是断电确认间隔。"
+      ],
+      "sim_en": [
+        "Charge timeline (heli_charge_sim.py): 20 W of preheat for 23 min (the coldest-cell criterion, see the battery card), then 65 min of C/2 constant current and 51 min of CV taper - a **138 min turnaround**, which in principle allows ten sorties per sol (mission and daylight bound it well below that). Heating and charging are deliberately serialised, so peak draw is only 106 W and the pad feeder stays a light branch circuit: no power cable pulled across the plain for a 5 kg aircraft.",
+        "Buffer sizing: holding the flight pack at 0 C costs just 3.8 W (0.069 W/K x 55 K), so a 200 Wh brick rides out 53 h, about 2.2 sols. The reason it exists is a coupling: **the dust storm that grounds the aircraft is the same storm that can brown out the feeder** - grounded and unpowered are one event, and the heater cannot go down with it.",
+        "Efficiency chain (heli_dock_core.py, **paying off the 0.92 debt**): the isolated half-bridge LLC broken out term by term - 0.01 W primary conduction + 0.45 switching residual + 0.14 transformer copper + 0.50 core + 0.20 synchronous rectification + 0.12 filtering + 0.80 control and gate drive + 0.70 insulation monitor and contactor hold = **2.9 W, i.e. 97.1%** (94.2% if the city feeds AC and a PFC stage is needed). The 0.92 I had carried through every earlier account was a placeholder, five points low: grid energy per sortie corrects from 150 to **142.6 Wh** and the peak from 106 to **100 W**. **The bottleneck then moves**: conversion costs only 6.8 Wh per charge, while idling the cabinet for the other 21.4 h of the sol burns **33.5 Wh - five times more**. Deep-sleeping the insulation monitor and waking on contact detection brings that to ~4 Wh/sol.",
+        "Thermal on Mars: at 610 Pa the Rayleigh number falls from Earth's 5.8e10 to 2.1e6 (it scales as rho^2), leaving a free-convection coefficient of 0.27 W/(m2 K) - so **84.8% of the heat leaves the cabinet by radiation**. The conclusion is blunt: **the cooling fins were decoration** (fins work by convection, and they radiate into each other), and they have been replaced by a high-emissivity panel on the back. The 2.9 W of loss raises the cabinet by 0.25 K; heat rejection was never the constraint here. The other end is: at -93 C nights the answer is -55 C wide-temperature parts plus a 10 min, 15 W local warm-up (2.5 Wh) before the first charge, not heating the whole cabinet overnight - that would cost ~17 W and 400 Wh/sol, more than three sorties of flight energy.",
+        "Disconnect sequencing: silver contacts have a minimum-arc threshold of 12 V and 0.4 A; the floor runs at 21.6 V and 4.5 A, over both, and DC offers no zero crossing. Separating under load would erode the gold plating that the 44x dust margin rests on, so the contacts **never break current**: the converter soft-stops to zero (~50 ms), the contactor opens cold, the bus bleeds through its discharge resistor, and only then does the spin-up command go out. The baked loop already shows it - **the floor goes dark 0.5 s before the rotors start**, which is a disconnect confirmation interval, not an art beat."
+      ],
+      "physics": [
+        "锂电池充电必须先过 0 ℃(负极嵌锂速率跟不上就析出金属锂,枝晶短路),所以时序是加热优先、充电其次;这条线与起转所需的功率线无关——即便寿命末期,内阻涨 60% 后起转仍能在 −4.9 ℃ 拉出 900 W,是析锂而非功率把规则钉在 0 ℃。"
+      ],
+      "physics_en": [
+        "Charging lithium below 0 C plates metallic lithium onto the anode instead of intercalating it (dendrites, then shorts), so the sequence is heat first, charge second. That line is unrelated to the power the rotors need: even at end of life, with 60% more resistance, spin-up still pulls 900 W down at -4.9 C - it is plating, not power, that pins the rule at 0 C."
+      ]
+    },
+    {
+      "id": "electrode",
+      "label": "电极坪(落地即充)",
+      "label_en": "Electrode Floor (land and charge)",
+      "range": 16,
+      "detail": "坪心 ⌀3.4 m 的交替极性导体带:100 mm 铜带、15 mm 绝缘缝,一正一负循环。直升机四个足垫各带两枚 12 mm 镀金触点,落地即接通——没有插头、没有对接机构、没有机械臂。夜里充电时两极交替发光,是全城唯一一块会亮的地面。",
+      "detail_en": "A 3.4 m disc of alternating-polarity conductor bands at the centre of the pad: 100 mm copper strips separated by 15 mm insulating gaps. Each of the four foot pads carries two 12 mm gold-plated contacts, and touchdown completes the circuit - no plug, no docking mechanism, no robot arm. While charging, the two polarities pulse in alternation: the only patch of ground in the city that lights up.",
+      "specs": {
+        "导体带 / 绝缘缝": "100 mm / 15 mm（周期 230 mm）",
+        "足垫触点": "2 枚 × 12 mm，相距半周期 115 mm",
+        "着陆散布": "σ = 0.25 m（1σ 每轴）",
+        "一次接通率": "99.4%（短路 0%）",
+        "接触压降": "9.8 mV @ 4.5 A（损耗 0.04 W）",
+        "母线电压": "21.6 V（帕邢最小击穿 249 V 的 1/11.5）"
+      },
+      "specs_en": {
+        "Band / gap": "100 mm / 15 mm (230 mm period)",
+        "Pad contacts": "2 x 12 mm, half a period (115 mm) apart",
+        "Landing dispersion": "sigma = 0.25 m per axis",
+        "First-try connect rate": "99.4% (0% shorts)",
+        "Contact drop": "9.8 mV at 4.5 A (0.04 W lost)",
+        "Bus voltage": "21.6 V (1/11.5 of the 249 V Paschen minimum)"
+      },
+      "sim": [
+        "几何账与 2 万次落地蒙卡(heli_charge_sim.py):**首版方案被自己的蒙卡否掉**——按\"导体带比足垫宽\"设计的 160 mm 带 + 40 mm 缝,110 mm 的平足垫一步跨过绝缘缝把正负短接,**76.7% 的落地是短路**。绑定规则不是\"带比垫宽\",而是\"**缝比触点宽**\"。改成足垫分裂式:每垫两枚 12 mm 触点(< 15 mm 缝,单枚永远桥不了两带)、相距半周期(两枚必落异极)、腿 1/3 与 2/4 的触点对相互正交(任意航向都有一组接近垂直于条带),每枚触点各自经二极管进母线。重算:σ=0.25 m 散布 + 随机航向下 **99.4% 一次接通、0% 短路**,平均 7.8 枚触点带电;剩下 0.6% 原地跳一次重落即可。",
+        "触点物理账:停机态每只足垫承 4.64 N,按 Holm 收缩电阻模型接触斑半径 136 µm、收缩电阻 0.09 mΩ,加清洁膜阻共 1.09 mΩ/垫 → 4.5 A 下回路压降 9.8 mV、损耗 0.04 W。按 2% 包压降预算,允许接触电阻涨到 48 mΩ——**对尘膜有 44 倍余量**,何况每次触地冲击本身就在擦拭镀金面。",
+        "帕邢账(heli_dock_core.py):CO₂ 在 610 Pa 的击穿曲线全局最小值是 **249 V @ 1.17 mm 间隙**——而 1.17 mm 恰恰是每次起飞时触点分离必然扫过的间距。坪面 21.6 V 对这个最小值有 **11.5 倍裕度**,任何间隙都击不穿(15 mm 缝的击穿电压是 900 V)。反过来看那个地球本能的\"升压降流\"方案:400 V 母线可以把 I²R 损耗降到 1/350,但它正落在 **0.59–4.3 mm 的击穿窗口**里,而飞机每次起降都要穿过这个窗口——**低压大电流不是妥协,是这颗行星上唯一安全的角落**。"
+      ],
+      "sim_en": [
+        "Geometry plus a 20,000-landing Monte Carlo (heli_charge_sim.py): **the first design was killed by its own Monte Carlo**. Sized on \"band wider than pad\" - 160 mm bands with 40 mm gaps - a 110 mm flat foot pad simply walks across the gap and shorts the rails: **76.7% of landings were shorts**. The binding rule is not band > pad, it is **gap > contact**. The fix splits the pad: two 12 mm contacts per foot (smaller than the 15 mm gap, so one contact can never bridge two bands), spaced half a period apart (so the pair always sees opposite polarities), with the pairs on legs 1/3 and 2/4 mounted orthogonally so some pair is always within 45 deg of crossing the stripes, and every contact feeding the rails through its own diodes. Re-run: **99.4% connect on the first try, 0% shorts** under 0.25 m dispersion and random heading, with 7.8 contacts live on average. The remaining 0.6% just hops and re-lands.",
+        "Contact physics: each pad carries 4.64 N parked, giving a Holm constriction spot of 136 um radius and 0.09 mOhm of constriction resistance; with a clean film that is 1.09 mOhm per pad, so the loop drops 9.8 mV at 4.5 A and wastes 0.04 W. Against a 2% pack-voltage budget the design tolerates 48 mOhm - **a 44x margin for dust film** - and every touchdown impact wipes the gold anyway.",
+        "Paschen ledger (heli_dock_core.py): the CO2 breakdown curve at 610 Pa bottoms out at **249 V across a 1.17 mm gap** - and 1.17 mm is exactly the separation the contacts sweep through on every takeoff. At 21.6 V the floor has **11.5x margin** against that minimum and cannot strike an arc at any gap (the 15 mm design gap breaks down at 900 V). Now consider the Earth instinct of stepping the voltage up to shrink the current: a 400 V bus would cut I2R loss by 350x, and it lands squarely inside the **0.59-4.3 mm breakdown window** that the aircraft traverses on every landing and departure. **Low voltage and high current is not a compromise here; it is the only safe corner on this planet.**"
+      ],
+      "physics": [
+        "为什么不是插头:插接需要 ±5 mm 对中,而实测着陆散布是 250 mm 量级(1σ),差两个数量级——要么加机械臂/漏斗导向(多一套会坏的机构),要么把对中问题变成几何问题。交替极性地板正是后者:用面积换精度,只要落在盘上就接得上,代价只是一套二极管和四个分裂足垫。",
+        "帕邢定律 V_b = f(p·d):击穿电压不是随间隙单调上升,而是有个最小值——间隙太小电子来不及碰撞电离,太大则电子在两次碰撞间攒不够能量。火星地表气压把这个最小值推到毫米量级的间隙上,正好是所有分离式电接口的工作区间;地球上同样的接口因为 p 大 100 倍,最小值落在 10 µm 量级,工程上遇不到。"
+      ],
+      "physics_en": [
+        "Why not a plug: a connector needs +-5 mm of alignment, while measured landing dispersion is around 250 mm (1 sigma) - two orders of magnitude apart. Either you add a funnel or an arm (one more mechanism that can fail), or you convert alignment into geometry. The alternating-polarity floor is the latter: trade area for precision, so anything that lands on the disc connects, at the cost of some diodes and four split foot pads.",
+        "Paschen's law V_b = f(p*d): breakdown voltage does not rise monotonically with gap - it has a minimum, because too small a gap gives electrons no room to ionise and too large a one starves them between collisions. Martian surface pressure pushes that minimum onto millimetre-scale gaps, which is precisely the working range of any separable electrical interface; on Earth, at 100x the pressure, the minimum sits near 10 um and no one ever meets it."
+      ]
     },
     {
       "id": "route",
@@ -93,8 +253,18 @@
       "range": 30,
       "detail": "T=80 s 完整回路:起转→垂直爬升 32 m→切线出航→绕矿场一周(73 m 半径)→切线返场→消速着陆→停转。真实任务单:429 m 散热阵(人走不完)、管线走廊、尘暴后全城评估。",
       "detail_en": "T=80 s full loop: spin-up, vertical climb to 32 m, tangent departure, one 73 m-radius circuit of the mine, tangent return, decelerating landing, spin-down. Real tasking: the 429 m radiator array (too long to walk), pipeline corridors, post-storm citywide survey.",
-      "specs": { "巡航高度": "32 m AGL(绝对 72.7 m)", "巡检圆": "r=73 m 绕 res-mine-01", "巡航速度": "11.8 m/s", "侦察半径": "3.1 km" },
-      "specs_en": { "Cruise altitude": "32 m AGL (72.7 m abs)", "Patrol circle": "r=73 m around res-mine-01", "Cruise speed": "11.8 m/s", "Recon radius": "3.1 km" },
+      "specs": {
+        "巡航高度": "32 m AGL(绝对 72.7 m)",
+        "巡检圆": "r=73 m 绕 res-mine-01",
+        "巡航速度": "11.8 m/s",
+        "侦察半径": "3.1 km"
+      },
+      "specs_en": {
+        "Cruise altitude": "32 m AGL (72.7 m abs)",
+        "Patrol circle": "r=73 m around res-mine-01",
+        "Cruise speed": "11.8 m/s",
+        "Recon radius": "3.1 km"
+      },
       "sim": "避障采样(城内 sampleHeight,70 点):航线地形最高 48.7 m @(164,-187),巡航绝对高 72.7 m → 对地余量 24 m(规则 ≥15 m);矿区包围盒角点距圆心 52.9 m → 侧向余量 20.1 m(规则 ≥20 m)。航程账:131 Wh @ 740 W 巡航 = 10.6 min / 7.6 km,侦察半径 ~3.1 km,全城 3.8 km 图幅 2~3 架次扫完;至 com-station-01 仅 0.55 km,30 m 高度视距 24 km,链路不设限。",
       "sim_en": "Clearance sampling (in-city sampleHeight, 70 points): route terrain max 48.7 m @(164,-187), cruise 72.7 m abs -> 24 m ground clearance (rule >=15 m); mine bounding-box corner 52.9 m from circle center -> 20.1 m lateral margin (rule >=20 m). Range ledger: 131 Wh @ 740 W cruise = 10.6 min / 7.6 km, ~3.1 km recon radius - the 3.8 km map takes 2-3 sorties; com-station-01 is 0.55 km away with 24 km LOS from 30 m altitude.",
       "physics": "回路是纯 t 分段时间线(tt=t%80,smoothstep 插值),不累积状态:任意时刻跳入成立、首尾闭合(旋翼总转数恰 269 整圈)。加减速段机身前后倾 = 推力矢量必须先倾过去,圆弧上压坡 ~16°(真实 v²/rg 要 27°,展示取小)。",

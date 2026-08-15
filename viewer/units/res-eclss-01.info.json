@@ -1,0 +1,213 @@
+{
+  "id": "res-eclss-01",
+  "pois": [
+    {
+      "id": "screen",
+      "label": "全城代谢总账屏（115 人）",
+      "label_en": "City metabolic ledger board (115 people)",
+      "range": 30,
+      "detail": "这块屏是全城生保卡片的引用基准。此前城里流传着三个互不相干的人口数：Rodwell 井按 4 人算水、硫厂按 4 人算氧、掩土村自己写着 28~32 床位——而村里那三十个人在任何一本气账水账里都查无此人。本轮把地下城居住区、掩土舱村、各站值守合并成一个数：115 人。按住地加总得总人口，按工作地分摊呼吸位置，同一个人只数一次。",
+      "detail_en": "This board is the reference table every life-support card in the city now cites. Three unrelated head-counts used to circulate here: the Rodwell well sized water for 4, the sulfur plant sized oxygen for 4, and the berm village listed 28-32 berths - while those thirty villagers appeared in no gas or water ledger at all. This round merges the undercity quarter, the village and every station watch into one number: 115. Totalled by where people sleep, apportioned by where they breathe, each person counted exactly once.",
+      "specs": {
+        "全城人口": "115 人（地下城常驻 85 + 掩土舱村 30），包线 103~128",
+        "O₂ 吸入": "0.84 kg/人天 → 全城 99.1 kg/sol",
+        "CO₂ 呼出": "1.00 kg/人天 → 全城 118.0 kg/sol",
+        "饮用+卫生水": "3.5 L/人天 → 全城 413 L/sol（取水量，非补水量）",
+        "食物干基": "0.62 kg/人天 → 全城 73.2 kg/sol",
+        "sol 因子": "1 sol = 24.6597 h = 1.02749 天（生理速率按天，账按 sol）"
+      },
+      "specs_en": {
+        "City population": "115 (85 undercity residents + 30 in the berm village); envelope 103-128",
+        "O2 intake": "0.84 kg per person-day, 99.1 kg/sol city-wide",
+        "CO2 output": "1.00 kg per person-day, 118.0 kg/sol city-wide",
+        "Potable water": "3.5 L per person-day, 413 L/sol drawn (drawn, not made up)",
+        "Food solids": "0.62 kg per person-day, 73.2 kg/sol city-wide",
+        "Sol factor": "1 sol = 24.6597 h = 1.02749 day; rates are per day, ledgers per sol"
+      },
+      "sim": [
+        "编制法反推人口：按已交付资产逐设施派班（连续设施 3 班+1 备，日班 1.2 人/岗）——芯片厂 10、聚变+储能 8、发射场 8、深地实验室 4、FEL 5、玄枢 4、医务 3……合计 115。掩土村占用 30，落在村卡 28~32 床位之内。",
+        "呼吸位置分摊（person-hours/sol，全城 2836 人·h）：地下城 1991、村子 540、地表值班室 197、EVA 服内 104。这张分摊表是各加压体 CO₂ 去除能力与补气量的定容依据。",
+        "闸门四条全绿：居住地合计=总人口；person-hours 配平到 115×24.66；呼吸商 RQ=0.866（混合膳食 0.80~0.90）；代谢水 0.345 kg/人天与食物含氢 7 wt% 自洽（预测 0.391，±15% 内）。"
+      ],
+      "sim_en": [
+        "Population from a staffing model: every delivered asset gets a watch bill (3 shifts plus one relief for continuous plants, 1.2 per post for day shifts) - 10 at the fab, 8 across fusion and storage, 8 at the two launch complexes, 4 at the deep lab, 5 at the FEL, 4 at the quantum centre, 3 in the clinic, and so on. Total 115, of whom 30 occupy the village, inside its stated 28-32 berths.",
+        "Breathing-location split (person-hours per sol, 2836 city-wide): undercity 1991, village 540, surface duty cabins 197, inside EVA suits 104. This split is what sizes CO2 removal and make-up gas for each pressurized volume.",
+        "Four gates green: residence totals equal the population; person-hours reconcile to 115 x 24.66; respiratory quotient RQ = 0.866 (mixed diet 0.80-0.90); metabolic water 0.345 kg/person-day agrees with 7 wt% hydrogen in dry food (predicted 0.391, inside 15%)."
+      ],
+      "physics": "生保账本的第一条纪律不是精度，是口径：同一个人不能既在村子的账上、又在地下城的账上，也不能哪本账都不在。火星城此前的三套人口数不是算错，是从没有人把它们放在同一张表里——而黑户不呼吸的假设，才是最危险的那种乐观。",
+      "physics_en": "The first discipline of a life-support ledger is not precision but scope: one person cannot appear in both the village books and the undercity books, and must not be missing from both. The city's three earlier head-counts were not miscalculations; nobody had ever put them on one page. The assumption that uncounted people do not breathe is the most dangerous kind of optimism."
+    },
+    {
+      "id": "stack",
+      "label": "电解槽厅（SOEC 水 + SOXE 二氧化碳，剖开露电极堆）",
+      "label_en": "Electrolyser hall (steam SOEC + CO2 SOXE, stacks laid open)",
+      "range": 22,
+      "detail": "四台电解模块朝观察侧敞开，一叠电极板的前缘发着橙红——那是 800 °C 的堆芯。左两台是高温水蒸气电解（SOEC），右两台是二氧化碳固体氧化物电解（SOXE，MOXIE 的放大版）。进料管的颜色说明一切：蓝管进水、灰管进大气，白管出氧。本站不是全城的主制氧厂——那是硫提取厂的活——本站是调峰与备份，以及所有氧气的集散地。",
+      "detail_en": "Four electrolyser modules stand open toward the visitor, the leading edges of their plate stacks glowing orange: that is an 800 C core. The left pair splits steam (SOEC); the right pair splits carbon dioxide (SOXE, a scaled-up MOXIE). The feed pipes say the rest - blue for water, grey for atmosphere, white for the oxygen that leaves. This is not the city's main oxygen plant; the sulfur works holds that job. This is the swing producer, the backup, and the place all oxygen passes through.",
+      "specs": {
+        "SOEC 水电解": "×2，120 kg O₂/sol，槽压 1.30 V @ 800 °C",
+        "SOXE CO₂ 电解": "×2，60 kg O₂/sol，进料为火星大气，耗水零",
+        "电耗（槽口）": "SOEC 4.84 kWh/kg O₂ · SOXE 5.60 kWh/kg O₂",
+        "电耗（入 200 bar 罐）": "SOEC 5.19 · SOXE 6.36 kWh/kg O₂",
+        "耗水": "SOEC 1.126 kg H₂O/kg O₂ · SOXE 0"
+      },
+      "specs_en": {
+        "Steam SOEC": "x2, 120 kg O2/sol, 1.30 V per cell at 800 C",
+        "CO2 SOXE": "x2, 60 kg O2/sol, fed on Martian atmosphere, zero water",
+        "Energy at stack outlet": "SOEC 4.84, SOXE 5.60 kWh per kg O2",
+        "Energy into 200 bar storage": "SOEC 5.19, SOXE 6.36 kWh per kg O2",
+        "Water cost": "SOEC 1.126 kg H2O per kg O2; SOXE none"
+      },
+      "sim": [
+        "水电解的四个数字，一个都不藏：常温液态水可逆下限 ΔG(298)=4.12 kWh/kg O₂；常温热中性点 ΔH=4.96（低温电解槽真实工作点）；800 °C 水蒸气电功下限 ΔG(1073)=3.37 —— 常被引用的『理论 ~3.5』说的就是这个，不是常温值；低温 PEM 整站工程值 7.09。",
+        "本站工程值 4.84 kWh/kg O₂（槽口，含 BoP），落在『工程 4~5』闸内；再压到 200 bar 入罐加 0.35，整站 5.19，**超出闸门上限 0.19**。两个口径都列出来，不挑对自己有利的那个：压缩是本站必须付的，因为储备量由失压再充工况定（见储罐卡）。",
+        "为什么能压到 4.84：高温把 T·ΔS 那一项从电搬到热上，20% 的能量可以用余热付，而城里正好有 pwr-fusion-01 的 600 K 余热回路（与 res-sulfur-01 预热塔同源）。没有这条余热管，SOEC 就退回 6 kWh/kg 量级。",
+        "CO₂ 电解：CO₂ → CO + ½O₂，ΔG(1073)=380 kJ/mol O₂ = 3.30 kWh/kg 理论；加槽极化 5.02，加大气压缩（0.6 kPa → 100 kPa，0.15 kWh/kg 大气 × 2.89 kg）0.43，整站 6.36。比 SOEC 贵，但进料是整颗行星的大气——唯一不受井、矿、床面积约束的制氧路线。"
+      ],
+      "sim_en": [
+        "Four numbers for water electrolysis, none of them hidden. Reversible floor for liquid water at 298 K: 4.12 kWh/kg O2. Thermoneutral point: 4.96 - where low-temperature stacks actually run. Electrical floor for steam at 800 C: 3.37 - and that, not the room-temperature figure, is what the commonly quoted 'about 3.5' refers to. A low-temperature PEM plant: 7.09.",
+        "This plant reaches 4.84 kWh/kg O2 at the stack outlet including balance of plant, inside the 4-5 engineering gate. Compressing to 200 bar for storage adds 0.35, giving 5.19 - 0.19 above the gate's ceiling. Both figures are published rather than the flattering one: compression is not optional here, because the inventory is sized by a depressurization refill case (see the tank card).",
+        "What buys the 4.84: high temperature moves the T-delta-S term from electricity onto heat, so a fifth of the energy can be paid in waste heat - and the city happens to run a 600 K loop from pwr-fusion-01, the same one that preheats the sulfur works. Without that pipe, SOEC falls back toward 6 kWh/kg.",
+        "CO2 electrolysis: CO2 to CO plus half an O2, delta-G at 1073 K is 380 kJ per mol O2, a 3.30 kWh/kg floor. Cell polarization takes it to 5.02; compressing the intake from 0.6 to 100 kPa (0.15 kWh per kg of atmosphere, 2.89 kg needed) adds 0.43, for 6.36 at the plant boundary. Dearer than steam - but the feedstock is an entire planet's atmosphere, the one oxygen route no well, mine or bed area can throttle."
+      ],
+      "physics": "电解槽的电压就是它的效率单据：可逆电压之上每多出的一伏，都变成了热。高温电解之所以省电，不是设备更好，是热力学换了记账方式——ΔG=ΔH−TΔS 里 TΔS 那一项随温度变大，而热比电便宜。所以这座厅真正的秘密不在电极堆里，在那根从聚变站接过来的 600 K 余热管上。",
+      "physics_en": "A stack's voltage is its efficiency receipt: every volt above the reversible potential becomes heat. High-temperature electrolysis saves power not through better hardware but through different bookkeeping - in delta-G = delta-H minus T-delta-S, the T-delta-S term grows with temperature, and heat is cheaper than electricity. So the real secret of this hall is not inside the plate stacks but in the 600 K pipe running over from the fusion station."
+    },
+    {
+      "id": "perc",
+      "label": "高氯酸盐脱除支线（毒物就是氧仓库）",
+      "label_en": "Perchlorate removal branch (the poison is the oxygen warehouse)",
+      "range": 18,
+      "detail": "左端这条小支线处理两股料：温室洗盐水蒸干后的残盐，和送去硫厂之前先过一道的矿场进料。回转分解炉只有 350~450 °C，比硫厂的窑低了一半——因为高氯酸镁在这个温度就自己散架了，还放热。赭黄的料进去，灰白的残盐（MgCl₂）出来，颜色变了就是脱氧完成的收据。旁边那管白色的，是拿走的氧。",
+      "detail_en": "This small branch at the west end takes two feeds: the salt left when greenhouse wash brine is boiled down, and mine feed intercepted on its way to the sulfur works. The rotary decomposer runs at only 350-450 C, half the sulfur kiln's temperature, because magnesium perchlorate falls apart at that heat on its own - and exothermically. Ochre feed goes in, pale grey residue (MgCl2) comes out, and the colour change is the receipt. The white pipe alongside carries away the oxygen.",
+      "specs": {
+        "反应": "Mg(ClO₄)₂ → MgCl₂ + 4 O₂，ΔH = −72.4 kJ/mol（放热）",
+        "产氧率": "0.573 kg O₂ / kg 盐",
+        "分解温度": "350~450 °C（硫厂窑是 900 °C）",
+        "边际电耗": "0.24 kWh/kg O₂ —— 全城最便宜的氧",
+        "产能": "4.27 kg O₂/sol（窑前脱除 3.9 + 洗盐蒸残 0.4）"
+      },
+      "specs_en": {
+        "Reaction": "Mg(ClO4)2 to MgCl2 plus 4 O2; delta-H = -72.4 kJ/mol, exothermic",
+        "Yield": "0.573 kg O2 per kg of salt",
+        "Decomposition": "350-450 C (the sulfur kiln runs at 900)",
+        "Marginal energy": "0.24 kWh per kg O2 - the cheapest oxygen in the city",
+        "Output": "4.27 kg O2/sol (3.9 intercepted before the kiln, 0.4 from wash residue)"
+      },
+      "sim": [
+        "记账纪律决定这条线是赚是赔：洗盐水蒸发要 ~900 MJ/kg 盐，若记在制氧头上，每 kg O₂ 要 22 kWh，全城最贵。但洗盐水在火星本来就必须回收（res-dome-hall-01 洗盐卡：2 m³ 水/吨土），蒸馏是水账的支出——高氯酸盐只是蒸残里捡出来的。按边际成本记，0.24 kWh/kg O₂。同一批盐，记账方式差 90 倍。",
+        "给 res-sulfur-01 的硬建议（本轮新发现）：回转窑是 H₂ 还原气氛，高氯酸盐若随料进 900 °C 窑内，分解出的氧会当场与氢化合成水——等于烧氢。应在预热塔 350~450 °C 段先脱除并抽走 O₂：每 sol 白拿 3.9 kg O₂，同时省下 0.49 kg H₂（约 27 kWh 的电解电）。",
+        "天花板也说清楚：这条线的产量被『城市每 sol 处理多少土』锁死，4.27 kg O₂/sol 只有乘组需求的 4.3%。它是顺手的收益，不是支柱。"
+      ],
+      "sim_en": [
+        "How you book it decides whether this line pays. Evaporating the wash brine costs about 900 MJ per kg of salt; charged to oxygen, that is 22 kWh per kg O2, the dearest in the city. But the wash water has to be recovered on Mars regardless (the dome-hall soil card: 2 cubic metres of water per tonne of regolith), so distillation is a water-ledger expense and the perchlorate is simply picked out of what is left behind. On marginal cost the answer is 0.24 kWh per kg O2. Same salt, ninety-fold difference, purely in accounting.",
+        "A hard recommendation for res-sulfur-01, new this round: the rotary kiln runs a hydrogen reducing atmosphere, so perchlorate carried into 900 C releases its oxygen straight into the hydrogen and makes water - burning hydrogen for nothing. Strip it in the preheat tower at 350-450 C and draw the oxygen off: 3.9 kg O2 a sol for free, plus 0.49 kg of hydrogen saved, about 27 kWh of electrolysis.",
+        "The ceiling is stated too: output is locked to how much regolith the city processes per sol. At 4.27 kg O2/sol this covers 4.3% of crew demand. It is a bonus, not a pillar."
+      ],
+      "physics": "高氯酸盐是强氧化剂，却也是一座已经充好电的氧仓库：ClO₄⁻ 里四个氧原子的释放在热力学上是下坡路（放热），拦住它的是动力学惰性，不是能量。所以『解毒』这道工序不用花能量买氧，只需给它一个足够高的温度把动力学的门打开——毒物翻成资源的账，翻在活化能上，不在焓变上。",
+      "physics_en": "Perchlorate is an aggressive oxidizer and also a warehouse already charged: releasing the four oxygens of ClO4- runs downhill thermodynamically, exothermically. What blocks it is kinetic inertness, not energy. Detoxification therefore need not buy the oxygen - it need only supply enough temperature to open the kinetic gate. The poison-into-resource ledger is settled in activation energy, not in enthalpy."
+    },
+    {
+      "id": "tanks",
+      "label": "O₂ / N₂ / Ar 立式罐组（肩环就是色标）",
+      "label_en": "O2 / N2 / Ar tank farm (the shoulder ring is the code)",
+      "range": 26,
+      "detail": "十一只 200 bar 立罐，肩环按 EN 1089-3 涂：氧白（本城再加一道蓝识别环）、氮黑、氩深绿。四氧、四氮、三氩。缓冲气不是纯氮，是氮氩五八比四二的混合气——因为把火星大气里的 CO₂ 冻走之后，剩下的天然就是这个比例，多一道提纯就是白花电。罐身那条竖标尺是压力，不是液位：这里没有一滴液体。",
+      "detail_en": "Eleven vertical 200 bar bottles, shoulders painted to EN 1089-3: white for oxygen (with an extra blue identification band here), black for nitrogen, dark green for argon. Four, four and three. The buffer gas is not pure nitrogen but a 58/42 nitrogen-argon blend, because once the CO2 is frozen out of Martian air that is simply what remains, and a purification step would be electricity spent for nothing. The vertical scale on each shell reads pressure, not level: nothing in this farm is liquid.",
+      "specs": {
+        "罐规格": "D1.2 m × H4.0 m 立式（圆柱+半球端），200 bar @ 250 K，单罐 4.07 m³",
+        "O₂": "4 只 · 单罐 1150 kg · 储备 4444 kg",
+        "N₂": "4 只 · 单罐 1016 kg · 储备 3078 kg",
+        "Ar": "3 只 · 单罐 1385 kg · 储备 3808 kg（含工艺 Ar 600 kg）",
+        "舱内大气": "70 kPa / O₂ 26.5%（pO₂ 18.6 kPa）/ 缓冲气 N₂ 58%+Ar 42%"
+      },
+      "specs_en": {
+        "Bottle": "1.2 m dia x 4.0 m tall (cylinder with hemispherical heads), 200 bar at 250 K, 4.07 m3 each",
+        "O2": "4 bottles, 1150 kg each, 4444 kg held",
+        "N2": "4 bottles, 1016 kg each, 3078 kg held",
+        "Ar": "3 bottles, 1385 kg each, 3808 kg held (including 600 kg process argon)",
+        "Cabin atmosphere": "70 kPa, 26.5% O2 (pO2 18.6 kPa), buffer 58% N2 / 42% Ar"
+      },
+      "sim": [
+        "储备量取三个工况的包络：A 最大隔离域（4000 m³）失压再充 = O₂ 968 kg + 缓冲气 2773 kg；B 制氧线停机自持 30 sol（回转窑冷启动要 6 MJ 以上、耐火衬怕热冲击，一停就是几个 sol）= O₂ 3864 kg；C 风暴季 60 sol 的泄漏与气闸补给 = O₂ 1027 + 缓冲 2942 kg。取包络 +15% 缓冲：O₂ 4444 kg、缓冲气 6286 kg。定容的是工况 B——不是失压事故，是检修窗口。",
+        "全城可呼吸加压容积 30,985 m³（地下城 29,112 + 村 973 + 地表值班室 900），人均 269 m³；挂在墙上的气体 29.0 t = O₂ 7.5 + N₂ 10.5 + Ar 11.0。储罐里的 O₂（4.4 t）只有挂墙量的 59%——储罐补的是一个隔离域，不是整座城。分段密封是储罐能这么小的唯一原因。",
+        "选气态不选液氧：液氧密度高 4 倍，但要低温机、有蒸发损失、取用要汽化器；生保气按 sol 计量、天天要用，气态直供无沸腾损失。推进剂那边的液氧仍归 res-isru-01。"
+      ],
+      "sim_en": [
+        "Inventory is the envelope of three cases. A: refilling the largest isolatable domain, 4000 m3, needs 968 kg O2 and 2773 kg buffer. B: riding out 30 sols with the oxygen plant down - a rotary kiln cold start costs over 6 MJ and thermally shocks its lining, so an outage lasts sols - needs 3864 kg O2. C: sixty storm sols of leak and airlock make-up, 1027 kg O2 and 2942 kg buffer. Envelope plus 15%: 4444 kg O2 and 6286 kg buffer. Case B sizes the farm - the maintenance window, not the accident.",
+        "The city holds 30,985 m3 of breathable pressurized volume (29,112 undercity, 973 village, 900 in surface duty cabins), 269 m3 per person, containing 29.0 t of gas: 7.5 O2, 10.5 N2, 11.0 Ar. The 4.4 t of stored oxygen is only 59% of what already hangs on the walls - the farm refills one domain, not a city. Segmentation is the only reason it can be this small.",
+        "Gas, not liquid: LOX is four times denser but wants a cryocooler, boils off, and needs a vaporizer to use. Life-support gas is drawn every sol, so high-pressure gas with zero boil-off wins. Propellant LOX stays with res-isru-01."
+      ],
+      "physics": "缓冲气的成分是被行星决定的，不是被工程师决定的：火星大气 95% 是 CO₂，剩下的 4.7% 里氮氩几乎各半。把 CO₂ 冻出去，手里剩下的就是现成的缓冲气。代价也要记：氩的导热系数只有氮的三分之二、声速高约 20%——设备对流散热要按氩修正，人说话的音色也会偏高一点。省下的那道分离工序，是用这些小别扭换来的。",
+      "physics_en": "The composition of the buffer gas was decided by the planet, not by an engineer: Martian air is 95% CO2, and nitrogen and argon split the remaining 4.7% almost evenly. Freeze the CO2 out and what is left in your hand is buffer gas, ready made. The bill is real though - argon conducts heat only two-thirds as well as nitrogen and carries sound about 20% faster, so equipment cooling must be re-derated and voices sit slightly high. Those small oddities are the price of the separation step nobody has to run."
+    },
+    {
+      "id": "intake",
+      "label": "大气进气塔与缓冲气分离（为什么气比氧还贵）",
+      "label_en": "Atmosphere intake and buffer-gas separation (why gas costs more than oxygen)",
+      "range": 20,
+      "detail": "九米高的进气塔顶着一顶百叶过滤帽，塔底那只蓝白冷箱是把 CO₂ 冻出来的地方。冻走的 CO₂ 沿青管去 Sabatier 甲烷厂，剩下的氮氩混合气沿灰管进罐区。这座塔是全城缓冲气的唯一来源，也是本站最费电的设备——不是因为分离难，是因为火星大气实在太稀。",
+      "detail_en": "A nine-metre intake tower under a louvred filter cap; the blue-and-white cold box at its foot is where the CO2 freezes out. That CO2 leaves along the teal pipe to the Sabatier methane plant, and the nitrogen-argon remainder runs grey-piped to the tank farm. This tower is the city's only source of buffer gas and the plant's hungriest machine - not because separation is hard, but because Martian air is so extraordinarily thin.",
+      "specs": {
+        "进料": "火星大气 0.6 kPa（CO₂ 95.1% / N₂ 2.6% / Ar 1.9%）",
+        "处理比": "29 kg 大气 → 1 kg 缓冲气",
+        "缓冲气造价": "5.27 kWh/kg（对照氧 6.36 kWh/kg，同量级）",
+        "压缩功": "0.15 kWh/kg 大气（0.6→100 kPa 等温理想 ÷ 0.40 效率）",
+        "副产": "CO₂ 母管 → res-isru-01 Sabatier"
+      },
+      "specs_en": {
+        "Feed": "Martian atmosphere at 0.6 kPa (95.1% CO2, 2.6% N2, 1.9% Ar)",
+        "Ratio": "29 kg of atmosphere per kg of buffer gas",
+        "Buffer cost": "5.27 kWh/kg, the same order as oxygen's 6.36",
+        "Compression": "0.15 kWh per kg of atmosphere (0.6 to 100 kPa isothermal ideal, 40% efficient)",
+        "By-product": "CO2 header to the res-isru-01 Sabatier plant"
+      },
+      "sim": [
+        "缓冲气逸散 49.0 kg/sol（气闸 97% 回收后 + 结构泄漏），折 32.8 t/火星年，重造电耗 173 MWh/火星年。对 176 MWe 的电网这是零头，但它把本站的头等工程决策定死了：不是『多造气』，是『别把气放掉』（见充装台卡的气闸账）。",
+        "为什么 29:1：火星大气按质量算只有 1.68% 是 N₂、1.75% 是 Ar，合计 3.43%。压缩功随进出口压比的对数走 ln(100/0.6)=5.1，稀薄大气把这个对数顶到很高——同样一台压缩机在地球上抽 1 kg 空气的功，在这里只换来 1/166 的气量。",
+        "进气帽不是装饰：全球尘暴期 PM 浓度可升千倍且尘粒带静电（ops-fab-01 选址卡同源结论），滤材寿命与压缩机磨损全押在这顶帽子上。尘暴季本站切『低流量+高储备』模式，靠罐区的 60 sol 包线扛过去。"
+      ],
+      "sim_en": [
+        "Buffer gas escapes at 49.0 kg/sol after 97% airlock recovery and structural leakage - 32.8 t per Mars year, 173 MWh a year to remake. Against a 176 MWe grid that is rounding error, yet it fixes this plant's first engineering decision: not 'make more gas' but 'stop letting gas go' (see the airlock ledger on the filling-bay card).",
+        "Where 29:1 comes from: by mass Martian air is only 1.68% nitrogen and 1.75% argon, 3.43% together. Compression work follows the logarithm of the pressure ratio, ln(100/0.6) = 5.1, and thin air drives that logarithm high - the same compressor work that moves a kilogram of air on Earth buys a hundred and sixty-sixth of the volume here.",
+        "The filter cap is not decoration: global dust storms raise particulate counts a thousandfold and the grains carry static charge - the same finding as the ops-fab-01 siting card - so filter life and compressor wear both ride on it. Through storm season the plant switches to low-flow, high-inventory mode and lives off the tank farm's 60-sol envelope."
+      ],
+      "physics": "在一颗大气压只有地球 0.6% 的行星上，『空气』是一种要开采的矿产。压缩功随压比的对数增长，稀薄意味着每一克有用气体都要先驱动几十克废气穿过压缩机——所以火星上惰性气体的价格逼近氧气，而在地球上氮气几乎是免费的。行星大气的稀薄，把地球化工里最不起眼的一项成本顶成了主要成本。",
+      "physics_en": "On a planet whose surface pressure is 0.6% of Earth's, air is a mineral you mine. Compression work grows with the logarithm of the pressure ratio, and thinness means every useful gram must first drive dozens of grams of waste through the compressor - which is why inert gas here costs nearly as much as oxygen, while on Earth nitrogen is all but free. Atmospheric thinness promotes the most negligible line item in terrestrial process engineering into the dominant one."
+    },
+    {
+      "id": "fill",
+      "label": "充装台与气闸账（23:1 的那笔改造）",
+      "label_en": "Filling bay and the airlock ledger (a 23-to-1 retrofit)",
+      "range": 18,
+      "detail": "顶棚下六支橙色充装软管，一侧是待充的灰帽瓶，另一侧是充好的蓝帽瓶——状态对照一眼可读。但这张台子真正的故事在账上：全城每 sol 从气闸里放掉的气，比这里充进瓶子的多得多。车辆气闸一次循环放掉 47 kg 舱气，是全城仅次于人肺的第二大氧气去向。",
+      "detail_en": "Six orange filling hoses under the canopy, grey-capped bottles waiting on one side and blue-capped bottles finished on the other - status legible at a glance. The bay's real story is in the ledger, though: the city vents far more gas through its airlocks each sol than it fills into these bottles. One vehicle-lock cycle loses 47 kg of cabin atmosphere, making airlocks the second-largest oxygen sink in the city after human lungs.",
+      "specs": {
+        "充装压力": "200 bar（EVA 背包瓶 / 巡逻车瓶组）",
+        "现状气闸损气": "181.8 kg/sol（回收率 90%）+ 结构泄漏 11.6",
+        "升级后": "66.1 kg/sol（回收率 97%）",
+        "O₂ 项": "50.1 → 17.1 kg/sol",
+        "回收/成本比": "23 : 1（省下的气折电 707 kWh/sol vs 多花泵电 31 kWh/sol）"
+      },
+      "specs_en": {
+        "Fill pressure": "200 bar (EVA backpack bottles and rover bottle packs)",
+        "Airlock loss today": "181.8 kg/sol at 90% recovery, plus 11.6 of structural leakage",
+        "After retrofit": "66.1 kg/sol at 97% recovery",
+        "Oxygen share": "50.1 down to 17.1 kg/sol",
+        "Benefit to cost": "23 to 1 - 707 kWh/sol of gas saved against 31 kWh/sol of extra pumping"
+      },
+      "sim": [
+        "气闸逐座算（与 hab-tunnel-01 / hab-foyer-01 / hab-village-01 三张卡互引）：地下城车辆大闸 500 m³ × 2 次/sol = 93.5 kg/sol；玄关车辆闸 500 m³ × 1 次 = 46.8；三处人员小闸合计 37.0；工艺闸 4.5。人员小闸虽然频繁（每 sol 66 次），损气只占五分之一——分大小门这个决定，账上早就赢了。",
+        "该不该把回收率从 90% 提到 97%：多级泵抽到 2.1 kPa，泵电按 ln(1/(1−rec)) 标度，每 sol 多花 31 kWh；省下 O₂ 32.9 kg（×6.36 kWh/kg）+ 缓冲气 94.4 kg（×5.27 kWh/kg）= 707 kWh/sol。**23:1，强烈推荐**。这条建议要落到 hab-tunnel-01 与 hab-foyer-01 的泵组上。",
+        "火星大气稀薄在这里帮了倒忙：缓冲气造价 5.27 kWh/kg 比氧还贵，所以『别放掉』永远比『多造』划算。这就是为什么本站的镇站之宝不是电解槽，是气闸泵。"
+      ],
+      "sim_en": [
+        "Lock by lock, cross-referenced with the hab-tunnel-01, hab-foyer-01 and hab-village-01 cards: the undercity vehicle gate, 500 m3 twice a sol, loses 93.5 kg; the foyer vehicle lock, once a sol, 46.8; the three personnel locks together 37.0; process locks 4.5. Personnel locks cycle 66 times a sol yet account for only a fifth of the loss - the decision to build separate small doors had already won on paper.",
+        "Should recovery go from 90% to 97%? Multi-stage pumping down to 2.1 kPa costs 31 kWh/sol more, scaling as ln(1/(1-recovery)). It saves 32.9 kg of oxygen at 6.36 kWh/kg and 94.4 kg of buffer at 5.27, worth 707 kWh/sol. Twenty-three to one - strongly recommended, and the recommendation lands on the pump skids at hab-tunnel-01 and hab-foyer-01.",
+        "Thin air works against the city here: buffer gas costs 5.27 kWh/kg, more than oxygen, so 'do not vent it' always beats 'make more of it'. Which is why this plant's most valuable machine is not an electrolyser but an airlock pump."
+      ],
+      "physics": "气闸是加压建筑唯一无法关闭的漏点：每次开门都在把一舱大气送给行星。回收率的边际价值随 1/(1−r) 发散——90% 到 97% 听起来只差七个百分点，损气却砍到三分之一；而泵功只随 ln(1/(1−r)) 缓慢上涨。指数级的收益对上对数级的成本，这类交换在工程里罕见，遇到就别犹豫。",
+      "physics_en": "An airlock is the one leak a pressurized building cannot close: every opening hands a chamber of atmosphere back to the planet. The marginal value of recovery diverges as 1/(1-r) - ninety to ninety-seven percent sounds like seven points but cuts the loss to a third - while pumping work rises only as ln(1/(1-r)). A hyperbolic benefit against a logarithmic cost is a rare trade in engineering; when one appears, take it."
+    }
+  ]
+}

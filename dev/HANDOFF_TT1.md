@@ -15,11 +15,11 @@
 落位：formation (-430,-150) sink 0.25；sat (-404,-132) rot 205° sink 0.2。
 烟测（真引擎 8123, ?colony=1&debug=1）：26 资产、两资产 **scale=1**、
 泵帧 12 s sat0 偏航 3.0e-3 rad（烘焙呼吸生效）、console 零报错。
-截图存 `gravity-wave\model\shots\city_{formation,sat,both}.jpg`。
+截图存 `E:\Claude\gravity-wave\model\shots\city_{formation,sat,both}.jpg`。
 
 ## 设计真源
 
-`gravity-wave`（9 系统仿真 + Zemax/Lumerical/COMSOL 验证 +
+`E:\Claude\gravity-wave`（9 系统仿真 + Zemax/Lumerical/COMSOL 验证 +
 双代理评审 14 处修正）。知识卡的 sim/physics 层全部蒸馏自该 repo 落库账，
 双语 README 见其根目录。
 

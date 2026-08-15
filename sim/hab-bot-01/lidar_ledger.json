@@ -1,0 +1,230 @@
+{
+ "params": {
+  "wavelength_nm": 905,
+  "E_pulse_uJ": 0.06,
+  "n_beams": 15,
+  "fov_deg": 90.0,
+  "rate_hz": 6.0,
+  "aperture_mm": 10.0,
+  "optics_eff": 0.8,
+  "PDE": 0.403,
+  "pulse_fwhm_ns": 1.5,
+  "sptr_fwhm_ps": 150.0,
+  "tdc_lsb_ps": 100.0,
+  "deadtime_ns": 20.0,
+  "microcells": 1024,
+  "dcr_per_cell_cps": 253.0,
+  "gate_ns": 140.0,
+  "afterpulse": 0.001
+ },
+ "albedo": 0.3,
+ "raw_no_correction": [
+  {
+   "R": 0.5,
+   "n_pe": 176255.1,
+   "detect": 1.0,
+   "bias": -25.73,
+   "sigma": 0.12,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 1.0,
+   "n_pe": 44063.8,
+   "detect": 1.0,
+   "bias": -20.85,
+   "sigma": 0.14,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 1.2,
+   "n_pe": 30599.9,
+   "detect": 1.0,
+   "bias": -19.4,
+   "sigma": 0.15,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 2.5,
+   "n_pe": 7050.2,
+   "detect": 1.0,
+   "bias": -12.28,
+   "sigma": 0.21,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 5.0,
+   "n_pe": 1762.6,
+   "detect": 1.0,
+   "bias": -4.42,
+   "sigma": 0.31,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 10.0,
+   "n_pe": 440.6,
+   "detect": 1.0,
+   "bias": -1.15,
+   "sigma": 0.51,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 15.0,
+   "n_pe": 195.8,
+   "detect": 1.0,
+   "bias": -0.55,
+   "sigma": 0.73,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 20.0,
+   "n_pe": 110.2,
+   "detect": 1.0,
+   "bias": -0.22,
+   "sigma": 0.99,
+   "outlier": 0.0,
+   "saturated": 0.0
+  }
+ ],
+ "single_pulse": [
+  {
+   "R": 0.5,
+   "n_pe": 176255.1,
+   "detect": 0.0,
+   "bias": null,
+   "sigma": null,
+   "outlier": null,
+   "saturated": 1.0
+  },
+  {
+   "R": 1.0,
+   "n_pe": 44063.8,
+   "detect": 0.0,
+   "bias": null,
+   "sigma": null,
+   "outlier": null,
+   "saturated": 1.0
+  },
+  {
+   "R": 1.2,
+   "n_pe": 30599.9,
+   "detect": 0.0,
+   "bias": null,
+   "sigma": null,
+   "outlier": null,
+   "saturated": 1.0
+  },
+  {
+   "R": 2.5,
+   "n_pe": 7050.2,
+   "detect": 0.662,
+   "bias": -0.33,
+   "sigma": 0.5,
+   "outlier": 0.0,
+   "saturated": 0.338
+  },
+  {
+   "R": 5.0,
+   "n_pe": 1762.6,
+   "detect": 1.0,
+   "bias": 0.01,
+   "sigma": 0.33,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 10.0,
+   "n_pe": 440.6,
+   "detect": 1.0,
+   "bias": -0.07,
+   "sigma": 0.51,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 15.0,
+   "n_pe": 195.8,
+   "detect": 1.0,
+   "bias": 0.23,
+   "sigma": 0.75,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 20.0,
+   "n_pe": 110.2,
+   "detect": 1.0,
+   "bias": -0.21,
+   "sigma": 0.95,
+   "outlier": 0.0,
+   "saturated": 0.0
+  }
+ ],
+ "dark_albedo": [
+  {
+   "R": 1.2,
+   "n_pe": 5100.0,
+   "detect": 1.0,
+   "bias": 0.1,
+   "sigma": 0.54,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 2.5,
+   "n_pe": 1175.0,
+   "detect": 1.0,
+   "bias": 0.05,
+   "sigma": 0.39,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 5.0,
+   "n_pe": 293.8,
+   "detect": 1.0,
+   "bias": -0.02,
+   "sigma": 0.6,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 10.0,
+   "n_pe": 73.4,
+   "detect": 1.0,
+   "bias": -0.16,
+   "sigma": 1.06,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 15.0,
+   "n_pe": 32.6,
+   "detect": 1.0,
+   "bias": -0.58,
+   "sigma": 1.72,
+   "outlier": 0.0,
+   "saturated": 0.0
+  },
+  {
+   "R": 20.0,
+   "n_pe": 18.4,
+   "detect": 1.0,
+   "bias": -0.79,
+   "sigma": 2.3,
+   "outlier": 0.0,
+   "saturated": 0.0
+  }
+ ],
+ "sigma_fit": {
+  "a_cm": 0.2673,
+  "b": 0.359
+ },
+ "notes": "sigma/bias in cm; outlier = fraction of ranges >1 m off; saturated = fraction of shots where all microcells fired"
+}

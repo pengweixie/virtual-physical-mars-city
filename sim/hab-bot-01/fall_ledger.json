@@ -1,0 +1,64 @@
+{
+ "mass": 39.80000000000001,
+ "falls": [
+  {
+   "gravity": 3.71,
+   "land_s": 2.309,
+   "omega": 2.704,
+   "omega_energy": 2.705,
+   "v_com": 2.42,
+   "v_head": 4.46,
+   "energy_J": 132,
+   "label": "Mars "
+  },
+  {
+   "gravity": 9.81,
+   "land_s": 1.42,
+   "omega": 4.398,
+   "omega_energy": 4.399,
+   "v_com": 3.94,
+   "v_head": 7.26,
+   "energy_J": 349,
+   "label": "Earth"
+  }
+ ],
+ "analytic": {
+  "topple_time_mars": 0.98,
+  "topple_time_earth": 0.6,
+  "energy_mars": 132,
+  "energy_earth": 349
+ },
+ "bystander": {
+  "m_eff": 13.3,
+  "v_tip": 4.46,
+  "topple_reach_m": 1.65,
+  "ssm_separation_m": 2.4
+ },
+ "self_right": {
+  "phases": [
+   {
+    "phase": "prone -> arms extended",
+    "joint": "shoulder",
+    "need": 19.9,
+    "avail": 55.0,
+    "ok": true
+   },
+   {
+    "phase": "kneel -> squat",
+    "joint": "knee",
+    "need": 22.1,
+    "avail": 150.0,
+    "ok": true
+   },
+   {
+    "phase": "squat -> stand",
+    "joint": "hip",
+    "need": 28.9,
+    "avail": 150.0,
+    "ok": true
+   }
+  ],
+  "mars_ok": true,
+  "earth_ok": true
+ }
+}

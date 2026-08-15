@@ -6,8 +6,8 @@
       "label": "交叉刀片偶极子桩（剖切示范）",
       "label_en": "Crossed Blade-Dipole Mast (cutaway)",
       "range": 25,
-      "detail": "5 m 翼展倒 V 交叉刀片偶极子。在 30–600 m 波长面前它是电学短天线,辐射电阻只有 0.014–5.5 Ω,而容抗高达 12 kΩ——Q 约 1.6e5,没有任何匹配网络能共轭匹配它,也不需要:它根本不是匹配系统,而是一只电容分压高阻电压探头。天线电容 C_a 与放大器输入电容 C_in 分压,信号进高阻 FET。这决定了两件几何:臂做成刀片(不是细线)、LNA 盒在桩顶(不在桩下)。桩基剖切单元露出端子之后的第一段链路:射频分配板(偏置 T,同一根同轴送电取信号)、定标注入定向耦合器(紫)、电源调理,以及那只黑色环形共模扼流圈——选同轴而不选模拟光纤所必须付的那件硬件。前端里刻意没有的东西同样说明问题:没有阻抗匹配网络、没有制冷、没有混频器(10 MHz 直接采样),工程量整体从\"降噪声\"挪到了\"保线性、压电容、稳相位\"。",
-      "detail_en": "5 m tip-to-tip inverted-V crossed blade dipole. Against 30-600 m wavelengths it is electrically short: radiation resistance 0.014-5.5 ohm against 12 kohm of capacitive reactance, Q ~ 1.6e5. No matching network can conjugate-match that, and none is wanted -- this is not a matched system but a capacitive-divider voltage probe: the antenna capacitance C_a divides against the amplifier input capacitance C_in into a high-impedance FET. Two pieces of geometry follow: the arms are blades, not wires, and the LNA box sits at the mast top, not at its foot. The cutaway base unit shows the first link after the terminals: the RF distribution board (bias tee -- power up and signal down the same coax), the violet calibration directional coupler, power conditioning, and the black toroidal common-mode choke, which is the piece of hardware that choosing coax over analog-over-fiber obliges you to buy. What the front end deliberately lacks says as much: no matching network, no cryogenics, no mixer (10 MHz is sampled directly) -- the engineering effort moves from lowering noise to holding linearity, capacitance and phase.",
+      "detail": "5 m 翼展倒 V 交叉刀片偶极子。在 30–600 m 波长面前它是电学短天线,辐射电阻只有 0.014–5.5 Ω,而容抗在 1 MHz 就有 6.2 kΩ——Q 约 1.1e5,没有任何匹配网络能共轭匹配它,也不需要:它根本不是匹配系统,而是一只电容分压高阻电压探头。天线电容 C_a 与放大器输入电容 C_in 分压,信号进高阻 FET。这决定了两件几何:臂做成刀片(不是细线)、LNA 盒在桩顶(不在桩下)。桩基剖切单元露出端子之后的第一段链路:射频分配板(偏置 T,同一根同轴送电取信号)、定标注入定向耦合器(紫)、电源调理,以及那只黑色环形共模扼流圈——选同轴而不选模拟光纤所必须付的那件硬件。前端里刻意没有的东西同样说明问题:没有阻抗匹配网络、没有制冷、没有混频器(10 MHz 直接采样),工程量整体从\"降噪声\"挪到了\"保线性、压电容、稳相位\"。",
+      "detail_en": "5 m tip-to-tip inverted-V crossed blade dipole. Against 30-600 m wavelengths it is electrically short: radiation resistance 0.014-5.5 ohm against 6.2 kohm of capacitive reactance at 1 MHz, Q ~ 1.1e5. No matching network can conjugate-match that, and none is wanted -- this is not a matched system but a capacitive-divider voltage probe: the antenna capacitance C_a divides against the amplifier input capacitance C_in into a high-impedance FET. Two pieces of geometry follow: the arms are blades, not wires, and the LNA box sits at the mast top, not at its foot. The cutaway base unit shows the first link after the terminals: the RF distribution board (bias tee -- power up and signal down the same coax), the violet calibration directional coupler, power conditioning, and the black toroidal common-mode choke, which is the piece of hardware that choosing coax over analog-over-fiber obliges you to buy. What the front end deliberately lacks says as much: no matching network, no cryogenics, no mixer (10 MHz is sampled directly) -- the engineering effort moves from lowering noise to holding linearity, capacitance and phase.",
       "specs": {
         "翼展": "5 m(倒 V 交叉刀片)",
         "刀片宽": "0.25 m(有效半径 w/4)",
@@ -27,12 +27,12 @@
       "sim": [
         "账1(Cane 1979):T_sky 2.2e7 K@0.5 MHz / 5.0e6@3 / 2.9e5@10——天空噪声主导,天线效率 0.7% 也不亏灵敏度。",
         "账5(电压探头重算,给上句划边界):刀片 a_eff=w/4 把 C_a 从 17.7 抬到 25.8 pF(+46%),分压比 0.639→0.721(+1.06 dB);天空开路电压 4.05–11.6 nV/√Hz,分压后 2.9–8.4 nV 对前放 1 nV/√Hz,ρ 9.3–18.5 dB。灵敏度损失:0.5 MHz 12%、1 MHz 3.9%、3 MHz 1.4%。",
-        "账5(拓扑罚):同一只放大器挪到桩下(C_in 10→25 pF),0.5 MHz 损失 12%→24%。放大器电流噪声经容抗只有 31 pV/√Hz、损耗电阻热噪声 0.11 nV/√Hz,都比 e_n 低 19–30 dB,可以不管。"
+        "账5(拓扑罚):同一只放大器挪到桩下(C_in 10→25 pF),0.5 MHz 损失 12%→24%。放大器电流噪声经容抗只有 31 pV/√Hz、损耗电阻热噪声 0.11 nV/√Hz,都比 e_n 低 19–30 dB,可以不管;但栅偏置电阻是噪声指标不是负载指标——1 MΩ 在 8.9 kΩ 源阻抗上贡献 0.96 nV,把带底损失翻倍,规格 ≥10 MΩ(评审 v2)。另:全表为自由空间值,εr≈3.5 风化层地面给百分比表 ~2× 不确定度,账1 结论免疫(NEC 复核挂账)。"
       ],
       "sim_en": [
         "Account 1 (Cane 1979): T_sky 2.2e7 K @0.5 MHz / 5.0e6 @3 / 2.9e5 @10 -- sky-noise dominated, so even 0.7% antenna efficiency costs no sensitivity.",
         "Account 5 (redone as a voltage probe, which bounds the claim above): blade a_eff = w/4 raises C_a from 17.7 to 25.8 pF (+46%), divider 0.639 -> 0.721 (+1.06 dB); open-circuit sky voltage 4.05-11.6 nV/sqrt(Hz), 2.9-8.4 nV after the divider against a 1 nV/sqrt(Hz) preamp, rho = 9.3-18.5 dB. Sensitivity loss: 12% at 0.5 MHz, 3.9% at 1 MHz, 1.4% at 3 MHz.",
-        "Account 5 (topology penalty): move the same amplifier down the mast (C_in 10 -> 25 pF) and 0.5 MHz goes from 12% to 24%. Amplifier current noise through the reactance is 31 pV/sqrt(Hz) and loss-resistance thermal noise 0.11 nV/sqrt(Hz) -- 19-30 dB under e_n, both ignorable."
+        "Account 5 (topology penalty): move the same amplifier down the mast (C_in 10 -> 25 pF) and 0.5 MHz goes from 12% to 24%. Amplifier current noise through the reactance is 31 pV/sqrt(Hz) and loss-resistance thermal noise 0.11 nV/sqrt(Hz) -- 19-30 dB under e_n, both ignorable; the gate-bias resistor however is a NOISE spec, not a loading spec -- 1 Mohm against the 8.9 kohm source impedance adds 0.96 nV and doubles the band-bottom penalty, so R_bias >= 10 Mohm (review v2). Also: the table is free-space; eps_r~3.5 regolith ground puts ~2x uncertainty on the percentages while account 1's conclusion stays immune (NEC re-run on the books)."
       ],
       "physics": [
         "灵敏度退化 D = 1 + T_rx/(η·T_sky):天空噪声压住接收机噪声时,效率在分子分母同乘同除,不进灵敏度。银河同步辐射 ∝ν^-2.5 往低频陡升,MHz 段亮温百万开——天空自己把门槛抬到没人够不着。",
@@ -48,8 +48,8 @@
       "label": "28 桩相位阵",
       "label_en": "28-Element Phased Array",
       "range": 40,
-      "detail": "28 副桩伪随机布阵在 ⌀160 m 圆内(确定性种子 20260806,最小间距 18 m),指向纯电子波束合成,全阵没有一个转动部件。基线就是仪器:桩位坐标由设计册生成并入册,缆道相位配长——所以这是单资产内摆阵,不交给引擎撒放。低于 2 MHz 它是全天频谱仪,3 MHz 以上成像,对日跑日像仪模式。",
-      "detail_en": "28 masts in a pseudo-random layout inside a 160 m circle (deterministic seed 20260806, 18 m minimum spacing); pointing is purely electronic beamforming -- not one moving part in the whole array. The baselines are the instrument: mast coordinates come from the design book and the cable ducts are phase-matched, which is why this is one asset laying out its own array rather than an engine-scattered pack. Below 2 MHz it is an all-sky spectrometer, above 3 MHz an imager, and it runs a heliograph mode tracking the Sun.",
+      "detail": "28 副桩伪随机布阵在 ⌀160 m 圆内(确定性种子 20260806,最小间距 18 m),指向纯电子波束合成,全阵没有一个转动部件。基线就是仪器:桩位坐标由设计册生成并入册,缆道电长实测标定——所以这是单资产内摆阵,不交给引擎撒放。低于 2 MHz 它是全天频谱仪,3 MHz 以上成像,对日跑日像仪模式。",
+      "detail_en": "28 masts in a pseudo-random layout inside a 160 m circle (deterministic seed 20260806, 18 m minimum spacing); pointing is purely electronic beamforming -- not one moving part in the whole array. The baselines are the instrument: mast coordinates come from the design book and every duct's electrical length is measured and tracked, which is why this is one asset laying out its own array rather than an engine-scattered pack. Below 2 MHz it is an all-sky spectrometer, above 3 MHz an imager, and it runs a heliograph mode tracking the Sun.",
       "specs": {
         "桩数": "28(正交双极化)",
         "口径": "160 m",
@@ -90,38 +90,38 @@
       "label": "电子方舱(采集·波束合成·对城零陷)",
       "label_en": "Electronics Shelter (ADC, Beamformer, Colony Null)",
       "range": 25,
-      "detail": "开放面三联机柜:铜色面板=56 路直采数字化(与铜色缆道同色因果链——每根馈线等长入柜),绿色面板=FPGA 波束合成/相关器,白色面板=铷钟频标,右下紫色箱是定标注入源(紫链一路通到每根桩基剖切单元里的耦合器)。波束合成权重里常驻一只对城方位的零陷:不是装饰,是 RFI 账里闭合预算的硬部件——纯拉距离永远不够。",
-      "detail_en": "Three racks behind the open face: copper panel = 56-channel direct-sampling digitizers (color-matched to the copper cable ducts -- every feed enters at equal length), green = FPGA beamformer/correlator, white = rubidium clock, and the violet box at right is the calibration injection source whose violet chain runs out to the coupler inside every mast base unit. The beamformer weights carry a standing null toward the colony azimuth: not decoration but the budget-closing component of the RFI account -- distance alone never closes.",
+      "detail": "开放面三联机柜:铜色面板=56 路直采数字化(与铜色缆道同色因果链——每根馈线电长实测标定入柜,定标注入随时复测),绿色面板=FPGA 波束合成/相关器,白色面板=铷钟频标,右下紫色箱是定标注入源(紫链一路通到每根桩基剖切单元里的耦合器)。波束合成权重里常驻一只对城方位的零陷:不是装饰,是 RFI 账里闭合预算的硬部件——纯拉距离永远不够。",
+      "detail_en": "Three racks behind the open face: copper panel = 56-channel direct-sampling digitizers (color-matched to the copper cable ducts -- every feed enters with its electrical length measured and tracked by the cal injection), green = FPGA beamformer/correlator, white = rubidium clock, and the violet box at right is the calibration injection source whose violet chain runs out to the coupler inside every mast base unit. The beamformer weights carry a standing null toward the colony azimuth: not decoration but the budget-closing component of the RFI account -- distance alone never closes.",
       "specs": {
         "采集": "56 路 14 bit @ 50 MS/s",
         "抗混叠": "6 阶,11 MHz 带边 / 60 dB@39 MHz",
-        "波束合成": "F+X 引擎 930 GFLOP/s,常驻对城零陷",
+        "波束合成": "F+X 引擎 605 GFLOP/s,常驻对城零陷(近场球面权重)",
         "频标": "铷钟(为长期相位,非抖动)",
         "链路总增益": "32.6 dB(天空落 8 LSB 有效值)"
       },
       "specs_en": {
         "Acquisition": "56 chains, 14 bit @ 50 MS/s",
         "Anti-alias": "6th order, 11 MHz edge / 60 dB at 39 MHz",
-        "Beamforming": "F+X engines, 930 GFLOP/s, standing colony null",
+        "Beamforming": "F+X engines, 605 GFLOP/s, standing colony null (near-field spherical weights)",
         "Frequency ref": "rubidium (for long-term phase, not jitter)",
         "Chain gain": "32.6 dB total (sky lands at 8 LSB rms)"
       },
       "sim": [
-        "账4:判据 RFI<0.1×kT_sky,反推城区容许总泄漏。800 m + 30 dB 零陷 → 3e-11 W/Hz@10 MHz;EMC 受控城区(~1e-13 W/Hz)余量 25 dB;失控城区(~1e-9)在任何现实距离都差 15 dB。",
+        "账4(评审 v2:约束最紧处在带底——EIRP 容限 ∝ T_sky·f²,偶极子在 0.5 MHz\"以波长计最大\"):800 m + 30 dB 零陷 → 容许 5.6e-12 W/Hz@0.5 MHz(10 MHz 处 3e-11,松 5 倍);EMC 受控城区(~1e-13 W/Hz)余量 17.5 dB;失控城区(~1e-9)差 23 dB。",
         "账4(结论):距离每翻倍只买 6 dB,纯距离永不闭合——≥400 m 距离 + 30 dB 零陷 + 全城 HF 排放纪律,三根杠杆缺一不可。",
         "账5(位数):天空噪声在 ADC 上定到 ~8 LSB 有效值、留 5σ 波峰余量,14 bit 给 46 dB 暴发余量(4e4 倍天空底);12 bit 只有 34 dB 不够用;史上最大级事件(~60 dB)仍会削顶数秒,故数字化前留一档 20 dB 可切衰减器。",
         "账9(链路电平):端子 23 µV → LNA +26 dB → 桅顶带定滤波 −1 → 线驱 +6 → 84 m 同轴 −1.7@10 MHz → 抗混叠 −1.5 → ADC 驱动 +4.8,合计 32.6 dB,天空恰落 0.98 mV = 8 LSB。",
-        "账9(噪声级联):26 dB 首级增益后,即使第二级噪声系数差到 10 dB,对灵敏度的贡献也只有 0.19%(10 dB 增益就够 0.76%)——首级增益在这里不是灵敏度变量,是把后级淹掉的开关。",
+        "账9(噪声级联):26 dB 首级增益后,即使第二级噪声系数差到 10 dB,对灵敏度的贡献也只有 0.19%(20 dB 增益也仅 0.76%)——首级增益在这里不是灵敏度变量,是把后级淹掉的开关。",
         "账9(线性度):100 kHz 通道底 −81.7 dBm(0.5 MHz 最弱处),杂散限 −91.7 dBm。设计点 OIP2 +45 / OIP3 +25 dBm,可扛一对各 −23 dBm(高出通道底 58 dB)的干扰。**IP2 比 IP3 难 40 dB**——这是 20:1 带宽的直接后果。",
         "账9(抗混叠→采样率):11 MHz 带边在 25 MS/s 下 14 MHz 折叠,60 dB 要 29 阶巴特沃斯=造不出来;50 MS/s 折叠移到 39 MHz,6 阶即可。**采样率由滤波器定,不由信号定**——原定 25 MS/s 被这条推翻,内部原始率翻倍到 39.2 Gbit/s。",
         "账9(抖动):天空在 −60 dBFS,−16 dBFS 的暴发不得在 10 MHz 上洒出高于 −70 dBFS 的抖动裙 → σ_t < 31 ps,普通晶振即可。铷钟不是为抖动,是为账6 那条按小时计的长期相位。"
       ],
       "sim_en": [
-        "Account 4: criterion RFI < 0.1 x kT_sky, inverted into an allowance on colony emission. At 800 m with the 30 dB null the colony may leak 3e-11 W/Hz at 10 MHz; an EMC-disciplined colony (~1e-13 W/Hz) keeps 25 dB margin, an uncontrolled one (~1e-9) fails by 15 dB at any realistic distance.",
+        "Account 4 (review v2: the binding frequency is the band BOTTOM -- the EIRP allowance scales as T_sky*f^2, the dipole is biggest in wavelengths at 0.5 MHz): at 800 m with the 30 dB null the allowance is 5.6e-12 W/Hz at 0.5 MHz (3e-11 at 10 MHz, 5x looser); an EMC-disciplined colony (~1e-13 W/Hz) keeps 17.5 dB margin, an uncontrolled one (~1e-9) fails by 23 dB at any realistic distance.",
         "Account 4 (conclusion): doubling the distance buys only 6 dB, so distance alone never closes -- >=400 m of separation, a 30 dB null and a colony-wide HF emission rule are all three load-bearing.",
         "Account 5 (bit depth): with the sky set to ~8 LSB rms and 5 sigma of crest kept inside full scale, 14 bit yields 46 dB of burst headroom (4e4 x the sky floor); 12 bit gives only 34 dB and does not close; the largest historical events (~60 dB) still clip for seconds, hence the switchable 20 dB pad ahead of the digitizer.",
         "Account 9 (level diagram): 23 uV at the terminals -> LNA +26 dB -> mast shaping filter -1 -> line driver +6 -> 84 m coax -1.7 at 10 MHz -> anti-alias -1.5 -> ADC driver +4.8 = 32.6 dB total, landing the sky at 0.98 mV = 8 LSB.",
-        "Account 9 (noise cascade): after 26 dB of first-stage gain even a sloppy 10 dB-NF second stage costs 0.19% of sensitivity (10 dB of gain would already hold it to 0.76%) -- first-stage gain is not a sensitivity variable here, it is the switch that drowns the rest of the chain.",
+        "Account 9 (noise cascade): after 26 dB of first-stage gain even a sloppy 10 dB-NF second stage costs 0.19% of sensitivity (even 20 dB of gain holds it to 0.76%) -- first-stage gain is not a sensitivity variable here, it is the switch that drowns the rest of the chain.",
         "Account 9 (linearity): the 100 kHz channel floor is -81.7 dBm at its weakest (0.5 MHz) and the spurious limit -91.7 dBm. Design point OIP2 +45 / OIP3 +25 dBm survives paired interferers of -23 dBm each, 58 dB above the channel floor. **IP2 is 40 dB harder than IP3** -- a direct consequence of the 20:1 bandwidth.",
         "Account 9 (anti-alias sets the sample rate): an 11 MHz passband edge folds at 14 MHz under 25 MS/s, and 60 dB there needs a 29th-order Butterworth -- unbuildable. At 50 MS/s the fold moves to 39 MHz and 6th order suffices. **The filter picks the sample rate, not the signal**; this overturned the assumed 25 MS/s and doubled the internal raw rate to 39.2 Gbit/s.",
         "Account 9 (jitter): the sky sits at -60 dBFS and a -16 dBFS burst must not spray a jitter skirt above -70 dBFS at 10 MHz -> sigma_t < 31 ps, met by any ordinary crystal. The rubidium is not for jitter; it is for account 6's hours-long phase stability."
@@ -150,22 +150,22 @@
         "埋深": "0.35 m",
         "最长缆道": "84 m(差分 80 m)",
         "延迟温度系数": "50 ppm/K → 20.2 ps/K",
-        "定标周期": "每周(季节漂移)"
+        "定标周期": "连续天空跟踪(定节奏的是 LNA 温漂,不是缆)"
       },
       "specs_en": {
         "Burial depth": "0.35 m",
         "Longest run": "84 m (80 m differential)",
         "Delay tempco": "50 ppm/K -> 20.2 ps/K",
-        "Recal cadence": "weekly (seasonal drift)"
+        "Recal cadence": "continuous sky tracking (the LNA tempco sets it, not the cables)"
       },
       "sim": [
         "账6(热波):风化层热扩散率 4.7e-8 m²/s(口径同 hab-village 覆土账)→ 昼夜热波趋肤深度仅 3.6 cm、年波 0.94 m。埋 0.35 m 后昼夜温摆剩 4 mK,季节温摆仍有 10.3 K。",
-        "账6(相位):80 m 差分缆长 → 20.2 ps/K → 10 MHz 上 0.073°/K。裸铺地表昼夜漂 4.4°(超 2° 预算 2.2 倍);埋 0.35 m 后昼夜项 3e-4°,季节项走完 2° 预算要 283 sol → 每周定标即可。",
+        "账6(相位,评审 v2):80 m 差分缆长(馈线物理不等长、数字延迟均衡——这正是该威胁模型成立的设计)→ 20.2 ps/K → 10 MHz 上 0.073°/K。裸铺地表昼夜漂 4.4°(超 2° 预算 2.2 倍);埋 0.35 m 后昼夜项 3e-4°,季节**峰值** 0.75°——恒在预算内(初稿的\"283 sol 走完预算\"把正弦外推过了自身振幅,评审毙掉)。缆永远不定定标节奏;定节奏的是桩顶 LNA:C_iss 温漂 300 ppm/K × ±60 K → 分压增益 0.5%/sol,注入定标在它下游看不见——闭合靠天空增益跟踪(0.013%/min,40 倍速覆盖),LNA 盒加保温再买 3 倍余量。",
         "账6(定标能力):天空本身就是幅度标准(天空噪声主导 ⇒ 每桩总功率就是银河背景),1 分钟给 0.013% 增益精度;注入噪声源 10 dB 信噪比、1 MHz×10 s 给 0.006° 相位精度——比 2° 预算富裕 300 倍。"
       ],
       "sim_en": [
         "Account 6 (thermal wave): regolith diffusivity 4.7e-8 m2/s (same figure as the hab-village overburden account) gives a diurnal thermal skin depth of just 3.6 cm and an annual one of 0.94 m. At 0.35 m the diurnal swing is down to 4 mK while the seasonal swing is still 10.3 K.",
-        "Account 6 (phase): 80 m of differential cable -> 20.2 ps/K -> 0.073 deg/K at 10 MHz. Laid bare on the surface that drifts 4.4 deg per sol, 2.2x over the 2 deg budget; buried at 0.35 m the diurnal term is 3e-4 deg and the seasonal term needs 283 sols to walk through the budget -- weekly calibration covers it.",
+        "Account 6 (phase, review v2): 80 m of differential cable (feeds are physically unequal, digitally delay-equalized -- the design for which this threat model is the correct one) -> 20.2 ps/K -> 0.073 deg/K at 10 MHz. Bare on the surface: 4.4 deg/sol, 2.2x over budget; buried at 0.35 m the diurnal term is 3e-4 deg and the seasonal PEAK is 0.75 deg -- permanently inside budget (the first draft's '283 sols to walk through it' extrapolated a sinusoid past its own amplitude; killed in review). The cables never set the cal cadence; the mast-top LNA does: C_iss tempco 300 ppm/K x +/-60 K moves the divider gain 0.5%/sol, and the injected cal enters BELOW it and cannot see it -- closure comes from sky-based gain tracking (0.013%/min, 40x faster), with an insulated LNA box buying 3x more margin.",
         "Account 6 (what calibration can do): the sky is its own amplitude standard (sky-noise dominance means each element's total power IS the Galactic background), giving 0.013% gain accuracy in a minute; an injected noise source 10 dB above the sky gives 0.006 deg of phase in 1 MHz x 10 s -- 300x inside the 2 deg budget."
       ],
       "physics": [
@@ -278,11 +278,11 @@
       },
       "sim": [
         "账3:Chapman cos^0.57 昼侧(亚太阳点峰密度 2e5 cm⁻³)→正午 4.0 MHz;夜侧斑块 5e3 cm⁻³→0.63 MHz;深夜 1e3→0.28 MHz。夜侧 TEC ~1e14 m⁻² 群延迟 13 µs@1 MHz——定标项不是拦路虎。地球对照:foF2 昼 ~12 夜 ~5 MHz,0.5–10 MHz 地面可用率恒为零。",
-        "账8(与运行耦合):全球尘暴只剩 79% 的连续负荷供电,但夜观测占空比 50%,正好落在尘暴预算内——尘暴拿走的恰是天空本来就挡着的白天。"
+        "账8(与运行耦合,评审 v2):尘暴下全阵夜班+白天 keep-alive 是 0.94 倍,不闭合;12 桩暴发值守子阵 1.31 倍闭合——尘暴拿走成像,留下暴发值守,而被拿走的白天本来就被电离层挡着。"
       ],
       "sim_en": [
         "Account 3: Chapman cos^0.57 dayside (subsolar peak 2e5 cm^-3) gives 4.0 MHz at noon; patchy nightside 5e3 cm^-3 gives 0.63 MHz; deep night 1e3 gives 0.28. Nightside TEC ~1e14 m^-2 adds 13 us of group delay at 1 MHz -- a calibration term, not a blocker. Earth contrast: foF2 ~12 MHz day / ~5 MHz night, so ground usability of this band is identically zero.",
-        "Account 8 (coupled to operations): a global dust storm leaves only 79% of the continuous load in the power budget, but the night observing duty cycle is 50% and fits inside it -- the storm takes away exactly the daytime the sky was already blocking."
+        "Account 8 (coupled to operations, review v2): under a storm the full-array night shift plus daytime keep-alive runs 0.94x -- it does not close; a 12-mast burst-watch subarray closes at 1.31x. The storm takes imaging and leaves the burst watch, and the daytime it removes was ionosphere-blocked anyway."
       ],
       "physics": [
         "等离子体频率 f_p = 8.98√n_e kHz:低于 f_p 的电磁波被电离层反射,天文信号进不来。火星没有全球磁场、大气稀薄,电离层峰密度 ~1e5 cm⁻³ 且夜侧无光致电离迅速衰减——截止随昼夜摆两个倍频程,把\"何时能看什么频率\"变成一张地方时时刻表。",
@@ -298,29 +298,29 @@
       "label": "回传桅与数据链(行星际独有波段)",
       "label_en": "Backhaul Mast & Data Chain (a band Earth never sees)",
       "range": 25,
-      "detail": "56 路直采出来是 39.2 Gbit/s,离场只有 0.33 Mbit/s——五个量级的削减全部发生在那间 4.4×3.2 m 的方舱里,所以舱里装的是波束合成器而不是录像机。成像的可见度数据留在本地,只有快照图和全天动态谱回传主城基站/中继星;唯一无法再造的产品是触发前 60 s 原始电压环缓存(294 GB),它不走链路——走下一趟车。这根桅杆连着的是全太阳系仅有的几台同类仪器:地球地面被双杀(电离层反射 + 短波广播/雷电 RFI),同类只在月球背面(FARSIDE 128 偶极子 0.1–40 MHz、LuSEE-Night 月夜射电静默)。火星是第三个天台:比月背多了一座供电、检修、回传都在隔壁的城,代价是昼侧 4 MHz 截止和一层薄薄的夜电离层。",
-      "detail_en": "56 direct-sampling chains produce 39.2 Gbit/s; 0.33 Mbit/s leaves the site. All five orders of reduction happen inside that 4.4 x 3.2 m shelter, which is why it holds a beamformer and not a recorder. Imaging visibilities stay local and only snapshot maps and the all-sky dynamic spectrum go back to the city ground station and relay. The one irreplaceable product is the 60 s pre-trigger raw voltage ring buffer (294 GB) -- it does not take the link, it takes the next vehicle. This mast links to the only instruments of its kind in the solar system: Earth's surface is double-killed (ionospheric reflection plus shortwave and lightning RFI), and the only peers are lunar -- FARSIDE (128 dipoles, 0.1-40 MHz) and LuSEE-Night (radio-quiet lunar night). Mars is the third venue: unlike the farside it has a colony next door for power, repair and backhaul, at the price of a 4 MHz dayside cutoff and a thin night ionosphere.",
+      "detail": "56 路直采出来是 39.2 Gbit/s,离场只有 0.33 Mbit/s——五个量级的削减全部发生在那间 4.4×3.2 m 的方舱里,所以舱里装的是波束合成器而不是录像机。成像的可见度数据留在本地,只有快照图和全天动态谱回传主城基站/中继星;唯一无法再造的产品是触发前 30 s 原始电压 DRAM 环缓存(147 GB;评审 v2:NAND 连续写每 sol 磨 435 TB 几 sol 写穿,环必须住内存,SSD 只吃触发转储),它不走链路——走下一趟车。这根桅杆连着的是全太阳系仅有的几台同类仪器:地球地面被双杀(电离层反射 + 短波广播/雷电 RFI),同类只在月球背面(FARSIDE 128 偶极子 0.1–40 MHz、LuSEE-Night 月夜射电静默)。火星是第三个天台:比月背多了一座供电、检修、回传都在隔壁的城,代价是昼侧 4 MHz 截止和一层薄薄的夜电离层。",
+      "detail_en": "56 direct-sampling chains produce 39.2 Gbit/s; 0.33 Mbit/s leaves the site. All five orders of reduction happen inside that 4.4 x 3.2 m shelter, which is why it holds a beamformer and not a recorder. Imaging visibilities stay local and only snapshot maps and the all-sky dynamic spectrum go back to the city ground station and relay. The one irreplaceable product is the 30 s pre-trigger raw voltage DRAM ring (147 GB; review v2: a continuous ring on NAND writes 435 TB/sol and dies in sols, so the ring lives in memory and the SSD sees triggered dumps only) -- it does not take the link, it takes the next vehicle. This mast links to the only instruments of its kind in the solar system: Earth's surface is double-killed (ionospheric reflection plus shortwave and lightning RFI), and the only peers are lunar -- FARSIDE (128 dipoles, 0.1-40 MHz) and LuSEE-Night (radio-quiet lunar night). Mars is the third venue: unlike the farside it has a colony next door for power, repair and backhaul, at the price of a 4 MHz dayside cutoff and a thin night ionosphere.",
       "specs": {
         "原始率": "39.2 Gbit/s(56 路 ×50 MS/s ×14 bit)",
-        "相关器": "F 280 + X 650 = 930 GFLOP/s,60 W",
+        "相关器": "F 280 + X 325 = 605 GFLOP/s,60 W",
         "回传": "全天动态谱 0.33 Mbit/s(3.6 GB/sol)",
-        "站址功耗": "174 W;夜班 2.1 kWh"
+        "站址功耗": "189 W(含 DRAM 环 15 W);夜班 2.3 kWh"
       },
       "specs_en": {
         "Raw rate": "39.2 Gbit/s (56 chains x 50 MS/s x 14 bit)",
-        "Correlator": "F 280 + X 650 = 930 GFLOP/s, 60 W",
+        "Correlator": "F 280 + X 325 = 605 GFLOP/s, 60 W",
         "Backhaul": "all-sky dynamic spectrum 0.33 Mbit/s (3.6 GB/sol)",
-        "Site load": "174 W; night shift 2.1 kWh"
+        "Site load": "189 W (incl. 15 W DRAM ring); night shift 2.3 kWh"
       },
       "sim": [
-        "账8(数据):可见度 106 Mbit/s = UHF 链路的 53 倍,必须留在本地;动态谱 0.33 Mbit/s 链路轻松吞下;294 GB 环缓存若强行下传要占满链路 14 天 → 原始电压存本地 SSD,搭下一趟车回城(19.6 Gbit/s 的合法信道叫\"人肉快递\")。",
-        "账8(算力与功率):F+X 共 930 GFLOP/s,一片中档 FPGA 60 W 拿下——相关器不是难点;站址总负荷 174 W(LNA 16.8 + ADC 50.4 + FPGA 60 + 钟 5 + 管理 12 + 保温 30)。",
-        "账8(能量与尘暴):17.7 m² 光伏晴天 9.8 kWh/sol = 负荷 2.3 倍;τ~3 全球尘暴只剩 2.6 kWh/sol = 0.61 倍,连续运行不成立;夜观测耗 2.14 kWh 对尘暴发电 2.63 kWh = 1.23 倍,仍闭合——但账9 的 50 MS/s 决定在这里花掉了真金白银(25 MS/s 时是 1.6 倍)。电池按夜班科学产出定容(2.1 kWh 可用 / 2.7 kWh 装机),不是按生存定容。"
+        "账8(数据):可见度 106 Mbit/s = UHF 链路的 53 倍,必须留在本地;动态谱 0.33 Mbit/s 链路轻松吞下;147 GB 环缓存若强行下传要占满链路 7 天 → DRAM 环 + 触发转储进 SSD,搭下一趟车回城(39.2 Gbit/s 的合法信道叫\"人肉快递\")。",
+        "账8(算力与功率,评审 v2):F 280 + X 325 = 605 GFLOP/s(X 引擎按 PFB 后 25 Mcs 复采样率算,初稿多算一倍),一片中档 FPGA 60 W——相关器不是难点;站址总负荷 189 W(LNA 16.8 + ADC 50.4 + FPGA 60 + 钟 5 + 管理 12 + **DRAM 环 15** + 保温 30)。",
+        "账8(能量与尘暴,评审 v2 诚实版):17.7 m² 光伏晴天 9.8 kWh/sol = 负荷 2.1 倍;τ~3 尘暴只剩 2.63 kWh/sol。全阵夜班 + 白天 keep-alive(37 W)= 2.78 kWh → **0.94 倍,不闭合**(初稿按白天零负荷虚报 1.23 倍)。闭合的是风暴模式:12 桩暴发值守子阵 126 W 夜耗,全 sol 2.00 kWh → **1.31 倍**;账10 给了裁员执照——每类事件高出阈值 2–8 量级,子阵只丢成像(尘暴本来就打断成像),II/III 型暴与 SEP 预警一个不少。命名的假设:此计划默认尘暴之夜射电安静——摩擦起电放电恰是那时的候选带内噪声源,未经测量;这台阵自己就是测它的对的仪器。电池按全阵夜班定容(2.3 kWh 可用 / 2.9 装机)。"
       ],
       "sim_en": [
-        "Account 8 (data): visibilities at 106 Mbit/s are 53x the UHF link and must stay home; the 0.33 Mbit/s dynamic spectrum the link swallows whole; forcing the 294 GB ring buffer down the link would occupy it for 14 days, so raw voltages live on site SSD and ride the next vehicle home -- sneakernet is a legitimate 19.6 Gbit/s channel.",
-        "Account 8 (compute and power): F+X together are 930 GFLOP/s, handled by one mid-size FPGA at 60 W -- the correlator is not the hard part; site load totals 174 W (LNA 16.8 + ADC 50.4 + FPGA 60 + clock 5 + housekeeping 12 + thermal 30).",
-        "Account 8 (energy and dust storms): 17.7 m2 of PV yields 9.8 kWh/sol clear = 2.3x the load; a tau~3 global storm leaves 2.6 kWh/sol = 0.61x, so continuous operation fails; the night shift costs 2.14 kWh against 2.63 kWh of storm generation = 1.23x and still closes -- though account 9's 50 MS/s decision spent real margin here (it was 1.6x at 25 MS/s). The battery is sized by the night science shift (2.1 kWh usable, 2.7 kWh installed), not by survival."
+        "Account 8 (data): visibilities at 106 Mbit/s are 53x the UHF link and must stay home; the 0.33 Mbit/s dynamic spectrum the link swallows whole; forcing the 147 GB ring down the link would occupy it for 7 days, so the DRAM ring dumps to SSD on trigger and rides the next vehicle home -- sneakernet is a legitimate 39.2 Gbit/s channel.",
+        "Account 8 (compute and power, review v2): F 280 + X 325 = 605 GFLOP/s (the X-engine runs at the post-PFB 25 Mcs complex rate -- the first draft double-counted), one mid-size FPGA at 60 W; site load totals 189 W (LNA 16.8 + ADC 50.4 + FPGA 60 + clock 5 + housekeeping 12 + DRAM ring 15 + thermal 30).",
+        "Account 8 (energy and dust storms, honest review v2): 17.7 m2 of PV yields 9.8 kWh/sol clear = 2.1x the load; a tau~3 storm leaves 2.63 kWh/sol. Full-array night science plus daytime keep-alive (37 W) costs 2.78 kWh -- 0.94x, it does NOT close (the first draft claimed 1.23x by pricing the daytime at zero). What closes is storm mode: a 12-mast burst-watch subarray at 126 W night draw, 2.00 kWh/sol -- 1.31x. Account 10 licenses the cut: every event class clears threshold by 2-8 orders, so the subarray loses only imaging (which storms interrupt anyway) and keeps the whole burst/SEP-warning mission. Named assumption: storm nights are taken to be radio-quiet -- triboelectric discharge is a plausible in-band source exactly then, unmeasured, and this array is the right instrument to measure it. Battery sized by the full-array night shift (2.3 kWh usable, 2.9 installed)."
       ],
       "physics": [
         "干涉阵的数据律:原始率 ∝ N,可见度率 ∝ N²,而科学产品率与 N 几乎无关。所以任何阵列的边缘计算位置都定在同一处——先合成再传,永远不要把 N² 送上链路。",

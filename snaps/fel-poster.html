@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Infrared Free-Electron Laser</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #0a0806; color: #ece5da;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .poster { width: 1600px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #171008 0%, #0d0906 50%, #0a0806 100%); }
+  header { text-align: center; padding: 52px 0 16px; }
+  header h1 { font-size: 58px; letter-spacing: 13px; color: #f5ecdf; font-weight: 800; }
+  header h1 .accent { color: #e8a34c; }
+  header .sub { margin-top: 12px; font-size: 21px; letter-spacing: 4px; color: #a98f6c; }
+  header .rule { width: 620px; height: 2px; margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, #e8a34c, transparent); }
+
+  .heroes { display: flex; justify-content: center; gap: 18px; margin-top: 26px; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid #3a2c18; box-shadow: 0 16px 44px rgba(0,0,0,.6); background: #120d07; }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #e6d8c2; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(8,6,3,.93) 55%); }
+  .hp-a { width: 780px; height: 470px; }
+  .hp-b { width: 372px; height: 470px; }
+  .hp-b img { object-position: 50% 42%; transform: scale(1.06); }
+  .hp-c { width: 372px; height: 470px; }
+  .hp-c img { object-position: 55% 55%; transform: scale(1.12); }
+
+  .sims { display: flex; justify-content: center; gap: 18px; margin-top: 18px; }
+  .sp { width: 508px; height: 344px; background: #fff; }
+  .sp img { height: 300px; object-fit: contain; background: #fff; }
+  .sp .cap { color: #3a3348; padding-bottom: 10px;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,.97) 40%); }
+
+  .chips { display: flex; justify-content: center; gap: 20px; margin-top: 16px; }
+  .col { width: 762px; display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px;
+    background: #16100a; border: 1px solid #2c2114; border-radius: 8px; }
+  .row .k { flex: 0 0 122px; font-size: 15.5px; color: #c8a170; letter-spacing: .5px; }
+  .row .v { font-size: 16px; color: #efe4d3; line-height: 1.45; }
+  .row .v b { color: #f0b060; font-weight: 700; }
+  .row.sim { border-left: 3px solid #4f9d5f; }
+  .row.hot { border-left: 3px solid #e0784f; }
+
+  footer { margin-top: 34px; padding: 24px 70px 30px; background: #0a0806;
+    border-top: 1px solid #241a0e; }
+  footer .line { text-align: center; font-size: 18px; color: #a98f6c; letter-spacing: 1px; }
+  footer .line b { color: #e6c08a; }
+  footer .src { margin-top: 10px; text-align: center; font-size: 14px; color: #5f5040;
+    letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>INFRARED <span class="accent">FREE-ELECTRON LASER</span></h1>
+    <div class="sub">sci-fel-01 · 10–150 µm tunable light, 30 m under Jezero · the city's first big-science user facility</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="heroes">
+    <div class="panel hp-a">
+      <img src="fel-render.jpg" alt="main hall">
+      <div class="cap">The 29.5 m beamline hall: copper linac (left), interlock stack lights, shielded control room (right) — cutaway interior asset, 35.6k triangles</div>
+    </div>
+    <div class="panel hp-b">
+      <img src="fel-und.jpg" alt="undulator">
+      <div class="cap">Undulator: λu = 65 mm × 40 periods, PPM NdFeB (N48), gap 16–48 mm — the red line is the electron beam, the rainbow bar is the tuning indicator</div>
+    </div>
+    <div class="panel hp-c">
+      <img src="fel-stn.jpg" alt="user stations">
+      <div class="cap">User end: gold-mirror transport line to two stations — THz spectroscopy (BL1) and pump-probe (BL2)</div>
+    </div>
+  </div>
+
+  <div class="sims">
+    <div class="panel sp"><img src="fel-tuning.png" alt="tuning map">
+      <div class="cap">Tuning map with the four frozen working points — the K-band ribbon is what the gap actually buys</div></div>
+    <div class="panel sp"><img src="fel-power.png" alt="power table">
+      <div class="cap">The frozen power table: out-coupled vs delivered-at-station, method tag on every column</div></div>
+  </div>
+
+  <div class="chips">
+    <div class="col">
+      <div class="row"><span class="k">Nameplate</span><span class="v"><b>10–150 µm</b> continuously tunable · 20–<b>37.0 MeV</b> · 1.0 GHz room-temp copper linac, <b>r = 37.5 MΩ/m ±5% measured in HFSS</b> · 6.00 m near-concentric cavity, hole out-coupling</span></div>
+      <div class="row sim"><span class="k">📐 Verification</span><span class="v"><b>35 ledgers · 7 home-built codes · 82 gates</b> (76 green, <b>5 honest FAILs kept with attribution</b>) · 58 pitfalls logged — the band shrank twice and the energy fell 50 → 37 MeV because our own ledgers said so</span></div>
+      <div class="row sim"><span class="k">📐 Deep dives</span><span class="v">1-D/3-D/2.5-D oscillator codes · EGUN-style gun · slice PIC · Radia-lite undulator field · Geant4 dump sign-off (<b>first L4 in the facility</b>) · vacuum network · century rock-heat transient</span></div>
+    </div>
+    <div class="col">
+      <div class="row hot"><span class="k">🔥 Why no X-ray</span><span class="v">at 1.5 Å the mirrors die (R~1e-5) and SRF needs tons of helium — <b>Mars air holds 4 ppm He, one strike and it's gone</b>; infrared keeps the cavity, the 120-cycle machine, and a 74 kW bill = <b>0.042% of the city</b></span></div>
+      <div class="row"><span class="k">Users</span><span class="v">BL1: nine ISRU bands in-reach, perchlorate LOD <b>0.022 wt%</b> (8× criterion margin, end-to-end audited) · BL2: pump-probe <b>0.9–1.8 ps</b> at 10–20 µm, per-line attenuation table · CO₂-seeded mode <b>×1.46</b></span></div>
+      <div class="row"><span class="k">In town</span><span class="v">56 × 20 × 12 m cavern, 30 m under rock at 210 K · windowless differential pumping · ⁴¹Ar held 12 h — a limit set by the dark-matter lab, not by dose · 9 knowledge cards · 82 bilingual sim entries</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">50 MeV was the brochure; <b>37.0 MeV is what the ledgers would sign</b> — every number on this page carries its method tag</div>
+    <div class="src">35 self-audited ledgers · 7 home-built numerical codes · Geant4 shielding sign-off · HFSS structure EM · in-engine captures · Mars City Digital Twin v0</div>
+  </footer>
+</div>
+</body>
+</html>

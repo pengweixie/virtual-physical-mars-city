@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="880" viewBox="0 0 1560 880" font-family="Segoe UI, Microsoft YaHei, sans-serif">
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#e07b39"/></marker>
+</defs>
+<rect width="1560" height="880" fill="#fdfcf8"/>
+<text x="780" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#223">sci-thz-01 · 接收机与仪器电路图 / Receiver &amp; Instrument Electrical Schematic</text>
+<text x="780" y="56" text-anchor="middle" font-size="12" fill="#667">无 LNA 亚谐混频体制(MHS/ATMS 血统)· 数字为评审后冻结口径 · 新增规格:OCXO 锁相(F4)、p0 输入(F5)</text>
+
+<!-- ======================= RF signal path ======================= -->
+<rect x="18" y="80" width="1100" height="300" rx="8" fill="#f7f4ee" stroke="#d8d2c4"/>
+<text x="34" y="104" font-size="14" font-weight="bold" fill="#223">射频 → 中频 → 数字谱仪(信号自左向右)</text>
+<text x="40" y="136" font-size="10.5" fill="#4a90d9">天空(阶梯)0.5–215 K</text>
+<text x="40" y="152" font-size="10.5" fill="#2e8b57">地面停位 ~150 K</text>
+<text x="40" y="168" font-size="10.5" fill="#c0392b">黑体 t_RJ 225.6 K</text>
+<path d="M148 150 L176 166" stroke="#334" stroke-width="1.6" marker-end="url(#a)" fill="none"/>
+<line x1="170" y1="188" x2="200" y2="158" stroke="#667" stroke-width="6"/>
+<text x="185" y="212" text-anchor="middle" font-size="10" fill="#556">摆镜 45°</text>
+<path d="M204 172 L232 172" stroke="#334" stroke-width="1.4" marker-end="url(#a)" fill="none"/>
+<path d="M244 140 Q222 172 244 204" fill="none" stroke="#667" stroke-width="5"/>
+<text x="244" y="224" text-anchor="middle" font-size="10" fill="#556">150 mm 离轴镜</text>
+<text x="244" y="238" text-anchor="middle" font-size="9" fill="#889">FWHM 0.74°</text>
+<path d="M250 172 L286 172" stroke="#334" stroke-width="1.4" marker-end="url(#a)" fill="none"/>
+<path d="M290 160 L322 172 L290 184 Z" fill="#cfa348" stroke="#8a5a18"/>
+<text x="306" y="206" text-anchor="middle" font-size="10" fill="#556">波纹喇叭</text>
+<text x="306" y="220" text-anchor="middle" font-size="9" fill="#889">r=2.31 mm</text>
+<text x="306" y="233" text-anchor="middle" font-size="9" fill="#889">18.3 dBi(HFSS)</text>
+<path d="M326 172 L470 172" stroke="#334" stroke-width="2" marker-end="url(#a)" fill="none"/>
+<text x="398" y="146" text-anchor="middle" font-size="10.5" fill="#445">RF 183.31 ± 1.6 GHz(DSB)</text>
+<text x="398" y="161" text-anchor="middle" font-size="9" fill="#889">WR-5.1 波导 · 准光损耗 0.3 dB</text>
+<rect x="474" y="132" width="150" height="86" rx="6" fill="#fff" stroke="#8a5a18" stroke-width="2"/>
+<text x="549" y="154" text-anchor="middle" font-size="12" font-weight="bold" fill="#8a5a18">亚谐混频器 ×2</text>
+<text x="549" y="170" text-anchor="middle" font-size="10" fill="#556">反并联 Schottky 对</text>
+<text x="549" y="186" text-anchor="middle" font-size="9.5" fill="#556">L_conv 7 dB · T_mix(DSB) 500 K</text>
+<text x="549" y="202" text-anchor="middle" font-size="9.5" fill="#556">f_IF = |f_RF − 2·f_LO|</text>
+<path d="M549 292 L549 222" stroke="#e07b39" stroke-width="2" marker-end="url(#ao)" fill="none"/>
+<text x="560" y="278" font-size="10.5" fill="#e07b39">LO 91.655 GHz · 5 mW</text>
+<path d="M628 172 L664 172" stroke="#334" stroke-width="2" marker-end="url(#a)" fill="none"/>
+<text x="646" y="160" text-anchor="middle" font-size="9.5" fill="#445">IF 0–1.6 GHz</text>
+<path d="M668 152 L708 172 L668 192 Z" fill="#dce8f5" stroke="#4a70a4"/>
+<text x="688" y="212" text-anchor="middle" font-size="10" fill="#556">IF LNA</text>
+<text x="688" y="226" text-anchor="middle" font-size="9" fill="#889">G 30 dB · NF 0.5 dB</text>
+<path d="M712 172 L748 172" stroke="#334" stroke-width="2" marker-end="url(#a)" fill="none"/>
+<rect x="752" y="152" width="84" height="40" rx="5" fill="#fff" stroke="#889"/>
+<text x="794" y="170" text-anchor="middle" font-size="10" fill="#445">抗混叠 LPF</text>
+<text x="794" y="185" text-anchor="middle" font-size="9" fill="#889">fc 1.6 GHz</text>
+<path d="M836 172 L872 172" stroke="#334" stroke-width="2" marker-end="url(#a)" fill="none"/>
+<rect x="876" y="152" width="76" height="40" rx="5" fill="#fff" stroke="#889"/>
+<text x="914" y="170" text-anchor="middle" font-size="10" fill="#445">ADC</text>
+<text x="914" y="185" text-anchor="middle" font-size="9" fill="#889">3.6 GS/s · 8 bit</text>
+<path d="M952 172 L988 172" stroke="#334" stroke-width="2" marker-end="url(#a)" fill="none"/>
+<rect x="992" y="128" width="112" height="112" rx="6" fill="#eaf3ea" stroke="#2e8b57" stroke-width="1.6"/>
+<text x="1048" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#2e8b57">FFT 频谱仪</text>
+<text x="1048" y="164" text-anchor="middle" font-size="9" fill="#456">FPGA · 2¹⁵ 点</text>
+<text x="1048" y="182" text-anchor="middle" font-size="9" fill="#456">6 通道盒平均</text>
+<text x="1048" y="198" text-anchor="middle" font-size="8.5" fill="#456">3/10/30/90/300 MHz</text>
+<text x="1048" y="212" text-anchor="middle" font-size="8.5" fill="#456">+ 1.5 GHz 窗口</text>
+<text x="1048" y="226" text-anchor="middle" font-size="8.5" fill="#456">B = 2–500 MHz</text>
+<rect x="252" y="256" width="740" height="110" rx="6" fill="#fff" stroke="#d8d2c4"/>
+<text x="268" y="278" font-size="11.5" font-weight="bold" fill="#223">噪声级联(输入参考,DSB)——每个物理效应只许出现一次(评审前双计教训)</text>
+<text x="268" y="300" font-size="10.5" fill="#445">准光 0.3 dB → 混频 T_mix 500 K(厂商谱已含转换损耗热噪声)→ IF 35 K×L ⇒ Trec <tspan font-weight="bold">744 K 昼 / 658 K 夜</tspan>(被动冷 210 K)</text>
+<text x="268" y="322" font-size="10.5" fill="#445">Tsys = Trec + Tb + 溢出 28 K;NEΔT@1s 天线单位 0.48–0.02 K → <tspan font-weight="bold">场景单位(÷η=0.877)0.56–0.03 K</tspan>(评审 F7)</text>
+<text x="268" y="344" font-size="10.5" fill="#8a5a18">对照:LNA 优先 514/435 K——差 1.5× 不决定;落所混频优先(无 RF 增益级拖 Allan 底、无 MMIC 熬尘暴热循环)</text>
+
+<!-- ======================= mixer inset ======================= -->
+<rect x="18" y="400" width="530" height="300" rx="8" fill="#f7f4ee" stroke="#d8d2c4"/>
+<text x="34" y="424" font-size="14" font-weight="bold" fill="#223">元件级:反并联肖特基对(亚谐混频核心)</text>
+<text x="44" y="462" font-size="10.5" fill="#445">RF 183.31 GHz</text>
+<path d="M44 476 L140 476" stroke="#334" stroke-width="2" fill="none"/>
+<rect x="142" y="456" width="64" height="40" rx="4" fill="#fff" stroke="#889"/>
+<text x="174" y="474" text-anchor="middle" font-size="9.5" fill="#445">RF 带通</text>
+<text x="174" y="488" text-anchor="middle" font-size="8.5" fill="#889">波导腔</text>
+<path d="M206 476 L300 476" stroke="#334" stroke-width="2" fill="none"/>
+<circle cx="300" cy="476" r="3.5" fill="#334"/>
+<!-- diodes: node A (300,476) to ground rail (300..300,560) two branches -->
+<line x1="300" y1="476" x2="300" y2="496" stroke="#8a5a18" stroke-width="2"/>
+<line x1="264" y1="496" x2="336" y2="496" stroke="#8a5a18" stroke-width="2"/>
+<!-- D1 anode top -->
+<line x1="264" y1="496" x2="264" y2="508" stroke="#8a5a18" stroke-width="2"/>
+<polygon points="252,508 276,508 264,528" fill="#8a5a18"/>
+<line x1="252" y1="528" x2="276" y2="528" stroke="#8a5a18" stroke-width="2.4"/>
+<line x1="264" y1="528" x2="264" y2="544" stroke="#8a5a18" stroke-width="2"/>
+<!-- D2 reversed -->
+<line x1="336" y1="496" x2="336" y2="512" stroke="#8a5a18" stroke-width="2"/>
+<line x1="324" y1="512" x2="348" y2="512" stroke="#8a5a18" stroke-width="2.4"/>
+<polygon points="324,532 348,532 336,512" fill="#8a5a18"/>
+<line x1="336" y1="532" x2="336" y2="544" stroke="#8a5a18" stroke-width="2"/>
+<line x1="264" y1="544" x2="336" y2="544" stroke="#8a5a18" stroke-width="2"/>
+<line x1="300" y1="544" x2="300" y2="560" stroke="#8a5a18" stroke-width="2"/>
+<line x1="286" y1="560" x2="314" y2="560" stroke="#334" stroke-width="2.4"/>
+<line x1="292" y1="566" x2="308" y2="566" stroke="#334" stroke-width="1.8"/>
+<line x1="297" y1="572" x2="303" y2="572" stroke="#334" stroke-width="1.4"/>
+<text x="300" y="596" text-anchor="middle" font-size="10" fill="#8a5a18">D1 ∥ D2 反并联 · 接地</text>
+<!-- LO injection -->
+<text x="44" y="540" font-size="10.5" fill="#e07b39">LO 91.655 GHz(f_RF/2)</text>
+<path d="M44 554 L140 554" stroke="#e07b39" stroke-width="2" fill="none"/>
+<rect x="142" y="534" width="64" height="40" rx="4" fill="#fff" stroke="#e07b39"/>
+<text x="174" y="552" text-anchor="middle" font-size="9.5" fill="#8a5a18">LO 双工</text>
+<text x="174" y="566" text-anchor="middle" font-size="8.5" fill="#889">低通注入</text>
+<path d="M206 554 L232 554 L232 476" stroke="#e07b39" stroke-width="2" fill="none" marker-end="url(#ao)"/>
+<!-- IF extraction -->
+<path d="M300 476 L404 476" stroke="#334" stroke-width="2" fill="none"/>
+<rect x="406" y="456" width="64" height="40" rx="4" fill="#fff" stroke="#889"/>
+<text x="438" y="474" text-anchor="middle" font-size="9.5" fill="#445">IF 低通</text>
+<text x="438" y="488" text-anchor="middle" font-size="8.5" fill="#889">fc 1.8 GHz</text>
+<path d="M470 476 L522 476" stroke="#334" stroke-width="2" marker-end="url(#a)" fill="none"/>
+<text x="500" y="462" text-anchor="end" font-size="10" fill="#445">IF 0–1.6 GHz</text>
+<rect x="34" y="616" width="500" height="70" rx="6" fill="#fff" stroke="#d8d2c4"/>
+<text x="48" y="636" font-size="10.5" fill="#445">反并联对的 I-V 奇对称 → 只在 LO 的<tspan font-weight="bold">偶次谐波</tspan>上混频:f_IF=|f_RF−2f_LO|;</text>
+<text x="48" y="654" font-size="10.5" fill="#445">LO 只需半频 91.655 GHz(倍频链便宜一半),LO 基波噪声被对称性抑制;</text>
+<text x="48" y="672" font-size="10.5" fill="#445">对称线 + LO 停线心 → DSB 折叠无边带惩罚(ALMA WVR 同法)</text>
+
+<!-- ======================= LO chain ======================= -->
+<rect x="566" y="400" width="552" height="300" rx="8" fill="#f7f4ee" stroke="#d8d2c4"/>
+<text x="582" y="424" font-size="14" font-weight="bold" fill="#223">本振链(评审 F4:锁相是必需硬件,不是选项)</text>
+<rect x="588" y="450" width="88" height="46" rx="5" fill="#eaf3ea" stroke="#2e8b57" stroke-width="1.6"/>
+<text x="632" y="469" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#2e8b57">OCXO 10 MHz</text>
+<text x="632" y="484" text-anchor="middle" font-size="8.5" fill="#456">5e-9/日 · 恒温槽</text>
+<path d="M676 473 L706 473" stroke="#334" stroke-width="1.8" marker-end="url(#a)" fill="none"/>
+<rect x="710" y="450" width="96" height="46" rx="5" fill="#fff" stroke="#889"/>
+<text x="758" y="467" text-anchor="middle" font-size="10" fill="#445">鉴相 + 环滤</text>
+<text x="758" y="482" text-anchor="middle" font-size="8.5" fill="#889">PLL(÷N 反馈)</text>
+<path d="M806 473 L836 473" stroke="#334" stroke-width="1.8" marker-end="url(#a)" fill="none"/>
+<rect x="840" y="450" width="96" height="46" rx="5" fill="#fff" stroke="#889"/>
+<text x="888" y="467" text-anchor="middle" font-size="10" fill="#445">DRO 15.276 GHz</text>
+<text x="888" y="482" text-anchor="middle" font-size="8.5" fill="#889">压控调谐口</text>
+<path d="M888 496 L888 516 L758 516 L758 496" stroke="#889" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="823" y="530" text-anchor="middle" font-size="8.5" fill="#889">反馈采样</text>
+<path d="M936 473 L962 473" stroke="#334" stroke-width="1.8" marker-end="url(#a)" fill="none"/>
+<rect x="966" y="450" width="56" height="46" rx="5" fill="#fff" stroke="#889"/>
+<text x="994" y="471" text-anchor="middle" font-size="11" fill="#445">×3</text>
+<text x="994" y="486" text-anchor="middle" font-size="8" fill="#889">45.83 GHz</text>
+<path d="M1022 473 L1046 473" stroke="#334" stroke-width="1.8" marker-end="url(#a)" fill="none"/>
+<rect x="1050" y="450" width="56" height="46" rx="5" fill="#fff" stroke="#889"/>
+<text x="1078" y="471" text-anchor="middle" font-size="11" fill="#445">×2</text>
+<text x="1078" y="486" text-anchor="middle" font-size="8" fill="#889">91.655 GHz</text>
+<path d="M1078 496 L1078 552 L636 552" stroke="#e07b39" stroke-width="2" fill="none" marker-end="url(#ao)"/>
+<text x="856" y="544" text-anchor="middle" font-size="9.5" fill="#e07b39">带通 + 功放 → 5 mW 泵浦(至混频器 LO 口)</text>
+<rect x="588" y="576" width="512" height="104" rx="6" fill="#fff" stroke="#d8d2c4"/>
+<text x="602" y="598" font-size="11" font-weight="bold" fill="#c0392b">频稳账(账 3 补,评审 F4)</text>
+<text x="602" y="618" font-size="10.5" fill="#445">DSB 折叠对 LO 偏移一阶免疫(偶函数),曲率限:1 MHz 漂移 → 0.24 K 折叠误差</text>
+<text x="602" y="636" font-size="10.5" fill="#445">需求:漂移 &lt; 0.37 MHz = 2 ppm@×12;自由 DRO 温漂 10–100+ ppm/sol,差 1–2 量级</text>
+<text x="602" y="654" font-size="10.5" fill="#2e8b57">锁相后残余 &lt; 2 kHz,余量 &gt; 400×;OCXO 同时作频谱仪采样钟基准</text>
+<text x="602" y="672" font-size="10" fill="#889">SSB 斜率 1.55 K/MHz @3 MHz 通道 —— 折叠的一阶免疫把需求放松一个量级,但放不了两个</text>
+
+<!-- ======================= housekeeping ======================= -->
+<rect x="1136" y="80" width="406" height="620" rx="8" fill="#f7f4ee" stroke="#d8d2c4"/>
+<text x="1152" y="104" font-size="14" font-weight="bold" fill="#223">管家与接口(设备柜)</text>
+<rect x="1156" y="122" width="176" height="72" rx="6" fill="#fff" stroke="#889"/>
+<text x="1244" y="144" text-anchor="middle" font-size="11" font-weight="bold" fill="#445">OBC / MCU</text>
+<text x="1244" y="161" text-anchor="middle" font-size="9" fill="#667">扫描排程 · 定标节奏 30 s</text>
+<text x="1244" y="176" text-anchor="middle" font-size="9" fill="#667">避日 ±2° · 地面停位 LTST 4.6 h</text>
+<rect x="1350" y="122" width="176" height="72" rx="6" fill="#fff" stroke="#889"/>
+<text x="1438" y="144" text-anchor="middle" font-size="11" font-weight="bold" fill="#445">通道积分 / 打包</text>
+<text x="1438" y="161" text-anchor="middle" font-size="9" fill="#667">两点定标解算(RJ 亮温轴)</text>
+<text x="1438" y="176" text-anchor="middle" font-size="9" fill="#667">OEM 反演在城内数据中心</text>
+<rect x="1156" y="212" width="370" height="118" rx="6" fill="#fff" stroke="#889"/>
+<text x="1170" y="234" font-size="11" font-weight="bold" fill="#445">温度与加热(热是定标的一半)</text>
+<text x="1170" y="254" font-size="9.5" fill="#667">PT100 ×3(黑体 ±0.2 K / 混频块 / 筒壁)→ 四线制桥 → ΔΣ ADC</text>
+<text x="1170" y="272" font-size="9.5" fill="#667">黑体加热片(±0.1 K 温控)· 镜面防霜加热 1.15 W(夜 14 Wh,黎明档)</text>
+<text x="1170" y="290" font-size="9.5" fill="#667">混频块温漂 → 增益漂移:1e-4 假设由 30 s 两点节奏保住</text>
+<text x="1170" y="308" font-size="9.5" fill="#8a5a18">黑体入算用 t_RJ(T_phys):230 K → 225.6 K(必做换算,评审 F13)</text>
+<rect x="1156" y="350" width="370" height="96" rx="6" fill="#fff" stroke="#889"/>
+<text x="1170" y="372" font-size="11" font-weight="bold" fill="#445">扫描机构</text>
+<text x="1170" y="392" font-size="9.5" fill="#667">步进(微步 0.02°)+ 编码器 · MoS₂ 干膜轴承(150 K 裕度 7.6×)</text>
+<text x="1170" y="410" font-size="9.5" fill="#667">黑体硬限位 = 机械零位(24 s 回零,热漂移残留 0.00086°)</text>
+<text x="1170" y="428" font-size="9.5" fill="#667">四停位:天空阶梯 / 140° 地面 / 180° 黑体 / 零位</text>
+<rect x="1156" y="466" width="370" height="112" rx="6" fill="#fff" stroke="#2e8b57" stroke-width="1.4"/>
+<text x="1170" y="488" font-size="11" font-weight="bold" fill="#2e8b57">对外接口(缆桥 → 气象站组团)</text>
+<text x="1170" y="508" font-size="9.5" fill="#456">⇐ p0 气压(0.1 Pa;评审 F5:反演输入,不再是常数 610 Pa)</text>
+<text x="1170" y="526" font-size="9.5" fill="#456">⇐ T(z) 先验(地面 T + GCM;尘暴期 12.05% → 3.89%)</text>
+<text x="1170" y="544" font-size="9.5" fill="#456">⇐ 地表温(sci-ir-01;红外≠毫米波,按 LTST 4.6 h 交叉点用)</text>
+<text x="1170" y="562" font-size="9.5" fill="#456">⇒ 水汽柱 + 粗廓线 · 尘暴模式旗(琥珀灯,与气象站同源)</text>
+<rect x="1156" y="598" width="370" height="84" rx="6" fill="#fff" stroke="#889"/>
+<text x="1170" y="620" font-size="11" font-weight="bold" fill="#445">供电</text>
+<text x="1170" y="640" font-size="9.5" fill="#667">城网 28 V(经气象站配电)→ DC/DC:+12(LO/加热)/+5(数字)/±3.3(IF/ADC)</text>
+<text x="1170" y="658" font-size="9.5" fill="#667">整机 ~35 W 峰值;夜间生存 = 镜面加热 + OCXO 恒温槽</text>
+<path d="M1104 184 L1136 184" stroke="#334" stroke-width="1.8" marker-end="url(#a)" fill="none"/>
+<text x="1120" y="174" text-anchor="middle" font-size="9" fill="#667">谱</text>
+
+<!-- footer -->
+<rect x="18" y="720" width="1524" height="112" rx="8" fill="#fff" stroke="#d8d2c4"/>
+<text x="36" y="746" font-size="12.5" font-weight="bold" fill="#223">端到端量表(场景单位,评审后)</text>
+<text x="36" y="768" font-size="11" fill="#445">通道/带宽:3/2 · 10/6 · 30/20 · 90/60 · 300/200 · 1500/500(MHz);NEΔT@1s 0.56/0.32/0.16/0.085/0.045/0.03 K;定标:冷空 0.469 K(77% CMB)↔ 黑体 225.6 K(RJ),场景绝对 0.19 K</text>
+<text x="36" y="790" font-size="11" fill="#445">产品:水汽柱 0.45%@1s(10 pr-µm)→ 平台 0.12%;DOF 3.76;层 6/19/17/29%;绝对标度 ±10%(γ_CO2,待气室)</text>
+<text x="36" y="812" font-size="11" fill="#8a5a18">评审新增硬件规格:① DRO 锁相 OCXO(F4)② p0 由气象站气压计供给(F5);镜面双规格:27 µm rms(增益)+ 相关长度 ≥2 mm 金刚石车削(拾取幅度与形状)</text>
+<text x="780" y="856" text-anchor="middle" font-size="11" fill="#99a">E:\Claude\mars-thz\docs · 设计册 12 本账 + HFSS 全波 + Fable review 14 findings 全修 · 2026-08-09</text>
+</svg>

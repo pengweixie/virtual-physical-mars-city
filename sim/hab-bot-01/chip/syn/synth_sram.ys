@@ -1,0 +1,14 @@
+# Yosys synthesis of the SRAM-backed LiDAR front end.
+# The OpenRAM macro is a BLACKBOX (read_verilog -lib): synthesizing a compiled
+# SRAM into flip-flops is the classic way to report a 100x wrong area.
+read_liberty -lib syn/sky130_hd_tt.lib
+read_liberty -lib macros/sky130_sram_2kbyte_1rw1r_32x512_8_TT_1p8V_25C.lib
+read_verilog -lib macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
+read_verilog rtl/lidar_fe_sram.v
+hierarchy -top lidar_fe_sram
+synth -top lidar_fe_sram
+dfflibmap -liberty syn/sky130_hd_tt.lib
+abc -liberty syn/sky130_hd_tt.lib
+opt_clean -purge
+tee -o syn/reports/sram_stat.txt stat -liberty syn/sky130_hd_tt.lib
+write_verilog -noattr syn/netlist/lidar_fe_sram.sky130.v

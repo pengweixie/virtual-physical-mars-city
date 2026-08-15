@@ -5,12 +5,24 @@
       "id": "mound",
       "label": "覆土山丘（辐射屏蔽体）",
       "label_en": "Earth mound (radiation shield)",
-      "pos": [0, 13, -30],
+      "pos": [
+        0,
+        13,
+        -30
+      ],
       "range": 55,
       "detail": "地下城的天然铠甲：60 m 宽、14.5 m 高的人造覆土丘，由矿场风化层堆筑压实。火星没有全球磁场、大气柱密度仅地球 1%，地表年剂量 ~230 mSv——居住区必须埋起来。丘下是通往 3000 m 深层空间的主竖井群。",
       "detail_en": "The undercity's natural armour: a 60 m wide, 14.5 m high artificial mound of regolith hauled from the mine and compacted. Mars has no global magnetic field and only 1% of Earth's atmospheric column, so the surface dose runs ~230 mSv a year - habitats have to be buried. Underneath the mound sit the main shafts down to the 3000 m deep levels.",
-      "specs": { "丘体": "60 m 宽 × 14.5 m 高", "材料": "压实风化层（矿场供料）", "地表年剂量": "~230 mSv（无屏蔽）" },
-      "specs_en": { "Mound": "60 m wide x 14.5 m high", "Material": "compacted regolith (supplied by the mine)", "Surface dose": "~230 mSv/yr (unshielded)" },
+      "specs": {
+        "丘体": "60 m 宽 × 14.5 m 高",
+        "材料": "压实风化层（矿场供料）",
+        "地表年剂量": "~230 mSv（无屏蔽）"
+      },
+      "specs_en": {
+        "Mound": "60 m wide x 14.5 m high",
+        "Material": "compacted regolith (supplied by the mine)",
+        "Surface dose": "~230 mSv/yr (unshielded)"
+      },
       "sim": [
         "屏蔽账：覆土 10 m × 密度 1500 kg/m³ = 1500 g/cm² 遮挡质量，GCR 剂量降至地球海平面量级；5 m 即够日常居住指标，10 m 连太阳质子事件峰值一并兜底",
         "为什么堆土不挖岩：同等屏蔽下堆筑用矿场废料零成本，且丘体形状可控——门廊净空、通风塔位、应急舱盖全部预留成型"
@@ -24,24 +36,42 @@
       "id": "gate",
       "label": "车辆气闸大门（6×5 m）",
       "label_en": "Vehicle airlock gate (6 x 5 m)",
-      "pos": [-0.8, 3, -11.9],
+      "pos": [
+        -0.8,
+        3,
+        -11.9
+      ],
       "range": 18,
       "detail": "推拉双扇密封大门，通行压力化巡逻车与矿场运输车。门楣 8 灯显示气闸循环状态（红=泄压中/绿=可通行），中缝黄黑警示条。大门只在车辆进出时循环——人员走旁边的小门，不为一个人抽一整舱气。",
       "detail_en": "A sliding twin-leaf pressure gate for pressurized patrol vehicles and mine haulers. Eight lamps across the lintel show the airlock cycle (red for depressurizing, green for clear to pass) and a yellow-black hazard stripe marks the centre seam. The gate only cycles when a vehicle moves - people use the small lock beside it, because pumping down a whole bay for one person is not worth it.",
-      "specs": { "门洞": "6 m × 5 m", "形式": "推拉双扇 + 吊轨", "状态灯": "4 红 4 绿" },
-      "specs_en": { "Opening": "6 m x 5 m", "Type": "sliding twin leaf on an overhead rail", "Status lights": "4 red, 4 green" },
+      "specs": {
+        "门洞": "6 m × 5 m",
+        "形式": "推拉双扇 + 吊轨",
+        "状态灯": "4 红 4 绿"
+      },
+      "specs_en": {
+        "Opening": "6 m x 5 m",
+        "Type": "sliding twin leaf on an overhead rail",
+        "Status lights": "4 red, 4 green"
+      },
       "sim": [
-        "气闸经济学：车辆舱 ~500 m³，一次循环回收泵电耗 ~15 kWh、耗时 ~20 min；人员气闸 ~6 m³ 仅 0.2 kWh/3 min——分双门是运行成本问题，不是布置偏好"
+        "气闸经济学：车辆舱 ~500 m³，一次循环回收泵电耗 ~15 kWh、耗时 ~20 min；人员气闸 ~6 m³ 仅 0.2 kWh/3 min——分双门是运行成本问题，不是布置偏好",
+        "气闸损气账（res-eclss-01 充装台卡）：按旧 90% 回收，全城气闸每 sol 放掉 181.8 kg 舱气，其中 O₂ 50.1 kg——车辆气闸是全城第二大氧气去向，仅次于人肺。回收率提到 97%（多级泵抽到 2.1 kPa）多花泵电 31 kWh/sol，省下的气折电 707 kWh/sol，收益/成本 23:1——已按此改造。缓冲气重造要 5.27 kWh/kg（29 kg 火星大气才得 1 kg，比氧还贵），所以「别把气放掉」永远比「多造气」划算。"
       ],
       "sim_en": [
-        "Airlock economics: the vehicle bay is ~500 m^3, and one recovery-pump cycle costs ~15 kWh and ~20 min; the personnel lock is ~6 m^3 at 0.2 kWh and 3 min. Splitting them into two doors is an operating-cost decision, not a layout preference."
+        "Airlock economics: the vehicle bay is ~500 m^3, and one recovery-pump cycle costs ~15 kWh and ~20 min; the personnel lock is ~6 m^3 at 0.2 kWh and 3 min. Splitting them into two doors is an operating-cost decision, not a layout preference.",
+        "Airlock loss ledger (res-eclss-01 fill-station card): at the old 90% recovery the city locks vented 181.8 kg of cabin gas per sol, 50.1 kg of it oxygen - the vehicle lock was the city second-largest oxygen sink, after human lungs. Pulling recovery to 97% (staged pumps down to 2.1 kPa) costs 31 kWh/sol of pump power and saves gas worth 707 kWh/sol - 23:1, now fitted. Remaking buffer gas costs 5.27 kWh/kg (29 kg of Mars air per kg, dearer than oxygen), so never venting always beats making more."
       ]
     },
     {
       "id": "airlock",
       "label": "人员气闸",
       "label_en": "Personnel airlock",
-      "pos": [3.25, 1.6, -11.9],
+      "pos": [
+        3.25,
+        1.6,
+        -11.9
+      ],
       "range": 10,
       "detail": "大门右侧独立小气闸：1.2 m × 2.2 m 门扇带发光舷窗，日常人员进出全走这里。小容积意味着快循环、低耗气——也是应急时最快的一条回家的路。",
       "detail_en": "The small independent lock to the right of the gate: a 1.2 x 2.2 m leaf with a lit porthole, and the route everyone takes day to day. Small volume means a fast cycle and little gas lost - and in an emergency it is the quickest way home."
@@ -50,29 +80,57 @@
       "id": "portal",
       "label": "打印土层门廊",
       "label_en": "Printed regolith portal",
-      "pos": [0, 4, -5],
+      "pos": [
+        0,
+        4,
+        -5
+      ],
       "range": 25,
       "detail": "8 m 净宽下坡通道，两侧挡土墙由 regolith 3D 打印逐层砌成（与打印工地同一工艺，水平层脊清晰可见），八字翼墙向外张开导流车辆。墙脚嵌入式暖光带夜里把门洞染成整座丘体唯一的暖色。",
       "detail_en": "An 8 m clear-width descending passage with retaining walls 3D-printed in regolith layer by layer (the same process as the printer site, the horizontal layer ridges plainly visible), splaying out into wing walls that funnel vehicles in. Warm light strips recessed at the base of the walls make the portal the only warm colour on the whole mound at night.",
-      "specs": { "通道净宽": "8 m", "墙体": "regolith 3D 打印，0.5 m 层高", "工艺来源": "ops-printer-01 同源" },
-      "specs_en": { "Clear width": "8 m", "Walls": "3D-printed regolith, 0.5 m layer height", "Process origin": "same as ops-printer-01" }
+      "specs": {
+        "通道净宽": "8 m",
+        "墙体": "regolith 3D 打印，0.5 m 层高",
+        "工艺来源": "ops-printer-01 同源"
+      },
+      "specs_en": {
+        "Clear width": "8 m",
+        "Walls": "3D-printed regolith, 0.5 m layer height",
+        "Process origin": "same as ops-printer-01"
+      }
     },
     {
       "id": "vents",
       "label": "通风塔组",
       "label_en": "Ventilation towers",
-      "pos": [-0.5, 17, -35.5],
+      "pos": [
+        -0.5,
+        17,
+        -35.5
+      ],
       "range": 30,
       "detail": "丘顶三塔：两座百叶帽排风塔 + 一座带滤箱的进风塔。进排风口拉开 6 m 以上间距防短路回流；进风塔底部滤箱按尘暴工况设计——外气含尘时切换闭式循环，塔口只承担泄压。",
       "detail_en": "Three towers on the crown: two louvred exhaust stacks and one intake tower with a filter box. Intake and exhaust are kept more than 6 m apart to stop short-circuit recirculation, and the filter box at the base of the intake is sized for dust-storm conditions - when the outside air is loaded with dust the system switches to closed-loop recirculation and the towers only relieve pressure.",
-      "specs": { "排风塔": "Ø1.5 m ×2", "进风塔": "带滤箱 ×1", "尘暴模式": "闭式循环，塔口泄压" },
-      "specs_en": { "Exhaust stacks": "dia. 1.5 m x2", "Intake tower": "1, with filter box", "Dust-storm mode": "closed loop, towers relieve pressure only" }
+      "specs": {
+        "排风塔": "Ø1.5 m ×2",
+        "进风塔": "带滤箱 ×1",
+        "尘暴模式": "闭式循环，塔口泄压"
+      },
+      "specs_en": {
+        "Exhaust stacks": "dia. 1.5 m x2",
+        "Intake tower": "1, with filter box",
+        "Dust-storm mode": "closed loop, towers relieve pressure only"
+      }
     },
     {
       "id": "hatch",
       "label": "应急出口舱盖",
       "label_en": "Emergency exit hatch",
-      "pos": [24.9, 8.3, -6.7],
+      "pos": [
+        24.9,
+        8.3,
+        -6.7
+      ],
       "range": 12,
       "detail": "侧坡 Ø1.5 m 圆形舱盖，黄环 + 中央手动转轮，无动力可开——主门廊失效时的第二逃生通道。任何加压居住体都要满足双出口规则,地下城也不例外。",
       "detail_en": "A dia. 1.5 m circular hatch on the side slope, yellow ring with a manual handwheel at the centre, openable without power - the second escape route if the main portal is lost. Every pressurized habitat has to satisfy the two-exit rule, and the undercity is no exception."
@@ -81,7 +139,11 @@
       "id": "mast",
       "label": "通信桅杆",
       "label_en": "Communications mast",
-      "pos": [8.5, 19.5, -27],
+      "pos": [
+        8.5,
+        19.5,
+        -27
+      ],
       "range": 25,
       "detail": "丘顶 6 m 桅杆：小碟形天线指向中继卫星，桅顶红色信标标记丘体最高点。地下城对外的无线出口——井下光缆汇聚于此上星。",
       "detail_en": "A 6 m mast on the crown of the mound: a small dish pointed at the relay satellite and a red beacon at the top marking the highest point. This is the undercity's wireless way out - the fibre coming up from the shafts converges here and goes to orbit."

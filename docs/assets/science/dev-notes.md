@@ -41,8 +41,8 @@ Format: `number | meaning | produced by (project-relative, mars-weather)`
 - 5.9% → 1.5% → 0.73% | Langley σ_V0: hazy single morning → stable morning → 4-morning average | sim_sun_tracking.py
 - σ_τ 0.003–0.01 (night) | stellar-extinction tau from mV≤3 stars, 10 s at f/2 (CIS sensor params reused from the city CMOS project) | sim_skycam_imaging.py → out/skycam_imaging.json
 - ~28 kV/m | Paschen breakdown of CO₂ at 610 Pa over meter gaps = storm E-field ceiling and probe range | sim_efield_probe.py → out/efield_probe.json
-- SNR 625 / 42 pA | single-grain charge counting (10 fC vs 100 e⁻ ENC) / storm integrating-current mode | sim_dust_flux.py → out/dust_flux.json
-- σ_v 4–5%, σ_az 2.2–2.8°, 1–3.5 min | network front-vector retrieval and warning lead, MC N=4000 | sim_network_triangulation.py → out/network_triangulation.json
+- SNR 625 / 41.7 nA | single-grain charge counting (10 fC vs 100 e⁻ ENC) / storm integrating-current mode | sim_dust_flux.py → out/dust_flux.json
+- σ_v 4–5%, σ_az 2.2–2.8°, 1.2–3.7 min | network front-vector retrieval and warning lead, MC N=4000 | sim_network_triangulation.py → out/network_triangulation.json
 
 ## What broke (real rework, with round counts)
 

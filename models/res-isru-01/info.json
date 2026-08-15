@@ -168,6 +168,44 @@
       },
       "physics": "火星大气无氧、CH₄ 排放本体不燃，但低压下排放气会在洼地缓慢积聚，对携氧的乘员舱/舱外作业构成隐患——受控点燃排放是标准工业安全实践",
       "physics_en": "The Martian atmosphere carries no oxygen and vented CH4 will not burn by itself, but at low pressure a release drifts and pools slowly in hollows, which is a hazard to oxygen-bearing crew modules and to EVA work. Controlled ignition of vented gas is standard industrial safety practice."
+    },
+    {
+      "id": "display",
+      "label": "中控显示屏",
+      "label_en": "Plant HMI display",
+      "range": 25,
+      "detail": "户外 HMI 中控屏：双立柱机柜 + 顶部遮阳檐 + 底部橙色警示条，屏面绘出全厂工艺流程图（吸入→压缩→反应柱→电解→储罐，支线接散热板与火炬），每个单元旁一颗运行灯，火炬为琥珀色待命灯。底部三条液位柱对应三个球罐，右下一行六颗绿灯是电网侧 6 台 Kilopower 在线状态。屏面元素用自发光材质绘制，因此全厂蒙尘、唯独屏是干净发亮的。",
+      "detail_en": "An outdoor HMI board: a twin-pylon cabinet with a sun visor and an orange hazard stripe at its base. The screen carries the whole plant as a mimic diagram - intake to compressor to reaction column to electrolysis to tanks, with branches to the radiators and the flare - a run lamp beside every unit and an amber standby lamp on the flare. Three level bars at the bottom track the three spheres, and the row of six green lamps at lower right is the grid side: six Kilopower units online. The screen graphics are drawn in self-illuminated material, so while the whole plant wears a film of dust, the display alone stays clean and lit.",
+      "specs": {
+        "机柜": "4.3 × 2.7 m，双立柱 + 遮阳檐",
+        "画面": "全厂工艺流程 mimic + 单元运行灯",
+        "液位柱": "LOX 78% · LOX 52% · LCH₄ 31%",
+        "电力状态": "6×Kilopower 在线（绿灯行）",
+        "夜间": "emit_hmi_screen 自发光，不随昼夜熄灭"
+      },
+      "specs_en": {
+        "Cabinet": "4.3 x 2.7 m, twin pylons with sun visor",
+        "Screen": "full-plant mimic diagram + per-unit run lamps",
+        "Level bars": "LOX 78%, LOX 52%, LCH4 31%",
+        "Power status": "6x Kilopower online (green lamp row)",
+        "At night": "emit_hmi_screen stays self-illuminated"
+      },
+      "sim": [
+        "液位读数与储罐台账自洽：3×33.5 = 100 m³ 装量下，当前 78/52/31% 合计约 54 m³ 推进剂，已过一个 MAV 加注量（35.6 m³）——正处在无人生产期的攒量阶段",
+        "绿灯行对应电力账：全城稳态 63 kWe 由 6×10 kWe Kilopower 承担（N+1 冗余，5 台即可撑过夜间稳态），本厂 40 kWe 是其中最大单一负载（EQUIPMENT.md §7）"
+      ],
+      "sim_en": [
+        "The level readings are consistent with the tank ledger: against an installed 3 x 33.5 = 100 m3, the present 78/52/31% holds about 54 m3 of propellant - already past one MAV load (35.6 m3), i.e. mid-way through the uncrewed accumulation campaign.",
+        "The green lamp row matches the power ledger: the city's 63 kWe steady draw is carried by 6 x 10 kWe Kilopower units (N+1 redundancy - five alone cover the night steady state), and this plant's 40 kWe is the single largest load among them (EQUIPMENT.md section 7)."
+      ],
+      "physics": [
+        "为什么无人工厂还要一块户外大屏：地火单程光时 4–21 分钟（0.52–2.52 AU），往返 8–42 分钟——地面无法实时遥操，工厂必须自主运行并就地示状态；乘员到达后的舱外检修同样如此，加压手套下敲键盘不现实，能一眼读完的大幅 mimic 板才是 EVA 可用的人机界面",
+        "屏面为何是绘制的几何而非发光贴图：火星正午太阳常数约 590 W/m²（地球的 43%），配合遮阳檐，高对比度的实体色块比背光屏更耐眩光，也不怕落尘削弱亮度"
+      ],
+      "physics_en": [
+        "Why an uncrewed plant still needs a large outdoor board: one-way light time to Earth runs 4-21 minutes (0.52-2.52 AU), 8-42 minutes round trip, so nobody on Earth can teleoperate this plant in real time - it must run autonomously and report its state locally. The same holds once crew arrive: typing on a keyboard in pressurised gloves is not realistic, and a large mimic board readable at a glance is the interface EVA work can actually use.",
+        "Why the screen is drawn geometry rather than a glowing texture: the solar constant at Mars is about 590 W/m2 (43% of Earth's), so under the sun visor high-contrast solid blocks of colour beat a backlit panel for glare, and a film of settled dust costs them far less brightness."
+      ]
     }
   ]
 }

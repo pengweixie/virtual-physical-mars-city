@@ -6,34 +6,34 @@
       "label": "打印头（螺杆挤出总成）",
       "label_en": "Print head (screw extruder assembly)",
       "range": 25,
-      "detail": "整机真正的核心执行器：伺服电机经行星减速器驱动螺杆，把 regolith 硫磺混凝土以受控体积流量从喷嘴压出。头上带缓存料斗（料位计）、料腔压力传感器、喷嘴加热圈与温度传感器——流量必须与龙门行走速度实时闭环：走快断条，走慢堆料。",
-      "detail_en": "The machine's real working actuator: a servo motor drives a screw through a planetary reducer, pushing regolith-sulphur concrete out of the nozzle at a controlled volumetric rate. The head carries a buffer hopper with a level sensor, a barrel pressure sensor, and a nozzle heater band with its own thermocouple. Flow has to stay in closed loop with gantry travel speed: too fast and the bead breaks, too slow and it piles up.",
+      "detail": "整机真正的核心执行器：伺服电机经行星减速器驱动螺杆，把干 regolith 粉料压实成条从喷嘴挤出，紧随喷嘴的 2.45 GHz 微波施加器就地把料条烧结成型。头上带缓存料斗（料位计）、料腔压力传感器、微波施加器与温度传感器——挤出量必须与龙门行走速度实时闭环：走快断条，走慢堆料。",
+      "detail_en": "The machine's real working actuator: a servo motor drives a screw through a planetary reducer, compacting dry regolith powder into a bead and pushing it out of the nozzle, while a 2.45 GHz microwave applicator trailing the nozzle sinters that bead in place. The head carries a buffer hopper with a level sensor, a barrel pressure sensor, and the applicator with its own thermocouple. Extrusion has to stay in closed loop with gantry travel speed: too fast and the bead breaks, too slow and it piles up.",
       "specs": {
         "螺杆直径": "0.4 m",
         "喷嘴口径": "120 mm",
         "层高 × 道宽": "160 × 200 mm",
-        "行走速度": "≤ 0.25 m/s",
-        "流量控制": "螺杆转速前馈 + 料腔压力反馈"
+        "打印行速": "≈ 0.30 mm/s（空行程 ≤ 0.25 m/s）",
+        "流量控制": "螺杆转速前馈 + 料腔压力反馈 + 微波功率随行速联动"
       },
       "specs_en": {
         "Screw diameter": "0.4 m",
         "Nozzle bore": "120 mm",
         "Layer height x bead width": "160 x 200 mm",
-        "Travel speed": "<= 0.25 m/s",
-        "Flow control": "screw-speed feedforward + barrel-pressure feedback"
+        "Printing speed": "about 0.30 mm/s (rapid traverse <= 0.25 m/s)",
+        "Flow control": "screw-speed feedforward + barrel-pressure feedback + microwave power slaved to travel"
       },
-      "sim": "流量账本：Q = 层高×道宽×行速 = 0.16×0.20×0.15 ≈ 4.8 L/s（峰值 ≈17 m³/h）；启停段以螺杆短暂反转（回抽）消除滴料。",
-      "sim_en": "Flow ledger: Q = layer height x bead width x travel = 0.16 x 0.20 x 0.15 = about 4.8 L/s (peak about 17 m3/h). At starts and stops the screw briefly reverses to retract and stop the nozzle drooling.",
-      "physics": "浆料是宾汉/触变流体：螺杆剪切使表观黏度下降（剪切稀化）才泵得动，挤出静置后触变结构恢复提供绿色强度。加热圈把硫磺粘结剂保持在 130~140 °C 熔融窗口——硫磺 115 °C 熔化、超过 159 °C 开始聚合黏度激增，窗口很窄。",
-      "physics_en": "The slurry is a Bingham / thixotropic fluid: screw shear drops its apparent viscosity (shear thinning) so it can be pumped at all, and once extruded the thixotropic structure rebuilds to give green strength. The heater band holds the sulphur binder in its 130-140 C melt window - sulphur melts at 115 C and starts polymerising above 159 C, where viscosity spikes. It is a narrow window."
+      "sim": "流量账本（受能量约束，非几何约束）：可用 30 kWe ÷ 0.40 kWh/kg = 作业期 75 kg/h ≈ 34 L/h；以 160×200 mm 断面反推，打印行速只有 ≈0.30 mm/s——0.25 m/s 是空行程速度，不是打印速度。启停段以螺杆短暂反转（回抽）消除滴料。",
+      "sim_en": "Flow ledger, set by energy rather than geometry: the available 30 kWe / 0.40 kWh/kg gives 75 kg/h while working, about 34 L/h. Against a 160 x 200 mm bead that reverse-solves to a printing speed of only 0.30 mm/s - the 0.25 m/s figure is rapid traverse, not printing. At starts and stops the screw briefly reverses to retract and stop the nozzle drooling.",
+      "physics": "微波烧结而非熔融：螺杆先把干粉压实（无水、无粘结剂），微波对富铁 regolith 是体加热——2.45 GHz 从料条内部把颗粒接触点加热到原子扩散长出烧结颈，冷却即得强度。省掉整包熔化潜热（~0.4 MJ/kg，约占能量预算三成）是这条路线能塞进 30 kWe 的关键；激光/聚光只加热表层，稀薄大气又无对流帮忙铺热。",
+      "physics_en": "Microwave sintering, not melting: the screw first compacts dry powder - no water, no binder - and the microwave heats iron-rich regolith volumetrically. At 2.45 GHz the energy enters from inside the bead, driving atoms across grain contacts into sintering necks, and strength arrives on cooling. Skipping the latent heat of fusion (about 0.4 MJ/kg, near a third of the energy budget) is what lets this route fit inside 30 kWe, whereas a laser or concentrated sunlight heats only a surface and the thin atmosphere will not spread that heat by convection."
     },
     {
       "id": "dome",
       "label": "打印穹顶（半成，6 m）",
       "label_en": "Printed dome (part-built, 6 m)",
       "range": 35,
-      "detail": "regolith 硫磺混凝土穹顶居住舱，螺旋连续路径逐层打印，层脊清晰可见。当前打印至 6.0 m（设计 7.5 m），顶口开口 6 m，最后数层转短弧螺旋收口形成台阶状未完成边缘。",
-      "detail_en": "A regolith-sulphur concrete habitat dome printed layer by layer along one continuous spiral path, the layer ridges clearly visible. It currently stands at 6.0 m of a designed 7.5 m, with a 6 m opening at the top; the last few layers switch to short-arc spirals, leaving the stepped, unfinished edge.",
+      "detail": "微波烧结 regolith 穹顶居住舱，螺旋连续路径逐层打印，层脊清晰可见。当前打印至 6.0 m（设计 7.5 m），顶口开口 6 m，最后数层转短弧螺旋收口形成台阶状未完成边缘。",
+      "detail_en": "A microwave-sintered regolith habitat dome printed layer by layer along one continuous spiral path, the layer ridges clearly visible. It currently stands at 6.0 m of a designed 7.5 m, with a 6 m opening at the top; the last few layers switch to short-arc spirals, leaving the stepped, unfinished edge.",
       "specs": {
         "基底直径": "10 m",
         "设计高度": "7.5 m（当前 6.0 m）",
@@ -49,15 +49,15 @@
         "Top opening": "6 m (current)"
       },
       "sim": [
-        "层生产账：单层周长 19~31 m（随高度收缩），峰值流量下单层 1~2 min，含层间等待全程 ≈6 h。",
+        "层生产账：单层周长 19~31 m（随高度收缩），单层用料 1.3~2.2 t；按日间 600 kg/sol 的产能即 2~4 sol 打一层，已建的 37 层约 100 sol，整壳 ~120 t 正好对应一个建造季 ~200 sol。",
         "悬挑校核：中部（h=4 m）单层径向内收 67 mm、层间搭接 66%——安全；顶口（h=6 m）母线倾角 42°，单层内收 142 mm、搭接仅 29%，已到悬挑极限——因此顶部转短弧螺旋收口，剩余开口待吊装预制顶盖封口。"
       ],
       "sim_en": [
-        "Layer production: each layer runs 19-31 m of circumference (shrinking with height), 1-2 min per layer at peak flow, and about 6 h in total including inter-layer waits.",
+        "Layer production: each layer runs 19-31 m of circumference (shrinking with height) and consumes 1.3-2.2 t. At the 600 kg/sol daylight output that is 2-4 sol per layer, so the 37 layers already standing took about 100 sol, and the full ~120 t shell fills one construction season of about 200 sol.",
         "Corbel check: at mid-height (h = 4 m) each layer steps 67 mm inward with 66% overlap - safe. At the top opening (h = 6 m) the meridian tilts 42 deg, each layer steps 142 mm inward and overlap falls to 29%, the corbelling limit. Hence the short-arc spiral close-out, with the remaining opening to be capped by a prefabricated lid."
       ],
-      "physics": "逐层堆叠的判据是绿色强度 σ_y > ρ·g_mars·Δh×安全系数：新层必须在下一层到来前扛住增量自重。硫磺混凝土靠冷却固化（分钟级）而非水化（小时级），层间强度增长快，正适合无水星球的快速打印;火星 0.38g 又把自重项打了 62% 折——同配方在火星能打的悬挑角比地球大。",
-      "physics_en": "The stacking criterion is green strength: sigma_y > rho x g_mars x delta_h with a safety factor - each new layer must carry the added weight before the next arrives. Sulphur concrete sets by cooling (minutes) rather than hydration (hours), so inter-layer strength builds fast, which suits printing on a waterless planet. Mars gravity at 0.38 g then discounts the self-weight term by 62%, so the same mix can corbel at a steeper angle here than on Earth."
+      "physics": "逐层堆叠的判据本是绿色强度 σ_y > ρ·g_mars·Δh×安全系数：新层要在下一层到来前扛住增量自重。但在 2~4 sol 一层的节奏下，下层早已冷透成岩——绿色强度根本不构成约束，真正的限制回到纯几何的悬挑搭接率。火星 0.38g 又把自重项打了 62% 折，同样的料在火星能打的悬挑角比地球大。",
+      "physics_en": "The stacking criterion is normally green strength: sigma_y > rho x g_mars x delta_h with a safety factor, each new layer carrying the added weight before the next arrives. At 2-4 sol per layer, though, the course below has long since cooled to stone - green strength never binds, and the real limit falls back to pure corbelling geometry. Mars gravity at 0.38 g then discounts the self-weight term by 62%, so the same material corbels at a steeper angle here than on Earth."
     },
     {
       "id": "gantry",
@@ -104,8 +104,8 @@
         "Conveyor": "fully enclosed, inclined, about 7 m lift",
         "Delivery end": "transfer box + dia-100 mm hose"
       },
-      "sim": "供料平衡：打印峰值 4.8 L/s ≈ 38 t/h（ρ≈2.2 t/m³），输送机按 1.3× 裕度取 50 t/h；满仓 26 t 支撑约 40 min 连续打印，矿场补给周期需压在 30 min 以内（对接 res-mine-01）。",
-      "sim_en": "Feed balance: peak printing draws 4.8 L/s, about 38 t/h at rho = 2.2 t/m3, so the conveyor is sized at 50 t/h with 1.3x margin. A full 26 t silo sustains roughly 40 min of continuous printing, which puts the mine resupply interval under 30 min (interfacing with res-mine-01).",
+      "sim": "供料平衡：作业期用料 75 kg/h ≈ 600 kg/sol，输送机按 1.3× 裕度取 100 kg/h 即绰绰有余；满仓 26 t 够 43 sol 作业，矿场（res-mine-01）一个建造季来两三趟就行——供料从来不是瓶颈，能量才是。",
+      "sim_en": "Feed balance: the working draw is 75 kg/h, or 600 kg/sol, so a conveyor rated 100 kg/h already carries 1.3x margin. A full 26 t silo covers 43 sol of work, so the mine (res-mine-01) need only call two or three times a construction season. Feedstock was never the bottleneck here - energy is.",
       "physics": "全封闭输送在火星是必需而非选配：6 mbar 低压下细粉易带静电、逸散后吸附光伏板与散热面难以清除；0.38g 下颗粒料更易在锥仓内架桥成拱——所以锥角加陡并加振动给料强制破拱。",
       "physics_en": "Full enclosure is mandatory on Mars rather than optional: at 6 mbar the fine powder charges electrostatically and, once it escapes, clings to photovoltaic panels and radiator faces where it is very hard to remove. At 0.38 g granular material also bridges more easily inside a conical silo, so the cone angle is steepened and a vibrating feeder forces the arch to collapse."
     },
@@ -128,8 +128,8 @@
         "Loop rates": "path interpolation 10 ms / servo loop 1 ms / flow loop 100 ms",
         "Operating mode": "normally teleoperated from inside; the field station is for commissioning and emergencies"
       },
-      "sim": "全程账：37 层 ≈6 h 连续打印期间，控制器同时闭环 3 轴位置 + 挤出流量 + 料位/压力/温度 6 路传感，任一越限先降速后停机（喷嘴回抽防滴料）。",
-      "sim_en": "Whole-run ledger: across roughly 6 h of continuous printing for all 37 layers, the controller simultaneously closes three position axes plus extrusion flow, while watching six sensor channels of level, pressure and temperature. Any limit exceedance slows the machine first and then stops it, retracting the nozzle to prevent drooling.",
+      "sim": "全程账：37 层约 100 sol 的断续作业里（每日随日照开停机），控制器同时闭环 3 轴位置 + 挤出量 + 微波功率 + 料位/压力/温度多路传感，任一越限先降速后停机（喷嘴回抽防滴料）；每日收工前必须走完当前层收口，免得冷接缝落在层中央。",
+      "sim_en": "Whole-run ledger: across the roughly 100 sol of intermittent work that built 37 layers - starting and stopping with the sun each day - the controller closes three position axes plus extrusion rate and microwave power, while watching level, pressure and temperature channels. Any limit exceedance slows the machine first and then stops it, retracting the nozzle to prevent drooling. Each day must end on a completed layer close-out, so no cold joint lands mid-course.",
       "physics": "为什么户外还留操作面板：火星常态是舱内遥操作，但工程逻辑要求在设备旁保留最短路径的人工介入点——大尺寸按钮与高对比界面按 EVA 手套人机工效设计。",
       "physics_en": "Why keep an outdoor panel at all: the Mars norm is teleoperation from inside, but engineering logic demands a shortest-path point of manual intervention right at the machine. The oversized buttons and high-contrast interface are sized by EVA-glove ergonomics."
     },
@@ -138,8 +138,8 @@
       "label": "regolith 装载机器人",
       "label_en": "Regolith loader robot",
       "range": 20,
-      "detail": "小型四轮铲装机器人，白黄涂装覆火星尘膜，前置铲刀、桅杆天线与传感头，停驻平台角落。负责场内零星清理与料仓应急补给。",
-      "detail_en": "A small four-wheeled loading robot in white and yellow livery under a film of Mars dust, with a front blade, mast antenna and sensor head, parked in the corner of the pad. It handles odd-job site clearing and emergency silo top-ups.",
+      "detail": "小型四轮铲装机器人，白黄涂装覆火星尘膜，前置铲刀、桅杆天线与传感头，停驻平台角落。负责场内清理与日常补料。",
+      "detail_en": "A small four-wheeled loading robot in white and yellow livery under a film of Mars dust, with a front blade, mast antenna and sensor head, parked in the corner of the pad. It handles site clearing and the routine silo top-ups.",
       "specs": {
         "轮式": "4 × 刚性轮",
         "作业": "铲装 + 短驳 regolith",
@@ -152,10 +152,42 @@
         "Bucket": "about 0.2 m3 (0.44 t)",
         "Navigation": "autonomous + teleoperated"
       },
-      "sim": "运力账：打印峰值需求 38 t/h ÷ 单趟 0.44 t ≈ 86 趟/h——单机不现实，故主供料由矿场（res-mine-01）批量转运，本机只兜底：清理散料、维持给料口畅通、停机期小批量补仓。",
-      "sim_en": "Haulage ledger: peak printing demand of 38 t/h against 0.44 t per trip is about 86 trips per hour - unrealistic for one machine. Bulk feed therefore comes from the mine (res-mine-01) and this robot only backstops: clearing spills, keeping the feed inlet clear, and topping the silo up in small batches during downtime.",
+      "sim": "运力账：打印用料 600 kg/sol ÷ 单斗 0.44 t ≈ 1.4 斗/sol——一台小装载机就足以喂饱打印机，故本机是常规供料通道；矿场（res-mine-01）批量转运只管补满料仓，以及运送根本不需烧结的防辐射堆料。",
+      "sim_en": "Haulage ledger: 600 kg/sol of feedstock against 0.44 t per bucket is about 1.4 buckets a sol - one small loader is entirely enough to keep the printer fed, so this machine is the routine supply line. Bulk haulage from the mine (res-mine-01) only refills the silo and delivers the radiation-shielding fill, which needs no sintering at all.",
       "physics": "0.38g 下同功率铲装反力更小但轮地附着也降——牵引力上限 μ·m·g 同比缩水，故宁可小斗多趟、车身压重靠电池包下置。",
       "physics_en": "At 0.38 g the reaction forces on a given digging power are lower, but wheel-ground traction falls in the same proportion: the traction ceiling mu x m x g shrinks equally. Small bucket and more trips is therefore the right trade, with the battery pack mounted low to add ballast."
+    },
+    {
+      "id": "power",
+      "label": "电源撬块与日间作业制",
+      "label_en": "Power skid and daytime duty cycle",
+      "range": 20,
+      "detail": "带通风格栅的现场电源撬块，经地面电缆导管把电送到轨道旁接线箱与操作站。这台机器不接夜间基荷：微波烧结是间歇性大负载，按选型只在日间开机，峰值 30 kWe 由日间太阳能承担，入夜整机停机、仅保温待命——为它扩裂变堆阵不划算（EQUIPMENT.md §5/§7）。",
+      "detail_en": "The site power skid, vented and cabled through ground conduit to the trackside junction box and the operator station. This machine draws nothing at night: microwave sintering is a large intermittent load, so by selection it runs in daylight only, its 30 kWe peak carried by the daytime solar array, and shuts down after dusk on keep-warm standby. Expanding the fission baseload for it does not pay (EQUIPMENT.md sections 5 and 7).",
+      "specs": {
+        "工艺": "2.45 GHz 微波烧结挤出",
+        "峰值功率": "30 kWe（仅日间）",
+        "夜间负载": "0（停机待命）",
+        "供电": "日间太阳能阵；基荷 6×Kilopower 不为其扩容",
+        "建造任务": "单穹顶壳体 ~120 t / 一个建造季 ~200 sol"
+      },
+      "specs_en": {
+        "Process": "2.45 GHz microwave sintering extrusion",
+        "Peak power": "30 kWe (daylight only)",
+        "Night load": "0 (shut down, keep-warm standby)",
+        "Supply": "daytime solar array; the 6x Kilopower baseload is not expanded for it",
+        "Build task": "one dome shell about 120 t in one construction season, about 200 sol"
+      },
+      "sim": [
+        "能量账：120 t ÷（200 sol × 日照 8 h）= 作业期 75 kg/h；30 kWe ÷ 75 kg/h = 0.40 kWh/kg = 1.44 MJ/kg 的能量预算。折回全天平均即 24 kg/h，与选型书的 ~25 kg/h 对上——25 是昼夜平均速率，75 是开机时的真实打印速率，作业占空比 32%。",
+        "效率反推：regolith 从 210 K 升到 ~1350 K 烧结温度需显热 cp·ΔT ≈ 0.8 × 1140 ≈ 0.91 MJ/kg；对 1.44 MJ/kg 预算即要求电→料端到端效率 ≥ 63%（磁控管 ~70% × 微波耦合 ~90%）。这条效率线正是选微波、否掉聚光熔融的定量理由——耦合效率一旦掉到 60% 以下，30 kWe 就买不起一个建造季。"
+      ],
+      "sim_en": [
+        "Energy ledger: 120 t / (200 sol x 8 h of daylight) = 75 kg/h while working; 30 kWe / 75 kg/h = 0.40 kWh/kg = 1.44 MJ/kg of budget. Averaged over the whole sol that is 24 kg/h, matching the ~25 kg/h in the selection brief - 25 is the round-the-clock average, 75 is the real printing rate while the machine is on, at a 32% duty cycle.",
+        "Efficiency implied: heating regolith from 210 K to a sintering temperature near 1350 K costs sensible heat cp x delta_T = 0.8 x 1140 = about 0.91 MJ/kg. Against a 1.44 MJ/kg budget that demands 63% end-to-end electrical-to-material efficiency (magnetron about 70% x microwave coupling about 90%). That efficiency line is the quantitative reason microwave was chosen over concentrated-solar melting: let coupling fall below 60% and 30 kWe can no longer buy one construction season."
+      ],
+      "physics": "烧结而不熔融：只把颗粒加热到接触点原子扩散长出烧结颈，省掉整包熔化潜热（~0.4 MJ/kg，约占预算三成）。富铁 regolith 对 2.45 GHz 是体加热——微波从内部把整段料加热，而激光/聚光只加热表层，稀薄大气又不能靠对流把热铺开。低功率预算下这是唯一闭得上的加热路线。",
+      "physics_en": "Sinter, do not melt: heat the grains only until atoms diffuse across their contact points and form necks, and the full latent heat of fusion (about 0.4 MJ/kg, near a third of the budget) is never spent. Iron-rich regolith also couples volumetrically to 2.45 GHz - the microwave heats the whole charge from within, whereas a laser or concentrated sunlight heats only a surface, and the thin atmosphere cannot spread that heat by convection. On this power budget it is the only heating route that closes."
     }
   ]
 }

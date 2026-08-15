@@ -6,41 +6,45 @@
       "label": "AI 眼镜面罩（表情屏 + 导航相机）",
       "label_en": "AI-glasses visor (expression screen + nav camera)",
       "range": 10,
-      "detail": "机器人的\"脸\"是一副 AI 眼镜造型的面罩：小屏显示状态表情（待机 ◡ / 巡逻 → / 避障 ! / 迎宾 ◠ / 充电 z）与电量条，左镜腿前端是 64×64 导航相机窗。相机走引擎感知通道（5 Hz 离屏渲染回填像素），像素先过 CIS 成像模型再进亮度自适应阈值分割——与矿场机器人同一条感知链、同一套自研 CMOS 参数。右镜腿外侧丝印一行小字：WORLD-B RESIDENT。",
-      "detail_en": "The robot's \"face\" is a visor shaped like a pair of AI glasses: a small screen shows status expressions (idle ◡ / patrol → / avoid ! / greet ◠ / charging z) plus a battery bar, and the left temple carries the 64×64 nav-camera window. The camera runs on the engine's sensor channel (5 Hz offscreen renders handed back as pixels); frames pass through the CIS imaging model before adaptive-brightness threshold segmentation — the same perception chain and the same home-grown CMOS parameters as the mine robot. Silk-screened on the right temple: WORLD-B RESIDENT.",
+      "detail": "机器人的\"脸\"是一副 AI 眼镜造型的面罩：小屏显示状态表情（待机 ◡ / 巡逻 → / 避障 ! / 迎宾 ◠ / 充电 z）与电量条，左镜腿前端是 64×64 导航相机窗。像素走引擎感知通道（5 Hz 离屏渲染回填），先过 CIS 成像模型再进亮度自适应阈值分割。相对矿场型号换了 f/1.4 镜头，并把\"玄关照度 ≥120 lux\"写进接口——依据是运动模糊账（见 📐），不是抄参数。右镜腿外侧丝印：WORLD-B RESIDENT。面罩上下护框比屏面凸出 3 mm——那不是造型，是跌倒账的结果（见跌倒卡：头部以 4.46 m/s 着地，玻璃只有 16 J 容量）。",
+      "detail_en": "The robot's \"face\" is a visor shaped like a pair of AI glasses: a small screen shows status expressions (idle ◡ / patrol → / avoid ! / greet ◠ / charging z) plus a battery bar, and the left temple carries the 64×64 nav-camera window. Pixels arrive over the engine sensor channel (5 Hz offscreen renders) and pass through the CIS imaging model before adaptive-brightness segmentation. Unlike the mine unit this one carries an f/1.4 lens and writes \"foyer illuminance ≥120 lux\" into its interface — a consequence of the motion-blur ledger below, not an inherited parameter. Silk-screened on the right temple: WORLD-B RESIDENT. The visor's upper and lower guards stand 3 mm proud of the screen — not styling, but a consequence of the fall ledger (the head lands at 4.46 m/s and the glass absorbs only 16 J).",
       "specs": {
         "阵列": "64×64 4T PPD @5 µm，滚动快门",
         "量子效率": "0.60（并入曝光标定）",
-        "满阱": "17,880 e⁻",
-        "读出噪声": "1.76 e⁻（列级 CDS）",
-        "暗电流": "170 e⁻/s",
+        "满阱 / 读噪 / 暗电流": "17,880 e⁻ / 1.76 e⁻ / 170 e⁻/s",
         "ADC": "10-bit 单斜率，LSB 16.5 e⁻",
-        "采样率": "5 Hz（感知低频，控制每帧）"
+        "镜头": "f/1.4，iFOV 19.1 mrad/px（70° / 64 px）",
+        "照度要求": "玄关 ≥120 lux（走廊照明标准）",
+        "工作曝光": "36~43 ms（城内实测 AE 收敛）"
       },
       "specs_en": {
         "Array": "64×64 4T PPD @ 5 µm, rolling shutter",
         "Quantum efficiency": "0.60 (folded into exposure calibration)",
-        "Full well": "17,880 e⁻",
-        "Read noise": "1.76 e⁻ (column CDS)",
-        "Dark current": "170 e⁻/s",
+        "Full well / read noise / dark": "17,880 e⁻ / 1.76 e⁻ / 170 e⁻/s",
         "ADC": "10-bit single-slope, LSB 16.5 e⁻",
-        "Sample rate": "5 Hz (perception slow, control every frame)"
+        "Lens": "f/1.4, iFOV 19.1 mrad/px (70° over 64 px)",
+        "Illuminance requirement": "foyer ≥120 lux (corridor lighting standard)",
+        "Working exposure": "36–43 ms (AE converged, measured in-scene)"
       },
       "sim": [
-        "自动曝光在地下城暗环境实测收敛 117~260 ms（扫描带均值 DN 稳到 400/1023≈45% 量程）；同一套模型在矿场白天收敛 12 ms——光照差 ~20 倍，曝光比对应，物理自洽",
-        "暗区分割幻影基准：面向开阔地坪时误报 hazL+hazR ≈ 0.03（失效线 0.5），自适应阈值(均值×0.72)把散粒噪声与光照漂移一并吸收"
+        "光度链路（sim/hab-bot-01/perception_safety.py）：120 lux 地坪、反照率 0.30、f/1.4 → 像面 3.4×10⁵ e⁻/s/px，达 DN 400（6,600 e⁻）需 19.6 ms，SNR 81",
+        "运动模糊三角约束：模糊像素数 =(v·t/d + ω·t)/iFOV。沿用矿场 f/2.0 标定时 AE 收敛到 ~280 ms，此时 1 rad/s 转身把 64 px 画面糊掉 15 px——视觉全程报废。换 f/1.4 + 120 lux 后曝光 ~40 ms，转向模糊限从 0.15 rad/s 放宽到 0.67 rad/s，前向限从 0.30 放宽到 1.33 m/s（运动模糊由此退出瓶颈行列），城内实测视觉可用时间 72%",
+        "幻影基准：开阔地坪误报 hazL+hazR = 0.000（失效线 0.5）；自适应阈值（带内均值×0.72）吸收散粒噪声与光照漂移"
       ],
       "sim_en": [
-        "Auto-exposure converges to 117–260 ms in the dim undercity (scan-band mean DN settles at 400/1023 ≈ 45% of range); the same model converges to 12 ms in the daylight mine — a ~20× illumination gap with a matching exposure ratio, physically self-consistent",
-        "Dark-region phantom benchmark: facing open floor, false alarms hazL+hazR ≈ 0.03 (failure line 0.5); the adaptive threshold (mean × 0.72) absorbs both shot noise and illumination drift"
+        "Photometric chain (sim/hab-bot-01/perception_safety.py): 120 lux floor, albedo 0.30, f/1.4 → 3.4×10⁵ e⁻/s/px at the sensor; DN 400 (6,600 e⁻) needs 19.6 ms at SNR 81",
+        "Motion-blur triangle: blur[px] = (v·t/d + ω·t)/iFOV. With the mine unit's f/2.0 calibration AE settled near 280 ms, where a 1 rad/s turn smears the 64 px frame by 15 px — vision is useless throughout. The f/1.4 lens plus 120 lux drops exposure to ~40 ms and lifts the turn limit from 0.15 to 0.67 rad/s and the forward limit from 0.30 to 1.33 m/s (retiring blur as a bottleneck); measured in-scene, vision is trustworthy 72% of the patrol",
+        "Phantom benchmark: facing open floor, false alarms hazL+hazR = 0.000 (failure line 0.5); the adaptive threshold (band mean × 0.72) absorbs shot noise and illumination drift"
       ],
       "physics": [
-        "散粒噪声 σ=√Ne 是光子计数的泊松本性；10-bit 量化再叠加 LSB/√12≈4.8 e⁻ 量化噪声——两者都随信号自然产生，不是加的\"特效\"",
-        "905 nm LiDAR 对这颗可见光相机不可见（硅 QE 在 NIR 截止边），所以调试射线可视化必须从导航相机的渲染里剔除——否则机器人会怕自己的激光"
+        "散粒噪声 σ=√Ne 是光子计数的泊松本性；10-bit 量化再叠加 LSB/√12≈4.8 e⁻——两者都随信号自然产生，不是加的\"特效\"",
+        "运动模糊是曝光时间与角速度的乘积，与照度成反比耦合：想走快就得更亮，这是相机的\"不可能三角\"（亮度/速度/清晰度只能选两个）。真机同样在转向中不信任视觉分割，本资产照此冻结危险量改用 LiDAR",
+        "905 nm LiDAR 对这颗可见光相机不可见（硅 QE 在 NIR 截止边），所以调试射线可视化必须从导航相机渲染里剔除——否则机器人会怕自己的激光"
       ],
       "physics_en": [
-        "Shot noise σ=√Ne is the Poisson nature of photon counting; 10-bit quantization adds LSB/√12 ≈ 4.8 e⁻ on top — both arise from the signal itself, they are not added \"effects\"",
-        "The 905 nm LiDAR is invisible to this visible-light camera (silicon QE cuts off in the NIR), so the debug ray visualization must be excluded from the nav-camera render — otherwise the robot would fear its own laser"
+        "Shot noise σ=√Ne is the Poisson nature of photon counting; 10-bit quantization adds LSB/√12 ≈ 4.8 e⁻ on top — both arise from the signal itself, not from added \"effects\"",
+        "Motion blur is exposure time times angular rate, and exposure scales inversely with illuminance: walking faster requires more light. Brightness, speed and sharpness — pick two. Real robots likewise distrust vision while turning, which is exactly what this asset does (freeze the hazard estimate, fall back on LiDAR)",
+        "The 905 nm LiDAR is invisible to this visible-light camera (silicon QE cuts off in the NIR), so the debug ray overlay must be excluded from the nav-camera render — otherwise the robot fears its own laser"
       ]
     },
     {
@@ -48,75 +52,243 @@
       "label": "905 nm 微型闪光 LiDAR（胸窗）",
       "label_en": "905 nm micro flash-LiDAR (chest window)",
       "range": 10,
-      "detail": "地下城有纯黑区域，纯视觉会瞎——胸口横缝里是一台 905 nm 微型闪光 LiDAR：单脉冲照亮 90° 前扇区，15 个探测方向同时回波测距，20 m 量程。引擎实现为 Raycaster 扇形求交（工程近似），但链路账按真的算（见 📐）。近距 <1.2 m 触发转向避障，<0.5 m 急停。SPAD 接收端参数继承自 spad40_nir 905 nm 探测器项目。",
-      "detail_en": "The undercity has pitch-black spots where vision alone goes blind — the chest slit houses a 905 nm micro flash-LiDAR: one pulse floods a 90° forward sector, 15 detection directions range simultaneously, 20 m reach. The engine implements it as a Raycaster fan (an engineering approximation), but the link budget is computed for real (see 📐). Ranges <1.2 m trigger avoidance turns, <0.5 m an emergency stop. SPAD receiver parameters inherit from the spad40_nir 905 nm detector project.",
+      "detail": "地下城有纯黑区域，纯视觉会瞎——胸口横缝里是 905 nm 闪光 LiDAR：单脉冲照亮 90° 前扇区，15 向同时测距。初版设计 3 µJ/脉冲 + 64 微元 SiPM，链路预算显示\"5,500 光电子、SNR 74、裕度巨大\"；测距蒙卡（sim/hab-bot-01/lidar_ranging.py）证明那是**把探测器闪瞎**：每微元 86 个光子、全部触发、光子数不可知、距离行走无法校正，读数系统性偏近 0.8 m。重定标为 60 nJ + 1024 微元 + 1.5 ns 脉冲后，2.5~20 m 精确测距、σ<1 cm；2 m 以内仍饱和——但饱和本身是可靠的\"有东西很近\"信号，避障要的正是这个。",
+      "detail_en": "The undercity has pitch-black spots where vision goes blind, so the chest slit houses a 905 nm flash-LiDAR: one pulse floods a 90° sector, 15 directions range at once. The first cut used 3 µJ/pulse into a 64-microcell SiPM and the link budget bragged \"5,500 photoelectrons, SNR 74, huge margin\". The ranging Monte Carlo (sim/hab-bot-01/lidar_ranging.py) showed what that really means: 86 photons per microcell, every cell fired, photon count unknowable, range-walk uncorrectable, and distances reading 0.8 m short. Re-scaled to 60 nJ, 1024 microcells and a 1.5 ns pulse, it ranges 2.5–20 m to better than 1 cm. Inside 2 m it still saturates — but saturation is itself a trustworthy \"something is close\" flag, which is all obstacle avoidance needs.",
       "specs": {
-        "波长": "905 nm（Class 1 人眼安全）",
-        "脉冲能量": "3 µJ",
-        "扇区": "90° × 15 束",
-        "量程": "20 m",
-        "扫描率": "6 Hz",
-        "接收孔径": "Ø10 mm",
-        "SPAD PDE": "40.3% @905 nm"
+        "波长 / 脉冲": "905 nm，60 nJ，1.5 ns FWHM",
+        "扇区 / 量程": "90° × 15 束，20 m",
+        "接收": "Ø10 mm，SiPM 1024 微元，PDE 40.3%（spad40_nir）",
+        "定时": "SPTR 150 ps FWHM，TDC LSB 100 ps",
+        "可信测距带": "2.5~20 m（σ = 0.267·R^0.36 cm）",
+        "饱和带": "≤2 m（只报\"近\"，不报距离）",
+        "平均光功率": "5.4 µW（Class 1，远低于限值）"
       },
       "specs_en": {
-        "Wavelength": "905 nm (Class 1 eye-safe)",
-        "Pulse energy": "3 µJ",
-        "Sector": "90° × 15 beams",
-        "Range": "20 m",
-        "Scan rate": "6 Hz",
-        "Receive aperture": "Ø10 mm",
-        "SPAD PDE": "40.3% @ 905 nm"
+        "Wavelength / pulse": "905 nm, 60 nJ, 1.5 ns FWHM",
+        "Sector / range": "90° × 15 beams, 20 m",
+        "Receiver": "Ø10 mm, 1024-microcell SiPM, PDE 40.3% (spad40_nir)",
+        "Timing": "SPTR 150 ps FWHM, TDC LSB 100 ps",
+        "Trusted band": "2.5–20 m (σ = 0.267·R^0.36 cm)",
+        "Saturated band": "≤2 m (reports proximity only, not distance)",
+        "Mean optical power": "5.4 µW (Class 1, far under limit)"
       },
       "sim": [
-        "迷你链路预算：3 µJ ÷ 2.20e-19 J/光子 = 1.37e13 光子/脉冲，15 向分摊 9.1e11/向；20 m 处朗伯墙面（反照率 0.3）反射进 Ø10 mm 孔径的分数 ρA/(πR²)=1.9e-8 → 1.7e4 光子回波；×光学 0.8 ×PDE 0.403 ≈ 5,500 光电子/脉冲，散粒极限 SNR=√5500≈74——20 m 满量程仍有巨大裕度",
-        "平均光功率 = 3 µJ × 15 束 × 6 Hz = 0.27 mW，远低于 Class 1 限值；室内墙面即使反照率降到 0.1，SNR 仍 >40"
+        "测距精度（蒙卡 400 发/点）：5 m 处 σ 0.33 cm、20 m 处 σ 0.95 cm，偏差 <0.5 cm，零野值。功率定标前后对比是全卡最重要的一条——同一条链路，3 µJ 给出 0.8 m 系统偏差，60 nJ 给出 1 cm 精度",
+        "堆积/饱和边界：λ = N_pe/微元数。20 m 处 0.1 光子/微元（线性区），2.5 m 处 6.9（35% 发次饱和），1.2 m 处 29.9（100% 饱和）。避障阈值必须落在饱和带之外，或改用饱和标志本身",
+        "黑目标反而更好使：反照率 0.05 的黑胶垫在 1.2 m 处不饱和、可精确测距，20 m 处 σ 2.3 cm 仍可用——亮目标近距饱和、暗目标近距可测，与直觉相反",
+        "背景光：地下城 LED 在 905 nm 几乎无辐射，实测无影响；同一台机器搬到火星地表（10 nm 滤光片下 3.5×10⁷ cps 背景）在 20 m 处偏差 -19 m、野值率 100%——这台机器人只能在室内工作，不是设定，是算出来的"
       ],
       "sim_en": [
-        "Mini link budget: 3 µJ ÷ 2.20e-19 J/photon = 1.37e13 photons/pulse, split 15 ways → 9.1e11 per direction; the fraction a Lambertian wall at 20 m (albedo 0.3) reflects into a Ø10 mm aperture is ρA/(πR²)=1.9e-8 → 1.7e4 return photons; × optics 0.8 × PDE 0.403 ≈ 5,500 photoelectrons/pulse, shot-limited SNR = √5500 ≈ 74 — huge margin even at full range",
-        "Mean optical power = 3 µJ × 15 beams × 6 Hz = 0.27 mW, far below the Class 1 limit; even if wall albedo drops to 0.1, SNR stays >40"
+        "Ranging precision (400 shots per point): σ 0.33 cm at 5 m, 0.95 cm at 20 m, bias under 0.5 cm, zero outliers. The before/after is the headline: same link, 3 µJ gives a 0.8 m systematic error, 60 nJ gives centimetre accuracy",
+        "Pile-up / saturation boundary: λ = N_pe per microcell — 0.1 at 20 m (linear), 6.9 at 2.5 m (35% of shots saturate), 29.9 at 1.2 m (always). An avoidance threshold must sit outside the saturated band, or use the saturation flag itself",
+        "Dark targets are the easy case: a 0.05-albedo rubber mat does NOT saturate at 1.2 m and ranges precisely, and still gives σ 2.3 cm at 20 m. Bright targets blind the receiver up close while dark ones stay measurable — the opposite of intuition",
+        "Background light: undercity LEDs emit almost nothing at 905 nm and measurably change nothing. The same unit on the Mars surface (3.5×10⁷ cps through a 10 nm filter) reads 19 m short at 20 m with a 100% outlier rate — this robot is indoor-only by calculation, not by fiat"
       ],
       "physics": [
-        "扩展朗伯目标的回波按 1/R² 衰减（不是点目标的 1/R⁴）：闪光照明下每个探测方向看到的墙面元与其照明份额同尺度缩放，距离项只剩接收立体角一项"
+        "扩展朗伯目标的回波按 1/R² 衰减（不是点目标的 1/R⁴）：闪光照明下每个方向看到的墙面元与其照明份额同尺度缩放，距离项只剩接收立体角",
+        "SPAD 是盖革模式器件：一个微元每脉冲只能触发一次，之后进入死时间。所以 N 个光子不等于 N 个时间样本，只等于\"最早那个\"——首光子统计的期望落在脉冲前沿，光子越多偏得越早，这就是距离行走（range walk）。修正靠触发微元数反推光子数：P(触发)=1−e^(−λ)，全触发时 λ 不可解，校正失效",
+        "由此得出光子计数接收机的反直觉设计律：**信号要少，不要多**。要精度就得让 λ 落在 1 光子/微元以下，那意味着削减发射功率而非增加"
       ],
       "physics_en": [
-        "Returns from an extended Lambertian target fall off as 1/R² (not the 1/R⁴ of point targets): under flash illumination each detection direction sees a wall patch that scales with its illumination share, leaving only the receive solid angle as the distance term"
+        "Returns from an extended Lambertian target fall off as 1/R² (not the 1/R⁴ of point targets): under flash illumination each direction sees a wall patch scaling with its illumination share, leaving only the receive solid angle",
+        "A SPAD is a Geiger-mode device: a microcell fires once per pulse then goes dead. N photons therefore do not give N timing samples, only the earliest one — and the expected first arrival sits on the pulse's leading edge, earlier the more photons there are. That is range walk. The fix reads the photon count back from how many cells fired, P(fire)=1−e^(−λ); when every cell fires λ is unbounded and the correction dies",
+        "Hence the counter-intuitive design law for photon-counting receivers: you want LESS light, not more. Precision requires λ below one photon per microcell, which means cutting transmit power rather than raising it"
+      ]
+    },
+    {
+      "id": "balance",
+      "label": "平衡:捕获点、迈步与火星摆时间",
+      "label_en": "Balance: capture point, stepping, and the Martian pendulum",
+      "range": 10,
+      "detail": "步态烘焙跑在一套平面化台架上（俯仰弹簧＝步态训练吊架）。台架能产出漂亮的关节曲线，却回答不了\"它站得住吗\"——量一下就知道台架在替它出多少力：站立 55 N·m，等价于把 ZMP 挪出 37 cm，而足掌半长只有 10 cm。也就是说那套姿态一撤吊架就会后仰摔倒。于是另建一个诚实的模型：平脚（踝才有力矩权限）、俯仰自由、踝改力矩直驱，跑真正的捕获点反馈——它自己站住了。禁止迈步时踝策略上限只有 0.30 m/s——但真实双足是靠迈步停下的,所以又写了一个捕获步行走控制器(DCM 落脚点 + 摆动腿逆解 + 支撑踝 ZMP 力矩 + 髋策略扶正躯干),把这条上限量到 0.45 m/s。",
+      "detail_en": "The gait bake runs on a planarizing rig whose pitch spring is a stand-in for a gait-trainer boom. That rig produces pretty joint curves but cannot answer \"does it balance\" — so we measured what the boom was contributing: 55 N.m while standing, worth a 37 cm ZMP shift against a 10 cm foot half-length. That posture falls over the moment the boom is removed. Hence a second, honest model: flat feet (so ankles have torque authority), free pitch, torque-driven ankles, and a real capture-point feedback law. It stands on its own. Forbidding steps caps the ankle strategy at 0.30 m/s — but real bipeds stop by stepping, so a capture-step walking controller (DCM footstep placement, swing-leg IK, stance-ankle ZMP torque, hip strategy for the trunk) was written to measure the real ceiling: 0.45 m/s.",
+      "specs": {
+        "模型": "sim/hab_bot_balance.xml（平脚 / 俯仰自由 / 踝力矩驱动）",
+        "质心高": "0.895 m",
+        "摆时间常数": "T_c = √(z/g) = 0.491 s（地球同型 0.302 s）",
+        "踝力矩上限": "20.7 N·m = F_z × 足尖臂长 0.14 m",
+        "抗推极限": "8 N·s 冲量 = 0.20 m/s 质心速度",
+        "踝策略速度上限": "0.30 m/s（地球 0.48 m/s）",
+        "迈步后速度上限": "0.45 m/s（5/5 扰动通过；边缘单点 0.70 m/s）",
+        "迈步后抗推": "~30 N·s（踝策略 8 N·s 的 3.8 倍）"
+      },
+      "specs_en": {
+        "Model": "sim/hab_bot_balance.xml (flat feet, free pitch, torque ankles)",
+        "CoM height": "0.895 m",
+        "Pendulum time constant": "T_c = √(z/g) = 0.491 s (Earth twin 0.302 s)",
+        "Ankle torque ceiling": "20.7 N·m = F_z × 0.14 m toe lever",
+        "Push recovery": "8 N·s impulse = 0.20 m/s of CoM velocity",
+        "Ankle-strategy speed limit": "0.30 m/s (0.48 m/s on Earth)",
+        "Speed ceiling with stepping": "0.45 m/s (5/5 perturbed starts; edge case 0.70 m/s)",
+        "Push recovery with stepping": "~30 N·s (3.8x the 8 N·s ankle-only figure)"
+      },
+      "sim": [
+        "台架作弊量化（sim/hab-bot-01/analyze_gait.py）：俯仰弹簧站立时出 55 N·m、行走时 16.7 N·m，除以体重 147.7 N 即 37 cm / 11 cm 的 ZMP 位移需求，双双超出 10 cm 足半长——原烘焙姿态在无吊架时不可平衡",
+        "捕获点闭环实测（sim/hab-bot-01/balance_ctrl.py）：站立 6 s 后俯仰 −0.018 rad、质心漂移 0.9 mm；胸口冲量扫描 8 N·s 恢复、10 N·s 摔倒，与解析边界 0.285 m/s 一致",
+        "巡逻速度下的制动距离：0.55 m/s 时捕获点在 0.26 m 外（足尖余量的 1.9 倍），必须迈捕获步，机械停止距离 0.51 m；限速到 0.35 m/s 后约 0.32 m",
+        "捕获步控制器实测（sim/hab-bot-01/stepping_ctrl.py，速度×步时二维扫描 25 组）：0.30 m/s 在全部步时下可行，0.45 m/s 需步时 ≤0.65 s，0.75 m/s 仅在 0.45 s 步时单点成立（实测 0.70 m/s）。加初值扰动重复 5 次后，只有 0.45 m/s 做到 5/5——这才是可用上限，0.70 是运气",
+        "行走中抗推：在 0.45 m/s 稳健工况下 30 N·s 仍能恢复（迈步吸收），但 16 N·s 处有一次孤立失败——非单调说明这是量级而非精确边界，控制器边缘鲁棒性有限",
+        "同一套控制器直接搬到地球（g=9.81）会摔：T_c 从 0.434 s 缩到 0.267 s，落脚点与步时全部失配——步态控制器的参数是随重力标定的，不能跨行星复用"
+      ],
+      "sim_en": [
+        "Quantifying the boom (sim/hab-bot-01/analyze_gait.py): the pitch spring delivers 55 N·m standing and 16.7 N·m walking; divided by the 147.7 N weight that is a demanded ZMP shift of 37 cm and 11 cm respectively, both beyond the 10 cm foot half-length — the original posture is not balanceable unassisted",
+        "Closed-loop capture-point test (sim/hab-bot-01/balance_ctrl.py): after 6 s standing, pitch −0.018 rad and CoM drift 0.9 mm; a chest-impulse sweep recovers at 8 N·s and falls at 10 N·s, matching the analytic 0.285 m/s boundary",
+        "Stopping distance at patrol speed: at 0.55 m/s the capture point sits 0.26 m ahead — 1.9× the toe margin — so a capture step is mandatory and the mechanical stop takes 0.51 m. at the governed 0.35 m/s it is about 0.32 m",
+        "Capture-step controller measured (sim/hab-bot-01/stepping_ctrl.py, 25-cell speed x step-time grid): 0.30 m/s works at every step time, 0.45 m/s needs T_step <= 0.65 s, and 0.75 m/s survives only in a single 0.45 s cell (achieving 0.70 m/s). Repeating with perturbed initial conditions, only 0.45 m/s scores 5/5 — that is the usable ceiling; 0.70 was luck",
+        "Push recovery while walking: at the robust 0.45 m/s operating point a 30 N·s impulse is still absorbed by stepping, but there is an isolated failure at 16 N·s — non-monotonic, so treat it as an order of magnitude rather than a sharp boundary",
+        "The same controller moved to Earth (g=9.81) falls over: T_c shrinks from 0.434 s to 0.267 s and every footstep and step time is mistuned — gait controller gains are calibrated to gravity and do not port between planets"
+      ],
+      "physics": [
+        "线性倒立摆：ẍ = (g/z)(x − p)，其解的特征时间 T_c = √(z/g)。捕获点 ξ = x + ẋ·T_c 是\"踩在这里就能停住\"的落脚点——踝策略的全部权限就是把压力中心（ZMP）在足掌内移动，所以 ξ 一旦越出足尖，除了迈步别无他法",
+        "火星重力削弱使 T_c 变长 1.63 倍：同样的质心速度对应更远的捕获点。低重力让摔倒变慢（更宽容），却让\"刹住\"变难（更长的制动距离）——这两件事常被混为一谈，实为同一个 √(z/g) 的两面",
+        "迈步为什么能突破踝策略上限:踝策略只能在足掌内移动压力中心,权限被足长锁死;迈步则直接重新放置支撑点,等于把\"可用支撑区\"移到捕获点上——代价是需要摆动时间,所以上限由步时与腿长而非足长决定"
+      ],
+      "physics_en": [
+        "Linear inverted pendulum: ẍ = (g/z)(x − p), whose characteristic time is T_c = √(z/g). The capture point ξ = x + ẋ·T_c is where the foot must land to come to rest. The ankle strategy's entire authority is moving the centre of pressure inside the sole, so once ξ leaves the toe there is no option but to step",
+        "Weaker Mars gravity stretches T_c by 1.63×: the same CoM velocity implies a capture point further ahead. Low gravity makes falling slower (more forgiving) and stopping harder (longer braking) — commonly conflated, but they are two faces of the same √(z/g)",
+        "Why stepping beats the ankle strategy: the ankle can only move the centre of pressure within the sole, so its authority is capped by foot length. A step relocates the support point outright, effectively moving the usable support region onto the capture point — at the cost of swing time, so the ceiling is set by step time and leg length instead of foot size"
+      ]
+    },
+    {
+      "id": "running",
+      "label": "跑步:能跑,但按规范不许在人身边跑",
+      "label_en": "Running: capable, and not allowed near people",
+      "range": 10,
+      "detail": "行走靠倒立摆(总有一只脚在地),跑步有飞行相——没有支撑多边形、没有 ZMP 可摆,模型要换成弹簧倒立摆,控制律换成 Raibert 三分律(支撑期注入能量控腾空高度 / 落脚点相对中性点控速度 / 支撑期髋力矩控姿态)。实测跑得起来:真跑步 0.59 m/s(26% 飞行占比),弹跳步态可到 1.00 m/s(71%)。但这台机器人巡逻时永不跑——任何跑步速度撞到人都远超 ISO/TS 15066 接触力限。跑步只作为疏散能力保留,资产里由「疏散跑步」动作解锁,解锁前硬门控 SSM 半径内无人,跑动中有人进入立刻降回步行。",
+      "detail_en": "Walking rides an inverted pendulum with a foot always down. Running has a flight phase — no support polygon, no ZMP to steer — so the model becomes a spring-loaded inverted pendulum and the control law becomes Raibert's decomposition: stance energy sets hop height, footstep placement relative to the neutral point sets speed, and stance hip torque holds attitude. It does run: 0.59 m/s at a 26% flight fraction, and a bounding gait reaches 1.00 m/s at 71%. But the robot never runs on patrol — at any running speed a collision far exceeds the ISO/TS 15066 contact limit. Running is retained as an evacuation capability only, unlocked by an explicit action, hard-gated on nobody being inside the SSM radius, and dropped back to walking the instant somebody enters.",
+      "specs": {
+        "真跑步": "0.59 m/s，飞行占比 26%",
+        "弹跳步态": "1.00 m/s，飞行占比 71%，腾空 26 cm",
+        "控制律": "Raibert 三分律（推进能量 / 中性点落脚 / 髋控姿态）",
+        "走跑转换速度": "火星 1.25 m/s（地球 2.03，Froude 0.5）",
+        "运行策略": "巡逻禁用；仅疏散模式解锁，SSM 半径内有人即拒绝",
+        "仿真出处": "sim/hab-bot-01/running_ctrl.py → running_ledger.json"
+      },
+      "specs_en": {
+        "True running": "0.59 m/s at 26% flight fraction",
+        "Bounding gait": "1.00 m/s at 71% flight, 26 cm apex rise",
+        "Control law": "Raibert decomposition (thrust / neutral-point footstep / hip attitude)",
+        "Walk-run transition": "Mars 1.25 m/s (Earth 2.03, Froude 0.5)",
+        "Operating policy": "disabled on patrol; evacuation-only, refused if anyone is inside the SSM radius",
+        "Sim provenance": "sim/hab-bot-01/running_ctrl.py -> running_ledger.json"
+      },
+      "sim": [
+        "重力对照是最有说服力的一条:同一套控制器、同样的推进参数,火星飞行占比 68~71%,地球只有 33~41%。火星的高腾空不是控制器毛病而是重力产物——同样的起跳速度飞行时间按 1/g 标度,火星长 2.64 倍",
+        "摩擦限的加速能力(反直觉):推进力 F_x ≤ µ·m·g,火星 g 小 → 可用牵引力小。µ=1.0、支撑期 0.15 s 时每步只能加速 0.56 m/s,地球是 1.47 m/s。火星最终能跑同样快(没有可观空气阻力),但加速慢 2.6 倍——低重力让\"跳\"变容易,让\"催速\"变难",
+        "落地冲击封杀了跑步的日常使用:0.6 m/s 撞人 478 N（ISO 瞬态限 280 N 的 1.7 倍）、1.0 m/s 796 N（2.8 倍）。连限速 0.35 m/s 都刚好压在 279 N ≈ 限值上,余量为零",
+        "空间实测:在玄关 8 字路径上开跑,37% 的时间在避障、均速只有 0.557 m/s——12×20 m 的厅配 5.2×2.6 m 的巡逻路径根本跑不开。跑步的真实用途是沿直线走廊疏散,不是在厅里绕圈",
+        "安全门控实测:人在 SSM 半径内请求解锁被拒（blockedBy=human in SSM radius）；无人时解锁并达到 0.590 m/s；跑动中人进入半径立刻关闭且速度归零"
+      ],
+      "sim_en": [
+        "The gravity comparison is the convincing one: same controller, same thrust parameters — 68-71% flight fraction on Mars, only 33-41% on Earth. Mars's long airtime is not a controller defect but a gravity effect: for a given take-off speed, flight time scales as 1/g, making it 2.64x longer",
+        "Friction-limited acceleration (counter-intuitive): propulsion obeys F_x <= mu*m*g, and weaker gravity means less normal force and less traction. With mu=1.0 and a 0.15 s stance, each step adds only 0.56 m/s on Mars against 1.47 m/s on Earth. Mars can eventually reach the same speed (no meaningful drag) but takes 2.6x longer to get there — low gravity makes hopping easy and accelerating hard",
+        "Landing impact rules out everyday running: 478 N at 0.6 m/s (1.7x the 280 N ISO transient limit) and 796 N at 1.0 m/s (2.8x). Even the governed 0.35 m/s sits at 279 N, right on the limit with zero margin",
+        "Space check: running the foyer figure-eight puts the robot in avoidance 37% of the time at a mean 0.557 m/s — a 5.2x2.6 m patrol path inside a 12x20 m hall has nowhere to run. Running belongs in a straight evacuation corridor, not in laps around a lobby",
+        "Safety gate verified: unlocking is refused while a person is inside the SSM radius (blockedBy = human in SSM radius); with the area clear it unlocks and reaches 0.590 m/s; a person entering mid-run closes it immediately and the speed drops to zero"
+      ],
+      "physics": [
+        "Froude 数 v²/(gL) = 0.5 是走跑转换的经典判据(倒立摆的向心加速度达到重力的一半,脚就必须离地)。火星把这个门槛从 2.03 压到 1.25 m/s——低重力下更早\"必须跑\"",
+        "为什么低重力偏爱腾空步态:飞行相是免费的位移(不耗支撑功),而飞行时间 ∝ v_takeoff/g。重力越小,同样一次起跳换来的滞空越久、走得越远,所以最省力的步态自然向跳跃迁移。阿波罗宇航员在 1/6 g 的月面自发改用兔跳,是同一条物理的人体版",
+        "跑步不能靠 ZMP 稳定:飞行相里没有接触力,压力中心无从定义,姿态只能靠角动量守恒与落地时机管理。这就是为什么行走的捕获点控制器不能直接照搬到跑步"
+      ],
+      "physics_en": [
+        "Froude number v^2/(gL) = 0.5 is the classic walk-run transition (when the inverted pendulum's centripetal demand reaches half of gravity, the foot must leave the ground). Mars lowers that threshold from 2.03 to 1.25 m/s — in low gravity you are forced to run sooner",
+        "Why low gravity favours airborne gaits: flight is free displacement (no stance work), and flight time scales as v_takeoff/g. The weaker the gravity, the more airtime and distance one push-off buys, so the cheapest gait migrates toward hopping. Apollo crews spontaneously switched to loping in 1/6 g — the human version of the same physics",
+        "Running cannot be stabilized by ZMP: with no contact during flight the centre of pressure is undefined, so attitude is managed by conserved angular momentum and landing timing. That is precisely why the walking capture-point controller does not carry over"
+      ]
+    },
+    {
+      "id": "governor",
+      "label": "限速器:瓶颈是算出来的,不是猜的",
+      "label_en": "Speed governor: the binding constraint, computed",
+      "range": 10,
+      "detail": "巡逻速度原本拍的是 0.55 m/s。三条互不相干的物理各自定出上限,取交集就是资产执行的限速。有意思的是这个瓶颈在设计迭代中换了两次人:首版三条恰好都压在 0.30（模糊/踝策略/接触力）；换 f/1.4 镜头后模糊限升到 1.33，允许迈步后平衡限升到 0.45，于是现在唯一咬住的是 ISO/TS 15066 的人机接触力 0.35 m/s。要再快，该换的是外壳柔度，不是步态。",
+      "detail_en": "The patrol speed started as a guess: 0.55 m/s. Three unrelated pieces of physics each cap it, and their intersection is what the asset enforces. What is interesting is that the binding constraint changed twice during the design: at first all three landed near 0.30 m/s (blur, ankle strategy, contact force); the f/1.4 lens lifted the blur limit to 1.33 m/s, allowing capture steps lifted balance to 0.45 m/s, and the only limit still biting is the ISO/TS 15066 contact force at 0.35 m/s. Going faster means a more compliant shell, not a better gait.",
+      "specs": {
+        "运动模糊限": "1.33 m/s（f/1.4 + 120 lux → 43 ms 曝光）",
+        "平衡限（含迈步）": "0.45 m/s（禁止迈步时 0.30）",
+        "接触力限": "0.35 m/s（3 mm 泡沫外壳，280 N 瞬态限）← 当前瓶颈",
+        "执行限速": "0.35 m/s",
+        "转向视觉门限": "0.67 rad/s（超过则冻结视觉、只用 LiDAR）",
+        "人的减速带 / 停止距": "2.40 m / 1.60 m（SSM）",
+        "静态障碍阈值": "0.90 m（捕获步制动 0.32 m + 余量）",
+        "升级路径": "15 mm 柔性蒙皮 → 0.84 m/s，届时平衡 0.45 成为新瓶颈"
+      },
+      "specs_en": {
+        "Motion-blur limit": "1.33 m/s (f/1.4 + 120 lux, 43 ms exposure)",
+        "Balance limit (with stepping)": "0.45 m/s (0.30 without stepping)",
+        "Contact-force limit": "0.35 m/s (3 mm foam, 280 N transient) — currently binding",
+        "Enforced speed": "0.35 m/s",
+        "Vision turn gate": "0.67 rad/s (above it, freeze vision and use LiDAR)",
+        "Human slow / stop distance": "2.40 m / 1.60 m (SSM)",
+        "Static-obstacle threshold": "0.90 m (0.32 m capture-step braking plus margin)",
+        "Upgrade path": "15 mm compliant skin -> 0.84 m/s, after which balance binds at 0.45"
+      },
+      "sim": [
+        "ISO/TS 15066 速度与分离监控（sim/hab-bot-01/perception_safety.py）：S = v_human(T_react+T_stop) + v_robot·T_react + d_stop + C + Z。取人 1.6 m/s、LiDAR 6 Hz 感知延迟 0.167 s、控制 0.05 s、制动 0.28 m，得 S = 2.32 m。原资产的 1.2 m 避障阈值对\"人\"短了 1.1 m，而 2.5 m 迎宾半径反而是对的量级",
+        "接触力：F ≈ m·v/Δt。39.8 kg 刚性外壳 20 ms 接触在 0.55 m/s 下达 1,094 N，是胸部瞬态限 280 N 的 3.9 倍；3 mm 泡沫把接触时间拉到 50 ms，允许速度 0.35 m/s；15 mm 柔性蒙皮可到 0.84 m/s——外壳柔度直接买速度",
+        "城内实测复核（预览页 45 s 巡逻）：速度封顶执行值、AE 收敛 36–43 ms、模糊峰值 3.0 px（仅出现在快转瞬间）、视觉冻结占比 28%、幻影误报 0.000",
+        "瓶颈迁移账：首版 0.30/0.30/0.35（模糊/平衡/接触力）→ 换镜头后 1.33/0.30/0.35 → 允许迈步后 1.33/0.45/0.35。每次解开一条约束，下一条立刻现形，这是设计收敛的正常形态"
+      ],
+      "sim_en": [
+        "ISO/TS 15066 speed-and-separation (sim/hab-bot-01/perception_safety.py): S = v_human(T_react+T_stop) + v_robot·T_react + d_stop + C + Z. With a 1.6 m/s human, 0.167 s LiDAR latency, 0.05 s control latency and 0.28 m braking, S = 2.32 m. The asset's original 1.2 m avoidance threshold was 1.1 m short for people, while the 2.5 m greeting radius turned out to be the right order",
+        "Contact force: F ≈ m·v/Δt. A 39.8 kg robot with a rigid shell (20 ms contact) reaches 1,094 N at 0.55 m/s — 3.9× the 280 N transient chest limit. A 3 mm foam layer stretches contact to 50 ms and permits 0.35 m/s; 15 mm compliant skin allows 0.84 m/s. Shell compliance buys speed directly",
+        "In-scene check (45 s patrol in the preview harness): speed capped at the enforced value, AE settled 36-43 ms, peak blur 3.0 px (only during fast turns), vision frozen 28% of the time, phantom false-alarm rate 0.000",
+        "How the bottleneck migrated: first pass 0.30/0.30/0.35 (blur/balance/contact) -> after the lens change 1.33/0.30/0.35 -> after allowing capture steps 1.33/0.45/0.35. Each time one constraint is relieved the next one surfaces, which is what design convergence looks like"
+      ],
+      "physics": [
+        "三条约束的共同结构都是\"时间 × 速度\":模糊是曝光时间 × 速度,捕获点是摆时间常数 × 速度,接触力是动量 ÷ 接触时间。三个时间尺度（43 ms 曝光、0.43 s 摆时间、50 ms 接触）差一个数量级以上,却在同一台机器上给出同量级的速度限——这是 1.65 m 尺度人形在火星室内的固有工作区",
+        "安全距离必须对\"人\"和\"墙\"分开算：SSM 的第一项 v_human·(T_react+T_stop) 是人主动接近的位移，墙没有这一项。用同一个阈值管两者，要么对人不安全，要么对墙过度胆小"
+      ],
+      "physics_en": [
+        "All three constraints share the form \"time x speed\": blur is exposure x speed, the capture point is pendulum time x speed, contact force is momentum / contact time. Their timescales (43 ms exposure, 0.43 s pendulum, 50 ms contact) span more than an order of magnitude yet yield speed limits of the same order — the intrinsic operating band of a 1.65 m humanoid indoors on Mars",
+        "Separation distance must be computed separately for people and for walls: the SSM term v_human·(T_react+T_stop) is the human's own approach, which a wall does not contribute. One threshold for both is either unsafe around people or needlessly timid around furniture"
       ]
     },
     {
       "id": "gait",
-      "label": "MuJoCo 烘焙步态（火星重力）",
-      "label_en": "MuJoCo-baked gait (Mars gravity)",
+      "label": "MuJoCo 烘焙步态与真实功耗",
+      "label_en": "MuJoCo-baked gait and its measured power",
       "range": 10,
-      "detail": "走路不是手调动画：按视觉几何 1:1 建 MuJoCo 平面化双足模型（髋 0.84 / 大腿 0.38 / 小腿 0.38 m，圆底足点接触 + 柔顺踝），火星重力 3.71 m/s² 下位置伺服跟踪步态指令，烘出 walk/turn/idle 三条循环曲线（12 通道）随资产回放。伺服过冲、触地膝弯、躯干俯仰点头、垂向起伏全部来自动力学而非手调。回放按 (v,ω) 相位混合三循环，步幅与位移严格同步不滑步。",
-      "detail_en": "The walk is not hand-keyed animation: a planar MuJoCo biped is built 1:1 from the visual geometry (hip 0.84 / thigh 0.38 / shank 0.38 m, round-soled point feet + compliant ankles); position servos track gait commands under Mars gravity 3.71 m/s², and three loop curves (walk/turn/idle, 12 channels) are baked and shipped with the asset for deterministic playback. Servo overshoot, knee flex at touchdown, torso pitch nod and vertical bob all come from dynamics, not by hand. Playback phase-blends the three loops by (v, ω); stride and displacement stay locked — no foot sliding.",
+      "detail": "走路不是手调动画：按视觉几何 1:1 建 MuJoCo 双足模型，火星重力 3.71 m/s² 下位置伺服跟踪步态指令，烘出 walk/turn/idle 三条循环曲线（12 通道）随资产回放，按 (v,ω) 相位混合、步幅随速度收缩、不滑步。功耗也不再是估的——MuJoCo 每步都有关节力矩与角速度，把它们连同谐波减速器的铜损与静耗积分起来，就是真实电功率。",
+      "detail_en": "The walk is not hand-keyed: a MuJoCo biped built 1:1 from the visual geometry tracks gait commands under Mars gravity 3.71 m/s², and three loop curves (walk/turn/idle, 12 channels) ship with the asset for deterministic playback — phase-blended by (v, ω), stride shrinking with speed, no foot sliding. Power is no longer an estimate either: MuJoCo carries joint torque and rate every step, and integrating those with harmonic-drive copper loss and quiescent draw gives real electrical watts.",
       "specs": {
-        "行走周期": "1.8 s（30 样本 @60 ms）",
-        "步速": "0.75 m/s（步幅 1.35 m/周期）",
-        "巡逻路线": "8 字双纽线 5.2×2.6 m，纯 t 参数化",
-        "伺服": "kp 300 / kv 18，力矩限幅 ±150 N·m",
-        "仿真出处": "hab-bot-01.gait.json（sim/run_gait.py）"
+        "整机质量": "39.8 kg（火星重 148 N / 地球 390 N）",
+        "行走周期": "1.8 s 名义（30 样本 @60 ms）",
+        "名义步速 / 步幅": "0.75 m/s / 1.35 m·周期⁻¹",
+        "限速后": "0.35 m/s，步幅收缩至 0.63 m（步频不变）",
+        "关节": "髋膝 100:1 谐波，踝 80:1，肩肘 60:1",
+        "峰值关节力矩": "髋 44 N·m / 膝 29 N·m",
+        "仿真出处": "hab-bot-01.gait.json（sim/hab-bot-01/run_gait.py）"
       },
       "specs_en": {
-        "Walk cycle": "1.8 s (30 samples @ 60 ms)",
-        "Speed": "0.75 m/s (stride 1.35 m per cycle)",
-        "Patrol path": "figure-eight lemniscate 5.2×2.6 m, pure t-parameterized",
-        "Servos": "kp 300 / kv 18, torque cap ±150 N·m",
-        "Sim provenance": "hab-bot-01.gait.json (sim/run_gait.py)"
+        "Total mass": "39.8 kg (148 N on Mars, 390 N on Earth)",
+        "Nominal walk cycle": "1.8 s (30 samples @ 60 ms)",
+        "Nominal speed / stride": "0.75 m/s / 1.35 m per cycle",
+        "Governed": "0.35 m/s, stride shrinks to 0.63 m (cadence unchanged)",
+        "Joints": "hip/knee 100:1 harmonic, ankle 80:1, shoulder/elbow 60:1",
+        "Peak joint torque": "hip 44 N·m / knee 29 N·m",
+        "Sim provenance": "hab-bot-01.gait.json (sim/hab-bot-01/run_gait.py)"
       },
       "sim": [
-        "火星摆频账：腿长 0.84 m 的倒立摆固有频率 ω=√(g/L)，火星 2.10 rad/s vs 地球 3.42 rad/s——自然步频慢 38%，这就是烘焙周期取 1.8 s（地球同型机 ~1.1 s）的依据；Froude 数 v²/(gL)=0.18 < 0.5，严格处于步行域",
-        "动力学的免费真实感：髋伺服过冲到 0.405 rad（指令 0.34）、触地瞬间膝弯 0.97 rad、俯仰点头 ±0.077 rad——全是仿真长出来的；三循环烘焙曲线相邻样本步长 <0.26 rad（0.3 验收线内）、循环首尾零闭合误差"
+        "真实电功率（sim/hab-bot-01/analyze_gait.py，从 τ·ω 积分）：行走 95.4 W（执行器 70.8 + 电子 24.6），站立 61.6 W，携 3 kg 托盘行走 99.6 W；运输代价 CoT = 0.64，落在人形机器人常见区间",
+        "火星摆频账：腿长 0.84 m 的倒立摆固有频率 ω=√(g/L)，火星 2.10 rad/s vs 地球 3.42 rad/s——自然步频慢 38%，这是烘焙周期取 1.8 s（地球同型 ~1.1 s）的依据；Froude 数 v²/(gL)=0.18 < 0.5，严格处于步行域",
+        "动力学送的真实感：髋伺服过冲到 0.405 rad（指令 0.34）、触地膝弯 0.97 rad、俯仰点头 ±0.077 rad，全是仿真长出来的；三循环曲线相邻样本步长 <0.26 rad、循环首尾零闭合误差",
+        "载重代价：3 kg 托盘让执行器功耗从 70.8 W 升到 75.0 W（+6%），肩肘功耗翻三倍而腿几乎不变——低重力下举着比走着贵"
       ],
       "sim_en": [
-        "Mars pendulum ledger: an inverted pendulum with 0.84 m legs has natural frequency ω=√(g/L) — 2.10 rad/s on Mars vs 3.42 rad/s on Earth, a 38% slower natural cadence; hence the baked 1.8 s cycle (an Earth twin would run ~1.1 s). Froude number v²/(gL)=0.18 < 0.5, firmly in the walking regime",
-        "Free realism from dynamics: hip servo overshoots to 0.405 rad (command 0.34), knee flexes 0.97 rad at touchdown, pitch nods ±0.077 rad — all grown by the sim; adjacent baked samples step <0.26 rad (within the 0.3 gate) and loops close with zero end-to-end error"
+        "Measured electrical power (sim/hab-bot-01/analyze_gait.py, integrating τ·ω): 95.4 W walking (70.8 actuators + 24.6 electronics), 61.6 W standing, 99.6 W carrying a 3 kg tray. Cost of transport CoT = 0.64, squarely in the humanoid range",
+        "Mars pendulum ledger: 0.84 m legs give ω=√(g/L) — 2.10 rad/s on Mars vs 3.42 rad/s on Earth, a 38% slower natural cadence, hence the 1.8 s baked cycle (an Earth twin would run ~1.1 s). Froude number v²/(gL)=0.18 < 0.5, firmly walking",
+        "Realism the dynamics gave for free: hip servo overshoot to 0.405 rad (commanded 0.34), 0.97 rad knee flex at touchdown, ±0.077 rad torso nod. Adjacent samples step under 0.26 rad and the loops close with zero wrap error",
+        "Payload cost: a 3 kg tray lifts actuator draw from 70.8 to 75.0 W (+6%), tripling arm power while the legs barely notice — in low gravity, holding costs more than walking"
       ],
       "physics": [
-        "ZMP 稳定性：单脚支撑时零力矩点须落在脚掌支撑多边形内。仿真俯仰摆动 ±0.077 rad × 质心高 0.9 m ≈ ±7 cm 水平偏移，仍在 20 cm 足长的半长（10 cm）以内；低重力下同样的关节力矩产生更大角加速度，所以火星行走反而要放慢步频、压低步幅"
+        "谐波减速器把铜损搬到电机侧：I²R 要用 τ_joint/(N·η·Kt) 而不是关节力矩本身。忽略 N=100 的减速比会把损耗高估 10⁴ 倍——本项目第一版正因此算出 1.3 kW 的\"行走功耗\"，比整机电池还大",
+        "步幅随速度缩短而非步频降低：人降速主要靠减小步幅，因为摆腿的固有周期由腿长与重力锁定（T≈2π√(L/g)），强行降步频会离开自然摆动、更费力"
       ],
       "physics_en": [
-        "ZMP stability: in single support the zero-moment point must stay inside the foot's support polygon. The simulated pitch sway ±0.077 rad × 0.9 m CoM height ≈ ±7 cm horizontal offset — within the 10 cm half-length of a 20 cm foot. Under low gravity the same joint torque produces more angular acceleration, which is why Mars walking slows the cadence and shortens the stride"
+        "A harmonic drive moves copper loss to the motor side: I²R must use τ_joint/(N·η·Kt), not the joint torque itself. Ignoring N=100 overstates dissipation by 10⁴ — which is exactly how this project's first pass produced a 1.3 kW \"walking\" robot, more than its whole battery could deliver",
+        "Slowing down shortens the stride rather than the cadence: swing-leg period is pinned by leg length and gravity (T≈2π√(L/g)), so forcing a lower cadence leaves the natural swing and costs more energy"
       ]
     },
     {
@@ -124,73 +296,407 @@
       "label": "简化三指手",
       "label_en": "Simplified three-finger hand",
       "range": 8,
-      "detail": "两指对置 + 一枚对握拇指，共 2 个驱动自由度。为什么室内服务不需要五指：门厅任务清单是托盘、水杯、扶手、快递箱——全部是圆柱面/平面的力闭合抓取，三个摩擦接触点已构成力闭合；五指仿人手要多 12+ 个执行器和同样多的密封转轴，质量、功耗与维护点翻倍，而多出来的只有\"精细对指\"能力——那类任务（采样、医疗）由医务室的专用设备承担。",
-      "detail_en": "Two opposed fingers plus one opposing thumb, 2 actuated DOF in total. Why indoor service needs no five-finger hand: the foyer task list is trays, cups, handrails, parcels — all cylinder/plane force-closure grasps, and three friction contacts already achieve force closure. A five-finger anthropomorphic hand adds 12+ actuators and as many sealed joints, doubling mass, power and maintenance points, and buys only fine opposition — tasks of that kind (sampling, medical) belong to the clinic's dedicated equipment.",
+      "detail": "两指对置 + 一枚对握拇指，共 2 个驱动自由度。为什么室内服务不需要五指：门厅任务清单是托盘、水杯、扶手、快递箱——全是圆柱面/平面的力闭合抓取，三个摩擦接触点已构成力闭合；五指仿人手要多 12+ 个执行器和同样多的密封转轴，质量、功耗与维护点翻倍，多出来的只有\"精细对指\"能力，那类任务由医务室的专用设备承担。L2 接触仿真补了一条硬规矩：**托盘只许托在掌上（指压进支撑面内），不许捏边**——力闭合定理管「掉不掉」，不管「转不转」，边缘捏持的力矩账在哪个星球都不及格。",
+      "detail_en": "Two opposed fingers plus one opposing thumb, two actuated degrees of freedom. Why indoor service work does not need five fingers: the foyer task list is trays, cups, handrails and parcels — all force-closure grasps on cylinders and flats, and three frictional contacts already achieve force closure. An anthropomorphic hand adds 12+ actuators and as many sealed joints, doubling mass, power and maintenance points, in exchange for fine pinch manipulation that the clinic's dedicated equipment handles instead. The L2 contact simulation added one hard rule: **trays are carried on the palm (fingers pressing inside the support footprint), never pinched by the rim** — force closure governs dropping, not rotating, and the edge-pinch torque ledger fails on every planet.",
       "specs": {
         "构型": "2 对置指 + 1 拇指",
         "驱动": "2 DOF（欠驱动联动）",
-        "抓取": "圆柱 Ø30~120 mm / 平板 ≤15 mm"
+        "抓取": "圆柱 Ø30~120 mm / 平板 ≤15 mm",
+        "额定载荷": "3 kg 托举——实测 ×4 行走激励裕度（火星=地球）；边缘捏持禁止（力矩系数 0.29）",
+  "仿真出处": "sim/hab-bot-01/grasp_audit.py → grasp_ledger.json"
       },
       "specs_en": {
         "Configuration": "2 opposed fingers + 1 thumb",
         "Actuation": "2 DOF (underactuated linkage)",
-        "Grasp": "cylinders Ø30–120 mm / plates ≤15 mm"
+        "Grasp": "cylinders Ø30–120 mm / plates ≤15 mm",
+        "Rated payload": "3 kg carried — measured x4 margin over the real walking excitation (Mars = Earth); rim pinching forbidden (moment factor 0.29)",
+  "Sim provenance": "sim/hab-bot-01/grasp_audit.py -> grasp_ledger.json"
       },
       "physics": [
-        "力闭合最小接触数：带摩擦的点接触在平面内 2 个、空间中 3 个即可实现力闭合（Nguyen 定理）——三指是空间力闭合的下限构型，再少就只能推不能握"
+        "力闭合最小接触数：带摩擦的点接触在平面内 2 个、空间中 3 个即可实现力闭合（Nguyen 定理）——三指是空间力闭合的下限构型，再少就只能推不能握",
+        "抓握是摩擦问题不是几何问题：力闭合定理保证三指构型「可以」握住，能否握住取决于 µF_n 与载荷惯性力之比。而托举构型下重量同时出现在分子（要抓住的载荷）与分母（压出摩擦的正压力）——当 24 N 指压主导正压力时，重力几乎从账中消去：实测火星与地球裕度相同（×4）。**低重力赦免热是平方的、赦免结构是线性的、赦免这只手是零**——上一版「低重力赦免了手」说反了，手能用是因为它托而不是捏"
       ],
       "physics_en": [
-        "Minimum contacts for force closure: with friction, 2 point contacts suffice in the plane and 3 in space (Nguyen's theorem) — three fingers is the lower-bound configuration for spatial force closure; any fewer can push but never hold"
+        "Minimum contacts for force closure: with friction, two point contacts suffice in the plane and three in space (Nguyen's theorem). Three fingers is therefore the floor for spatial force closure — any fewer and you can push but not hold",
+        "Grasping is a friction problem, not a geometry one: force closure guarantees three fingers *can* hold; whether they *do* depends on µF_n against the load's demand. And in the carry configuration weight appears in both numerator (load to restrain) and denominator (normal force pressing out friction) — with 24 N of finger press dominating, gravity nearly cancels out of the ledger: the measured margin is the same x4 on Mars and Earth. **Low gravity's dispensation is quadratic for heat, linear for structure, and ZERO for this hand** — the previous claim that low gravity forgives the hand was backwards; the hand works because it carries, not because Mars is gentle"
+      ],
+      "sim": [
+        "L1 的 2.90 错在三处（sim/hab-bot-01/grasp_audit.py 逐条清算）：①加速度是拍的——真实手部加速度从行走 MuJoCo 模型上采出来：峰值 8.56 m/s²（L1 猜 0.39 的 **22 倍**），持续（95 分位）3.2 m/s²；按实测重算力系数 2.90→**1.16**；②没有力矩账——托盘捏边时质心悬在握线外 15 cm，重力矩 1.67 N·m 对指衬 3 cm 内的恢复力偶 0.48：**系数 0.29，静态都端不平**。MuJoCo 接触仿真证实：火星翻 138°、地球翻 98°，两个星球都摔盘子；③构型没写清——它混算了捏与托",
+        "正确构型（托举：质心对掌心、指压进支撑面内）在录制的真实行走轨迹激励下扫描：火星与地球都在 **×4 激励**下托稳（漂移 <0.4 cm）、×6 滑落——实测裕度 ×4。滑移由**持续激励**而非瞬时尖峰决定：已知答案门 µ(mg+F指)/m ÷ 持续加速度给 3.3~5.0，与实测滑点吻合",
+        "台架三坑都记档（正确性闸的现场版）：掌板偷当第二支点让捏持假「holds」（解析账说必翻才抓到）；世界系轨迹直灌 mocap（机器人 4 周期前进 2.4 m，环回瞬移甩飞托盘）；convolve 零填充边缘把轨迹末端拉向零、伪造出 11 m/s² 的鞭甩——**非单调的扫描结果是台架味，不是物理**"
+      ],
+      "sim_en": [
+        "L1's 2.90 was wrong three ways (sim/hab-bot-01/grasp_audit.py, itemized): (1) the acceleration was a guess — harvested from the walking MuJoCo model, the real hand sees 8.56 m/s² peak (**22x** L1's 0.39) and 3.2 sustained (95th pct); the force factor redone with measured accel is 2.90 → **1.16**; (2) there was no torque ledger — a rim-pinched tray hangs its CoM 15 cm outside the grip line, and gravity's 1.67 N·m against the 0.48 the finger pads' 3 cm reach can muster is a **0.29 factor: it cannot hold level even statically**. MuJoCo contact confirms: 138° on Mars, 98° on Earth — the tray goes over on both planets; (3) the configuration was never stated — it mixed pinching and carrying",
+        "The correct configuration (carry: CoM over the palm, fingers pressing inside the support footprint), swept under the recorded real-walk trajectory: both Mars and Earth hold at **x4 the excitation** (drift <0.4 cm) and slip at x6 — a measured margin of x4. Slip is governed by **sustained excitation**, not instantaneous spikes: the known-answer gate µ(mg+F_fingers)/m over the sustained accel predicts 3.3–5.0, matching the measured onset",
+        "Three rig traps, all on record (the correctness-gate discipline live): the palm plate moonlighting as a second support made the pinch fake-'hold' (caught because the analytic audit said it MUST tip); the world-frame trajectory fed raw into the mocap (the robot advances 2.4 m over 4 cycles — the wrap teleport hurled the tray); convolve's zero-padding dragging the trajectory tail toward zero, forging an 11 m/s² whip — **non-monotonic sweep results smell of rig, not physics**"
+      ]
+    },
+    {
+      "id": "compute",
+      "label": "边缘大脑：1.34 MOPS 的反射层",
+      "label_en": "The edge brain: a 1.34 MOPS reflex layer",
+      "range": 8,
+      "detail": "背包下舱那块绿板就是机器人的大脑，SoC / LPDDR / eMMC / LiDAR 前端 ASIC 都做进了几何（核心不做黑盒）。这块板的规格不是挑出来的，是数出来的：把资产里真正实现的算法逐条数运算量——CIS 成像链、暗区分割、LiDAR 直方图与峰值、步态回放、正运动学与质心、捕获点平衡、两腿逆解、状态机——全部加起来 1.34 MOPS。一台 1.65 m 人形的全部实时反射，是微控制器级别的负担，不是加速器级别的。认知层（识人 50 MOPS / SLAM 300 / 对话 5×10⁴）差 37 到 37,000 倍，跑在城内计算中心 ops-compute-01——与 MB-1 同一条硅生态。",
+      "detail_en": "The green board in the lower backpack bay is the robot's brain, with SoC, LPDDR, eMMC and the LiDAR front-end ASIC all modeled in the geometry (nothing here is a black box). Its specification was counted, not chosen: totalling the operations of the algorithms actually implemented in this asset — CIS imaging chain, dark-region split, LiDAR histogram and peak finding, gait playback, forward kinematics and CoM, capture-point balance, two-leg IK, state machine — comes to 1.34 MOPS. The entire real-time reflex layer of a 1.65 m humanoid is a microcontroller-class load, not an accelerator-class one. The cognitive layer (person recognition 50 MOPS, SLAM 300, dialogue 5x10^4) is 37 to 37,000 times larger and runs in the city compute centre ops-compute-01 — the same silicon lineage as MB-1.",
+      "specs": {
+        "反射层总算力": "1.34 MOPS（最大项 CIS 成像链 0.61，占 46%）",
+        "应用处理器": "四核 A53 @1.2 GHz，约 2.2 W",
+        "边缘功耗": "2.2 W（初版断言 11 W）",
+        "电子总功耗": "15.8 W（初版断言 24.6 W）",
+        "本地反射延迟": "109 ms（SSM 预算 217 ms）",
+        "云端认知延迟": "189 ms（占预算 87%）",
+        "LiDAR 前端 RTL": "**SRAM 宏版走到 GDS**：0.304 mm²/1.7k 单元、布线 DRC 0、slack +0.05/+0.14 @100 MHz（触发器版 0.555 mm²/38k 单元，DRC 不闭）",
+  "仿真出处": "sim/hab-bot-01/compute_budget.py + sim/hab-bot-01/chip/rtl/lidar_fe.v → syn/area_ledger.json"
+      },
+      "specs_en": {
+        "Reflex-layer total": "1.34 MOPS (largest item: CIS imaging chain, 0.61, 46%)",
+        "Application processor": "quad A53 @1.2 GHz, ~2.2 W",
+        "Edge compute power": "2.2 W (11 W was asserted originally)",
+        "Electronics total": "15.8 W (24.6 W was asserted originally)",
+        "Local reflex latency": "109 ms (SSM budget 217 ms)",
+        "Remote cognitive latency": "189 ms (87% of the budget)",
+        "LiDAR front-end RTL": "**SRAM-macro variant reaches GDS**: 0.304 mm²/1.7k cells, route DRC 0, slack +0.05/+0.14 at 100 MHz (flop variant 0.555 mm²/38k cells, DRC never closed)",
+  "Sim provenance": "sim/hab-bot-01/compute_budget.py + sim/hab-bot-01/chip/rtl/lidar_fe.v -> syn/area_ledger.json"
+      },
+      "sim": [
+        "算力构成（逐算法计数）：CIS 成像模型 0.61 MOPS（30 ops/px × 4096 px × 5 Hz）占 46%，LiDAR 直方图 0.29，正运动学+质心 0.13，捕获点平衡 0.08，其余合计 0.23。整个反射层用 480 MHz Cortex-M7 就有 447 倍裕度",
+        "延迟决定本地/云端的分界：本地反射链 109 ms（LiDAR 采样 83 + 处理 0.8 + 控制周期 5 + 执行器 20），云端认知链 189 ms（多出取像 100 + 上行 8 + 推理 50 + 下行 6）。SSM 只给 217 ms，云端方案吃掉 87% 且零重传裕度——把安全反射放到网络另一端，等于把链路故障模式接进急停回路",
+        "功耗二次修正（方向相反）：第一轮把拍脑袋的执行器 80 W 修成实算 70.8 W、电池 260→340 Wh；这一轮把拍脑袋的电子 24.6 W 修成 15.8 W（边缘计算 11→2.2 W），班次均值 82→73.1 W，4 h 只需 292 Wh → 电池回落到 300 Wh。挖得越深，数字越往回走",
+        "LiDAR 前端流片账已从外推升到 RTL 实测（sim/hab-bot-01/chip/rtl/lidar_fe.v）：可综合 Verilog（串行直方图 + 峰值扫描 + 9 步长除法质心 + 行走校正 LUT），三方位级对拍（RTL / TB 内置参考模型 / Python 金标准，4809 发随机向量）+ 双仿真器（iverilog 与 xsim 的 $finish 时刻精确相同）。Yosys sky130 综合实测（分 bank 终版）：**38,142 单元 / 0.555 mm² = L1 外推 0.57 的 0.97×**。中间还有一层故事：平坦版综合出 0.683 mm²（读多路器把逻辑单元顶到 61k），而 **OpenROAD P&R 八轮战役**（sim/hab-bot-01/chip/pnr/RESULTS.md）证明平坦 1050:1 读多路器**根本布不了线**（GRT-0118 三连）——按通道分 15 个 bank 后全局线降 70 倍、过了全局布线、面积还省 19%。物理级的最终判决是诚实的负结果：时序 100 MHz 轻松满足（slack +1.14/+0.13，tns 0），但 12.9k 使能触发器的引脚密度让两代开源路由器的 DRC 都无法在合理时间闭合（met1 短路家族，修复速率 −26~28%/轮）——**真实直方图芯片用 SRAM 宏不是为了面积，是宏版图里的列多路复用替你解决了可布线性**。L1 的 SRAM 假设被 P&R 之路平反。100 ps 精细 bin 的存储主导判决不变；架构注脚：2 ns bin 不需要 500 MHz 时钟——每微元每门至多一发时间戳、门间有毫秒空档，串行灌直方图 100 MHz 下 10 µs 排空，分辨率活在模拟锁存里而非数字时钟里",
+        "把结论做出来而不是断言（sim/hab-bot-01/chip/rtl/lidar_fe_sram.v）：按 P&R 战役自己开的方子改用 OpenRAM 宏——1050 个计数器按 **3×10 bit 打包进 32 位字**（word = bin×5 + ch/3，350/512 字，单颗宏装下），端口 1 读、端口 0 读改写，一深写旁路吃掉同字连击。10 bit 饱和不是妥协：单个 2 ns bin 要逼近 1024 只能是几乎所有微元同沿触发，而那正是测距账早已判「只报近」的饱和近距区，饱和标志反成第二意见。**同一套 TB、同一批 4809 发金标准向量原样通过，双仿真器同刻**（146115 ns）——存储架构换了，接口与真值没换，等价性测试就该长这样",
+        "面积 A/B 实测（同一 Yosys 流程，宏按黑盒）：触发器版 **38,142 单元 / 0.555 mm²** vs SRAM 版 **1,753 单元 + 1 颗宏 / 0.304 mm²**——**省 45% 面积、少 95% 单元、少 98% 触发器**。按位算触发器 30.8 µm²/bit vs 宏 17.4 µm²/bit，且 12.6 kbit 恰好塞得进一颗 16 kbit 宏（3×10 bit 打包是关键：2×16 bit 要 525 字、超 512、得买两颗反而更贵）。**所以「SRAM 宏是可布线性答案不是密度答案」只对了一半**——在这个尺寸它两样都赢，前提是你肯为打包动一次脑筋",
+        "**第九轮：GDS 闭合。** 同一套 OpenROAD 流程（die 1100×700，宏 MY 取向贴核心左边界——第一次仍踩了 MB-1 记过的 PDN-0179：宏放在 x=20 给边界留了 8 µm 行碎片供不上电，推到 12.42 齐平即过）。详细布线违例 1563→525→361→110→41→14→3→**0**，route_drc.rpt 0 字节；时序 setup **+0.05** / hold **+0.14** ns @100 MHz、tns 0；天线 0；`318,154 µm² @ 44% 利用率`。klayout 合流出 **23.9 MB 的 GDS**（1100×700 µm，51 层，含 1 颗宏）。对照触发器版同阶段 20~35 万违例、每轮只降 26~28%、跑 3~5 h 一轮——**同一个功能、同一批金标准向量，一个不存在、一个可流片**。这颗前端是可流片的，只是不能用我们第一次写的方式"
+      ],
+      "sim_en": [
+        "Where the operations are (counted per algorithm): the CIS imaging model dominates at 0.61 MOPS (30 ops/px x 4096 px x 5 Hz, 46% of the total), LiDAR histogramming 0.29, forward kinematics and CoM 0.13, capture-point balance 0.08, everything else 0.23 combined. A 480 MHz Cortex-M7 would cover the whole reflex layer with 447x headroom",
+        "Latency decides the local/remote boundary: the local reflex chain is 109 ms (LiDAR sampling 83 + processing 0.8 + control quantum 5 + actuator 20), the remote cognitive chain 189 ms (adding capture 100 + uplink 8 + inference 50 + downlink 6). SSM allows only 217 ms, so a remote reflex consumes 87% of the budget with no room for a retransmit — and wires the link's failure modes straight into the emergency-stop path",
+        "Power corrected a second time, in the opposite direction: round one replaced a guessed 80 W of actuator draw with a measured 70.8 W and grew the pack from 260 to 340 Wh; this round replaced a guessed 24.6 W of electronics with 15.8 W (edge compute 11 -> 2.2 W), dropping the shift mean from 82 to 73.1 W so a 4 h shift needs only 292 Wh — pack back down to 300 Wh. The deeper the dig, the more the numbers walk back",
+        "The LiDAR front-end tapeout account has been promoted from scaling to measured RTL (sim/hab-bot-01/chip/rtl/lidar_fe.v): synthesizable Verilog (serialized histogram + peak scan + 9-step long-division centroid + walk-correction LUT), three-way bit-level agreement (RTL / testbench reference model / Python golden, 4,809-stamp random vector) plus dual simulators (iverilog and xsim $finish at the identical tick). Yosys sky130 synthesis, banked final: **38,142 cells / 0.555 mm² = 0.97x the L1 scaling's 0.57**. There is a story in the middle: the flat version synthesized to 0.683 mm² (the read mux pushes logic to 61k cells), and an **eight-run OpenROAD P&R campaign** (sim/hab-bot-01/chip/pnr/RESULTS.md) proved the flat 1050:1 read mux is UNROUTABLE (GRT-0118 three times) — banking by channel cut global wires 70x, passed global routing, and saved 19% area besides. The physical-level verdict is an honest negative: timing closes trivially at 100 MHz (slack +1.14/+0.13, tns 0) but the pin density of 12.9k enable-flops keeps DRC from closing in sensible time on open routers of either era (a met1-short family fixing at only −26-28%/iteration) — **real histogram chips use SRAM macros not for area but because the macro's column muxing solves routability for you**. The L1 SRAM assumption is vindicated by the road that tried to avoid it. The 100 ps fine-bin memory-domination verdict stands. Architecture footnote: 2 ns bins need no 500 MHz clock — each microcell latches at most one stamp per gate and gates repeat at ms scale, so a serial drain at 100 MHz empties 1,024 stamps in 10 µs; the resolution lives in the analog latch, not the digital clock",
+        "Building the conclusion instead of asserting it (sim/hab-bot-01/chip/rtl/lidar_fe_sram.v): the campaign prescribed an OpenRAM macro, so the histogram was rebuilt on one. The 1050 counters pack **3 x 10 bit into each 32-bit word** (word = bin*5 + ch/3, 350 of 512 words, a single macro), port 1 reads while port 0 writes back, and a one-deep write bypass absorbs back-to-back stamps into the same word. Saturating at 10 bits is not a compromise: a single 2 ns bin can only approach 1024 counts when nearly every microcell fires on one edge, exactly the close-range saturated regime the ranging ledger already calls proximity-only - the saturation flag becomes a free second opinion. **The same testbench and the same 4,809-stamp golden vectors pass unchanged on both simulators, finishing at the identical tick** (146,115 ns): the storage architecture changed, the interface and the truth did not",
+        "Measured A/B (same Yosys flow, macro blackboxed): flop variant **38,142 cells / 0.555 mm2** against SRAM variant **1,753 cells + one macro / 0.304 mm2** - **45% less area, 95% fewer cells, 98% fewer flip-flops**. Per bit that is 30.8 um2 in flops against 17.4 um2 in the macro, and 12.6 kbit happens to fit inside one 16 kbit macro - the 3 x 10 bit packing is what makes it fit, since 2 x 16 bit would need 525 words, overflow 512, and cost a second macro. **So 'the SRAM macro is a routability answer, not a density answer' was only half right**: at this size it wins both, provided you think once about packing",
+        "**Round nine: the GDS closes.** Same OpenROAD flow (die 1100x700, macro in MY orientation flush to the core's left edge - the first attempt still tripped the PDN-0179 that MB-1 had documented: placing it at x=20 left an 8 um sliver of rows the power grid could not reach; flush at 12.42 passes). Detailed-route violations went 1563 -> 525 -> 361 -> 110 -> 41 -> 14 -> 3 -> **0**, route_drc.rpt is zero bytes; timing setup **+0.05** / hold **+0.14** ns at 100 MHz with tns 0; antennas clean; 318,154 um2 at 44% utilization. klayout merged a **23.9 MB GDS** (1100x700 um, 51 layers, one macro instance). Against the flop variant's 200-350k violations falling 26-28% per 3-5 hour iteration: **same function, same golden vectors - one does not exist, the other is manufacturable.** This front end is tapeable, just not the way it was first written"
+      ],
+      "physics": [
+        "为什么人形机器人的反射层这么便宜：实时控制的算力需求由状态维度 × 控制频率决定，不由任务看起来多聪明决定。这台机器 12 个关节 × 200 Hz，状态空间几十维，正运动学与逆解都是闭式解——真正吃算力的从来是感知的像素吞吐（这里占 46%）与认知的模型规模，两者都可以搬走或降分辨率",
+        "分层的判据是延迟而不是算力：算力可以买、可以等，延迟不能。凡是进入安全回路的计算，其最坏延迟必须落在安全预算内且留重传裕度——这条把「哪些算法必须在本地」变成了可判定问题，而不是架构口味",
+        "sky130 上存储主导面积：直方图 bin 数与时间分辨率成反比，bin 每细 20 倍，SRAM 面积就涨 20 倍，而逻辑几乎不变。时间分辨率的代价不在 TDC 而在它后面的存储——这是 MB-1 与本前端两次独立撞到的同一堵墙"
+      ],
+      "physics_en": [
+        "Why a humanoid's reflex layer is so cheap: real-time control cost scales with state dimension x control rate, not with how clever the task looks. This machine has 12 joints at 200 Hz, a state space of a few dozen dimensions, and closed-form kinematics in both directions. What actually costs compute is perception's pixel throughput (46% here) and cognition's model size — and both can be moved off-board or down-resolved",
+        "The layering criterion is latency, not throughput: compute can be bought or waited for, latency cannot. Any computation inside the safety loop must have a worst-case latency inside the safety budget with margin for a retransmit — which turns \"what must run locally\" into a decidable question rather than an architectural preference",
+        "On sky130, memory is the area: histogram bins scale inversely with timing resolution, so 20x finer bins cost 20x the SRAM while the logic barely moves. The price of timing resolution is paid after the TDC, not in it — the same wall MB-1 and this front end hit independently"
+      ]
+    },
+    {
+      "id": "hri",
+      "label": "人因：安全距离与舒适距离要求相反的东西",
+      "label_en": "Human factors: safety and comfort want opposite things",
+      "range": 8,
+      "detail": "迎宾的触发半径、停止距离、朝向、挥手，原本全是工程直觉。查了人因的账才发现一个**真设计缺陷**：ISO/TS 15066 的 SSM 分离距离里「人的接近速度」项占主导，只要机器人保留随时移动的权限（未声明安全级静止），哪怕当下静止仍要求 1.97 m，而人交接东西的舒适距离是 0.65 m——严格执行 SSM，这台机器人永远递不出一杯水。标准本身给了出路：SSM 只是四种协作模式之一，静止机器人可以切到功率与力限制（PFL），而本机静止时本来就够格（挥手 13 N、意外启动 93 N，对 280 N 胸部限）。第二个发现：1.65 m 的机器人在交接距离必须低头 24.8° 才能看到坐轮椅者的眼睛，否则视线越过对方头顶——颈部原本只有偏航，现在补了俯仰。",
+      "detail_en": "The greeting radius, the stop distance, the orientation and the wave were all engineering intuition. Checking them against human factors turned up a genuine design fault: in ISO/TS 15066's speed-and-separation formula the human's approach speed dominates, so as long as the robot retains the authority to move (no safety-rated standstill declared), it is owed 1.97 m even while momentarily still — while the comfortable distance for handing something over is 0.65 m. Enforced literally, this robot could never pass anyone a cup of water. The standard itself provides the way out: SSM is one of four collaboration modes, and a stationary machine may instead work under power-and-force limiting, for which this one already qualifies (a wave is 13 N, an unintended start 93 N, against a 280 N chest limit). The second finding: at handover distance a 1.65 m robot must pitch its head down 24.8° to meet a seated person's eyes, or its visor stares over their head. The neck had yaw only; it now has pitch.",
+      "specs": {
+        "SSM 分离（移动 / 静止）": "2.32 m / 1.97 m",
+        "HRI 舒适（机器人接近 / 交接）": "1.20 m / 0.65 m",
+        "两者之比": "1.9×——这就是缺陷所在",
+        "PFL 校核（静止）": "挥手 13 N · 意外启动 93 N · 限值 280 N",
+        "PFL 允许接近": "0.65 m（要移动前须先恢复 SSM 全距离）",
+        "注视俯仰": "站立成人 +3.6° / 坐轮椅者 −24.8°（交接距离）",
+        "挥手频率": "0.95 Hz（人类舒适带 1.0~1.6 Hz）",
+        "仿真出处": "sim/hab-bot-01/hri_proxemics.py → hri_ledger.json"
+      },
+      "specs_en": {
+        "SSM separation (moving / stationary)": "2.32 m / 1.97 m",
+        "HRI comfort (robot approach / handover)": "1.20 m / 0.65 m",
+        "Ratio": "1.9x — that gap is the fault",
+        "PFL check (stationary)": "wave 13 N, unintended start 93 N, limit 280 N",
+        "PFL approach allowance": "0.65 m (full SSM separation must be restored before moving)",
+        "Gaze pitch": "standing adult +3.6°, seated person -24.8° at handover range",
+        "Wave frequency": "0.95 Hz (comfortable human band 1.0-1.6 Hz)",
+        "Sim provenance": "sim/hab-bot-01/hri_proxemics.py -> hri_ledger.json"
+      },
+      "sim": [
+        "空间关系学对照：机器人停止距离 1.60 m 落在社交区（1.2~3.7 m）下段，恰好匹配文献里「初次接触陌生机器人」的偏好 1.60 m。对陌生人这是对的；对天天见它的居民（偏好 1.20 m）就显得刻意保持距离",
+        "SSM 随自身速度收缩的实算：0.35 m/s→2.37 m、0.20→2.20、0.10→2.08、**保留运动权限时即使静止仍 1.97 m**（真正声明安全级静止后 T_stop→0，S 降到 ~0.50 m——这正是 PFL/静止模式的依据）。因为公式第一项是 v_human×(T_react+T_stop)=1.82 m，与机器人自己动不动无关。这就是「SSM 单独无法允许交接」的定量原因",
+        "PFL 资格校核：静止机器人的三种接触源——挥手（1.8 kg 前臂 @0.35 m/s）13 N=限值 0.04 倍、意外启动 93 N=0.33 倍、跌倒 494 N=1.77 倍。前两项过，只有跌倒不过；而跌倒不靠距离防（能量来自高度），靠不摔——平衡账因此是安全论证的一部分，不只是运动性能",
+        "注视几何实测（预览页）：站立成人 1.79 m 处颈部俯仰 +3.2°，坐轮椅者（眼高 1.20 m）0.9 m 处 −18.4°，与解析值一致。协作模式在静止时自动切 PFL、一旦要动回 SSM"
+      ],
+      "sim_en": [
+        "Proxemic cross-check: the 1.60 m stop distance sits at the near edge of the social zone (1.2-3.7 m) and matches the literature's preferred distance for a first encounter with an unfamiliar robot. Right for a stranger; for a resident who sees it daily and would prefer 1.20 m it reads as deliberately keeping away",
+        "SSM separation as the robot slows, computed: 2.37 m at 0.35 m/s, 2.20 at 0.20, 2.08 at 0.10, and **1.97 m even at a dead stop while motion authority is retained** (declaring a safety-rated standstill takes T_stop to zero and S to ~0.50 m — which is exactly the basis of the PFL/standstill mode) — because the first term, v_human x (T_react + T_stop) = 1.82 m, has nothing to do with whether the robot moves. That is the quantitative reason SSM alone cannot permit a handover",
+        "PFL qualification: three contact sources for a stationary robot — a wave (1.8 kg forearm at 0.35 m/s) at 13 N or 0.04x the limit, an unintended start at 93 N or 0.33x, and toppling at 494 N or 1.77x. The first two pass; only toppling fails, and toppling is not prevented by distance (its energy comes from height) but by not falling — which makes the balance ledger part of the safety case, not just a performance one",
+        "Gaze geometry measured in the preview harness: +3.2° of neck pitch toward a standing adult at 1.79 m, and -18.4° toward a seated person (eye height 1.20 m) at 0.9 m, both matching the analytic values. The cooperation mode switches to PFL whenever the robot is stationary and back to SSM the moment it moves"
+      ],
+      "physics": [
+        "安全距离与舒适距离的冲突是结构性的，不是调参问题：SSM 的主导项是**人**的接近速度与机器人的停止时间，二者都与「机器人此刻多温和」无关。所以不存在一个既满足 SSM 又达到交接距离的速度——必须换模式，而不是换数字",
+        "为什么标准要分四种模式：安全不是一个距离，而是「危险来源 × 缓解手段」的配对。移动的机器人靠分离距离缓解，静止的机器人靠力限制缓解，跌倒既不靠距离也不靠力限——靠不发生。把三者混成一个阈值，必然在某个场景过严、在另一个场景失效",
+        "身高即社交信号：1.65 m 与站立成人平视是刻意的（平视降低压迫感），但同一身高对坐姿者就是俯视。注视角 atan2(Δ眼高, 距离) 在交接距离处对 Δ=0.3 m 就有 24.8°——距离越近，身高差的角度效应越大，这与直觉相反"
+      ],
+      "physics_en": [
+        "The conflict between safety and comfort distance is structural rather than a tuning problem: SSM is dominated by the HUMAN's approach speed and the robot's stopping time, neither of which cares how gentle the robot is being. There is therefore no speed that satisfies SSM and reaches handover range — the mode has to change, not the number",
+        "Why the standard defines four modes: safety is not one distance but a pairing of hazard source with mitigation. A moving robot is mitigated by separation, a stationary one by force limiting, and toppling by neither — only by not happening. Collapsing all three into a single threshold is guaranteed to be over-strict in one scenario and ineffective in another",
+        "Height is a social signal: 1.65 m is deliberately eye-level with a standing adult (level gaze reduces the looming effect), but the same height looks down on a seated one. The gaze angle atan2(delta eye height, distance) reaches 24.8° for a 0.3 m difference at handover range — the closer you get, the larger the angular effect of a height difference, which is the opposite of intuition"
+      ]
+    },
+    {
+      "id": "voice",
+      "label": "语音：站定才听得见，进屋才说得响",
+      "label_en": "Voice: it hears when standing, and only speaks indoors",
+      "range": 8,
+      "detail": "头顶环布 6 颗 MEMS 麦克风（离胸下的谐波减速器最远），胸前 LiDAR 窗下是扬声器格栅。语音是新能力，但旧账立刻管住它三次：①声学账——L1 用 Sabine 均匀吸声估出 RT60 2.4 s、临界距离 1.50 m≈迎宾 1.6 m 的「漂亮巧合」；L2 像源法（逐面材料、逐倍频程）把中频 T30 抬到 ~4.7 s、临界距离压到 ~1.3 m——迎宾位其实略在直达区**外**（D/R −2 dB），巧合没活过复查，可懂度靠 C50≈0 dB 的早期反射与波束成形撑住；②自噪账——齿轮啸叫随机械功率走（铜损不响，运动才响），48 kHz 波形级仿真：行走时单麦 −22 dB、6 麦波束成形后仍 −14 dB 根本听不见，站立 −3→+4.7 dB 可用，「要谈先站定」从礼仪变成物理，而对话本来就发生在静止的 PFL 态；③功耗账——音频硬件 +1.0 W 恰好打穿刚按 EOL 定的 370 Wh（裕度 −0.1%），电池第四次改到 380 Wh。计算分层沿用延迟判据：唤醒词+VAD 本地常开，ASR/对话/TTS 走城内（189 ms 往返，语音不在安全环）；断链保 ~20 条本地意图——与烘焙巡逻降级同构。聆听时胸口指示灯转青色：唤醒词之前原始音频不出机器人，隐私可见性与跑步门控一样做成硬的。",
+      "detail_en": "Six MEMS microphones ring the head top (as far as possible from the harmonic drives below the chest), and a speaker grille sits under the LiDAR window. Voice is new capability, but the old ledgers constrain it three times over: (1) acoustics — L1's uniform-absorption Sabine estimate gave RT60 2.4 s and the pretty coincidence of a 1.50 m critical distance ≈ the 1.6 m greeting stop; the L2 image-source model (per-surface materials, per-octave-band) raises mid-band T30 to ~4.7 s and pulls the critical distance in to ~1.3 m — the greeting stop actually sits slightly OUTSIDE the direct field (D/R −2 dB), the coincidence didn't survive review, and intelligibility is carried by C50 ≈ 0 dB early reflections plus beamforming; (2) ego-noise — gear whine follows mechanical power (copper loss is silent, motion is loud), and the 48 kHz waveform-level simulation says: walking, a single mic sits at −22 dB and even 6-mic beamforming only recovers −14 dB — deaf; standing, −3 → +4.7 dB is usable. 'Stand still to talk' is physics, not etiquette, and conversation already lives in the stationary PFL state; (3) power — the +1.0 W of audio hardware precisely breaks the freshly EOL-sized 370 Wh pack (−0.1% margin), driving the fourth battery change, to 380 Wh. The compute split follows the latency criterion: wake word and VAD always-on locally, ASR/dialogue/TTS in the city (189 ms RTT; voice is not in the safety loop); on link loss ~20 canned intents survive locally — the same shape as the baked-patrol fallback. The chest LED turns cyan while listening: raw audio never leaves the robot before the wake word, and the privacy indicator is hard-wired like the running gate.",
+      "specs": {
+        "麦克风": "6× MEMS 头顶环布（远离减速器）",
+        "扬声器": "3 W 峰值，胸前格栅，65 dB@1 m 会话",
+        "玄关声学": "T30 中频 ~4.7 s（像源法；Sabine 3.4 s），临界距离 ~1.3 m，C50 ≈ 0 dB",
+        "自噪": "行走 −22→波束 −14 dB / 站立 −3→+4.7 dB（6 麦增益 +7.7 dB）",
+        "声源定位": "站定 250–1000 Hz SRP：−4°（±10° 预算内）；行走全带锁定齿轮箱 → 不循声",
+        "计算分层": "唤醒词本地 30 MOPS；ASR/对话/TTS 城内（189 ms RTT）",
+        "断链降级": "~20 条本地意图 + 预存语音",
+        "功耗": "+1.0 W → 电池第四改 370→380 Wh",
+        "仿真出处": "sim/hab-bot-01/voice_budget.py + voice_acoustics_l2.py → voice_l2_ledger.json"
+      },
+      "specs_en": {
+        "Microphones": "6x MEMS in a head-top ring (far from the gearboxes)",
+        "Speaker": "3 W peak, chest grille, 65 dB conversational @1 m",
+        "Foyer acoustics": "T30 mid-band ~4.7 s (image-source; Sabine 3.4 s), critical distance ~1.3 m, C50 ≈ 0 dB",
+        "Ego-noise": "walking −22 → beam −14 dB / standing −3 → +4.7 dB (6-mic gain +7.7 dB)",
+        "DOA": "standing 250–1000 Hz SRP: −4° (within ±10° budget); walking full-band locks onto the gearbox → never steer by sound",
+        "Compute split": "wake word local at 30 MOPS; ASR/dialogue/TTS in the city (189 ms RTT)",
+        "Link-loss fallback": "~20 canned intents with cached audio",
+        "Power": "+1.0 W → fourth battery change, 370 → 380 Wh",
+        "Sim provenance": "sim/hab-bot-01/voice_budget.py + voice_acoustics_l2.py -> voice_l2_ledger.json"
+      },
+      "sim": [
+        "L1→L2 声学复查（sim/hab-bot-01/voice_acoustics_l2.py）：Sabine 均匀吸声给 RT60 2.4 s；像源法（Allen-Berkley，逐面逐倍频程：打印墙/夯实地/钢闸门/玻璃窗）给中频 T30 4.7 s、250 Hz 达 5.5 s——纯镜面反射不含散射是上界，真实房间落在同数据 Sabine 3.4 s 与它之间，但 L1 的 2.4 s 肯定偏低。「临界距离 1.50 m≈迎宾 1.6 m」的漂亮巧合也没活过复查：数值 D/R 在 ~1.3 m 过零，1.6 m 处已 −2 dB 略在混响侧；可懂度靠 C50 +0.1 dB 撑住——50 ms 内的早期反射帮人不帮乱",
+        "波形级阵列仿真：48 kHz 合成 6 麦信号——语音整形噪声（3.7 Hz 音节调制）+ 双髋齿轮箱啸叫（2.4/4.8 kHz 音调 + 1.11 Hz 步态调制），每条路径过各自房间冲激响应再延迟求和。行走 −22.0→−14.3 dB 仍不可用、站立 −3.0→+4.7 dB 可用；阵列增益 +7.7 dB 与理论 10·log₁₀6=7.8 吻合——管线自校验。L2 未建躯干对髋→麦路径的遮挡（约还回 +5~8 dB），但补上了 L1 没有的连续啸叫混响积累，两笔反向账都记在案",
+        "声源定位（SRP 方位扫描）自己给出策略：行走全带锁死在齿轮箱方向（−60°，它比人声响 18 dB）——**行走中永不循声转头**不是保守设定，是仿真实测的失效模式；站定 + 250–1000 Hz 带通后 −4°，落在 ±10° 颈转预算内",
+        "功耗连锁：音频 +1.0 W → 班次均值 73.1→74.1 W → 4 h 需 296.4 Wh，而 370 Wh 的 EOL 只有 296 Wh，裕度 −0.1% 转负 → 电池 380 Wh（EOL 304，+2.6%）。裕度存在的意义就是在第一天暴露蠕变，而不是一年后班次莫名缩水",
+        "聆听行为实测（预览页）：迎宾面向完成 1.5 s 后表情切 ≈≈、胸灯转青、S.coop=PFL；玩家离开即全部清零。行走中永不聆听——不是策略开关,是波束成形也救不回的 −14 dB 物理"
+      ],
+      "sim_en": [
+        "L1→L2 acoustics review (sim/hab-bot-01/voice_acoustics_l2.py): uniform-absorption Sabine gave RT60 2.4 s; the image-source model (Allen-Berkley, per-surface per-octave: printed walls / compacted floor / steel airlock doors / glass window) gives mid-band T30 4.7 s, reaching 5.5 s at 250 Hz — purely specular with no scattering it is an upper bound, and the real room lands between same-data Sabine 3.4 s and it, but L1's 2.4 s was certainly low. The pretty coincidence of 'critical distance 1.50 m ≈ 1.6 m greeting stop' didn't survive review either: the numerical D/R crosses zero at ~1.3 m, and 1.6 m already sits at −2 dB on the reverberant side; intelligibility is carried by C50 +0.1 dB — early reflections inside 50 ms help rather than hurt",
+        "Waveform-level array simulation: 6 mic signals synthesized at 48 kHz — speech-shaped noise (3.7 Hz syllabic modulation) plus both hip gearboxes' whine (2.4/4.8 kHz tones with 1.11 Hz gait modulation), every path convolved with its own room impulse response, then delay-and-sum. Walking −22.0 → −14.3 dB, still unusable; standing −3.0 → +4.7 dB, usable; array gain +7.7 dB matches theory 10·log₁₀6 = 7.8 — the pipeline self-validates. L2 omits torso shielding of the hip-to-mic path (which would restore +5–8 dB) but adds the reverberant build-up of the continuous whine that L1 lacked — both opposing corrections are on the record",
+        "DOA (SRP azimuth scan) wrote its own policy: walking, the full-band scan locks onto the gearbox direction (−60°; it is 18 dB louder than the talker) — 'never steer by sound while walking' is not conservatism but a simulated failure mode; standing with a 250–1000 Hz bandpass it returns −4°, inside the ±10° neck-steer budget",
+        "The power chain: +1.0 W of audio lifts the shift mean from 73.1 to 74.1 W, so 4 h needs 296.4 Wh — and the 370 Wh pack's EOL is 296 Wh, margin −0.1%, negative → 380 Wh (EOL 304, +2.6%). Margins exist precisely to expose creep on day one instead of as a mystery shortfall a year in",
+        "Listening behaviour measured in the preview: 1.5 s after the greeting turn completes, the visor switches to ≈≈, the chest LED turns cyan, S.coop = PFL; everything clears when the person leaves. It never listens while walking — not a policy toggle but −14 dB physics that even beamforming cannot rescue"
+      ],
+      "physics": [
+        "临界距离 r_c 是直达声与混响场等强的半径——它由房间决定,与说话多大声无关。提高音量同时提高直达与混响,救不了混响主导区;出路只有空间滤波(波束成形)或把人留在 r_c 之内。L2 数值解显示迎宾位 1.6 m 恰好略在 r_c(~1.3 m)之外——所以这台机器人的可懂度不是几何送的,是波束成形挣的",
+        "热不响,动才响:铜损把电能变成热,齿轮啮合把机械能的一小部分(~10⁻⁵)变成声。所以噪声预算跟着 τ·ω 的机械通量走,而不是电学账——站立保持力矩再大,只要不转就安静。这也是「站定才对话」能成立的根本原因",
+        "语音是这台机器人第三个「只在室内成立」的子系统:LiDAR(日光背景)、热设计(地球重力)、语音(火星地表 ~600 Pa CO₂,声耦合弱 ~20 dB 且高频强吸收,几米外语音不可懂)。地下城加压到常压,声学与地球无异——会说话的机器人是加压舱的产物"
+      ],
+      "physics_en": [
+        "The critical distance r_c is the radius where direct and reverberant fields are equal — set by the room, independent of how loudly anyone speaks. Raising the volume raises both fields and rescues nothing in the reverb-dominated zone; the only outs are spatial filtering (beamforming) or keeping the person inside r_c. The L2 numerical solution puts the 1.6 m greeting stop just outside r_c (~1.3 m) — so this robot's intelligibility is not a gift of geometry but earned by the beamformer",
+        "Heat is silent, motion is loud: copper loss turns electricity into heat, gear mesh turns a tiny fraction (~10⁻⁵) of mechanical power into sound. The noise budget therefore follows the mechanical throughput τ·ω, not the electrical ledger — however large the holding torque, an unturning gear is quiet. Which is the root reason 'stand still to talk' works at all",
+        "Voice is this robot's third indoor-only subsystem: the LiDAR (daylight background), the thermal design (Earth gravity), and now speech (on the ~600 Pa CO₂ surface, sound couples ~20 dB weaker with strong high-frequency absorption — unintelligible beyond a few metres). The undercity is pressurized to Earth-normal, so its acoustics are too: a talking robot is a product of the pressure hull"
+      ]
+    },
+    {
+      "id": "fall",
+      "label": "跌倒：它会摔，摔了会怎样",
+      "label_en": "Falling: it will happen, and what happens then",
+      "range": 8,
+      "detail": "迈步控制器的可行域是斑驳的——0.45 m/s 做到 5/5，但 0.30 与 0.60 各丢过一次。所以这台机器**会摔**，而「摔了会不会坏、会不会砸到人、能不能自己起来」三个问题此前从未算过。跌倒是绕踝的倒立摆：火星给 2.3 s 倒地时间（地球 1.4 s，自 2.3° 初始扰动积分；绝对值对初角敏感，但火星/地球之比恒为 1.63），头部以 4.46 m/s 着地——**是质心速度的 1.84 倍**，因为它在杠杆最远端。这条账直接改了设计：面罩上下护框现在比屏面凸出 3 mm，先着地的是框不是玻璃。",
+      "detail_en": "The stepping controller's feasible region is patchy — 0.45 m/s scored 5/5 on perturbed starts, but 0.30 and 0.60 each lost one run in five. So this machine **will** go down, and three questions had never been asked: does it break itself, does it hurt anyone, can it get back up. A fall is an inverted pendulum about the ankle: Mars allows 2.3 s of toppling time (Earth 1.4 s, integrated from a 2.3° perturbation; the absolute time is sensitive to the initial angle, but the Mars/Earth ratio is always 1.63) and the head lands at 4.46 m/s — **1.84x the centre-of-mass speed**, because it sits at the far end of the lever. That number changed the design: the visor's upper and lower guards now stand 3 mm proud of the screen so the frame hits the floor, not the glass.",
+      "specs": {
+        "倒地时间": "2.3 s 自 2.3° 扰动（地球 1.4 s；比值恒 1.63）",
+        "质心 / 头部着地速度": "2.42 / 4.46 m/s（地球 3.94 / 7.26）",
+        "跌倒能量": "132 J（地球 349 J）",
+        "面罩玻璃压溃容量": "16 J ← 需要保护框",
+        "前臂压溃容量": "100 J（护撑动作的着地点）",
+        "倾倒可及半径": "1.65 m（< SSM 分离 2.40 m）",
+        "自恢复": "可以（需 20~29 N·m，可用 55~150）",
+        "仿真出处": "sim/hab-bot-01/fall_dynamics.py → fall_ledger.json"
+      },
+      "specs_en": {
+        "Topple time": "2.3 s from a 2.3° lean (Earth 1.4 s; ratio fixed at 1.63)",
+        "CoM / head impact speed": "2.42 / 4.46 m/s (Earth 3.94 / 7.26)",
+        "Fall energy": "132 J (Earth 349 J)",
+        "Visor glass crush capacity": "16 J — hence the guard frame",
+        "Forearm crush capacity": "100 J (where a braced fall lands)",
+        "Topple reach": "1.65 m (inside the 2.40 m SSM separation)",
+        "Self-righting": "possible (needs 20-29 N·m against 55-150 available)",
+        "Sim provenance": "sim/hab-bot-01/fall_dynamics.py -> fall_ledger.json"
+      },
+      "sim": [
+        "跌倒动力学（绕踝倒立摆 RK4 积分，与能量解交叉校验差 <0.02 rad/s）：火星自 2.3° 扰动倒地 2.31 s（地球 1.42 s）、着地角速度 2.71 rad/s——着地速度与能量由能量守恒决定，与初角无关，质心着地 2.42 m/s、**头部 4.46 m/s**。头快 1.84 倍不是玄学，是它在 1.65 m 半径而质心在 0.895 m",
+        "自身损伤：跌倒沉积 132 J。面罩玻璃（0.8 mm 化学强化，4 mm 压溃行程）只能吸收 16 J——**处于风险**；髋部壳板 200 J、前臂 100 J 都能扛。所以护撑动作的价值不在于减小能量，而在于把着地点从玻璃换成前臂",
+        "对旁人的危险（与 SSM 接触力账同线但更严重）：倾倒的等效质量 13.3 kg（细杆绕踝），4.46 m/s 撞上人，即使 15 mm 柔性蒙皮也有 493 N = 胸部瞬态限的 1.8 倍；刚性外壳则是 10.6 倍。**限速救不了跌倒**——真正的缓解是分离距离：倾倒可及 1.65 m，而 SSM 要求的 2.40 m 恰好把它包住，余量 0.75 m",
+        "自恢复力矩（准静态估算）：俯卧撑起身肩部 19.9 N·m（可用 55）、跪→蹲膝 22.1、蹲→站髋 28.9（可用 150）。火星可以自己站起来；同样关节在地球需 53/58/76 N·m，仍在余量内——但那是**结构余量**，热余量前一张卡已经说过不成立"
+      ],
+      "sim_en": [
+        "Fall dynamics (inverted pendulum about the ankle, RK4, cross-checked against the energy solution to under 0.02 rad/s): 2.31 s to ground on Mars from a 2.3° lean (1.42 s on Earth), landing at 2.71 rad/s — impact speed and energy follow from energy conservation and are independent of the initial angle, centre of mass landing at 2.42 m/s and the **head at 4.46 m/s**. The 1.84x is geometry, not mystery: the head is at 1.65 m radius while the CoM is at 0.895 m",
+        "Self-damage: a fall deposits 132 J. The visor glass (0.8 mm chemically strengthened, 4 mm of crush travel) absorbs only 16 J — **at risk**; the hip shell panel takes 200 J and the forearm 100 J, both fine. The value of a bracing reflex is therefore not energy reduction but changing where the impact lands, from glass to forearm",
+        "Bystander hazard (same line as the SSM contact ledger, but worse): the toppling effective mass is 13.3 kg (slender rod about the ankle), and at 4.46 m/s even a 15 mm compliant skin yields 493 N — 1.8x the transient chest limit; a rigid shell is 10.6x. **Speed governing cannot fix a fall.** The real mitigation is separation: topple reach is 1.65 m, and the 2.40 m the SSM already demands contains it with 0.75 m to spare",
+        "Self-righting torque (quasi-static): 19.9 N·m at the shoulder to push up from prone (55 available), 22.1 at the knee for kneel-to-squat, 28.9 at the hip for squat-to-stand (150 available). It can stand itself up on Mars; the same joints on Earth need 53/58/76 N·m, still inside the limits — but that is structural margin, and the previous card showed the thermal margin does not survive the trip"
+      ],
+      "physics": [
+        "跌倒时头比质心快，是刚体转动的必然：v = ωr，头在 1.65 m 半径、质心在 0.895 m，比值 1.84 与重力无关。任何按「质心自由落体」估算头部冲击的做法都会低估近一倍——这正是面罩需要凸出护框的原因",
+        "低重力对跌倒是三重赦免且方向一致：倒地时间 ∝ √(L/g) 变长 1.63 倍（更多时间检测与保护）、着地速度 ∝ √(gL) 降低 1.63 倍、冲击能量 ∝ mgh 降低 2.64 倍。这是本项目里低重力唯一一处**没有附带代价**的赦免",
+        "跌倒危险无法用限速消除,因为跌倒速度来自重力势能而非行走速度:站着不动摔倒和 0.35 m/s 走着摔倒,头部着地速度几乎一样。安全策略因此必须从「控制接触速度」换成「保证分离距离」——两条不同的安全逻辑,资产里都实现了"
+      ],
+      "physics_en": [
+        "The head outrunning the centre of mass is rigid-body rotation, not mystery: v = ωr, with the head at 1.65 m and the CoM at 0.895 m, a ratio of 1.84 that is independent of gravity. Estimating head impact from a CoM free-fall underestimates it by nearly half — which is precisely why the visor needs a proud guard frame",
+        "Low gravity forgives falling three ways at once and in the same direction: topple time scales as sqrt(L/g) and grows 1.63x (more time to detect and brace), landing speed scales as sqrt(gL) and drops 1.63x, and impact energy scales as mgh and drops 2.64x. It is the only dispensation in this project that arrives without a matching bill",
+        "Fall hazard cannot be removed by speed governing, because falling speed comes from gravitational potential energy rather than walking speed: toppling from a standstill and toppling at 0.35 m/s put the head down at almost the same speed. Safety therefore has to switch from controlling contact speed to guaranteeing separation — two different logics, and the asset implements both"
+      ]
+    },
+    {
+      "id": "thermal",
+      "label": "热：低重力赦免了它，也只赦免了它",
+      "label_en": "Heat: the low-gravity dispensation, and its price",
+      "range": 8,
+      "detail": "86.6 W 的行走功耗几乎全部变成废热，而地下城是密闭无风的。整机不是问题（外壳温升 7.1 K），问题在关节：髋关节要把 22.9 W 塞进一个马克杯大小的壳体里，单靠自身表面会高出环境 71.7 K。真正的散热设计不是外壳而是**关节到肢体壳体的传导路径**。集总账说导进大腿壳后温升 15.7 K、绕组 50 °C；COMSOL FEM 复查了它最软的假设——**大腿等温**——发现大腿其实是效率 56% 的翅片（远端温升只有根部 35%），同口径下等温假设乐观 55%，修后温升 19.5 K、绕组 **54 °C**，仍离 120 °C 限值很远（集总账的面积少算与完美翅片假设几乎对消，结论侥幸没歪）。热时间常数 ~40 分钟，短时爆发（跑步、载重）在热上免费。结论是负面的：热不是这台机器人的约束。但**它不是约束的原因是火星**——同一设计在地球，髋关节耗散 22.9→129.9 W（铜损随扭矩平方涨 7 倍），FEM 绕组 189 °C——全 T⁴ 辐射在高温下帮的忙被翅片劣化吃回去，照样烧穿限值。",
+      "detail_en": "Nearly all of the 86.6 W walking draw becomes waste heat, and the undercity is sealed and windless. The whole body is not the problem (shell rise 7.1 K); the joints are. The hip must dump 22.9 W into a housing the size of a coffee mug, which alone would sit 71.7 K above ambient. The real cooling design is therefore not the shell but the **conduction path from joint into limb**. The lumped ledger said the thigh brings the rise to 15.7 K and the winding to 50 °C; a COMSOL FEM audited its softest assumption — an **isothermal thigh** — and found the thigh is actually a fin at 56% efficiency (the tip rises only 35% as much as the root), making the isothermal assumption 55% optimistic like-for-like. Corrected: 19.5 K and a **54 °C** winding, still far from the 120 °C limit (the lumped model's area undercount and its perfect-fin assumption almost exactly cancelled — the conclusion survived by luck). With a ~40-minute thermal time constant, short bursts (running, payloads) are thermally free. The conclusion is a negative one: heat does not constrain this robot. But **the reason it does not is Mars** — the identical design on Earth dissipates 129.9 W at the hip instead of 22.9 W (copper loss rises with the square of torque, a factor of 7) and the FEM puts the winding at 189 °C — full T⁴ radiation helps at that temperature and fin droop takes the help right back — straight through the limit.",
+      "specs": {
+        "行走废热": "86.6 W（执行器 70.8 + 电子 15.8）",
+        "整机外壳温升": "7.1 K（h=10.7 W/m²K 自然对流+辐射，1.15 m²）",
+        "髋关节绕组": "54.1 °C（FEM；集总账 50.3；限值 120 °C，齿轮脂 90 °C）",
+  "大腿翅效率": "0.56（FEM；集总账假设 1.00）——远端温升仅根部 35%",
+        "热时间常数": "髋 ~41 min（FEM UA）/ 膝 ~27 min",
+        "可持续占空比": "100%（热不构成限制）",
+        "疏散跑步": "髋 44 W，FEM UA 下稳态 ~84 °C，永不到限——跑步受安全限而非热限",
+        "仿真出处": "sim/hab-bot-01/thermal_budget.py + comsol/hip_thermal.java → hip_thermal_fem.json"
+      },
+      "specs_en": {
+        "Walking waste heat": "86.6 W (70.8 actuators + 15.8 electronics)",
+        "Whole-body shell rise": "7.1 K (h=10.7 W/m²K free convection + radiation, 1.15 m²)",
+        "Hip winding": "54.1 °C (FEM; lumped said 50.3; limit 120 °C, gear grease 90 °C)",
+  "Thigh fin efficiency": "0.56 (FEM; the lumped ledger assumed 1.00) — the tip rises only 35% of the root",
+        "Thermal time constant": "hip ~41 min (FEM UA) / knee ~27 min",
+        "Sustainable duty cycle": "100% (heat is not the limit)",
+        "Evacuation run": "hip 44 W, ~84 °C steady state on the FEM UA, never reaches the limit — running is safety-limited, not heat-limited",
+        "Sim provenance": "sim/hab-bot-01/thermal_budget.py + comsol/hip_thermal.java -> hip_thermal_fem.json"
+      },
+      "sim": [
+        "平均值会骗人：整机 86.6 W 分摊到 1.15 m² 外壳只有 7.1 K 温升，看着毫无压力；但同样的热量按关节分解，髋关节 22.9 W 落在 0.030 m² 的关节壳上就是 71.7 K。人形机器人烧掉的从来不是电池而是执行器，原因就在这个分母上",
+        "散热设计的要害是传导而非表面：把髋关节热导入大腿壳体（合计 0.137 m²）后温升 71.7→15.7 K，绕组 50.3 °C。若关节到肢体的热接口做砸（R_int 显著变差），髋关节独自承担就会逼近齿轮脂 90 °C 限值——这条热接口是整个热设计的单点",
+        "热时间常数 33 分钟（大腿 3.2 kg 铝 × 900 J/kgK ÷ UA）：10 分钟连续行走只升到 29 °C，1 小时 46 °C。短时高负载在热上免费，所以占空比比峰值功率重要得多；3 kg 托盘只让髋耗散 +2%",
+        "地球对照（本卡最重要的一条）：关节扭矩随 g 线性涨，铜损随扭矩平方涨。同一设计搬到地球，髋耗散 22.9→129.9 W、绕组 50→183 °C，远超 120 °C 限值，必须换更大电机、加液冷或砍占空比。这台机器人的热设计不是「在火星也能用」，而是「只有在火星才成立」——FEM 复核后地球绕组 183→189 °C，判决不变",
+  "L2 FEM 复核（comsol/hip_thermal.java，COMSOL 6.3，115k 自由度，全 T⁴ 辐射）：三工况一次编译——真实 k=167、k=10⁵ 等温极限（已知答案闸：dT 12.59 K 对解析 12.6，全域温差 0.04 K）、地球 129.9 W。能量闭合三例全部 1.000，辐射份额 53% 与线性化 h_rad 占比互证，独立方管翅片解析解 19.1 K 对 FEM 19.5 K（差 2%）——三类闸门全过",
+  "FEM 的判决：集总账最软的假设「大腿等温」被定量推翻——大腿是效率 0.56 的翅片，远端温升只有根部 35%，同口径下等温假设把温升低估 55%（12.6 vs 19.5 K）。但绕组只从 50.3 修到 54.1 °C，结论侥幸存活：集总账把面积少算了 26%（0.137 vs 0.172 m²），两个反向错误几乎对消。**两个错互相抵消不等于没错**——地球工况下它们不再对消（189 vs 183），裕度平方缩放时也不会"
+      ],
+      "sim_en": [
+        "Averages lie: 86.6 W spread over 1.15 m² of shell is a 7.1 K rise and looks effortless, but the same heat resolved per joint puts 22.9 W onto the hip's 0.030 m² housing — 71.7 K. What kills humanoids is never the battery, it is the actuators, and the reason is that denominator",
+        "Cooling is a conduction problem, not a surface problem: conducting hip heat into the thigh casing (0.137 m² combined) drops the rise from 71.7 to 15.7 K and holds the winding at 50.3 °C. If that joint-to-limb interface is done badly, the hip alone approaches the 90 °C gear-grease limit — the thermal interface is the single point of the whole design",
+        "Thermal time constant 33 minutes (3.2 kg of aluminium thigh x 900 J/kgK over UA): ten minutes of continuous walking reaches only 29 °C, an hour 46 °C. Bursts are thermally free, so duty cycle matters far more than peak power; a 3 kg tray adds just 2% to hip dissipation",
+        "The Earth comparison is the headline: joint torque scales linearly with g and copper loss with torque squared. The identical design on Earth dissipates 129.9 W at the hip instead of 22.9 W and reaches a 183 °C winding, well past the 120 °C limit — it would need larger motors, liquid cooling, or a reduced duty cycle. This thermal design does not merely tolerate Mars; it only closes on Mars — re-checked by FEM, the Earth winding moves 183 to 189 °C and the verdict stands",
+  "L2 FEM audit (comsol/hip_thermal.java, COMSOL 6.3, 115k DOF, full T⁴ radiation): three cases in one compile — real k=167, a k=10⁵ isothermal limit (known-answer gate: dT 12.59 K vs 12.6 analytic, 0.04 K spread across the whole solid), and Earth at 129.9 W. Energy closure 1.000 in all three, the 53% radiative share cross-checks the linearized h_rad split, and an independent square-tube fin analytic gives 19.1 K vs the FEM's 19.5 (2%) — all three gate classes passed",
+  "The FEM's verdict: the lumped model's softest assumption — an isothermal thigh — is quantitatively dead. The thigh is a fin at 0.56 efficiency, its tip rising only 35% as much as its root, so like-for-like the isothermal assumption understates the rise by 55% (12.6 vs 19.5 K). Yet the winding only moves 50.3 to 54.1 °C, because the lumped ledger also undercounted the area by 26% (0.137 vs 0.172 m²) — two opposite errors almost exactly cancelling. **Two cancelling errors are not the same as no error**: on Earth they no longer cancel (189 vs 183), and they will not cancel as margins scale"
+      ],
+      "physics": [
+        "散热能力按面积走，产热按扭矩走，而扭矩按重力走——三者的标度不同，正是「整机没事、关节要命」的根源。任何按整机平均值做的热判断，对关节都是无效的",
+        "铜损 I²R 中 I ∝ τ，所以热耗随扭矩平方标度：重力降到 0.38 倍，关节热耗降到 0.14 倍。低重力对热的赦免是平方级的，比对结构质量的线性赦免更慷慨——这也是为什么低重力星球上的人形机器人比地球同类容易做",
+        "热时间常数 τ = mc/(hA) 把「峰值功率」这个指标降格：只要爆发时长远小于 τ，机器看到的是平均功率。33 分钟的 τ 意味着几分钟的疏散跑步在热上完全不可见"
+      ],
+      "physics_en": [
+        "Heat rejection scales with area, heat generation with torque, and torque with gravity — three different scalings, which is exactly why the body is fine while the joint is not. Any thermal judgement made on whole-body averages is invalid at the joint",
+        "In I²R the current scales with torque, so dissipation scales with torque squared: cutting gravity to 0.38 cuts joint heat to 0.14. Low gravity's thermal dispensation is quadratic, more generous than its linear relief on structural mass — which is why humanoids are easier to build on low-gravity worlds",
+        "The thermal time constant τ = mc/(hA) demotes peak power as a metric: as long as a burst is much shorter than τ, the machine only sees the average. A 33-minute τ makes a few minutes of evacuation running thermally invisible"
       ]
     },
     {
       "id": "battery",
       "label": "电池背包与边缘计算",
-      "label_en": "Battery backpack & edge compute",
+      "label_en": "Battery backpack and edge compute",
       "range": 8,
-      "detail": "背包上舱是 260 Wh 锂电池组（橙色提手可整包快换），下舱是边缘感知计算板与通讯模块。机器人只带感知与反射层——LiDAR 急停、视觉分割、步态回放在本地跑；行为规划与语义理解的重推理跑在城内计算中心（ops-compute-01，MB-1 生态）：边缘 5 Hz 感知 + 城内推理回传，断链时降级为本地烘焙巡逻路线，与引擎感知通道的优雅降级契约同构。",
-      "detail_en": "The upper backpack bay holds a 260 Wh lithium pack (orange handle, whole-pack quick swap); the lower bay carries the edge-perception board and comms module. The robot carries only perception and reflexes — LiDAR e-stop, visual segmentation and gait playback run locally; heavy inference for planning and language runs at the city compute center (ops-compute-01, the MB-1 ecosystem). Edge 5 Hz perception + city inference over the link; on link loss it degrades to the locally baked patrol loop — the same graceful-degradation contract as the engine's sensor channel.",
+      "detail": "背包上舱是 480 Wh 锂电池组（橙色提手整包快换），下舱是边缘计算板与通讯模块。容量改过五次，每次的驱动都不同：260→340（执行器功耗上修）→300（电子功耗下修）→370（按寿命末期设计）→380（语音 +1 W 打穿 EOL 裕度）→**480（充电账抓到窗口矛盾）**。矛盾是：EOL 定容拿班次需能对比 **80%×全容量**，循环计数却用 **25→95% 窗口**——同一本账的两半用了两个 SOC 窗口，从没乘到一起。乘起来：380 Wh 的可用窗口只有 266 Wh，班次要 296.4 Wh，**「4 h 班次」第一天就差 25 分钟**，根本不用等老化。自洽重定（窗口 15→95%、EOL 窗口内 307 Wh、裕度 +3.6%）落在 480 Wh，而且这一改是双重受益：大电池循环更浅，FEC 寿命 500→643。",
+      "detail_en": "The upper backpack bay holds a 480 Wh pack (orange handle, swappable as a unit); the lower bay carries the edge compute board and radio. The capacity has moved five times, each for a different reason: 260 to 340 (actuator draw up), to 300 (electronics down), to 370 (sized for end of life), to 380 (voice's +1 W broke the EOL margin), to **480 — the charging ledger caught a window contradiction**. The contradiction: the EOL sizing compared shift energy against **80% x FULL capacity**, while the cycle count used the **25-95% operating window** — two SOC windows in one ledger, never multiplied together. Multiplied: the 380 Wh pack's usable window is 266 Wh against a 296.4 Wh shift, so **the '4 h shift' promise fails on day one by 25 minutes** — no ageing required. The self-consistent resize (window 15-95%, 307 Wh in-window at EOL, +3.6% margin) lands at 480 Wh, and the change pays twice: a bigger pack cycles shallower, lifting FEC life from 500 to 643.",
       "specs": {
-        "电池": "260 Wh（48 V 5.4 Ah，~1.3 kg @200 Wh/kg）",
-        "行走功耗": "80 W（执行器 52 + 边缘感知 18 + 通讯 10）",
-        "待机功耗": "12 W",
-        "班次": "4 h（60% 行走占空）"
+        "电池": "480 Wh（48 V 10 Ah，13S NMC，2.4 kg；窗口自洽设计）",
+        "工作窗口": "15→95% SOC（地板=EOL 时 6 h 在桩待机；顶棚避开 >4.1 V/cell 老化拐点）",
+        "行走功耗": "86.6 W（执行器 70.8 + 电子 15.8）",
+        "站立功耗": "52.8 W",
+        "电子分项": "计算 2.2 / 通讯 6 / LiDAR 前端 2.6 / MCU 2.4 / 相机 1.4 / 屏 1.2 W",
+        "班次": "4 h（均值 74.1 W → 296.4 Wh；EOL 窗口内裕度 +3.6%）",
+        "充电": "净入芯 135 W = 0.27 C，典型 2.3 h / 最深 2.9 h，95% 顶棚下全程 CC",
+        "寿命": "晚充 ~404 sol / 早充 ~347 sol 到 80% 退役线（SEI 动力学 + 热耦合 L2；L1 曾说 473/397）",
+  "包温": "工作 28.8 °C / 在桩 25.3 °C——不是环境 22 °C（背包与计算板同舱）"
       },
       "specs_en": {
-        "Battery": "260 Wh (48 V 5.4 Ah, ~1.3 kg @ 200 Wh/kg)",
-        "Walking power": "80 W (actuators 52 + edge perception 18 + comms 10)",
-        "Standby power": "12 W",
-        "Shift": "4 h (60% walking duty)"
+        "Pack": "480 Wh (48 V 10 Ah, 13S NMC, 2.4 kg; window-consistent sizing)",
+        "Operating window": "15-95% SOC (floor = 6 h docked standby at EOL; ceiling avoids the >4.1 V/cell ageing knee)",
+        "Walking draw": "86.6 W (70.8 actuators + 15.8 electronics)",
+        "Standing draw": "52.8 W",
+        "Electronics breakdown": "compute 2.2 / radio 6 / LiDAR front end 2.6 / MCU 2.4 / camera 1.4 / visor 1.2 W",
+        "Shift": "4 h (mean 74.1 W -> 296.4 Wh; +3.6% in-window margin at EOL)",
+        "Charging": "135 W net into cells = 0.27 C; typical 2.3 h / deepest 2.9 h, all-CC below the 95% ceiling",
+        "Life": "~404 sols just-in-time / ~347 charge-on-arrival to the 80% line (SEI kinetics + thermal coupling, L2; L1 said 473/397)",
+  "Pack temperature": "28.8 °C working / 25.3 °C docked — not the 22 °C ambient (it shares a bay with the compute board)"
       },
       "sim": [
-        "功率预算闭合：0.6×80 + 0.4×12 = 52.8 W 班次均值 → 4 h 班次耗电 211 Wh，260 Wh 电池组裕度 23%；150 W 充电 1.7 h 回满——两班一充，夜间低谷充电与城市储能场错峰"
+        "功率预算闭合（analyze_gait.py + compute_budget.py）：0.6×86.6 + 0.4×52.8 = 73.1 W → 4 h 需 292 Wh，配 300 Wh 裕度仅 3%——比上一版 340 Wh 紧，但那 340 建立在「电子 24.6 W」的错误断言上",
+        "电池占质量 1.5/39.8 = 3.8%——低重力让结构轻，能量密度反而成了主导约束",
+        "老化账（sim/hab-bot-01/endgame_budget.py）：500 FEC 到 80% → 300 Wh 在 EOL 只够 3.28 h 班次，故按 EOL 设计。教训：裕度必须在寿命末期算，首日裕度是幻觉",
+        "窗口审计（sim/hab-bot-01/charging_budget.py）：上一条账自己也有病——定容用 0-100% 全容量、循环计数用 25-95% 窗口，两半没乘过。乘起来 380 Wh 可用仅 266 Wh < 296.4，4 h 承诺**首日**失效于 3.59 h。自洽重定（Wöhler N∝DoD⁻²，窗口 15-95%，EOL 裕度 ≥3%）扫 380~560 Wh 得 480：班内摆幅 0.62、FEC 寿命 643、纯循环 520 sol。定容错误藏了三轮才被抓，因为每一轮都只查自己的角落——没人把两个窗口乘到一起",
+        "日历老化 × 充电策略（L1 版）：漂浮 SOC 决定日历衰减，「到桩即充满」397 sol vs「掐点晚充」473 sol——晚充白赚 76 sol。**这一版三处都不对，见下条**",
+        "老化 L2（sim/hab-bot-01/battery_ageing.py）：SEI 生长受自身膜厚扩散限制，衰减走 **√t** 而非线性；且**电池不住在环境温度里**——它在背包上舱，与计算板/电台同舱（11 W），贴着一具耗散 87 W 的躯干：实算包温**工作 28.8 °C / 在桩 25.3 °C**，L1 假设的 22 °C 在工作时段差 6.8 K，按 Arrhenius（Ea 50 kJ/mol，每 10.2 K 翻倍）就是日历衰减 ×1.6。第三处：L1 只算了泊桩浮充的 16.7 h，可日历老化不会因为机器人在干活就停——每 sol 还有 8 h 以均值 64% SOC 在全天最热的包温下流逝。三处修完（分钟级积分整 sol 轨迹）：**晚充 473→404 sol、早充 397→347 sol**，寿命短了 15%",
+        "两条互证与一条诚实的模型不确定度：①L1 那张 %/yr 表本身是对的——它按 exp(2.34·SOC) 拟合到 3.9% 以内，正是阳极电位的 Tafel 形状，错的是时间、温度与占空比的用法；②循环项独立复现了充电轮的 Wöhler 锚点（DoD 0.70 → 500 FEC 到 80%，误差 <1）。**模型不确定度**：日历与循环若按平方根叠加（单一 SEI 机理）寿命 495/511 sol，按相加叠加（经验文献惯例、保守）347/404——1.4 倍的差距，本轮按保守的相加口径出账并把这条差距写在明面上",
+        "结论改了两件事：①**晚充的收益从 76 sol 缩到 57 sol**——因为按真实占空比算，EOL 时循环项 17.6% 是日历项 2.4% 的 **7.4 倍**，这台机器人是被**干活**磨坏的，不是被等待磨坏的，调度器的杠杆没有 L1 以为的那么长；②想靠隔热改善也不划算——把电池与 11 W 电子舱做热隔断只买回 20 sol（+5%），而改一行充电调度买回 57 sol（+16%）。**能改软件就别改结构**"
       ],
       "sim_en": [
-        "Power budget closes: 0.6×80 + 0.4×12 = 52.8 W shift average → a 4 h shift uses 211 Wh, leaving 23% margin on the 260 Wh pack; 150 W charging refills in 1.7 h — one charge per two shifts, timed off-peak against the city storage farm"
+        "Power budget closure (analyze_gait.py + compute_budget.py): 0.6x86.6 + 0.4x52.8 = 73.1 W, so a 4 h shift needs 292 Wh and a 300 Wh pack leaves 3% margin — tighter than the previous 340 Wh, but that figure rested on the mistaken 24.6 W electronics assertion",
+        "The pack is 1.5/39.8 = 3.8% of robot mass — low gravity keeps structure light, making energy density the dominant constraint instead",
+        "Ageing ledger (sim/hab-bot-01/endgame_budget.py): 500 FEC to 80% means the 300 Wh pack covers only a 3.28 h shift at EOL, hence EOL sizing. Lesson: margin must be computed at end of life — day-one margin is an illusion",
+        "Window audit (sim/hab-bot-01/charging_budget.py): the previous ledger had its own disease — it sized capacity against 0-100% while counting cycles at the 25-95% window, and never multiplied the two. Multiplied, the 380 Wh pack's usable 266 Wh < 296.4, so the 4 h promise fails on DAY ONE at 3.59 h. The self-consistent resize (Woehler N ∝ DoD⁻², window 15-95%, EOL margin ≥3%) sweeps 380-560 Wh and lands on 480: per-shift swing 0.62, FEC life 643, cycle-only life 520 sols. The sizing error hid for three rounds because each round audited only its own corner — nobody multiplied the two windows",
+        "Calendar ageing x charging strategy (the L1 version): float SOC sets calendar fade, so charge-on-arrival gives 397 sols against just-in-time's 473 — 76 sols for free. **All three of its assumptions were wrong; see below**",
+        "Ageing L2 (sim/hab-bot-01/battery_ageing.py): SEI growth is diffusion-limited through the film it is building, so fade goes as **sqrt(t)**, not linearly. And **the pack does not live at ambient** — it sits in the upper backpack bay sharing 11 W with the compute board and radio, bolted to a torso dissipating 87 W: the computed pack temperature is **28.8 C working / 25.3 C docked**, so L1's 22 C is 6.8 K low during shifts, which by Arrhenius (Ea 50 kJ/mol, doubling every 10.2 K) is 1.6x the calendar fade. Third: L1 counted only the 16.7 h parked at float SOC, but calendar ageing does not pause because the robot is busy — 8 h/sol pass at a mean 64% SOC at the hottest pack temperature of the day. All three corrected (minute-resolution integration over the sol trajectory): **just-in-time 473 -> 404 sols, charge-on-arrival 397 -> 347** — 15% shorter life",
+        "Two cross-checks and one honest modelling uncertainty: (1) L1's %/yr table was itself fine — it fits exp(2.34*SOC) to within 3.9%, exactly the Tafel-like anode-potential shape; what was wrong was how time, temperature and duty were applied to it. (2) The cycle term independently reproduces the charging round's Woehler anchor (DoD 0.70 -> 500 FEC to 80%, error <1). **The uncertainty**: if calendar and cycle fade superpose in quadrature (one shared SEI mechanism) life is 495/511 sols; if they add (the empirical-literature convention, conservative) it is 347/404. A factor of 1.4 — this round books the conservative number and states the gap rather than hiding it",
+        "Two conclusions changed: (1) **just-in-time's prize shrinks from 76 sols to 57**, because over the real duty cycle the cycle term at EOL (17.6%) is **7.4x** the calendar term (2.4%) — this robot is worn out by WORKING, not by waiting, so the scheduler's lever is shorter than L1's linear model implied; (2) fixing it with insulation does not pay: a thermal break between pack and the 11 W bay buys back 20 sols (+5%) against 57 sols (+16%) for changing one line in the charge scheduler. **When software and structure both fix it, change the software**"
       ]
     },
     {
       "id": "dock",
-      "label": "壁挂充电座（0.6 m）",
-      "label_en": "Wall charging dock (0.6 m)",
+      "label": "壁挂充电座与终端引导（0.6 m）",
+      "label_en": "Wall dock and terminal guidance (0.6 m)",
       "range": 8,
-      "detail": "右墙壁挂式 0.6 m 充电座：两条铜触点条对准机器人背部触点高度，琥珀指示灯充电时呼吸闪烁，地面橙色角标标出停机位。电量低于 25% 时机器人自主返桩：航位推算导航到位、原地对准触点、贴桩充电，充到 95% 自动离桩复巡。",
-      "detail_en": "A wall-mounted 0.6 m dock on the right wall: two copper contact strips aligned to the robot's back contacts, an amber lamp breathing while charging, orange floor markers outlining the parking spot. Below 25% charge the robot returns on its own: dead-reckons to the dock, aligns in place, docks and charges, then undocks at 95% and resumes patrol.",
+      "detail": [
+        "右墙壁挂充电座：铜触点条、琥珀呼吸灯、地面停机角标，以及触点两侧的**回反条**——它们不是装饰，是引导链的 LiDAR 信标。此前的声明「航位推算导航，对接误差 <0.1 m」经不起推敲：仿真里位置就是真值，而真实腿式航位推算漂移 ~2%/m，从巡逻远端 ~10.6 m 路径过来误差 σ≈21 cm，对接容差只有 8 cm——**纯航位推算差 2.7 倍，不可能对接成功**。现在的实现带漂移模型与三段引导链：LiDAR 墙法向+回反条（2.5~3 m，±7 cm）→ 相机对桩 LED（≤1.5 m，±2 cm）→ 机械浮动触点（±5 cm）。分段边界是被 LiDAR 自己的饱和账逼出来的：≤2 m 只报「近」不报距离，修正必须在 2 m 外完成。"
+      ],
+      "detail_en": "A wall dock with copper contact strips, a breathing amber LED, floor markings — and **retro-reflective strips** flanking the contacts, which are not decoration but the guidance chain's LiDAR beacon. The previous claim ('dead-reckoning navigation, contact within 0.1 m') did not survive scrutiny: the simulation's position is ground truth, while real legged odometry drifts ~2%/m — from the far patrol point (~10.6 m of path) the arrival error is σ≈21 cm against an 8 cm docking tolerance. **Dead reckoning alone misses by 2.7x.** The implementation now carries a drift model and a three-stage guidance chain: LiDAR wall-normal plus retro strips (2.5-3 m, ±7 cm) → camera on the dock LED (≤1.5 m, ±2 cm) → compliant contact funnel (±5 cm). The stage boundary is forced by the LiDAR's own saturation ledger: inside 2 m it reports proximity only, so its correction must finish outside 2 m.",
       "specs": {
-        "充电功率": "150 W（触点式）",
-        "触发阈值": "SOC <25% 返桩 / >95% 离桩",
-        "对接方式": "航位推算 + 原地对准（LiDAR 近距豁免）"
+        "充电功率": "桩供 150 W → 净入芯 135 W（9.4 W 养机器人自己，链效率 96%）",
+        "触点": "48 V DC（<60 V SELV 公共空间免罩）× 3.1 A；上电前必握手（DC 电弧不自熄）",
+        "托檐": "承重部件——执行器断电省 37 W；没有它每 sol 白烧 170 Wh（半个班次）",
+        "触发阈值": "SOC <15% 返桩 / >95% 离桩（窗口与电池账自洽）",
+        "航位推算漂移": "~2%/m → 远端过来 σ≈21 cm（容差 8 cm，差 2.7×）",
+        "引导链": "LiDAR+回反条 ±7 cm → 相机 LED ±2 cm → 机械漏斗 ±5 cm",
+        "对接实测": "3/3 重复，最终误差 8 cm（漏斗容差内），远端全程 ~35 s",
+        "仿真出处": "sim/hab-bot-01/endgame_budget.py + charging_budget.py → charging_ledger.json"
       },
       "specs_en": {
-        "Charge power": "150 W (contact strips)",
-        "Thresholds": "SOC <25% return / >95% undock",
-        "Docking": "dead reckoning + in-place alignment (LiDAR near-range exempt)"
+        "Charging power": "dock supplies 150 W -> 135 W net into cells (9.4 W feeds the robot itself; 96% chain)",
+        "Contacts": "48 V DC (<60 V SELV, no shroud needed in a public space) x 3.1 A; dead until handshake (DC arcs do not self-extinguish)",
+        "Ledge": "a load-bearing component — de-energized actuators save 37 W; without it 170 Wh/sol burns for nothing (half a shift)",
+        "Thresholds": "return below 15% SoC, release above 95% (window consistent with the battery ledger)",
+        "Odometry drift": "~2%/m -> σ≈21 cm from the far patrol point (tolerance 8 cm, 2.7x over)",
+        "Guidance chain": "LiDAR + retro strips ±7 cm -> camera LED ±2 cm -> mechanical funnel ±5 cm",
+        "Docking, measured": "3/3 repeats, final error 8 cm (inside the funnel), ~35 s from the far point",
+        "Sim provenance": "sim/hab-bot-01/endgame_budget.py + charging_budget.py -> charging_ledger.json"
       },
       "sim": [
-        "返桩全流程实测（预览页，演示时间加速 ×60）：从触发到贴桩对准 14.1 s，对接位置误差 <0.1 m、朝向误差 <0.1 rad；充满离桩后无缝回到 8 字巡逻路线"
+        "里程计账（sim/hab-bot-01/endgame_budget.py）：腿式航位推算 1~5%/m，取 2%；最远巡逻点到桩沿路点 ~10.6 m → σ 21 cm。资产实现了漂移注入 + 信标捕获（3 m）+ 引导收敛（τ 0.8 s）：预览实测 3/3 次漂移峰值 21 cm、最终对接误差 8 cm、远端全程 ~35 s",
+        "评审连锁修正：引导链账定下 8 cm 容差后，发现 FSM 旧进位闸门还是 0.22 m——两者矛盾。收紧闸门并加末段线性减速（能在容差内停住），这是「同一约束在代码里出现两次时要互相对」纪律的现场版",
+        "充电曲线（sim/hab-bot-01/charging_budget.py，13S NMC 等效电路 CC-CV 仿真）：净 135 W = 0.27 C，典型班后 33→95% 用 2.3 h、最深 15→95% 用 2.9 h，班间空档 8.3 h 放得下 2.8 倍。有意思的是 CV 相：0.27 C 的过电位太小，端压到 95% 顶棚都摸不到 4.20 V——**大家都在预算的 CV 尾巴，在我们拒绝越过的顶棚之上才存在**。旧账「150 W 下 1.7 h 充满」把桩功率全记给了电池，慢了 1.4 倍",
+        "在桩姿态账：站立 52.8 W 里 37 W 是执行器保持力矩。托檐承重后执行器断电、传感器休眠，只剩 9.4 W（MCU+电台+BMS）——没有托檐，每 sol 充电时白烧 170 Wh = 57% 个班次，一年 ~62 kWh。**托檐不是家具，是功率部件**",
+        "触点与安全：接触电阻发热 49 mW（无谓）、磨损 730 次/年对 10⁵ 额定（电池包先退役 ~100 倍）；真正的坑是 48 V/3.1 A 远超 DC 电弧维持线（~15 V/0.4 A）且直流电弧不自熄——协议兜底：触点验合前不上电、离桩前电流归零、只从充满或指令态离桩。桩断电时机器人以地板 SOC 泊桩，58 Wh 够 6 h 信标待机"
       ],
       "sim_en": [
-        "Full return-to-dock run (preview page, demo time ×60): 14.1 s from trigger to docked alignment, position error <0.1 m, heading error <0.1 rad; after charging it rejoins the figure-eight patrol seamlessly"
+        "Odometry ledger (sim/hab-bot-01/endgame_budget.py): legged dead reckoning drifts 1-5%/m, taken at 2%; the far patrol point is ~10.6 m from the dock along the waypoint chain, giving σ = 21 cm. The asset now injects that drift and models beacon capture (3 m) with guidance convergence (τ 0.8 s): measured in the preview, 3/3 runs peak at 21 cm of drift and dock with a final error of 8 cm in ~35 s from the far point",
+        "A chained review correction: once the guidance ledger fixed the tolerance at 8 cm, the FSM's old approach gate of 0.22 m stood in contradiction. The gate was tightened and a terminal linear slowdown added so the robot can actually stop inside the tolerance — a live instance of the 'when one constraint appears twice in the code, test them against each other' discipline",
+        "Charge curve (sim/hab-bot-01/charging_budget.py, 13S NMC equivalent-circuit CC-CV): 135 W net = 0.27 C; a typical post-shift 33->95% takes 2.3 h, the deepest 15->95% takes 2.9 h, and the 8.3 h inter-shift gap holds 2.8x that. The interesting part is the CV phase: at 0.27 C the overpotential is so small the terminal voltage never reaches 4.20 V below the 95% ceiling — **the CV tail everyone budgets for only exists above the ceiling we refuse to cross**. The old ledger's '1.7 h at 150 W' booked every dock watt to the battery and was 1.4x optimistic",
+        "Docked-posture account: 37 of the 52.8 W standing draw is actuator holding torque. On the ledge the actuators de-energize and the sensors sleep, leaving 9.4 W (MCU + radio + BMS) — without the ledge, 170 Wh/sol burns during charging for nothing, 57% of a shift, ~62 kWh/yr. **The ledge is not furniture; it is a power component**",
+        "Contacts and safety: contact I²R is 49 mW (nothing) and wear is 730 matings/yr against a 10⁵ rating (the pack retires first by ~100x); the real trap is that 48 V / 3.1 A sits far above the DC arc-sustaining minimum (~15 V / 0.4 A) and DC arcs do not self-extinguish — so protocol, not hope: strips dead until mate is verified, current ramps to zero before undock, departure only from charge-complete or command. If dock power fails the robot parks at floor SOC: 58 Wh, 6 h of radio-beacon standby"
+      ],
+      "physics": [
+        "航位推算误差随路程线性增长而对接容差是常数，所以「够不够准」取决于路径长度——同一套里程计在 1 m 外够用、在 10 m 外差 2.7 倍。任何「航位推算到达 X」的声明都必须附带起点距离",
+        "引导链的每一段必须把误差收进下一段的捕获范围（21→7→2 cm 对 8 cm 漏斗），而分段边界由传感器自身的失效模式决定——本例中是 SPAD 接收机的近距饱和。传感器的限制不只是性能表上的一行,它直接塑造控制架构",
+        "「什么时候充」是寿命参数：日历老化随漂浮 SOC 单调上升（NMC 在 92% 漂浮 ≈4.3%/yr,45% 漂浮 ≈1.4%/yr）,而这台机器每 sol 有 2/3 时间泊在桩上——泊桩 SOC 比循环深度更受调度支配。掐点晚充比到桩即充多活 76 sol,零硬件成本;对整个机器人城邦,充电调度策略就是电池采购预算的一项"
+      ],
+      "physics_en": [
+        "Dead-reckoning error grows linearly with distance while docking tolerance is a constant, so 'accurate enough' depends on path length — the same odometry is fine from 1 m and 2.7x over from 10 m. Any claim of 'dead-reckons to X' must state the starting distance",
+        "Each guidance stage must deliver its error inside the next stage's capture range (21 -> 7 -> 2 cm against an 8 cm funnel), and the stage boundaries are set by the sensors' own failure modes — here the SPAD receiver's close-range saturation. A sensor's limits are not just a datasheet row; they shape the control architecture directly",
+        "WHEN you charge is a lifetime parameter: calendar fade rises monotonically with float SOC (NMC: ~4.3%/yr floating at 92%, ~1.4%/yr at 45%), and this machine spends two thirds of every sol parked on its dock — the parked SOC is governed by scheduling more than the cycling depth is. Just-in-time charging outlives charge-on-arrival by 76 sols at zero hardware cost; across a whole city of robots, the charge scheduler is a line item in the battery procurement budget"
       ]
     }
   ]

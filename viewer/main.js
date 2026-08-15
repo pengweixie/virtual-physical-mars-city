@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { build as buildComRelay, meta as comRelayMeta }
   from './units/com-relay-01.js';
 import { build as buildPan, meta as panMeta } from './units/sci-pan-01.js';
+import { build as buildMagicCity } from './magic/magic-city.js';
 
 // ---------------------------------------------------------------- data
 
@@ -428,6 +429,7 @@ const colonyGroup = new THREE.Group();
 colonyGroup.visible = false;
 surfaceGroup.add(colonyGroup);
 const colonyLights = [];
+let haulTick = null;              // ore-hauler animator, registered with unitAnims below
 
 {
   const CX = -350, CZ = -100;                 // flat spot on the crater floor
@@ -709,6 +711,15 @@ const colonyLights = [];
     [95, 20, 95, 44, 4],          // print works -> greenhouse porch
     [-350, -100, -290, -55, 4],   // village spur: hub -> hab-village west mouth (doorstep, exempt)
     [178, -40, 705, 220, 5],      // launch highway: heli apron -> CZ-10B (doorstep, exempt)
+    [100, -125, 138, -122, 5],    // mine spur: trunk end -> pit load-out (doorstep, exempt)
+    [100, -125, 100, -14, 5],     // industry link: trunk -> print works / ISRU zone
+    // launch campus: the crawlerway is the widest road in town because the
+    // crawler is the heaviest thing that moves - VAB -> pad, plus the park
+    // spur, the payload-building link and the tie-in to the launch highway
+    [600, 300, 750, 250, 12],     // crawlerway: VAB -> CZ-10B pad (doorstep, exempt)
+    [600, 300, 700, 370, 12],     // crawlerway park spur -> transporter stand
+    [480, 320, 600, 300, 6],      // payload building -> VAB transfer link
+    [636, 190, 600, 300, 5],      // campus tie-in from the launch highway
   ];
   for (const [x1, z1, x2, z2, w] of SPURS) road(x1, z1, x2, z2, w);
   // roadside furniture: alternating light masts and marker posts
@@ -762,12 +773,169 @@ const colonyLights = [];
   yard(200, -160, 0.4);                         // mine-gate junction yard
   yard(58, 34, -0.35);                          // ISRU-side yard
 
+  // ---- electrolyser expansion + roast-condensate surge tank -----------------
+  // Integrator ruling (see CHECKLIST, res-isru-01 / res-sulfur-01): the sulfate
+  // kiln returns ~9 kg/h of water that must be re-split, but the original
+  // 13-plate stack (2.9 kg/h) is fully committed to the Sabatier recycle loop —
+  // so the bank goes to 4 stacks, not 3, and hangs on fusion baseload because a
+  // kiln with 9 t of refractory cannot cycle with the sun.
+  function electrolyserBank(cx, cz, rot) {
+    const g = new THREE.Group();
+    g.position.set(cx, gY(cx, cz), cz);
+    g.rotation.y = rot;
+    const pad = new THREE.Mesh(new THREE.BoxGeometry(24, 0.3, 11), mat.pad);
+    pad.position.y = 0.15;
+    g.add(pad);
+    for (let i = 0; i < 4; i++) {               // stack 0 = the original skid
+      const body = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.8, 2.6),
+        i ? mat.hull : mat.trim);
+      body.position.set(i * 5 - 7.5, 1.7, -1.5);
+      g.add(body);
+      const cap = new THREE.Mesh(new THREE.BoxGeometry(3.8, 0.25, 2.8), mat.metal);
+      cap.position.set(i * 5 - 7.5, 3.2, -1.5);
+      g.add(cap);
+      const lamp = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.12, 0.1), mat.window);
+      lamp.position.set(i * 5 - 7.5, 2.9, -0.18);
+      g.add(lamp);
+    }
+    const header = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 21, 10), pmat.small);
+    header.rotation.z = Math.PI / 2;
+    header.position.set(-1, 3.6, -1.5);         // hydrogen header back to the reactor
+    g.add(header);
+    const vent = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 7, 10), mat.metal);
+    vent.position.set(10, 3.5, -1.5);           // oxygen vent / fill stack
+    g.add(vent);
+    const surge = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 3.4, 14), pmat.h2o);
+    surge.position.set(-9.5, 1.9, 3);           // 1 m3 roast-condensate buffer
+    g.add(surge);
+    const skirt = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.85, 0.4, 14), mat.trim);
+    skirt.position.set(-9.5, 0.35, 3);
+    g.add(skirt);
+    const rect = new THREE.Mesh(new THREE.BoxGeometry(4.5, 2.4, 2.2), mat.hull);
+    rect.position.set(4, 1.5, 3.4);             // rectifier: electrolysis eats DC
+    g.add(rect);
+    for (let i = 0; i < 3; i++) {               // cable tray toward the grid
+      const t = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.18, 2.6), mat.metal);
+      t.position.set(4 + i * 0.1, 0.62, 5.6 + i * 2.6);
+      g.add(t);
+    }
+    colonyGroup.add(g);
+  }
+  // (called below, after the pipe palette it borrows exists)
+
+  // ---- ore load-out: where the mine's three graded piles wait for a truck ----
+  // The pit screens its own soil into fines / medium / coarse (res-mine-01,
+  // screener card); this is the stockpile-and-load-out apron on the spur, the
+  // start of the only bulk-freight route in town.
+  const oreMat = [0xa9764f, 0x8e6440, 0x6f4e33].map(
+    (c) => new THREE.MeshLambertMaterial({ color: c }));
+  function orePiles(cx, cz, rot) {
+    const g = new THREE.Group();
+    g.position.set(cx, gY(cx, cz), cz);
+    g.rotation.y = rot;
+    const apron = new THREE.Mesh(new THREE.BoxGeometry(30, 0.3, 17), mat.pad);
+    apron.position.y = 0.12;
+    g.add(apron);
+    for (let i = 0; i < 3; i++) {               // graded stockpiles, coarse tallest
+      const r = 4.2 - i * 0.45, h = 2.6 + i * 0.5;
+      const cone = new THREE.Mesh(new THREE.ConeGeometry(r, h, 12), oreMat[i]);
+      cone.position.set(i * 9 - 9, h / 2 + 0.2, -2.4);
+      g.add(cone);
+      const plate = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.05, 0.5), mat.hull);
+      plate.position.set(i * 9 - 9, 0.9, -2.4 + r + 0.9);
+      g.add(plate);                             // grade placard at each pile
+    }
+    const stack = new THREE.Mesh(new THREE.BoxGeometry(14, 0.7, 1.2), mat.metal);
+    stack.position.set(2, 4.4, -8);             // radial stacker off the pit belt
+    stack.rotation.z = -0.16;
+    g.add(stack);
+    for (const lx of [-4, 8]) {                 // stacker trestles
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 4.2, 6), mat.metal);
+      leg.position.set(lx, 2.1, -8);
+      g.add(leg);
+    }
+    const bridge = new THREE.Mesh(new THREE.BoxGeometry(9, 0.25, 4), mat.trim);
+    bridge.position.set(9, 0.32, 4.5);          // weighbridge at the exit
+    g.add(bridge);
+    const kiosk = new THREE.Mesh(new THREE.BoxGeometry(2, 2.4, 2), mat.hull);
+    kiosk.position.set(13.5, 1.2, 4.5);
+    g.add(kiosk);
+    const kw = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.7, 1.1), mat.window);
+    kw.position.set(12.45, 1.5, 4.5);
+    g.add(kw);
+    colonyGroup.add(g);
+  }
+  orePiles(122, -110, 0.08);
+
+  // haul truck: flat-deck ore hauler, the only vehicle that actually drives.
+  // Route = pit load-out -> trunk junction -> print works, then back empty.
+  function haulTruck() {
+    const t = new THREE.Group();
+    const deck = new THREE.Mesh(new THREE.BoxGeometry(6.4, 0.5, 2.6), mat.metal);
+    deck.position.y = 1.35;
+    t.add(deck);
+    const cab = new THREE.Mesh(new THREE.BoxGeometry(2, 1.7, 2.4), mat.hull);
+    cab.position.set(2.4, 2.45, 0);
+    t.add(cab);
+    const glass = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.8, 1.9), mat.glass);
+    glass.position.set(3.42, 2.7, 0);
+    t.add(glass);
+    const bed = new THREE.Group();
+    bed.name = 'ore_bed';                       // load appears/disappears per leg
+    const heap = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.9, 2.2), oreMat[1]);
+    heap.position.set(-1.2, 2.05, 0);
+    bed.add(heap);
+    t.add(bed);
+    for (const wx of [-2.2, 0.2, 2.6]) for (const wz of [-1.45, 1.45]) {
+      const w = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 0.5, 10), mat.pad);
+      w.rotation.x = Math.PI / 2;
+      w.position.set(wx, 0.78, wz);
+      t.add(w);
+    }
+    colonyGroup.add(t);
+    return t;
+  }
+  const truck = haulTruck();
+  const HAUL = [[136, -122], [100, -125], [100, -16]];   // polyline, pit -> works
+  const legLen = HAUL.slice(1).map((p, i) =>
+    Math.hypot(p[0] - HAUL[i][0], p[1] - HAUL[i][1]));
+  const haulLen = legLen.reduce((a, b) => a + b, 0);
+  const SPEED = 6, DWELL = 9;                   // m/s and load/unload pause, s
+  const CYCLE = 2 * (haulLen / SPEED + DWELL);
+  haulTick = (time) => {
+    let s = (time % CYCLE) / CYCLE * (2 * (haulLen + SPEED * DWELL));
+    const dwellS = SPEED * DWELL;
+    let dist, laden, back = false;
+    if (s < haulLen) { dist = s; laden = true; }               // outbound, loaded
+    else if (s < haulLen + dwellS) { dist = haulLen; laden = true; }  // tipping
+    else if (s < 2 * haulLen + dwellS) {
+      dist = 2 * haulLen + dwellS - s; laden = false; back = true;    // return
+    } else { dist = 0; laden = false; }                        // loading at the pit
+    let leg = 0, d = dist;
+    while (leg < legLen.length - 1 && d > legLen[leg]) { d -= legLen[leg]; leg++; }
+    const a = HAUL[leg], b = HAUL[leg + 1];
+    const k = legLen[leg] ? d / legLen[leg] : 0;
+    const x = a[0] + (b[0] - a[0]) * k, z = a[1] + (b[1] - a[1]) * k;
+    truck.position.set(x, gY(x, z) + 0.1, z);
+    const head = Math.atan2(b[0] - a[0], b[1] - a[1]) + (back ? Math.PI : 0);
+    truck.rotation.y = head - Math.PI / 2;
+    truck.getObjectByName('ore_bed').visible = laden;
+  };
+
   // ---- utility corridors: elevated pipe racks --------------------------------
   // (routes mirrored in scripts/audit_layout.mjs — update BOTH places)
   const pmat = {
     ch4:  new THREE.MeshLambertMaterial({ color: 0xc2c8ce }),  // methane, bare steel
     heat: new THREE.MeshLambertMaterial({ color: 0x54453c }),  // insulated heat loop
     h2o:  new THREE.MeshLambertMaterial({ color: 0x5f8494 }),  // water, teal
+    lox:  new THREE.MeshLambertMaterial({ color: 0xe8eef2 }),  // LOX, white MLI jacket
+    o2:   new THREE.MeshLambertMaterial({ color: 0xdfe9e2 }),  // breathing O2, warm white
+    co2:  new THREE.MeshLambertMaterial({ color: 0x4a8a80 }),  // CO2, cyan-green
+    sew:  new THREE.MeshLambertMaterial({ color: 0x3d5566 }),  // sewage, dark slate
+    rec:  new THREE.MeshLambertMaterial({ color: 0x84aebe }),  // reclaimed water
+    hazA: new THREE.MeshLambertMaterial({ color: 0xa03a2a }),  // fab piranha line
+    hazB: new THREE.MeshLambertMaterial({ color: 0xb08020 }),  // fab HF line (own pipe!)
+    hazC: new THREE.MeshLambertMaterial({ color: 0x7a5a9a }),  // fab CMP slurry
     small: new THREE.MeshLambertMaterial({ color: 0x8a9096 }), // return/utility lane
   };
   function pipeRack(x1, z1, x2, z2, lanes, loopEvery = 0) {
@@ -836,9 +1004,94 @@ const colonyLights = [];
   pipeRack(-140, 58, -109, 70, heatLanes, 0);
   pipeRack(-109, 70, -109, 132, heatLanes, 0);
   pipeRack(-109, 132, -84, 352, heatLanes, 8);
+  // LOX line: same ISRU -> CZ-10B run on its own rack ~10 m south of the methane.
+  // Methalox burns at O/F ~3.5, so the oxidiser is the fat pipe, not the fuel —
+  // and fuel and oxidiser ride separate racks by fire-separation rule.
+  pipeRack(55, 22, 728, 225,
+    [{ o: -0.55, r: 0.42, m: pmat.lox }, { o: 0.55, r: 0.16, m: pmat.small }], 10);
   // water line: Rodwell well -> greenhouse dome (supply + slim return)
   pipeRack(2, 106, 80, 72,
     [{ o: -0.3, r: 0.22, m: pmat.h2o }, { o: 0.35, r: 0.1, m: pmat.small }], 0);
+  // ...and the branch that feeds the Sabatier: every kg of methane starts as
+  // Rodwell water, electrolysed for its hydrogen. Without this tee the whole
+  // propellant chain has an outlet and no inlet.
+  pipeRack(63, 79, 44, 45,
+    [{ o: -0.25, r: 0.18, m: pmat.h2o }], 0);
+  // roast condensate: the sulfate kiln's ~9 kg/h of water walking back to the
+  // electrolyser bank that has to re-split it into the hydrogen the kiln eats
+  pipeRack(68, -50, 50, -2,
+    [{ o: -0.22, r: 0.16, m: pmat.h2o }], 0);
+  electrolyserBank(48, -4, 0.12);
+
+  // ---- life-support corridors (res-eclss-01 / res-recycle-01 interchange) ----
+  // baseload oxygen: the sulfur kiln's 200 kg/sol by-product is the city's
+  // primary metabolic supply (1.57x demand) — this is the oxygen aorta
+  const o2Main = [{ o: -0.3, r: 0.3, m: pmat.o2 }, { o: 0.3, r: 0.1, m: pmat.small }];
+  pipeRack(70, -70, 0, 20, o2Main, 8);        // west of the ISRU footprint
+  pipeRack(0, 20, 5, 60, o2Main, 0);
+  // oxygen to the undercity gate: the south line, three legs riding the road
+  // corridor and passing the hab village's west corner (future branch tee)
+  const o2Lane = [{ o: 0, r: 0.26, m: pmat.o2 }];
+  pipeRack(5, 60, -105, -25, o2Lane, 10);     // north of the cryo farm
+  pipeRack(-105, -25, -250, -105, o2Lane, 10);
+  pipeRack(-250, -105, -330, -70, o2Lane, 10);
+  pipeRack(-330, -70, -330, -38, o2Lane, 0);
+  // CO2 home: intake-tower frost + city exhale, back to the Sabatier it feeds
+  pipeRack(5, 60, 40, 25, [{ o: 0, r: 0.2, m: pmat.co2 }], 0);
+  // sewage out / reclaim back on one trestle, plus the fab's three hazmat
+  // lines — piranha, HF and slurry never share a pipe (L3 red line), only posts
+  pipeRack(-330, -30, -300, 40,
+    [{ o: -0.55, r: 0.24, m: pmat.sew }, { o: -0.15, r: 0.2, m: pmat.rec },
+     { o: 0.35, r: 0.09, m: pmat.hazA }, { o: 0.55, r: 0.09, m: pmat.hazB },
+     { o: 0.75, r: 0.09, m: pmat.hazC }], 0);
+
+  // ---- the grid: buried cable trenches (Paschen rules out bare towers) ------
+  // Routes mirror mars-grid/out/03_corridors.json — 16 runs, 7,024 m. Buried
+  // cable reads on the surface as a dark trench-cover line plus voltage-coded
+  // marker posts; the only overhead span is G-A, the 72 m pressurized-CO2
+  // busbar duct from the fusion plant (13.8 kV AC lives at 100 kPa, not 600 Pa).
+  const vmat = {
+    ac:   new THREE.MeshLambertMaterial({ color: 0xd8a840 }),  // 13.8 kV AC amber
+    dc10: new THREE.MeshLambertMaterial({ color: 0xa04030 }),  // ±10 kV DC red
+    dc15: new THREE.MeshLambertMaterial({ color: 0x3a8a96 }),  // 1.5 kV DC cyan
+    dc04: new THREE.MeshLambertMaterial({ color: 0x4a8a4a }),  // 400 V DC green
+  };
+  function cableTrench(x1, z1, x2, z2, m) {
+    road(x1, z1, x2, z2, 1.2);                 // the trench-cover line itself
+    const dx = x2 - x1, dz = z2 - z1, len = Math.hypot(dx, dz);
+    const n = Math.max(1, Math.floor(len / 110));
+    for (let i = 0; i <= n; i++) {
+      const t = n ? i / n : 0;
+      const x = x1 + dx * t, z = z1 + dz * t, y = gY(x, z);
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.09, 1.1, 6), mat.hull);
+      post.position.set(x + 1.1 * (dz / len), y + 0.55, z - 1.1 * (dx / len));
+      colonyGroup.add(post);
+      const band = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.22, 6), m);
+      band.position.set(post.position.x, y + 0.95, post.position.z);
+      colonyGroup.add(band);
+    }
+  }
+  // G-A feeder: the one overhead run, fusion -> substation
+  pipeRack(-140, 40, -205, 10, [{ o: 0, r: 0.45, m: vmat.ac }], 0);
+  const NW = [-350, -100], NN = [-90, 120], NE = [45, 15], NS = [150, -120];
+  cableTrench(-205, 10, -230, 90, vmat.dc10);              // G-B storage tie
+  cableTrench(-205, 10, -160, -5, vmat.dc10);              // G-C north trunk...
+  cableTrench(-160, -5, -100, -5, vmat.dc10);              // ...skirting the
+  cableTrench(-100, -5, NN[0], NN[1], vmat.dc10);          // fusion plant south
+  cableTrench(-205, 10, -300, 10, vmat.dc10);              // G-D west trunk...
+  cableTrench(-300, 10, NW[0], NW[1], vmat.dc10);          // ...north of village
+  cableTrench(-205, 10, NE[0], NE[1], vmat.dc10);          // G-E east trunk
+  cableTrench(NE[0], NE[1], NS[0], NS[1], vmat.dc10);      // G-F south trunk
+  cableTrench(NS[0], NS[1], 750, 250, vmat.dc10);          // G-G launch trunk
+  cableTrench(NS[0], NS[1], 500, 700, vmat.dc10);          // G-H pad one spur
+  cableTrench(NW[0], NW[1], -350, -280, vmat.dc15);        // G-J comms spur
+  cableTrench(NW[0], NW[1], -684, -220, vmat.dc04);        // G-K1 seismic leg 1
+  cableTrench(-684, -220, -700, -520, vmat.dc04);          // G-K2 the dogleg
+  cableTrench(NW[0], NW[1], -250, -46, vmat.dc15);         // G-L village spur
+  cableTrench(NW[0], NW[1], -372, -18, vmat.dc10);         // G-M shaft-head spur
+  // (G-Q rides the lift shaft 3,000 m straight down — no surface footprint)
+  cableTrench(NW[0], NW[1], -560, -220, vmat.dc04);        // G-N observatory spur
+  cableTrench(NS[0], NS[1], 300, -300, vmat.dc04);         // G-P environment spur
 }
 
 // ---------------------------------------------------------------- magic city
@@ -853,470 +1106,10 @@ const crystalDay = { value: 1 };
 const cryGlowMats = [];                      // base glow discs, opacity by night
 const cityPbrMats = [];                      // crystal city materials, glow at night
 
-{
-  const MX = -150, MZ = -520;                // second flat site, south of spawn
-  const gY = (x, z) => sampleHeight(x, z);
-  const stone = new THREE.MeshLambertMaterial({ color: 0xcfc4e0 });
-  const rock = new THREE.MeshLambertMaterial({ color: 0x96755a, flatShading: true });
-  const stoneDark = new THREE.MeshLambertMaterial({ color: 0x7a6e94, flatShading: true });
-  const stonePale = new THREE.MeshLambertMaterial({ color: 0xcfc4e0, flatShading: true });
-  const glowWin = new THREE.MeshBasicMaterial({ color: 0xbfe8ff });
-
-  // jittered icosahedron: craggy rock, no two alike
-  function cragGeometry(radius, detail, rough) {
-    const g = new THREE.IcosahedronGeometry(radius, detail);
-    const p = g.attributes.position;
-    for (let i = 0; i < p.count; i++) {
-      const s = 1 + (Math.random() - 0.5) * rough;
-      p.setXYZ(i, p.getX(i) * s,
-               p.getY(i) * s * (0.9 + Math.random() * 0.2), p.getZ(i) * s);
-    }
-    g.computeVertexNormals();
-    return g;
-  }
-  // faceted crystal shader: flat facets + fresnel rim + pulsing inner glow
-  const cryShaderMats = [0x8fe8ff, 0xff9fe0, 0xbfa8ff, 0xffd98f].map((c) =>
-    new THREE.ShaderMaterial({
-      transparent: true,
-      side: THREE.DoubleSide,
-      uniforms: {
-        uColor: { value: new THREE.Color(c) },
-        uSunDir: sky.material.uniforms.sunDir,   // shared with the sky
-        uTime: crystalTime,
-        uDay: crystalDay,
-      },
-      vertexShader: /* glsl */`
-        attribute float aH;
-        varying vec3 vWorldPos;
-        varying float vH;
-        void main() {
-          vec4 wp = modelMatrix * vec4(position, 1.0);
-          vWorldPos = wp.xyz;
-          vH = aH;
-          gl_Position = projectionMatrix * viewMatrix * wp;
-        }`,
-      fragmentShader: /* glsl */`
-        uniform vec3 uColor, uSunDir;
-        uniform float uTime, uDay;
-        varying vec3 vWorldPos;
-        varying float vH;
-        void main() {
-          vec3 n = normalize(cross(dFdx(vWorldPos), dFdy(vWorldPos)));
-          vec3 v = normalize(cameraPosition - vWorldPos);
-          if (dot(n, v) < 0.0) n = -n;
-          float diff = max(dot(n, uSunDir), 0.0);
-          float fres = pow(1.0 - max(dot(n, v), 0.0), 2.2);
-          float pulse = 0.75 + 0.25 * sin(uTime * 1.4
-            + vWorldPos.x * 0.35 + vWorldPos.z * 0.27);
-          vec3 base = uColor * (0.20 + 0.55 * diff * uDay);
-          vec3 core = uColor * (0.35 + 0.65 * (1.0 - vH))
-            * 0.5 * pulse * (1.4 - uDay * 0.7);
-          vec3 rim = mix(uColor, vec3(1.0), 0.55) * fres
-            * (0.9 + (1.0 - uDay) * 1.5) * pulse;
-          gl_FragColor = vec4(base + core + rim, 0.82 + fres * 0.15);
-        }`,
-    }));
-
-  // hexagonal shaft + pyramid tip, per-vertex jitter so no two look alike
-  function crystalGeometry(r, h, tip) {
-    const ring0 = [], ring1 = [];
-    for (let i = 0; i < 6; i++) {
-      const a = i / 6 * Math.PI * 2;
-      const j0 = 1 + (Math.random() - 0.5) * 0.25;
-      const j1 = 1 + (Math.random() - 0.5) * 0.35;
-      ring0.push([Math.cos(a) * r * j0, 0, Math.sin(a) * r * j0]);
-      ring1.push([Math.cos(a) * r * 0.78 * j1,
-        h * (1 + (Math.random() - 0.5) * 0.12),
-        Math.sin(a) * r * 0.78 * j1]);
-    }
-    const apex = [(Math.random() - 0.5) * r * 0.5, h + tip,
-                  (Math.random() - 0.5) * r * 0.5];
-    const H = h + tip;
-    const pos = [], aH = [];
-    const tri = (...ps) => ps.forEach((p) => {
-      pos.push(...p);
-      aH.push(Math.max(p[1], 0) / H);
-    });
-    for (let i = 0; i < 6; i++) {
-      const j = (i + 1) % 6;
-      tri(ring0[i], ring0[j], ring1[j]);
-      tri(ring0[i], ring1[j], ring1[i]);
-      tri(ring1[i], ring1[j], apex);
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pos), 3));
-    g.setAttribute('aH', new THREE.BufferAttribute(new Float32Array(aH), 1));
-    return g;
-  }
-
-  // glowing walkway ribbon draped on the terrain
-  const pathMat = new THREE.MeshLambertMaterial(
-    { color: 0x9fdcff, emissive: 0x2f7fa8, emissiveIntensity: 0.9 });
-  function glowPath(x1, z1, x2, z2, w = 2.6) {
-    const len = Math.hypot(x2 - x1, z2 - z1);
-    const n = Math.max(2, Math.ceil(len / 8));
-    const dx = (x2 - x1) / len, dz = (z2 - z1) / len;
-    const px = -dz * w / 2, pz = dx * w / 2;
-    const pos = new Float32Array((n + 1) * 6);
-    for (let i = 0; i <= n; i++) {
-      const x = x1 + (x2 - x1) * i / n, z = z1 + (z2 - z1) * i / n;
-      pos.set([x - px, gY(x - px, z - pz) + 0.2, z - pz,
-               x + px, gY(x + px, z + pz) + 0.2, z + pz], i * 6);
-    }
-    const idx = [];
-    for (let i = 0; i < n; i++) {
-      const a = i * 2;
-      idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    g.setIndex(idx);
-    g.computeVertexNormals();
-    magicGroup.add(new THREE.Mesh(g, pathMat));
-  }
-
-  // crystal mage tower: fluted lathe body, helical ramp, spiral of lit
-  // windows, embedded crystal shards and a crystal crown under the orb
-  const ty = gY(MX, MZ);
-  const TH = 46;
-  const plinth = new THREE.Mesh(cragGeometry(11, 1, 0.4), stoneDark);
-  plinth.scale.y = 0.38;
-  plinth.position.set(MX, ty + 1.2, MZ);
-  magicGroup.add(plinth);
-  {
-    const pts = [];
-    for (let i = 0; i <= 30; i++) {
-      const t = i / 30;
-      const r = 8.6 * (1 - 0.62 * t) * (1 + 0.055 * Math.sin(t * Math.PI * 7));
-      pts.push(new THREE.Vector2(r, t * TH));
-    }
-    const body = new THREE.Mesh(new THREE.LatheGeometry(pts, 18), stonePale);
-    body.position.set(MX, ty + 2, MZ);
-    magicGroup.add(body);
-  }
-  {
-    const helix = new THREE.Curve();
-    helix.getPoint = (t) => {
-      const a = t * Math.PI * 6.5;
-      const r = 9.6 * (1 - 0.6 * t) + 0.9;
-      return new THREE.Vector3(Math.cos(a) * r, 2.5 + t * (TH - 7), Math.sin(a) * r);
-    };
-    const ramp = new THREE.Mesh(new THREE.TubeGeometry(helix, 160, 0.75, 7), stoneDark);
-    ramp.position.set(MX, ty, MZ);
-    magicGroup.add(ramp);
-  }
-  for (let i = 0; i < 11; i++) {               // windows follow the ramp
-    const t = 0.12 + i * 0.075;
-    const a = t * Math.PI * 6.5 + Math.PI / 5;
-    const r = 8.6 * (1 - 0.62 * t) + 0.12;
-    const win = new THREE.Mesh(new THREE.BoxGeometry(0.55, 1.2, 0.22), glowWin);
-    win.position.set(MX + Math.cos(a) * r, ty + 2 + t * TH, MZ + Math.sin(a) * r);
-    win.lookAt(MX, win.position.y, MZ);
-    magicGroup.add(win);
-  }
-  for (let i = 0; i < 6; i++) {                // crystal shards grown into it
-    const t = 0.22 + (i * 37 % 52) / 100;
-    const a = i * 2.4;
-    const r = 8.6 * (1 - 0.62 * t) * 0.92;
-    const sh = new THREE.Mesh(
-      crystalGeometry(0.7, 3.2 + (i % 3), 1.8), cryShaderMats[i % 4]);
-    sh.position.set(MX + Math.cos(a) * r, ty + 2 + t * TH, MZ + Math.sin(a) * r);
-    sh.rotation.set(Math.sin(a) * 0.9, a, -Math.cos(a) * 0.9);
-    magicGroup.add(sh);
-  }
-  {
-    const topR = 8.6 * 0.38 + 0.6;             // crown of crystals
-    for (let i = 0; i < 7; i++) {
-      const a = i / 7 * Math.PI * 2;
-      const c = new THREE.Mesh(crystalGeometry(0.9, 5.5, 2.5), cryShaderMats[i % 4]);
-      c.position.set(MX + Math.cos(a) * topR, ty + 1.2 + TH, MZ + Math.sin(a) * topR);
-      c.rotation.set(Math.sin(a) * 0.45, 0, -Math.cos(a) * 0.45);
-      magicGroup.add(c);
-    }
-    const orb = new THREE.Mesh(new THREE.SphereGeometry(3.0, 20, 14),
-      new THREE.MeshBasicMaterial({ color: 0xaef4ff }));
-    const halo = new THREE.Mesh(new THREE.SphereGeometry(4.3, 20, 14),
-      new THREE.MeshBasicMaterial({ color: 0xaef4ff, transparent: true,
-        opacity: 0.16, blending: THREE.AdditiveBlending, depthWrite: false }));
-    magicGroup.add(orb, halo);
-    magicAnims.push((t) => {
-      const y = ty + TH + 8 + Math.sin(t * 0.8) * 1.4;
-      orb.position.set(MX, y, MZ);
-      halo.position.set(MX, y, MZ);
-      halo.scale.setScalar(1 + Math.sin(t * 1.7) * 0.08);
-    });
-  }
-
-  // ring of floating stones orbiting the tower
-  const stoneRing = new THREE.Group();
-  stoneRing.position.set(MX, ty + 33, MZ);
-  for (let i = 0; i < 9; i++) {
-    const a = i / 9 * Math.PI * 2;
-    const st = new THREE.Mesh(cragGeometry(1.1 + (i % 3) * 0.4, 0, 0.55), rock);
-    st.position.set(Math.cos(a) * 16, Math.sin(i * 2.1) * 1.8, Math.sin(a) * 16);
-    st.rotation.set(i, i * 2.3, 0);
-    stoneRing.add(st);
-  }
-  magicGroup.add(stoneRing);
-  magicAnims.push((t, dt) => { stoneRing.rotation.y += dt * 0.25; });
-
-  // crystal garden: clustered formations, each a main shaft with satellites
-  for (let i = 0; i < 11; i++) {
-    const a = i / 11 * Math.PI * 2 + Math.sin(i * 7) * 0.4;
-    const r = 26 + (i * 37 % 46);
-    const cx = MX + Math.cos(a) * r, cz = MZ + Math.sin(a) * r;
-    const cy = gY(cx, cz);
-    const matC = cryShaderMats[i % 4];
-    const mainR = 0.9 + (i * 11 % 7) * 0.12;
-    const mainH = 6 + (i * 13 % 14);
-    const main = new THREE.Mesh(crystalGeometry(mainR, mainH, mainH * 0.4), matC);
-    main.position.set(cx, cy - 0.4, cz);
-    main.rotation.set(Math.sin(i * 3) * 0.12, i * 1.1, Math.cos(i * 5) * 0.12);
-    magicGroup.add(main);
-    const kids = 2 + (i % 3);
-    for (let k = 0; k < kids; k++) {
-      const ka = (k / kids + i * 0.13) * Math.PI * 2;
-      const s = 0.3 + (k * 7 % 4) * 0.08;                 // child scale
-      const kid = new THREE.Mesh(
-        crystalGeometry(mainR * (0.5 + s), mainH * s, mainH * s * 0.5), matC);
-      const kx = cx + Math.cos(ka) * mainR * 2.2;
-      const kz = cz + Math.sin(ka) * mainR * 2.2;
-      kid.position.set(kx, gY(kx, kz) - 0.3, kz);
-      kid.rotation.set(Math.cos(ka) * 0.45, ka, -Math.sin(ka) * 0.45);
-      magicGroup.add(kid);
-    }
-    // soft light spill on the ground
-    const glowM = new THREE.MeshBasicMaterial({
-      color: cryShaderMats[i % 4].uniforms.uColor.value, transparent: true,
-      opacity: 0.15, blending: THREE.AdditiveBlending, depthWrite: false });
-    const disc = new THREE.Mesh(new THREE.CircleGeometry(mainR * 5, 20), glowM);
-    disc.rotation.x = -Math.PI / 2;
-    disc.position.set(cx, cy + 0.22, cz);
-    magicGroup.add(disc);
-    cryGlowMats.push(glowM);
-  }
-  magicAnims.push((t) => { crystalTime.value = t; });
-
-  // ---- imported crystal city (models/crystal/2/base_basic_pbr.glb) ----
-  // lazy-loaded on first activation; real PBR textures from the asset, plus
-  // a faint diffuse-driven self-glow that ramps up at night
-  magicGroup.userData.loadCity = async () => {
-    magicGroup.userData.loadCity = null;             // run once
-    const btn = document.getElementById('magicBtn');
-    try {
-      const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
-      const gltf = await new Promise((res, rej) => new GLTFLoader().load(
-        '../models/crystal/2/base_tex.glb', res, (e) => {
-          if (e.total) btn.textContent =
-            `🔮 水晶城加载 ${(e.loaded / e.total * 100).toFixed(0)}%`;
-        }, rej));
-      const city = gltf.scene;
-      city.traverse((o) => {
-        if (o.isMesh && o.material) {
-          if (o.material.map) {
-            o.material.map.anisotropy = renderer.capabilities.getMaxAnisotropy();
-          }
-          o.material.emissiveMap = o.material.map;
-          o.material.emissive = new THREE.Color(0xffffff);
-          o.material.emissiveIntensity = 0.05;
-          cityPbrMats.push(o.material);
-        }
-      });
-      const bb = new THREE.Box3().setFromObject(city);
-      const sz = bb.getSize(new THREE.Vector3());
-      const S = 280 / Math.max(sz.x, sz.z);          // ~280 m footprint
-      const cx2 = MX - 20, cz2 = MZ - 210;
-      city.scale.setScalar(S);
-      city.position.set(
-        cx2 - (bb.min.x + bb.max.x) / 2 * S,
-        gY(cx2, cz2) - bb.min.y * S - 1.5,
-        cz2 - (bb.min.z + bb.max.z) / 2 * S);
-      magicGroup.add(city);
-      glowPath(MX, MZ, cx2, cz2, 3.2);               // walkway from the tower
-      const glowM = new THREE.MeshBasicMaterial({ color: 0xbfa8ff,
-        transparent: true, opacity: 0.15,
-        blending: THREE.AdditiveBlending, depthWrite: false });
-      const disc = new THREE.Mesh(new THREE.CircleGeometry(170, 32), glowM);
-      disc.rotation.x = -Math.PI / 2;
-      disc.position.set(cx2, gY(cx2, cz2) + 0.3, cz2);
-      magicGroup.add(disc);
-      cryGlowMats.push(glowM);
-      const l = new THREE.PointLight(0xbfa8ff, 0, 800, 2);
-      l.position.set(cx2, gY(cx2, cz2) + 120, cz2);
-      magicGroup.add(l);
-      magicLights.push(l);
-    } catch (err) {
-      console.error('crystal city load failed:', err);
-    } finally {
-      btn.textContent = T.magic(true);
-    }
-  };
-
-  // glowing mushrooms scattered between the crystals
-  const capMats = [0xff9fe0, 0xbfa8ff, 0x8fe8ff].map((c) =>
-    new THREE.MeshLambertMaterial({ color: c, emissive: c, emissiveIntensity: 0.7 }));
-  const gillMats = [0xff9fe0, 0xbfa8ff, 0x8fe8ff].map((c) =>
-    new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.35,
-      blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
-  for (let i = 0; i < 22; i++) {
-    const a = i * 2.39996;                   // golden angle scatter
-    const r = 18 + (i * 29 % 70);
-    const mx2 = MX + Math.cos(a) * r, mz2 = MZ + Math.sin(a) * r;
-    const my2 = gY(mx2, mz2);
-    const hgt = 0.7 + (i % 4) * 0.35;
-    const capR = 0.45 + (i % 3) * 0.2;
-    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, hgt, 6),
-      new THREE.MeshLambertMaterial({ color: 0xd8cfc0 }));
-    stem.position.set(mx2, my2 + hgt / 2, mz2);
-    magicGroup.add(stem);
-    const cap = new THREE.Mesh(new THREE.SphereGeometry(
-      capR, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2), capMats[i % 3]);
-    cap.position.set(mx2, my2 + hgt, mz2);
-    magicGroup.add(cap);
-    const gill = new THREE.Mesh(new THREE.CircleGeometry(capR * 0.85, 12),
-      gillMats[i % 3]);
-    gill.rotation.x = Math.PI / 2;             // faces the ground, lights it
-    gill.position.set(mx2, my2 + hgt - 0.04, mz2);
-    magicGroup.add(gill);
-  }
-  for (let i = 0; i < 3; i++) {                // elder mushrooms
-    const a = 1.3 + i * 2.1;
-    const r = 42 + i * 23;
-    const mx2 = MX + Math.cos(a) * r, mz2 = MZ + Math.sin(a) * r;
-    const my2 = gY(mx2, mz2);
-    const hgt = 2.6 + i * 0.5, capR = 1.35 + i * 0.25;
-    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.45, hgt, 9),
-      new THREE.MeshLambertMaterial({ color: 0xd8cfc0 }));
-    stem.position.set(mx2, my2 + hgt / 2, mz2);
-    magicGroup.add(stem);
-    const cap = new THREE.Mesh(new THREE.SphereGeometry(
-      capR, 16, 9, 0, Math.PI * 2, 0, Math.PI / 2), capMats[i]);
-    cap.scale.y = 0.72;
-    cap.position.set(mx2, my2 + hgt, mz2);
-    magicGroup.add(cap);
-    const gill = new THREE.Mesh(new THREE.CircleGeometry(capR * 0.9, 16),
-      gillMats[i]);
-    gill.rotation.x = Math.PI / 2;
-    gill.position.set(mx2, my2 + hgt - 0.06, mz2);
-    magicGroup.add(gill);
-  }
-
-  // floating islands with luminous trees
-  for (let i = 0; i < 4; i++) {
-    const a = i / 4 * Math.PI * 2 + 0.6;
-    const ix = MX + Math.cos(a) * (72 + i * 14);
-    const iz = MZ + Math.sin(a) * (72 + i * 14);
-    const base = gY(ix, iz) + 32 + i * 10;
-    const isl = new THREE.Group();
-    const chunk = new THREE.Mesh(cragGeometry(7 + i * 1.4, 1, 0.5), rock);
-    chunk.scale.y = 0.62;
-    isl.add(chunk);
-    const trunkMat = new THREE.MeshLambertMaterial({ color: 0x5a4632 });
-    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.7, 4.5, 7), trunkMat);
-    trunk.position.y = 6.2;
-    isl.add(trunk);
-    for (const [bx, by, tilt] of [[1.2, 8.2, 0.7], [-1.0, 8.6, -0.6]]) {
-      const br = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.28, 2.6, 6), trunkMat);
-      br.position.set(bx, by, 0.3);
-      br.rotation.z = tilt;
-      isl.add(br);
-    }
-    const folMat = new THREE.MeshLambertMaterial({ color: 0x7fffd4,
-      emissive: 0x2fbf9f, emissiveIntensity: 0.8, flatShading: true });
-    for (const [fx, fy, fz, fr] of
-         [[0, 10.4, 0, 2.6], [2.0, 9.3, 0.4, 1.5], [-1.8, 9.7, 0.6, 1.3]]) {
-      const fol = new THREE.Mesh(cragGeometry(fr, 1, 0.35), folMat);
-      fol.position.set(fx, fy, fz);
-      isl.add(fol);
-    }
-    for (let v = 0; v < 4; v++) {            // light vines under the island
-      const vine = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 3 + v, 4),
-        capMats[v % 3]);
-      vine.position.set(Math.sin(v * 2.7) * 3, -5 - v * 0.6, Math.cos(v * 2.7) * 3);
-      isl.add(vine);
-    }
-    for (let h = 0; h < 3; h++) {            // crystals hanging from the bottom
-      const hc = new THREE.Mesh(
-        crystalGeometry(0.7, 2.5 + h, 1.4), cryShaderMats[(i + h) % 4]);
-      hc.rotation.x = Math.PI;
-      hc.position.set(Math.sin(h * 2.1 + i) * 3.2, -2.2, Math.cos(h * 2.1 + i) * 3.2);
-      isl.add(hc);
-    }
-    isl.position.set(ix, base, iz);
-    magicGroup.add(isl);
-    const groundY2 = gY(ix, iz);             // faint light shaft to the ground
-    const shaft = new THREE.Mesh(
-      new THREE.CylinderGeometry(2.2, 6.5, base - groundY2, 12, 1, true),
-      new THREE.MeshBasicMaterial({ color: 0x7fffd4, transparent: true,
-        opacity: 0.028, blending: THREE.AdditiveBlending,
-        depthWrite: false, side: THREE.DoubleSide }));
-    shaft.position.set(ix, groundY2 + (base - groundY2) / 2, iz);
-    magicGroup.add(shaft);
-    magicAnims.push((t, dt) => {
-      isl.position.y = base + Math.sin(t * 0.4 + i * 1.7) * 2.5;
-      isl.rotation.y += dt * 0.05;
-    });
-  }
-
-  // portal: ring of rune-carved standing stones with a spinning inner sigil
-  const px2 = MX - 81, pz2 = MZ + 27;
-  const py2 = gY(px2, pz2);
-  const ga = Math.atan2(-0.95, 0.32) + Math.PI / 2;
-  const gateG = new THREE.Group();
-  gateG.position.set(px2, py2, pz2);
-  gateG.rotation.y = ga;
-  magicGroup.add(gateG);
-  for (let i = 0; i < 13; i++) {
-    const a = i / 13 * Math.PI * 2;
-    const blk = new THREE.Mesh(cragGeometry(1.05, 0, 0.55), stoneDark);
-    blk.scale.set(1, 1.55, 0.62);
-    blk.position.set(Math.cos(a) * 7, 7.2 + Math.sin(a) * 7, 0);
-    blk.rotation.z = a;
-    gateG.add(blk);
-    if (i % 3 === 0) {
-      const rune = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.55, 0.12), glowWin);
-      rune.position.set(Math.cos(a) * 7, 7.2 + Math.sin(a) * 7, 0.72);
-      gateG.add(rune);
-    }
-  }
-  for (const sx of [-1, 1]) {                  // rough pillar bases
-    const pb = new THREE.Mesh(cragGeometry(1.6, 0, 0.4), stoneDark);
-    pb.scale.set(1.2, 0.7, 1);
-    pb.position.set(sx * 6.6, 0.7, 0);
-    gateG.add(pb);
-  }
-  const sigil = new THREE.Mesh(new THREE.TorusGeometry(5.8, 0.09, 8, 48),
-    new THREE.MeshBasicMaterial({ color: 0x9fe8ff, transparent: true, opacity: 0.5,
-      blending: THREE.AdditiveBlending, depthWrite: false }));
-  sigil.position.set(0, 7.2, 0);
-  gateG.add(sigil);
-  const film = new THREE.Mesh(new THREE.CircleGeometry(6.2, 24),
-    new THREE.MeshBasicMaterial({ color: 0xbfe8ff, transparent: true, opacity: 0.3,
-      side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false }));
-  film.position.set(0, 7.2, 0);
-  gateG.add(film);
-  magicAnims.push((t, dt) => {
-    sigil.rotation.z -= dt * 0.7;
-    film.material.opacity = 0.22 + Math.sin(t * 1.6) * 0.12;
-  });
-
-  // luminous walkways: portal -> tower -> island anchors
-  glowPath(px2, pz2, MX, MZ, 3.2);
-  glowPath(MX, MZ, MX + 60, MZ + 46);
-  glowPath(MX, MZ, MX - 40, MZ - 58);
-
-  // colored night lights
-  for (const [c, lx2, lz2, ly2] of [
-    [0x9fe8ff, MX, MZ, ty + TH + 10],
-    [0xff9fe0, MX + 42, MZ + 30, gY(MX + 42, MZ + 30) + 8],
-    [0x7fffd4, px2, pz2, py2 + 9],
-  ]) {
-    const l = new THREE.PointLight(c, 0, 130, 2);
-    l.position.set(lx2, ly2, lz2);
-    magicGroup.add(l);
-    magicLights.push(l);
-  }
-}
+// —— 魔幻城已剥离为独立模块(viewer/magic/magic-city.js),这里只做接线 ——
+buildMagicCity({ THREE, group: magicGroup, anims: magicAnims, lights: magicLights,
+  sampleHeight, renderer, T, sunDirUniform: sky.material.uniforms.sunDir,
+  crystalTime, crystalDay, cryGlowMats, cityPbrMats });
 
 function toggleMagic(force) {
   magicGroup.visible = force ?? !magicGroup.visible;
@@ -1352,6 +1145,9 @@ const mixers = [];                           // glTF AnimationMixers (loop_* cli
 const scheduled = [];                        // {g, action, ltst, lastSol} auto-triggers
 let lastNight = 0;                           // written by updateSun each frame
 const poiCardEl = document.getElementById('poiCard');
+// the colony fabric is built before this array exists, so its one moving part
+// (the ore hauler) hands its animator over here
+if (haulTick) unitAnims.push(haulTick);
 
 const poiDotTex = (() => {
   const c = document.createElement('canvas');
@@ -1679,6 +1475,10 @@ const PORTALS = [
   { pos: [-372, -18], radius: 5, interior: 'hab-foyer-01', label: '地下城（电梯）', label_en: 'Undercity (lift)' },
   // 温室穹顶气闸门廊(res-dome-01 @ (95,70) rot180,门廊朝城)
   { pos: [95, 53], radius: 5.5, interior: 'res-dome-hall-01', label: '温室穹顶', label_en: 'Greenhouse dome' },
+  // FEL access shaft: sited by the delivering session at 625 m from the seismic
+  // station (its 400 m quiet radius) and inside the undercity gate cluster
+  { pos: [-395, 25], radius: 5.5, interior: 'sci-fel-01',
+    label: '自由电子激光装置', label_en: 'Free-electron laser' },
 ];
 // interior-to-interior doors (E-gated, no auto-trigger): the foyer's inner
 // personnel door leads to the clinic; the clinic's +Z opening leads back
@@ -1711,6 +1511,13 @@ const INTERIOR_DOORS = [
   { from: 'hab-quarter-01', pos: [0, 7.5], radius: 1.5, to: 'hab-foyer-01',
     label: '玄关', label_en: 'Foyer',
     entry: { pos: [-4.6, 0, -3.5], yaw: -Math.PI / 2 } },
+  // 玄关右墙中段 → 冷冻电镜实验室(300 kV,城市的分子之眼);其自带的
+  // 门龛标着「返回玄关」,故 exitZone 已在 manifest 里禁用,回程走这道门
+  { from: 'hab-foyer-01', pos: [5.4, -9.0], radius: 1.6, to: 'sci-cryoem-01',
+    label: '冷冻电镜实验室', label_en: 'Cryo-EM lab' },
+  { from: 'sci-cryoem-01', pos: [-6.4, 9.4], radius: 1.5, to: 'hab-foyer-01',
+    label: '玄关', label_en: 'Foyer',
+    entry: { pos: [4.6, 0, -9.0], yaw: Math.PI / 2 } },
 ];
 let nearDoor = null;
 
@@ -2015,12 +1822,13 @@ function updatePortals() {                    // surface: detect nearby door
   }
 }
 
-// wilderness scatter pack: instantiate each builder at hand-picked spots,
-// clear of the tech-city (east) and science zone (west)
+// scatter packs: instantiate each builder at listed spots. Placements come
+// from the manifest entry ("placements": [[builder, x, z, rot?], ...]) so any
+// pack can ship its own layout; env-scatter-01 keeps its legacy built-in list.
 async function loadScatter(a) {
   const mod = await import(`./units/${a.id}.js`);
   const B = mod.builders || {};
-  const spots = [
+  const spots = a.placements || [
     ['weatherMast', -260, -40], ['weatherMast', 210, -260],
     ['navBeacon', -60, -140], ['navBeacon', 90, 250], ['navBeacon', -340, 120],
     ['monument', -430, 60], ['heatshield', 470, -360], ['paraDebris', 520, -300],

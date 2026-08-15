@@ -1,7 +1,7 @@
 // viewer/units/sci-rad-01.js — 地表辐射监测站（Timepix4 粒子相机）
 // Surface radiation monitoring station: Timepix4 particle camera tower,
 // live track-morphology screen, SEP alert tower, EVA dosimeter rack.
-// Design ledger: mars_rad (4 ledgers); device anchor: own Timepix4
+// Design ledger: E:\Claude\mars_rad (4 ledgers); device anchor: own Timepix4
 // campaign (55 um pitch / 300 um Si / 150 V / 500 e threshold, ENC 52.7 e).
 // Contract: MODELS.md §4 — 1 unit = 1 m, THREE injected, no textures.
 

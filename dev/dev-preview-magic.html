@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>magic-city preview</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#0b0813}
+#ui{position:fixed;top:12px;right:12px;display:flex;flex-direction:column;gap:8px;z-index:10;font-family:system-ui}
+#ui button{padding:9px 14px;font-size:14px;border-radius:8px;cursor:pointer;
+  background:rgba(26,18,38,.85);color:#e8ddff;border:1px solid rgba(190,160,255,.32)}
+#ui button:hover{background:rgba(46,32,68,.9)}
+#tip{position:fixed;left:12px;top:12px;color:#cbb8ff;font:12.5px/1.6 system-ui;opacity:.8;z-index:10}
+#hud{position:fixed;left:12px;bottom:12px;padding:9px 13px;font:12.5px/1.7 ui-monospace,monospace;
+  border-radius:8px;color:#d8c8ff;background:rgba(20,14,32,.85);white-space:pre;z-index:10}
+</style>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+               "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
+</script>
+</head>
+<body>
+<div id="tip">拖动旋转 · 滚轮缩放 · ?rev=base 载入 HEAD 基线版(算三角形增量)</div>
+<div id="ui">
+  <button id="magicBtn">🔮 魔幻火星：开</button>
+  <button id="bNight">🌙 夜 / 昼</button>
+  <button id="bGrow">🌱 重放生长</button>
+  <button id="bWalk">🚶 穿门(触发传送门)</button>
+  <button id="bFire">✨ 直接放传送门大招</button>
+  <button id="bTower">📍 视角：法师塔</button>
+  <button id="bPalace">📍 视角：水晶王城</button>
+  <button id="bGate">📍 视角：符文环</button>
+  <button id="bBand">📍 视角：过渡带</button>
+</div>
+<div id="hud"></div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const q = new URLSearchParams(location.search);
+// ?rev=base loads the committed baseline (dev/_magic-city-baseline.js, produced
+// with `git show HEAD:viewer/magic/magic-city.js`) so the triangle delta of an
+// art round is measured, not guessed.
+const src = q.get('rev') === 'base'
+  ? `./_magic-city-baseline.js?ts=${Date.now()}`
+  : `../viewer/magic/magic-city.js?ts=${Date.now()}`;
+let mod;
+try {
+  mod = await import(src);
+} catch (e) {
+  document.getElementById('tip').textContent =
+    '基线文件缺失 —— 先跑: git show HEAD:viewer/magic/magic-city.js > dev/_magic-city-baseline.js';
+  throw e;
+}
+const { meta, build } = mod;
+document.title = (q.get('rev') === 'base' ? 'BASE ' : '') + 'magic-city preview';
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth || 1280, innerHeight || 720);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, (innerWidth || 1280) / (innerHeight || 720), 0.5, 6000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(-150, 60, -520);
+camera.position.set(-60, 90, -430);
+
+// —— 引擎替身：复刻 main.js 的昼夜驱动（§4a+ 契约里引擎那一侧的活）——
+const GROUND = 42;                                  // 全城平原海拔
+const sampleHeight = () => GROUND;
+const sunDirUniform = { value: new THREE.Vector3(0.32, 0.7, -0.64).normalize() };
+const crystalTime = { value: 0 };
+const crystalDay = { value: 1 };
+const cryGlowMats = [], cityPbrMats = [], magicLights = [], magicAnims = [];
+const T = { magic: (on) => `🔮 魔幻火星：${on ? '开' : '关'}` };
+
+const magicGroup = new THREE.Group();
+scene.add(magicGroup);
+
+const sky = new THREE.Mesh(new THREE.SphereGeometry(4000, 24, 16),
+  new THREE.MeshBasicMaterial({ color: 0xc98d63, side: THREE.BackSide }));
+scene.add(sky);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(2400, 2400),
+  new THREE.MeshLambertMaterial({ color: 0x8a5f45 }));
+ground.rotation.x = -Math.PI / 2;
+ground.position.set(-150, GROUND, -600);
+scene.add(ground);
+const hemi = new THREE.HemisphereLight(0xd9a583, 0x4a3020, 0.85);
+scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xffe8cc, 1.8);
+sun.position.copy(sunDirUniform.value).multiplyScalar(600);
+scene.add(sun);
+
+build({ THREE, group: magicGroup, anims: magicAnims, lights: magicLights,
+  sampleHeight, renderer, T, sunDirUniform, crystalTime, crystalDay,
+  cryGlowMats, cityPbrMats });
+
+// 昼夜：night = 1 - day，公式照抄 main.js updateSun 的魔幻城那几行
+let day = 1;
+function applyDay() {
+  const night = 1 - day;
+  sun.intensity = 2.4 * day;
+  hemi.intensity = 0.1 + 0.85 * day;
+  sky.material.color.setHex(day > 0.5 ? 0xc98d63 : 0x140f22);
+  ground.material.color.setHex(day > 0.5 ? 0x8a5f45 : 0x2a1c1a);
+  crystalDay.value = day;
+  for (const l of magicLights) l.intensity = 40 + 500 * night;
+  for (const m of cryGlowMats) m.opacity = 0.1 + 0.35 * night;
+  for (const m of cityPbrMats) m.emissiveIntensity = 0.05 + 0.4 * night;
+}
+applyDay();
+
+// —— 面数统计：只数几何体（Points 不产三角形）——
+function countTris(root) {
+  let tris = 0, meshes = 0, points = 0, mats = new Set();
+  root.traverse((o) => {
+    if (o.isPoints) points++;
+    if (!o.isMesh || !o.geometry?.attributes?.position) return;
+    meshes++;
+    mats.add(o.material.uuid);
+    const c = o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count;
+    tris += c / 3 * (o.isInstancedMesh ? o.count : 1);
+  });
+  return { tris: Math.round(tris), meshes, points, mats: mats.size };
+}
+
+const api = () => magicGroup.userData.magic || {};
+document.getElementById('bNight').onclick = () => { day = day > 0.5 ? 0 : 1; applyDay(); };
+document.getElementById('bGrow').onclick = () => { clock.elapsedTime = 0; clock.start(); regrow = true; };
+document.getElementById('bFire').onclick = () => api().firePortal?.();
+const look = (px, py, pz, tx, ty2, tz) => {
+  camera.position.set(px, py, pz);
+  controls.target.set(tx, ty2, tz);
+};
+// 机位一律写 GROUND(=42) 相对高度——写绝对 y 会把相机塞到地面以下
+document.getElementById('bTower').onclick = () => look(-90, GROUND + 38, -440, -150, GROUND + 28, -520);
+document.getElementById('bPalace').onclick = () => look(-170, GROUND + 70, -500, -170, GROUND + 78, -730);
+document.getElementById('bGate').onclick = () => look(-203, GROUND + 12, -451, -231, GROUND + 7, -493);
+document.getElementById('bBand').onclick = () => look(-160, GROUND + 218, -180, -160, GROUND, -600);
+
+// 穿门：把相机沿门轴推过符印面，走的是模块自己的 onBeforeRender 玩家探针
+let walk = 0;
+document.getElementById('bWalk').onclick = () => {
+  const g = api().gate;
+  if (!g) return;
+  walk = 1;
+  controls.enabled = false;
+  camera.position.set(g[0] + 9, GROUND + 1.7, g[1] + 26);
+  controls.target.set(g[0] - 9, GROUND + 7, g[1] - 26);
+};
+
+const clock = new THREE.Clock();
+let regrow = false, fps = 0;
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), 0.1);
+  const t = clock.elapsedTime;
+  if (regrow) regrow = false;
+  if (walk > 0) {                       // 3 s 匀速穿过门面，之后交回鼠标
+    walk -= dt / 3;
+    const g = api().gate;
+    const k = 1 - walk;
+    camera.position.set(g[0] + 9 - 18 * k, GROUND + 1.7, g[1] + 26 - 52 * k);
+    controls.target.set(g[0] + 9 - 18 * (k + 0.9), GROUND + 4,
+      g[1] + 26 - 52 * (k + 0.9));      // 视线始终朝前方
+    if (walk <= 0) controls.enabled = true;
+  }
+  for (const f of magicAnims) f(t, dt);
+  controls.update();
+  renderer.render(scene, camera);
+  fps = fps * 0.9 + (1 / Math.max(dt, 1e-3)) * 0.1;
+  const c = countTris(magicGroup);
+  document.getElementById('hud').textContent =
+    `tris ${c.tris}   mesh ${c.meshes}   points ${c.points}   mats ${c.mats}\n` +
+    `draws ${renderer.info.render.calls}   fps ${fps.toFixed(0)}   ` +
+    `${day > 0.5 ? 'day' : 'night'}   t=${t.toFixed(1)}`;
+});
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+window.__magic = { THREE, magicGroup, magicAnims, countTris, api, scene, renderer, camera,
+  look,
+  setDay: (v) => { day = v; applyDay(); },
+  // 诊断:按名字隐藏新增图层(magicHalo/magicHaze/magicMoss/magicDebris)
+  hide: (n) => { const o = magicGroup.getObjectByName(n); if (o) o.visible = false; return !!o; },
+  // 诊断:屏幕坐标 (0..1) 打一条射线,报命中物体名/类型
+  pick: (u, v) => {
+    const rc = new THREE.Raycaster();
+    rc.setFromCamera(new THREE.Vector2(u * 2 - 1, 1 - v * 2), camera);
+    return rc.intersectObjects(scene.children, true).slice(0, 4).map((h) =>
+      `${h.object.name || h.object.type}@${h.distance.toFixed(0)}`);
+  } };
+console.log('magic-city preview ready:', meta.id, countTris(magicGroup));
+</script>
+</body>
+</html>

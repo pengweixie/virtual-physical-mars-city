@@ -1,7 +1,7 @@
 // com-station-01 — 地面通讯基站（对头顶静止轨道中继星 Ka/X + 上合期对地直连备份）
 // 契约 MODELS.md §4：1u=1m、原点=基座地面点、+Y 上、THREE 由查看器传入。
 // 动画全部声明式（oscillators/blinkMats/nightMats），无 animate。
-// 源设计与逐级链路预算见 mars-com-station（G/T 51.8 dB/K，下行余量 24.7 dB）。
+// 源设计与逐级链路预算见 E:\Claude\mars-com-station（G/T 51.8 dB/K，下行余量 24.7 dB）。
 
 export const meta = {
   id: 'com-station-01',

@@ -1,0 +1,62 @@
+{
+ "thermal": {
+  "area_ext_m2": 0.161,
+  "ua_ext": 1.71,
+  "k_torso": 1.5,
+  "t_walk_C": 28.8,
+  "t_charge_C": 25.5,
+  "t_idle_C": 25.3,
+  "t_ambient_C": 22.0,
+  "tau_min": 12,
+  "pack_ir_W": {
+   "discharge": 0.186,
+   "charge": 0.617
+  }
+ },
+ "model": {
+  "ea_kj_mol": 50,
+  "beta_soc": 2.34,
+  "k_ref": 1.5,
+  "k_cyc_at_shift_dod": 0.789,
+  "fec_per_sol": 1.235,
+  "gates": {
+   "calendar_anchor": "PASS",
+   "woehler_anchor": 500,
+   "direction": "PASS"
+  }
+ },
+ "strategies": {
+  "charge-on-arrival": {
+   "int_k2_sol": 0.0389,
+   "k_eff": 3.7183,
+   "mean_soc": 0.7921,
+   "mean_T": 26.4668,
+   "l1_float": 0.95,
+   "l1_rate": 3.4997,
+   "sols_additive": 347,
+   "sols_sqrt": 495,
+   "l1_sols": 397
+  },
+  "just-in-time": {
+   "int_k2_sol": 0.014,
+   "k_eff": 2.2334,
+   "mean_soc": 0.4904,
+   "mean_T": 26.4668,
+   "l1_float": 0.45,
+   "l1_rate": 1.0871,
+   "sols_additive": 404,
+   "sols_sqrt": 511,
+   "l1_sols": 473
+  }
+ },
+ "verdict": {
+  "design_law": "additive",
+  "sols_on_arrival": 347,
+  "sols_jit": 404,
+  "jit_gain_sols": 57,
+  "jit_gain_sols_sqrt": 16,
+  "l1_gain_sols": 76,
+  "cycle_over_calendar": 7.4,
+  "thermal_break_gain_sols": 20
+ }
+}

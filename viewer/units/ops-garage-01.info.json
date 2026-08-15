@@ -1,0 +1,63 @@
+{
+ "id": "ops-garage-01",
+ "name": "巡检狗母港车库",
+ "name_en": "Patrol Dog Home Garage",
+ "summary": "ops-dog-01 的母港。两间舱、两种密封等级：狗舱只做 2 kPa 防尘正压，人居级加压留给旁边 8.3 m³ 的检修间。库里看得见的核心不是暖房，是一块加热充电接触板 —— 因为烤整个库比烤坞贵 29 倍。门洞正上方那组 25 mm 无源角锥是狗唯一的归航靶标。",
+ "summary_en": "Home port for ops-dog-01. Two bays, two seal classes: the dog bay holds only 2 kPa of dust-exclusion overpressure, while shirt-sleeve pressure is confined to the 8.3 m3 service bay next door. The thing to look at inside is not a warm room but a heated charging plate — warming the whole bay costs 29x more. The 25 mm corner cubes above the door are the dog's only homing target.",
+ "cards": [
+  {
+   "poi": "poi_door",
+   "label": "「加压车库」算完之后不是加压车库",
+   "label_en": "Do the arithmetic and the pressurized garage stops being pressurized",
+   "detail": "把 20 m³ 充到人能脱服进出的气压，每次要花掉五倍于这条狗整块电池的能量。而没有人需要脱服进去。",
+   "detail_en": "Filling 20 m3 to shirt-sleeve pressure costs five times the dog's entire battery, every single time. And nobody needs to go in without a suit.",
+   "sim": "狗舱内净 3.60×2.40×2.30 m = **19.9 m³**（尺寸从 R2 实测的狗包围盒 1.10×0.60×0.95 推）。等温充气功 W = p₂V·ln(p₂/p₁) − (p₂−p₁)V：充到 101.3 kPa 需 **2,313 Wh**，而 640 Wh 电池包可用容量只有 410 Wh —— **5.6 倍**，每 sol 一次不可能。充到 **2 kPa 防尘正压只要 5.6 Wh**。`sim/garage_ops.py` G-4。",
+   "physics": "决定性的不是「加压好不好」，而是 **R8 早就把与狗共处的判据全部按穿加压服写完了**（刺穿 30 MPa 几何判据、挤压 35.1 N·m 力矩限、撞倒 32.3 N·s 冲量）。既然共处场景默认穿服，脱服进出就不在需求里。人居级加压因此退到一间 **8.3 m³ 的检修间**：968 Wh/次，带 90% 回收泵约 97 Wh，一个月一次完全付得起。**两间舱、两种密封等级**——右边那扇厚得多的手轮门就是这么来的。"
+  },
+  {
+   "poi": "poi_dock",
+   "label": "不烤库，烤坞",
+   "label_en": "Heat the dock, not the room",
+   "detail": "默认想象里车库是个暖房。算下来暖房比只烤那块接触板贵 29 倍，而且贵出来的部分全花在给一台不需要变暖的机器保温上。",
+   "detail_en": "The default mental image of a garage is a warm room. A warm room costs 29x more than just heating the contact plate — and every bit of that surcharge goes into insulating a machine that does not need to be warm.",
+   "sim": "夜间 ΔT = +5 °C −(−69.3 °C) = **74 K**。① 烤整库：44.9 m² × 100 mm 气凝胶 → UA 5.39 W/K → **400 W**（一夜 4.8 kWh）。② 整只狗裹保温罩：UA 1.42 W/K → 105 W。③ **加热坞把 13.9 W 直接送进狗自带的电池保温壳**（R4 实测 UA 0.1435 W/K，加 30% 接触余量）→ 一夜 166 Wh。**①/③ = 29 倍。** `sim/garage_ops.py` G-5/G-6。",
+   "physics": "②看起来已经很省了（比暖房省 4 倍），但它是**重复保温**——狗本来就背着一层保温壳，在外面再裹一层要养的是整只狗 5.9 m² 的表面，而不是电池那一小块。首版就是这么设计的，G-5 当场判红。而「关节要不要一起烤」R6 已经替这一轮回答了：低温脂过不了夜间 −46 °C，所以那轮选了 MoS₂ 干膜，干膜没有低温下限——**润滑剂选型顺手取消了整机保温的需求**。车库真正省下的也不是这 157 Wh，而是把它从狗的电池挪到了电网：157 Wh = 640 Wh 包可用容量的 38%。"
+  },
+  {
+   "poi": "poi_gas",
+   "label": "气源只有这里有",
+   "label_en": "This is the only place with a gas supply",
+   "detail": "尘是干润滑剂，落在足垫上把牵引砍掉一半；而甩是甩不掉的，差五个数量级。唯一的办法是回库吹。",
+   "detail_en": "Dust is a dry lubricant — it halves the foot pad's traction — and it cannot be shaken off, not by five orders of magnitude. The only option is to come home and blow it off.",
+   "sim": "R6 定的策略是「野外被动密封 + 回库正压吹扫」。射流除尘 **Mach 0.76、滞止压 857 Pa**、一次 20 s 耗 0.64 g；关节正压微泄放 **5.29 g/sol**。库内 2 kPa **> 857 Pa**，所以**同一个气源既维持防尘正压又供吹扫**，不需要第二套增压（G-7）。头顶那圈 8 只喷嘴就是吹扫环，气瓶架和增压机在 +X 内壁。",
+   "physics": "范德华黏附是重力的 6.0×10⁵ 倍且**与 g 无关**——低重力在这一项上帮倒忙。甩掉一颗 1.5 µm 尘需要 2.2×10⁶ m/s²，而摆动相只给得出约 3 m/s²。所以除尘只能靠**壁面剪应力**（脱附需 26.1 Pa），而剪应力要气。正压的第二个作用是把门缝的净流向定成向外：R6 实测沉降 0.2%/sol 全部来自库外。"
+  },
+  {
+   "poi": "poi_retro",
+   "label": "门楣上那七颗小东西是狗唯一的归航手段",
+   "label_en": "The seven small things above the lintel are the dog's only way home",
+   "detail": "纯航位推算一个站点都回不去。UHF 信标在远处比航位推算还差。真正能带它回家的是这组不耗电、不会坏的角锥。",
+   "detail_en": "Dead reckoning alone cannot get the dog back from a single station. A UHF beacon is worse than dead reckoning at range. What actually brings it home is this passive, unpowered, unbreakable set of corner cubes.",
+   "sim": "**25 mm 孔径 × 7 只**，六边形排布，按真实尺寸建（在 5 m 的建筑上本来就该很小）。返回发散角 λ/a = **36 µrad**，420 m（R10 信标模式的距离门宽）处回波光斑 **15 mm**，远大于狗的 10 mm 接收孔径 → **指向容差由光斑定而不是由孔径定**（G-8）。回波增强相对暗目标漫反射约 1.2×10⁷ 倍。",
+   "physics": "R7 算出 VO 漂移 2% 行程 → 最远站点往返 32 m 误差，而车库捕获半径只有 1 m。R11 试过 UHF 双天线干涉测向：30 cm 基线在 806 m 处横向误差 56 m，**比航位推算还差**。角锥装在**门洞正上方**是刻意的：这样「看见靶标」和「对准门」是同一件事，末端再交给 LiDAR 2.67 cm 的测距精度。它无源——不耗电、不会坏、尘落上去只降效率不改方向。"
+  },
+  {
+   "poi": "poi_apron",
+   "label": "地上那两道沟是可靠性设计",
+   "label_en": "Those two grooves in the ground are a reliability measure",
+   "detail": "陷住就等于丢了这台资产：直升机抬不动 42 kg，806 m 外派 EVA 是一次重大行动。而要达到的可靠性量级，靠「小心开」是达不到的。",
+   "detail_en": "Getting stuck means losing the asset: the helicopter cannot lift 42 kg and sending an EVA 806 m out is a major operation. And the reliability target is far beyond what careful driving can deliver.",
+   "sim": "电池寿命 1,099 sol ≈ 1,099 次出勤。要 90% 的寿命内存活率，**逐次陷车概率必须 < 9.6×10⁻⁵** —— 约一万次出勤只许陷一次。这个量级只能靠结构性措施：**只走已验证过的路网**（首次通过时逐格记录承载力，之后复用）+ 单腿试探 + 角反射器归航。`sim/terramech_dog.py` R9。",
+   "physics": "巡检任务本来就是重复走同样的六条线，所以「路网复用」几乎不要成本却是最有力的一条：同一条路走第 N 次的风险远低于第一次。场坪上这两道车辙就是它在地面上的样子。四足真正的本钱也不是「不会陷」——它的接地压强其实比六轮的 MER 高 1.4 倍——而是**失效可逆**：脚可以垂直提起来，轮子只能靠转动往外爬，而转动就是继续剪切土体。"
+  },
+  {
+   "poi": "poi_service",
+   "label": "一扇门薄一扇门厚，差在 50 倍压差",
+   "label_en": "One door thin, one door thick — a 50x pressure difference",
+   "detail": "左边狗舱的门只挡 1.4 kPa 表压，右边检修间的门要挡 100 kPa。密封等级不同，门就不该长一样。",
+   "detail_en": "The dog bay door holds 1.4 kPa of gauge pressure; the service bay door holds 100. Different seal classes should not look alike.",
+   "sim": "狗舱 2 kPa 绝对压（表压 1.4 kPa，环境 600 Pa），上翻轻门 + 唇形密封；检修间 101.3 kPa（表压 100.7 kPa，**72 倍**），厚密封框 + 手轮闩 + 观察窗。检修间 8.3 m³ 每次充气 968 Wh，所以外墙那个卧罐是**气体回收罐**：带 90% 回收泵后降到约 97 Wh/次。",
+   "physics": "把两种压力等级混成一间是最贵的错误——因为压缩功随体积线性增长，而狗舱的体积是检修间的 2.4 倍。分开之后，每 sol 都要做的那件事（狗进出）用的是最便宜的那间，而昂贵的那间一个月才开一次。这也是为什么两个体量不做成一个大方盒子。"
+  }
+ ]
+}

@@ -1,0 +1,140 @@
+{
+ "window_audit": {
+  "cap": 380.0,
+  "window": [
+   0.25,
+   0.95
+  ],
+  "usable_bol": 266,
+  "usable_eol": 213,
+  "shift_Wh": 296.4,
+  "bol_shift_h": 3.59,
+  "finding": "EOL sizing used 0-100% capacity, FEC count used DoD 0.70; multiplied together the 4 h promise fails on day one"
+ },
+ "resize": {
+  "cap": 480.0,
+  "window": [
+   0.15,
+   0.95
+  ],
+  "mass_kg": 2.4,
+  "shift_dod": 0.617,
+  "n_fec": 643,
+  "cycle_sols": 520,
+  "eol_margin": 0.036,
+  "trade": [
+   {
+    "cap": 380,
+    "kg": 1.9,
+    "dod": 0.78,
+    "fec_sol": 1.56,
+    "n": 403,
+    "cycle_sols": 258,
+    "eol_margin": -0.179
+   },
+   {
+    "cap": 420,
+    "kg": 2.1,
+    "dod": 0.706,
+    "fec_sol": 1.41,
+    "n": 492,
+    "cycle_sols": 349,
+    "eol_margin": -0.093
+   },
+   {
+    "cap": 460,
+    "kg": 2.3,
+    "dod": 0.644,
+    "fec_sol": 1.29,
+    "n": 590,
+    "cycle_sols": 458,
+    "eol_margin": -0.007
+   },
+   {
+    "cap": 480,
+    "kg": 2.4,
+    "dod": 0.617,
+    "fec_sol": 1.23,
+    "n": 643,
+    "cycle_sols": 520,
+    "eol_margin": 0.036
+   },
+   {
+    "cap": 520,
+    "kg": 2.6,
+    "dod": 0.57,
+    "fec_sol": 1.14,
+    "n": 754,
+    "cycle_sols": 661,
+    "eol_margin": 0.123
+   },
+   {
+    "cap": 560,
+    "kg": 2.8,
+    "dod": 0.529,
+    "fec_sol": 1.06,
+    "n": 875,
+    "cycle_sols": 826,
+    "eol_margin": 0.209
+   }
+  ]
+ },
+ "calendar": {
+  "model": [
+   [
+    0.3,
+    1.0
+   ],
+   [
+    0.5,
+    1.5
+   ],
+   [
+    0.7,
+    2.5
+   ],
+   [
+    0.95,
+    4.5
+   ]
+  ],
+  "strategies": {
+   "charge-on-arrival": {
+    "float_soc": 0.92,
+    "cal_pct_yr": 4.26,
+    "sols_to_eol": 397
+   },
+   "just-in-time": {
+    "float_soc": 0.45,
+    "cal_pct_yr": 1.38,
+    "sols_to_eol": 473
+   }
+  },
+  "gain_sols": 76
+ },
+ "charge": {
+  "p_dock": 150,
+  "p_docked": 9.4,
+  "eta": 0.96,
+  "p_cells": 135,
+  "c_rate": 0.27,
+  "t_typical_h": 2.3,
+  "t_worst_h": 2.94,
+  "cv_below_ceiling": null,
+  "gap_h": 8.3,
+  "pack_heat_W": 0.6
+ },
+ "posture": {
+  "p_stand_actuators": 37.0,
+  "p_docked": 9.4,
+  "ledge_saves_Wh_per_sol": 170
+ },
+ "contacts": {
+  "v_bus": 48.0,
+  "i_a": 3.1,
+  "selv_ok": true,
+  "arc_risk": "48V/3.1A sustains a DC arc; dead-until-handshake + zero-current undock",
+  "matings_per_yr": 730,
+  "reserve_h_at_floor": 6
+ }
+}

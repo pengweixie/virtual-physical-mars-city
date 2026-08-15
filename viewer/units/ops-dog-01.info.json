@@ -1,0 +1,432 @@
+{
+ "id": "ops-dog-01",
+ "name": "地表巡检四足机器人",
+ "name_en": "Surface Inspection Quadruped",
+ "summary": "远端科学站阵列的现场作业员：光学窗除尘、连接器巡视、标定靶摆放、小件递送。每 sol 回加压车库。与 veh-heli-01 互补——直升机负责看，狗负责到现场动手。",
+ "summary_en": "Field hand for the outlying science stations: optics-window dusting, connector inspection, calibration-target placement, small deliveries. Returns to a pressurised garage every sol. Complements veh-heli-01: the helicopter looks, the dog touches.",
+ "cards": [
+  {
+   "poi": "poi_lidar",
+   "label": "扫描 LiDAR 鼓 · 为什么不是闪光雷达",
+   "label_en": "Scanning LiDAR drum — why not flash",
+   "detail": "头部是连续旋转的扫描鼓，15 元竖直线阵 + 方位扫描，不是继承自室内机器人的 90° 闪光窗口。这个改动是被账本逼出来的，不是造型选择。",
+   "detail_en": "The head is a continuously rotating drum carrying a 15-element vertical array swept in azimuth, not the 90-degree flash window inherited from the indoor robot. The change was forced by the link budget, not chosen for looks.",
+   "sim": "R1 链路账（mars-dog/sim/lidar_surface_link.py，10 闸全过）：905 nm 正午单通道背景 4.02e11 e/s，140 ns 门内 56,216 计数；SiPM 微元存活率仅 11.3%；20 m 暗目标单脉冲 SNR 0.55，累积 64 发检出率仍只有 31%。换成 0.5° 扫描后背景降到 2.79e9 e/s，存活率 94.8%，单脉冲 SNR 6.36，σ = 2.67 cm、离群 0%。",
+   "physics": "背景功率是展源étendue：P = L·A·Ω·Δλ，只有 Ω 与 Δλ 能压，孔径 A 对信背比完全无用（信号与背景同比例增长）。失效机理不是信噪比不足，而是每个微元每 2.55 ns 就被背景光子打死一次、恢复要 20 ns —— 回波到达时 89% 的微元处在死区。"
+  },
+  {
+   "poi": "poi_lidar",
+   "label": "扫描买到的第二样东西：窄带滤光片",
+   "label_en": "What scanning buys twice: a narrowband filter",
+   "detail": "扫描不只是把立体角压小 144 倍。它把滤光片放进了近轴光路，而这才是窄带滤光片能存在的前提。",
+   "detail_en": "Scanning does more than shrink the solid angle 144-fold. It puts the filter in a near-on-axis beam, which is what makes a narrowband filter possible at all.",
+   "sim": "λ(θ)=λ₀√(1−(sinθ/n_eff)²)，n_eff=2.0。90° 全视场半角 45° → 通带蓝移 58.5 nm，可用带宽下限 61.8 nm；扫描 0.5° IFOV 半角 0.25° → 蓝移 0.00 nm，下限 3.3 nm（此时由激光温漂 0.3 nm/K 支配）。",
+   "physics": "干涉滤光片的通带随入射角蓝移。闪光接收机的整个视场都落在滤光片上，视场越宽通带必须越宽——正好和被阳光照亮的场景需要的相反。继承设计标称的 10 nm 滤光片在 90° 视场下物理上做不出来，所以它的账还是乐观的。"
+  },
+  {
+   "poi": "poi_lidar",
+   "label": "尘暴反而更容易，夜间最容易",
+   "label_en": "Dust storms make it easier, night easiest",
+   "detail": "直觉说尘暴会让激光雷达失效。算下来相反：尘削弱照明远多于削弱 20 m 的回波。",
+   "detail_en": "Intuition says a dust storm blinds the lidar. The arithmetic says the opposite: dust cuts the illumination far more than it cuts a 20 m echo.",
+   "sim": "τ=5 时背景从 2.79e9 降到 1.11e9 e/s（降 2.5×），而 20 m 双程大气衰减只有 1.79%（近地消光系数 = 柱光学厚度 / 11.1 km 标高）。蒙卡 σ：晴天正午 0.70 cm、尘暴 0.59 cm、夜间 0.46 cm（N=16）。",
+   "physics": "背景来自被照亮的地面，随下行辐照度掉；信号来自自带的激光，只吃 40 m 路程的消光。两者对 τ 的敏感度差两个量级。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "四条腿不等于稳 · 一半已闭合",
+   "label_en": "Four legs is not stability — half closed",
+   "detail": "交接文件以「四足 crawl 是静态稳定的」为由砍掉了两足的捕获点判据。R2 实测这条不成立；R3 换成阻抗控制后闭合了其中一半。",
+   "detail_en": "The handoff dropped the biped capture-point criterion because \"a quadruped crawl is statically stable\". R2 measured that it is not; R3 closed half of it with impedance control.",
+   "sim": "R2 开环位置控制（run_gait_dog.py G-4b，阈值 +2.0 cm 在测量前设定）：最小支撑 2 腿、90% 周期 ≥3 腿、最小静态裕度 −0.7 cm。R3 虚拟模型控制 + 足端阻抗（balance_ctrl_dog.py）：最小裕度 **+4.3 cm**、均值 +9.0 cm —— 质心确实进了支撑三角形。但接触连续性没闭合：机身仍上下跳 68 mm，全周期 ≥3 腿只有 76%。",
+   "physics": "四脚站矩形四角时质心在中心；抬起任一脚，质心恰落在剩余三角形的对角边上——裕度天生为零。真正让 crawl 稳的是抬脚前的重心转移，闸 G-5 证明了这点：关掉转移，裕度从 +4.3 掉回 −2.4 cm。剩下那一半（接触连续性）的原因也已指认：支撑腿的位置指令写在躯干系的时间表上，而机身实际速度与时间表不符，差值全由腿与地面之间的内力吸收。改到世界系锁足试过，会发散，要做对得上全身 QP —— 已转 R7。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "两种步态，两种用途",
+   "label_en": "Two gaits, two jobs",
+   "detail": "crawl 是谨慎步态，trot 是转场步态。806 m 的最远站点靠 trot 才走得完。",
+   "detail_en": "Crawl is the careful gait, trot the transit gait. Only the trot gets to the 806 m station in reasonable time.",
+   "sim": "MuJoCo 浮动基座实测（火星 g=3.71，整机 42.20 kg）：crawl T=6.0 s、占空比 0.90、0.0268 m/s、侧漂 −9.5 mm、偏航 +0.08°；trot T=1.2 s、占空比 0.70、0.1778 m/s。806 m 单程：trot 76 min，crawl 8.4 h。",
+   "physics": "crawl 速度 = 步幅/(占空比×周期)，而步幅超过 0.18 m 后足端开始打滑——扫描实测 0.22 m 时接触率从 0.93 掉到 0.86、速度不升反降。牵引而非关节力矩才是 crawl 的限制项。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "开环小跑会横着走，而且是真的",
+   "label_en": "The open-loop trot crabs, and it is real",
+   "detail": "小跑每周期向侧方漂 3.8 cm，占行程的 18%。这不是仿真 bug——换成另一条对角腿领先，漂移精确反号。",
+   "detail_en": "The trot drifts 3.8 cm sideways per cycle, 18% of the distance travelled. Not a simulation bug: swap which diagonal leads and the drift flips sign exactly.",
+   "sim": "对称闸 G-3b：FL+RR 领先 (前进 +0.2130 m, 侧向 −0.0384 m)；FR+RL 领先 (+0.2130, +0.0384)。前进量差 6.7e-16 m，侧向和 2.2e-15 m。",
+   "physics": "对角步态的支撑线是一条对角线，机身绕它侧倾；领先对角线决定侧倾的相位，因而决定横漂方向。这条不能靠调烘焙修，得靠航向闭环——归 R7。"
+  },
+  {
+   "poi": "poi_battery",
+   "label": "为什么一定要回车库",
+   "label_en": "Why it must return to the garage",
+   "detail": "「每 sol 回加压车库」是架构决策，不是便利选择。",
+   "detail_en": "Returning to a pressurised garage every sol is an architecture decision, not a convenience.",
+   "sim": "**R4 已把这条从 L0 升到 L2**（thermal_dog.py）：气凝胶常压手册 k=0.020 里约一半是气相导热，而 600 Pa/220 K 下 CO₂ 平均自由程 10.5 µm、气凝胶孔径 30 nm → Kn=349 ≫ 1，气相被 Knudsen 压死，有效 k=0.012 → 保温壳 **UA=0.144 W/K**。野外过夜无加热：**1.2 h 跌破 0 °C 不能充电，3.2 h 跌破 −20 °C 不能放电**。维持 0 °C 需连续 **13.0 W = 一夜 157 Wh**，占可用容量（384 Wh）的 **41%**——比 R3 算的一趟 601 m 勤务（187 Wh）便宜不了多少，而且什么活都没干。 R3-A 另查出交接 §3 的「四足趴下即零功耗」原本不成立：膝限位 2.4 rad 卡住下降，腹板停在离地 7.7 cm，四腿仍扛 156.6 N、单膝 26.0 N·m。**已改几何**（膝限位 2.75 rad + 两条泊车滑橇在 0.19 m 承重），膝力矩降到 0.27 N·m。",
+   "physics": "野外过夜的加热能耗与出勤能耗同量级，等于把续航砍掉四成还什么活都没干。交接文件当初拍的 UA=0.15 W/K 与 13.5 W，本轮用完全不同的路子（Knudsen 推导 k → 解外壳辐射平衡 → 集总 RC 瞬态）独立算到 0.144 W/K 与 13.0 W，**差 3%**——两条路落在同一处，这条架构决策站得住。 趴下省电的因果链是：滑橇承重 → 力矩归零 → 才敢切断驱动器供电；剩下的 13–21 W 全是驱动器静耗，与姿态无关。"
+  },
+  {
+   "poi": "poi_radiator",
+   "label": "热账在同一台机器上反转两次",
+   "label_en": "The thermal budget reverses twice on the same machine",
+   "detail": "白天散热比室内更容易，夜间保温反而成主问题。R4 算完发现反转得比预告更彻底：地表关节根本不是热问题，而且白天关节比夜间还凉。",
+   "detail_en": "By day, dumping heat is easier than indoors; by night, holding it becomes the problem. R4 found the reversal goes further than predicted: on the surface the joints are not a thermal problem at all, and they run cooler by day than by night.",
+   "sim": "thermal_dog.py（9 闸全过）：自由对流只剩地球的 **5.1%**（ρ 1.20%，Ra ∝ ρ²）；20 m/s 大风的强制对流也只有 1.25 W/(m²K)，仍是辐射等效系数 4.0 的零头。整机外壳：正午 −7.5 °C（太阳得热 43.3 W + 内耗 76.2 W，向 215 K 天空辐射 95.0 W）、夜间 −69.3 °C。逐关节：小跑膝绕组白天 **38.1 °C**（F 级限 120，裕度 82 K）、夜间 −0.2 °C；爬行髋夜间 −46 °C。**这个 82 K 建立在白漆 α=0.20 上；R6 用火星尘的 α=0.68 复核后绕组升到 60.0 °C，裕度 82 → 60 K —— 结论存活，但请引用 60 K 那个数。**",
+   "physics": "继承自室内的 h_tot = 10.65 W/(m²K) 在这里完全不能用，翅片按辐射主导设计。**白天关节比夜间凉**是因为天空是 215 K 的冷汇，辐射换热系数 4.04 vs 夜间 2.12。所以地表的热风险不是过热而是**过冷**——夜间髋关节 −46 °C，润滑脂低温粘度成为新问题（转 R6）。涂层上昼夜要求方向相反（白天要高 ε 散热、夜间要低 ε 保温），没有固定最优，这正是回车库这条架构决策的另一半理由。"
+  },
+  {
+   "poi": "poi_deck",
+   "label": "货舱与清洁臂",
+   "label_en": "Cargo deck and cleaning boom",
+   "detail": "背部货舱装标定靶与小件；前部 2 自由度臂带 CO₂ 喷嘴和软刷。R6 算完之后，刷和吹的分工不再是猜的。",
+   "detail_en": "The rear deck carries calibration targets and parcels; the 2-DOF front boom carries a CO2 jet and a soft brush. After R6 the division of labour between them is computed, not assumed.",
+   "sim": "dust_dog.py：脱附所需壁面剪应力 **26.1 Pa** → CO₂ 冲击射流（Ø4 mm，30 mm 距）需 176 m/s = **Mach 0.76**，滞止压力 0.9 kPa、质量流 0.032 g/s，一次除尘 20 s 耗气 0.64 g，每 120 sol 一次 → 3.5 g/火星年。**除尘周期必须短于 120 sol**：窗口按 MER 实测 0.2%/sol 积尘，R1 的 20 m 判据（SNR 5.0）在第 120 sol 失守。",
+   "physics": "黏附力与重力无关而重力小 2.64 倍，所以**低重力在这里帮倒忙**：范德华力是重力的 6.0×10⁵ 倍，静电（摩擦起电）是 2.2×10² 倍。除尘只能靠剪切，抖不下来。刷与吹**互补而非冗余**：刷提供接触剪切对付压实的尘，吹负责把脱附的颗粒带走——600 Pa 下颗粒脱附后会原地落回。气源不是约束（年耗 3.5 g），喷嘴能不能到 Mach 0.8 才是。"
+  },
+  {
+   "poi": "poi_navcam",
+   "label": "双目导航相机与优雅降级",
+   "label_en": "Stereo navcam and graceful degradation",
+   "detail": "引擎供帧时进自主分支（下半幅亮度判前方遮挡 → 降速并切 crawl）；引擎无感知通道时永远跑纯 t 烘焙巡逻。同一文件、同一份代码。",
+   "detail_en": "With engine-supplied frames the asset enters its autonomous branch (lower-frame luminance flags an obstruction, then it slows and switches to crawl); with no sensor channel it runs the pure-t baked patrol forever. One file, one code path.",
+   "sim": "CIS 器件参数继承自 hab-bot-01 五段验证：QE 0.60 / 满阱 17,880 e⁻ / 读噪 1.76 e⁻ / 暗电流 170 e⁻·s⁻¹ / 10 bit。离屏 64×64 @5 Hz。",
+   "physics": "R1 把视觉从备份提升成了白天的主力候选之一：白天背景光对被动成像是资源而非噪声，正好和主动测距相反。两条通路的失效条件互不相关，这才是冗余。"
+  },
+  {
+   "poi": "poi_lidar",
+   "label": "面积预告不成立 —— 但那不等于不用改",
+   "label_en": "The area prediction was wrong — which is not the same as no change",
+   "detail": "交接文件预告白天背景会逼出「10→16 bit 计数器 + 第二颗宏 + 面积 0.304→0.59 mm²」。算完之后这条不成立。这张卡最初写的是「已流片的芯片不用重做」——**那句被 R10 撤回了**：改 RTL 就是改掩模。",
+   "detail_en": "The handoff predicted daylight would force 10-to-16-bit counters, a second SRAM macro, and a die-area jump from 0.304 to 0.59 mm2. It does not. This card first said the taped-out chip survives unchanged — **R10 retracted that**: changing RTL means changing masks.",
+   "sim": "扫描架构下白天背景底 ≤6 计数/bin/发（正午极清、最亮地面），远小于 1024 个微元的物理上限；扫描后 N=1 即成立，无需累积。R10 实测改版后仍是**同一颗 512×32 宏、同样 350 字映射**，逻辑面积 19,609 → **19,440 µm²（−0.9%）**，整片 0.3041 → **0.3040 mm²** —— 预告的 0.59 mm² 与第二颗宏依旧不成立。",
+   "physics": "10 bit = 1023 恰好等于微元数 1024 —— 位宽当初就是按微元数定的。真正的位宽约束是 log₂(1024·N)，这条在室内就存在，与白天无关。准确的说法是：R10 是**同一颗宏、同一版图面积、同一套字映射的一次重流**，不是重新设计；把它说成「免改版」是本项目自己的措辞失误，已撤回。"
+  },
+  {
+   "poi": "poi_battery",
+   "label": "质量预算",
+   "label_en": "Mass budget",
+   "detail": "42.20 kg，火星重量 156.6 N。膝驱动装在大腿里（皮带传动到小腿），所以大腿粗、小腿细——但这笔账没有原先说的那么大。",
+   "detail_en": "42.20 kg, 156.6 N on Mars. The knee actuator lives in the thigh and belt-drives the shank — but that choice buys less than first claimed.",
+   "sim": "壳体 9.0 + 电池 4.57（R5 后 6.10，见电池卡） + 12 个关节模块 ×1.30 = 15.6 + 航电 3.0 + 传感器 2.0 + 保温 3.0 + 载荷 5.0 = 42.2 kg，每腿 4.80 kg，MuJoCo 校核 42.20 kg。R3-C 隔离摆动相实测把 1.30 kg 膝模块挪到小腿：**trot 摆动功 +12.0%/m，而 crawl 反而 −32.9%/m**。",
+   "physics": "R2 的卡片写过「远端质量要付两次钱」，语气像个大效应——**收回**。摆动加速功 ~ I·ω²：crawl 的摆动相长 0.6 s、ω 小，惯量根本不主导；trot 的摆动只有 0.36 s，惯量才咬得住。而那 12% 是摆动功的 12%，摆动功只占 trot 总机械功的 27%，折算到整机约 3%。把膝模块放进大腿仍然是对的，但真正的理由是保护最远端连杆免受落地冲击、以及把执行器从最脏最低的位置挪开——那两笔账归 R6 / R9，本轮没算。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "减速比选型：任务成不成立就差这一项",
+   "label_en": "Gear ratio decides whether the mission closes",
+   "detail": "交接文件说执行器模型「换参数即可」。参数确实能换，但四足有一个两足没有的选择：减速比。",
+   "detail_en": "The handoff called the actuator model a parameter swap. It is — but a quadruped has a choice the biped never had: the gear ratio.",
+   "sim": "dynamics_dog.py 三方案并排（火星 g=3.71，静立单膝 5.56 N·m）：准直驱 9:1 → 6.40 A / 站立 62.1 W / 小跑 180.6 W / 一趟 601 m 站点 465 Wh；**两级行星 50:1 → 1.45 A / 21.9 W / 54.3 W / 187 Wh**；谐波 100:1 → 0.99 A / 18.9 W / 52.3 W / 180 Wh。电池 480 Wh 在 15–95% 窗口下可用 384 Wh。",
+   "physics": "铜损在**电机侧**：i = τ/(N·η·Kt)，P_cu ∝ τ²/N²。准直驱一趟 465 Wh 超过可用容量，连一个站点都到不了。50:1 拿到谐波 96% 的能效，同时保住可反驱（阻抗控制的前提）与抗冲击；谐波那 4% 换不来它的两个致命伤——不可反驱，以及干燥风化层进尘即寿命终结。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "CoT 高得离谱，而且是被静态力矩咬住的",
+   "label_en": "The cost of transport is brutal, and it is not the walking",
+   "detail": "室内两足的 CoT 是 0.64；这台狗小跑 2.74、爬行 15.60（R7 压低电子负载后 2.56 / 14.45）。差的不是效率，是速度。",
+   "detail_en": "The indoor biped scored 0.64. This dog scores 2.74 trotting and 15.60 crawling (2.56 / 14.45 once R7 cut the electronics load). The gap is speed, not efficiency.",
+   "sim": "整机 CoT（分子 = P_act + 电子负载，**口径必须写死：只放 P_act 会低 40%**）：crawl 0.0268 m/s → **15.60**；trot 0.1778 m/s → **2.74**；trot+5 kg → 2.97；10° 坡 crawl → 36.77。仅执行器：trot 1.95、crawl 10.40。**R7 后来把电子负载从 21.8 压到 17.0 W，CoT 因此降到 trot 2.56 / crawl 14.45。**（速度早先在报告里被手抄成 0.0268/0.1778，账本记的是 0.0268/0.1778，R12 已订正。）",
+   "physics": "CoT = P/(m g v)，而 P 里有一大块与速度无关——举着自己的静态力矩，加上 21.8 W 电子负载（crawl 时占整机功率的 33%）。速度越慢 CoT 越难看。这条直接定了运营方式：远端站点必须用 trot 转场，crawl 只留给最后一两米。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "越障被牵引咬住而不是力气 —— 所以改的是足垫",
+   "label_en": "The step limit is traction-bound, not torque-bound — so the fix is the foot",
+   "detail": "交接文件说四足的通过性优势要量化，不能嘴上说。量了，而且指出了该改哪里。",
+   "detail_en": "The handoff asked for the quadruped's mobility advantage to be quantified rather than asserted. Here it is, with the binding constraint named.",
+   "sim": "terrain_limits_dog.py 三条限取小：几何限（腿抬得起来多高，膝限位 2.75 rad）29.9 cm；力矩限（踏上去抬得动机身，200 N·m 留 15% 裕度）33.5 cm；**牵引限（后腿推得上去）= h_hip·μ**：光面垫 μ=0.55 给 23.9 cm，而 **R9 的齿把 μ 提到 0.637 且不再吃积尘 → 27.7 cm**（仍被牵引咬住）。爬坡：静态 = atan(μ)，0.55 给 28.8°、**0.637 给 32.5°**，vs 倾覆限 33.5°；MuJoCo 实跑 crawl 只能爬 **10°**，15° 时机身直接落到 0.15 m 腹板触地。",
+   "physics": "被牵引咬住意味着加强电机或加长腿都不涨越障能力——要改足垫材料与花纹（R9 照此做了齿）。**但牵引有天花板**：静态坡限 = min(atan μ, 倾覆角 33.5°)，所以 μ 超过 tan(33.5°)=0.661 之后，坡上的失效模式就从**打滑**（可恢复）变成**倾覆**（不可恢复，按 R9 会砸出 986 N）。R9 的齿给 0.637 = 天花板的 96% —— **足垫设计到此为止，不许再以提高 μ 为目标**。爬坡的静态限被摩擦而不是倾覆咬住，是低矮机身的好处（质心高 38.8 cm，半轴距 25.6 cm）。行走极限远低于静态极限也是应该的：静态只要求不滑不翻，行走还要求抬腿那一瞬间剩下三条腿撑得住。"
+  },
+  {
+   "poi": "poi_radiator",
+   "label": "火星上散热靠辐射，不靠吹风",
+   "label_en": "On Mars you radiate; you do not blow air",
+   "detail": "翅片是按辐射设计的，不是按对流。600 Pa 下空气几乎不导热，连沙尘暴级的风也帮不上忙。",
+   "detail_en": "The fins are sized for radiation, not convection. At 600 Pa the air barely carries heat, and even dust-storm winds do not change that.",
+   "sim": "Ra = gβΔT L³ρ²c_p/(μk)，火星 ρ=0.0144 kg/m³ 只有地球的 1.20%，而 **Ra ∝ ρ²** → Ra 比 2.08×10⁻⁴，Nu 比 0.12，h_free 比 **5.1%**（0.223 vs 4.392 W/(m²K)）。强制对流：3/5/10/20 m/s 分别只有 0.49/0.63/0.89/1.25 W/(m²K)，而辐射线性化后约 4.0。",
+   "physics": "两足项目那个 h_tot = 10.65 W/(m²K) 是室内值，交接文件明确把它划进「不能拿」。这里的数字说明为什么：不是对流小一点，是小两个量级。设计上的后果是散热面必须朝天（215 K 冷汇）而不是迎风，且发射率比面积更值钱。"
+  },
+  {
+   "poi": "poi_battery",
+   "label": "两半必须相乘 —— 继承下来最贵的一课",
+   "label_en": "Both halves must be multiplied — the costliest inherited lesson",
+   "detail": "前作最严重的记账错是：EOL 定容用全容量、循环计数用 SOC 窗口，两半从没乘过，藏了三轮。本轮第一节就是那次乘法，并且写成闸。",
+   "detail_en": "The predecessor's worst bookkeeping error was sizing end-of-life against full capacity while counting cycles over an SOC window, and never multiplying the two. It hid for three rounds. This round starts with that multiplication, as a gate.",
+   "sim": "标称 480 Wh × 窗口 0.15–0.95（0.80）= BOL 可用 384 Wh，再 × EOL 保持率 0.80 = **EOL 可用 307 Wh**。只乘其中任意一半都得到 384，比真值高 25%。逐站点实测：东簇四站一趟 340.8 Wh > 307 → **480 Wh 不成立**。",
+   "physics": "两条独立的降额（使用窗口、容量衰减）作用在同一个量上，必须连乘。分开各算各的、然后取其一，是这类账最容易出而且最难发现的错——因为两个中间数字单看都对。"
+  },
+  {
+   "poi": "poi_battery",
+   "label": "改容 640 Wh，还是把东簇拆两趟",
+   "label_en": "Grow to 640 Wh, or split the east cluster across two sols",
+   "detail": "电池改容不是被逼的，是买一个 sol。两个数都摆在账本里，取舍留给运营。",
+   "detail_en": "The battery resize is not forced; it buys a sol. Both numbers are in the ledger and the trade is the operator's call.",
+   "sim": "加大到 **640 Wh**：包质量 4.57 → 6.10 kg（+1.52），整机 42.20 → 43.72 kg，执行器功率按 R3 **实测**的 1.91 %/kg 上涨 +2.9%，EOL 可用 410 Wh，最难一趟裕度 +15.4%。拆两个 sol：每趟服务 2 站 = 252 Wh = EOL 可用的 82%，**零硬件代价**，但东簇巡检周期翻倍。",
+   "physics": "这次质量变化只动功率：坡度极限被摩擦咬住（tanθ ≤ μ）、越障被牵引咬住，两者都与质量无关，所以 R3 的地形结论不随改容变化。这就是把「被什么咬住」写清楚的价值——改一个参数时立刻知道哪些结论要重算、哪些不用。"
+  },
+  {
+   "poi": "poi_battery",
+   "label": "不归点规则",
+   "label_en": "The point-of-no-return rule",
+   "detail": "任何时刻剩余能量必须 ≥ 返程能量 + 过夜保命能量。这是本轮唯一能直接写进飞控的产物。",
+   "detail_en": "At every moment, remaining energy must cover the walk home plus surviving a night. This is the one output of the round that goes straight into flight software.",
+   "sim": "过夜保命（降级到 −20 °C 只保放电）124 Wh。门限 = 返程 + 124 Wh：大气激光雷达 142、光学台簇 160、废热散热阵 183、火震站 197、东簇四站 207、低频射电阵 222 Wh。640 Wh 做完全程后的余量：+185/+86/+62/+22/**−144**/**−53** Wh。",
+   "physics": "余量为负的两个站点意味着做完全程就没有过夜保命电了——对它们规则退化为「必须按时返程，不接受任何延误」。野外过夜在任何容量下都是应急降级而非运营模式：640 Wh 做完最难一趟只剩 63 Wh，而保命一夜要 124 Wh。"
+  },
+  {
+   "poi": "poi_battery",
+   "label": "寿命 1100 sol：火星的冷是白送的，车库还回去一部分",
+   "label_en": "1100 sols: Mars's cold is free, the garage gives some back",
+   "detail": "对照两足室内 404 sol。差别几乎全在包温。而救电池不冻的那个车库，也在加速它老化。",
+   "detail_en": "Against the indoor biped's 404 sols. Almost all of the difference is pack temperature. And the garage that keeps the pack from freezing is also what ages it.",
+   "sim": "SEI √t + Arrhenius(Ea 50 kJ/mol) + Tafel exp(β·SOC) + 逐分钟占空比积分：DoD 0.542、平均 SOC 0.851、平均包温 11.3 °C → **1100 sol**（相加律）/ 1491（平方根律）。k_cal(0 °C) 比 k_cal(28.8 °C) 慢 **8.2 倍**。车库恒温点扫描：25/15/10/5/2 °C → 823/1100/1211/1300/1343 sol。充电调度：到库即充 1100 vs 掐点晚充 **1344 sol**。",
+   "physics": "泊库时间占一个 sol 的四分之三，所以车库恒温点的杠杆比野外工况大得多；下限被**充电析锂**卡在 0 °C 以上。改两个设定值（车库温度 + 充电时机）、不动任何硬件，寿命从 823 涨到约 1340 sol —— 和两足项目同一条结论：**充电调度器是寿命部件**。"
+  },
+  {
+   "poi": "poi_radiator",
+   "label": "积尘把白漆变成红漆 —— 但热账的结论活下来了",
+   "label_en": "Dust turns the white paint red — and the thermal conclusion survives",
+   "detail": "R4 断言「地表关节不是热问题、裕度 82 K」，整个建立在白漆 α=0.20 上。而这台机器每天都在积尘。",
+   "detail_en": "R4 concluded the joints are not a thermal problem, with 82 K of margin — resting entirely on white paint at alpha 0.20. This machine collects dust every sol.",
+   "sim": "火星尘 α_sol=0.68（红色氧化铁）、ε=0.90。积尘后太阳得热 43.3 → **147.1 W**，白天外壳 −7.5 → **+6.6 °C**（+14.1 K），小跑膝绕组 +44.8 → **+60.0 °C**。夜间外壳 −69.3 → −69.7 °C（ε 只从 0.88 到 0.90，几乎无差）。",
+   "physics": "α 涨 3.4 倍而 ε 几乎不变，所以积尘**只在白天起作用**。绕组距 F 级限 120 °C 仍有 60 K 裕度，**R4 的断言不用改**。这是本轮四笔债里最危险的一笔——查完发现裕度够厚。反过来说，如果当初选的是低 ε 涂层，这一查就会翻车。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "尘是干润滑剂 —— 越障与爬坡都直接吃 μ",
+   "label_en": "Dust is a dry lubricant — both step height and slope limit ride on mu",
+   "detail": "R3 说越障被牵引咬住、爬坡被摩擦咬住。两条都直接吃足垫的摩擦系数，而足垫是全机最脏的部件。",
+   "detail_en": "R3 found the step limit traction-bound and the slope limit friction-bound. Both ride directly on foot-pad friction — and the pads are the dirtiest part of the machine.",
+   "sim": "清洁橡胶/风化层 μ=0.55 → 越障 23.9 cm、爬坡静态限 28.8°；薄尘膜 μ=0.42 → 18.3 cm、22.8°；厚积尘压实 μ=0.30 → **13.1 cm、16.7°**。**R9 把这一整档取消了**：齿（6 mm 高 / 12 mm 间距）把剪切面从「橡胶–尘」推到齿尖以下的土里，τ = c + σ·tanφ，等效 μ **0.637 且与积尘无关** → 越障 27.7 cm、静态坡 32.5°。",
+   "physics": "这就是把「被什么咬住」写清楚的价值：R3 一旦指认了牵引与摩擦，R6 只要改一个 μ 就知道尘会削掉多少能力，不用重跑动力学。足垫花纹与迈步甩落的自清洁应作为设计项——本轮只给灵敏度，留 R9。**R9 的答案是：甩落不可能**（甩掉一颗 1.5 µm 尘要 2.2×10⁶ m/s²，摆动相只给得出 3.1），所以不去保持清洁，而是让牵引不吃清洁度。**唯一的边界是裸基岩**：齿埋不进去（R9 算的基岩沉陷 6.2 mm ≈ 齿高 6 mm，勉强），扫净的岩面上仍按光面算。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "关节密封：火星上正压吹扫很便宜",
+   "label_en": "Joint sealing: positive-pressure purge is cheap on Mars",
+   "detail": "交接文件点名的「舱内正压微泄放」点子，算下来非常便宜——因为外面只有 600 Pa。",
+   "detail_en": "The handoff flagged a slight positive-pressure bleed as an idea worth reusing. It is cheap — because outside is only 600 Pa.",
+   "sim": "颗粒布朗扩散系数 1.17×10⁻¹⁰ m²/s → Pe = 1.6×10⁶，**扩散根本不是威胁，真正咬住的是沉降**（6.04 mm/s）。判据（向外流速 ≥ 3× 沉降）→ 18.1 mm/s；12 个关节、缝隙 100 µm × 周长 190 mm → 体积流 4.13 cm³/s、**一个 sol 泄放 5.29 g**。",
+   "physics": "维持向外流所需的压差与外界压力同量级，而火星只有 600 Pa。但**泄放只在加压车库里有气源**，野外只能靠迷宫密封 + 磁流体。所以防尘策略是「野外被动密封 + 回库正压吹扫」——R1 引进的扫描鼓轴承也走这条路。润滑脂另有一条硬约束：R4 实测爬行髋夜间 −46 °C，Krytox 143AC 的 −40 °C 下限过不了；Petroff 上界给出的低温拖曳力矩甚至超过负载力矩，这正是火星机构普遍用 MoS₂ 干膜的原因。"
+  },
+  {
+   "poi": "poi_navcam",
+   "label": "算力涨 267 倍，功耗反而降了",
+   "label_en": "267x the compute, and the power went down",
+   "detail": "交接文件预告「算力涨 → 功耗涨 → 反咬电池」。算完发现这条链在第一个箭头就断了。",
+   "detail_en": "The handoff predicted more compute would mean more power and would bite the battery back. The chain breaks at the first arrow.",
+   "sim": "逐算法计数（compute_dog.py，7 闸）：地表导航栈 **358 MOPS**，对照室内反射层 1.34 MOPS 是 **267 倍**——交接预告的「100+ MOPS」量级对。但 SoC 从 8.0 W 降到 **3.2 W**（四核 A55 1.5 GHz + ISP，18 GOPS，50× 余量）。回灌 R5：电子负载 21.8→17.0 W，最难一趟 340.8→311.3 Wh。",
+   "physics": "原来那个 8 W **从来不是按算力定的，是按 SoC 的地板功耗拍的**——1.34 MOPS 连一颗 M7 都用不满，8 W 早就买了一颗远超需求的片子。所以算力变化不传导到功耗。抗辐照路线（RAD5545，20 W）代价太大；Ingenuity 用 COTS Snapdragon 在火星飞了 70+ 架次，本设计沿用 COTS+缓解。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "算力账里最大的一项，是 R3 转过来的债",
+   "label_en": "The biggest line in the compute budget is a debt from R3",
+   "detail": "全身 QP 一项占 73%。它不是感知需求，是 R3-B 那笔没闭合的接触连续性。",
+   "detail_en": "The whole-body QP alone is 73% of the budget. It is not a perception requirement — it is R3-B's unclosed contact-continuity debt.",
+   "sim": "QP 规格：n=24 变量（12 关节力矩 + 4 足×3 分量）、m=40 约束、内点法 15 次迭代、KKT 系统 64³/3 ops、200 Hz → **262 MOPS = 总量的 73%**。频率扫描：100/200/400/500 Hz → 整机 227/358/620/751 MOPS。",
+   "physics": "开环与阻抗控制都做不到全周期 ≥3 腿着地（R2 90%、R3 76%），要闭合必须同时解接触一致的运动学与摩擦锥约束——那就是一个 QP。**控制频率是算力账里最贵的旋钮，而它由接触稳定性定，不由感知定。** 一笔动力学的债，最后落在算力预算上。"
+  },
+  {
+   "poi": "poi_navcam",
+   "label": "自主的上限不是算力也不是电量，是位姿漂移",
+   "label_en": "Autonomy is limited by pose drift — not compute, not energy",
+   "detail": "所有安全相关的环都在本地，断链不影响行走。但纯航位推算连最近的站点都回不去。",
+   "detail_en": "Every safety-critical loop is local, so losing the link does not stop it walking. But dead reckoning cannot get it home from even the nearest station.",
+   "sim": "视觉里程计漂移约 2% 行程（MER 实测量级）。往返漂移：152 m 站点 6.1 m、601 m 站点 24.0 m、806 m 站点 **32.2 m**——而车库入口捕获半径只有 1 m。延迟方面：制动距离只有 **7.7 mm**（v²/2μg），真正的约束是落足点必须在 **360 ms 摆动相**内算完，实测链路 110 ms、余量 69%。",
+   "physics": "必须有绝对定位：车库无线电信标（最便宜，与 R11 的 UHF 共用电台）、太阳敏感器+IMU（消偏航不消位置）、或地标匹配轨道图。**R5 的不归点规则由此加一条：信标丢失即返航**——丢了信标等于丢了回家的能力，而不只是丢了通信。这把通信链路从「能不能传数据」升级成「能不能回家」。"
+  },
+  {
+   "poi": "poi_lidar",
+   "label": "归航靠的是同一台 LiDAR，不是无线电信标",
+   "label_en": "It finds its way home with the same LiDAR, not a radio beacon",
+   "detail": "R7 说「信标丢失即返航」。算完发现 UHF 信标在远距离比航位推算还差——真正能带它回家的是车库上一组无源角锥反射器。",
+   "detail_en": "R7 called for returning on beacon loss. Computed: a UHF beacon is worse than dead reckoning at range. What actually gets it home is a passive corner-cube array on the garage.",
+   "sim": "UHF 双天线干涉测向（30 cm 基线、10° 相位误差）：测向误差 4.0° → 806 m 处横向 **56 m**，比 VO 的 32 m 漂移还差。角锥反射器（25 mm × 7 只）回波增强 **1.2×10⁷ 倍**，链路允许 4156 m —— **但 R1 的距离门只有 70 bin × 2 ns = 21 m**。加一个信标模式（bin 放到 40 ns）门宽变 **420 m**，对 32 m 漂移有 13× 裕度。",
+   "physics": "**链路够 ≠ 收得到**：4 km 外的回波要 27 µs 才回来，门早关了。信标模式是**纯时序改动**（TDC 分频），不动存储也不动版图。三段归航链：VO+太阳敏感器（32 m 级）→ 角反射器信标模式（米级）→ LiDAR 测距 σ=2.67 cm（厘米级），**全程同一台设备**。车库侧是无源角锥：不耗电、不会坏、尘落上去只降效率不改方向。"
+  },
+  {
+   "poi": "poi_navcam",
+   "label": "UHF 链路过剩 70 dB —— 通信不是可靠性瓶颈",
+   "label_en": "70 dB of UHF margin — the link is not the reliability bottleneck",
+   "detail": "直觉说远端作业最怕断链。算完相反：806 m 的 UHF 实在太近了。",
+   "detail_en": "Intuition says a distant field robot lives in fear of losing the link. The arithmetic says otherwise: 806 m of UHF is simply too short to be hard.",
+   "sim": "401.6 MHz、1 W、狗 2 dBi / 基站 6 dBi（com-station-01 在 (−350,−280)、天线高 15 m）：222 m 处裕度 **74.5 dB**、656 m 处 65.1 dB。无线电地平线 8.2 km。数据量一趟 15.7 MB，100 kbps 下占空比只有 5.7%。",
+   "physics": "806 m 链路的第一菲涅耳带中点半径 12.3 m，陨石坑地表经常违反净空——但裕度太大，绕射吃不掉。三条真实失效机制量化后都被吸收：鞭天线倾斜 30° 只损 1.2 dB、机身自遮挡按 −20 dB 计仍余 43 dB。所以断链只需降级为「静默返航」，不必中止任务；而「回不了家」是另一回事，由角反射器判定。"
+  },
+  {
+   "poi": "poi_radiator",
+   "label": "刺穿是几何判据 —— 而审计查出了一条真会刺穿的边",
+   "label_en": "Puncture is a geometry criterion — and the audit found a real one",
+   "detail": "穿加压服的人面对的头号危害不是撞击，是刺穿：服装破了就失压。而刺穿由尖端半径决定，不由力决定。",
+   "detail_en": "For someone in a pressure suit the top hazard is not impact but puncture: a hole means depressurisation. And puncture is set by tip radius, not by force.",
+   "sim": "不刺穿条件 F/(πr²) < σ_p（σ_p 取 30 MPa 保守值）→ **r ≥ √(F/πσ_p)**。三种最大可信力：单腿静载 52 N → 0.74 mm；小跑撞击 103 N → 1.05 mm；**膝故障满量程 769 N → 2.86 mm**。逐特征审计八项，查出**散热翅片边缘**（0.5 mm 钣金边，52 N 下 **66.4 MPa**，超限 2.2 倍）→ **已改几何**：外缘加 R1.5 mm 包边条，2× 裕度。**但这个 R1.5 mm 只对得起 52 N。R9 指出侧翻撞击是 986 N（19 倍），R1.5 mm 在那里给 139 MPa 仍然刺穿 → 最终改到 R5.0 mm。**本卡保留 R1.5 是为了留下这条修正的痕迹，交付的几何是 R5.0。",
+   "physics": "这条判据的好处是它是**几何的**：图纸上一次验完，不依赖传感器、软件或人的配合。速度限要靠一整条运行时链路才成立，圆角不用。这与 R3 的泊车滑橇是同一个模式——账本查出设计缺陷就改设计，而不是调阈值让闸变绿。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "四足切的是力矩，不是速度",
+   "label_en": "A quadruped throttles torque, not speed",
+   "detail": "两足项目的安全模式切换靠限速。四足的危害不在动能里——它慢得撞不动人——而在关节力矩里。",
+   "detail_en": "The biped's safety mode switched on speed. A quadruped's hazard is not in its kinetic energy — it is too slow to hurt anyone that way — it is in joint torque.",
+   "sim": "小跑动能 ½mv² = **0.67 J**，只有两足疏散跑（6.93 J）的 10%；撞击力 73–103 N vs ISO 15066 瞬态限 280 N。但小腿连杆末端力 = τ/L：正常小跑峰值 28.5 N·m → 110 N，**故障满量程 200 N·m → 769 N**，而手指挤压限只有 135 N。→ 有人在场时软件力矩限必须 **≤ 35.1 N·m**；而 R3 实测爬行膝峰值 41.5 N·m 已超，故须双模式。",
+   "physics": "服装摊开钝性接触力，却**完全挡不住挤压**——所以 15066 的手指限 135 N 对穿服的人同样适用。撞击力 F=v√(m·k) **与重力无关**：低重力赦免的是承重与跌倒，不是撞击。反过来，火星**更容易把人撞倒**（倾覆冲量只有地球的 61%，恢复力矩正比于 g），本机动量 7.5 N·s = 倾覆冲量的 23%，撞不倒但只余 8% 判据裕度。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "四足的接地压强其实比轮子高",
+   "label_en": "A quadruped's ground pressure is actually higher than a rover's",
+   "detail": "「腿的通过性比轮子好」这句话如果指的是接地压强，那是错的。腿把整机载荷集中到四个点上，压强反而更高。",
+   "detail_en": "\"Legs float better than wheels\" is false if you mean ground pressure. Legs concentrate the whole vehicle's load onto four points, so the pressure is higher, not lower.",
+   "sim": "Bekker 压力-沉陷 p=(k_c/b+k_φ)z^n，球足 R35 mm、三腿支撑单腿静载 52.2 N。标称风化层：足端沉陷 **19.8 mm / 16.7 kPa**；同一套土参数下 MER（185 kg / 6 轮 Ø260×160）**14.2 mm / 11.8 kPa**。足端压强是轮的 **1.4 倍**。`sim/terramech_dog.py` §1，G-2 用 MER 的 11.8 kPa 作已知答案锚。",
+   "physics": "承压面积随沉陷增长的方式不同：球足 A=π(2Rz−z²)，刚性轮 A=w√(Dz)。轮子把载荷摊在一条长接触带上，球足摊在一个小圆斑上。真正决定「陷不陷」的是压强而不是腿的数量，而腿的数量少、每条腿的载荷就大。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "四足强在失效可逆，不在不会陷",
+   "label_en": "The legged advantage is reversible failure, not immunity to sinking",
+   "detail": "Spirit 死于打滑下陷：滑移→挖掘→越陷越深，这是一条单向的路。四足的本钱是这条路可以倒着走。",
+   "detail_en": "Spirit died of slip-sinkage: slip digs, digging sinks, sinking slips more — a one-way street. A quadruped's asset is that the street runs both ways.",
+   "sim": "四条可量化的优势：① **竖直拔出**——最坏拔脚力 16.1 N（基岩，不是最弱的土：弱土黏聚力低反而好拔，drift 只要 4.4 N），判据是另外三条腿压不压得住，整机重量 156.6 N → **10× 裕度**；② **不连续剪切**——支撑相内相对地面不滑；③ **可以试探**——20% 轻载试踩，标称土与 drift 的沉陷差 14.0 mm vs 编码器分辨率 0.1 mm（**140×**）；④ **不犁地**——等效运动阻力系数腿 0.046 vs 轮 0.117（**0.39×**，G-10）。",
+   "physics": "轮子只能靠转动往外爬，而转动就是继续剪切土体；足端可以垂直提起，脱离剪切链。第四条是唯一「省能量」的一条，而且恰好抵掉了接地压强高 1.4 倍的坏处——腿沿途不连续压辙，只在离散落点上压坑。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "尘甩不掉，所以让牵引不吃清洁度",
+   "label_en": "Dust cannot be shaken off, so make traction independent of cleanliness",
+   "detail": "足垫是全机最脏的部件——每一步都踩进风化层。想靠迈步把尘甩掉是不可能的，差五个数量级。",
+   "detail_en": "The foot pad is the dirtiest part of the machine; it steps into regolith every stride. Shaking the dust off is impossible — it misses by five orders of magnitude.",
+   "sim": "甩落一颗 r=1.5 µm 尘（质量 4.24e-14 kg、范德华黏附 9.38e-8 N）需要 **2.2×10⁶ m/s²**；摆动相给得出 **3.1 m/s²** —— 差 **7×10⁵ 倍**。改用齿（grouser）把剪切面推进土里：F = A·c + N·tanφ = 3.1 + 30.1 = **33.3 N**，等效 μ **0.64**，高于清洁光面的 0.55，且与积尘无关。齿高 6 mm、间距 12 mm（槽宽≈齿高）。`sim/terramech_dog.py` §2b。",
+   "physics": "光面垫的剪切面在「橡胶–尘」界面上，μ 就是尘的 μ（0.55→0.30）。齿把剪切面推到齿尖连线以下，变成「土–土」剪切，服从 Mohr-Coulomb τ=c+σtanφ——而槽里那点尘**就是土本身**。**91% 的牵引来自 N·tanφ 这一项，它与接地面积无关**，所以齿的占空比几乎不影响牵引。"
+  },
+  {
+   "poi": "poi_battery",
+   "label": "刚性地面仿真系统性少算了一笔电",
+   "label_en": "Rigid-ground simulation systematically under-bills the power account",
+   "detail": "MuJoCo 的地面是弹性接触，压下去的能量会弹回来。真实风化层是塑性的：压下去的一分不还。",
+   "detail_en": "MuJoCo's ground is an elastic contact — what you push in springs back. Real regolith is plastic: what you push in is gone.",
+   "sim": "每次落脚的塑性压实能 E=∫₀^z F_soil dz' = **374 mJ**（占每步机械功 6.06 J 的 **6.2%**，解析夹逼 [Fz/3, Fz/2] = [345, 517] mJ 内，G-9）。折成 1.25 W 机械 / **3.36 W 电**（R3 的 P_act/P_mech=2.69）。R5 的 P_trot 76.19→79.55 W，当日能耗 346.7→**378.5 Wh**，640 Wh 可用 409.6 Wh，余量 **15.4% → 7.6%**。",
+   "physics": "这不是「齿的代价」——光面垫是 380 mJ，带齿 374 mJ，基本持平——而是**整个功耗账缺的一项**。R5 扫描表里的 560 Wh 档（余量 4.1%）被这笔账吃到转负，幸好当时选了 640 Wh。任何在软土上行走的功耗账都欠这一笔。"
+  },
+  {
+   "poi": "poi_lidar",
+   "label": "通过性的第四个通道 LiDAR 给不出",
+   "label_en": "The fourth traversability channel is the one LiDAR cannot give you",
+   "detail": "坡度、粗糙度、台阶——三条几何判据点云都给得出。第四条是承载力，而沙和岩在点云里长得一样。",
+   "detail_en": "Slope, roughness, step height — a point cloud gives you all three. The fourth is bearing capacity, and sand looks exactly like rock in a point cloud.",
+   "sim": "判据：① 坡度 ≤ **10°**（R3 实测行走极限）② 台阶 ≤ **27.7 cm**（带齿，且不再区分清洁/积尘；光面垫时代是 23.9 / 13.1 cm） ③ 落点起伏 ≤ 足半径 35 mm ④ 承载力——**④a** 单步压实能 ≤ 每步机械功 10%、**④b** 沉陷 ≤ 2R=70 mm。三种土：基岩 6.2 mm/1.0% 过、标称 19.8 mm/6.2% 过、**drift 94.9 mm/40.0% 不可通过**。采用「足端力反演 + 单腿试探」：20% 轻载试踩测 F(z) 斜率，代价约 2 s/步。",
+   "physics": "④ 首版写的是「沉陷 ≤ R/2 = 17.5 mm」，是拍的——而标称风化层本身就是 19.8 mm，一条明显能走的土被自己的判据判死。改成从**代价**推：能量预算 + 球全埋（承压面积封顶、再陷就是小腿犁地）。判据要从代价里推，不能从尺寸里凑。"
+  },
+  {
+   "poi": "poi_radiator",
+   "label": "同一条边，换个工况就不合格",
+   "label_en": "Same edge, different load case, no longer safe",
+   "detail": "R8 给散热翅片边缘加了 R1.5 mm 包边条，判据是「人扶机身或机器压上去」的 52 N。但机器**倒下来**是 986 N。",
+   "detail_en": "R8 added an R1.5 mm bead to the fin edges, sized for the 52 N of someone leaning on the machine. But the machine falling over delivers 986 N.",
+   "sim": "倾覆角 33.4°（质心高 38.8 cm / 半轴距 25.6 cm），触地速度 √(2gh)=1.70 m/s，ISO 15066 弹簧模型 F=v√(m·k)=**986 N**，是 280 N 瞬态限的 **3.5 倍**。而机身**侧面最外层正是这排翅片**。R1.5 mm 在 986 N 下 **139 MPa** ≫ 加压服 30 MPa 贯穿强度。需 r ≥ √(F/πσ_p) = 3.23 mm → 改到 **R5 mm**（12.6 MPa，2.4× 压强裕度）。翅片本体 12 mm 板，全圆边上限 R6 mm，所以 R5 几何上是免费的。`sim/terramech_dog.py` G-8。",
+   "physics": "几何审计表里，「最大可信接触力」那一列比「尖端半径」那一列更容易错——半径是量出来的，力是想出来的。跌倒的钝性 986 N 无法用几何消掉，只能靠协作模式的分离距离；但**刺穿可以**，而且是图纸上一次验完的。"
+  },
+  {
+   "poi": "poi_lidar",
+   "label": "白天背景不挪峰，却挪了测距 8.5 cm",
+   "label_en": "Daylight does not move the peak — it moves the range by 8.5 cm",
+   "detail": "均匀基座不改变直方图的极大值位置，所以峰值搜索毫发无伤。它毁掉的是峰之后的两步修正。",
+   "detail_en": "A uniform pedestal does not move the argmax, so the peak search is untouched. What it wrecks is the two corrections applied after the peak.",
+   "sim": "参照取「同一批回波光子、没有背景时这颗芯片自己给出的答案」。N=1（R1 选定的工作点）系统偏差 **−8.5 cm**，而 R1 实测测距 σ 只有 2.67 cm —— **3.2σ**，不是噪声里藏得住的量。N=4 更差（−13.7 cm）。改版后 −0.1 cm，rms 也从 9.0 降到 2.0 cm。`chip/tools/bias_study.py`，闸 G-2。",
+   "physics": "拆解之后**偏差全部来自 walk 索引，不是插值分母**（我原本押反了）：walk 表用该通道的原始 stamp 总数查表，白天那里面 89% 是背景，索引跑到表尾还要在 1024 上回绕一次。插值分母的那份误差是**增益误差**——均匀基座让 (r−l) 不变而 l+c+r 变大，对称分布下均值为零，只进 rms 不进 bias。"
+  },
+  {
+   "poi": "poi_lidar",
+   "label": "删掉 180 个触发器换来的修正",
+   "label_en": "The fix that paid for itself in flip-flops",
+   "detail": "基线本来想从 stamp 计数估。算下来那个计数器在白天根本装不下——于是改从扫描时顺手累加的 bin 和估，原来那 15 个计数器整个作废。",
+   "detail_en": "The baseline was going to come from the stamp counter. In daylight that counter simply does not fit — so it comes from the bin sum the scan already streams past, and all fifteen stamp counters become dead code.",
+   "sim": "一个通道一次门内 70·B+S 计数：N=1 是 415，N=16 是 **6,646 > 4,095**，12 bit 计数器回绕。改用 17 bit 的 bin 和（70×1023=71,610 正好装下）。面积同一个 Yosys、同一份 liberty 实测：**19,609 → 19,440 µm²（−0.9%）**，触发器 371 → 314；整片 0.3041 → 0.3040 mm²，同一颗 512×32 宏、同样 350 字映射。关键路径最初用 Vivado OOC 代理量得 8.373 → 8.543 ns（+2.0%），后由 sky130 真 P&R 取代：数据通路反而快 0.02 ns，setup 余量 **50 → 10 ps**（掉的在时钟树，不在逻辑）。",
+   "physics": "`S_SCAN` 本来就要把该通道 70 个 bin 全读一遍做峰值搜索，所以 bin 和是**顺路的**，只多一个累加器；而被删掉的 `fired[]` 是 15×12=180 个触发器，只服务于那个已经坏掉的 walk 索引。修一个 bug 同时让芯片变小，是因为原设计在错的地方存了信息。"
+  },
+  {
+   "poi": "poi_lidar",
+   "label": "同一块 die 走到 GDS —— 代价是 setup 余量只剩 10 ps",
+   "label_en": "Same die, taped out to GDS — at the cost of 10 ps of setup margin",
+   "detail": "改版在**一字未改的 floorplan** 上跑完 OpenROAD：同一块 1100×700 µm die、DRC 0 违例、GDS 落盘。但 setup 余量从 50 ps 掉到 **10 ps**。而掉的那 40 ps **不在组合逻辑里**。",
+   "detail_en": "The revision ran through OpenROAD on a byte-identical floorplan: same 1100x700 um die, zero DRC violations, GDS written. But setup margin fell from 50 ps to **10 ps** — and those 40 ps did not come from the combinational logic.",
+   "sim": "两版关键路径都从 SRAM 宏 `dout1` 的同一时刻 6.14 ns 出发。data arrival 10.38 → **10.36 ns（反而更快）**，data required 10.43 → **10.38 ns（捕获时钟来早了）**。clkbuf 120 → 170、总线长 154,116 → 176,334 µm（+14.4%）、网数 +309。收益侧同样量到：逻辑放置面积 26,278 → 25,388 µm²（−3.4%），总功耗 15.1 → 14.3 mW（−5.3%），其中时序单元 −10.5%，而**宏功耗两版一位不差（5.56 mW）—— 对照组没动**。",
+   "physics": "改版此前只用 FPGA 的 OOC 时序做代理，给出「关键路径 +2.0%、风险低」。**方向蒙对了，机理说反了**：OOC 没有目标工艺的时钟树综合，它能代理组合深度，代理不了 CTS。更要紧的是量级——10 ps 是**单角（TT/1.8 V/25 °C）**的数，低于任何 PVT 角的漂移量，所以不能声称在 100 MHz 收敛；要 10% 余量得降到 90 MHz。**而基线自己也只到 90 MHz** —— 余量不足是继承来的，不是改版引入的。"
+  },
+  {
+   "poi": "poi_lidar",
+   "label": "注释承诺过、端口上却没有的那个标志",
+   "label_en": "The flag the comments promised and the ports never had",
+   "detail": "已流片文件的头注释写着「饱和标志是对近场判据的免费第二意见」。端口表里没有这个信号。",
+   "detail_en": "The taped-out file's header says the saturation flag is a free second opinion on the near-field regime. There is no such signal in the port list.",
+   "sim": "改版补上 `res_sat`（1 个触发器）。它不是锦上添花：N=64 时峰值 bin 100% 撞上 10 bit 上限，l/c/r 全被削平，此时基线扣除**反而把偏差做大到 +19 cm**。饱和标志标出的正是这个修法的有效边界。近场溢出本身**不修位宽**——加宽就要第二颗宏，那正是 R1 推翻掉的面积预告。",
+   "physics": "10 bit = 1023 恰好等于 SiPM 的 1024 个微元，所以饱和意味着「几乎每个微元都在同一个 2 ns 内触发」，这是物理上的近场极限而不是设计余量不足。正确的做法是把这一档如实上报为 proximity-only，而不是花一颗宏的面积去记录一个已经没有信息的数。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "牵引有天花板，而且已经贴上了",
+   "label_en": "Traction has a ceiling, and the design is already against it",
+   "detail": "把足垫做得更抓地一直是个好目标——直到坡上的失效模式从「滑下去」变成「翻过去」。那条线是可以算出来的。",
+   "detail_en": "Making the foot grip better is a good goal — right up until the failure mode on a slope switches from sliding down to falling over. That line can be computed.",
+   "sim": "静态坡限是两条限取小：**摩擦 atan(μ)** 与 **倾覆 33.46°**（质心高 38.8 cm / 半轴距 25.6 cm，R3-C 实测）。光面垫 μ=0.55 时摩擦限 28.8°，离倾覆还有 4.7°；R9 的齿把 μ 提到 0.637，摩擦限 32.5° —— **离倾覆只剩 0.97°**。μ 天花板 = tan(33.46°) = **0.661**，已用掉 **96%**。`sim/review_r12.py` G-4。",
+   "physics": "打滑是**可恢复**失效（R9 §2 论证的四足本钱：脚可以垂直提起来，脱离剪切链）；倾覆是**不可恢复**的，而且按 R9 §5 会砸出 986 N，是 ISO 15066 瞬态限的 3.5 倍。所以再加牵引不是白加，是把一种能自己走出来的失效换成一种走不出来的。**封版规则：足垫设计不再以提高 μ 为目标，设计值锁在 0.60–0.64。** 这条在任何单独一轮里都看不见——R9 只问「牵引够不够」，要把 R3-C 与 R9 并排放才看得出一个被优化的量已经撞上了另一个约束。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "结论对，理由错 —— 这台机器为什么需要全身 QP",
+   "label_en": "Right conclusion, wrong reason — why this machine needs a whole-body QP",
+   "detail": "「爬行时总有三只脚着地」这条从第一轮起就是红的。第一个诊断听起来很有道理，跑一次实验就被判死了。",
+   "detail_en": "\"Three feet always down while crawling\" has been red since round one. The first diagnosis sounded convincing and died in a single experiment.",
+   "sim": "原诊断：支撑腿的时间表要 0.0333 m/s 而机身实走 0.038，差值被内力吸收。**证伪**：把相位改成由实际行进距离推进（源头消差）后，≥3 腿从 76.1% 掉到 **0.0%**、腾空从 3.6% 涨到 **80.6%** —— 相位跟实速走是正反馈。**定位**：四腿静立机身 z 峰峰 8.0 mm、只扫地不抬腿 9.5 mm、正常爬行 **68.0 mm** → 失效整个在摆动相里。**真因**：重心转移增益 0→腾空 0% 但 ≥3 腿垮到 66.5%，1.5→**78% 腾空**。`sim/gait_sync_r13.py`，7 闸（G-6 故意留红）。",
+   "physics": "**抬裕度的那个量，正是把机器抛起来的那个量。** 转移靠给机身一个侧向位置指令实现，侧向力经抓取矩阵伪逆分配到支撑足，与「竖直方向保住接触」直接打架；而「先定合力旋量 → 再分配 → 再叠位置刚度」是一条**顺序**架构，三步各自最优、合起来握不住两个互斥目标。全身 QP 的价值不在于消掉某个速度差，而在于把转移与接触放进**同一个**约束优化里解。可行域内没有任何单旋钮能闭合：数字最好看的抬脚 10 mm 违反 R9 的通过性栅格（落点起伏 ≤ 足半径 35 mm）—— **最漂亮的那个数字恰好是最不能要的**。"
+  },
+  {
+   "poi": "poi_battery",
+   "label": "写进飞控的那条规则，把返程减了两遍",
+   "label_en": "The rule that went into flight software subtracted the return trip twice",
+   "detail": "「不归点」问的是：站在最远处、活干完了，剩下的电够不够开回来加过一夜。而 R5 的算式先减掉了整趟能量——那里面已经含着回程。",
+   "detail_en": "A point-of-no-return check asks: standing at the far end with the work done, is there enough left to drive home and survive the night? R5's formula first subtracted the whole round trip — which already contains the drive home.",
+   "sim": "改对之后每个站点的余量都涨了**恰好等于该站返程能量**的一笔（六站最大偏差 8.5×10⁻¹⁴ Wh，`sim/sortie_plan_r14.py` G-2）：152 m 站 +18 Wh、806 m 站 +98 Wh —— **重复扣除量随距离单调增长，所以最远的站受害最深**。**低频射电阵因此从 −53.2 Wh「不可行」翻转为 +44.8 Wh 可行**；东簇从 −144.2 收窄到 −61.0。改写后的规则：`E_remain ≥ P_trot·(d_now/v) + 124 Wh`，「当前位置」不是「最远站点」也不是「整趟做完之后」。",
+   "physics": "东簇代入 R7（电子 21.8→17.0 W）与 R9（塑性压实 +3.36 W）后仍是 **−39.2 Wh** —— **这笔债是真的，不是记账错误**。出路里「每 sol 2 站」与「每站作业 0.5 h」给出**完全相同**的 +41.5 Wh，因为两者都把每趟作业砍成 2 h：**真正的约束是「每趟作业 ≤ 2 h」，怎么切是运营选择**。选拆两 sol（科学时长是任务方定的，不该由能量账去砍）。加大电池也能过，但 R8 的撞倒判据已在 24.1%/25%、R9 的接地压强已比轮式高 1.4 倍——**这台机器不该再往上加质量**。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "近人时该禁的是慢步态，不是快步态",
+   "label_en": "Near people, it is the slow gait that must be forbidden — not the fast one",
+   "detail": "「有人在场就慢下来」是机器人安全的默认直觉。在这台机器上它是错的：慢的那个步态才是能夹伤人的那个。",
+   "detail_en": "\"Slow down when people are present\" is the default instinct in robot safety. On this machine it is wrong: the slow gait is the one that can crush you.",
+   "sim": "协作模式的力矩限 = 手指挤压限 135 N × 小腿连杆 0.26 m = **35.1 N·m**。逐步态实测膝峰：**crawl 41.48（超）**、trot 30.15（过）、crouch 13.34、idle 8.84。而撞击判据两个都过（trot 105 N vs ISO 瞬态限 280 N）。**R8 写「协作模式只走 crawl」，而 crawl 正是唯一超限的那个** —— 那个模式禁止了自己规定的步态。`sim/coop_protocol_r15.py` G-2/G-3。",
+   "physics": "近人的危害**不在动能里**——小跑动能只有 0.67 J，撞不动人（R8 已证）——在**关节力矩**里。爬行是三腿支撑、单腿长时间扛更大静载，膝峰反而比小跑高 38%。想让 crawl 合规就得抬高机身（膝力矩 ∝ sin(q/2)，cos(q/2)=h/2L）：400→437 mm 能压到 35.1，**但质心随之抬高，倾覆角 33.5°→31.1°、μ 天花板 0.661→0.603 < 齿给的 0.637** —— 撞上 R12 的牵引天花板，打滑会变成倾覆。**为了让机器人在人身边更安全而抬高机身，结果是让它更容易翻倒砸到人。**"
+  },
+  {
+   "poi": "poi_navcam",
+   "label": "选应答器不是因为它准，是因为它不会把人看成石头",
+   "label_en": "The transponder wins not on accuracy but on failure mode",
+   "detail": "点云和图像在 5 m 处都足够「看见」一个人。但它们都会把趴在地上的人看成一块石头——而趴着的人正是最坏工况。",
+   "detail_en": "Both the point cloud and the camera can comfortably see a person at 5 m. Both will also read a person lying on the ground as a rock — and a prone person is exactly the worst case.",
+   "sim": "告警半径 5 m 处：扫描 LiDAR 打中 **206 个点**、导航相机（§4c 降级通道 64×64）**22 像素高**、加压服 UHF 应答器裕度 **70 dB 有余**（R11）。三者都「够」。SSM 半径 = (1.0+0.178)×(110 ms 感知链路 + 160 ms 制动) + 0.15 手臂侵入 + 0.10 + 0.05 = **0.62 m** —— **不是由刹车定的**，制动距离只有 14.2 mm（取 R6 的积尘工况，不取标称）。",
+   "physics": "选型判据是**失效模式**不是精度：R9 算过，跌倒撞击 986 N 落在翅片上是刺穿判据的最坏工况，而那个工况的受害者正是**趴在地上的人**——恰恰是点云与图像最容易误判成石头的姿态。应答器不会犯这个错。于是协议定为「**默认协作模式，升级需三条同时满足且连续 3 s，降级立即生效**」。代价几乎为零：协作模式可用步态是 {trot, idle, crouch}，**转移速度完全不受影响**，只损失站点最后 1–2 m 的 crawl 精接近。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "那条力矩限有一个没说出口的前提",
+   "label_en": "That torque limit came with an unstated premise",
+   "detail": "「协作模式力矩限 35.1 N·m」是拿「力臂等于连杆全长」反推的。夹持力 = τ/d —— 力臂缩到膝根，同样的力矩就是五倍的力。",
+   "detail_en": "The 35.1 N·m cooperative torque limit was back-solved assuming the moment arm equals the full link length. Pinch force is tau/d — closer to the joint axis, the same torque delivers five times the force.",
+   "sim": "反解：τ/F = 35.1/135 = **260 mm = L_SEG**，所以那条限**只在小腿最末端成立**。逐力臂：260 mm→135 N（过）、180→195、100→351、**50 mm→702 N（手指限的 5.2 倍）**。膝剪刀的危险区（进得去 + 闭合量 ≥6 mm）实测：trot 45–52 mm→**777 N**、crouch 42–140 mm→**831 N**、crawl（故障 200 N·m）→**4,557 N**；idle 无危险区（闭合量只有 3.7 mm，是窄缝不是夹口）。`sim/pinch_audit_r16.py`，8 闸。",
+   "physics": "**降力矩救不了**：要让最坏的膝剪刀过，限须 ≤ 135 N × 42 mm = **5.7 N·m**，而 trot 膝峰 30.1 N·m —— 连走路都不行。所以和 R8 的刺穿判据一样**只能靠几何**：**已加膝剪刀波纹护套**，从膝轴罩到 ≥140 mm（危险区外边界），外侧缝隙已 >25 mm（ISO 13854）；外展处加固定封边把缝压到 <4 mm（ISO 13857 指尖进不去）。清洁臂**单列 3 N·m**——**力矩限的粒度是关节，不是整机**，因为力臂是按关节定的。"
+  },
+  {
+   "poi": "poi_leg",
+   "label": "「2 s/步」是个能量问题，不是时间问题",
+   "label_en": "\"2 s per step\" is an energy problem, not a time problem",
+   "detail": "单腿试探是唯一能测出承载力的手段——而承载力是 LiDAR 给不出的那个通道。它的代价一直只写着「约 2 s/步」，没人配上比例。",
+   "detail_en": "Single-leg probing is the only way to measure bearing capacity — the one channel LiDAR cannot provide. Its cost sat in the ledger as \"about 2 s per step\", with no fraction attached.",
+   "sim": "小跑每步 **53.4 mm / 300 ms**，试探把 300 ms 变成 2000 ms。东簇 685 m = **12,840 次落脚**；全程试探（单程）额外 **6.1 h / 236 Wh** —— 能量上是 R14 余量（41.5 Wh）的 **5.7 倍**，直接否掉。两个预算：**能量给 17.6%**、时间给 64% —— **能量先咬住，差 3.6 倍**。`sim/probe_budget_r17.py`，8 闸。",
+   "physics": "直觉会以为这是时间问题，**它其实是能量问题**：试探时机器**站着不动**，P_idle+电子 38.9 W 照样在烧，而里程是零。**回程免试探**（那条路刚走过、承载力刚量过）把代价直接减半——这是从 R9「路网复用」白拿的。两种工况分开：**复访**只需重探变化过的格子（R6 沉降 0.2%/sol × 10 sol → 2.0%，裕度 8.8×，R14 的方案不受影响）；**新路线首探**要 50%，带作业时差 3 倍不可能，**必须单独出一趟踏勘**（不做科学作业时预算 52%，够）。而这一趟不是可选项——R9 要一万次出勤只许陷一次，唯一手段是「只走已验证过的路网」，**「已验证」是要花一趟去换的**。"
+  }
+ ]
+}

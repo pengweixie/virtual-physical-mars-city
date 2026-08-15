@@ -236,8 +236,9 @@
 <section class="band band--alt">
   <div class="wrap">
     <div class="sec-head"><span class="num">04</span><h2>The physics behind the tools</h2></div>
-    <p class="lead">Where a card claimed a mechanism, we ran the calculation. Two rounds:
-      a partially-coherent imaging study for the stepper, and four design calcs for the rest.</p>
+    <p class="lead">Where a card claimed a mechanism, we ran the calculation — eighteen rounds
+      of it, from partially-coherent imaging on the stepper down to the plasma inside the
+      etcher and the alumina barrier in the evaporator, every number behind a known-answer gate.</p>
     <div class="prose">
       <p><strong>Printing 130 nm is not free.</strong> The Abbe simulation says i-line 365 nm
       passes <em>zero</em> diffraction orders at 130 nm dense pitch (cutoff 358 nm — contrast is
@@ -429,6 +430,70 @@
       <figcaption>DICING STREET BUDGET (MAX FEED 14 MM/S) | WEDGE BOND WINDOW R 1.2–1.8, 100% IN WINDOW AT 8% CONTROL</figcaption>
     </figure>
     <div class="prose">
+      <p><strong>Then an audit went looking for the tools whose performance outran their
+      paperwork.</strong> Mapping every tool against every sub-component turned up four places
+      where the scene showed a mechanism convincingly and the ledger held nothing at all: the
+      wet bench, the coater's film thickness, the plasma inside the etcher, and the tunnel
+      barrier grown in the evaporator's oxygen glow. Four rounds closed them.</p>
+      <p><strong>The etcher got its plasma.</strong> Rounds up to here took anisotropy A = 0.9
+      and selectivity S = 3 as inputs — the deepest etch result in the project resting on two
+      hand-picked numbers. Integrating Poisson's equation for the sheath (3.2275 mm against the
+      Child law's 3.2281) and pushing Monte-Carlo ions across it, with charge exchange
+      happening 1.17 times per crossing, produces an ion angular distribution that fixes
+      <span class="hl">A = 0.963</span> with no free parameter at all. Selectivity refused the
+      same treatment: sputter yields alone give 1.33, nowhere near what fluorocarbon etching
+      really delivers, because selectivity is not a yield ratio — it is the polymer
+      passivation layer, held thinner on oxide (1.5 nm) than on resist (3.0 nm) because the
+      oxide releases its own oxygen. Feeding the derived pair back moved the film CD from 138
+      to <span class="hl">150 nm</span>: the old assumption was 12 nm pessimistic.</p>
+      <p><strong>The wet bench got three ledgers, and one of them is a warning.</strong>
+      Piranha strips the 500 nm resist in 30 s at 120 °C and loses 38% of its rate for every
+      10 °C the tank sags. Solving the HF ionisation and dimerisation equilibria shows HF₂⁻
+      carrying 58% of the etch rate and sets a dip window of <span class="hl">31–77 s</span>,
+      with native oxide regrowing to half a nanometre in 0.45 h — that is the queue-time
+      limit. And the DLVO calculation explains why an HF step is always followed by a rinse:
+      SC-1 raises a 66 kT barrier that keeps particles off the wafer, while the HF tank
+      itself, sitting at pH 2 near silica's point of zero charge, offers −0.1 kT and lets them
+      <span class="hl">re-deposit</span>.</p>
+      <p><strong>The coater's 500 nm became a result.</strong> Spin-off famously makes the film
+      forget its initial thickness — 50 µm and 500 µm starts converge to 0.05% — and the
+      Meyerhofer criterion sets it where thinning falls below evaporation. That gives ω^(−2/3),
+      yet every spin curve ever measured shows −1/2; the missing piece is that evaporation
+      itself follows √ω through the rotating-disk boundary layer, and restoring it yields
+      exactly <span class="hl">−0.500</span>. At 3000 rpm the film lands at 510 nm. The
+      tolerance then propagates: ±0.5% on spin speed becomes 4.9 nm of CD error without BARC
+      and 0.61 nm with it, so the coater's precision spec is really the anti-reflective
+      layer's decision.</p>
+      <p><strong>And the barrier explained why junctions get trimmed — again.</strong>
+      Oxidation dose to thickness to tunnel resistance to critical current, with
+      I<sub>c</sub>R<sub>n</sub> landing at 282.7 µV against the known 283, inverts a 10 GHz
+      E<sub>J</sub> to a barrier just <span class="hl">0.691 nm</span> thick. Tunnelling then
+      punishes every picometre: holding I<sub>c</sub> to 0.5% requires thickness control of
+      0.345 pm, <span class="hl">one 811th of an atomic layer</span>. Pointwise that is
+      impossible, and junctions only work because roughly 4×10⁴ independent atomic patches
+      average the barrier down to the few percent good fabs actually see. Round 2 reached
+      "trimming is mandatory" from evaporation tilt; this reaches it from barrier thickness.
+      Two unrelated routes, one process decision.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/fab/fig23_plasma.png" alt="Child sheath potential profile, ion energy distributions under three conditions, and anisotropy and selectivity versus pressure" loading="lazy">
+        <figcaption>THE SHEATH, INTEGRATED — A = 0.963 FALLS OUT OF THE ION ANGLES; S NEEDS THE POLYMER</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/fig24_wetclean.png" alt="Piranha rate versus temperature, HF speciation channels versus concentration, and DLVO interaction curves for three chemistries" loading="lazy">
+        <figcaption>THREE TANKS, THREE LEDGERS — AND THE HF TANK'S OWN BARRIER IS NEGATIVE</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/fig25_coat.png" alt="Spin-off curves from three initial thicknesses, dry thickness versus spin speed for two evaporation models, and solvent profiles after bake" loading="lazy">
+        <figcaption>WHERE THE 500 NM COMES FROM — AND WHERE THE FAMOUS −1/2 EXPONENT COMES FROM</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/fab/fig26_alox.png" alt="Cabrera-Mott thickness versus oxidation dose, specific resistance versus barrier thickness, and Ic spread versus thickness control" loading="lazy">
+        <figcaption>0.691 NM OF ALUMINA — AND 0.5% I<sub>C</sub> WOULD NEED 1/811 OF AN ATOMIC LAYER</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
       <p><strong>And the other machines got their numbers too.</strong> First-order LSS ranges
       put boron at ~114 nm for 30 keV and ~311 nm for 100 keV (checked against SRIM anchors:
       B/P within 11%, As reads +27% high — a declared bias of the first-order model). The Dolan
@@ -504,6 +569,16 @@
         <tr><td>JJ yield vs σ<sub>EJ</sub></td><td class="num">99.6% @ 0.5%; collapse @ 1%</td><td class="src">quantum-computing/sim (freq-collision MC)</td></tr>
         <tr><td>QP-20 layout v7</td><td class="num">2,367 polygons, DRC-lite 0</td><td class="src">quantum-computing (gdstk, 7 rounds)</td></tr>
         <tr><td>Bond-out feasibility</td><td class="num">87 pads, 0 violations</td><td class="src">quantum-computing/sim (bonding DRC)</td></tr>
+        <tr><td>Sheath: Poisson integration vs Child law</td><td class="num">3.2275 vs 3.2281 mm (0.02%)</td><td class="src">mars-fab/sim/proc_plasma.py</td></tr>
+        <tr><td>Etch anisotropy, derived not assumed</td><td class="num">A = 0.963 (film CD 138 → 150 nm)</td><td class="src">mars-fab/sim/proc_plasma.py</td></tr>
+        <tr><td>Selectivity without polymer passivation</td><td class="num">S = 1.33 vs 3.61 with</td><td class="src">mars-fab/sim/proc_plasma.py</td></tr>
+        <tr><td>Piranha strip, and its temperature cliff</td><td class="num">500 nm in 30 s; −38% per 10 °C</td><td class="src">mars-fab/sim/proc_wetclean.py</td></tr>
+        <tr><td>Dilute-HF dip window</td><td class="num">31–77 s; HF₂⁻ carries 58%</td><td class="src">mars-fab/sim/proc_wetclean.py</td></tr>
+        <tr><td>DLVO barrier, SC-1 vs the HF tank</td><td class="num">66 kT vs −0.1 kT (re-deposition)</td><td class="src">mars-fab/sim/proc_wetclean.py</td></tr>
+        <tr><td>Spin curve exponent, derived</td><td class="num">−0.500 once e ∝ √ω; 510 nm at 3000 rpm</td><td class="src">mars-fab/sim/proc_coat.py</td></tr>
+        <tr><td>Coater tolerance → CD</td><td class="num">4.9 nm without BARC, 0.61 nm with</td><td class="src">mars-fab/sim/proc_coat.py</td></tr>
+        <tr><td>AlOx barrier for a 10 GHz E<sub>J</sub></td><td class="num">0.691 nm; I<sub>c</sub>R<sub>n</sub> 282.7 vs 283 µV</td><td class="src">mars-fab/sim/proc_alox.py</td></tr>
+        <tr><td>Thickness control σ<sub>Ic</sub> = 0.5% demands</td><td class="num">0.345 pm = 1/811 of an atomic layer</td><td class="src">mars-fab/sim/proc_alox.py</td></tr>
         <tr><td>Scene choreography integrity</td><td class="num">520-frame envelope sweep, 0 console errors</td><td class="src">viewer/units/ops-fab-01.js (headless CDP)</td></tr>
       </tbody>
     </table></div>
@@ -525,6 +600,17 @@
       six physical-design pitfalls: tie cells are not optional. The analog line's arr4 block
       opened at 51 DRC violations and took the bulk of 29 rounds to reach zero — a layout is not
       done when drawn; it is converged under the rule deck.</p>
+      <p><strong>A wrong number density nearly shipped as an exciting discovery.</strong> The
+      plasma round's first pass paired a resist number density counted per atom with a sputter
+      yield defined per repeat unit — an order-of-magnitude mismatch. Out came S = 0.65, which
+      says the mask clears before the film does, which says oxide etching is impossible. It
+      read exactly like a real finding: a clean falsification with a tidy mechanism story
+      attached. Nothing in the gate set caught it, because every gate was a <em>ratio</em>,
+      and ratios are blind to a factor shared by numerator and denominator. What caught it was
+      adding an absolute-rate anchor — film 30–60 nm/min, resist 15–40 — which the mistaken
+      parameters missed by 10×. The lesson outlived the bug: a gate set made entirely of
+      ratios and limits cannot see a unit slip, so at least one gate has to be pinned to an
+      absolute magnitude.</p>
       <p><strong>Geometry can't hold σ<sub>EJ</sub>.</strong> The Dolan calc puts tilt-error
       sensitivity at 9.2%/deg, so the 0.5% junction spread the yield MC demands would need
       0.054° tilt repeatability. That number is why the trim step exists — discovered backwards,

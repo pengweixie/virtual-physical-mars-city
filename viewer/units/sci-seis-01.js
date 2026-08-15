@@ -1,5 +1,5 @@
 // sci-seis-01 火震监测站(InSight SEIS 血统)——城市的听诊器
-// 设计册:mars-seis(五本账:VBB 摆/噪声预算/城市噪声/主动源/震波屏)
+// 设计册:E:\Claude\mars-seis(五本账:VBB 摆/噪声预算/城市噪声/主动源/震波屏)
 // 布局:夯实安装座+WTS 风热罩(裙边压石)/ 吊罩展示位(真空球剖切露 VBB 摆机构)
 //      / 系缆-负载分流环 / 电子柜 / 太阳板 / 实时震波屏(确定性哈希,禁 Math.random)
 //      / 信标 / 发射方位指向牌。零转动部件是设计特征:安静本身就是仪器的一部分。
@@ -626,9 +626,10 @@ export function build(THREE) {
     if (tt > CAL_LEN) return -1;
     return tt / CAL_LEN;                                             // 0..1 进行度
   };
+  const inLaunchWin = (t) => { const tau = t - st.launchT0; return tau > 0 && tau < 45; };
   const wave = (t, ch) => {
     const cp = calPhase(t);
-    if (cp >= 0) {
+    if (cp >= 0 && !inLaunchWin(t)) {        // 评审修正:发射窗内抑制标定(真实台站同规)
       // 标定不是单频而是**扫频**:0.15→2 Hz 线性 chirp 一次量完整条传递函数的幅相。
       // 屏上因此从疏到密——观众一眼看出这不是地震,是仪器在自检。
       const tau = cp * CAL_LEN, F0C = 0.15, F1C = 2.0;
@@ -684,7 +685,7 @@ export function build(THREE) {
     }
 
     // 信号链展板:信号包逐级点亮走完全链(4.8 s 一趟);标定期整链转琥珀
-    const cp = calPhase(t);
+    const cp = (calPhase(t) >= 0 && !inLaunchWin(t)) ? calPhase(t) : -1;
     const head = (t % 4.8) / 4.8 * (STAGES.length + 0.6);
     for (let k = 0; k < STAGES.length; k++) {
       const d = head - k;
@@ -705,7 +706,7 @@ export function build(THREE) {
   };
 
   // ---------- 引擎词汇 ----------
-  g.userData.nightMats = [M.led, M.pv];
+  g.userData.nightMats = [M.led];          // 评审修正:PV 不是灯,不进 nightMats
   g.userData.blinkMats = [M.beacon];
   g.userData.label = '火震监测站 sci-seis-01';
 

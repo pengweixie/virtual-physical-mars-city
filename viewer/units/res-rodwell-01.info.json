@@ -85,15 +85,23 @@
       "specs": {
         "单罐容量": "13 m³",
         "双罐水银行": "26 m³ ≈ 60 sol 全球尘暴需求 × 114%",
-        "乘组需求": "380 L/sol（4 人）"
+        "井产能": "380 L/sol",
+        "生保占用": "30.3 L/sol（8%，全城 115 人，见 res-eclss-01 总账屏卡）"
       },
       "specs_en": {
         "Tank volume": "13 m3",
         "Twin-tank bank": "26 m3, 114% of a 60-sol global storm",
-        "Crew demand": "380 L/sol (4 crew)"
+        "Well capacity": "380 L/sol",
+        "Life-support draw": "30.3 L/sol (8%, 115 people city-wide - see the res-eclss-01 ledger screen)"
       },
-      "sim": "TS-01 R1：PV 30 kWp + 双罐在 30 sol 区域尘暴（×0.2）+ 60 sol 全球尘暴（×0.15）压力包线下 700 sol 零断供——该结论经 Stefan 校核不变",
-      "sim_en": "TS-01 R1: 30 kWp of photovoltaics plus the twin tanks ride the full pressure envelope - a 30-sol regional storm at x0.2 output followed by a 60-sol global storm at x0.15 - for 700 sol with zero outages. The Stefan re-run left this result unchanged."
+      "sim": [
+        "TS-01 R1：PV 30 kWp + 双罐在 30 sol 区域尘暴（×0.2）+ 60 sol 全球尘暴（×0.15）压力包线下 700 sol 零断供——该结论经 Stefan 校核不变",
+        "额度分配（res-eclss-01 总账）：生保（含农业与 fab）30.3 L/sol 占 8%，ISRU 推进剂制氢 193 L/sol 占 51%——这口井的主要客户不是人，是火箭。"
+      ],
+      "sim_en": [
+        "TS-01 R1: 30 kWp of photovoltaics plus the twin tanks ride the full pressure envelope - a 30-sol regional storm at x0.2 output followed by a 60-sol global storm at x0.15 - for 700 sol with zero outages. The Stefan re-run left this result unchanged.",
+        "Allocation (res-eclss-01 city ledger): life support - farms and fab included - draws 30.3 L/sol, 8%; ISRU hydrogen for propellant takes 193 L/sol, 51%. This well main customer is not people. It is rockets."
+      ]
     },
     {
       "id": "tailings",

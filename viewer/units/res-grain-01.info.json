@@ -1,0 +1,209 @@
+{
+  "id": "res-grain-01",
+  "pois": [
+    {
+      "id": "config",
+      "label": "构型与面积账（+2300 m² 从何而来）",
+      "label_en": "Configuration and the area ledger (where +2300 m2 comes from)",
+      "range": 26,
+      "detail": "总控裁定方案 C：不再让粮食永远占满一整船地球来货，改为新建这座主粮种植舱，把食物本地自给率从 8.3% 拉向 50%。构型有两条路——多层立体 vs 平铺掩土。这座舱选了多层：火星上真正稀缺的不是土地，是受压又要覆土屏蔽的容积，层架把 2300 m² 冠层折进一间 30×14 m 的舱里。剖开面朝观察侧，五层错位露出每层前缘，一眼看尽「一舱三主粮」。",
+      "detail_en": "Integrator ruling, option C: stop letting staple food fill a whole Earth shipload every window, and build this module to carry local caloric self-sufficiency from 8.3% toward 50%. Two configurations were on the table - multi-tier stacks versus flat buried-soil beds. This module takes the stacks: what is scarce on Mars is not land but pressurized, shielded volume, and racking folds 2300 m2 of canopy into one 30x14 m hall. The cut face opens toward the visitor, five offset tiers showing their front edges - one glance reads 'three staples in one room'.",
+      "specs": {
+        "裁定": "方案 C（对半）：进口主粮减半 + 本地拉向 50%",
+        "新增种植面": "+2300 m² 冠层（多层立体，占地仅 ~420 m²）",
+        "全自给参照": "45 m²/人 × 115 人 = 5175 m²（res-recycle-01 堆肥卡口径）",
+        "口径": "光量子法对齐 hab-quarter-01：0.0208 kg 干物质/m²/天",
+        "水/氧/CO₂": "不另立账 —— 全挂 res-eclss-01 的 115 人总账"
+      },
+      "specs_en": {
+        "Ruling": "Option C (half-and-half): halve staple imports, grow local toward 50%",
+        "New canopy": "+2300 m2 (multi-tier; footprint only ~420 m2)",
+        "Full-suff reference": "45 m2/person x 115 = 5175 m2 (res-recycle-01 compost card)",
+        "Method": "photon method, aligned to hab-quarter-01: 0.0208 kg dry matter/m2/day",
+        "Water/O2/CO2": "no new scope - all booked on the res-eclss-01 115-person ledger"
+      },
+      "sim": [
+        "+2300 m² 不是拍的：全自给需 5175 m²（45 m²/人 × 115，堆肥卡已立）。从 8.3% 到 50% 是 41.7 个百分点，41.7% × 5175 = 2158 m² 净产面；再除以 0.94 补上轮作空窗与边缘/光衰的非产出面，得 2296 m² ≈ +2300 m² 安装冠层。res-eclss-01 台账就记这个数。",
+        "面积口径为什么能自洽：全自给 45 m²/人 反推每 m² 可食干物质 13.8 g/天；对上光量子法的总干物质 20.8 g/m²/天，只需收获指数 0.662——马铃薯主导的主粮混种恰好落在这个收获指数上。整本账在 0.0208 kg 干物质/m²/天这一个锚上闭合，没有第二套口径。",
+        "多层 vs 平铺的裁决：平铺掩土能直接吃堆肥、结构简单，但 2300 m² 要 2300 m² 占地 + 2300 m² 的覆土屏蔽顶——那是这座城最贵的东西。多层把占地压到 ~420 m²，代价是补光电（见光电卡）与层架钢。火星上电比容积便宜，账偏向多层。基质仍用堆肥+洗盐土装盘（见基质卡），两条路的好处都拿到。"
+      ],
+      "sim_en": [
+        "The 2300 m2 is not a guess. Full self-sufficiency needs 5175 m2 (45 m2/person x 115, set by the compost card). Going from 8.3% to 50% is 41.7 points; 41.7% x 5175 = 2158 m2 of net productive canopy. Divide by 0.94 to add back the non-productive area lost to rotation gaps and edge/light-falloff, and you get 2296 m2 - the +2300 m2 of installed canopy the res-eclss-01 ledger books.",
+        "Why the area figure is self-consistent: the 45 m2/person full-sufficiency number implies 13.8 g of edible dry matter per m2 per day; against the photon method's 20.8 g total dry matter/m2/day that requires a harvest index of 0.662 - exactly where a potato-led staple mix sits. The whole ledger closes on one anchor, 0.0208 kg dry matter/m2/day, with no second set of books.",
+        "Stacks versus flat beds: flat buried-soil eats compost directly and is structurally simple, but 2300 m2 of it wants 2300 m2 of floor and 2300 m2 of shielding overburden - the most expensive thing this city builds. Stacking cuts the footprint to about 420 m2, paying for it in supplemental light (see the light card) and rack steel. On Mars electricity is cheaper than volume, so the ledger favours stacks - while the trays still hold compost-and-washed-regolith media (see the media card), keeping both routes' benefits."
+      ],
+      "physics": "地球农业的稀缺要素是土地与水，火星地下城的稀缺要素是「既能保压又被岩层压住」的立方米。一旦把成本从平方米改记成立方米，农业的最优形态就从平摊变成堆叠——垂直农场在地球是奢侈品，在火星是结论。构型选择不是审美，是把账记在哪个稀缺量上。",
+      "physics_en": "The scarce input of Earth agriculture is land and water; of a Martian undercity it is the cubic metre that both holds pressure and sits under rock. Once cost is booked per cubic metre instead of per square metre, the optimal form of farming shifts from spreading to stacking - vertical farming is a luxury on Earth and a conclusion on Mars. Choosing a configuration is not aesthetics but a decision about which scarce quantity the ledger charges against."
+    },
+    {
+      "id": "light",
+      "label": "光与电账（补光是这座舱唯一的大电表）",
+      "label_en": "Light and power ledger (supplemental light is the one big meter)",
+      "range": 20,
+      "detail": "每层托盘上方那条深品红的窄谱灯，白天几乎看不见，夜里被引擎推成整舱粉紫——它只发叶绿素吃的红蓝两段，别的光子一个不浪费。这是本舱唯一的大电表：2300 m² 冠层的补光装机 329 kW，占全城 176 MWe 净电的两千分之一。光量子法的口径与 hab-quarter-01 农场卡一字不差，只是把面积从 29 m² 放大到 2300 m²。",
+      "detail_en": "Above each tray runs a deep-magenta narrow-band strip, near-invisible by day and pushed to a city-wide purple glow at night - it emits only the red and blue that chlorophyll eats and wastes no other photon. This is the module's one large meter: 329 kW of lighting for 2300 m2 of canopy, one two-thousandth of the city's 176 MWe net. The photon method matches the hab-quarter-01 farm card to the letter, only scaled from 29 m2 to 2300 m2.",
+      "specs": {
+        "光强/光期": "PPFD 400 µmol/m²/s × 16 h → DLI 23 mol/m²/天",
+        "灯效": "LED 2.8 µmol/J → 143 W/m²（冠层）",
+        "装机": "补光 329 kW + 泵风控 ~39 kW",
+        "日耗电": "6.2 MWh/天（= 6.4 MWh/sol）· 占电网峰值 0.21%",
+        "产率": "0.0208 kg 干物质/m²/天（光利用效率 0.90 g/mol）"
+      },
+      "specs_en": {
+        "Light/photoperiod": "PPFD 400 umol/m2/s x 16 h, DLI 23 mol/m2/day",
+        "Efficacy": "LED 2.8 umol/J, 143 W/m2 at canopy",
+        "Installed": "329 kW lighting plus ~39 kW pumps/fans/controls",
+        "Daily energy": "6.2 MWh/day (6.4 MWh/sol), 0.21% of grid peak",
+        "Productivity": "0.0208 kg dry matter/m2/day (light-use efficiency 0.90 g/mol)"
+      },
+      "sim": [
+        "光电账全部从锚上推：DLI = 400 µmol/m²/s × 16 h × 3600 = 23.0 mol/m²/天；干物质 20.8 g ÷ 23.0 mol = 0.90 g/mol，落在作物光利用效率 0.5~1.5 g/mol 的正常带里。冠层功率密度 400 ÷ 2.8 = 143 W/m²，×2300 = 329 kW；补光 16 h + 泵风控 24 h = 6.2 MWh/天。",
+        "为什么电不是约束：329 kW 对 176 MWe 净电是零头（0.21% 峰值），跟 hab-quarter-01 农场那句『4 kW 灯电是零头』同一逻辑，只是面积大了 80 倍仍在零头量级。这座城真正的瓶颈从来不是电，是容积与堆肥产能——所以构型才敢选多层。",
+        "热账别漏记：329 kW 电几乎全变成低品位热（~35 °C），必须由 ECLSS 冷却回路带走、最终经 pwr-radiator-01 散掉。它品位太低喂不了 SOEC 那条 600 K 余热管，但可以顶一部分居住区供暖——低品位热在封闭城里也不是废物，是回路。"
+      ],
+      "sim_en": [
+        "Every light-power figure comes off the anchor: DLI = 400 umol/m2/s x 16 h x 3600 = 23.0 mol/m2/day; 20.8 g dry matter / 23.0 mol = 0.90 g/mol, inside the normal 0.5-1.5 g/mol band for crops. Canopy power density is 400 / 2.8 = 143 W/m2, x2300 = 329 kW; 16 h of lighting plus 24 h of pumps and fans is 6.2 MWh/day.",
+        "Why power is not the constraint: 329 kW against 176 MWe net is rounding error (0.21% of peak) - the same logic as the hab-quarter-01 farm's '4 kW of lighting is a rounding error', only the area is eighty times larger and still in the noise. This city's real bottleneck was never power but volume and compost throughput, which is why the configuration can afford to stack.",
+        "Do not drop the heat line: nearly all 329 kW of electricity becomes low-grade heat (~35 C) that the ECLSS cooling loop must carry off and finally reject through pwr-radiator-01. It is too low-grade to feed the 600 K SOEC waste-heat pipe, but it can offset some quarter heating - in a closed city even low-grade heat is not waste but a loop."
+      ],
+      "physics": "叶绿素在 430 与 660 nm 有吸收峰，绿光被反射（所以叶子是绿的），发绿光就是把电烧成叶片反射掉的光。窄谱 LED 把「每个光子的电成本」压到日光温室的几分之一，这在电近乎免费、阳光却隔着 30 m 岩层的地下城是决定性的。农场发粉紫光不是风格，是把光谱账记到了光子一级。",
+      "physics_en": "Chlorophyll peaks at 430 and 660 nm and reflects green (hence green leaves), so emitting green is burning electricity into light the leaf throws back. Narrow-band LEDs cut the electrical cost per photon to a fraction of a daylight greenhouse's - decisive in an undercity where electricity is nearly free but sunlight sits behind 30 m of rock. The farm glows magenta not as a style but because the spectral ledger is kept down at the level of individual photons."
+    },
+    {
+      "id": "crop",
+      "label": "主粮选型（按 kcal/m² 与蛋白排序）",
+      "label_en": "Staple selection (ranked by kcal/m2 and protein)",
+      "range": 20,
+      "detail": "三组层架三种主粮，颜色就是品种：A 组马铃薯茎叶的深绿、B 组小麦灌浆的金黄、C 组大豆的青绿。选型不靠喜好，靠两把尺子——每平方米每天产多少千卡、产多少克蛋白。同一片光下，马铃薯的热量密度碾压另外两种，大豆的蛋白密度碾压另外两种，小麦两项都垫底。于是这舱是「马铃薯打底热量、大豆补蛋白、小麦少量调剂口味与储粮」。",
+      "detail_en": "Three rack blocks, three staples, and the colour is the variety: the deep green of potato foliage in block A, the filling gold of wheat in block B, the blue-green of soybean in block C. Selection follows not taste but two rulers - kilocalories per m2 per day, and grams of protein per m2 per day. Under the same light potato crushes the other two on energy density, soybean crushes them on protein density, and wheat comes last on both. So the room is 'potato for the caloric floor, soybean for protein, a little wheat for palate and storable grain'.",
+      "specs": {
+        "马铃薯（块茎）": "57.7 kcal/m²/天 · 蛋白 1.40 g/m²/天 · 43 m²/人",
+        "大豆（籽实）": "37.2 kcal/m²/天 · 蛋白 3.08 g/m²/天 · 67 m²/人",
+        "小麦（籽粒）": "35.6 kcal/m²/天 · 蛋白 1.22 g/m²/天 · 70 m²/人",
+        "热量排序": "马铃薯 > 大豆 > 小麦",
+        "蛋白排序": "大豆 ≫ 马铃薯 > 小麦"
+      },
+      "specs_en": {
+        "Potato (tuber)": "57.7 kcal/m2/day, protein 1.40 g/m2/day, 43 m2/person",
+        "Soybean (seed)": "37.2 kcal/m2/day, protein 3.08 g/m2/day, 67 m2/person",
+        "Wheat (grain)": "35.6 kcal/m2/day, protein 1.22 g/m2/day, 70 m2/person",
+        "By calories": "potato > soybean > wheat",
+        "By protein": "soybean >> potato > wheat"
+      },
+      "sim": [
+        "同一个光量子锚（20.8 g 干物质/m²/天），三种主粮的差别全在收获指数与成分：马铃薯收获指数 0.75、可食干物质 15.6 g、几乎全是淀粉 → 57.7 kcal/m²/天，热量之王。大豆收获指数 0.40、可食 8.3 g，但 37% 是蛋白 + 高油 → 蛋白 3.08 g/m²/天，是马铃薯的 2.2 倍。小麦收获指数 0.45、成分平平，两项都垫底——它的理由是口味、耐储与磨面工艺，不是效率。",
+        "为什么不纯种马铃薯：纯马铃薯 43 m²/人就够热量，比 45 m²/人参照还省。但人不能只靠淀粉活——蛋白与必需氨基酸得大豆补，膳食单调也是封闭基地的心理风险（对照 hab-quarter-01 餐桌卡）。推荐热量配比 60/25/15（薯/豆/麦），折 ~53 m²/人，比纯薯略费面积，换来的是能吃十六个火星年不腻的食谱。",
+        "与全城口径的接口：本舱只认可食干物质，鲜重、含水、烹调损失在厨房侧另算；蛋白与氨基酸的膳食均衡由医务组的营养账把关，本卡只负责把「每平方米产多少」这件事排到序。"
+      ],
+      "sim_en": [
+        "On one photon anchor (20.8 g dry matter/m2/day), the three staples differ entirely in harvest index and composition: potato at harvest index 0.75, 15.6 g edible dry, almost all starch, gives 57.7 kcal/m2/day - the king of calories. Soybean at 0.40, 8.3 g edible, but 37% protein plus high oil, gives 3.08 g protein/m2/day, 2.2x the potato. Wheat at 0.45 with unremarkable composition comes last on both - its case is palatability, storage life and milling, not efficiency.",
+        "Why not pure potato: pure potato needs only 43 m2/person for calories, beating the 45 m2/person reference. But people cannot live on starch alone - protein and essential amino acids come from soybean, and a monotonous diet is itself a psychological risk in a closed base (see the hab-quarter-01 table card). The recommended caloric split is 60/25/15 (potato/soy/wheat), about 53 m2/person - slightly more area than pure potato, bought back as a menu one can eat for sixteen Mars years without tiring of it.",
+        "Interface to the city ledger: this module counts only edible dry matter; fresh weight, moisture and cooking losses are handled kitchen-side, and dietary protein and amino-acid balance are the clinic's nutrition ledger. This card only ranks how much each square metre yields."
+      ],
+      "physics": "热量与蛋白是两种不同的稀缺：碳水化合物是把光能存成 C-C 与 C-H 键，成本低、每摩尔光子产出高，所以块茎类热量密度高；蛋白要固碳之外再固氮、合成氨基酸骨架，能量与代谢开销都更贵，所以豆科用根瘤固氮换来的蛋白，每平方米注定比淀粉少。选型排序其实是在排「哪种化学键更贵」——这也是为什么没有一种作物能同时称霸两张榜。",
+      "physics_en": "Calories and protein are two different scarcities: carbohydrate stores light energy as C-C and C-H bonds, cheap and high-yield per mol of photons, so tubers are energy-dense; protein demands nitrogen fixation on top of carbon fixation and the synthesis of amino-acid backbones, costlier in both energy and metabolism, so the protein a legume buys with its root nodules is inevitably scarcer per square metre than starch. Ranking crops is really ranking which chemical bonds are dearer - which is why no single crop tops both charts."
+    },
+    {
+      "id": "water",
+      "label": "水账（挂 res-eclss-01 总账，不另立口径）",
+      "label_en": "Water ledger (booked on res-eclss-01, no new scope)",
+      "range": 16,
+      "detail": "西端这根蓝立管带着五个层阀，把营养液分到每层滴灌梁；泵撬旁边那只罐是配液罐。但这座舱最要紧的一条纪律不在管子上，在账上：它的水、氧、CO₂ 一律不另立口径，全部挂到 res-eclss-01 的 115 人总账里当一笔『农业增量』。作物蒸腾的每一克水汽都被冷凝抓回营养液回路，真正补进 Rodwell 井的只是回路漏项。",
+      "detail_en": "At the west end a blue riser with five tier valves distributes nutrient solution to each drip boom, and the tank beside the pump skid is the blending vessel. The module's most important discipline, though, is not in the pipes but in the books: its water, oxygen and CO2 open no new scope and are all booked into the res-eclss-01 115-person ledger as an 'agriculture increment'. Every gram of transpired vapour is condensed back into the nutrient loop, and what actually reaches the Rodwell well is only the loop's leakage.",
+      "specs": {
+        "毛蒸腾": "~4 L/m²/天 × 2300 = 9200 L/天（回路内循环）",
+        "冷凝回收": ">98%（与 hab-quarter-01 冷凝机同源）",
+        "净补水": "111 L/sol（res-recycle-01 口径：25 kg/sol ÷ 519 m² 外推）",
+        "占井": "全城生保 30.3 → 141 L/sol = Rodwell 产能的 8% → 37%",
+        "口径": "不新开水账 —— 记入 res-eclss-01 农业增量"
+      },
+      "specs_en": {
+        "Gross transpiration": "~4 L/m2/day x 2300 = 9200 L/day (recirculated in-loop)",
+        "Condensate recovery": ">98% (same tech as the hab-quarter-01 condenser)",
+        "Net makeup": "111 L/sol (res-recycle-01 basis: 25 kg/sol scaled from 519 m2)",
+        "Well share": "city life support 30.3 -> 141 L/sol, 8% -> 37% of Rodwell",
+        "Scope": "no new water account - booked as a res-eclss-01 agriculture increment"
+      },
+      "sim": [
+        "净补水按 res-recycle-01 中水卡的口径外推，不自造系数：该卡把『农业膜渗漏与收成外带』记为全城 25 kg/sol（现有 519 m²），折 0.048 kg/sol/m²；×2300 = 111 L/sol。城市生保净补水从 30.3 L/sol 抬到 141 L/sol，占 Rodwell 产能从 8% 升到 37%。",
+        "给总控的红旗：Rodwell 井的头号客户是 ISRU 推进剂制氢（51%），本舱把生保侧从 8% 顶到 37% 后，井的余量收窄。这不是本舱能自己决定的账，须与 res-rodwell-01 的 Stefan 井寿命账、发射战役的加注排程一起裁——粮食自给与火箭加注在同一口井上竞争，全自给（5175 m²）时农业侧还要再翻倍，届时井或需扩腔/增井。",
+        "一条反直觉的抵消：本地多种一吨主粮，就少进口一吨主粮，进口食物自带的 5.1 kg/sol 水随之减少；而本地粮食被吃掉后，其中的氢又氧化成代谢水（全城 40.8 kg/sol）回到回路。所以 111 L/sol 里很大一块是回路内的身份转移，不是净新增需求——真正的硬损失只有膜渗漏与维护排放。"
+      ],
+      "sim_en": [
+        "Net makeup is scaled off the res-recycle-01 reclaimed-water card rather than invented: that card books 'agricultural membrane leakage and harvest carry-out' at 25 kg/sol city-wide for today's 519 m2, i.e. 0.048 kg/sol/m2; x2300 = 111 L/sol. City life-support makeup rises from 30.3 to 141 L/sol, and the Rodwell share from 8% to 37%.",
+        "A red flag for the integrator: the Rodwell well's top customer is ISRU propellant hydrogen (51%), and pushing the life-support side from 8% to 37% narrows the well's margin. This is not a ledger this module can settle alone - it must be ruled together with the res-rodwell-01 Stefan well-life ledger and the launch-campaign fuelling schedule, because staple self-sufficiency and rocket fuelling compete on one well. At full self-sufficiency (5175 m2) the agricultural side roughly doubles again, and the well may need a larger cavity or a second head.",
+        "A counter-intuitive offset: every tonne of staple grown locally is a tonne not imported, so the 5.1 kg/sol of water arriving inside imported food shrinks; and once the local grain is eaten, its hydrogen oxidises to metabolic water (40.8 kg/sol city-wide) back into the loop. Much of the 111 L/sol is thus an identity transfer inside the loop, not a net new demand - the only hard loss is membrane leakage and maintenance discharge."
+      ],
+      "physics": "封闭生保里没有『用水』这个动词，只有『借水』：水在回路里被作物借去蒸腾、被冷凝机还回，账面上真正消失的只有回收率的缺口。所以农业规模的水成本不看蒸腾量（那是循环量），只看回收率与漏项——这也是为什么把水账挂进全城总账、用同一个回收率口径记，比给农场单开一本账诚实得多。分开记账最容易犯的错，是把循环量当成消耗量。",
+      "physics_en": "Closed life support has no verb for 'consume water', only 'borrow' it: water is borrowed by the crop for transpiration and returned by the condenser, and what truly vanishes from the books is only the gap in recovery ratio. The water cost of farming at scale therefore turns not on transpiration (that is circulation) but on recovery ratio and leakage - which is why booking the water onto the city ledger at the same recovery basis is more honest than opening a separate farm account. The classic error of separate books is mistaking circulation for consumption."
+    },
+    {
+      "id": "media",
+      "label": "堆肥基质与自举断奶时间表",
+      "label_en": "Compost media and the weaning timetable",
+      "range": 22,
+      "detail": "东端那只料斗，斗口露着赭黄——那是堆肥掺洗盐 regolith 的栽培基质，直接接 res-recycle-01 堆肥反应器那条 9.44 t/火星年的产线。托盘用基质而非纯水培，是为了让这座舱吃得上本城自产的肥，慢慢断掉进口营养盐的奶。堆肥产能就是断奶速度的上限：城里养多少人、种多少地，决定每火星年能新建多少苗床。",
+      "detail_en": "The hopper at the east end shows ochre at its mouth - compost blended with washed regolith as growing media, fed straight from the 9.44 t/Mars-year line of the res-recycle-01 compost reactor. The trays use media rather than pure hydroponics so the module can eat the city's own fertiliser and slowly wean off imported nutrient salts. Compost throughput is the ceiling on weaning speed: how many people the city feeds and how much it plants sets how much new bed it can build each Mars year.",
+      "specs": {
+        "基质": "堆肥（res-recycle-01, 9.44 t/火星年）+ 洗盐 regolith",
+        "扩床率": "9.44 t/火星年 → 210 m²/火星年（起步，随残体自举增长）",
+        "自举 50%": "堆肥单靠自举约 8~9 火星年到 50%",
+        "全自给": "约 14~16 火星年到 5175 m²（复核 res-recycle-01 的 16 年）",
+        "断奶": "方案 C 先进口首批营养盐撑起 50%，堆肥再逐年替换进口肥"
+      },
+      "specs_en": {
+        "Media": "compost (res-recycle-01, 9.44 t/Mars-yr) plus washed regolith",
+        "Bed-building": "9.44 t/Mars-yr -> 210 m2/Mars-yr (initial; bootstraps up with residue)",
+        "Bootstrap to 50%": "compost-only bootstrap reaches 50% in ~8-9 Mars years",
+        "Full self-suff": "~14-16 Mars years to 5175 m2 (verifies res-recycle-01's 16)",
+        "Weaning": "option C imports the first nutrient salts to stand up 50%, then compost replaces imported fertiliser year by year"
+      },
+      "sim": [
+        "扩张曲线是自举的，不是线性的：堆肥产量 = 人口驱动的固定项（干粪+厨余+织物调理料，~恒定）+ 随种植面增长的作物残体项。起步 A₀=430 m²（8.3% 的等效主粮面），堆肥 9.4 t/火星年建 210 m²；但地越种越多，不可食残体越多，堆肥越多，建床越快——逐年递推 A→1.08·A+169，50% 在约第 8~9 火星年、全自给在约第 14 火星年跨过。",
+        "对 res-recycle-01『约 16 个火星年断奶』的复核：本卡独立递推得全自给约第 14 火星年（残体项让堆肥从 9.4 t 涨到全自给时的 ~26 t/火星年）。14 与 16 的差落在系数敏感度内（收获指数、调理料掺比、灭菌损失），结论一致——16 火星年是可辩护的保守值。堆肥产能确实是断奶速度的硬上限。",
+        "两条时间线别混：① 食物自给率——方案 C 进口首批营养盐，本舱建成即达 50%（不必等自举）；② 肥料自给率——堆肥逐年替换进口 N-P-K，约 16 火星年城市对进口食物与进口肥双双断奶。res-grain-01 是自举扩张的载体：堆肥长出来的每一平方米新床，都长在这套层架里。"
+      ],
+      "sim_en": [
+        "The expansion curve is a bootstrap, not a line: compost output is a fixed population-driven term (dried faeces, kitchen scrap, textile bulking - roughly constant) plus a crop-residue term that grows with planted area. Starting from A0 = 430 m2 (the staple-equivalent of today's 8.3%), 9.4 t/Mars-yr of compost builds 210 m2; but the more you plant, the more inedible residue, the more compost, the faster the build - the year-by-year recursion A -> 1.08*A + 169 crosses 50% at about Mars-year 8-9 and full self-sufficiency at about year 14.",
+        "Checking res-recycle-01's 'about 16 Mars years to wean': this card's independent recursion gives full self-sufficiency near year 14 (the residue term grows compost from 9.4 t toward ~26 t/Mars-yr at full scale). The gap between 14 and 16 sits inside coefficient sensitivity - harvest index, bulking ratio, sanitation losses - and the conclusion holds: 16 Mars years is a defensible, conservative figure, and compost throughput really is the hard ceiling on weaning speed.",
+        "Do not conflate two timelines: (1) food self-sufficiency - option C imports the first nutrient salts, so the module hits 50% as soon as it is built, without waiting for the bootstrap; (2) fertiliser self-sufficiency - compost replaces imported N-P-K year by year, so in about 16 Mars years the city weans off both imported food and imported fertiliser. res-grain-01 is the vehicle of that bootstrap: every new square metre compost grows is grown inside this racking."
+      ],
+      "physics": "自举系统的行为由反馈符号决定：作物残体回堆肥、堆肥建新床、新床再产残体，这是一条正反馈——所以扩张是几何而非算术，尾段加速。但正反馈有个固定的种子项（人的排泄物与织物，不随地增长），它决定了起步速度；而灭菌与氨逃逸的损失决定了增益上限。断奶时间表本质上是在解一个一阶差分方程，16 火星年不是估的，是这条反馈回路的时间常数。",
+      "physics_en": "A bootstrap's behaviour is set by the sign of its feedback: crop residue returns to compost, compost builds new beds, new beds make more residue - positive feedback, so expansion is geometric rather than arithmetic and accelerates in its tail. But the loop has a fixed seed term (human waste and textiles, which do not grow with area) that sets the starting rate, and sanitation and ammonia losses that cap the gain. The weaning timetable is really the solution of a first-order difference equation, and 16 Mars years is not a guess but the time constant of that feedback loop."
+    },
+    {
+      "id": "gas",
+      "label": "氧与 CO₂ 账（净贡献为零，这是纪律）",
+      "label_en": "Oxygen and CO2 ledger (net zero - and that is the discipline)",
+      "range": 18,
+      "detail": "这座舱白天光合放氧、吸 CO₂，看着像半座制氧厂，但它对全城气账的净贡献是零。作物放的氧，等可食部分被吃掉后按呼吸商原样呼回、不可食部分进堆肥被好氧氧化——碳没离开城市，氧就不会净增。把这 50 kg/天的毛产氧记成生保氧，是这座城最想避免的那种乐观。所以本舱不新开一本气账，只在 res-eclss-01 总账上写一句『净零』。",
+      "detail_en": "By day this module releases oxygen and takes up CO2, looking like half an oxygen plant - yet its net contribution to the city gas ledger is zero. The oxygen it releases is breathed back at respiratory quotient once the edible fraction is eaten, and the inedible fraction is aerobically oxidised in the compost; carbon never leaves the city, so oxygen never accumulates. Banking that 50 kg/day of gross oxygen as life-support oxygen is exactly the optimism this city works to avoid. So the module opens no new gas account and writes only 'net zero' on the res-eclss-01 ledger.",
+      "specs": {
+        "毛产氧": "0.0221 kg O₂/m²/天 × 2300 = 50.8 kg/天（光期）",
+        "毛固碳": "69.9 kg CO₂/天（光期，从舱内空气/富集 CO₂ 取）",
+        "净贡献": "O₂ 净 0 · CO₂ 净 0",
+        "CO₂ 竞争": "光期取气与 res-isru-01 Sabatier 进料争同一股富集 CO₂",
+        "口径": "不新开气账 —— res-eclss-01 总账记『农业净零』"
+      },
+      "specs_en": {
+        "Gross O2": "0.0221 kg O2/m2/day x 2300 = 50.8 kg/day (light hours)",
+        "Gross CO2 fixed": "69.9 kg CO2/day (light hours, from cabin/concentrated air)",
+        "Net contribution": "O2 net 0, CO2 net 0",
+        "CO2 competition": "daytime draw competes with res-isru-01 Sabatier feed for the same concentrated CO2",
+        "Scope": "no new gas account - res-eclss-01 books 'agriculture net zero'"
+      },
+      "sim": [
+        "净零的推导跟 hab-quarter-01 生保卡一字不差，只是放大了面积：光期毛产氧 50.8 kg/天，但可食部分吃回、不可食部分堆肥氧化，全周期碳收支闭合 → 氧净增 0。全城的呼吸氧仍来自 res-sulfur-01 副产氧（200 kg/sol）与 res-eclss-01 电解，农场一克都不顶。",
+        "唯一真实的耦合是 CO₂ 的时间错配：作物白天吸 CO₂、夜里呼一点，而人是全天呼 CO₂。光期这舱要吸 ~70 kg CO₂/天，与送去 res-isru-01 Sabatier 制甲烷的富集 CO₂ 抢料。量级上火箭那边主力是大气直采，农场这口是涓流，但调度上要让农场光期优先吃『本该去 Sabatier 的那股呼出 CO₂』，闭环方向才对——人呼的碳先喂菜，剩下才去做燃料。",
+        "为什么坚持记净零：制氧的账一旦把光合毛产氧算进去，就会高估余量、低估 res-sulfur-01 的必要产能，这正是 res-eclss-01 总账屏反复强调的口径纪律。农场是碳的循环节点，不是氧的源——把循环量误记成源，是生保账里最危险的乐观。"
+      ],
+      "sim_en": [
+        "The net-zero derivation matches the hab-quarter-01 life-support card to the letter, only scaled up: 50.8 kg/day of gross oxygen in light hours, but the edible fraction is eaten back and the inedible fraction oxidised in compost, so the full-cycle carbon budget closes and oxygen accumulates by zero. The city's breathing oxygen still comes from res-sulfur-01 by-product (200 kg/sol) and res-eclss-01 electrolysis; the farm supplies none of it.",
+        "The one real coupling is a timing mismatch in CO2: crops take up CO2 by day and respire a little at night, while people exhale CO2 around the clock. In light hours the module wants ~70 kg CO2/day, competing with the concentrated CO2 headed to the res-isru-01 Sabatier methane plant. By magnitude the rocket side runs mostly on direct atmospheric intake and the farm's draw is a trickle, but scheduling should let the farm eat 'the exhaled CO2 that would have gone to Sabatier' first - carbon people breathe out feeds crops before it makes fuel, which is the right loop direction.",
+        "Why insist on net zero: the moment an oxygen ledger counts gross photosynthetic O2, it overstates margin and understates the res-sulfur-01 capacity actually required - precisely the scope discipline the res-eclss-01 ledger board keeps hammering. The farm is a node in the carbon cycle, not a source of oxygen; mistaking circulation for a source is the most dangerous optimism in a life-support ledger."
+      ],
+      "physics": "光合与呼吸是同一组化学键的正反两向：白天把 CO₂ 和水拼成糖、放氧，吃与堆肥时又把糖拆回 CO₂ 和水、耗氧。在一个碳出不去的封闭城里，这两向必然配平，农场对氧账的净贡献恒为零。它真正改变的不是氧的总量，是氧和碳在一天之内的时间分布——所以农场值钱的地方是缓冲与循环，不是产氧。把节点误当源头，热力学第一定律会当场记账。",
+      "physics_en": "Photosynthesis and respiration are the same set of chemical bonds run forward and back: by day CO2 and water are assembled into sugar and oxygen released; in eating and composting the sugar is taken apart into CO2 and water again and oxygen consumed. In a closed city where carbon cannot leave, the two directions must balance, and the farm's net contribution to the oxygen ledger is identically zero. What it actually changes is not the total oxygen but the distribution of oxygen and carbon across a day - so the farm's worth is buffering and cycling, not making oxygen. Mistake a node for a source and the first law of thermodynamics keeps the books on the spot."
+    }
+  ]
+}

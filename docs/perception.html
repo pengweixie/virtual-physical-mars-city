@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Perception &amp; Robots — Virtual-Physical Mars City</title>
-<meta name="description" content="Robots that navigate by sight: engine offscreen renders, a five-phase-validated CMOS imaging model, a chest flash-LiDAR and MuJoCo-baked Mars gaits.">
+<meta name="description" content="Robots that navigate by sight: engine offscreen renders, a five-phase-validated CMOS imaging model, a chest flash-LiDAR, MuJoCo-baked Mars gaits - and every self-reported number audited until the LiDAR front end became routed silicon.">
 <style>
   /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
   :root{
@@ -95,7 +95,7 @@
   <div class="nav__links">
     <a href="index.html#districts">All districts</a>
     <a href="undercity.html">← Prev</a>
-    <a href="town.html">Next →</a>
+    <a href="spectrum.html">Next →</a>
     <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
   </div>
 </nav>
@@ -107,16 +107,19 @@
     <p class="phead__sub">Two robots in this city navigate by sight, not by script. The engine renders
       what their cameras actually see, a five-phase-validated CMOS model corrupts those pixels honestly
       — shot noise, dark current, quantization, bad pixels — and a state machine has to cope with the
-      result. Cover the camera and the robot goes blind. That is the whole point.</p>
+      result. Cover the camera and the robot goes blind. That is the whole point. Then every number
+      the humanoid asserted about itself got audited against physics, one ledger at a time, until its
+      LiDAR front end existed as routed silicon and its battery had a life measured in sols. Several
+      of the prettiest results did not survive; section 06 is the list.</p>
   </div>
 </header>
 
 <div class="specs">
   <div class="specs__grid wrap" style="padding:0;">
     <div class="spec"><div class="spec__k">Vision loop</div><div class="spec__v">5 Hz<small> CIS 64×64</small></div></div>
-    <div class="spec"><div class="spec__k">LiDAR return @20 m</div><div class="spec__v">5,500<small> e⁻ · SNR 74</small></div></div>
-    <div class="spec"><div class="spec__k">Mars gait</div><div class="spec__v">0.75<small> m/s · MuJoCo</small></div></div>
-    <div class="spec"><div class="spec__k">Dead-pixel failure line</div><div class="spec__v">15%<small> linear · hot 12% cliff</small></div></div>
+    <div class="spec"><div class="spec__k">LiDAR ranging</div><div class="spec__v">&lt;1<small> cm · 2.5–20 m</small></div></div>
+    <div class="spec"><div class="spec__k">Governed speed</div><div class="spec__v">0.35<small> m/s · contact-limited</small></div></div>
+    <div class="spec"><div class="spec__k">Reflex layer</div><div class="spec__v">1.34<small> MOPS · front end to GDS</small></div></div>
   </div>
 </div>
 
@@ -190,44 +193,198 @@
     <div class="prose">
       <p>The undercity has pitch-black corners where vision alone goes blind, so the humanoid carries a
       <strong>905 nm micro flash-LiDAR</strong> in its chest: 15 beams over a 90° sector, 20 m range,
-      6 Hz. In the engine it is a raycaster fan — an admitted engineering approximation — but the link
-      budget is computed for real: 3 µJ/pulse splits into 9.1×10¹¹ photons per direction; a Lambertian
-      wall at 20 m (albedo 0.3) returns 1.9×10⁻⁸ of that into a Ø10 mm aperture; times optics 0.8 and
-      SPAD PDE 40.3% that is <strong>≈5,500 photoelectrons per pulse, shot-limited SNR ≈ 74</strong>.
-      Mean optical power 0.27 mW — Class 1 eye-safe.</p>
-      <p>The walk is not keyframed. A planar MuJoCo biped, built 1:1 from the visual geometry, tracks
-      gait commands under g = 3.71 m/s²; walk/turn/idle cycles (12 channels) are baked and phase-blended
-      by (v, ω) at playback. The 1.8 s cycle comes from the pendulum ledger — ω = √(g/L) runs 38% slower
-      on Mars — and the servo overshoot, touchdown knee flex and torso nod are dynamics, not artistry.
-      Behavior: figure-eight patrol → LiDAR/vision avoidance → greeting (stop, face you, ◠ on the visor,
-      wave) → self-docking at a wall charger when the 260 Wh pack drops below 25%.</p>
+      6 Hz. In the engine it is a raycaster fan — an admitted engineering approximation — but everything
+      about the receiver is computed for real, and that computation rewrote the design (section 04).
+      It now ranges <strong>2.5–20 m to better than 1 cm</strong> on 60 nJ pulses into a 1024-microcell
+      SiPM; inside 2 m it saturates and reports proximity only.</p>
+      <p>The walk is not keyframed. A MuJoCo biped built 1:1 from the visual geometry tracks gait
+      commands under g = 3.71 m/s²; walk/turn/idle cycles (12 channels) are baked and phase-blended by
+      (v, ω) at playback, with the stride shrinking as it slows. Servo overshoot, touchdown knee flex
+      and torso nod are dynamics, not artistry — and because MuJoCo carries torque and rate at every
+      step, so is the power bill: <strong>95 W walking, 62 W standing, CoT 0.64</strong>. A second model
+      (flat feet, free pitch, torque-driven ankles) answers the question the bake rig cannot: it stands
+      on its own under capture-point feedback, and once allowed to take capture steps it walks, absorbs
+      a ~30 N·s shove, and lifts its own balance ceiling to 0.45 m/s.</p>
+      <p>It can also run, which is a genuinely different problem: flight phases mean no support
+      polygon and no ZMP to steer, so the model becomes a spring-loaded inverted pendulum and the law
+      becomes Raibert's — thrust sets hop height, footstep placement sets speed, hip torque holds
+      attitude. Measured: <strong>0.59 m/s at a 26% flight fraction</strong>, and a bounding gait to
+      1.00 m/s at 71%. The comparison that makes it interesting is gravity: the same controller with the
+      same thrust spends 68–71% of the time airborne on Mars and only 33–41% on Earth. Long airtime is
+      not a controller defect, it is <em>1/g</em> — the same reason Apollo crews switched to loping in
+      one-sixth gravity. Mars makes hopping easy and accelerating hard, since traction is capped by
+      µ·m·g and each step can add only 0.56 m/s against Earth's 1.47.</p>
+      <p>One more thing low gravity pays for: heat. Walking dumps 86.6 W into a sealed, windless
+      undercity, which for the body as a whole is nothing — a 7.1 K shell rise. Resolved per joint it is
+      another story: the hip must dump 22.9 W into a housing the size of a coffee mug, 71.7 K above
+      ambient on its own surface, so the cooling design is really the conduction path into the thigh
+      casing. A COMSOL FEM later audited the lumped model's weakest assumption — that the thigh is
+      isothermal — and found it 55% optimistic like-for-like: the shell is a fin at 56% efficiency,
+      its tip running at a third of the root's rise. The winding lands at <strong>54 °C</strong>
+      against a 120 °C limit (the lumped model had said 50, its area undercount and its perfect-fin
+      assumption almost exactly cancelling). What makes that close is the planet. Joint torque scales
+      with gravity and copper loss with torque <em>squared</em>, so the identical machine on Earth
+      would dissipate 129.9 W at the hip and cook its winding to 189 °C — full T⁴ radiation helps at
+      that temperature, and fin droop takes the help right back. The hand's story turned out differently: a MuJoCo contact audit found its 2.90 grip factor
+      rested on a guessed acceleration (the real walking hand sees 22× more) and on no torque ledger
+      at all — rim-pinching a tray fails on moment on <em>any</em> planet, while carrying it on the
+      palm holds a measured 4× margin on Mars <em>and</em> Earth alike, because the fingers' 24 N
+      press dominates the friction budget and gravity nearly cancels out.
+      <strong>Low gravity is what makes this robot's thermal design credible</strong> — the hand,
+      it turned out, owes Mars nothing — and the bill for that dispensation arrived earlier in this
+      page, as poor traction and a capture point that runs away from the toe.</p>
+      <p>The last set of invented numbers was how it behaves around people, and checking those
+      against human factors turned up a real fault rather than a nuance. ISO/TS 15066's separation
+      formula is dominated by the <em>human's</em> approach speed, so a robot that keeps its authority to move is
+      still owed 1.97 m even while standing still — while the comfortable distance for handing something over is 0.65 m. Enforced
+      literally, this robot could never pass anyone a cup of water. The escape is in the standard:
+      separation monitoring is one of four collaboration modes, and a stationary machine may work under
+      power-and-force limiting instead — for which this one already qualifies, since a wave is 13 N and
+      an unintended start 93 N against a 280 N chest limit. It now switches modes on its own speed.
+      The second finding was simpler and more embarrassing: at handover range a 1.65 m robot has to
+      pitch its head down <strong>24.8°</strong> to meet a seated person's eyes, and its neck only had
+      a yaw axis. It looks down now.</p>
+      <p>It also falls over sometimes — the stepping controller's feasible region is patchy, and
+      pretending otherwise would be the same mistake as the guessed numbers. A fall is an inverted
+      pendulum about the ankle, and the number that matters is not the centre of mass but the head:
+      it sits at the far end of the lever, so it lands at <strong>4.46 m/s against the CoM's 2.42</strong>,
+      1.84× faster purely from <em>v = ωr</em>. A fall deposits 132 J; the visor glass can absorb 16.
+      That is why the visor's guards now stand 3 mm proud of the screen — the frame hits the floor,
+      not the glass. For a bystander it is worse than anything walking can do: 13.3 kg of effective
+      mass at 4.46 m/s is 493 N even through a compliant skin, 1.8× the chest limit, and no speed
+      governor can help because the energy comes from height, not from travel. The mitigation is
+      distance, and it already exists: a topple reaches 1.65 m, the SSM separation is 2.40 m. Falling
+      is also the one place where Mars helps without sending a bill — 1.63× longer to react, 1.63×
+      slower landing, 2.64× less energy — and the robot can push itself back up on 29 N·m of hip
+      torque against the 150 available.</p>
+      <p>And yet the robot never runs on patrol. A 39.8 kg humanoid at 0.6 m/s delivers 478 N in a
+      50 ms collision — 1.7× the ISO/TS 15066 transient chest limit. So running is retained strictly as
+      an evacuation capability: an explicit action arms it, the arming is refused outright if anyone is
+      inside the SSM radius, and a person entering mid-run drops it back to walking within one control
+      step. Behaviour otherwise: figure-eight patrol → LiDAR and vision avoidance → greeting (stop, face
+      you, ◠ on the visor, wave) → self-docking when the 480 Wh pack drops below 15%, all at 0.35 m/s —
+      not a style choice but a bound, and which physics binds has now changed twice (section 04).</p>
+      <p>The newest capability is voice, and it was budgeted twice on purpose. A first pass in dB
+      arithmetic (uniform-absorption Sabine, geometric noise scaling) said the foyer rings like a church
+      and the robot is deaf while walking; a second pass at simulation grade checked whether the first
+      was lying. An image-source model with per-surface, per-band absorption raised the mid-band
+      reverberation from 2.4 s to <strong>4.7 s</strong> and moved the critical distance to ~1.3 m —
+      which puts the 1.6 m greeting stop slightly <em>outside</em> the direct field, killing the tidy
+      coincidence the first pass had reported. Intelligibility survives anyway: C50 clarity sits at
+      0 dB (early reflections inside 50 ms reinforce speech rather than smear it), and a
+      waveform-level simulation of the six head mics — speech plus both hip gearboxes' whine, every
+      path convolved with its own room impulse response — shows delay-and-sum beamforming lifting the
+      standing SNR from −3 to <strong>+4.7 dB</strong>. Walking, the same beamformer recovers −22 to
+      only −14 dB: still deaf, now to simulation grade. The sound-source localizer wrote its own
+      policy: scanning while walking, it locks onto the gearbox (18 dB louder than the talker), so the
+      robot never steers by sound unless it is standing still.</p>
+      <p>The last unexamined subsystem was the one the robot visits twice a sol: the charger. Auditing
+      it turned up the worst bookkeeping error on this page. The battery ledger had sized the pack
+      against 80% of <em>full</em> capacity while counting cycle life over the 25–95% operating window —
+      two SOC windows in one ledger, never multiplied together. Multiplied: the pack's usable window
+      held 266 Wh against a 296 Wh shift, so the <strong>"4 h shift" promise failed on day one</strong>,
+      by 25 minutes, no ageing required — and it hid for three rounds because every audit checked its
+      own corner. The self-consistent resize (fifth battery change, 380 → 480 Wh) pays twice: a bigger
+      pack cycles shallower, so cycle life rises from 500 to 643 full-equivalent cycles. Two quieter
+      findings came with it. The dock's support ledge is a power component, not furniture: resting on
+      it lets the actuators de-energize, and without it 37 W of holding torque would burn 170 Wh per
+      sol — half a shift — during charging. And <em>when</em> the robot charges is a lifetime
+      parameter: the pack spends two thirds of every sol parked, so floating at 92% costs 4.3%/yr of
+      calendar fade against 1.4%/yr at 45% — just-in-time charging outlives charge-on-arrival by
+      <strong>57 sols at zero hardware cost</strong> — a number that took a second, harder look to
+      get right (section 06). At 0.27 C the charge never even reaches the CV
+      phase below the 95% ceiling; the one real hazard is that 48 V / 3.1 A sits far above the DC
+      arc-sustaining minimum, which is why the contacts stay dead until the mate is verified.</p>
     </div>
     <div class="fig2">
       <figure class="figure">
         <img src="assets/perception/bot-walk.jpg" alt="hab-bot-01 mid-stride in the foyer, LiDAR fan visible" loading="lazy">
-        <figcaption>MID-STRIDE ON THE BAKED WALK CYCLE — PUSH-OFF HEEL, SWING KNEE AND ARM COUNTER-SWING ALL FROM THE BAKE.</figcaption>
+        <figcaption>MID-STRIDE AT THE GOVERNED 0.35 m/s — STRIDE SHRINKS WITH SPEED (0.63 m), CADENCE STAYS NEAR THE LEG'S NATURAL SWING.</figcaption>
       </figure>
       <figure class="figure">
         <img src="assets/perception/bot-greet.jpg" alt="hab-bot-01 greeting: visor shows ◠ ◠ and a battery bar, right arm waving" loading="lazy">
-        <figcaption>GREETING AT 2.5 m — VISOR SCREEN ◠◠ + BATTERY BAR; SILK PRINT ON THE TEMPLE: “WORLD-B RESIDENT”.</figcaption>
+        <figcaption>GREETING — VISOR ◠◠ AND BATTERY BAR, INSIDE GUARDS THAT STAND 3 mm PROUD OF THE GLASS BECAUSE THE FALL LEDGER SAID SO.</figcaption>
       </figure>
     </div>
     <div class="fig2">
       <figure class="figure">
-        <img src="assets/perception/bot-dock.jpg" alt="hab-bot-01 docked at its wall charger inside the orange floor marking" loading="lazy">
-        <figcaption>SELF-DOCKED IN 14.1 s — INSIDE THE MARKED BAY, CONTACTS ALIGNED, VISOR SHOWS z z.</figcaption>
+        <img src="assets/perception/bot-listening.jpg" alt="hab-bot-01 listening: visor shows a waveform, speaker grille under the LiDAR window" loading="lazy">
+        <figcaption>LISTENING (≈≈) IN THE PFL STATE — STANDING BECAUSE OF PHYSICS: WALKING, EVEN THE 6-MIC BEAMFORMER ONLY RECOVERS SPEECH TO −14 dB SNR.</figcaption>
       </figure>
       <figure class="figure">
-        <img src="assets/perception/bot-overview.jpg" alt="Foyer overview with the patrol path and LiDAR fan sweeping the hall" loading="lazy">
-        <figcaption>BAKED FALLBACK MODE — PURE-t FIGURE-EIGHT PATROL; THE ?debug=1 LiDAR FAN SWEEPS THE FOYER.</figcaption>
+        <img src="assets/perception/bot-run.jpg" alt="hab-bot-01 in evacuation run mode, mid-flight with both feet off the floor" loading="lazy">
+        <figcaption>EVACUATION RUN, 0.59 m/s — ARMED ONLY WITH THE AREA CLEAR; A PERSON ENTERING THE SSM RADIUS DROPS IT BACK TO WALKING.</figcaption>
       </figure>
     </div>
+    <figure class="figure">
+      <img src="assets/perception/voice-acoustics.png" alt="Three panels: Schroeder decay curves per octave band, direct-to-reverberant ratio vs distance with the 1.6 m greeting stop marked, and SNR bars for walking/standing before and after beamforming" loading="lazy">
+      <figcaption>THE L2 ACOUSTICS RUN — SCHROEDER DECAY PER BAND (T30 4.7 s MID), THE D/R CROSSOVER THAT PUT THE GREETING STOP OUTSIDE THE DIRECT FIELD, AND WHAT 6-MIC BEAMFORMING ACTUALLY BUYS (+7.7 dB, EXACTLY 10·log₁₀6).</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="assets/perception/battery-ageing.png" alt="Three panels: state-of-charge over one sol for two charging strategies, computed pack temperature against the assumed ambient, and capacity fade curves comparing square-root kinetics with the earlier linear model" loading="lazy">
+      <figcaption>THE PACK'S REAL LIFE — SOC OVER ONE SOL FOR BOTH CHARGING STRATEGIES, THE PACK TEMPERATURE THE THERMAL LEDGER IMPLIES (28.8 °C WORKING, NOT THE ASSUMED 22 °C), AND √t FADE AGAINST THE STRAIGHT LINE THAT ONCE STOOD IN FOR IT.</figcaption>
+    </figure>
   </div>
 </section>
 
 <section class="band band--alt">
   <div class="wrap">
-    <div class="sec-head"><span class="num">04</span><h2>The ledger</h2></div>
+    <div class="sec-head"><span class="num">04</span><h2>The brain is smaller than you think</h2></div>
+    <p class="lead">Counting the operations the robot actually performs gives 1.34 MOPS. That is a microcontroller.</p>
+    <div class="prose">
+      <p>The asset had been asserting "edge perception, 11 W" and "inference runs in the city compute
+      centre" since delivery, and neither half had been computed. So we counted — not what a humanoid
+      probably needs, but the algorithms this one literally runs: the CIS imaging chain, the dark-region
+      split, LiDAR histogramming and peak finding, gait playback, forward kinematics and centre of mass,
+      capture-point balance, two-leg IK, the state machine. Total: <strong>1.34 MOPS</strong>, of which
+      the imaging chain alone is 46%. A 480 MHz Cortex-M7 would carry the entire real-time reflex layer
+      of a 1.65 m humanoid with 447× headroom, at about 0.3 W. The asserted 11 W becomes 2.2 W once you
+      pick a part for the job rather than for the job title.</p>
+      <p>The cognitive layer is a different animal — person recognition 50 MOPS, indoor SLAM 300,
+      dialogue-class planning 5×10⁴ — which is 37× to 37,000× the reflex layer. But throughput is not
+      what decides the split. <strong>Latency is.</strong> The safety ledger allows 217 ms of reaction
+      time; the local reflex chain measures 109 ms end to end, while routing the same decision through
+      the city takes 189 ms — 87% of the budget with nothing left for a retransmit, and it wires the
+      network's failure modes directly into the emergency-stop path. "What must run on the robot"
+      stops being an architectural preference and becomes a decidable question.</p>
+      <p>Would a custom chip pay? For the reflex layer, no — an MCU wins outright. For one block, yes:
+      the LiDAR timing front end, which is exactly what real flash-LiDARs harden. First sized by
+      scaling against this city's own MB-1 tapeout (sky130, where a single 64 kbit SRAM macro consumed
+      97% of the die), the 2 ns-bin design came out at 0.57 mm². That number is no longer a scaling
+      estimate: the front end now exists as synthesizable Verilog — serialized histogram, peak scan,
+      long-division centroid, walk-correction LUT — proven by three independent implementations
+      agreeing bit-for-bit (RTL, testbench reference model, Python golden) under two simulators
+      finishing on the identical tick, and synthesized to sky130 standard cells:
+      <strong>38,142 cells, 0.555 mm² — 0.97× the estimate</strong>, in its final banked form. The
+      middle of that story is an eight-run place-and-route campaign: the first netlist kept the
+      histogram as one flat register file, synthesized 20% over the estimate, and proved
+      <em>unroutable</em> — its 1050-way read mux converges 12,600 nets on one spot and the global
+      router refused three times. Banking the histogram per channel cut the global wire count 70×,
+      passed global routing, and saved 19% of area besides. Detailed routing then delivered the
+      campaign's honest ending: timing closes trivially at 100 MHz, but the pin density of 12,899
+      enable-flops kept DRC from converging on open routers of two different generations — which is
+      the real reason histogram chips use SRAM macros. Not density: the macro's column muxing solves
+      routability for you. The estimate's SRAM assumption was vindicated by the road that tried to
+      avoid it. The 100 ps fine-bin version still explodes to 5.84 mm² of histogram SRAM — memory is
+      the area on this process, the same wall MB-1 hit. One architecture note fell out for free: 2 ns
+      bins need no 500 MHz clock, because each SPAD microcell latches at most one stamp per gate; the
+      resolution lives in the analog latch, and the digital core drains 1,024 stamps serially in
+      10 µs at 100 MHz.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/perception/lidar-fe-layout.png" alt="Merged GDS layout of the LiDAR front end: the SRAM macro as a large block on the left, the standard-cell logic strip on the right, power straps running horizontally across the die" loading="lazy">
+      <figcaption>THE LiDAR FRONT END AS SILICON — 1100 × 700 µm, ONE 16 kbit SRAM MACRO (LEFT) AND 1,753 STANDARD CELLS, ROUTED TO ZERO DRC VIOLATIONS. THE VERSION THAT KEPT ITS HISTOGRAM IN FLIP-FLOPS NEVER GOT THIS FAR.</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="assets/perception/bot-brain.jpg" alt="hab-bot-01 from behind, compute board visible through the backpack access port" loading="lazy">
+      <figcaption>THE BRAIN, THROUGH ITS ACCESS PORT — SoC, HEATSINK, LPDDR AND THE LiDAR FRONT-END ASIC. 1.34 MOPS OF REFLEX; EVERYTHING CLEVERER RUNS IN THE CITY.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
     <p class="lead">Every number above, and which run produced it.</p>
     <div class="tablewrap"><table>
       <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
@@ -237,28 +394,145 @@
           <td class="src">CIS sensor project, five-phase validation (TCAD/FDTD/Virtuoso/RTL/system)</td></tr>
         <tr><td>Auto-exposure convergence, mine day vs undercity</td>
           <td class="num">12 ms vs 117–260 ms</td>
-          <td class="src">viewer/units/res-mine-01.js in-city run · mars-bot/_preview.html probe</td></tr>
+          <td class="src">viewer/units/res-mine-01.js in-city run · sim/hab-bot-01/_preview.html probe</td></tr>
         <tr><td>Mine long test: dig cycles / min obstacle clearance</td>
           <td class="num">3 cycles · 2.4 m / 150 s</td>
           <td class="src">mars_soil autonomy long test (preview harness)</td></tr>
         <tr><td>Defect failure signatures (dead linear / hot cliff)</td>
           <td class="num">15% / 12%</td>
           <td class="src">mars_soil defect-injection sweep (fixed-pattern hash map)</td></tr>
-        <tr><td>Flash-LiDAR return @20 m, albedo 0.3</td>
-          <td class="num">5,500 e⁻ · SNR 74</td>
-          <td class="src">link budget, hab-bot-01.info.json (PDE 40.3% from spad40_nir)</td></tr>
+        <tr><td>Flash-LiDAR ranging precision, 2.5–20 m</td>
+          <td class="num">σ = 0.267·R<sup>0.36</sup> cm</td>
+          <td class="src">sim/hab-bot-01/lidar_ranging.py (~7,000-shot MC, PDE 40.3% from spad40_nir)</td></tr>
+        <tr><td>LiDAR saturation floor (proximity-only band)</td>
+          <td class="num">2.0 m</td>
+          <td class="src">same MC: λ = 29.9 photons/microcell at 1.2 m</td></tr>
         <tr><td>Gait: speed / cycle / hip servo overshoot</td>
           <td class="num">0.75 m/s · 1.8 s · 0.405 vs 0.34 rad</td>
-          <td class="src">mars-bot/sim/run_gait.py + hab_bot.xml (MuJoCo, g=3.71)</td></tr>
-        <tr><td>Mars cadence slowdown / Froude number</td>
-          <td class="num">−38% · 0.18</td>
-          <td class="src">pendulum ledger ω=√(g/L), hab-bot-01.info.json</td></tr>
+          <td class="src">sim/hab-bot-01/run_gait.py + hab_bot.xml (MuJoCo, g=3.71)</td></tr>
+        <tr><td>Measured power: walk / stand / +3 kg tray</td>
+          <td class="num">95.4 / 61.6 / 99.6 W</td>
+          <td class="src">sim/hab-bot-01/analyze_gait.py (∫τ·ω + copper + quiescent)</td></tr>
+        <tr><td>Push recovery: ankle strategy only / with capture stepping</td>
+          <td class="num">8 N·s → ~30 N·s</td>
+          <td class="src">sim/hab-bot-01/balance_ctrl.py, stepping_ctrl.py</td></tr>
+        <tr><td>Balance speed ceiling: no stepping / stepping</td>
+          <td class="num">0.30 → 0.45 m/s</td>
+          <td class="src">stepping_ctrl.py, 25-cell grid, 5/5 perturbed starts</td></tr>
+        <tr><td>Mars pendulum constant vs Earth</td>
+          <td class="num">0.491 s · 1.63×</td>
+          <td class="src">T_c = √(z/g), verified in balance_ctrl.py</td></tr>
+        <tr><td>SSM separation stationary vs HRI handover distance</td>
+          <td class="num">1.97 m vs 0.65 m</td>
+          <td class="src">sim/hab-bot-01/hri_proxemics.py — the mode gap</td></tr>
+        <tr><td>PFL check while stationary: wave / unintended start</td>
+          <td class="num">13 N / 93 N (limit 280)</td>
+          <td class="src">same — it already qualifies for close interaction</td></tr>
+        <tr><td>Gaze pitch to a seated person at handover range</td>
+          <td class="num">−24.8°</td>
+          <td class="src">same; measured in-scene −18.4° at 0.9 m</td></tr>
+        <tr><td>Foyer T30 mid-band: L1 Sabine / L2 image-source</td>
+          <td class="num">2.4 s → 4.7 s</td>
+          <td class="src">sim/hab-bot-01/voice_acoustics_l2.py (per-surface, per-band; specular upper bound)</td></tr>
+        <tr><td>Critical distance (numerical D/R) vs greeting stop</td>
+          <td class="num">~1.3 m &lt; 1.6 m · C50 +0.1 dB</td>
+          <td class="src">same — the L1 coincidence didn't survive; clarity carries it</td></tr>
+        <tr><td>Beamformed SNR at the head mics: walking / standing</td>
+          <td class="num">−22→−14 dB / −3→+4.7 dB</td>
+          <td class="src">same — 48 kHz waveforms; array gain +7.7 dB = 10·log₁₀6</td></tr>
+        <tr><td>DOA: walking full-band / standing 250–1000 Hz</td>
+          <td class="num">−60° (gearbox) / −4°</td>
+          <td class="src">same — hence 'never steer by sound while walking'</td></tr>
+        <tr><td>Voice hardware vs the EOL battery margin</td>
+          <td class="num">+1.0 W → −0.1% → 380 Wh</td>
+          <td class="src">same — the fourth battery change, caught by the margin</td></tr>
+        <tr><td>Battery at end of life: 300 Wh pack / EOL-sized 370 Wh</td>
+          <td class="num">3.28 h shift / 4 h kept</td>
+          <td class="src">sim/hab-bot-01/endgame_budget.py (80% at ~357 sols)</td></tr>
+        <tr><td>SOC-window audit: usable in-window vs shift energy</td>
+          <td class="num">266 Wh &lt; 296 Wh → 3.59 h day one</td>
+          <td class="src">sim/hab-bot-01/charging_budget.py — fifth battery change, 380 → 480 Wh</td></tr>
+        <tr><td>Charging strategy vs pack life: on-arrival / just-in-time</td>
+          <td class="num">347 / 404 sols (+57)</td>
+          <td class="src">sim/hab-bot-01/battery_ageing.py — SEI √t kinetics, thermally coupled (L1's linear model said 397/473, +76)</td></tr>
+        <tr><td>Pack temperature: assumed / computed, working</td>
+          <td class="num">22 °C → 28.8 °C</td>
+          <td class="src">same — the backpack shares 11 W with the compute board; ×1.6 calendar fade by Arrhenius</td></tr>
+        <tr><td>At end of life: cycle fade vs calendar fade</td>
+          <td class="num">17.6% vs 2.4% (7.4×)</td>
+          <td class="src">same — the pack is worn out by working, not by waiting</td></tr>
+        <tr><td>Net charge power and the dock ledge's worth</td>
+          <td class="num">135 W into cells · 170 Wh/sol saved</td>
+          <td class="src">same — CC all the way below the 95% ceiling at 0.27 C</td></tr>
+        <tr><td>Dead-reckoning arrival error vs docking tolerance</td>
+          <td class="num">21 cm vs 8 cm (2.7×)</td>
+          <td class="src">same — hence the retro strips + camera guidance chain</td></tr>
+        <tr><td>Fall: head impact speed vs centre of mass</td>
+          <td class="num">4.46 / 2.42 m/s (1.84×)</td>
+          <td class="src">sim/hab-bot-01/fall_dynamics.py (RK4, energy cross-checked)</td></tr>
+        <tr><td>Fall energy vs visor glass crush capacity</td>
+          <td class="num">132 J vs 16 J</td>
+          <td class="src">same — why the visor grew a proud guard frame</td></tr>
+        <tr><td>Topple reach vs required SSM separation</td>
+          <td class="num">1.65 m &lt; 2.40 m</td>
+          <td class="src">same — separation, not speed, is the fall mitigation</td></tr>
+        <tr><td>Hip winding temperature: Mars / same design on Earth</td>
+          <td class="num">54 °C / 189 °C</td>
+          <td class="src">sim/hab-bot-01/comsol/hip_thermal.java (FEM; L1 lumped said 50 / 183, limit 120 °C)</td></tr>
+        <tr><td>Hip rise: joint housing alone / conducted into the limb</td>
+          <td class="num">71.7 K → 19.5 K</td>
+          <td class="src">same — the joint-to-limb interface is the cooling design (L1 said 15.7 K)</td></tr>
+        <tr><td>Thigh fin efficiency: L1 assumption / FEM</td>
+          <td class="num">1.00 → 0.56</td>
+          <td class="src">same — the tip runs at 35% of the root's rise; energy closure 1.000, iso-gate matches analytic to 0.1 K</td></tr>
+        <tr><td>Hand: measured carry margin under the real walk / edge-pinch moment factor</td>
+          <td class="num">×4 (Mars = Earth) / 0.29</td>
+          <td class="src">sim/hab-bot-01/grasp_audit.py (MuJoCo contact; L1's 2.90/1.10 retired)</td></tr>
+        <tr><td>Hand acceleration while walking: guessed / measured peak</td>
+          <td class="num">0.39 → 8.56 m/s²</td>
+          <td class="src">same — harvested from the walking model, 22× the guess</td></tr>
+        <tr><td>Reflex-layer compute (counted from the implemented algorithms)</td>
+          <td class="num">1.34 MOPS</td>
+          <td class="src">sim/hab-bot-01/compute_budget.py</td></tr>
+        <tr><td>Reflex latency local / via city compute</td>
+          <td class="num">109 ms / 189 ms (budget 217)</td>
+          <td class="src">same — why safety reflexes stay on board</td></tr>
+        <tr><td>Edge compute power: asserted / computed</td>
+          <td class="num">11 W → 2.2 W</td>
+          <td class="src">same; electronics total 24.6 → 15.8 W</td></tr>
+        <tr><td>LiDAR front end (sky130, 2 ns bins): scaled / synthesized RTL (banked)</td>
+          <td class="num">0.57 → 0.555 mm² (0.97×)</td>
+          <td class="src">sim/hab-bot-01/chip/rtl/lidar_fe.v — 38k cells, three-way bit-level match, dual-simulator</td></tr>
+        <tr><td>P&amp;R campaign: flat mux / banked, timing / DRC</td>
+          <td class="num">unroutable → GR passes · slack +1.14, DRC open</td>
+          <td class="src">sim/hab-bot-01/chip/pnr/RESULTS.md — 8 runs, 2 router generations; SRAM macros are a routability answer</td></tr>
+        <tr><td>Same function on an SRAM macro: cells / area</td>
+          <td class="num">1,753 cells · 0.304 mm² (0.55×)</td>
+          <td class="src">sim/hab-bot-01/chip/rtl/lidar_fe_sram.v — 3×10 bit packed, same golden vectors, both simulators</td></tr>
+        <tr><td>SRAM variant through P&amp;R: DRC / setup slack / die</td>
+          <td class="num">0 violations · +0.05 ns · 1100×700 µm</td>
+          <td class="src">same — GDS merged, 44% utilization; the flop variant never closed</td></tr>
+        <tr><td>Running: true run / bounding gait</td>
+          <td class="num">0.59 m/s @26% · 1.00 m/s @71% flight</td>
+          <td class="src">sim/hab-bot-01/running_ctrl.py (Raibert decomposition)</td></tr>
+        <tr><td>Flight fraction, same controller: Mars / Earth</td>
+          <td class="num">68–71% / 33–41%</td>
+          <td class="src">same script, gravity swapped</td></tr>
+        <tr><td>Running collision force vs ISO limit</td>
+          <td class="num">478 N @0.6 m/s = 1.7×</td>
+          <td class="src">same — why running is evacuation-only</td></tr>
+        <tr><td>Governed speed (binding limit: contact force)</td>
+          <td class="num">0.35 m/s</td>
+          <td class="src">perception_safety.py — blur 1.33, balance 0.45, contact 0.35</td></tr>
+        <tr><td>ISO/TS 15066 separation at governed speed</td>
+          <td class="num">2.40 m</td>
+          <td class="src">same, using the measured capture-step braking distance</td></tr>
         <tr><td>Sensor-dropout handover, max position step</td>
           <td class="num">≤0.034 m</td>
-          <td class="src">mars-bot/_preview.html dropout probe (3 s timeout, phase-aligned blend)</td></tr>
+          <td class="src">sim/hab-bot-01/_preview.html dropout probe (3 s timeout, phase-aligned blend)</td></tr>
         <tr><td>Self-docking, trigger to contact</td>
           <td class="num">14.1 s</td>
-          <td class="src">mars-bot/_preview.html docking probe (×60 demo time)</td></tr>
+          <td class="src">sim/hab-bot-01/_preview.html docking probe (×60 demo time)</td></tr>
         <tr><td>Excavator dig-cycle curves (arm / pitch / heave)</td>
           <td class="num">3 ch × 192 samples</td>
           <td class="src">mars_soil/sim/rassor-01/run_dig_cycle.py (MuJoCo + cutting loads)</td></tr>
@@ -269,8 +543,9 @@
 
 <section class="band">
   <div class="wrap">
-    <div class="sec-head"><span class="num">05</span><h2>What broke</h2></div>
-    <p class="lead">The honest list. Perception bugs are the best bugs — the robot tells you exactly what it fears.</p>
+    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <p class="lead">The honest list. Numbers this page once quoted were wrong, and the
+      simulations that found them are the point of the exercise.</p>
     <div class="prose">
       <p><strong>The robot feared its own laser.</strong> With <span class="src">?debug=1</span> the
       LiDAR fan renders as bright green rays — and the nav camera saw them. The rays crossed the scan
@@ -283,15 +558,140 @@
       angle unit is degrees, so <span class="src">range="-1.5 1.5"</span> pinned every joint at ±1.5° —
       the constraint solver was politely cancelling 150 N·m of servo torque against the limit. One line
       (<span class="src">&lt;compiler angle="radian"/&gt;</span>) ended a thoroughly confusing debugging session.</p>
-      <p><strong>Flat feet deadlock a biped.</strong> Two stiff servo legs with flat soles planted on the
-      ground form a closed kinematic chain — a structure, not a walker. The hip actuator maxed out its
-      torque without moving a millimeter. Round point-contact soles plus compliant ankles (kp 25) turned
-      the structure back into a linkage, and the open-loop gait command simply… walked.</p>
+      <p><strong>"Flat feet deadlock a biped" — retracted.</strong> That was written down as a lesson
+      after the hips maxed out their torque without moving. Re-tested once the radian bug was fixed, and
+      it was never true: the deadlock was the degree/radian bug wearing a costume. Worse, the "fix"
+      (round point-contact soles) removed the feet's ability to exert pitch torque, which is the entire
+      basis of the ankle strategy — the model could then only stand by leaning on its rig. The real
+      answer is flat feet <em>and</em> a balance controller.</p>
+      <p><strong>The rig was holding the robot up, and the ledger caught it.</strong> The gait bake runs
+      on a planarizing pitch spring, standing in for a gait-trainer boom. Measure what that spring
+      contributes and it is 55 N·m while standing — divide by the 148 N weight and it is a demanded ZMP
+      shift of 37 cm against a 10 cm foot. The baked posture was not balanceable at all; it just looked
+      fine. (The first attempt to check this was worse than useless: computing the centre of pressure
+      from the simulator's own contact forces and finding it "100% inside the support polygon" is a
+      tautology — the CoP is inside the contact hull by definition.) A second model with flat feet, free
+      pitch and torque-driven ankles now stands under capture-point feedback and takes an 8 N·s shove.</p>
+      <p><strong>A 1.3 kW walking robot.</strong> First pass at billing power from joint torques gave
+      1.3 kW walking and — absurdly — 1.9 kW standing still. Cause: copper loss evaluated at the joint
+      instead of at the motor. A 44 N·m joint torque behind a 100:1 harmonic drive is 0.44 N·m at the
+      rotor, so I²R was overstated by N² ≈ 10⁴. With the gearbox in the model it lands at 95 W walking,
+      62 W standing, CoT 0.64 — and the 260 Wh pack that was advertised as a 4 h shift turns out to be
+      3.2 h, so the design now carries 340 Wh.</p>
+      <p><strong>"SNR 74, huge margin" meant the detector was blinded.</strong> The LiDAR link budget
+      said 5,500 photoelectrons per pulse at 20 m and stopped there, satisfied. A ranging Monte Carlo
+      asked the next question — how <em>accurate</em> is the distance — and the answer was: a metre
+      short. SPADs are Geiger-mode, one shot per microcell, so 5,500 photons over 64 cells is 86 per
+      cell, every cell fires on the pulse's leading edge, and the mean first-arrival lands early. That
+      is range walk, and the standard cure (infer photon count from how many cells fired) is exactly
+      what saturation destroys. The fix was counter-intuitive: transmit <em>less</em>. At 60 nJ into
+      1024 cells the receiver sits in its linear regime and ranges to under a centimetre.</p>
+      <p><strong>Three physics vetoed the walking speed.</strong> 0.55 m/s was a guess. Motion blur caps
+      it at 0.30 m/s (at the exposure the dim foyer forces, a turn smears the 64-pixel frame by 15
+      pixels — the camera was useless whenever the robot turned). Ankle-strategy balance caps it at
+      0.30 m/s, because Mars stretches the pendulum constant to 0.491 s and pushes the capture point
+      past the toe. ISO/TS 15066 contact force caps it at 0.35 m/s for a 3 mm foam shell. Three
+      unrelated calculations, one answer. The avoidance threshold fell too: 1.2 m is 1.1 m short of what
+      speed-and-separation monitoring demands for an approaching human — though the 2.5 m greeting
+      radius, invented as a social distance, turned out to be the right safety number by accident.</p>
       <p><strong>Looking too far makes cowards.</strong> The undercity scan band initially reached ~7 m
       ahead, so distant dark door metal read as a permanent threat and the robot crept everywhere at
       0.17 m/s with a “!” face. Same trap the mine robot hit with dark strata on the pit wall; same fix —
       narrow the band to the 1–4.5 m near field. The excavator's variant is even better: it was afraid of
       the shadowed side of <em>its own spoil mound</em>, and needed a mapped-approach exemption to dump its load.</p>
+      <p><strong>The 0.3 m/s coincidence did not survive its own fixes.</strong> Three physics landing
+      on the same speed made a satisfying story, and it was true — of the first design. Then the f/1.4
+      lens fixed the exposure problem and the blur limit jumped to 1.33 m/s. Then a capture-step walking
+      controller replaced the no-stepping assumption and the balance limit rose to 0.45 m/s (measured
+      over a 25-cell speed × step-time grid, of which only 0.45 m/s survived five out of five perturbed
+      starts — a lone 0.70 m/s cell was luck, and a shove knocked that one straight over). What remains
+      is a single binding constraint: ISO/TS 15066 contact force, 0.35 m/s for a 3 mm foam shell. So the
+      upgrade path is now specific instead of vague — 15 mm of compliant skin buys 0.84 m/s, after which
+      balance binds again and the gait controller itself has to improve. Each fix surfaced the next
+      limit, which is what convergence looks like; worth saying plainly that the prettiest result on
+      this page had a shelf life.</p>
+      <p><strong>The gait controller does not port to Earth.</strong> Same code, same gains, gravity set
+      to 9.81 — it falls over. T_c drops from 0.434 s to 0.267 s, so every footstep lands in the wrong
+      place and every step time is mistuned. Gait gains are calibrated to a planet.</p>
+      <p><strong>The acoustics coincidence lasted one day.</strong> The voice budget's first pass
+      reported a critical distance of 1.50 m — almost exactly the 1.6 m greeting stop, a satisfying
+      "the geometry already protects the microphones" story. The L2 image-source model, fed per-surface
+      material data instead of one averaged absorption number, moved the crossover to ~1.3 m and put
+      the greeting stop on the reverberant side. The same round caught a subtler trap: the first
+      ego-noise draft billed acoustic output off <em>electrical</em> power and concluded the robot
+      couldn't hear even standing still. Copper loss is silent; gear mesh is loud — noise follows
+      mechanical throughput, which is also why an unturning gear at full holding torque makes no sound.
+      And the DOA scanner, run on raw walking audio, confidently pointed at the robot's own hip.</p>
+      <p><strong>The battery ledger never multiplied its own two windows.</strong> The EOL sizing round
+      — itself a correction — checked the shift against 80% of full capacity, while its cycle count used
+      the 25–95% operating window the FSM actually enforces. Each number was defensible; their product
+      was not: 380 Wh × the window = 266 usable Wh against a 296 Wh shift, so the "4 h shift" promise
+      failed on day one at 3 h 35 min. Three subsequent audits (review, endgame, voice) walked past it
+      because each checked its own corner. The fix is the fifth battery change, 380 → 480 Wh, sized
+      self-consistently this time — window, Wöhler cycle life, and calendar ageing solved together —
+      and the charging ledger that caught it also repriced the dock's "1.7 h recharge" (2.3 h: the dock's
+      150 W must also feed the robot) and promoted the support ledge from scenery to a 62 kWh/yr
+      power component.</p>
+      <p><strong>The thermal ledger was right by accident.</strong> Its 50 °C hip-winding figure rested
+      on two assumptions that a COMSOL FEM later tested: that the thigh shell is isothermal (it is a
+      fin at 56% efficiency — the tip rises a third of what the root does, so this alone was 55%
+      optimistic) and an exterior area of 0.137 m² (the as-built geometry has 0.172 — 26% pessimistic).
+      The two errors nearly cancel, and the winding moves only 50 → 54 °C. But cancelling errors are
+      not absent errors: on Earth they stop cancelling (183 → 189 °C), and they would drift apart at
+      any other power level. The FEM run passed all three gate classes — energy closure 1.000, the
+      isothermal-limit case matching the analytic answer to 0.1 K, and an independent fin-theory
+      cross-check landing within 2% of the conduction case.</p>
+      <p><strong>The hand's 2.90 was three errors wearing one number.</strong> The grasp factor used
+      a guessed 0.39 m/s² hand acceleration (harvest it from the walking model and the peak is
+      8.56 — 22×), carried no torque ledger (a tray pinched by its rim hangs its centre of mass
+      15 cm outside the grip line; gravity's 1.67 N·m against the 0.48 the finger pads can muster
+      means it cannot sit level even statically — MuJoCo tips it 138°), and never said which grasp
+      it priced. The carry configuration measures a 4× margin under the real walking excitation —
+      identical on Mars and Earth, which retires the card's "low gravity forgives the hand" claim:
+      with 24 N of finger press dominating the normal force, gravity nearly cancels from both sides
+      of the ledger. The audit also ate three rig bugs before producing physics — a palm plate
+      moonlighting as a second support, a world-frame trajectory teleporting at its loop wrap, and
+      convolve's zero-padding forging an 11 m/s² whip — each caught because a sweep that is not
+      monotonic in its knob is a rig smell, not a result.</p>
+      <p><strong>The battery ledger and the thermal ledger had never been multiplied either.</strong>
+      The pack's life came from a table of calendar-fade rates in percent per year, multiplied by
+      elapsed years, evaluated at the parked state-of-charge, at room temperature. Every one of those
+      four choices is wrong in a different way. SEI growth is diffusion-limited through the film it
+      builds, so fade goes as <em>√t</em>, not linearly. The pack does not live at room temperature:
+      it sits in a backpack sharing 11 W with the compute board, bolted to a torso dissipating 87 W,
+      and computes out at <strong>28.8 °C while working</strong> — 6.8 K hot, which by Arrhenius is
+      1.6× the calendar fade. And calendar ageing does not pause while the robot works: eight hours a
+      sol pass at a mean 64% charge, at the hottest pack temperature of the day, which the old
+      account simply did not count. Corrected, pack life drops 15% (473 → 404 sols) and the
+      just-in-time charging prize shrinks from 76 sols to 57 — because over the real duty cycle the
+      cycle term at end of life is <strong>7.4× the calendar term</strong>. This robot is worn out by
+      working, not by waiting. The consolation: insulating the pack from its hot neighbour buys back
+      only 20 sols against the scheduler's 57, so the fix stays in software.</p>
+      <p><strong>And then the SRAM version won on area too.</strong> The campaign's parting advice —
+      use a macro — was worth building rather than asserting, so the histogram was rebuilt on one
+      OpenRAM 512×32 block, three ten-bit counters packed per word. The same testbench and the same
+      4,809-stamp golden vectors pass unchanged on both simulators, finishing at the identical tick:
+      the storage architecture changed, the interface and the truth did not. Synthesized, it is
+      <strong>1,753 cells and 0.304 mm² against the flop version's 38,142 cells and 0.555 mm²</strong>
+      — 45% less area, 95% fewer cells, 98% fewer flip-flops. Which sharpens the lesson one more turn:
+      "a routability answer, not a density answer" was only half right. At this size the macro wins
+      both, and the thing that unlocks it is a packing decision — 3×10 bits fits 1,050 counters into
+      one 16 kbit macro, where the obvious 2×16 bits would need 525 words, overflow 512, and cost a
+      second macro. And it routes: the same OpenROAD flow that spent eight rounds failing to close
+      the flop version walked this one from 1,563 detailed-route violations to <strong>zero</strong>
+      in eight iterations and about six minutes, with +0.05 ns of setup slack at 100 MHz and a clean
+      antenna check. <strong>There is a GDS.</strong> Same function, same golden vectors, two
+      architectures: one does not exist, the other is manufacturable.</p>
+      <p><strong>Synthesis said the flop histogram wins; the router said it cannot exist.</strong>
+      The LiDAR front end's flop-based histogram beat the SRAM-macro area estimate at synthesis —
+      then failed place-and-route three times on the same error: a flat 1050-way read mux converges
+      12,600 nets on one point, and no placement knob could route it. Banking the histogram per
+      channel (a wiring fix that also saved 19% of area) passed global routing, but detailed-route
+      DRC still would not converge against the pin density of 12,899 enable-flops — on routers five
+      thousand commits apart. Timing was never the problem. The conclusion the campaign bought:
+      SRAM macros in histogram chips are not an area optimization, they are how the read mux gets
+      pre-routed inside the macro — and the original scaling estimate, which assumed one, was right
+      for a reason its author didn't know.</p>
       <p><strong>Slow transients leak into “idle”.</strong> The gait rig's pitch-support spring settles
       over many seconds; a 3 s settle left the idle loop drifting 0.4 rad through the recording lap.
       8 s settle, three warm-up laps to reach the limit cycle, and a smoothstep end-blend brought all
@@ -306,7 +706,7 @@
 
 <section class="band band--alt">
   <div class="wrap">
-    <div class="sec-head"><span class="num">06</span><h2>Try it</h2></div>
+    <div class="sec-head"><span class="num">07</span><h2>Try it</h2></div>
     <p class="lead">Both robots run live in the city viewer.</p>
     <div class="prose">
       <p>Open the viewer and jump to the mine: <span class="kbd">viewer/?colony=1&amp;inspect=res-mine-01&amp;debug=1</span>.
@@ -317,7 +717,7 @@
       and walk toward the patrolling robot: at 2.5 m it stops, turns to face you, the visor flips to ◠◠
       and it waves. <span class="kbd">?debug=1</span> toggles the LiDAR fan. Read the temple print while
       you're close. (Companion wiring in the interior branch lands with the undercity engine pass; the
-      standalone preview in <span class="src">mars-bot/_preview.html</span> runs the full loop today.)</p>
+      standalone preview in <span class="src">sim/hab-bot-01/_preview.html</span> runs the full loop today.)</p>
     </div>
   </div>
 </section>
@@ -327,7 +727,8 @@
     <div class="label" style="margin-bottom:10px;">Sources</div>
     <p style="margin:0;">Sensor channel contract: <span class="src">SENSOR_SPEC.md</span> ·
       City assets: <span class="src">viewer/units/res-mine-01.js</span>, <span class="src">viewer/units/hab-bot-01.js</span> ·
-      Gait bake: <span class="src">mars-bot/sim/run_gait.py</span> → <span class="src">viewer/units/hab-bot-01.gait.json</span> ·
+      Gait bake: <span class="src">sim/hab-bot-01/run_gait.py</span> → <span class="src">viewer/units/hab-bot-01.gait.json</span> ·
+      Ledgers: <span class="src">sim/hab-bot-01/*.py</span> (gait, balance, stepping, running, lidar, safety, compute, thermal) ·
       Dig-cycle bake: <span class="src">mars_soil/sim/rassor-01/</span> ·
       Knowledge cards: <span class="src">viewer/units/*.info.json</span> ·
       <a href="index.html">Back to the city</a></p>

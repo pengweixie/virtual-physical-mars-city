@@ -1,6 +1,6 @@
 // veh-heli-01 「Jezero Scout」侦察直升机 + 停机坪/机库
 // Ingenuity → Mars Science Helicopter 路线的城市化侦察型:共轴双旋翼 ⌀1.8 m,5 kg 级。
-// 设计轮账本:mars-heli\out\results.json(悬停 604 W 轴功率 / 1698 rpm@Ma0.667
+// 设计轮账本:E:\Claude\mars-heli\out\results.json(悬停 604 W 轴功率 / 1698 rpm@Ma0.667
 // / Re 1.9e4 / 131 Wh → 10.6 min)。展示转速 240 rpm = 真实值 ÷7.1(知识卡写双数)。
 //
 // 飞行回路 = 纯 t 分段时间线 T=80 s(契约 §6 烘焙规则):
@@ -61,6 +61,11 @@ export function build(THREE) {
     tip:     L(0xe07b39),
     leg:     L(0x2e3238),
     screen:  L(0x0a2a30, { emissive: 0x3fd8c8, emissiveIntensity: 0.9 }),
+    screenAmber: L(0x2e2308, { emissive: 0xe0aa48, emissiveIntensity: 0.9 }),
+    copper:  L(0x9a6a3a),
+    hv:      L(0x6b4a86),              // 高压侧 400 V(紫)——与低压铜色分色
+    ferrite: L(0x2b2b30),              // 变压器磁芯
+    pcb:     L(0x1f4a34),              // 控制/功率板
     dockInd: L(0x123016, { emissive: 0x39e05a, emissiveIntensity: 0.9 }),
     strip:   L(0x40381f, { emissive: 0xffd9a0, emissiveIntensity: 0.7 }),
     navRed:  L(0x401010, { emissive: 0xff3b30, emissiveIntensity: 0.9 }),
@@ -173,21 +178,108 @@ export function build(THREE) {
     }
     box(0.6, 0.4, 0.4, M.orange, HX + 0.9, 0.42, HZ - 1.1);           // 工具箱
     box(0.56, 0.08, 0.36, M.dark, HX + 0.9, 0.66, HZ - 1.1);
-    // 充电桩:库前柱 + 地面电缆走线到坪缘 + 插头
-    const px = HX + W / 2 + 0.9, pz = HZ - 0.6;
-    box(0.34, 1.1, 0.3, M.white, px, 0.55, pz);
-    box(0.3, 0.12, 0.06, M.dockInd, px, 0.95, pz + 0.14);
-    box(0.1, 0.16, 0.1, M.dark, px, 1.16, pz);
-    const cable = [[px + 0.1, 0.1, pz], [px + 1.2, 0.04, pz - 0.7], [px + 2.4, 0.04, pz - 1.4],
-      [-1.15, 0.05, -0.35]];
-    for (let i = 0; i < cable.length - 1; i++)
-      beam(cable[i][0], cable[i][1], cable[i][2], cable[i + 1][0], cable[i + 1][1], cable[i + 1][2], 0.05, M.dark);
-    box(0.14, 0.1, 0.2, M.orange, -1.15, 0.28, -0.35);                // 坪上插头(靠机身)
     // 备件箱(库外)
     box(0.8, 0.5, 0.55, M.whiteDust, HX + 1.2, 0.5, HZ + 2.3);
     box(0.84, 0.06, 0.59, M.orange, HX + 1.2, 0.78, HZ + 2.3);
   }
 
+  // ================= 2b. 充电装备(电极坪 + 功率机柜 + 缓冲柜 + 接地) =================
+  // 几何来自 heli_charge_sim.py:导体带 100 mm / 绝缘缝 15 mm / 周期 230 mm;
+  // 足垫触点 12 mm(必须 < 缝宽,否则单触点桥接两极短路——首版 110 mm 平足垫
+  // 76.7% 短路的返工结论),每垫两点相距半周期 115 mm、腿 1/3 与 2/4 触点对正交;
+  // 每触点各自二极管进母线 → 落地朝向任意、99.4% 一次接通(σ=0.25 m 着陆散布)。
+  const CHG = { band: 0.10, gap: 0.015, R: 1.7 };
+  const chargeBars = [];                     // 充电流光(自管材质,不进 blink/night)
+  const socLeds = [];                        // 机柜 SoC 进度条
+  const CBX = -5.6, CBZ = -1.5;              // 功率机柜位置(坪西缘外)
+  {
+    // ---- 电极坪:交替极性条带,裁进 r=1.7 圆 ----
+    const yF = PAD_TOP + 0.005;
+    const step = CHG.band + CHG.gap;
+    const n = Math.ceil(CHG.R / step);
+    for (let i = -n; i <= n; i++) {
+      const xc = i * step;
+      const half = Math.sqrt(Math.max(0, CHG.R * CHG.R - (Math.abs(xc) + CHG.band / 2) ** 2));
+      if (half < 0.08) continue;
+      const pos = ((i % 2) + 2) % 2 === 0;
+      const mat = new THREE.MeshLambertMaterial({
+        color: pos ? 0x9a6a3a : 0x40525f,
+        emissive: pos ? 0xe0902e : 0x4fa8d8, emissiveIntensity: 0,
+      });
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(CHG.band, 0.007, half * 2), mat);
+      bar.position.set(xc, yF, 0);
+      bar.name = 'chg_bar';
+      group.add(bar);
+      chargeBars.push({ mat, phase: Math.abs(xc) / CHG.R });
+    }
+    // 汇流端子箱(两极母线在坪西缘汇合后走地槽去机柜)
+    box(0.34, 0.16, 0.5, M.grey, -CHG.R - 0.28, PAD_TOP + 0.08, 0);
+    box(0.30, 0.03, 0.44, M.alu, -CHG.R - 0.28, PAD_TOP + 0.17, 0);
+    box(0.06, 0.05, 0.34, M.copper, -CHG.R - 0.16, PAD_TOP + 0.06, 0.06);
+    box(0.06, 0.05, 0.34, M.dark, -CHG.R - 0.16, PAD_TOP + 0.06, -0.06);
+
+    // ---- 功率机柜:朝坪面剖开,核心不做黑盒(契约 §3 剖切样板) ----
+    // heli_dock_core.py 的三条结论直接写进几何:
+    //  · 610 Pa 下自然对流 h=0.27 W/m²K,84.8% 的热靠辐射走 → **拆掉散热鳍**
+    //    (原来那排鳍在火星是装饰),换成背面高发射率黑辐射板;
+    //  · 隔离式 LLC 单级 400 V → 21.6 V,效率 97.1%(原假设 0.92 已作废);
+    //  · 高压侧紫、低压侧铜,铜色与坪面正极同色 = 同色因果链。
+    box(0.62, 0.20, 0.52, M.grey, CBX, 0.10, CBZ);                 // 基座
+    box(0.05, 1.05, 0.44, M.white, CBX - 0.25, 0.72, CBZ);         // 背墙
+    box(0.55, 1.05, 0.05, M.white, CBX, 0.72, CBZ - 0.20);         // 侧墙 ×2
+    box(0.55, 1.05, 0.05, M.white, CBX, 0.72, CBZ + 0.20);
+    box(0.60, 0.07, 0.49, M.grey, CBX, 1.28, CBZ);                 // 顶盖
+    box(0.06, 1.05, 0.06, M.orange, CBX + 0.245, 0.72, CBZ - 0.19); // 开口面边柱 ×2
+    box(0.06, 1.05, 0.06, M.orange, CBX + 0.245, 0.72, CBZ + 0.19);
+    box(0.02, 0.86, 0.40, M.carbon, CBX - 0.275, 0.74, CBZ);       // 背面辐射板(ε≈0.85)
+    // 层 1(上):高压侧 400 V 输入——紫色端子排 + 输入滤波 + 熔断器
+    box(0.34, 0.05, 0.30, M.hv, CBX - 0.02, 1.14, CBZ);
+    box(0.10, 0.09, 0.10, M.dark, CBX + 0.10, 1.14, CBZ - 0.10);
+    // 层 2:隔离变压器(磁芯 + 绕组)——高压与低压之间的那道墙
+    box(0.13, 0.045, 0.15, M.ferrite, CBX - 0.02, 1.035, CBZ);     // EE 磁芯上轭
+    box(0.13, 0.045, 0.15, M.ferrite, CBX - 0.02, 0.905, CBZ);     // 下轭
+    box(0.035, 0.09, 0.15, M.ferrite, CBX - 0.02, 0.97, CBZ);      // 中柱
+    box(0.05, 0.085, 0.115, M.hv, CBX - 0.075, 0.97, CBZ);         // 原边绕组(高压侧)
+    box(0.05, 0.085, 0.115, M.copper, CBX + 0.035, 0.97, CBZ);     // 副边绕组(低压侧)
+    // 层 3:功率级 PCB + 开关管散热块 + 同步整流
+    box(0.32, 0.012, 0.28, M.pcb, CBX - 0.02, 0.84, CBZ);
+    for (let i = 0; i < 4; i++)
+      box(0.03, 0.05, 0.03, M.dark, CBX - 0.12 + i * 0.07, 0.87, CBZ + 0.09);
+    box(0.16, 0.06, 0.05, M.alu, CBX - 0.02, 0.88, CBZ - 0.10);    // 管夹散热块
+    // 层 4:低压母排(与坪面正极同色)+ 接触器 + 分流器
+    box(0.30, 0.02, 0.05, M.copper, CBX - 0.02, 0.74, CBZ - 0.06);
+    box(0.30, 0.02, 0.05, M.dark, CBX - 0.02, 0.74, CBZ + 0.06);
+    box(0.11, 0.10, 0.09, M.grey, CBX + 0.10, 0.68, CBZ);          // 接触器(零电流分断)
+    box(0.05, 0.03, 0.05, M.orange, CBX + 0.10, 0.74, CBZ);
+    // 层 5:控制板 + 绝缘监测(坪面是裸露导体,对地阻抗常测)
+    box(0.30, 0.012, 0.26, M.pcb, CBX - 0.02, 0.58, CBZ);
+    box(0.08, 0.05, 0.08, M.panel, CBX - 0.12, 0.61, CBZ - 0.07);
+    box(0.03, 0.02, 0.03, M.camLed, CBX - 0.12, 0.645, CBZ - 0.07); // 绝缘监测指示
+    box(0.30, 0.02, 0.26, M.strip, CBX - 0.02, 0.52, CBZ);          // 柜内加热片(冷启动)
+    box(0.30, 0.22, 0.03, M.dark, CBX + 0.28, 0.98, CBZ);          // 屏框(朝坪)
+    box(0.26, 0.18, 0.03, M.screenAmber, CBX + 0.295, 0.98, CBZ);
+    for (let i = 0; i < 6; i++) {                                   // SoC 进度条 6 段
+      const m = new THREE.MeshLambertMaterial({
+        color: 0x25301c, emissive: 0x39e05a, emissiveIntensity: 0,
+      });
+      const led = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.05, 0.02), m);
+      led.position.set(CBX + 0.29, 0.70, CBZ - 0.15 + i * 0.06);
+      group.add(led);
+      socLeds.push(m);
+    }
+    box(0.16, 0.24, 0.02, M.orange, CBX + 0.285, 0.44, CBZ + 0.13); // 断路器手柄板
+    box(0.05, 0.05, 0.05, M.dockInd, CBX + 0.29, 0.44, CBZ - 0.13); // 供电指示
+    box(0.34, 0.36, 0.30, M.whiteDust, CBX, 0.30, CBZ + 0.44);      // 缓冲电池柜(200 Wh)
+    box(0.36, 0.05, 0.32, M.orange, CBX, 0.50, CBZ + 0.44);
+    // 埋地电缆槽:机柜 → 坪缘汇流条(盖板一段段)
+    for (let i = 0; i < 6; i++)
+      box(0.5, 0.035, 0.22, M.padSide, CBX + 0.55 + i * 0.52, 0.03, CBZ + i * 0.22);
+    beam(CBX + 0.3, 0.12, CBZ, CBX + 0.9, 0.06, CBZ + 0.2, 0.05, M.dark);
+    // 静电接地棒(尘暴带电,呼应气象站静电探针)+ 铜接地板
+    cyl(0.018, 0.022, 1.15, 8, M.alu, CBX - 0.55, 0.57, CBZ - 0.35);
+    box(0.16, 0.02, 0.16, M.copper, CBX - 0.55, 0.03, CBZ - 0.35);
+    beam(CBX - 0.28, 0.62, CBZ - 0.18, CBX - 0.55, 0.72, CBZ - 0.35, 0.03, M.copper);
+  }
   // ================= 3. 风向袋杆(气象叙事;稀薄大气袋是垂的) =================
   const SKX = 6.6, SKZ = -3.6;
   {
@@ -250,12 +342,21 @@ export function build(THREE) {
     H(0.05, 0.05, 0.05, M.white, 0, 0.60, -0.30);
     cyl(0.01, 0.025, 0.04, 8, M.dark, 0.16, 0.615 - 0.55, -0.2, att);
     cyl(0.008, 0.008, 0.5, 6, M.dark, 0.16, 0.90 - 0.55, -0.2, att);
-    // ---- 四条弹性腿:根座 + 两段折线碳管 + 足垫 ----
+    // ---- 四条弹性腿:根座 + 两段折线碳管 + 足垫(带双充电触点) ----
+    // 触点 12 mm < 坪面绝缘缝 15 mm(charge_sim 的硬规则),每垫两点相距半周期
+    // 115 mm;腿 1/3 触点对沿机体 x、腿 2/4 沿机体 z(正交冗余,任意航向都接得上)
+    let legIdx = 0;
     for (const [sx, sz] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) {
       H(0.05, 0.06, 0.05, M.silver, sx * 0.19, 0.40, sz * 0.21);       // 腿根座
       beam(sx * 0.19, 0.40 - 0.55, sz * 0.21, sx * 0.33, 0.14 - 0.55, sz * 0.35, 0.028, M.leg, att);
       beam(sx * 0.33, 0.14 - 0.55, sz * 0.35, sx * 0.42, 0.035 - 0.55, sz * 0.44, 0.024, M.leg, att);
-      H(0.11, 0.028, 0.11, M.carbon, sx * 0.42, 0.02, sz * 0.44);
+      H(0.13, 0.026, 0.13, M.carbon, sx * 0.42, 0.02, sz * 0.44);      // 足垫(略放大容触点)
+      const along = legIdx % 2 === 0;                                  // 触点对方向
+      for (const s2 of [-1, 1]) {
+        const ox = along ? s2 * 0.0575 : 0, oz = along ? 0 : s2 * 0.0575;
+        H(0.014, 0.008, 0.014, M.copper, sx * 0.42 + ox, 0.004, sz * 0.44 + oz);
+      }
+      legIdx++;
     }
     // ---- 桅杆传动系:下电机舱 + 主杆 + 层间电机 + 变距盘 ×2(swashplate+连杆) ----
     cyl(0.05, 0.058, 0.14, 12, M.carbon, 0, 0.655 - 0.55, 0, att);     // 下电机舱鼓包
@@ -357,6 +458,8 @@ export function build(THREE) {
   poi('poi_rotor', 0, 2.3, 0);
   poi('poi_pad', 3.2, 0.6, 3.2);
   poi('poi_dock', HX + 3.0, 1.2, HZ - 0.6);
+  poi('poi_charge', CBX + 0.5, 1.0, CBZ);
+  poi('poi_electrode', 1.1, 0.35, 1.1);
   poi('poi_windsock', SKX, 3.2, SKZ);
   poi('poi_route', 4.6, 0.8, -4.6);
 
@@ -495,6 +598,19 @@ export function build(THREE) {
     M.dustFx.opacity = 0.32 * (rotorOmega(tt) / OMEGA) * lowF;
     dustFx.rotation.z = tt * 0.9;
     dustFx.position.x = x; dustFx.position.z = z;       // 跟机(仅低空可见)
+    // ---- 充电:着陆后到下次起转前的停机窗(跨循环边界,11 s 代表 138 min 周转) ----
+    // 时序来自 heli_charge_sim.py:先 20 W 预热 23 min(最冷芯判据)再 C/2 充 65 min
+    // + CV 收尾 51 min;展示层压缩成一段连续的流光 + 6 段 SoC 条。
+    const cw = tt >= 71.5 ? (tt - 71.5) / 11 : (tt < 2.5 ? (8.5 + tt) / 11 : -1);
+    const heating = cw >= 0 && cw < 0.17;             // 预热段:只有母线待机微亮
+    for (const b of chargeBars) {
+      b.mat.emissiveIntensity = cw < 0 ? 0
+        : heating ? 0.12
+        : 0.35 + 0.45 * Math.max(0, Math.sin((cw * 6 - b.phase * 2.2) * Math.PI * 2));
+    }
+    for (let i = 0; i < socLeds.length; i++)
+      socLeds[i].emissiveIntensity = cw < 0 ? 0 : (cw > (i + 0.5) / socLeds.length ? 1.5 : 0.05);
+    M.screenAmber.emissiveIntensity = cw < 0 ? 0.35 : 0.9 + 0.35 * Math.sin(tt * 3.1);
     // ---- §4c 感知消费:导航相机亮度 → 云台状态灯;无通道退回纯 t 脉冲 ----
     const sen = group.userData.sensors[0];
     if (sen && sen.frame > 0 && sen.data) {

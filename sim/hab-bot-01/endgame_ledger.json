@@ -1,0 +1,43 @@
+{
+ "battery": {
+  "shift_Wh": 292.4,
+  "pack_old": 300,
+  "pack_new": 370,
+  "fade_eol": 0.8,
+  "fec_to_eol": 500,
+  "dod": 0.7,
+  "sols_to_eol": 357,
+  "shift_at_eol_300Wh": 3.28,
+  "eol_margin_new": 0.012,
+  "mass_kg": 1.85
+ },
+ "odometry": {
+  "drift_frac": 0.02,
+  "path_m": 10.6,
+  "sigma_cm": 21,
+  "tolerance_cm": 8,
+  "over_tolerance": 2.7,
+  "guidance": [
+   {
+    "stage": "dead reckoning to dock area",
+    "err_cm": 21.23440514433643,
+    "note": "gets within LiDAR trusted band"
+   },
+   {
+    "stage": "LiDAR wall-normal + retro strips, 2.5-3 m",
+    "err_cm": 7.0,
+    "note": "beam spacing 6.4 deg -> bearing ~2 deg -> +/-7 cm at 2 m"
+   },
+   {
+    "stage": "nav camera on the dock LED, <=1.5 m",
+    "err_cm": 2.0,
+    "note": "iFOV 19.1 mrad -> +/-1 px = +/-2 cm at 1 m"
+   },
+   {
+    "stage": "mechanical funnel at contact",
+    "err_cm": 5.0,
+    "note": "compliant strips absorb the rest"
+   }
+  ]
+ }
+}

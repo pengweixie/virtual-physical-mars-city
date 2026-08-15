@@ -6,7 +6,8 @@
 // Cutaways: receiver bay (Schottky mixer / LO chain / FFTS board) and tube
 // (off-axis paraboloid + gold beam line). FFTS door screen draws the narrow
 // martian line (37 MHz vs Earth's 3 GHz).
-// Design ledger: mars-thz (5 accounts + HFSS horn full-wave).
+// Design ledger: E:\Claude\mars-thz (12 accounts + HFSS horn full-wave,
+// independently reviewed 2026-08-09 — see mars-thz/review/FINDINGS+REPLY).
 // Sited with sci-weather-01 (300,-300): dust is transparent at 183 GHz;
 // the met station's T(z) de-biases storm-time retrievals (linkage card).
 // Contract: MODELS.md §4 — 1 unit = 1 m, THREE injected, no textures.
@@ -249,7 +250,57 @@ export function build(THREE) {
   cyl(0.018, 0.018, 1.9, 6, M.dark, (RX + CX) / 2, 0.22, (TZ + CZ) / 2)
     .rotation.set(0, Math.atan2(CX - RX, CZ - TZ) - Math.PI / 2, Math.PI / 2);
 
+  // ================================================================ schematic board
+  // A tilted drafting board at the pad's front-right corner carrying the two
+  // design drawings (docs/principle_diagram.svg + circuit_diagram.svg) in the
+  // only form a 3D viewer can actually render: geometry. Left half is the line
+  // shape with its six channel ticks (the sounding principle); right half is the
+  // scan drum's four stops. Same story the SVGs tell, at a glance, from 2 m away.
+  const BX = 1.12, BZ = 1.00, BY = 0.80;
+  const board = new THREE.Group();
+  board.position.set(BX, BY, BZ);
+  board.rotation.y = 0.42;                     // face the approach path (+X/+Z)
+  board.rotation.x = 1.18;                     // near-upright easel; +x keeps the face on +Z
+  group.add(board);
+  const legMat = M.steel;
+  cyl(0.022, 0.022, 0.80, 6, legMat, BX - 0.19, 0.40, BZ + 0.09);
+  cyl(0.022, 0.022, 0.80, 6, legMat, BX + 0.19, 0.40, BZ + 0.09);
+  box(0.70, 0.02, 0.50, M.shell2, 0, -0.014, 0, board);      // board backing
+  box(0.66, 0.012, 0.46, M.shell, 0, 0, 0, board);           // drawing sheet
+  box(0.66, 0.014, 0.04, M.dark, 0, 0.002, -0.20, board);   // title bar
+  // --- left half: the line profile with channel ticks (same colours as the SVG)
+  const inkMat = new THREE.MeshLambertMaterial({ color: 0x2c3440 });
+  const PROF = [0.012, 0.018, 0.03, 0.055, 0.10, 0.145, 0.10, 0.055, 0.03, 0.018, 0.012];
+  PROF.forEach((h, i) => {
+    box(0.023, 0.008, h * 0.82, inkMat, -0.255 + i * 0.026, 0.008, 0.045 - h * 0.41, board);
+  });
+  const CHCOL = [0x8e44ad, 0xc0392b, 0xe07b39, 0xd4a017, 0x4a90d9, 0x7d8a97];
+  CHCOL.forEach((c, i) => {
+    const m = new THREE.MeshLambertMaterial({ color: c });
+    box(0.012, 0.009, 0.026, m, -0.125 + (i - 2.5) * 0.030, 0.009, 0.115, board);
+  });
+  box(0.30, 0.008, 0.006, inkMat, -0.125, 0.008, 0.098, board);   // frequency axis
+  // --- right half: the four scan stops on a dial
+  const dial = new THREE.Group();
+  dial.position.set(0.195, 0.01, 0.005);
+  board.add(dial);
+  cyl(0.088, 0.088, 0.008, 20, M.shell2, 0, 0, 0, dial).rotation.x = Math.PI / 2;
+  cyl(0.02, 0.02, 0.012, 12, inkMat, 0, 0.004, 0, dial).rotation.x = Math.PI / 2;
+  const STOPS = [[0, 0x4a90d9], [70.5, 0x4a90d9], [140, 0x2e8b57], [180, 0xc0392b]];
+  STOPS.forEach(([deg, col]) => {
+    const m = new THREE.MeshLambertMaterial({ color: col });
+    const a = deg * Math.PI / 180;
+    const r = 0.052;
+    const arm = box(0.011, 0.01, 0.085, m, Math.sin(a) * r, 0.006, -Math.cos(a) * r, dial);
+    arm.rotation.y = -a;
+  });
+  // --- callout plate: says where the full drawings live
+  const plate = new THREE.MeshLambertMaterial({ color: 0x1b2430, emissive: 0x0e1520, emissiveIntensity: 0.5 });
+  box(0.28, 0.01, 0.042, plate, -0.19, 0.009, -0.165, board);
+  nightMats.push(plate);
+
   // ================================================================ POI anchors
+  poi('poi_schematic', BX, BY + 0.34, BZ + 0.12);
   poi('poi_scanhead', DX, TY + 0.55, TZ);
   poi('poi_frost', DX - 0.34, TY + 0.1, TZ + 0.3);   // mirror + heater foil
   poi('poi_optics', tubeX, TY + 0.1, TZ + 0.4);

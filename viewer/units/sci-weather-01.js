@@ -1,7 +1,7 @@
 // sci-weather-01 — 气象监控站(Perseverance MEDA + InSight APSS 城市化放大版)
 // 契约 MODELS.md §4:1u=1m、原点=基座地面点、+Y 上、正面朝 +Z、THREE 由查看器传入。
 // 动画全部声明式(spinners/oscillators/blinkMats/nightMats),无 animate。
-// 设计轮账本(6 脚本+6 图)见 mars-weather:热膜 Nu-Re/杯式启动/τ 反演/
+// 设计轮账本(6 脚本+6 图)见 E:\Claude\mars-weather:热膜 Nu-Re/杯式启动/τ 反演/
 // 桅杆差胀/气压膜盒挠度(40 µm 定版防触底)/设备舱 WEB 夜间热平衡(舱中舱构型)。
 // 器件深挖轮(v2):气压计舱与设备舱剖切开放、光度计滤光轮、热膜加热区——核心不做黑盒。
 // 城市联动:τ>3 触发 res-dome-01 LED 补光;尘暴预警发 pwr-storage-01/res-tank-02/

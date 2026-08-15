@@ -1,0 +1,130 @@
+{
+ "hand_accel": {
+  "dt_s": 0.002,
+  "n_cycles": 4,
+  "a_h_p95": 3.2,
+  "a_h_peak": 8.56,
+  "a_v_peak": 11.85,
+  "l1_guess": 0.39
+ },
+ "moment_audit": {
+  "lever_m": 0.15,
+  "reach_m": 0.03,
+  "M_gravity": 1.67,
+  "M_available": 0.48,
+  "factor": 0.29,
+  "l1_force_factor": 2.9,
+  "l1_force_factor_measured_accel": 1.16
+ },
+ "palm_carry": {
+  "Mars": {
+   "rows": [
+    {
+     "scale": 1,
+     "drift_cm": 0.01,
+     "dropped": false,
+     "tilt_deg": 0.2,
+     "ok": true
+    },
+    {
+     "scale": 2,
+     "drift_cm": 0.03,
+     "dropped": false,
+     "tilt_deg": 0.3,
+     "ok": true
+    },
+    {
+     "scale": 4,
+     "drift_cm": 0.35,
+     "dropped": false,
+     "tilt_deg": 1.2,
+     "ok": true
+    },
+    {
+     "scale": 6,
+     "drift_cm": 601.62,
+     "dropped": true,
+     "tilt_deg": 134.3,
+     "ok": false
+    },
+    {
+     "scale": 8,
+     "drift_cm": 3118.0,
+     "dropped": true,
+     "tilt_deg": 113.6,
+     "ok": false
+    },
+    {
+     "scale": 10,
+     "drift_cm": 4206.88,
+     "dropped": true,
+     "tilt_deg": 15.3,
+     "ok": false
+    },
+    {
+     "scale": 12,
+     "drift_cm": 5834.0,
+     "dropped": true,
+     "tilt_deg": 45.7,
+     "ok": false
+    }
+   ],
+   "factor": 4
+  },
+  "Earth": {
+   "rows": [
+    {
+     "scale": 1,
+     "drift_cm": 0.03,
+     "dropped": false,
+     "tilt_deg": 0.4,
+     "ok": true
+    },
+    {
+     "scale": 2,
+     "drift_cm": 0.04,
+     "dropped": false,
+     "tilt_deg": 0.6,
+     "ok": true
+    },
+    {
+     "scale": 4,
+     "drift_cm": 0.07,
+     "dropped": false,
+     "tilt_deg": 0.9,
+     "ok": true
+    },
+    {
+     "scale": 6,
+     "drift_cm": 2.72,
+     "dropped": false,
+     "tilt_deg": 15.0,
+     "ok": false
+    },
+    {
+     "scale": 8,
+     "drift_cm": 214.43,
+     "dropped": true,
+     "tilt_deg": 26.6,
+     "ok": false
+    },
+    {
+     "scale": 10,
+     "drift_cm": 4793.81,
+     "dropped": true,
+     "tilt_deg": 128.7,
+     "ok": false
+    },
+    {
+     "scale": 12,
+     "drift_cm": 6258.11,
+     "dropped": true,
+     "tilt_deg": 97.5,
+     "ok": false
+    }
+   ],
+   "factor": 4
+  }
+ },
+ "slip_gate_pred_ms2": 10.5
+}

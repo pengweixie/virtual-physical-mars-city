@@ -474,7 +474,7 @@ export function build(THREE) {
     eye.position.set(0, 1.8, 0.5);                             // 传感器舱位置
     botA.bot.add(eye);
 
-    // ---- CIS 成像模型（参数来自 CIS 五阶段验证结果）----
+    // ---- CIS 成像模型（参数来自 E:\Claude\CIS 五阶段验证结果）----
     // 64x64 4T PPD @5µm / rolling shutter / 列级 CDS / 10-bit 单斜率 ADC
     // 信号链：场景亮度 -> 光电子(QE 0.60 已并入曝光标定) -> +暗电流 170 e-/s
     //        -> 散粒噪声 sqrt(Ne) + 读噪 1.76 e- -> 满阱 17,880 e- 截止

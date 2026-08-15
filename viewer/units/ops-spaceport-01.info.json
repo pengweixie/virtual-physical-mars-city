@@ -8,16 +8,32 @@
       "range": 30,
       "detail": "微波烧结硬化的着陆/发射坪，高出地面 0.5 m 带斜坡缘，中心保留历次起降的烧灼环痕。裸土在羽流下必深挖坑并抛掷砾石——硬化坪是稀薄大气行星起降的硬需求。坪缘一圈警示灯夜间点亮。",
       "detail_en": "A microwave-sintered landing and launch pad, raised 0.5 m above grade with a ramped rim, the scorch rings of every previous landing still burned into its centre. Bare regolith under a plume digs itself into a crater and throws gravel, so a hardened pad is not optional on a thin-atmosphere world. Warning lights ring the rim at night.",
-      "specs": { "直径": "40 m", "高差": "+0.5 m（斜坡缘）", "工艺": "微波烧结 regolith", "标线": "r=16 m 白色虚线圈", "配套": "veh-rocket-01 落位坪心" },
-      "specs_en": { "Diameter": "40 m", "Height": "+0.5 m (ramped rim)", "Process": "microwave-sintered regolith", "Markings": "white dashed circle at r = 16 m", "Occupant": "veh-rocket-01 stands on the centre" },
+      "specs": {
+        "直径": "40 m",
+        "高差": "+0.5 m（斜坡缘）",
+        "工艺": "微波烧结 regolith",
+        "标线": "r=16 m 白色虚线圈",
+        "配套": "veh-rocket-01 落位坪心"
+      },
+      "specs_en": {
+        "Diameter": "40 m",
+        "Height": "+0.5 m (ramped rim)",
+        "Process": "microwave-sintered regolith",
+        "Markings": "white dashed circle at r = 16 m",
+        "Occupant": "veh-rocket-01 stands on the centre"
+      },
       "sim": [
         "L2 羽流（EQUIPMENT.md §9【C6】）：触地坪面载荷 ~1.4 MPa、发射 ~1.7 MPa，裸土三侵蚀阈值全面超限 → 硬化坪必要性成立",
-        "Ø40 m 覆盖触地羽流足印（h=20 m 时足印 Ø~19 m），尺寸闭合"
+        "Ø40 m 覆盖触地羽流足印（h=20 m 时足印 Ø~19 m），尺寸闭合",
+        "L2 坪面热载(见 scripts/sim_padthermal_ops_spaceport_01.py):既有羽流账只算了机械侵蚀,补算热后——着陆(3台@78%,掠过1s)熔深 1.5 mm、发射(6台全开,静止贴地2.5s)熔深 3.8 mm,表面峰温 2400~2600 K;10 cm 烧结层可支撑 26 次发射/65 次着陆,按本场区季节性节奏折算 36~289 年 → **一坪两用成立,不需要导流槽**"
       ],
       "sim_en": [
         "L2 plume loading (EQUIPMENT.md section 9 [C6]): ~1.4 MPa on the surface at touchdown and ~1.7 MPa at launch, past all three bare-soil erosion thresholds - the case for a hardened pad closes.",
-        "A dia. 40 m pad covers the touchdown plume footprint (dia. ~19 m at h = 20 m), so the diameter closes as well."
-      ]
+        "A dia. 40 m pad covers the touchdown plume footprint (dia. ~19 m at h = 20 m), so the diameter closes as well.",
+        "L2 pad thermal load (scripts/sim_padthermal_ops_spaceport_01.py): the earlier plume account covered mechanical erosion only. Adding heat: a landing (3 engines at 78%, ~1 s pass) melts 1.5 mm, a launch (6 engines full, stationary, 2.5 s) melts 3.8 mm, with surface peaks of 2400-2600 K. A 10 cm sinter layer supports 26 launches or 65 landings, which at this seasonal cadence is 36-289 years - so one pad for both roles holds, and no flame trench is needed."
+      ],
+      "physics": "烧结坪不是耐热材料,而是可消耗-可自愈面层:羽流恢复温度 ~3000 K 远高于玄武岩熔点,表面必然熔化——但对流传热自限(表面越热、驱动温差越小),熔融只吃掉毫米级并原地凝固成玻璃釉。真正的火星赦免在于水:Starbase 首发掀翻混凝土坪的机理是孔隙水闪蒸剥落,干燥风化层烧结体无自由水,该失效模式不存在。",
+      "physics_en": "A sintered pad is not a refractory - it is a consumable, self-glazing surface. Plume recovery temperature (~3000 K) sits far above basalt's melting point, so the surface must melt; but convective heating is self-limiting (the hotter the wall, the smaller the driving difference), so melting eats only millimetres and refreezes in place as glass. The real Martian reprieve is water: the mechanism that tore up the Starbase pad on its first launch was pore water flashing to steam and spalling the concrete, and dry sintered regolith holds no free water, so that failure mode simply does not exist here."
     },
     {
       "id": "berm",
@@ -26,16 +42,34 @@
       "range": 40,
       "detail": "环绕着陆坪的铁锈红土堤，高 4 m、顶宽 3 m，+Z 向留 12 m 通道开口。火星大气稀薄，发动机羽流把砂砾加速到上百 m/s 且几乎不被大气减速——土堤把低仰角高速喷砂拦在场内。堤顶 10 根红闪导航信标，两处登顶台阶。",
       "detail_en": "A rust-red earth berm ringing the pad, 4 m high with a 3 m crown and a 12 m gateway on the +Z side. In a thin atmosphere an engine plume accelerates grit to hundreds of m/s and the air barely slows it again - the berm keeps low-angle, high-speed sandblast inside the site. Ten red flashing navigation beacons stand along the crown, with stairs up at two points.",
-      "specs": { "内径": "60 m", "高/顶宽": "4 / 3 m", "开口": "+Z 12 m 通道", "信标": "10 根（红闪）" },
-      "specs_en": { "Inner diameter": "60 m", "Height / crown": "4 / 3 m", "Gateway": "12 m on +Z", "Beacons": "10 (red flashing)" },
+      "specs": {
+        "内径": "60 m",
+        "高/顶宽": "4 / 3 m",
+        "开口": "+Z 12 m 通道",
+        "信标": "10 根（红闪）"
+      },
+      "specs_en": {
+        "Inner diameter": "60 m",
+        "Height / crown": "4 / 3 m",
+        "Gateway": "12 m on +Z",
+        "Beacons": "10 (red flashing)"
+      },
       "sim": [
         "L2 羽流：4 m 堤拦截仰角 ≤6.3° 的全部低角喷砂（占绝大多数）；2° 砂粒到堤仅 1.3 m 高",
-        "喷砂弹道射程 100 m/s@5°≈470 m、200 m/s@10°≈3.7 km → 场站远离基地 + 土堤双保险"
+        "喷砂弹道射程 100 m/s@5°≈470 m、200 m/s@10°≈3.7 km → 场站远离基地 + 土堤双保险",
+        "L2 落砂能量(见 scripts/sim_ejecta_shadow_ops_spaceport_01.py):土堤不产生几何阴影——抛得够高的砂粒能越堤落到任意半径;它的作用是削能量而非挡范围。越堤砂粒最早落在 r≈40 m、落地仅 12~32 m/s,动能剩 0.4~2.6%(相对无堤 200 m/s),对堤外结构件无威胁",
+        "由此发现全场唯一缺口是 +Z 通道开口(土堤在此断开 ±11.5°,消防车库与集装箱直面全速低角喷砂)→ 于开口外 z=52 m 增设 26 m 长挡墙(traverse),遮断角 ±14°>±11.5° 视线全断;道路改折线绕行,绕行车位方位角 17~21° 仍在主堤遮挡内",
+        "双场站互扰(§9【C10】):与 ops-spaceport-02 相距 515 m,互在对方喷砂射程内。5° 的最凶低角通道被 4 m 堤拦下(仅过 3 m),实际到达邻场的是 44~75 m/s 中角砂粒——非结构威胁但属人员禁区,任一场站作业时另一场站须清场。摆位约束:本场通道口偏离对方 65°、对方导流槽背离本场 169°,任一方改 rotation_deg 都要重算"
       ],
       "sim_en": [
         "L2 plume: a 4 m berm intercepts every grain launched below 6.3 deg elevation, which is the great majority; a grain leaving at 2 deg is only 1.3 m up by the time it reaches the berm.",
-        "Ballistic range of ejected grit: 470 m at 100 m/s and 5 deg, 3.7 km at 200 m/s and 10 deg - hence both a pad sited far from the base and a berm, belt and braces."
-      ]
+        "Ballistic range of ejected grit: 470 m at 100 m/s and 5 deg, 3.7 km at 200 m/s and 10 deg - hence both a pad sited far from the base and a berm, belt and braces.",
+        "L2 ejecta energy (scripts/sim_ejecta_shadow_ops_spaceport_01.py): the berm casts no geometric shadow - a grain lobbed steeply enough clears it and lands at any radius. What the berm does is strip energy, not block range: grains that clear it first land near r = 40 m at only 12-32 m/s, retaining 0.4-2.6% of the 200 m/s unbermed sandblast energy, which threatens no structure outside the berm.",
+        "That analysis exposed the one real gap: the +Z gateway, where the berm breaks for +/-11.5 deg and the fire garage and container yard face full-speed low-angle sandblast. A 26 m traverse was added 52 m out, blocking +/-14 deg so no line of sight survives, with the road doglegged around it - vehicles waiting on the dogleg sit at 17-21 deg azimuth, still behind the main berm.",
+        "Inter-pad interference (sec. 9 [C10]): ops-spaceport-02 lies 515 m away, each inside the other's ejecta range. The most dangerous low-angle path (5 deg, 105 m/s) is stopped by the 4 m berm, which it clears by only 3 m; what actually arrives next door is mid-angle grit at 44-75 m/s - no structural threat, but a firm personnel exclusion whenever either pad is active. A siting constraint follows: this gateway points 65 deg off the neighbour and their flame trench points 169 deg away from us, so changing either rotation_deg requires redoing this analysis."
+      ],
+      "physics": "稀薄大气几乎不减速砂粒,弹道就是纯几何:高 h、距 d 的土堤拦下仰角 ≤ atan(h/d) 的一切。羽流溅射以贴地低仰角为绝对主体,所以 6.3° 的拦截角就吃掉了绝大多数动能通量。",
+      "physics_en": "Thin air barely slows a grain, so its flight is pure geometry: a berm of height h at range d stops everything launched below atan(h/d). Plume ejecta leaves overwhelmingly in a ground-hugging sheet, so a 6.3-deg intercept swallows nearly all of the kinetic-energy flux."
     },
     {
       "id": "service-tower",
@@ -44,8 +78,22 @@
       "range": 30,
       "detail": "坪缘钢结构桁架塔，为 50 m 星舰量身：下摆臂为推进剂快断臂（对准星舰尾部 QD 脱插板，挂双管线），上摆臂为人员通道臂（平台面 35.8 m，对准 36.8 m 乘员舱门）。两臂均为铰点子组，发射前摆开。塔顶吊机房+避雷针，塔身电梯井与航空障碍灯。",
       "detail_en": "A steel lattice tower at the pad rim, sized around the 50 m Starship: the lower arm is the propellant quick-disconnect arm (aligned with the vehicle's aft QD plate, carrying two lines) and the upper one is the crew access arm (deck at 35.8 m, aligned with the 36.8 m crew hatch). Both are hinged sub-assemblies that swing clear before launch. A crane house and lightning rod sit on top, with a lift shaft and aviation obstruction lights down the face.",
-      "specs": { "塔高": "45 m", "快断臂": "y≈5.5 m → QD 板", "人员臂": "y≈37.5 m → 舱门", "臂长": "10.5 m（距 Ø9 m 筒身留 0.8 m）", "动画": "arm-qd / arm-crew 铰点子组" },
-      "specs_en": { "Tower height": "45 m", "Quick-disconnect arm": "y ~5.5 m, to the QD plate", "Crew arm": "y ~37.5 m, to the hatch", "Arm length": "10.5 m (0.8 m clearance to the dia. 9 m hull)", "Animation": "arm-qd / arm-crew hinge sub-groups" }
+      "specs": {
+        "塔高": "45 m",
+        "快断臂": "y≈5.5 m → QD 板",
+        "人员臂": "y≈37.5 m → 舱门",
+        "臂长": "10.5 m（距 Ø9 m 筒身留 0.8 m）",
+        "动画": "arm-qd / arm-crew 铰点子组"
+      },
+      "specs_en": {
+        "Tower height": "45 m",
+        "Quick-disconnect arm": "y ~5.5 m, to the QD plate",
+        "Crew arm": "y ~37.5 m, to the hatch",
+        "Arm length": "10.5 m (0.8 m clearance to the dia. 9 m hull)",
+        "Animation": "arm-qd / arm-crew hinge sub-groups"
+      },
+      "physics": "低温脱插决定了塔的几何:管线要预冷到 90/111 K 才能过液、接口必须刚性密封、点火前瞬间弹开——快断臂高度因此被箭上 QD 板锁死,人员臂被舱门锁死。塔就是箭的接口表在地面坐标系里的投影。",
+      "physics_en": "Cryogenic quick-disconnects dictate the tower's geometry: lines must chill to 90/111 K before flowing liquid, seal rigidly, and spring clear an instant before ignition - so the QD arm is slaved to the vehicle's QD plate and the crew arm to the hatch. The tower is the ship's interface table projected into ground coordinates."
     },
     {
       "id": "prop-farm",
@@ -54,14 +102,30 @@
       "range": 25,
       "detail": "土堤外 -X 侧：两条 12 m 卧式低温储罐（绿环=甲烷、蓝环=液氧），鞍座支撑，配泵撬、放空立管、罐顶人孔与低护栏；双排保温管线下穿土堤接坪缘接口井，再由快断臂接入箭上。上游对接 ISRU 甲烷厂的输气管线。",
       "detail_en": "Outside the berm on the -X side: two 12 m horizontal cryogenic tanks (green band for methane, blue for liquid oxygen) on saddle supports, with a pump skid, vent stacks, tank-top manways and a low guardrail. Two rows of insulated line pass under the berm into a service pit at the pad rim, and the quick-disconnect arm takes it from there into the vehicle. Upstream it ties into the ISRU methane plant.",
-      "specs": { "储罐": "2 × L12 m Ø3.5 m", "标识": "绿=CH₄ / 蓝=LOX", "管线": "双排 Ø0.4 m 下穿土堤", "上游": "res-isru-01" },
-      "specs_en": { "Tanks": "2 x L12 m dia. 3.5 m", "Marking": "green = CH4 / blue = LOX", "Lines": "two rows of dia. 0.4 m, under the berm", "Upstream": "res-isru-01" },
+      "specs": {
+        "储罐": "2 × 卧式胶囊罐,总长 12 m / Ø3.5 m,单罐 104 m³(双罐 208 m³)",
+        "标识": "绿=CH₄ / 蓝=LOX",
+        "管线": "双排 Ø0.4 m 下穿土堤",
+        "上游": "res-cryo-01 低温罐区(罐车 1.44 km 公路),更上游 res-isru-01",
+        "装量": "LOX 119 t + CH₄ 44 t = 163 t(一发星舰 1200 t 的 14%)"
+      },
+      "specs_en": {
+        "Tanks": "2 horizontal capsule vessels, 12 m overall x dia. 3.5 m, 104 m3 each (208 m3 total)",
+        "Marking": "green = CH4 / blue = LOX",
+        "Lines": "two rows of dia. 0.4 m, under the berm",
+        "Upstream": "res-cryo-01 cryo farm by road tanker over 1.44 km; res-isru-01 beyond that",
+        "Inventory": "LOX 119 t + CH4 44 t = 163 t (14% of a 1200 t Starship load)"
+      },
       "sim": [
-        "任务耦合（§9【E】）：星舰满箱 1200 t 需 res-isru-01 40 台并联/1.6 MWe 才能赶单个发射窗口——本区储罐是转运缓冲，不是产能主体"
+        "任务耦合（§9【E】）：星舰满箱 1200 t 需 res-isru-01 40 台并联/1.6 MWe 才能赶单个发射窗口——本区储罐是转运缓冲，不是产能主体",
+        "罐车接口(对接 res-cryo-01 账 3):罐车单趟 14.6 t LOX / 5.4 t CH₄ → 本区罐正好 8.1 车;一发星舰 114 趟,场站罐须在一次加注战役中灌满-排空 ~8 次——灌箭速率必须跟上卸车速率,场站罐是节拍缓冲而非库容"
       ],
       "sim_en": [
-        "Mission coupling (section 9 [E]): a full 1200 t Starship load needs 40 res-isru-01 units in parallel at 1.6 MWe to make a single launch window - these tanks are transfer buffer, not production capacity."
-      ]
+        "Mission coupling (section 9 [E]): a full 1200 t Starship load needs 40 res-isru-01 units in parallel at 1.6 MWe to make a single launch window - these tanks are transfer buffer, not production capacity.",
+        "Tanker interface (matching res-cryo-01 account 3): one tanker delivers 14.6 t LOX or 5.4 t CH4, so this farm holds exactly 8.1 tanker loads; a full Starship takes 114 trips, cycling these tanks fill-to-empty about 8 times per loading campaign - transfer rate into the ship must keep pace with unloading, making the farm a tempo buffer rather than storage."
+      ],
+      "physics": "低温储存的敌人是漏热,而火星帮忙:均温 ~−60 °C、气压 ~600 Pa,对流漏热比地球低一个量级,剩下的辐射项靠白漆低吸收比压住。卧式短罐同时最小化静液压头与晃动力臂——罐形是热学与结构的折中解。",
+      "physics_en": "The enemy of cryo storage is heat leak, and Mars helps: ~-60 C ambient and ~600 Pa air cut convective leak an order of magnitude below Earth's, and white low-absorptivity paint holds down the remaining radiative term. Short horizontal tanks minimize hydrostatic head and slosh arm at once - the tank shape is the thermal-structural compromise."
     },
     {
       "id": "bunker",
@@ -70,8 +134,20 @@
       "range": 25,
       "detail": "土堤外 +X 后方的半埋式拱顶碉堡：顶部覆土抗喷砂，正面水平观察窗缝朝坪（夜间发光），背面防爆门带引道翼墙，拱顶双通风筒，桅杆天线 + 2 m 跟踪雷达碟指向天顶偏 45°。发射与回收期间人员唯一驻留点。",
       "detail_en": "A half-buried vaulted blockhouse behind the berm on the +X side: earth cover on the roof against sandblast, a horizontal observation slit facing the pad (lit at night), a blast door with flanking approach walls at the rear, twin ventilation stacks on the vault, a mast antenna and a 2 m tracking radar dish held 45 deg off zenith. The only crewed position during launch and recovery.",
-      "specs": { "构型": "半埋拱顶覆土", "观察窗": "水平缝（夜光）", "雷达": "Ø2 m，仰角 45°", "防护": "喷砂区内唯一有人设施" },
-      "specs_en": { "Configuration": "half-buried earth-covered vault", "Observation": "horizontal slit (lit at night)", "Radar": "dia. 2 m, 45 deg elevation", "Protection": "the only crewed facility inside the sandblast zone" }
+      "specs": {
+        "构型": "半埋拱顶覆土",
+        "观察窗": "水平缝（夜光）",
+        "雷达": "Ø2 m，仰角 45°",
+        "防护": "喷砂区内唯一有人设施"
+      },
+      "specs_en": {
+        "Configuration": "half-buried earth-covered vault",
+        "Observation": "horizontal slit (lit at night)",
+        "Radar": "dia. 2 m, 45 deg elevation",
+        "Protection": "the only crewed facility inside the sandblast zone"
+      },
+      "physics": "喷砂是动能通量,防护随面密度衰减——半米覆土抵得上十几毫米钢板。水平观察缝是几何最优:一条视线需要的立体角趋近于零,而暴露面积正比开口高度,\"缝\"就是信息进、动能不进的解。",
+      "physics_en": "Sandblast is a kinetic-energy flux and shielding attenuates with areal density - half a metre of soil is worth a dozen millimetres of steel. The horizontal slit is a geometric optimum: a sightline needs a vanishing solid angle while exposure scales with opening height, so a slit lets information in and kinetic energy stay out."
     },
     {
       "id": "fire-garage",
@@ -80,8 +156,18 @@
       "range": 20,
       "detail": "+Z 通道旁单开间车棚，橙色救援车（警灯条红闪、顶置水炮）随时待命；通道口双门柱、风向标（常年摆动）、物资集装箱堆场。场区四角 8 m 双层泛光灯塔夜间照明。",
       "detail_en": "A single-bay shelter beside the +Z gateway with an orange rescue vehicle on standby (red flashing light bar, roof-mounted water cannon). The gateway has twin posts, a windsock that never stops moving, and a container yard for supplies; four 8 m twin-head floodlight masts light the site at night.",
-      "specs": { "救援车": "1 台（警灯+水炮）", "风向标": "oscillator 驱动", "泛光": "4 × 8 m 双灯箱" },
-      "specs_en": { "Rescue vehicle": "1 (light bar and water cannon)", "Windsock": "oscillator driven", "Floodlights": "4 x 8 m twin-head masts" }
+      "specs": {
+        "救援车": "1 台（警灯+水炮）",
+        "风向标": "oscillator 驱动",
+        "泛光": "4 × 8 m 双灯箱"
+      },
+      "specs_en": {
+        "Rescue vehicle": "1 (light bar and water cannon)",
+        "Windsock": "oscillator driven",
+        "Floodlights": "4 x 8 m twin-head masts"
+      },
+      "physics": "甲烷火焰在 95% CO₂ 的大气里几乎烧不起来——火星\"消防\"的真实对象是低温泄漏与高压气瓶,水炮实为降温稀释工具。风向标则是全场最便宜的传感器:泄漏云与羽流往哪走,由风场一票决定。",
+      "physics_en": "A methane flame can barely sustain itself in 95% CO2 - Mars \"firefighting\" is really about cryogenic leaks and pressure vessels, and the water cannon is a chill-and-dilute tool. The windsock is the cheapest sensor on site: where a leak cloud or plume drifts is decided by the wind, full stop."
     }
   ]
 }

@@ -8,8 +8,16 @@
       "range": 24,
       "detail": "跨堆场的黄色龙门吊,小车沿 20 m 主梁往复,转锁吊具抓标准箱。火星起重的甜头:同一只 10 t 集装箱在这里只压 37 kN(地球 98 kN),同样的钢结构额定值放大 2.6 倍。但小车开得很慢——那是刻意的。",
       "detail_en": "The yellow gantry spans the stack, its trolley shuttling along a 20 m beam with a twist-lock spreader. The Martian lifting bargain: a 10 t container presses down only 37 kN here against 98 kN on Earth, so the same steel is rated 2.6x higher. Yet the trolley crawls - deliberately.",
-      "specs": { "跨度": "20 m 双 A 腿", "吊重": "同结构额定 2.6×", "小车": "慢速往复（惯性限制）" },
-      "specs_en": { "Span": "20 m on twin A-legs", "Rating": "2.6x same-structure", "Trolley": "slow shuttle (inertia-limited)" },
+      "specs": {
+        "跨度": "20 m 双 A 腿",
+        "吊重": "同结构额定 2.6×",
+        "小车": "慢速往复（惯性限制）"
+      },
+      "specs_en": {
+        "Span": "20 m on twin A-legs",
+        "Rating": "2.6x same-structure",
+        "Trolley": "slow shuttle (inertia-limited)"
+      },
       "sim": "起重账:重量 mg 随 0.38 缩,但摆动、启停、刹车全由质量 m 决定——m 一克没少。吊 10 t 箱的水平加减速载荷与地球完全相同,小车限速就是把「重量便宜了」和「惯性没便宜」两笔账分开记。",
       "sim_en": "Lifting ledger: weight mg scales by 0.38, but swing, starting, and braking are governed by mass m - and not one gram of it left. Horizontal accel loads on a 10 t box match Earth exactly; the trolley speed limit is the bookkeeping that separates cheap weight from full-price inertia.",
       "physics": "低重力搬运的普适定律:凡是「抬」的都打 0.38 折,凡是「加速」的原价——起重机变轻了,刹车距离和吊物摆角一点没变。和村里自行车的刹车账是同一条物理。",
@@ -22,10 +30,24 @@
       "range": 18,
       "detail": "两列错落的火星标准箱(4.4×2.4×2.2 m,按长十乙货舱包络定尺)。每只箱有编号有去向:进港的是地球来的精密件与备件,出港的是样品、返修件和 ISRU 副产品。堆高不超过两层——不是吊不动,是尘暴风载算的。",
       "detail_en": "Two staggered rows of Mars-standard boxes (4.4 x 2.4 x 2.2 m, sized to the CZ-10B cargo envelope). Every box has a number and a destination: inbound carries Earth precision parts and spares, outbound samples, returns, and ISRU byproducts. Stacks stop at two high - not a crane limit, a dust-storm wind-load calculation.",
-      "specs": { "箱型": "4.4×2.4×2.2 m（长十乙货舱包络）", "堆高": "≤2 层（尘暴风载）", "流向": "进口备件 / 出口样品与返修件" },
-      "specs_en": { "Box": "4.4 x 2.4 x 2.2 m (CZ-10B envelope)", "Stack": "2 high max (storm wind load)", "Flow": "spares in, samples and returns out" },
-      "sim": "吞吐账:ISRU 200 kWe 产能对应每会合窗口 3.3 次发射(长十乙战役账),LMO 单发 18~24 t——一个窗口的天地吞吐折合 60~80 t,约 15~20 只满载箱。这个堆场按两个窗口的峰值缓冲定容。",
-      "sim_en": "Throughput ledger: 200 kWe of ISRU supports 3.3 launches per synodic window (the CZ-10B campaign ledger), 18-24 t to LMO each - 60-80 t of orbit-bound cargo per window, some 15-20 full boxes. The yard is sized to buffer two windows' peaks.",
+      "specs": {
+        "箱型": "4.4×2.4×2.2 m（长十乙货舱包络）",
+        "堆高": "≤2 层（尘暴风载）",
+        "流向": "进口备件 / 出口样品与返修件"
+      },
+      "specs_en": {
+        "Box": "4.4 x 2.4 x 2.2 m (CZ-10B envelope)",
+        "Stack": "2 high max (storm wind load)",
+        "Flow": "spares in, samples and returns out"
+      },
+      "sim": [
+        "吞吐账:ISRU 200 kWe 产能对应每会合窗口 3.3 次发射(长十乙战役账),LMO 单发 18~24 t——一个窗口的天地吞吐折合 60~80 t,约 15~20 只满载箱。这个堆场按两个窗口的峰值缓冲定容。",
+        "粮食上货单（总控裁定：方案 C 对半）：全城 115 人本地热量自给率仅 8.3%（种植面 519 m²），进口主粮 71.6 t/会合窗口——等于旧 60~80 t 包线的全部。裁定：吞吐包线重述为 ~100 t/窗口（食物约占一半），同时新建主粮种植舱 res-grain-01 把自给率拉向 50%；堆肥自举时间表约 16 个火星年达到全热量自给（res-recycle-01 堆肥卡）。"
+      ],
+      "sim_en": [
+        "Throughput ledger: 200 kWe of ISRU supports 3.3 launches per synodic window (the CZ-10B campaign ledger), 18-24 t to LMO each - 60-80 t of orbit-bound cargo per window, some 15-20 full boxes. The yard is sized to buffer two windows' peaks.",
+        "Food on the manifest (integrator ruling: option C, half and half): at 8.3% local caloric self-sufficiency (519 m2 of beds), the city imports 71.6 t of staples per synodic window - the whole of the old 60-80 t envelope. Ruling: the envelope is restated to ~100 t per window, roughly half of it food, while a staple-crop module res-grain-01 grows self-sufficiency toward 50%; the compost bootstrap reaches full caloric independence in about 16 Mars years (res-recycle-01 compost card)."
+      ],
       "physics": "标准化是物流的第一物理:箱型统一后,吊具、拖车、发射台托架、货舱锁定点全部收敛成一套接口——火星上每一种「转接件」都是从地球运来的质量。",
       "physics_en": "Standardization is the first physics of logistics: one box format collapses spreaders, trailers, pad cradles, and bay latch points into a single interface - and on Mars, every adapter is mass shipped from Earth."
     },
@@ -36,8 +58,16 @@
       "range": 16,
       "detail": "半圆拱备件仓,卷帘门朝东。里面按失效率排货架:滤芯、密封圈、泵、电路板——都是「等地球补给等不起」的东西。拱形依旧是那笔结构账:曲面受压,方盒受弯。",
       "detail_en": "The half-arch spares warehouse, roll-door facing east. Shelved by failure rate: filters, seals, pumps, circuit boards - everything that cannot wait for the next resupply. The arch is the same structural ledger as ever: curves take compression, boxes take bending.",
-      "specs": { "结构": "半圆拱(受压曲面)", "存货逻辑": "按失效率×在途时间", "门": "东向卷帘 + 门灯" },
-      "specs_en": { "Structure": "half arch, compression shell", "Stocking": "failure rate x pipeline time", "Door": "east roll-door with lamp" },
+      "specs": {
+        "结构": "半圆拱(受压曲面)",
+        "存货逻辑": "按失效率×在途时间",
+        "门": "东向卷帘 + 门灯"
+      },
+      "specs_en": {
+        "Structure": "half arch, compression shell",
+        "Stocking": "failure rate x pipeline time",
+        "Door": "east roll-door with lamp"
+      },
       "sim": "库存账:补给窗口 26 个月一班,任何备件的安全库存 = 失效率 × 26 个月在途 + 峰值余量。地球上「下周到货」的零件,在这里全部换算成货架深度——仓库的体积就是会合周期的几何表达。",
       "sim_en": "Inventory ledger: resupply runs every 26 months, so safe stock of any part equals failure rate times a 26-month pipeline plus peak margin. Parts that arrive 'next week' on Earth convert here into shelf depth - this building's volume is the synodic period expressed as geometry.",
       "physics": "行星际物流没有加急件:轨道力学规定发货日。所以火星的仓储策略更像远洋帆船时代——库存深度不是管理选择,是天体力学边条件。",
@@ -50,8 +80,16 @@
       "range": 14,
       "detail": "标线三泊位朝着东干道,一台平板拖车正载着蓝箱等牵引。这里是「最后一公里」的接口:重货走拖车沿路网,轻货直接吊上巡逻车货斗。旁边的充电桩管拖车电驱——全城车辆同一套 400 V 直流标准。",
       "detail_en": "Three marked bays face the east trunk road, a flatbed trailer waiting with a blue box aboard. This is the last-kilometre interface: heavy cargo rides trailers down the road network, light loads go straight into rover beds. The charge post feeds the trailer's electric drive - one 400 V DC standard city-wide.",
-      "specs": { "泊位": "3(标线) ", "拖车": "平板电驱,载 1 标准箱", "充电": "400 V 直流(全城统一)" },
-      "specs_en": { "Bays": "3, line-marked", "Trailer": "electric flatbed, one box", "Charging": "400 V DC, city standard" },
+      "specs": {
+        "泊位": "3(标线) ",
+        "拖车": "平板电驱,载 1 标准箱",
+        "充电": "400 V 直流(全城统一)"
+      },
+      "specs_en": {
+        "Bays": "3, line-marked",
+        "Trailer": "electric flatbed, one box",
+        "Charging": "400 V DC, city standard"
+      },
       "sim": "周转账:一只箱从发射场到用户 = 公路 40 分钟 + 吊装两次(每次 ~6 分钟)。瓶颈不在吊也不在路,在「箱到人」的开箱清点——所以泊位设三个:一个在卸,一个在检,一个在等。",
       "sim_en": "Turnaround ledger: one box from pad to user takes a 40-minute road leg plus two crane cycles of ~6 minutes. The bottleneck is neither crane nor road but box-to-hands inventory check - hence three bays: one unloading, one inspecting, one queued.",
       "physics": "物流坪的排队论:到达是批量的(一船一批),消费是连续的——缓冲区的意义就是把「脉冲到货」整流成「稳定发料」。堆场和拱仓是同一只电容的两极。",

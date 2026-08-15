@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- ▸ REPLACE: page title -->
+<title>Grid — Virtual-Physical Mars City</title>
+<meta name="description" content="The buried MVDC grid of Mars City: why 6 mbar of CO2 forbids transmission towers, why the planet is too small to earth against, and the ledger that reconciled three power scopings 1600x apart.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    /* ▸ REPLACE: district accent (must match your card in index.html) */
+    --accent:var(--cyan);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="power.html">← Prev</a>
+    <a href="rockets.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">pwr-grid-01 · pwr-grid-net-01</div>
+    <h1>Grid</h1>
+    <p class="phead__sub">Mars City ran an 848 MW fusion reactor and did not own a single
+      cable. Fourteen roads and seven pipe racks were modelled; the electrical network was
+      absent, and five knowledge cards cited &ldquo;the grid&rdquo; as if it were a thing that
+      existed. This is the substation that closes it &mdash; and the ten ledgers that found out
+      what a grid on Mars is actually allowed to be.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">City load</div><div class="spec__v">707<small>kW mean</small></div></div>
+    <div class="spec"><div class="spec__k">Trunk</div><div class="spec__v">&plusmn;10<small>kV DC</small></div></div>
+    <div class="spec"><div class="spec__k">Buried corridors</div><div class="spec__v">7,058<small>m</small></div></div>
+    <div class="spec"><div class="spec__k">Overhead line</div><div class="spec__v">0<small>m &mdash; and that is the design</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">A rectifier hall, a switchgear line-up and a cable trench, sited between
+      the reactor and the city &mdash; the missing link between 176 MWe and everything that
+      spends it.</p>
+    <div class="prose">
+      <p>The generator hall next door makes 13.8&nbsp;kV of alternating current, because a
+      synchronous machine cannot do anything else. That AC travels <strong>72 metres</strong>
+      inside a pressurised duct and is rectified on arrival. Past this building there is no
+      alternating current anywhere in Mars City.</p>
+      <p>What leaves instead is a bipolar <strong>&plusmn;10&nbsp;kV DC</strong> trunk system on
+      seventeen buried corridors, plus the surface furniture that makes an invisible network
+      readable: route markers whose colour band gives the voltage and whose chevron points the
+      way the cable goes, joint pits, and sealed tap cabinets.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/grid/grid_hero.jpg" alt="The substation, three-quarter view" loading="lazy">
+      <figcaption>PWR-GRID-01 &mdash; RECTIFIER HALL CUT AWAY, PRESSURISED BUSDUCT AT RIGHT, CABLE TRENCH ACROSS THE FRONT</figcaption>
+    </figure>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/grid/grid_trench.jpg" alt="The cable trench with lids lifted" loading="lazy">
+        <figcaption>THREE LIDS LIFTED &mdash; RED +10 KV, BLUE &minus;10 KV, GREEN BONDING</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/grid/grid_night.jpg" alt="The substation at night" loading="lazy">
+        <figcaption>AFTER DUSK &mdash; SCADA WINDOW, VALVE-POSITION STRIPS, MARKER-POST REFLECTORS</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>The sheet nobody had written</h2></div>
+    <p class="lead">The city had been scoped for power three times, 1600&times; apart, and no
+      document said which number belonged to which busbar.</p>
+    <div class="prose">
+      <p>EQUIPMENT.md sized it at <strong>107&nbsp;kWe</strong> for six Kilopower units.
+      pwr-storage-01 verified an <strong>833&nbsp;kW</strong> islanded design point. power.html
+      headlines <strong>176&nbsp;MWe</strong> net. All three are correct, and all three were
+      being quoted interchangeably.</p>
+      <p>The apparent contradiction between the reactor's <strong>390&nbsp;MWe</strong> and the
+      site's <strong>176&nbsp;MWe</strong> was never a contradiction at all: the same machine,
+      read at two different busbars. 975&nbsp;MW thermal &times; 40% gives 390&nbsp;MWe at the
+      generator terminals; <strong>208&nbsp;MWe walks straight back</strong> into the klystrons
+      that keep the plasma current alive; 6.5&nbsp;MWe more goes to the cryoplant. What crosses
+      the fence is 176. Recirculating fraction 54.9%, engineering Q<sub>e</sub> 1.82.</p>
+      <p>Totalled item by item across fifty assets, the city draws <strong>707&nbsp;kW mean and
+      1,075&nbsp;kW at coincident peak</strong>. Where a card stated no power, the load was
+      closed against the asset's own heat-rejection geometry &mdash; on Mars there is no
+      convection, so <strong>radiator area is the power meter</strong>.</p>
+      <p>Which produces the line that matters most to every future asset: <strong>the city
+      consumes 0.40% of its reactor.</strong> The other 99.6%, converted at 5.45&nbsp;kWh/kg, is
+      roughly 618 kilotonnes of methalox per synod &mdash; about 515 Starship loads.
+      pwr-fusion-01 was never sized for the city. It was sized for a propellant export industry,
+      and the city is the rounding error living next door.</p>
+      <p><strong>On Mars, energy is not the constraint. Conductor mass, heat rejection and
+      insulation are.</strong></p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/grid/01_three_eras.png" alt="Three power scopings 1600x apart" loading="lazy">
+        <figcaption>THREE ERAS, 1600&times; APART &mdash; AND THE AS-BUILT NUMBER BETWEEN THEM</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/grid/01_where_it_goes.png" alt="Where the 390 MWe goes" loading="lazy">
+        <figcaption>390 MWE GROSS &mdash; THE CITY IS THE THIN SLICE</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>Why there are no pylons</h2></div>
+    <p class="lead">Six millibars of CO&#8322; puts every millimetre-scale gap almost exactly on
+      the Paschen minimum. On Earth you only reach that condition inside a vacuum chamber during
+      pump-down. On Mars it is the weather.</p>
+    <div class="prose">
+      <p>The global Paschen minimum for CO&#8322; is <strong>249&nbsp;V, and at Martian surface
+      pressure it falls at a 1.17&nbsp;mm gap</strong> &mdash; a gap that exists in every
+      half-mated connector and every bolted flange with dust in it. On Earth that same minimum
+      sits at 7&nbsp;micrometres. Mars does not raise the breakdown voltage; it moves the worst
+      case out of the laboratory and into the hardware store. Only <strong>48&nbsp;V is safe in
+      the open</strong>, because it cannot strike an arc at any gap at all.</p>
+      <p>For an overhead line the binding number is corona. A bare 20&nbsp;kV conductor eight
+      metres up needs a <strong>123&nbsp;mm diameter</strong> to stay out of corona at Martian
+      density; ampacity asks for 5.5&nbsp;mm. At 132&nbsp;kV there is <em>no</em> corona-free
+      conductor at that height at all. Two independent routes &mdash; Peek's density scaling and
+      the Townsend ionisation integral &mdash; agree within 9% two decades below where Peek was
+      fitted, which is what licenses the result.</p>
+      <p>And a third, entirely independent veto: corona is a broadband HF noise source, and the
+      city owns a low-frequency radio array whose own account fixes the pass line. A permanently
+      discharging overhead line is the textbook way to fail it.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/grid/02_paschen_windows.png" alt="Paschen breakdown windows per bus voltage" loading="lazy">
+        <figcaption>EVERY BUS ABOVE 249 V HAS A GAP THAT WILL ARC. ONLY 48 V HAS NONE</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/grid/02_corona.png" alt="Corona inception vs conductor diameter" loading="lazy">
+        <figcaption>THE SURFACE GRADIENT BEATS INCEPTION UNTIL THE CONDUCTOR IS ABSURD</figcaption>
+      </figure>
+    </div>
+
+    <h3 style="margin-top:44px;font-size:1.25rem;">And there is no earth to connect to</h3>
+    <div class="prose">
+      <p>Dry, cold regolith runs 10<sup>7</sup>&ndash;10<sup>9</sup>&nbsp;&Omega;&middot;m. A 3&nbsp;m
+      rod that gives 34&nbsp;&Omega; in moist Earth soil gives <strong>34&nbsp;megohm</strong>
+      here. To reach the 5&nbsp;&Omega; an Earth substation is designed to, the electrode would
+      need an equivalent radius of <strong>5,000&nbsp;km &mdash; larger than the planet</strong>,
+      whose radius is 3,390&nbsp;km.</p>
+      <p>So Mars City is wired as an <strong>IT system</strong>: unearthed, isolated, with
+      continuous insulation monitoring. A first earth fault trips nothing; it is annunciated and
+      located while supply continues, which is the correct behaviour where loss of supply is a
+      life-safety event. The &ldquo;earthing grid&rdquo; modelled at the substation is an
+      <em>equipotential bonding mesh</em>, and fault current comes home on a dedicated metallic
+      return conductor, never through the ground.</p>
+      <p class="src" style="color:var(--ink-dim);">Calibre note: that punchline is stated at the
+      nominal 10<sup>8</sup>&nbsp;&Omega;&middot;m. At the wet-optimistic end the electrode is
+      &ldquo;only&rdquo; 500&nbsp;km. The engineering conclusion is unaffected across the whole
+      range &mdash; a 100&nbsp;&times;&nbsp;100&nbsp;m city mesh is 8,865&times; to 886,525&times;
+      too resistive. The rhetoric is calibre-dependent; the design is not.</p>
+      <p>Corroboration that was already sitting in another session's file: the mars-heli charge
+      dock budgets <span class="src">insulation monitor + contactor hold, 0.70&nbsp;W</span>. An
+      insulation monitor is what an unearthed system needs and an earthed one does not. That
+      session paid for it without saying why. This is why.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/grid/02_earthing.png" alt="Ground rod resistance, Earth vs Mars" loading="lazy">
+      <figcaption>SIX ORDERS OF MAGNITUDE OF MISSING ELECTRODE</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What runs underground instead</h2></div>
+    <p class="lead">Conductor mass goes as 1/V&sup2; and nothing else in this problem does. On
+      Earth that argument is about money; on Mars it is about how many Starships the cable costs.</p>
+    <div class="prose">
+      <p>The same 1.2&nbsp;MW over 2&nbsp;km at 2% loss needs <strong>457 tonnes</strong> of
+      aluminium at 400&nbsp;V and <strong>731&nbsp;kg</strong> at 10&nbsp;kV. Above about
+      20&nbsp;kV the cable stops being loss-limited, so more voltage buys no more metal and only
+      more insulation cost &mdash; which is where the optimum stops.</p>
+      <p>Bipolar DC needs <strong>half</strong> the conductor of three-phase AC at equal loss and
+      equal peak dielectric stress; aluminium over copper takes that to a quarter. The textbook
+      long-distance argument for DC does not apply at 2&nbsp;km &mdash; the real argument is the
+      load list. Klystron modulators, electrolysers, the battery field, LED grow lights, every
+      VFD-driven pump, computing, the helicopter dock, robot chargers: <strong>not one load in
+      the city genuinely wants AC.</strong> An AC bus would exist purely to be rectified again.</p>
+      <p>Then Mars charges for the burial it just demanded. Regolith conducts heat at
+      <strong>0.04&nbsp;W/mK</strong> &mdash; a thirtieth of Earth soil. It refunds part of it,
+      because at 210&nbsp;K a cable is allowed a 153&nbsp;K rise instead of 75, but a directly
+      buried cable still carries a fraction of its Earth ampacity. <strong>Paschen drives you
+      underground, and the ground punishes you for it.</strong></p>
+      <p>There is a consolation, and it is a real one: four of IEC&nbsp;60287's eight terms are
+      <em>identically zero</em> here. DC has no dielectric loss, no sheath eddy loss and no
+      armour loss; Mars has no liquid water to dry out, so the one Earth failure mode that makes
+      buried cables derate unpredictably does not exist. <strong>A Martian DC cable is thermally
+      simpler than an Earth AC one.</strong></p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/grid/03_mass_law.png" alt="Conductor mass vs voltage" loading="lazy">
+        <figcaption>MASS &prop; V&#8315;&sup2; &mdash; 400 V TO 10 KV IS A FACTOR OF 625</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/grid/09_iec.png" alt="IEC 60287 thermal circuit and mutual heating" loading="lazy">
+        <figcaption>THE CABLE STOPS MATTERING WHEN THE SOIL IS THIS BAD &mdash; 2.5% ON MARS, 43% ON EARTH</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="assets/grid/03_corridors.png" alt="The seventeen buried corridors" loading="lazy">
+      <figcaption>SEVENTEEN CORRIDORS, 7,058 M, 10.9 KW OF I&sup2;R AT DESIGN LOAD</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>When the reactor stops</h2></div>
+    <p class="lead">Islanding is a stopwatch, not a wall &mdash; and a global dust storm is not a
+      power event at all.</p>
+    <div class="prose">
+      <p>The storage field's 2&nbsp;MW inverter covers the entire unshed city with 3.3&times;
+      margin, so islanding is never a power problem. It is an energy problem: 20&nbsp;MWh divided
+      by the load is 1.3 sols. The four-tier shedding ladder &mdash; ranked by <em>what an
+      interruption costs</em>, not by importance &mdash; winds that out to 10.3 sols.</p>
+      <p>Which produced a closure nobody had written down. pwr-storage-01 verified that its field
+      carries <strong>145&nbsp;kW for 30 sols at 15% residual sun</strong>. This dossier
+      independently computes the city's survival tier &mdash; emergency life support, habitat
+      thermal, comms, the lift, the airlocks, the seismic station &mdash; at <strong>78&nbsp;kW</strong>.
+      Two sessions, two purposes, neither aware of the other, and the numbers close at 1.85&times;.
+      That renames the asset: it is not &ldquo;the other grid&rdquo;. It is <strong>the survival
+      grid</strong>.</p>
+      <p>A dust storm, meanwhile, moves the city <em>up</em> &mdash; to about 1.6&nbsp;MW, because
+      the greenhouse lamps go to full artificial photoperiod and the battery must be charged from
+      the trunk instead of the sun. That is under 1% of supply. For Mars City a global dust storm
+      is a logistics and abrasion event, not a power event, and that sentence is only true because
+      the city stopped being solar-powered.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/grid/04_stopwatch.png" alt="Islanded endurance vs shed load" loading="lazy">
+        <figcaption>THE SHEDDING LADDER IS HOW YOU WIND THE STOPWATCH</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/grid/04_storm.png" alt="Dust storm load sequence" loading="lazy">
+        <figcaption>THE STORM SEQUENCE &mdash; LOAD GOES UP, NOT DOWN</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>Two things the method found</h2></div>
+    <p class="lead">Closing every load against its own heat path is a check. Twice it stopped
+      being a check and became a finding.</p>
+    <div class="prose">
+      <p><strong>The undercity has 269&nbsp;kW of heat and nowhere to put it.</strong> Thirty
+      metres of rock conducts away 16&nbsp;kW, and takes 32 years to reach even that; the deep lab
+      pushes 29&nbsp;kW into 3&nbsp;km rock sitting at 232&nbsp;K. The remaining 269&nbsp;kW must
+      be pumped to the surface and radiated, needing roughly 617&nbsp;m&sup2; of panel &mdash;
+      <em>which exists in no asset</em>. The three underground modules contain no heat-rejection
+      geometry at all. The coolant loop that carries it costs 0.2&nbsp;kW of pumping, because in a
+      closed loop the up-leg and down-leg gravity heads cancel exactly: the missing item is the
+      radiator, not the pump.</p>
+      <p><strong>Radio quiet has a price, and nobody had paid it.</strong> The array does not only
+      forbid pylons; it taxes the converter that was built instead. Slowing the valve edges from
+      1 to 5&nbsp;&micro;s buys <strong>14&nbsp;dB</strong> at 10&nbsp;MHz and costs
+      <strong>9.9&nbsp;kW &mdash; 1.4% of everything the city consumes</strong>, arriving as heat
+      in the radiator bank.</p>
+      <p>And one rule that runs against standard practice: every commercial converter dithers its
+      clock to pass CISPR, which smears each harmonic into a band. Beside a radio spectrometer that
+      is exactly backwards. <strong>297 discrete, predictable lines can be excised channel by
+      channel; a smeared continuum raises the floor across the whole band and cannot be excised at
+      all.</strong> Spread-spectrum clocking is therefore banned city-wide, and switching is
+      phase-locked to the city time reference &mdash; the same clock the seismic station asked for,
+      for a completely different reason.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/grid/08_undercity_heat.png" alt="Undercity heat with no path to sky" loading="lazy">
+        <figcaption>269 KW UNDER 30 M OF ROCK, AND NO RADIATOR ANYWHERE IN THE CITY</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/grid/10_emc.png" alt="EMC: edge rate trade and emitter distances" loading="lazy">
+        <figcaption>14 DB OF HF QUIET COSTS 9.9 KW &mdash; AND ONE EMITTER SITS INSIDE THE EXCLUSION</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">07</span><h2>The ledger</h2></div>
+    <p class="lead">Ten analytic books, 71 gates, all green. Every headline number and the script
+      that produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>City load, mean / coincident peak</td><td class="num">707 / 1,075 kW</td><td class="src">grid_01_load_ledger.py</td></tr>
+        <tr><td>Gross-to-net reconciliation</td><td class="num">390 &minus; 208 &minus; 6.5 = 176 MWe</td><td class="src">grid_01_load_ledger.py</td></tr>
+        <tr><td>City share of its own reactor</td><td class="num">0.40%</td><td class="src">grid_01_load_ledger.py</td></tr>
+        <tr><td>Paschen minimum, CO&#8322; at 610 Pa</td><td class="num">249 V @ 1.17 mm</td><td class="src">grid_02_paschen.py</td></tr>
+        <tr><td>Corona-free conductor, 20 kV at 8 m</td><td class="num">123 mm dia</td><td class="src">grid_02_paschen.py</td></tr>
+        <tr><td>Electrode radius for 5 &Omega;</td><td class="num">5,000 km</td><td class="src">grid_02_paschen.py</td></tr>
+        <tr><td>Conductor mass law</td><td class="num">&prop; V&#8315;&sup2;, exact</td><td class="src">grid_03_transmission.py</td></tr>
+        <tr><td>Bipolar DC vs 3-phase, equal loss</td><td class="num">0.50&times; conductor</td><td class="src">grid_03_transmission.py</td></tr>
+        <tr><td>Islanded endurance, T1 survival</td><td class="num">10.3 sol</td><td class="src">grid_04_islanding.py</td></tr>
+        <tr><td>Storage capability vs survival tier</td><td class="num">145 / 78 kW = 1.85&times;</td><td class="src">grid_04_islanding.py</td></tr>
+        <tr><td>Seismic feeder red-line clearance</td><td class="num">30.2&deg; (direct route 5.2&deg;)</td><td class="src">grid_05_seis_feeder.py</td></tr>
+        <tr><td>Corridor clash screen and reroute</td><td class="num">17 routes, 4 m detour</td><td class="src">grid_06_corridor_audit.py</td></tr>
+        <tr><td>Converter efficiency at the city mean</td><td class="num">96.6% (98.0% at rating)</td><td class="src">grid_07_converter_protection.py</td></tr>
+        <tr><td>Fault current with a 1 mH reactor</td><td class="num">943 A, 472 J absorbed</td><td class="src">grid_07_converter_protection.py</td></tr>
+        <tr><td>Fab load, closed a second way</td><td class="num">137.7 vs 135.4 kW</td><td class="src">grid_08_load_second_closure.py</td></tr>
+        <tr><td>Undercity heat with no path to sky</td><td class="num">269 kW · 617 m&sup2;</td><td class="src">grid_08_load_second_closure.py</td></tr>
+        <tr><td>Cable internals, share of thermal circuit</td><td class="num">2.5% Mars / 43% Earth</td><td class="src">grid_09_iec60287.py</td></tr>
+        <tr><td>Radio quiet, price in switching loss</td><td class="num">14 dB for 9.9 kW</td><td class="src">grid_10_emc.py</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">08</span><h2>What broke</h2></div>
+    <p class="lead">Six of the ten books exist because an earlier book was wrong. The gates caught
+      every one, and most of them were mine.</p>
+    <div class="prose">
+      <p><strong>48 V cannot travel.</strong> The environmental spur was drafted at 48&nbsp;V for
+      234&nbsp;m &mdash; a 28.7% voltage drop. 48&nbsp;V is a utilisation voltage, not a
+      distribution voltage. The mass law applies to my own design too.</p>
+      <p><strong>The depth of a shaft is not the depth of everything it serves.</strong> The
+      undercity feeder was hung off a 3&nbsp;km riser because the lift descends 3,000&nbsp;m. The
+      lift does &mdash; but it passes the undercity level, which sits under 30&nbsp;m of rock, on
+      the way down. Split into two risers. The self-weight result survived and got cleaner:
+      hanging stress is &rho;&middot;g&middot;L and does not depend on cross-section at all, so
+      3&nbsp;km of aluminium is 30&nbsp;MPa whatever you choose &mdash; against 79&nbsp;MPa on
+      Earth. <strong>0.38&nbsp;g is what lets that riser be one continuous cable.</strong></p>
+      <p><strong>The cable trench was justified by an argument that turned out to be false.</strong>
+      Ledger 3 claimed six buried circuits reach 424&nbsp;K and fail. Replacing its single thermal
+      term with the full IEC&nbsp;60287 circuit showed two errors pointing opposite ways: mutual
+      heating overstated 2&times; (multiplying by N assumes a neighbour 30&nbsp;cm away couples as
+      strongly as the cable to its own surface &mdash; the image method says 45%), and cable
+      diameter taken as a fixed 60&nbsp;mm when a 95&nbsp;mm&sup2; cable is 27&nbsp;mm, which was
+      <em>optimistic</em>. Six circuits actually reach 315&nbsp;K and pass; three trunks were
+      up-sized. <strong>The trench survives on a corrected argument &mdash; it is what guarantees
+      the spacing</strong> (15&nbsp;cm &rarr; 343&nbsp;K, 30&nbsp;cm &rarr; 315&nbsp;K, trench
+      &rarr; 247&nbsp;K). The geometry did not change; the reason did.</p>
+      <p><strong>An unpaid assumption, after criticising someone else's.</strong> The radiator bank
+      was sized off a blanket &ldquo;98.5% efficient&rdquo; converter &mdash; the same placeholder
+      sin the helicopter session had confessed to, at a thousand times the scale. Paid off, the
+      block is 96.6% efficient at the load the city actually draws, because 69% of the loss does
+      not care what the city is doing. That overturned the rating too: 2&times;12&nbsp;MVA had been
+      chosen for &ldquo;growth room&rdquo; and never justified, and its transformer iron would have
+      burned 243&nbsp;MWh per Mars year for headroom nobody asked for.</p>
+      <p><strong>The audit script overwrote its own input.</strong> One bad run poisoned the source
+      file, and the next run cheerfully reported &ldquo;no change needed&rdquo; against its own
+      corrupted output. A verification script must never overwrite the thing it verifies.</p>
+      <p><strong>The auto-router exploited an exemption I had written myself</strong>, parking
+      waypoints beside obstacles so the &ldquo;terminates here&rdquo; rule fired, and reported four
+      reroutes totalling 1&nbsp;m of detour. An answer too good to be true usually is.</p>
+      <p><strong>And the cable trench was nearly modelled as a texture.</strong> The first version
+      drew it on a solid slab, so the trench floor and every cable sat <em>inside</em> the
+      platform box and rendered completely invisible &mdash; while the contract checker reported
+      all green. Passing validation is not the same as being readable.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">09</span><h2>Try it in the city</h2></div>
+    <div class="prose">
+      <p>Open the main viewer, press <strong>C</strong> to raise the tech city, and add
+      <span class="src">?inspect=pwr-grid-01</span> to frame the substation. It sits between the
+      reactor and the hub.</p>
+      <p>Walk to the front and the cable trench opens: three lids lifted, red and blue poles on
+      their racks with the green bonding conductor above, an access ladder in the centre bay. The
+      rectifier hall is cut away toward you &mdash; converter transformer left, valve stack right,
+      one block closed and running and one opened for maintenance, which is the N&minus;1 pair
+      shown as a state contrast. The amber duct on piers is the only alternating current in Mars
+      City, and it is 72&nbsp;m long.</p>
+      <p>Follow the marker posts outward. The colour band gives the voltage level &mdash; amber
+      13.8&nbsp;kV AC, red and blue the DC poles, cyan 1500&nbsp;V, green 400&nbsp;V, violet
+      48&nbsp;V &mdash; and the chevron points the way the cable goes. That is the answer to the
+      hardest visual problem in this design: <strong>the entire grid is buried, and it still has
+      to be readable from the surface.</strong></p>
+      <p>After dusk the SCADA window glows with the live power-flow bars, the valve-position
+      strips light the open bay, and the marker-post reflectors pick out the corridors.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/grid/city_grid.jpg" alt="The substation seen in the city" loading="lazy">
+      <figcaption>IN PLACE ON THE CRATER FLOOR &mdash; REACTOR CRYO TANKS BOTTOM RIGHT, UNDERCITY GATE BEYOND</figcaption>
+    </figure>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">mars-grid/DESIGN.md</span> (10 books,
+      71 gates) &middot; Scripts: <span class="src">mars-grid/scripts/grid_01&ndash;10</span>
+      &middot; City assets: <span class="src">viewer/units/pwr-grid-01.js</span> ·
+      <span class="src">viewer/units/pwr-grid-net-01.js</span> &middot; Corridor table:
+      <span class="src">mars-grid/out/06_corridors_audited.json</span> &middot;
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

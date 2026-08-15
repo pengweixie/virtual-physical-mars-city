@@ -23,12 +23,14 @@
       "sim": [
         "L1 PyBaMM（SPMe+集总热, Prada2013）：sol 工况电芯往返效率 99.45%，自热温升 0.04 K",
         "柜级电化学产热仅 0.8 kW，占早期 η=92% 假设的 10% —— 热的主角是 PCS 与辅助系统，不是电池",
-        "SOC 日摆动 42%~100%（浅循环，日历老化主导），灯柱按 L0v2 校准调度曲线数据驱动"
+        "SOC 日摆动 42%~100%（浅循环，日历老化主导），灯柱按 L0v2 校准调度曲线数据驱动",
+        "身份更新（pwr-grid-01 台账，总控裁定）：本场不是「另一张城市电网」——反应堆够得着一切。它的真实身份是**生存电网**：全城 T1 生存层负荷 78 kW（电网册独立算出），本场实证的 145 kW @15% 残余光伏 ×30 sol 覆盖 1.85 倍。两个 session 互不知情而闭合。"
       ],
       "sim_en": [
         "L1 PyBaMM (SPMe + lumped thermal, Prada2013): 99.45% cell round-trip over the sol cycle, 0.04 K self-heating rise",
         "Cabinet electrochemical heat is only 0.8 kW - 10% of the early eta=92% assumption; the thermal load is really the PCS and auxiliaries, not the cells",
-        "SOC swings 42%-100% daily (shallow cycling, calendar-aging dominated); the light-stacks are data-driven from the L0v2-calibrated dispatch curve"
+        "SOC swings 42%-100% daily (shallow cycling, calendar-aging dominated); the light-stacks are data-driven from the L0v2-calibrated dispatch curve",
+        "Identity update (pwr-grid-01 ledger, integrator ruling): this farm is not a second city grid - the reactor reaches everything. Its real identity is the SURVIVAL GRID: the city T1 survival tier is 78 kW (computed independently by the grid ledger), and this farm verified 145 kW at 15% residual PV for 30 sols - 1.85x coverage. Two sessions closed the loop without knowing of each other."
       ]
     },
     {

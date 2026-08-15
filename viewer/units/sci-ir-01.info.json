@@ -12,14 +12,14 @@
         "阵列/像元": "640×512 / 12 µm",
         "热导 G": "1.04e-8 W/K (腿 9.5 + 辐射 0.9)",
         "热容 C": "7.98e-11 J/K",
-        "时间常数 τ": "7.7 ms (< 33 ms 帧周期)",
+        "时间常数 τ": "C/G 7.7 ms;3D FEM 实沉降 9.45 ms(< 12 ms 判据)",
         "NETD": "47.3 mK @ f/1, 300 K, 30 Hz"
       },
       "specs_en": {
         "Array / pitch": "640×512 / 12 µm",
         "Thermal conductance G": "1.04e-8 W/K (legs 9.5 + radiative 0.9)",
         "Heat capacity C": "7.98e-11 J/K",
-        "Time constant τ": "7.7 ms (< 33 ms frame period)",
+        "Time constant τ": "C/G 7.7 ms; true 3-D FEM settling 9.45 ms (< 12 ms criterion)",
         "NETD": "47.3 mK @ f/1, 300 K, 30 Hz"
       },
       "sim": [
@@ -29,7 +29,7 @@
         "COMSOL 3D 热 FEM 交叉验证(out/06,无头 6.3):稳态 G_fem=1.030e-8 W/K 对解析 -1.0%;瞬态 63.2% 上升 τ=9.45 ms——集总 7.67→1D FD 8.43→3D FEM 9.45 ms 单调链=分布腿热容+多模响应,30 Hz 判据 τ<12 ms 仍闭合(裕度 36%→21%)",
         "吸收腔 TMM 账(out/07):λ/4 谐振腔(SiN/VOx/NiCr 377 Ω·sq⁻¹/2.5 µm 真空腔/Al 镜)dM/dT 加权带平均 η=0.868 正入射、f/1 锥内 0.883;R_s 200–700 Ω·sq⁻¹ 与腔厚 2.2–2.8 µm 全域 η 落在 0.80–0.90 → 01 账假设的 0.80 是**下界**,NETD 47.3 mK 是保守值,实际 42–47 mK",
         "电热耦合账(out/08):恒压偏置下 dP/dT=|α|P,临界 P_crit=G/|α|=0.45 µW,而读出脉冲 20 µW 超判据 44×——靠 0.195% 占空压住(帧平均裕度 11.6×);脉冲自热正反馈把线性估计 16.3 K 推到 20.4 K,发散时间 173 µs 对 65 µs 行时仅 2.7× 裕度",
-        "Sentaurus TCAD 交叉验证(out/09):P-2019.03 TMM 无头重算同一叠层,R(λ) 25 点全带与解析 TMM 一致到 0.001% 相对偏差;Sentaurus A_Total 比 η_abs 高的 0.0161 恰等于铝镜欧姆吸收(定义差,非分歧)"
+        "Sentaurus TCAD 交叉验证(out/09):P-2019.03 TMM 无头重算同一叠层,R(λ) 25 点全带与解析 TMM 一致到 0.001% 相对偏差——验证的是传输矩阵代数;膜/镜吸收拆分(~1.6% 修正项)仍只靠 07 账的裸镜近似,未独立验证(如实入账)"
       ],
       "sim_en": [
         "NETD budget (mars-ir/out/01): Johnson 27.8 + phonon 31.0 + 1/f 15.0 + ROIC 16.9 → 47.3 mK RSS, meets <60 mK",
@@ -38,7 +38,7 @@
         "COMSOL 3-D thermal FEM cross-check (out/06, headless 6.3): stationary G_fem=1.030e-8 W/K, −1.0% vs analytic; transient 63.2%-rise τ=9.45 ms — monotone chain lumped 7.67 → 1-D FD 8.43 → 3-D FEM 9.45 ms from distributed leg capacity and multi-mode response; the 30 Hz criterion τ<12 ms still closes (margin 36%→21%)",
         "Absorber-cavity TMM (out/07): the λ/4 resonant stack (SiN / VOx / NiCr 377 Ω·sq⁻¹ / 2.5 µm vacuum gap / Al mirror) gives a dM/dT-weighted band average η=0.868 at normal incidence and 0.883 over the f/1 cone; across R_s 200–700 Ω·sq⁻¹ and gaps 2.2–2.8 µm η stays in 0.80–0.90, so ledger 01's assumed 0.80 is a **lower bound** and NETD 47.3 mK is conservative (realistic 42–47 mK)",
         "Electrothermal account (out/08): under constant-voltage bias dP/dT=|α|P, critical power P_crit=G/|α|=0.45 µW while the read pulse is 20 µW — 44× over the runaway criterion, held only by the 0.195% duty cycle (frame-average margin 11.6×); positive feedback lifts the linear 16.3 K pulse self-heating to 20.4 K, and the 173 µs divergence time leaves just 2.7× margin on the 65 µs row time",
-        "Sentaurus TCAD cross-check (out/09): P-2019.03 TMM re-ran the same stack headless; R(λ) matches the analytic TMM to 0.001% relative over 25 wavelengths. Sentaurus A_Total exceeds η_abs by 0.0161, exactly the aluminium mirror's ohmic absorption — a definition difference, not a disagreement"
+        "Sentaurus TCAD cross-check (out/09): P-2019.03 TMM re-ran the same stack headless; R(λ) matches the analytic TMM to 0.001% relative over 25 wavelengths — this validates the transfer-matrix algebra; the membrane-vs-mirror absorption split (a ~1.6% correction) still rests on ledger 07's bare-mirror approximation and is honestly recorded as unverified"
       ],
       "physics": [
         "测辐射热计三步:吸收(λ/4 谐振腔 η≈0.8)→ 升温 dT=P/G → 电阻读出 dV=αVb·dT;responsivity ∝ 1/G,这就是把 G 压到 1e-8 W/K 的理由",
@@ -181,12 +181,12 @@
         "In-band exitance": "9.3→147.5 W/m² (180→290 K)"
       },
       "sim": [
-        "场景辐射账(mars-ir/out/03):dM/dT 从 2.39 (290 K) 掉到 0.36 W/m²K (180 K),等效 NETD 52→343 mK——最冷冬夜土壤 1 K 温差仍 >5σ 可辨",
+        "场景辐射账(mars-ir/out/03):dM/dT 从 2.39 (290 K) 掉到 0.36 W/m²K (180 K),等效 NETD 52→343 mK——土壤 1 K 温差单帧 ~205 K 以上 >5σ,最冷 180 K 处 2.9σ,4 帧平均(0.13 s)恢复 >5σ(review 修正:首版笼统写全温域 >5σ)",
         "昼夜对比度反转(半无限土柱 FD,Jezero 18.4°N):基岩−尘土 = 正午 -27 K / 凌晨4时 +40 K,过零在傍晚 ~16 h 与清晨 ~7 h",
         "城内实测:引擎回填 20 帧/10 s 泵动,屏上冷天空-暖地平线-城内热斑逐帧刷新"
       ],
       "sim_en": [
-        "Scene radiance ledger (mars-ir/out/03): dM/dT falls from 2.39 (290 K) to 0.36 W/m²K (180 K), effective NETD 52→343 mK — a 1 K soil contrast stays >5σ on the coldest winter night",
+        "Scene radiance ledger (mars-ir/out/03): dM/dT falls from 2.39 (290 K) to 0.36 W/m²K (180 K), effective NETD 52→343 mK — a 1 K soil contrast is >5σ single-frame above ~205 K, 2.9σ at the coldest 180 K, and a 4-frame (0.13 s) average restores >5σ (review correction of an earlier blanket >5σ claim)",
         "Day/night contrast reversal (semi-infinite soil FD, Jezero 18.4°N): bedrock−dust = -27 K at noon / +40 K at 4 am, zero crossings near 16 h and 7 h",
         "In-city measurement: engine returned 20 frames per 10 s pump; the screen refreshes cold sky, warm horizon and city hot spots frame by frame"
       ],
