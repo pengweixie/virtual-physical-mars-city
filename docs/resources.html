@@ -101,11 +101,13 @@
 
 <header class="phead">
   <div class="wrap">
-    <div class="label">res-rodwell-01 · res-isru-01 · res-mine-01 · ops-printer-01 · res-dome-01</div>
+    <div class="label">res-rodwell-01 · res-isru-01 · res-mine-01 · ops-printer-01 · res-sulfur-01 · res-dome-01</div>
     <h1>Resources</h1>
-    <p class="phead__sub">Four plants that turn Mars itself into supplies: water melted out of
+    <p class="phead__sub">Six plants that turn Mars itself into supplies: water melted out of
       frozen ground, methane and oxygen made from the sky, regolith dug by a robot that navigates
-      with a camera designed down to the pixel, and food grown under a printed-ring dome.
+      with a camera designed down to the pixel, that regolith sintered into walls by a gantry
+      printer, sulfur and yet more oxygen roasted out of sulfate ore, and food grown under the dome
+      those walls anchor.
       The flagship number: one Mars year of well life, bought with 15 kilowatts.</p>
   </div>
 </header>
@@ -137,8 +139,14 @@
         <span>water + CO₂ → <b>isru</b> → LOX / LCH₄</span>
         <span>regolith → <b>mine</b> → sinter feed</span>
         <span>sinter feed → <b>printer</b> → ring + walls</span>
+        <span>sulfate ore → <b>sulfur</b> → O₂ + binder</span>
         <span>printed ring + water → <b>dome</b> → food</span>
       </div>
+      <p>And none of it is remote-controlled. Earth sits <span class="hl">4 to 21 light-minutes</span>
+        away depending on where the two planets are, so a command and its answer are 8 to 42 minutes
+        apart — there is no joystick long enough. Each plant runs its campaign unattended and reports
+        where a suited human can actually read it: the Sabatier plant carries a mimic board sized to
+        be legible from across the pad, because a pressurised glove is a poor keyboard.</p>
     </div>
     <figure class="figure">
       <img src="assets/resources/isru.jpg" alt="The Sabatier ISRU plant in the city, with the Rodwell well and the mine on the horizon" loading="lazy">
@@ -202,11 +210,27 @@
         precision budget is counter-intuitive too: the beam sags just 0.4 mm under full load but
         breathes <strong>11.5 mm</strong> across an 80 K Martian day — the gantry's real enemy is
         thermal drift, handled by a floating bearing and position feedback, not by more steel.</p>
+      <p><strong>The plant that makes oxygen out of rock.</strong> The sulfur works exists because
+        Mars locked its sulfur up as sulfate — already fully oxidised — and getting the element back
+        means stripping four oxygens off it. A rotary kiln turns at 1.5 rpm under a hydrogen
+        atmosphere, hydrogen carries the oxygen away as water, and the electrolyser hands it back as
+        <strong>O₂</strong>. That is the whole trick: every kilogram of sulfur liberates
+        <span class="hl">two kilograms of oxygen</span> at 7.0 kWh/kg — statistically indistinguishable
+        from the 7.1 kWh/kg it costs to split water — except that this route drinks no water at all.
+        In a city living off a single 669-sol well, that is the entire argument. Downstream, two Claus
+        stages condense the sulfur out at 97% recovery, the tailings go back to the printer as
+        aggregate, and the plant's own ledger is honest about the one thing that decides its economics:
+        feed grade. A kilogram of sulfur means 11 kg of selected sulfate horizon — or 46 kg of ordinary
+        soil, for the same kiln and the same kilowatt.</p>
       <p><strong>The dome that pushes up.</strong> 55 kPa inside a ⌀26 m ETFE membrane is a
         29 MN uplift — three thousand tonnes trying to leave the planet. That is why the printed
         regolith foundation ring outweighs the dome it anchors: ballast plus ground anchors must
         beat uplift by 1.5×, and at 0.38 g weight alone doesn't get there.</p>
     </div>
+    <figure class="figure">
+      <img src="assets/resources/sulfur.jpg" alt="The sulfur extraction plant in the city: ore hopper, cut-open preheat tower, rotary kiln, Claus vessels and the trace-heated sulfur tank" loading="lazy">
+      <figcaption>RES-SULFUR-01 — ORE HOPPER, CUT-OPEN PREHEAT TOWER, ROTARY KILN AT 1.5 RPM, CLAUS PAIR, SULFUR TANK; 100 KG S + 200 KG O₂ PER SOL</figcaption>
+    </figure>
     <div class="fig2">
       <figure class="figure">
         <img src="assets/resources/rodwell.jpg" alt="Rodwell ice well rig with drill tower, insulated water line and storage tanks" loading="lazy">
@@ -246,6 +270,7 @@
         <tr><td>Electrolysis power (stack / with BOP)</td><td class="num">18 / ~25 kWe</td><td class="src">mars/EQUIPMENT.md §7 power balance</td></tr>
         <tr><td>Cryo radiator closure</td><td class="num">12 ≥ 9 kW</td><td class="src">res-isru-01 info.json · Stefan–Boltzmann account</td></tr>
         <tr><td>Tank farm vs one MAV load</td><td class="num">100 vs 35.6 m³</td><td class="src">res-isru-01 info.json · volume account</td></tr>
+        <tr><td>Earth light time, one way / round trip</td><td class="num">4–21 / 8–42 min</td><td class="src">res-isru-01 info.json · HMI display card</td></tr>
         <tr><td>Well life at 15 kWe / at 12 kWe</td><td class="num">&gt;669 / ~450 sol</td><td class="src">TS-01 R1 Stefan moving-boundary model</td></tr>
         <tr><td>Dust-storm water bank endurance</td><td class="num">700 sol, 0 outage</td><td class="src">TS-01 R1 pressure envelope (twin 13 m³)</td></tr>
         <tr><td>Dome pressure uplift</td><td class="num">29 MN</td><td class="src">res-dome-01 info.json · pressure-vessel account</td></tr>
@@ -256,6 +281,11 @@
         <tr><td>Hot-pixel failure cliff</td><td class="num">~12%</td><td class="src">sensor-defect joint experiment · res-mine-01</td></tr>
         <tr><td>Sintering energy per unit mass</td><td class="num">0.40 kWh/kg</td><td class="src">ops-printer-01 energy ledger · cp·ΔT to 1350 K at 63% end-to-end</td></tr>
         <tr><td>Print rate bought by 30 kWe</td><td class="num">75 kg/h · 600 kg/sol</td><td class="src">models/ops-printer-01/info.json · flow account</td></tr>
+        <tr><td>Sulfate reduction, thermodynamic floor</td><td class="num">14 kWh/kg S</td><td class="src">res-sulfur-01 info.json · CaSO₄→CaS+2O₂, ΔH 1128 kJ/mol</td></tr>
+        <tr><td>Oxygen cost: sulfate vs water route</td><td class="num">7.0 vs 7.1 kWh/kg</td><td class="src">res-sulfur-01 info.json · control-room ledger</td></tr>
+        <tr><td>Plant output (sulfur / oxygen)</td><td class="num">100 / 200 kg per sol</td><td class="src">res-sulfur-01 info.json · design point</td></tr>
+        <tr><td>Ore per kg S: selected vs ordinary</td><td class="num">11 vs 46 kg</td><td class="src">res-sulfur-01 info.json · grade lever</td></tr>
+        <tr><td>Perchlorate stripped before the kiln</td><td class="num">3.9 kg O₂/sol free</td><td class="src">res-eclss-01 perchlorate branch · cross-asset check</td></tr>
         <tr><td>Dome layer overlap at 6 m height</td><td class="num">29% (limit)</td><td class="src">ops-printer-01 overhang account · r(y) profile</td></tr>
         <tr><td>Gantry beam sag vs thermal drift</td><td class="num">0.4 / 11.5 mm</td><td class="src">ops-printer-01 stiffness + ΔT 80 K account</td></tr>
       </tbody>
@@ -279,6 +309,20 @@
         cavity's growing wall area steadily eats the heater budget: 12 kWe dies at ~450 sol.
         The design point moved to 15 kWe, and a second well site (WELL-2, 15.1 m spacing against
         cavity merge) went into the model as a consequence.</p>
+      <p><strong>The binder that wasn't cheaper.</strong> The sulfur works was commissioned on a
+        wrong number of ours. Comparing binders for the printer, we noted that sulfur concrete melts
+        at 140 °C while sintering needs 1350 °C, and concluded sulfur was five times cheaper. That
+        compared the cost of <em>melting</em> a binder against the cost of <em>making</em> one. On
+        Mars sulfur arrives as sulfate — already at oxidation state +6 — and prying four oxygens off
+        it costs <span class="hl">14 kWh/kg</span>, so sulfur concrete is really about ten times
+        sintering, not a fifth of it. Earth's sulfur is cheap only because it comes out of oil and
+        gas already reduced as H₂S; there is no such discount here. The plant got built anyway,
+        because the deeper look also found the actual case for it: the oxygen. Stripping those
+        oxygens produces 2 kg of O₂ per kg of sulfur at the same energy per kilogram as splitting
+        water — and without spending any. The sulfur turns out to be the by-product, not the
+        product. Two errors of the same family in one district: the printer's flow was checked
+        against geometry but not energy, and the binder was checked against melting but not
+        chemistry. Both times the missing ledger was the one that mattered.</p>
       <p><strong>Dropped into the radiator field.</strong> The ISRU plant's first placement put
         it inside the footprint of the power district's 429 m radiator array — coordinates picked
         blind, geometry clipping straight through the panels. It moved 115 m north; the incident
@@ -333,6 +377,10 @@
         the mine and watch it run its MuJoCo-baked dig-haul-dump cycle on camera vision alone.
         At the print site (<span class="src">?inspect=ops-printer-01</span>), look for the fresh
         bead under the nozzle — it marks exactly where the spiral rim stopped printing.</p>
+      <p>At the sulfur works (<span class="src">?inspect=res-sulfur-01</span>) the whole process
+        reads as one colour chain: ochre ore in the hopper, the glowing bed and turning lifters
+        inside the cut-open kiln, then bright yellow sulfur in the pit and pale grey tailings on
+        the pile. If a stage worked, its colour changed.</p>
     </div>
   </div>
 </section>
@@ -345,6 +393,7 @@
       <span class="src">viewer/units/res-rodwell-01.info.json</span>,
       <span class="src">viewer/units/res-mine-01.info.json</span>,
       <span class="src">viewer/units/res-dome-01.info.json</span>,
+      <span class="src">viewer/units/res-sulfur-01.info.json</span>,
       <span class="src">models/ops-printer-01/info.json</span> ·
       City assets: <span class="src">models/res-isru-01/model.glb</span>,
       <span class="src">models/ops-printer-01/model.glb</span>,
@@ -359,9 +408,9 @@
   const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
   r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
 <script>
+  // explicit ?theme= wins over the stored preference (QA screenshots need it)
   const q=new URLSearchParams(location.search).get('theme');
-  if(q)document.documentElement.setAttribute('data-theme',q);
-  const t=localStorage.getItem('mc-theme');
+  const t=q||localStorage.getItem('mc-theme');
   if(t)document.documentElement.setAttribute('data-theme',t);
 </script>
 

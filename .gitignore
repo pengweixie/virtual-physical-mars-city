@@ -21,3 +21,6 @@ comsol/*.class.*
 comsol/*.log
 **/comsol/*.java
 **/comsol/*.mph
+
+# audio masters (WAV) stay local; the viewer ships the transcoded m4a
+music/

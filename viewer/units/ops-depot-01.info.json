@@ -68,8 +68,14 @@
         "Stocking": "failure rate x pipeline time",
         "Door": "east roll-door with lamp"
       },
-      "sim": "库存账:补给窗口 26 个月一班,任何备件的安全库存 = 失效率 × 26 个月在途 + 峰值余量。地球上「下周到货」的零件,在这里全部换算成货架深度——仓库的体积就是会合周期的几何表达。",
-      "sim_en": "Inventory ledger: resupply runs every 26 months, so safe stock of any part equals failure rate times a 26-month pipeline plus peak margin. Parts that arrive 'next week' on Earth convert here into shelf depth - this building's volume is the synodic period expressed as geometry.",
+      "sim": [
+        "库存账:补给窗口 26 个月一班,任何备件的安全库存 = 失效率 × 26 个月在途 + 峰值余量。地球上「下周到货」的零件,在这里全部换算成货架深度——仓库的体积就是会合周期的几何表达。",
+        "核材料衡算（总控裁定，依 pwr-fission-01 §7 ⑮）：全城核材料的库存、封存与转移记录归本仓的台账体系——衡算是库存学不是堆工。现状一行：158 kg HALEU（19.75%）分装 8 个堆芯于 pwr-fission-01 舱位，十年燃耗 1.6%；乏模块原位回填封存（十年后衰变热约 210 W，覆土导热即可），无转移则无记录项。物理保管在堆址，账在这里。"
+      ],
+      "sim_en": [
+        "Inventory ledger: resupply runs every 26 months, so safe stock of any part equals failure rate times a 26-month pipeline plus peak margin. Parts that arrive 'next week' on Earth convert here into shelf depth - this building's volume is the synodic period expressed as geometry.",
+        "Nuclear material accountancy (integrator ruling, per pwr-fission-01 section 7, item 15): the inventory, sealing, and transfer records for all nuclear material in the city belong to this warehouse's ledger system - accountancy is warehousing, not reactor engineering. The standing entry: 158 kg of HALEU (19.75%) across 8 cores in their pwr-fission-01 bays, 1.6% burned in ten years; spent modules are entombed in place under their own berm (about 210 W of decay heat after a decade, carried by regolith conduction), and no transfer means no ledger movement. Physical custody stays at the reactor; the books live here."
+      ],
       "physics": "行星际物流没有加急件:轨道力学规定发货日。所以火星的仓储策略更像远洋帆船时代——库存深度不是管理选择,是天体力学边条件。",
       "physics_en": "Interplanetary logistics has no express shipping: orbital mechanics sets the sailing dates. Martian warehousing thus reads like the age of sail - stock depth is not a management choice but a celestial-mechanics boundary condition."
     },

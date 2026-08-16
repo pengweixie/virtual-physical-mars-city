@@ -23,15 +23,25 @@ const pick = (obj, key) =>
 const T = LANG === 'en' ? {
   hudTitle: 'Jezero Crater · Perseverance Landing Site',
   hudSub: 'Jezero Crater 18.4°N 77.4°E — real HiRISE terrain, 1 m/px<br>Data: NASA/JPL/University of Arizona',
-  hint: 'Click to enter · WASD move · Shift sprint · F fly/walk · V inspect · M orbit · U undercity · P to Perseverance · headset: Enter VR',
+  hint: 'Click to enter · WASD move · Shift sprint · F fly/walk · Space/Q up-down when flying · N name tags · V inspect · M orbit · U undercity · P to Perseverance · headset: Enter VR',
   orbit: '↑ Orbit view', orbitBack: '↓ Back to surface',
   colony: (on) => `🌱 Future Mars: ${on ? 'ON' : 'OFF'}`,
   magic: (on) => `🔮 Magic Mars: ${on ? 'ON' : 'OFF'}`,
   under: '⬇ Undercity', now: 'Live', langBtn: '中文',
+  music: (on) => `♪ Music: ${on ? 'ON' : 'OFF'}`,
   mission: (sol, utc, n) => `Perseverance sol ${sol} · data ${utc} UTC · ${n} new photos`,
   timeInfo: (hh, mm, live, ls) => `Jezero true solar time ${hh}:${mm}${live ? ' (live)' : ''} · Ls ${ls}°`,
   posSurface: (x, z, e, fly) => `${x}, ${z} m · elev ${e} m · ${fly ? 'flying' : 'walking'}`,
   posOrbit: (alt) => `Orbit altitude ${alt} km · drag to rotate · scroll to zoom`,
+  orbLbl: {
+    spare: 'Hot spare',
+    coverage: 'Areostationary coverage limit ±71° · polar blind zone',
+    earth: '→ Earth',
+    relay: 'Relay constellation: 3 primary + 1 spare · areostationary, 17,032 km',
+    lowOrbiter: 'Science orbiter · 400 km · relays ground data',
+    cmb: 'CMB polarization survey station · Sun-Mars L2',
+    cmbDist: '1.08 million km from Mars · schematic, not to scale',
+  },
   posInterior: (n) => `${n} · indoors`,
   inspectHint: (n) => `Inspect: ${n} · drag to rotate · scroll to zoom · V to exit`,
   interiorHint: (n) => `${n} · WASD to walk · reach the exit or press Esc to return`,
@@ -40,21 +50,32 @@ const T = LANG === 'en' ? {
 } : {
   hudTitle: '耶泽罗撞击坑 · 毅力号着陆区',
   hudSub: 'Jezero Crater 18.4°N 77.4°E — HiRISE 1 m/px 真实地形<br>数据：NASA/JPL/University of Arizona',
-  hint: '点击进入 · WASD 移动 · Shift 加速 · F 飞行/行走 · V 环视设备 · M 轨道视角 · U 地下城 · P 传送到毅力号 · 头显点 Enter VR',
+  hint: '点击进入 · WASD 移动 · Shift 加速 · F 飞行/行走 · 飞行时 Space/Q 升降 · N 名称标签 · V 环视设备 · M 轨道视角 · U 地下城 · P 传送到毅力号 · 头显点 Enter VR',
   orbit: '↑ 轨道视角', orbitBack: '↓ 返回地表',
   colony: (on) => `🌱 未来火星：${on ? '开' : '关'}`,
   magic: (on) => `🔮 魔幻火星：${on ? '开' : '关'}`,
   under: '⬇ 地下城', now: '实时', langBtn: 'EN',
+  music: (on) => `♪ 音乐：${on ? '开' : '关'}`,
   mission: (sol, utc, n) => `毅力号任务日 Sol ${sol} · 数据更新 ${utc} UTC · 最新照片 ${n} 张`,
   timeInfo: (hh, mm, live, ls) => `耶泽罗真太阳时 ${hh}:${mm}${live ? '（实时）' : ''} · Ls ${ls}°`,
   posSurface: (x, z, e, fly) => `坐标 ${x}, ${z} m · 海拔 ${e} m · ${fly ? '飞行' : '行走'}模式`,
   posOrbit: (alt) => `轨道高度 ${alt} km · 拖动旋转 · 滚轮缩放`,
+  orbLbl: {
+    spare: '备份星',
+    coverage: '静止轨道覆盖极限 ±71° · 极区盲区',
+    earth: '→ 地球',
+    relay: '中继星 ×3 主 + 1 备份 · 火星静止轨道 17,032 km',
+    lowOrbiter: '科学轨道器 · 400 km · 代传地面数据',
+    cmb: 'CMB 偏振巡天站 · 日-火 L2',
+    cmbDist: '距火星 108万 km · 示意未按比例',
+  },
   posInterior: (n) => `${n} · 室内`,
   inspectHint: (n) => `环视：${n} · 拖动旋转 · 滚轮缩放 · V 退出`,
   interiorHint: (n) => `${n} · WASD 走动 · 走到出口或按 Esc 返回地表`,
   pressE: (l) => `按 E 进入 ${l}`,
   timeWait: '火星时间计算中…',
 };
+let musicSetScene = () => {};  // assigned in the UI block, called by toggleMagic
 {
   document.querySelector('#hud h1').textContent = T.hudTitle;
   document.querySelector('#hud .dim').innerHTML = T.hudSub;
@@ -72,7 +93,65 @@ const T = LANG === 'en' ? {
     localStorage.setItem('mars_lang', next);
     const u = new URL(location.href);
     u.searchParams.set('lang', next);
+    // Switching language reloads the page, so carry the current view across -
+    // otherwise the reader is dumped back at the default spawn, which is
+    // especially jarring from orbit view or from inside an interior.
+    for (const [k, v] of Object.entries(captureViewState())) {
+      if (v === null || v === undefined) u.searchParams.delete(k);
+      else u.searchParams.set(k, v);
+    }
     location.href = u.toString();
+  });
+  // Ambient scores: "Quiet Infrastructure" for the city, "Glass Moon Halo"
+  // for Magic Mars - toggling magic crossfades between them. Autoplay policy
+  // blocks sound before a gesture, so the track arms on the first
+  // click/keypress; the button is the standing preference and survives
+  // reloads (language switch included).
+  const mb = document.getElementById('musicBtn');
+  const tracks = {
+    city: new Audio('audio/quiet-infrastructure.m4a'),
+    magic: new Audio('audio/glass-moon-halo.m4a'),
+  };
+  for (const a of Object.values(tracks)) { a.loop = true; a.volume = 0; a.preload = 'auto'; }
+  let musicOn = localStorage.getItem('mars_music') !== '0';
+  let scene = 'city';
+  mb.textContent = T.music(musicOn);
+  const faders = new Map();
+  const fadeTo = (a, target) => {
+    clearInterval(faders.get(a));
+    const id = setInterval(() => {
+      a.volume = Math.max(0, Math.min(0.35, a.volume + (target > a.volume ? 0.02 : -0.05)));
+      if (Math.abs(a.volume - target) < 0.02) {
+        a.volume = target;
+        clearInterval(id);
+        if (target === 0) a.pause();
+      }
+    }, 120);
+    faders.set(a, id);
+  };
+  const current = () => tracks[scene];
+  const startMusic = () => {
+    if (!musicOn || !current().paused) return;
+    current().play().then(() => fadeTo(current(), 0.35)).catch(() => {});
+  };
+  addEventListener('pointerdown', startMusic);
+  addEventListener('keydown', startMusic);
+  musicSetScene = (s) => {
+    if (s === scene || !tracks[s]) return;
+    const prev = current();
+    scene = s;
+    if (musicOn && !prev.paused) {
+      fadeTo(prev, 0);
+      current().play().then(() => fadeTo(current(), 0.35)).catch(() => {});
+    }
+  };
+  mb.addEventListener('click', (e) => {
+    e.stopPropagation();
+    musicOn = !musicOn;
+    localStorage.setItem('mars_music', musicOn ? '1' : '0');
+    mb.textContent = T.music(musicOn);
+    if (musicOn) { current().play().then(() => fadeTo(current(), 0.35)).catch(() => {}); }
+    else fadeTo(current(), 0);
   });
 }
 
@@ -938,7 +1017,10 @@ let haulTick = null;              // ore-hauler animator, registered with unitAn
     hazC: new THREE.MeshLambertMaterial({ color: 0x7a5a9a }),  // fab CMP slurry
     small: new THREE.MeshLambertMaterial({ color: 0x8a9096 }), // return/utility lane
   };
-  function pipeRack(x1, z1, x2, z2, lanes, loopEvery = 0) {
+  // ends: which extremities get a tie-in. A logical corridor built from several
+  // pipeRack legs must only terminate at its true ends, so pass 'start' / 'none'
+  // / 'end' along the chain; a single-leg run keeps the default 'both'.
+  function pipeRack(x1, z1, x2, z2, lanes, loopEvery = 0, ends = 'both') {
     const dx = x2 - x1, dz = z2 - z1, len = Math.hypot(dx, dz);
     const px = -dz / len, pz = dx / len;        // across-track unit
     const barRot = Math.atan2(-pz, px);
@@ -993,6 +1075,33 @@ let haulTick = null;              // ore-hauler animator, registered with unitAn
     const lamp = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.2, 0.25), mat.window);
     lamp.position.set(vx + px * 2.6, skid.position.y + 1.05, vz + pz * 2.6);
     colonyGroup.add(lamp);
+    // Tie-in at the extremities: without this the lanes simply stop in mid-air
+    // 2.6 m up, which is what made every corridor look unconnected. Each end
+    // drops a riser per lane to a grade-level tie-in block - the interface a
+    // building's own nozzle meets. The corridor stops at the doorstep by
+    // design - see the junction rule in MODELS.md.
+    const wantStart = ends === 'both' || ends === 'start';
+    const wantEnd = ends === 'both' || ends === 'end';
+    for (const [want, ti] of [[wantStart, 0], [wantEnd, n]]) {
+      if (!want) continue;
+      const [tx, ty, tz] = tops[ti];
+      const gy = gY(tx, tz);
+      for (const ln of lanes) {
+        const h = Math.max(0.6, ty + ln.r - gy - 0.5);
+        const riser = new THREE.Mesh(
+          new THREE.CylinderGeometry(ln.r, ln.r, h, 8), ln.m);
+        riser.position.set(tx + px * ln.o, gy + 0.5 + h / 2, tz + pz * ln.o);
+        colonyGroup.add(riser);
+      }
+      const box = new THREE.Mesh(new THREE.BoxGeometry(1.9, 1.0, 1.2), mat.trim);
+      box.position.set(tx, gy + 0.5, tz);
+      box.rotation.y = barRot;
+      colonyGroup.add(box);
+      const pad = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.16, 1.9), mat.pad);
+      pad.position.set(tx, gy + 0.08, tz);
+      pad.rotation.y = barRot;
+      colonyGroup.add(pad);
+    }
   }
   // CH4 fueling line: ISRU Sabatier plant -> CZ-10B launch complex
   pipeRack(52, 32, 725, 235,
@@ -1001,9 +1110,9 @@ let haulTick = null;              // ore-hauler animator, registered with unitAn
   // heat-transfer loop: fusion plant -> radiator field (fat insulated pair);
   // three legs thread between the neutron-sentinel arc and the compute center
   const heatLanes = [{ o: -0.5, r: 0.38, m: pmat.heat }, { o: 0.5, r: 0.38, m: pmat.heat }];
-  pipeRack(-140, 58, -109, 70, heatLanes, 0);
-  pipeRack(-109, 70, -109, 132, heatLanes, 0);
-  pipeRack(-109, 132, -84, 352, heatLanes, 8);
+  pipeRack(-140, 58, -109, 70, heatLanes, 0, 'start');
+  pipeRack(-109, 70, -109, 132, heatLanes, 0, 'none');
+  pipeRack(-109, 132, -84, 352, heatLanes, 8, 'end');
   // LOX line: same ISRU -> CZ-10B run on its own rack ~10 m south of the methane.
   // Methalox burns at O/F ~3.5, so the oxidiser is the fat pipe, not the fuel —
   // and fuel and oxidiser ride separate racks by fire-separation rule.
@@ -1027,15 +1136,15 @@ let haulTick = null;              // ore-hauler animator, registered with unitAn
   // baseload oxygen: the sulfur kiln's 200 kg/sol by-product is the city's
   // primary metabolic supply (1.57x demand) — this is the oxygen aorta
   const o2Main = [{ o: -0.3, r: 0.3, m: pmat.o2 }, { o: 0.3, r: 0.1, m: pmat.small }];
-  pipeRack(70, -70, 0, 20, o2Main, 8);        // west of the ISRU footprint
-  pipeRack(0, 20, 5, 60, o2Main, 0);
+  pipeRack(70, -70, 0, 20, o2Main, 8, 'start');        // west of the ISRU footprint
+  pipeRack(0, 20, 5, 60, o2Main, 0, 'end');
   // oxygen to the undercity gate: the south line, three legs riding the road
   // corridor and passing the hab village's west corner (future branch tee)
   const o2Lane = [{ o: 0, r: 0.26, m: pmat.o2 }];
-  pipeRack(5, 60, -105, -25, o2Lane, 10);     // north of the cryo farm
-  pipeRack(-105, -25, -250, -105, o2Lane, 10);
-  pipeRack(-250, -105, -330, -70, o2Lane, 10);
-  pipeRack(-330, -70, -330, -38, o2Lane, 0);
+  pipeRack(5, 60, -105, -25, o2Lane, 10, 'start');     // north of the cryo farm
+  pipeRack(-105, -25, -250, -105, o2Lane, 10, 'none');
+  pipeRack(-250, -105, -330, -70, o2Lane, 10, 'none');
+  pipeRack(-330, -70, -330, -38, o2Lane, 0, 'end');
   // CO2 home: intake-tower frost + city exhale, back to the Sabatier it feeds
   pipeRack(5, 60, 40, 25, [{ o: 0, r: 0.2, m: pmat.co2 }], 0);
   // sewage out / reclaim back on one trestle, plus the fab's three hazmat
@@ -1092,6 +1201,16 @@ let haulTick = null;              // ore-hauler animator, registered with unitAn
   // (G-Q rides the lift shaft 3,000 m straight down — no surface footprint)
   cableTrench(NW[0], NW[1], -560, -220, vmat.dc04);        // G-N observatory spur
   cableTrench(NS[0], NS[1], 300, -300, vmat.dc04);         // G-P environment spur
+  // G-R fission main tie: enters the substation from the south, 110 degrees
+  // from G-A's northeast approach, so no single corridor event can take both
+  // power sources - the whole reason the fission plant exists.
+  cableTrench(-140, -780, -200, -120, vmat.dc10);          // G-R1 fission trunk
+  cableTrench(-200, -120, -205, 10, vmat.dc10);            // G-R2 south approach
+  // G-S survival bypass, normally open: fission straight to the undercity
+  // 1500 V node, closing only if the substation itself is lost - both sources
+  // on one busbar would rebuild the single point of failure.
+  cableTrench(-140, -780, -345, -110, vmat.dc15);          // G-S1 bypass trunk
+  cableTrench(-345, -110, -330, -30, vmat.dc15);           // G-S2 shaft approach
 }
 
 // ---------------------------------------------------------------- magic city
@@ -1115,6 +1234,7 @@ function toggleMagic(force) {
   magicGroup.visible = force ?? !magicGroup.visible;
   const btn = document.getElementById('magicBtn');
   btn.textContent = T.magic(magicGroup.visible);
+  musicSetScene(magicGroup.visible ? 'magic' : 'city');
   if (magicGroup.visible) magicGroup.userData.loadCity?.();
 }
 document.getElementById('magicBtn').addEventListener('click', () => toggleMagic());
@@ -2090,13 +2210,44 @@ function updateSun() {
       ? s.userData.owner === inspectUnit.id
       : inspectUnit.center.distanceTo(s.position) < inspectUnit.radius * 1.6);
   }
-  // facility name tags: one per unit, visible from afar; hidden while that
-  // unit is being inspected (its sub-device tags take over)
+  // Facility name tags. With 47 placed assets a plain distance cutoff turned
+  // the horizon into a band of overlapping text, so they are decluttered three
+  // ways: a far cut, a cap on how many may show at once (nearest win), and a
+  // screen-space overlap test so a nearer tag suppresses the ones behind it.
   camera.getWorldPosition(_camW);
+  if (!nameTagsOn || !colonyGroup.visible) {
+    for (const t of unitNameTags) t.spr.visible = false;
+    return;
+  }
+  const NEAR_FADE = 40, FAR = 320, MAX_TAGS = 7;
+  const shown = [];
+  const cands = [];
   for (const t of unitNameTags) {
-    t.spr.visible = colonyGroup.visible
-      && _camW.distanceTo(t.center) < 900
-      && !(inspectUnit && inspectUnit.id === t.unitId);
+    t.spr.visible = false;
+    if (inspectUnit && inspectUnit.id === t.unitId) continue;
+    const d = _camW.distanceTo(t.center);
+    if (d > FAR) continue;
+    cands.push({ t, d });
+  }
+  cands.sort((a, b) => a.d - b.d);
+  for (const { t, d } of cands) {
+    if (shown.length >= MAX_TAGS) break;
+    _tagV.copy(t.center).project(camera);
+    if (_tagV.z > 1 || Math.abs(_tagV.x) > 1.1 || Math.abs(_tagV.y) > 1.1) continue;
+    // suppress if it would land on top of a nearer tag already on screen
+    let clash = false;
+    for (const s of shown) {
+      if (Math.abs(_tagV.x - s.x) < 0.20 && Math.abs(_tagV.y - s.y) < 0.055) {
+        clash = true; break;
+      }
+    }
+    if (clash) continue;
+    // fade in as you approach the far edge, and out again when right on top
+    const fade = Math.min(1, (FAR - d) / 90) * Math.min(1, d / NEAR_FADE);
+    if (fade <= 0.05) continue;
+    t.spr.material.opacity = fade;
+    t.spr.visible = true;
+    shown.push({ x: _tagV.x, y: _tagV.y });
   }
 }
 
@@ -2109,9 +2260,15 @@ function updateClockText(s, ltst) {
 
 // relay constellation: 3 areostationary sats + 1 low science orbiter
 const AREO = 20428;                          // areostationary orbit radius, km
-// real com-relay-01 model (1 unit = 1 m), exaggerated for orbit-view visibility
-// like the old placeholder was; its +Z is the Mars-nadir face
-function relaySat(scale = 18) {
+// Real com-relay-01 model (1 unit = 1 m), exaggerated for orbit-view visibility
+// like the old placeholder was; its +Z is the Mars-nadir face.
+// Scale is chosen against apparent size, not realism: the bus is 30 m across,
+// so the old x18 put it at 540 km - four pixels beside a 6779 km planet, which
+// is why nothing up here could be read. x60 lands it near 1800 km, the same
+// order as the CMB station's x320, and the constellation finally looks like
+// spacecraft rather than dust. Distances stay true; only the hardware is
+// enlarged, the same convention the TT-1 exhibit and the L2 station declare.
+function relaySat(scale = 60) {
   const g = buildComRelay(THREE);
   g.scale.setScalar(scale);
   return g;
@@ -2163,6 +2320,11 @@ function buildSat(scale = 1) {                // still used by the low orbiter
       const pan = buildPan(THREE);
       pan.rotation.x = -Math.PI / 2;         // bracket face onto the deck,
       pan.position.set(0.55, 0.45, -1.46);   // telescope axis horizontal —
+      // the analyser is 0.28 m against a 30 m bus, so riding the bus scale
+      // alone leaves it sub-pixel from any useful vantage. Give the payload a
+      // further x7 so the instrument reads as hardware; it is the one thing up
+      // here a reader is meant to look AT, not just past.
+      pan.scale.setScalar(7);
       sat.add(pan);                          // both apertures see open sky
       // v2: PAN's own POI anchors + declared motion (event flash) + blink LEDs
       // ride the same orbit-view channels as the relay bus (added after the
@@ -2179,13 +2341,13 @@ function buildSat(scale = 1) {                // still used by the low orbiter
       });
     }
   }
-  const spare = relaySat(16);                // co-located hot spare (redundancy)
+  const spare = relaySat(53);                // co-located hot spare (redundancy)
   spare.position.copy(latLon(0, 77.4 + 16, AREO));
   spare.lookAt(0, 0, 0);
   spare.rotateY(Math.PI);
   orbitGroup.add(spare);
   registerMotion(spare, orbitAnims);
-  const spLbl = textSprite('备份星', 34, '#c8b49a');
+  const spLbl = textSprite(T.orbLbl.spare, 34, '#c8b49a');
   spLbl.scale.set(2600, 340, 1);
   spLbl.position.copy(latLon(0, 77.4 + 16, AREO)).add(new THREE.Vector3(0, 1100, 0));
   orbitGroup.add(spLbl);
@@ -2202,7 +2364,7 @@ function buildSat(scale = 1) {                // still used by the low orbiter
     line.computeLineDistances();
     orbitGroup.add(line);
   }
-  const covLbl = textSprite('静止轨道覆盖极限 ±71° · 极区盲区', 34, '#ffcf9f');
+  const covLbl = textSprite(T.orbLbl.coverage, 34, '#ffcf9f');
   covLbl.scale.set(4600, 460, 1);
   covLbl.position.copy(latLon(80, 77.4, ORBIT_R + 900));
   orbitGroup.add(covLbl);
@@ -2214,11 +2376,11 @@ function buildSat(scale = 1) {                // still used by the low orbiter
     new THREE.BufferGeometry().setFromPoints([jezero, sat0]), beamMat));
   orbitGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
     [sat0, sat0.clone().normalize().multiplyScalar(48000)]), beamMat));
-  const earthLbl = textSprite('→ 地球', 48);
+  const earthLbl = textSprite(T.orbLbl.earth, 48);
   earthLbl.scale.set(2600, 325, 1);
   earthLbl.position.copy(sat0.clone().normalize().multiplyScalar(27000));
   orbitGroup.add(earthLbl);
-  const satLbl = textSprite('中继星 ×3 主 + 1 备份 · 火星静止轨道 17,032 km', 44);
+  const satLbl = textSprite(T.orbLbl.relay, 44);
   satLbl.scale.set(7400, 775, 1);
   satLbl.position.copy(sat0).add(new THREE.Vector3(0, 1500, 0));
   orbitGroup.add(satLbl);
@@ -2285,7 +2447,7 @@ const loSpin = new THREE.Group();            // low orbiter, animated
   orbitGroup.add(loTilt);
   loTilt.add(loSpin);
   const LO_R = ORBIT_R + 400;
-  const lo = buildSat(0.55);
+  const lo = buildSat(1.9);                  // low orbiter, matched to the relays
   lo.position.set(LO_R, 0, 0);
   loSpin.add(lo);
   const pts = [];
@@ -2295,7 +2457,7 @@ const loSpin = new THREE.Group();            // low orbiter, animated
   }
   loTilt.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
     new THREE.LineBasicMaterial({ color: 0xffcf9f, transparent: true, opacity: 0.25 })));
-  const loLbl = textSprite('科学轨道器 · 400 km · 代传地面数据', 40);
+  const loLbl = textSprite(T.orbLbl.lowOrbiter, 40);
   loLbl.scale.set(4200, 525, 1);
   loLbl.position.set(LO_R, 900, 0);
   loSpin.add(loLbl);
@@ -2454,11 +2616,11 @@ const cmbCardHTML =
     new THREE.LineBasicMaterial(
       { color: 0x9fdcff, transparent: true, opacity: 0.22 })));
 
-  const lbl = textSprite('CMB 偏振巡天站 · 日-火 L2', 44);
+  const lbl = textSprite(T.orbLbl.cmb, 44);
   lbl.scale.set(5600, 700, 1);
   lbl.position.copy(anchor.position).add(new THREE.Vector3(0, 2800, 0));
   orbitGroup.add(lbl);
-  const lbl2 = textSprite('距火星 108万 km · 示意未按比例', 36, '#c8b49a');
+  const lbl2 = textSprite(T.orbLbl.cmbDist, 36, '#c8b49a');
   lbl2.scale.set(4200, 525, 1);
   lbl2.position.copy(anchor.position).add(new THREE.Vector3(0, 1600, 0));
   orbitGroup.add(lbl2);
@@ -2537,6 +2699,8 @@ addEventListener('mousemove', (e) => {
 addEventListener('keydown', (e) => {
   keys.add(e.code);
   if (e.code === 'KeyF' && !inInterior) flying = !flying;
+  if (e.code === 'KeyN') nameTagsOn = !nameTagsOn;   // declutter the horizon
+  if (e.code === 'Space' && flying) e.preventDefault();
   if (inInterior) return;                     // indoors: only Esc/WASD (handled elsewhere)
   if (e.code === 'KeyM') setOrbitMode(!orbitMode);
   if (e.code === 'KeyC') toggleColony();
@@ -2567,9 +2731,12 @@ function moveDesktop(dt) {
   const speed = (keys.has('ShiftLeft') ? 40 : 8) * (flying ? 4 : 1);
   const f = (keys.has('KeyW') ? 1 : 0) - (keys.has('KeyS') ? 1 : 0);
   const s = (keys.has('KeyD') ? 1 : 0) - (keys.has('KeyA') ? 1 : 0);
+  // flying: Space/Q hold altitude independently of where you look, so an aerial
+  // framing survives moving around. Holding either one also stops pitch from
+  // bleeding into forward motion, which is what made a level flight impossible.
+  const up = flying ? ((keys.has('Space') ? 1 : 0) - (keys.has('KeyQ') ? 1 : 0)) : 0;
   if (f || s) {
-    // camera forward: pitch counts only when flying
-    const fwd = flying
+    const fwd = (flying && !up)
       ? new THREE.Vector3(-Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch),
                           -Math.cos(yaw) * Math.cos(pitch))
       : new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
@@ -2577,6 +2744,7 @@ function moveDesktop(dt) {
     vel.copy(fwd).multiplyScalar(f).addScaledVector(right, s).normalize();
     rig.position.addScaledVector(vel, speed * dt);
   }
+  if (up) rig.position.y += up * speed * dt;
   if (!flying) {
     rig.position.y = sampleHeight(rig.position.x, rig.position.z);
   }
@@ -2624,6 +2792,8 @@ const BLINK_LIT = new THREE.Color(0xff3020);
 // userData.{label, level}); constant screen size, distance-culled in the loop
 const assetLabels = [];
 const unitNameTags = [];                      // one name sprite per facility
+let nameTagsOn = true;                        // N key: hide every facility tag
+const _tagV = new THREE.Vector3();            // scratch for screen-space declutter
 const _camW = new THREE.Vector3();
 function makeDeviceTag(text, big = false) {
   const fs = 42, padX = 20, padY = 12;
@@ -2666,6 +2836,35 @@ function hangDeviceTags(group, range, owner) {
     colonyGroup.add(spr);
     assetLabels.push(spr);
   });
+}
+
+// Snapshot of where the reader currently is, as URL params. Used by the
+// language switch, which has to reload the page to re-localize everything.
+function captureViewState() {
+  const s = { colony: colonyGroup.visible ? '1' : null,
+              magic: magicGroup.visible ? '1' : null,
+              interior: null, view: null, inspect: null,
+              x: null, z: null, y: null, yaw: null, pitch: null, fly: null };
+  if (inInterior) { s.interior = inInterior.id; return s; }
+  if (orbitMode) {
+    s.view = 'orbit';
+    // orbit uses OrbitControls, so hand back the camera's own lat/lon/range
+    const p = camera.position;
+    s.lat = (Math.asin(THREE.MathUtils.clamp(p.y / p.length(), -1, 1)) * 180 / Math.PI).toFixed(2);
+    s.lon = (Math.atan2(p.x, p.z) * 180 / Math.PI).toFixed(2);
+    return s;
+  }
+  // While inspecting, the rig is parked at the origin and the camera belongs to
+  // OrbitControls - so read the walk-position that enterInspect stashed away,
+  // otherwise switching language mid-inspect strands you at (0,0) on exit.
+  const p = inspectUnit ? inspectSaved.pos : rig.position;
+  if (inspectUnit) s.inspect = inspectUnit.id;
+  s.x = p.x.toFixed(1);
+  s.z = p.z.toFixed(1);
+  s.yaw = (inspectUnit ? inspectSaved.yaw : yaw).toFixed(3);
+  s.pitch = (inspectUnit ? inspectSaved.pitch : pitch).toFixed(3);
+  if (flying) { s.fly = '1'; s.y = p.y.toFixed(1); }
+  return s;
 }
 
 // ---------------------------------------------------------------- loop

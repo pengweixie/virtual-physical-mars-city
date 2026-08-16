@@ -20,7 +20,7 @@ export function build(THREE) {
   const nightMats = [], blinkMats = [], spinners = [], oscillators = [];
 
   // ── 设计常数(生成器注入,勿手改)
-  const P = {"h_gear": 0.67, "D_fus": 0.152, "L_fus": 1.0639, "span": 6.312, "chord": 0.6312, "taper": 0.65, "R_rot": 0.7986, "y_boom": 0.9346, "dx_rotor": 1.6972, "z_rot": -0.18, "D_prop": 1.4, "track": 0.2715, "ailFrac": 0.22, "hDust": 5.0};
+  const P = {"h_gear": 0.67, "D_fus": 0.1529, "L_fus": 1.0706, "span": 6.3586, "chord": 0.6359, "taper": 0.65, "R_rot": 0.7672, "y_boom": 0.9037, "dx_rotor": 1.6345, "z_rot": -0.18, "D_prop": 1.4, "track": 0.2715, "ailFrac": 0.22, "hDust": 5.0};
 
   const M = (c, o = {}) => new THREE.MeshLambertMaterial(Object.assign({ color: c }, o));
   const mat = {
@@ -254,7 +254,7 @@ export function build(THREE) {
         }
         rotors.push(rot);
         // 交替旋向 —— 偏航靠反扭矩差动(R21 发现 86)
-        spinners.push({ node: rot.name, axis: 'y', rpm: (k % 2 ? 1 : -1) * 258 });
+        spinners.push({ node: rot.name, axis: 'y', rpm: (k % 2 ? 1 : -1) * 268 });
         k++;
       }
   }
@@ -274,7 +274,7 @@ export function build(THREE) {
       pv.add(blade); pusher.add(pv);
     }
     pusher.add(cyl(0.045, 0.045, 0.06, mat.hub, 0, 0, 0, 10));
-    spinners.push({ node: 'pusher', axis: 'x', rpm: 323 });
+    spinners.push({ node: 'pusher', axis: 'x', rpm: 336 });
   }
 
   // ── 尾翼 + 方向舵(偏航在巡航段靠它,R21 发现 87)
@@ -359,10 +359,10 @@ export function build(THREE) {
       // 旋翼:animate 同帧覆盖 spinner,实现起停(veh-heli-01 同法)
       for (let i = 0; i < rotors.length; i++) {
         const dir = (i % 2 ? 1 : -1);
-        rotors[i].rotation.y = dir * t * 27.06 * rotorSpin;
+        rotors[i].rotation.y = dir * t * 28.17 * rotorSpin;
         rotors[i].visible = rotorSpin > 0.02;
       }
-      pusher.rotation.x = t * 33.82 * pushSpin;
+      pusher.rotation.x = t * 35.21 * pushSpin;
       pusher.visible = pushSpin > 0.02;
 
       // 感知通道:有帧就用,没有就退烘焙 —— 同文件优雅降级是硬要求。

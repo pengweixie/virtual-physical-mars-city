@@ -60,6 +60,45 @@ export function build(THREE) {
     return m;
   }
   const UP = new THREE.Vector3(0, 1, 0);
+
+  // ---------- 静态杆件合并 ----------
+  // 桁架/格构塔是上百根同材质小杆,各自成 Mesh 会线性推高 draw call——
+  // 全城 40+ 资产叠加后 headless 软渲染已掉到 <1 fps,新增密格必须自己收敛。
+  // 这里把它们烘成单个 BufferGeometry:视觉不变,draw call 从 O(杆数) 降到 1。
+  const _S1 = new THREE.Vector3(1, 1, 1);
+  function collectBox(list, w, h, d, x, y, z, ry = 0) {
+    const q = new THREE.Quaternion().setFromAxisAngle(UP, ry);
+    list.push({ w, h, d, m: new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), q, _S1) });
+  }
+  function collectStrut(list, ax, ay, az, bx, by, bz, w) {
+    const a = new THREE.Vector3(ax, ay, az);
+    const dir = new THREE.Vector3(bx, by, bz).sub(a);
+    const len = dir.length();
+    const q = new THREE.Quaternion().setFromUnitVectors(UP, dir.clone().normalize());
+    const p = a.clone().addScaledVector(dir, 0.5);
+    list.push({ w, h: len, d: w, m: new THREE.Matrix4().compose(p, q, _S1) });
+  }
+  function bakeMerged(list, material) {
+    const pos = [], nor = [];
+    for (const it of list) {
+      const g = new THREE.BoxGeometry(it.w, it.h, it.d);
+      g.applyMatrix4(it.m);
+      const ip = g.index.array, pa = g.attributes.position.array, na = g.attributes.normal.array;
+      for (let i = 0; i < ip.length; i++) {
+        const k = ip[i] * 3;
+        pos.push(pa[k], pa[k + 1], pa[k + 2]);
+        nor.push(na[k], na[k + 1], na[k + 2]);
+      }
+      g.dispose();
+    }
+    const bg = new THREE.BufferGeometry();
+    bg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    bg.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+    const mesh = new THREE.Mesh(bg, material);
+    group.add(mesh);
+    return mesh;
+  }
+
   function strut(ax, ay, az, bx, by, bz, w, material, parent = group) {
     const a = new THREE.Vector3(ax, ay, az), b = new THREE.Vector3(bx, by, bz);
     const dir = new THREE.Vector3().subVectors(b, a);
@@ -126,19 +165,37 @@ export function build(THREE) {
   const TH = 45;                // 塔高
   const TX = -18;               // 塔中心
   const TB = PAD_TOP;           // 塔基在坪面上
+  // 密格桁架:四角立柱 + 每 2.5 m 一道横框 + **四面满 X 撑**
+  // (原为 5 m 单斜撑仅 ±Z 两面,与邻场 ops-spaceport-02 的密格语汇不匹配)
+  const BAY = 2.5, NB = Math.round(TH / BAY);              // 18 节
+  const steelParts = [];                                   // 全部钢杆件 → 末尾合并成 1 mesh
   for (const sx of [-2, 2]) for (const sz of [-2, 2])
-    box(0.6, TH, 0.6, M.steel, TX + sx, TB + TH / 2, sz);  // 四角立柱
-  for (let lv = 1; lv <= 8; lv++) {                        // 横撑框
-    const y = TB + lv * 5;
-    box(4.6, 0.35, 0.35, M.steel, TX, y, -2);
-    box(4.6, 0.35, 0.35, M.steel, TX, y, 2);
-    box(0.35, 0.35, 4.6, M.steel, TX - 2, y, 0);
-    box(0.35, 0.35, 4.6, M.steel, TX + 2, y, 0);
+    collectBox(steelParts, 0.6, TH, 0.6, TX + sx, TB + TH / 2, sz);   // 四角立柱
+  for (let lv = 1; lv <= NB; lv++) {                       // 横撑框(每节)
+    const y = TB + lv * BAY;
+    collectBox(steelParts, 4.6, 0.3, 0.3, TX, y, -2);
+    collectBox(steelParts, 4.6, 0.3, 0.3, TX, y, 2);
+    collectBox(steelParts, 0.3, 0.3, 4.6, TX - 2, y, 0);
+    collectBox(steelParts, 0.3, 0.3, 4.6, TX + 2, y, 0);
   }
-  for (let lv = 0; lv < 9; lv++) {                         // ±Z 面交替斜撑
-    const y0 = TB + lv * 5, y1 = Math.min(y0 + 5, TB + TH), flip = lv % 2 ? 1 : -1;
-    strut(TX - 2 * flip, y0, -2, TX + 2 * flip, y1, -2, 0.3, M.steel);
-    strut(TX + 2 * flip, y0, 2, TX - 2 * flip, y1, 2, 0.3, M.steel);
+  for (let lv = 0; lv < NB; lv++) {                        // 四面 X 撑
+    const y0 = TB + lv * BAY, y1 = Math.min(y0 + BAY, TB + TH);
+    if (y1 - y0 < 0.5) continue;
+    for (const sz of [-2, 2]) {                            // ±Z 面
+      collectStrut(steelParts, TX - 2, y0, sz, TX + 2, y1, sz, 0.22);
+      collectStrut(steelParts, TX + 2, y0, sz, TX - 2, y1, sz, 0.22);
+    }
+    for (const sx of [-2, 2]) {                            // ±X 面
+      collectStrut(steelParts, TX + sx, y0, -2, TX + sx, y1, 2, 0.22);
+      collectStrut(steelParts, TX + sx, y0, 2, TX + sx, y1, -2, 0.22);
+    }
+  }
+  for (const py of [12, 20, 28, 42]) {                     // 检修工作平台(格栅 + 橙栏杆)
+    box(6.4, 0.16, 5.6, M.dark, TX, TB + py, 0);
+    for (const sz of [-2.7, 2.7]) box(6.4, 0.22, 0.22, M.orange, TX, TB + py + 1.05, sz);
+    for (const sx of [-3.1, 3.1]) box(0.22, 0.22, 5.6, M.orange, TX + sx, TB + py + 1.05, 0);
+    for (const sx of [-3.1, 0, 3.1]) for (const sz of [-2.7, 2.7])
+      box(0.18, 1.05, 0.18, M.orange, TX + sx, TB + py + 0.52, sz);
   }
   // 塔顶吊机房 + 小臂 + 航空障碍灯 + 避雷针;塔身电梯井、中部障碍灯
   box(3.2, 2.4, 3.2, M.orange, TX, TB + TH + 1.2, 0);
@@ -234,15 +291,57 @@ export function build(THREE) {
     }
   }
 
-  // ========== 9. 泛光灯塔:土堤外四角 8 m 灯杆,双层灯箱 ==========
-  for (const [fx, fz] of [[34, 34], [34, -34], [-34, 34], [-34, -34]]) {
-    cyl(0.16, 0.2, 8, M.steel, fx, 4, fz, 8);
-    const head = box(1.0, 0.5, 0.65, floodGlow, fx, 8.2, fz);
-    head.rotation.y = Math.atan2(-fx, -fz);
-    head.rotation.x = -0.35;
-    const head2 = box(1.0, 0.5, 0.65, floodGlow, fx, 8.8, fz);
-    head2.rotation.y = head.rotation.y + 0.5;
-    head2.rotation.x = -0.25;
+  // ========== 9. 静电泄放塔 ×3(兼泛光灯塔) ==========
+  // 火星 600 Pa 下 CO₂ 击穿电压仅地球的 1~5%(1 cm 间隙 706 V vs 43.7 kV),
+  // 而沙尘摩擦起电持续给结构充电——45 m 金属塔 + 甲烷加注必须有泄放通道。
+  // 三塔 55 m(高于塔顶避雷针),塔间悬链线把箭体罩在保护锥内。
+  const ESD_H = 55, ESD_R = 46;
+  const esdTops = [];
+  for (let i = 0; i < 3; i++) {
+    const a = (i / 3) * Math.PI * 2 + Math.PI / 6;
+    const ex = Math.sin(a) * ESD_R, ez = Math.cos(a) * ESD_R;
+    esdTops.push([ex, ESD_H, ez]);
+    const W = 1.6;                                    // 格构塔断面
+    const NL = 14, seg = ESD_H / NL;
+    for (const sx of [-1, 1]) for (const sz of [-1, 1])
+      collectBox(steelParts, 0.22, ESD_H, 0.22, ex + sx * W * 0.35, ESD_H / 2, ez + sz * W * 0.35);
+    for (let k = 1; k <= NL; k++) {                   // 横框
+      const y = k * seg, w = W * 0.7;
+      for (const sz of [-1, 1]) collectBox(steelParts, w * 2, 0.16, 0.16, ex, y, ez + sz * w);
+      for (const sx of [-1, 1]) collectBox(steelParts, 0.16, 0.16, w * 2, ex + sx * w, y, ez);
+    }
+    for (let k = 0; k < NL; k++) {                    // 四面 X 撑
+      const y0 = k * seg, y1 = y0 + seg, w = W * 0.35;
+      for (const sz of [-1, 1]) {
+        collectStrut(steelParts, ex - w, y0, ez + sz * w, ex + w, y1, ez + sz * w, 0.12);
+        collectStrut(steelParts, ex + w, y0, ez + sz * w, ex - w, y1, ez + sz * w, 0.12);
+      }
+      for (const sx of [-1, 1]) {
+        collectStrut(steelParts, ex + sx * w, y0, ez - w, ex + sx * w, y1, ez + w, 0.12);
+        collectStrut(steelParts, ex + sx * w, y0, ez + w, ex + sx * w, y1, ez - w, 0.12);
+      }
+    }
+    cyl(0.04, 0.14, 4, M.steel, ex, ESD_H + 2, ez, 6);         // 顶端放电针
+    box(0.3, 0.3, 0.3, beaconRed, ex, ESD_H + 4.4, ez);        // 航空障碍灯
+    for (const [hy, tilt] of [[9.0, -0.35], [9.7, -0.25]]) {   // 塔身泛光灯箱
+      const head = box(1.0, 0.5, 0.65, floodGlow, ex, hy, ez);
+      head.rotation.y = Math.atan2(-ex, -ez) + (tilt < -0.3 ? 0 : 0.5);
+      head.rotation.x = tilt;
+    }
+    box(2.6, 0.5, 2.6, M.concrete, ex, 0.25, ez);              // 基础与接地极
+    cyl(0.18, 0.18, 1.2, M.dark, ex + 1.0, 0.6, ez + 1.0, 8);
+  }
+  for (let i = 0; i < 3; i++) {                                 // 塔间悬链线(下垂 6 m)
+    const [x0, y0, z0] = esdTops[i], [x1, y1, z1] = esdTops[(i + 1) % 3];
+    const N = 8, SAG = 6;
+    let px = x0, py = y0, pz = z0;
+    for (let k = 1; k <= N; k++) {
+      const t = k / N;
+      const cx = x0 + (x1 - x0) * t, cz = z0 + (z1 - z0) * t;
+      const cy = y0 - SAG * 4 * t * (1 - t);
+      collectStrut(steelParts, px, py, pz, cx, cy, cz, 0.09);
+      px = cx; py = cy; pz = cz;
+    }
   }
 
   // ========== 11. 细化层 ==========
@@ -350,6 +449,9 @@ export function build(THREE) {
     group.add(rock);
   }
 
+  // 全部钢杆件烘成单个几何(见文件头合并说明)
+  bakeMerged(steelParts, M.steel);
+
   // ========== POI 锚点(卡片见 ops-spaceport-01.info.json) ==========
   for (const [n, x, y, z] of [
     ['sinter-pad',    0, 1.0, 0],       // 烧结着陆坪
@@ -358,6 +460,7 @@ export function build(THREE) {
     ['prop-farm',     -50, 3, 0],       // 推进剂区
     ['bunker',        62, 3, 0],        // 控制掩体
     ['fire-garage',   12, 2.5, 37],     // 消防车库
+    ['esd-masts',     Math.sin(Math.PI / 6) * 46, 30, Math.cos(Math.PI / 6) * 46], // 静电泄放塔
   ]) {
     const a = new THREE.Object3D();
     a.name = 'poi_' + n;

@@ -1078,6 +1078,21 @@
       ]
     },
     {
+      "id": "pwr-fission-01",
+      "name": "应急裂变电源站",
+      "name_en": "Emergency Fission Power Plant",
+      "type": "code",
+      "module": "units/pwr-fission-01.js",
+      "size_m": 79.6,
+      "pos": [
+        -140,
+        -780
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.45,
+      "effects": []
+    },
+    {
       "id": "pwr-grid-net-01",
       "name": "埋地电网地表标识散件包",
       "name_en": "Buried-grid surface marker pack",
@@ -1280,12 +1295,12 @@
     },
     {
       "id": "ops-vab-01",
-      "name": "垂直总装测试厂房",
-      "name_en": "Vertical Assembly & Refurbishment Building",
+      "name": "卧式总装测试厂房",
+      "name_en": "Horizontal Integration & Refurbishment Hall",
       "type": "code",
       "module": "units/ops-vab-01.js",
-      "size_m": 101,
-      "size_axis": "height",
+      "size_m": 94,
+      "size_axis": "width",
       "pos": [
         600,
         300
@@ -1303,7 +1318,7 @@
       "name_en": "Payload Processing Facility",
       "type": "code",
       "module": "units/ops-payload-01.js",
-      "size_m": 62,
+      "size_m": 72,
       "size_axis": "width",
       "pos": [
         480,

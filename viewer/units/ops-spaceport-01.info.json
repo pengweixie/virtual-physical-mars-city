@@ -154,20 +154,50 @@
       "label": "消防车库与场区保障",
       "label_en": "Fire garage and site support",
       "range": 20,
-      "detail": "+Z 通道旁单开间车棚，橙色救援车（警灯条红闪、顶置水炮）随时待命；通道口双门柱、风向标（常年摆动）、物资集装箱堆场。场区四角 8 m 双层泛光灯塔夜间照明。",
-      "detail_en": "A single-bay shelter beside the +Z gateway with an orange rescue vehicle on standby (red flashing light bar, roof-mounted water cannon). The gateway has twin posts, a windsock that never stops moving, and a container yard for supplies; four 8 m twin-head floodlight masts light the site at night.",
+      "detail": "+Z 通道旁单开间车棚，橙色救援车（警灯条红闪、顶置水炮）随时待命；通道口双门柱、风向标（常年摆动）、物资集装箱堆场。场区夜间照明改由三座静电泄放塔塔身的双层泛光灯箱提供(见泄放塔卡)。",
+      "detail_en": "A single-bay shelter beside the +Z gateway with an orange rescue vehicle on standby (red flashing light bar, roof-mounted water cannon). The gateway has twin posts, a windsock that never stops moving, and a container yard for supplies; site lighting at night now comes from twin-head floodlights mounted on the three static-discharge masts (see their card).",
       "specs": {
         "救援车": "1 台（警灯+水炮）",
         "风向标": "oscillator 驱动",
-        "泛光": "4 × 8 m 双灯箱"
+        "泛光": "挂于 3 座静电泄放塔(每塔双灯箱)"
       },
       "specs_en": {
         "Rescue vehicle": "1 (light bar and water cannon)",
         "Windsock": "oscillator driven",
-        "Floodlights": "4 x 8 m twin-head masts"
+        "Floodlights": "mounted on the 3 static-discharge masts (two heads each)"
       },
       "physics": "甲烷火焰在 95% CO₂ 的大气里几乎烧不起来——火星\"消防\"的真实对象是低温泄漏与高压气瓶,水炮实为降温稀释工具。风向标则是全场最便宜的传感器:泄漏云与羽流往哪走,由风场一票决定。",
       "physics_en": "A methane flame can barely sustain itself in 95% CO2 - Mars \"firefighting\" is really about cryogenic leaks and pressure vessels, and the water cannon is a chill-and-dilute tool. The windsock is the cheapest sensor on site: where a leak cloud or plume drifts is decided by the wind, full stop."
+    },
+    {
+      "id": "esd-masts",
+      "label": "静电泄放塔 ×3(55 m)",
+      "label_en": "Static-discharge masts (3 x 55 m)",
+      "range": 40,
+      "detail": "环绕场区的三座 55 m 格构塔,高于服务塔顶避雷针,塔顶放电针之间挂悬链线,把箭体整个罩进保护锥。每塔配混凝土基础与接地极,塔身兼挂双层泛光灯箱与航空障碍灯。地球发射场的避雷塔防的是雷击;火星没有雷暴,这三座塔防的是**沙尘摩擦起电的持续充电**。",
+      "detail_en": "Three 55 m lattice masts ring the site, standing taller than the service tower's lightning rod, with catenary wires strung between their discharge tips to fold the entire vehicle inside a protective cone. Each has a concrete footing and ground electrode, and carries twin-head floodlights plus aviation obstruction lights. Earth pads build such masts against lightning strikes; Mars has no thunderstorms, so these exist to bleed off the continuous charging that blowing dust produces.",
+      "specs": {
+        "数量/高度": "3 × 55 m(顶端放电针 +4 m)",
+        "布置半径": "r=46 m(土堤外)",
+        "塔间": "悬链线,下垂 6 m",
+        "兼用": "双层泛光灯箱 + 航空障碍灯",
+        "接地": "每塔混凝土基础 + 接地极"
+      },
+      "specs_en": {
+        "Count / height": "3 x 55 m (plus 4 m discharge tip)",
+        "Ring radius": "46 m, outside the berm",
+        "Between masts": "catenary wire, 6 m sag",
+        "Also carries": "twin floodlights + obstruction lights",
+        "Grounding": "concrete footing and electrode each"
+      },
+      "sim": [
+        "帕邢判据:火星 600 Pa 下 CO₂ 击穿电压仅地球同间隙的 1~5%——1 cm 间隙 706 V(地球 43.7 kV)、10 cm 间隙 4.0 kV(地球 340 kV);帕邢曲线最小值 292 V @ 1.4 mm 间隙。低击穿电压 + 沙尘持续起电 + 45 m 金属塔 + 甲烷加注 → 泄放通道是硬需求,不是装饰"
+      ],
+      "sim_en": [
+        "Paschen criterion: at Mars' 600 Pa, CO2 breaks down at only 1-5% of the Earth voltage for the same gap - 706 V across 1 cm (43.7 kV on Earth), 4.0 kV across 10 cm (340 kV on Earth), with the Paschen minimum at 292 V for a 1.4 mm gap. Low breakdown voltage, continuous triboelectric charging from dust, a 45 m metal tower and methane loading together make a discharge path a hard requirement rather than decoration."
+      ],
+      "physics": "帕邢定律说击穿电压是 p·d 的函数而非单纯电压:低气压下电子平均自由程变长,同样电场下更容易累积到电离能,于是击穿反而更早发生。火星大气恰好落在曲线的低压侧,这也是同一条曲线解释火星上电弧更容易、绝缘更难的原因。",
+      "physics_en": "Paschen's law makes breakdown a function of pressure times gap, not voltage alone: at low pressure the electron mean free path grows, so the same field accelerates electrons to ionizing energy more readily and breakdown arrives earlier. Mars sits on the low-pressure side of that curve, which is the same reason arcing is easier and insulation harder there."
     }
   ]
 }

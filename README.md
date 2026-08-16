@@ -6,8 +6,8 @@ simulation-backed engineering → a real chip running the city's AI.*
 ![Mars city panorama](docs/assets/hero.png)
 
 Starting from real NASA HiRISE terrain (Jezero Crater, 1 m/px), this project
-builds a Mars city digital twin in the browser: **34 placed facilities, seven
-walk-in interiors, 190+ bilingual knowledge cards each backed by simulation**,
+builds a Mars city digital twin in the browser: **48 placed facilities, nine
+walk-in interiors, 380+ bilingual knowledge cards each backed by simulation**,
 a live Perseverance mission layer, and day/night driven by true Martian solar
 time — plus a compute center that closes the **real world → digital twin → AI
 → silicon** loop: a character-level bigram language model runs live on the big
@@ -18,7 +18,7 @@ a fabbed PCB) seated in the rack beside it.
 
 **<https://pengweixie.github.io/virtual-physical-mars-city/>**
 
-The heart of this release. Seventeen district pages, each telling one part of
+The heart of this release. Eighteen district pages, each telling one part of
 the build as an engineering story: what it is, how the mechanism works, a
 ledger table tracing **every number on the page to the simulation run that
 produced it**, and an honest *What broke* section. English, offline-complete,
@@ -27,6 +27,7 @@ no external resources.
 | District | One line |
 |---|---|
 | [Power](https://pengweixie.github.io/virtual-physical-mars-city/power.html) | Tokamak fusion (390 MWe), the 429 m radiator field, the storage farm |
+| [The Grid](https://pengweixie.github.io/virtual-physical-mars-city/grid.html) | The city electricity ledger, MVDC under Paschen's curve, the shedding ladder |
 | [Rockets](https://pengweixie.github.io/virtual-physical-mars-city/rockets.html) | Starship + CZ-10B with net-catch recovery — a launch every sol |
 | [Science](https://pengweixie.github.io/virtual-physical-mars-city/science.html) | SPAD lidar, the observatory, and their shared single-photon lineage |
 | [Comms](https://pengweixie.github.io/virtual-physical-mars-city/comms.html) | 3+1 areostationary relays and a 12 m deep-space ground station |
@@ -61,24 +62,29 @@ e.g. Launch) · `M` orbit view · `E` enter interiors through their doors
 bottom-right slider scrubs Martian time. The corner button switches the UI
 between English and Chinese.
 
-## What's new in v1.0.0
+## What's new in v1.2.0
 
-- **The website**: all 17 district pages live, with per-page ledgers and
-  *What broke* sections — the documentation is the product.
-- **The spectrum net**: thermal-IR (VOx, NETD 47.3 mK), solar-blind UV
-  (TCAD-grown AlGaN), a 183 GHz water-vapor radiometer, an InGaAs SWIR camera,
-  a 160 m low-frequency radio array listening where Earth is deaf, and a
-  seismic station that uses the daily 14:00 launch as a repeating active source.
-- **The town**: a 16-cabin earth-sheltered village on one pressure domain
-  (234 → 6.2 mSv/yr under 2 m of regolith; 14 airlocks become 2), a logistics
-  depot, pink-glowing crop tunnels, a real road network and three elevated
-  pipe corridors — guarded by a layout auditor that treats every road and
-  pipe as a protected corridor.
-- **The fab, complete**: furnace, LPCVD and CMP joined the floor; a 104 s
-  full-wafer choreography runs the line end to end; 8 lithography +
-  13 process simulation rounds close the unit-process ledger.
-- **TT-1 gravitational-wave exhibit**, the three-tier radiation net, the
-  weather station, and the scout helicopter.
+- **The emergency fission plant**: the city's answer to its own single point
+  of failure. A 16-ledger dossier (OpenMC neutron transport, a free-piston
+  Stirling conversion hall where nothing rotates, dose-vs-distance for the
+  regolith berm) sized not by capacity — the tokamak has a 165× margin — but
+  by the one outage nobody had priced: magnet quench during a global dust
+  storm. Two buried feeders enter the substation 110° apart so no single
+  corridor event can take both power sources.
+- **Crops enter the protected grid**: the dossier's central discovery is that
+  keeping crops *alive* takes 49 kW where growing them takes 341 — so a new
+  shedding tier T2c now sits between the survival loads and the luxuries,
+  and agriculture stops being all-or-nothing in a blackout.
+- **An ambient score**: "Quiet Infrastructure" over the city,
+  "Glass Moon Halo" over Magic Mars, crossfading as you toggle worlds.
+- **The player pass**: pipe corridors now land on grade-level tie-in blocks
+  instead of stopping in mid-air, orbit view is fully bilingual and its
+  hardware is finally visible at true distances, name tags declutter
+  themselves, flight gets a direct altitude control, and inspect mode
+  survives a language switch.
+- **The sulfur works** joins the resources page; the launch campus rebuilds
+  its VAB as a horizontal integration hall; the free-electron laser closes
+  its last cited figure (42 ledgers).
 
 ## Posters
 

@@ -1,23 +1,32 @@
-// ops-vab-01 —— 垂直总装测试厂房（总装线 + 回收检修线合一）
-// 补的是 ops-spaceport-02 转运轨道那一头的空白：箭在这里竖立总装、测试，
-// 由活动发射平台驮出大门沿轨道去工位；网捕回收下来的一子级放倒推进
-// -X 低跨检修线拆检，换件后回到总装线——早期基地只养得起一栋大跨厂房，
-// 两条线共用桥吊与门前轨道（真实发射场是分建的，这里是火星版精简）。
+// ops-vab-01 —— 卧式总装测试厂房（总装线 + 回收检修线合一）
 //
-// 核心不做黑盒（MODELS.md 科学城原则）：大门常开、内部工作平台逐层错位前伸，
-// 从 +Z 一眼读三条线——左（-X）卧着拆检的一子级+拆下的发动机/栅格舵/网捕挂钩，
-// 中间立着在总装的芯级筒段，门口橙色活动发射平台正待发（橙色 = 工位发射台同色）。
+// v2 设计翻案（08-15）：v1 建成 86 m 高的加压垂直总装厂房，两条硬伤——
+//   ① 101 m 包围盒是全城第二高，而城里最高的**建筑** hab-tunnel-01 只有 20 m；
+//   ② 压型钢板墙 + 蓝腰带是地球工业园配色，与全城「就地取材」语汇脱节。
+// 根因是同一条：v1 自己的知识卡就写着「早期基地养不起 86 m 高的加压厂房」——
+// 那就不该建它。火星上正确的做法是**卧式总装**：箭躺着装配测试、躺着运到工位，
+// 到那里再由起竖臂立起——ops-spaceport-02 的 85 m 勤务塔（5 组回转平台 + 顶部
+// 吊机房）本来就是干垂直作业的，v1 等于在 170 m 外又盖了一座冗余的塔。
+// 卧式之后：高度 101 → 13.6 m，结构从加压钢盒变成**烧结砖拱 + 覆土**，
+// 与 hab-village-01 的夯土拱壳/掩土同一套语汇（拱形在内压下是薄膜受力，
+// 覆土同时管辐射与昼夜温波——那本账已经算过）。
 //
-// 契约：1u=1m；原点 = 主厂房基座中心地面；+Y 上；**大门朝 +Z**（落位时旋转对准工位）。
-// 动画：桥吊小车沿主梁往复（oscillators）、屋顶障碍灯（blinkMats）。
-// POI：poi_highbay / poi_refurb / poi_mlp / poi_crane / poi_control
+// 组件：双联砖拱（主拱=总装线 72 m / 副拱=检修线 40 m）+ 覆土培坡 + 端头拱门
+//   + 拱下单轨吊 + 卧在起竖运输车上的箭体 + 检修线拆件（发动机/栅格舵/网捕挂钩）
+//   + 半掩体控制间 + 门外转运铁轨
+// 核心不做黑盒：两座拱门常开、内部沿轴逐段错位，从 +Z 一眼读两条线——
+//   主拱里箭躺在起竖车上正在对接，副拱里回收的一子级正在拆检。
+//
+// 契约：1u=1m；原点 = 主拱内地坪中心；+Y 上；**出箭方向朝 +Z**。
+// 动画：拱下单轨吊小车往复（oscillators）、门口障碍灯（blinkMats）。
+// POI：poi_hall / poi_refurb / poi_erector / poi_vault / poi_control
 
 export const meta = {
   id: 'ops-vab-01',
-  name: '垂直总装测试厂房',
-  name_en: 'Vertical Assembly & Refurbishment Building',
-  size_m: 101,                // 实测最大边（高，含避雷针尖）——manifest 同值，禁止缩放
-  size_axis: 'height',
+  name: '卧式总装测试厂房',
+  name_en: 'Horizontal Integration & Refurbishment Hall',
+  size_m: 94,                 // 实测最大边（长向）——manifest 同值，禁止缩放
+  size_axis: 'width',
   effects: ['glow_windows', 'blink'],
 };
 
@@ -27,44 +36,54 @@ export function build(THREE) {
   const g = new THREE.Group();
   g.name = 'ops-vab-01';
 
-  // 确定性伪随机（资产必须可复现）
-  let _seed = 20260718;
+  let _seed = 20260815;
   const rnd = () => { _seed = (_seed * 16807) % 2147483647; return _seed / 2147483647; };
+  const hash3 = (x, y, z) => {
+    const s = Math.sin(x * 12.9898 + y * 78.233 + z * 37.719) * 43758.5453;
+    return s - Math.floor(s);
+  };
+  const vnoise = (x, y, z) => {
+    const xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+    const xf = x - xi, yf = y - yi, zf = z - zi;
+    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), w = zf * zf * (3 - 2 * zf);
+    let a = 0;
+    for (let dx = 0; dx <= 1; dx++) for (let dy = 0; dy <= 1; dy++) for (let dz = 0; dz <= 1; dz++)
+      a += hash3(xi + dx, yi + dy, zi + dz) * (dx ? u : 1 - u) * (dy ? v : 1 - v) * (dz ? w : 1 - w);
+    return a;
+  };
 
   // ---------------------------------------------------------------- 材质
-  const std = (color, roughness = 0.85, metalness = 0.05) =>
+  // 全部取自城内「就地取材」调色板（res-mine-01 / hab-village-01 / ops-depot-01）
+  const std = (color, roughness = 0.9, metalness = 0.03) =>
     new THREE.MeshStandardMaterial({ color, roughness, metalness });
-  const dusted = (hex, roughness = 0.95) => {
-    const c = new THREE.Color(hex);
-    c.r *= 0.97; c.g *= 0.92; c.b *= 0.90;
-    return new THREE.MeshStandardMaterial({ color: c, roughness, metalness: 0.02 });
-  };
   const M = {
-    wall:     std(0xe6e9ec, 0.82),      // 厂房白色压型钢板
-    wallTop:  dusted(0xe6e9ec),
-    band:     std(0x2b7cc9, 0.7, 0.15), // 蓝色腰带（与勤务塔同族涂装）
-    rib:      std(0xc9ced3, 0.8),       // 墙面压条/柱
-    steel:    std(0x8e979e, 0.8),       // 结构钢灰
-    dark:     std(0x4a4e54, 0.75),
-    orange:   std(0xd4671f, 0.75, 0.1), // 活动发射平台 / 护栏（= 工位发射台橙）
-    safety:   std(0xc0662a, 0.8),
-    conc:     std(0xb9a48c, 0.98),      // 烧结风化层硬化坪
-    concTop:  dusted(0xb9a48c),
-    rail:     std(0x6e7378, 0.55, 0.4),
-    rocket:   std(0xf2f0ea, 0.6, 0.15), // 箭体白（与 veh-rocket-02 同色）
-    engine:   std(0xb0b6bc, 0.5, 0.35), // 发动机金属
-    nozzle:   std(0x8a6a4a, 0.55, 0.3), // 喷管内壁烧蚀铜
-    grid:     std(0x9aa0a6, 0.6, 0.3),  // 栅格舵
-    tread:    std(0x5a4536, 0.98),      // 车辙
+    brick:   std(0xb46b46, 0.94),        // 烧结风化层砖（锈红，比覆土亮以便分离）
+    brickD:  std(0x8f4f34, 0.96),        // 砖箍/暗砖带
+    vaultIn: std(0xa46c50, 0.95),        // 拱内壁（略亮，背光可读）
+    rammed:  std(0x8a8378, 0.96),        // 夯土隔墙
+    soil:    std(0x96543a, 1.0),         // 覆土
+    soilB:   std(0x7a4630, 1.0),
+    pad:     std(0x8a6047, 0.98),        // 压实地坪
+    floor:   std(0xa39683, 0.95),        // 拱内地坪（浅夯土）
+    steel:   std(0x6a7076, 0.5, 0.6),    // 结构钢
+    dark:    std(0x24272c, 0.7),
+    white:   std(0xe8e8e4, 0.55, 0.15),  // 机械白（只用于设备）
+    orange:  std(0xe07020, 0.7),         // 安全橙
+    rocket:  std(0xe8e4da, 0.55, 0.15),  // 箭体
+    engine:  std(0xb0b6bc, 0.5, 0.35),
+    nozzle:  std(0x8a6a4a, 0.55, 0.3),
+    grid:    std(0x9a9a96, 0.6, 0.3),
+    rail:    std(0x6e7378, 0.55, 0.4),
+    tread:   std(0x6e4a33, 0.98),
+    tire:    std(0x1c1e20, 0.95),
   };
-
   const windowMat = new THREE.MeshStandardMaterial({
-    color: 0xd8f0ff, emissive: 0xcfe8ff, emissiveIntensity: 1.0, roughness: 0.3 });
-  const bayLampMat = new THREE.MeshStandardMaterial({
-    color: 0xfff6e0, emissive: 0xffedc4, emissiveIntensity: 1.0, roughness: 0.4 });
+    color: 0xffe6bf, emissive: 0xffd9a0, emissiveIntensity: 1.0, roughness: 0.35 });
+  const bayLamp = new THREE.MeshStandardMaterial({
+    color: 0xfff4e2, emissive: 0xffe9c6, emissiveIntensity: 1.0, roughness: 0.4 });
   const blinkMat = new THREE.MeshStandardMaterial({
     color: 0xff4030, emissive: 0xff2515, emissiveIntensity: 2.0, roughness: 0.4 });
-  g.userData.nightMats = [windowMat, bayLampMat];
+  g.userData.nightMats = [windowMat, bayLamp];
   g.userData.blinkMats = [blinkMat];
 
   // ---------------------------------------------------------------- 助手
@@ -75,20 +94,12 @@ export function build(THREE) {
     parent.add(m);
     return m;
   };
-  const boxT = (w, h, d, side, top, x, y0, z, parent = g) => {   // 顶面带尘膜
-    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d),
-      [side, side, top, side, side, side]);
-    m.position.set(x, y0 + h / 2, z);
-    parent.add(m);
-    return m;
-  };
   const cyl = (r, h, mat, x, yc, z, seg = 12, parent = g) => {
     const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat);
     m.position.set(x, yc, z);
     parent.add(m);
     return m;
   };
-  // 两点方梁（质感六招 #1：桁架/斜撑的积木）
   const _ba = new THREE.Vector3(), _bb = new THREE.Vector3();
   const beam = (ax, ay, az, bx, by, bz, w, mat, parent = g) => {
     _ba.set(ax, ay, az); _bb.set(bx, by, bz);
@@ -98,292 +109,289 @@ export function build(THREE) {
     parent.add(m);
     return m;
   };
-  // 安全橙护栏（质感六招 #4）
   const railing = (x0, z0, x1, z1, y, parent = g) => {
-    const len = Math.hypot(x1 - x0, z1 - z0), n = Math.max(1, Math.round(len / 2.4));
-    beam(x0, y + 1.05, z0, x1, y + 1.05, z1, 0.09, M.safety, parent);
+    const len = Math.hypot(x1 - x0, z1 - z0), n = Math.max(1, Math.round(len / 2.6));
+    beam(x0, y + 1.0, z0, x1, y + 1.0, z1, 0.08, M.orange, parent);
     for (let i = 0; i <= n; i++)
-      box(0.09, 1.05, 0.09, M.safety, x0 + (x1 - x0) * i / n, y, z0 + (z1 - z0) * i / n, 0, parent);
-  };
-  // 密封检修门（质感六招 #3：框+扇+闩+双铰链）
-  const hatch = (x, y0, zFace, s = 1) => {
-    box(1.06 * s, 2.02 * s, 0.07, M.safety, x, y0, zFace + 0.04);
-    box(0.90 * s, 1.86 * s, 0.09, M.wall, x, y0 + 0.08 * s, zFace);
-    box(0.10, 0.26, 0.08, M.dark, x + 0.32 * s, y0 + 0.9 * s, zFace - 0.06);
-    box(0.14, 0.10, 0.06, M.dark, x - 0.37 * s, y0 + 1.55 * s, zFace - 0.04);
-    box(0.14, 0.10, 0.06, M.dark, x - 0.37 * s, y0 + 0.3 * s, zFace - 0.04);
+      box(0.08, 1.0, 0.08, M.orange, x0 + (x1 - x0) * i / n, y, z0 + (z1 - z0) * i / n, 0, parent);
   };
   const anchor = (name, x, y, z) => {
     const a = new THREE.Object3D(); a.name = name; a.position.set(x, y, z); g.add(a);
   };
 
+  // 覆土棱柱：2D 剖面沿 Z 挤出 + 双尺度顶点色（质感六招 #2，"就地取材"的主表面）
+  const berm = (profile, z0, z1, cA, cB) => {
+    const n = profile.length, pos = [], col = [];
+    const ca = new THREE.Color(cA), cb = new THREE.Color(cB), tmp = new THREE.Color();
+    const push = (x, y, z) => {
+      const j = 0.55 * vnoise(x * 0.14, y * 0.14, z * 0.14) + 0.45 * vnoise(x * 0.9, y * 0.9, z * 0.9);
+      tmp.copy(ca).lerp(cb, Math.min(1, Math.max(0, j * 0.9 + 0.05)));
+      pos.push(x, y, z); col.push(tmp.r, tmp.g, tmp.b);
+    };
+    const seg = 6;                                   // 沿 Z 分段，让顶点色有变化
+    for (let s = 0; s < seg; s++) {
+      const za = z0 + (z1 - z0) * s / seg, zb = z0 + (z1 - z0) * (s + 1) / seg;
+      for (let i = 0; i < n; i++) {                  // 侧面
+        const [ax, ay] = profile[i], [bx, by] = profile[(i + 1) % n];
+        push(ax, ay, za); push(bx, by, za); push(bx, by, zb);
+        push(ax, ay, za); push(bx, by, zb); push(ax, ay, zb);
+      }
+    }
+    for (const [zc, flip] of [[z0, false], [z1, true]]) {   // 两端封盖（扇形三角化）
+      for (let i = 1; i < n - 1; i++) {
+        const a = profile[0], b = profile[i], c = profile[i + 1];
+        if (flip) { push(a[0], a[1], zc); push(c[0], c[1], zc); push(b[0], b[1], zc); }
+        else { push(a[0], a[1], zc); push(b[0], b[1], zc); push(c[0], c[1], zc); }
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+    geo.computeVertexNormals();
+    const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
+      vertexColors: true, roughness: 1.0, metalness: 0 }));
+    g.add(m);
+    return m;
+  };
+
+  // 砖拱筒壳（轴沿 Z，上半圆；内外双层 + 砖缝暗带），DoubleSide 保证内壁可读
+  const vault = (cx, spring, rIn, rOut, z0, z1) => {
+    const len = z1 - z0, zc = (z0 + z1) / 2;
+    const shell = (r, mat, side) => {
+      const m = new THREE.Mesh(
+        new THREE.CylinderGeometry(r, r, len, 28, 1, true, Math.PI / 2, Math.PI),
+        new THREE.MeshStandardMaterial({ color: mat.color, roughness: 0.95, side }));
+      m.position.set(cx, spring, zc);
+      m.rotation.x = Math.PI / 2;
+      g.add(m);
+      return m;
+    };
+    shell(rOut, M.brick, THREE.FrontSide);
+    shell(rIn, M.vaultIn, THREE.BackSide);
+    // 环向砖箍（每 6 m 一道，凸出外壳 → 读作砌体分段）
+    const nb = Math.max(2, Math.round(len / 6));
+    for (let i = 0; i <= nb; i++) {
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(rOut + 0.05, 0.28, 5, 22, Math.PI), M.brickD);
+      ring.position.set(cx, spring, z0 + len * i / nb);
+      g.add(ring);
+    }
+    return { cx, spring, rIn, rOut, z0, z1 };
+  };
+
+  // 拱形端墙（门洞上方的月牙填充 + 两侧墙垛）
+  const archEnd = (cx, spring, rIn, rOut, z, doorR, doorPier) => {
+    const tym = new THREE.Mesh(
+      new THREE.RingGeometry(doorR, rOut, 24, 1, 0, Math.PI),
+      new THREE.MeshStandardMaterial({ color: M.brick.color, roughness: 0.95, side: THREE.DoubleSide }));
+    tym.position.set(cx, spring, z);
+    g.add(tym);
+    for (const sx of [-1, 1])                                  // 门洞两侧墙垛
+      box(rOut - doorR, spring, 0.9, M.brick, cx + sx * (doorR + rOut) / 2, 0, z);
+    box(doorR * 2 + 1.2, 0.5, 1.3, M.brickD, cx, spring + rOut - 0.2, z);   // 门楣压顶
+    void doorPier;
+  };
+
   // ================================================================
-  // 0. 场地：硬化坪 + 车辙 + 散落砾石（质感六招 #6 作业痕迹）
+  // 0. 场地：压实地坪 + 车辙 + 散落砾石
   // ================================================================
-  boxT(96, 0.35, 78, M.conc, M.concTop, -8, -0.2, 12);
-  for (const tx of [-3.2, 3.2])                                  // 门前双条车辙
-    box(0.55, 0.03, 34, M.tread, tx, 0.15, 38);
-  const rockGeo = new THREE.DodecahedronGeometry(1, 0);          // 顶点半径 φ≈1.618（坑账 1）
-  for (let i = 0; i < 26; i++) {
-    const rx = -52 + rnd() * 88, rz = -14 + rnd() * 70;
-    if (Math.abs(rx + 8) < 46 && rz < 18 && rz > -16) continue;  // 不撒进厂房占地
-    const s = 0.16 + rnd() * 0.2, sy = s * (0.55 + rnd() * 0.45);
-    const rock = new THREE.Mesh(rockGeo, rnd() < 0.5 ? M.conc : M.rib);
-    rock.position.set(rx, 0.15 - 0.3 * sy + 1.618 * sy, rz);
+  box(78, 0.3, 92, M.pad, -4, -0.18, 4);
+  for (const tx of [-3.4, 3.4]) box(0.55, 0.03, 16, M.tread, tx, 0.13, 43);
+  const rockGeo = new THREE.DodecahedronGeometry(1, 0);
+  for (let i = 0; i < 30; i++) {
+    const rx = -44 + rnd() * 82, rz = -44 + rnd() * 96;
+    if (rx > -34 && rx < 16 && rz > -40 && rz < 40) continue;
+    const s = 0.16 + rnd() * 0.22, sy = s * (0.5 + rnd() * 0.5);
+    const rock = new THREE.Mesh(rockGeo, rnd() < 0.5 ? M.soil : M.pad);
+    rock.position.set(rx, 0.12 - 0.3 * sy + 1.618 * sy, rz);
     rock.scale.set(s, sy, s);
-    rock.rotation.y = rnd() * 6.28;                              // 只绕 Y（坑账 1）
+    rock.rotation.y = rnd() * 6.28;
     g.add(rock);
   }
 
   // ================================================================
-  // 1. 主厂房（总装高间）42×34×86，大门朝 +Z 常开
-  //    开放壳体：背墙 + 两侧墙 + 顶盖 + 门洞两侧墙垛（quality.md §6）
+  // 1. 主拱：总装线（内跨 16 m、内高 12.2、长 72）
   // ================================================================
-  const HW = 21, HD = 17, HH = 86;          // 半宽 / 半深 / 高
-  const DW = 11, DH = 74;                   // 门洞半宽 / 门洞高
-  box(HW * 2, HH, 0.7, M.wall, 0, 0, -HD);                       // 背墙
-  box(0.7, HH, HD * 2, M.wall, -HW, 0, 0);                       // 侧墙 -X
-  box(0.7, HH, HD * 2, M.wall, HW, 0, 0);                        // 侧墙 +X
-  boxT(HW * 2 + 1.4, 1.2, HD * 2 + 1.4, M.wall, M.wallTop, 0, HH, 0);  // 顶盖（带压条外挑）
-  // +Z 立面：门洞两侧墙垛 + 门楣
-  box((HW - DW), HH, 0.7, M.wall, -(DW + HW) / 2, 0, HD);
-  box((HW - DW), HH, 0.7, M.wall, (DW + HW) / 2, 0, HD);
-  box(DW * 2, HH - DH, 0.7, M.wall, 0, DH, HD);
-  // 立面竖向压条（工业细节语法）
-  for (let i = -4; i <= 4; i++) {
-    if (Math.abs(i * 4.5) < DW + 1) continue;
-    box(0.5, HH, 0.25, M.rib, i * 4.5, 0, HD + 0.42);
+  const SP = 4.2, RI = 8.0, RO = 8.7, Z0 = -36, Z1 = 36;
+  box(17.6, 0.35, 72, M.floor, 0, 0.12, 0);                    // 拱内地坪
+  for (const sx of [-1, 1]) box(1.4, SP, 72, M.brick, sx * (RI + 0.7), 0, 0);  // 起拱墙
+  vault(0, SP, RI, RO, Z0, Z1);
+  archEnd(0, SP, RI, RO, Z1, 6.2);                             // +Z 出箭端（门常开）
+  box(RI * 2 + 1.4, SP + RO, 0.9, M.brick, 0, 0, Z0);          // -Z 端封墙
+  // 覆土培坡（贴两侧起拱墙，坡到拱腰）
+  berm([[8.5, 0], [17.5, 0], [8.5, 6.6]], Z0, Z1, 0x8a4a30, 0x6b3823);
+  berm([[-8.5, 0], [-8.5, 6.6], [-17.5, 0]], Z0, Z1, 0x8a4a30, 0x6b3823);
+  // 拱顶通风/泄压竖井 ×3（覆土建筑的必需件）
+  for (const zz of [-22, 0, 22]) {
+    cyl(0.75, 2.2, M.rammed, 0, SP + RO + 0.6, zz, 10);
+    cyl(0.95, 0.35, M.brickD, 0, SP + RO + 1.85, zz, 10);
   }
-  for (let i = -4; i <= 4; i++) box(0.5, HH, 0.25, M.rib, i * 4.5, 0, -HD - 0.42);
-  // 蓝色腰带 + 底部裙边 + 顶部压条（收边）
-  box(HW * 2 + 0.9, 2.2, HD * 2 + 0.9, M.band, 0, 60, 0);
-  box(HW * 2 + 1.1, 1.0, HD * 2 + 1.1, M.rib, 0, 0, 0);
-  // 门楣上的厂房名牌（蓝底白条示意）
-  box(14, 2.4, 0.3, M.band, 0, DH + 3.5, HD + 0.5);
-  box(11, 0.5, 0.35, M.wall, 0, DH + 4.4, HD + 0.6);
-  // 大门：4 扇推拉门扇已推到两侧（常开态），门槽轨
-  for (let k = 0; k < 4; k++) {
-    const side = k < 2 ? -1 : 1, off = (k % 2) * 0.55;
-    box(5.4, DH - 1, 0.5, M.rib, side * (DW + 2.9 + off * 0.2), 0.4, HD + 0.55 + off);
-    box(5.4, 0.4, 0.55, M.safety, side * (DW + 2.9 + off * 0.2), DH - 0.6, HD + 0.55 + off);
+  // 拱下单轨吊（沿拱顶纵梁，小车往复）——比 v1 的 39 m 双梁桥吊小一个量级
+  box(0.5, 0.5, 68, M.steel, 0, SP + RI - 1.4, 0);
+  const trolley = new THREE.Group();
+  trolley.name = 'crane_trolley';
+  trolley.position.set(0, SP + RI - 1.9, 6);
+  g.add(trolley);
+  box(1.6, 0.9, 2.2, M.orange, 0, -0.45, 0, 0, trolley);
+  cyl(0.06, 4.2, M.dark, 0, -2.6, 0, 6, trolley);
+  box(0.7, 0.5, 0.35, M.orange, 0, -5.0, 0, 0, trolley);
+  // 内部灯带（夜光）
+  for (const zz of [-24, -8, 8, 24]) for (const sx of [-1, 1]) {
+    const dx = sx * 5.5, yArch = SP + Math.sqrt(RI * RI - (Math.abs(dx) + 0.25) ** 2);
+    box(0.5, 0.22, 7, bayLamp, dx, yArch - 0.4, zz);
   }
-  box(DW * 2 + 12, 0.35, 1.2, M.rail, 0, 0.15, HD + 1.4);        // 门槽轨
 
-  // ---- 内部：工作平台层（朝 +Z 逐层错位前伸，门洞外也能看见前缘）----
-  const PLAT_Y = [12, 24, 36, 48, 60, 70];
-  PLAT_Y.forEach((y, i) => {
-    const front = -4 + i * 2.6;                                  // 逐层错位（quality.md §6）
+  // ---- 总装线：箭体两段卧在起竖运输车上正在对接 ----
+  const ER = new THREE.Group();                                 // 起竖运输车（卧姿）
+  ER.position.set(0, 0, -2);
+  g.add(ER);
+  box(3.4, 0.9, 62, M.steel, 0, 0.5, 0, 0, ER);                 // 起竖大梁
+  for (let k = 0; k < 7; k++) {                                 // 台车轮组
+    const bz = -27 + k * 9;
+    box(4.6, 0.7, 1.6, M.dark, 0, 0.12, bz, 0, ER);
     for (const sx of [-1, 1]) {
-      box(12, 0.45, 20, M.steel, sx * 13.5, y, front - 4);
-      railing(sx * 7.5, front + 6, sx * 7.5, front - 14, y + 0.45);
-    }
-    beam(-19, y + 0.2, front - 12, 19, y + 0.2, front - 12, 0.45, M.steel);
-  });
-  // 内部照明灯带（夜光）
-  for (const y of [30, 56, 78]) for (const sx of [-1, 1])
-    box(0.7, 0.3, 16, bayLampMat, sx * 17, y, -2);
-  // 柱网与屋架（桁架，质感六招 #1）
-  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
-    box(1.5, HH, 1.5, M.steel, sx * (HW - 1.2), 0, sz * (HD - 1.2));
-    for (let k = 0; k < 6; k++) {
-      const y0 = 0.6 + k * 14, y1 = y0 + 14;                     // 首道斜撑抬离地面
-      beam(sx * (HW - 1.2), y0, sz * (HD - 1.2), sx * (HW - 1.2), y1, -sz * (HD - 1.2), 0.4, M.steel);
+      const wh = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.42, 10), M.tire);
+      wh.position.set(sx * 2.1, 0.5, bz); wh.rotation.z = Math.PI / 2;
+      ER.add(wh);
     }
   }
-  for (let i = -2; i <= 2; i++)                                  // 屋架横梁
-    beam(-HW + 1.2, HH - 1.5, i * 6.5, HW - 1.2, HH - 1.5, i * 6.5, 0.6, M.steel);
-
-  // ---- 总装线：立着的芯级筒段（Ø5 × 32）+ 抱箭工装 ----
-  cyl(2.5, 32, M.rocket, 0, 16.5, -4, 20);
-  cyl(2.55, 0.5, M.band, 0, 30.5, -4, 20);                       // 级间环标
-  cyl(2.55, 0.5, M.band, 0, 8.5, -4, 20);
-  for (const y of [14, 26])                                      // 抱箭工装环（两半）
-    for (const sx of [-1, 1]) {
-      box(0.6, 1.2, 7, M.safety, sx * 3.4, y, -4);
-      beam(sx * 3.4, y + 0.6, -4, sx * 8, y + 0.6, -4, 0.4, M.steel);
-    }
-  cyl(2.2, 1.6, M.dark, 0, 0.8, -4, 20);                         // 总装底座支墩
-
-  // ---- 桥式起重机（动力核心可见）：主梁 + 小车 + 吊钩，小车往复 ----
-  const crane = new THREE.Group();
-  crane.name = 'crane_trolley';
-  crane.position.set(0, 79, -4);
-  g.add(crane);
-  box(4.2, 2.0, 5.0, M.orange, 0, -1.0, 0, 0, crane);            // 小车
-  box(1.0, 0.6, 1.0, M.dark, 0, -1.6, 0, 0, crane);              // 卷筒壳
-  cyl(0.09, 7, M.dark, 0, -5.2, 0, 6, crane);                    // 吊索
-  box(1.1, 0.9, 0.5, M.safety, 0, -9.4, 0, 0, crane);            // 吊钩组
-  for (const sz of [-1, 1]) {                                    // 主梁（双梁）
-    beam(-HW + 1.5, 79.5, -4 + sz * 3.2, HW - 1.5, 79.5, -4 + sz * 3.2, 1.1, M.orange);
-    box(HW * 2 - 3, 0.5, 0.35, M.rail, 0, 80.6, -4 + sz * 3.2);  // 大车轨
+  box(2.4, 1.6, 3.2, M.orange, 0, 1.4, 30.5, 0, ER);            // 起竖液压缸座（尾端铰）
+  cyl(0.42, 5.0, M.steel, 0, 2.6, 27.5, 10, ER).rotation.x = 62 * DEG;
+  for (const zz of [-24, -12, 2, 16, 26]) {                     // 抱箭鞍座（含分离面）
+    box(5.6, 1.5, 1.5, M.orange, 0, 1.4, zz, 0, ER);
+    box(6.2, 0.35, 1.9, M.steel, 0, 2.9, zz, 0, ER);
   }
+  const st1 = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 40, 20), M.rocket);
+  st1.position.set(0, 5.6, -12); st1.rotation.x = Math.PI / 2;
+  ER.add(st1);                                                  // 一子级（在位）
+  const st2 = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 18, 20), M.rocket);
+  st2.position.set(0, 5.6, 20); st2.rotation.x = Math.PI / 2;
+  ER.add(st2);                                                  // 二子级（待对接，留 2 m 缝）
+  cyl(2.56, 0.5, M.orange, 0, 5.6, 8.4, 20, ER).rotation.x = Math.PI / 2;   // 级间对接环
+  // 对接工作架（跨在缝上，人从这儿接线）
+  for (const sx of [-1, 1]) {
+    box(0.4, 6.4, 0.4, M.steel, sx * 4.2, 0.12, 8.4);
+    box(3.2, 0.3, 4.4, M.steel, sx * 4.6, 6.5, 8.4);
+    railing(sx * 6.1, 6.6, sx * 6.1, 10.2, 6.8);
+  }
+  box(1.2, 0.9, 1.2, M.white, 5.6, 6.8, 6.6);                   // 测试机柜
+  box(0.9, 0.35, 0.12, windowMat, 5.6, 7.3, 7.22);
 
   // ================================================================
-  // 2. 低跨检修线（-X 侧）30×26×22：网捕回收的一子级在这里拆检
-  //    大门朝 +Z 常开，内部卧放筒段 + 拆下的发动机/栅格舵/挂钩
+  // 2. 副拱：回收检修线（内跨 12.8、长 40，中心 x=-24）
   // ================================================================
-  const RX = -36, RW = 15, RD = 13, RH = 22;                     // 中心 x / 半宽 / 半深 / 高
-  box(RW * 2, RH, 0.6, M.wall, RX, 0, -RD);                      // 背墙
-  box(0.6, RH, RD * 2, M.wall, RX - RW, 0, 0);                   // 外侧墙
-  boxT(RW * 2 + 1.2, 1.0, RD * 2 + 1.2, M.wall, M.wallTop, RX, RH, 0);
-  box(6, RH, 0.6, M.wall, RX - RW + 3, 0, RD);                   // +Z 立面：门洞两侧
-  box(6, RH, 0.6, M.wall, RX + RW - 3, 0, RD);
-  box(RW * 2 - 12, RH - 14, 0.6, M.wall, RX, 14, RD);            // 门楣（门洞 18×14）
-  box(RW * 2 + 0.8, 1.6, RD * 2 + 0.8, M.band, RX, 16.5, 0);     // 腰带
-  box(RW * 2 + 1.0, 0.9, RD * 2 + 1.0, M.rib, RX, 0, 0);         // 裙边
-  hatch(RX - RW + 3, 0.15, RD + 0.35);                           // 检修线人员门（门洞左墙垛）
-  for (let i = -2; i <= 2; i++) box(0.45, RH, 0.22, M.rib, RX + i * 5.5, 0, -RD - 0.35);
-  // 内部照明 + 屋架
-  box(0.6, 0.25, 18, bayLampMat, RX - 9, 20.2, 0);
-  box(0.6, 0.25, 18, bayLampMat, RX + 9, 20.2, 0);
-  for (let i = -2; i <= 2; i++)
-    beam(RX - RW + 1, RH - 1.2, i * 5.5, RX + RW - 1, RH - 1.2, i * 5.5, 0.45, M.steel);
+  const RX = -24, RSP = 3.6, RRI = 6.4, RRO = 7.0, RZ0 = -20, RZ1 = 20;
+  box(14, 0.35, 40, M.floor, RX, 0.12, 0);
+  for (const sx of [-1, 1]) box(1.2, RSP, 40, M.brick, RX + sx * (RRI + 0.6), 0, 0);
+  vault(RX, RSP, RRI, RRO, RZ0, RZ1);
+  archEnd(RX, RSP, RRI, RRO, RZ1, 4.8);
+  box(RRI * 2 + 1.2, RSP + RRO, 0.9, M.brick, RX, 0, RZ0);
+  berm([[RX - 6.9, 0], [RX - 6.9, 5.4], [RX - 14.5, 0]], RZ0, RZ1, 0x8a4a30, 0x6b3823);
+  // 两拱之间的夯土技术夹层（共用墙 + 顶部管廊）
+  box(7.4, 4.6, 40, M.rammed, -12.8, 0, 0);
+  box(8.2, 0.6, 40, M.brickD, -12.8, 4.6, 0);
+  for (const zz of [-14, 0, 14]) cyl(0.28, 5.6, M.steel, -12.8, 3.0, zz, 8);
+  box(0.5, 0.2, 6, bayLamp, RX, RSP + RRI - 2.2, 0);
+  box(0.5, 0.2, 6, bayLamp, RX, RSP + RRI - 2.2, -13);
 
-  // ---- 卧放的一子级筒段（Ø5 × 22）+ 鞍座 ×2，尾段朝 +Z 露发动机安装法兰 ----
+  // ---- 卧放的一子级 + 拆件（网捕回收的证据链）----
   const stage = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 22, 20), M.rocket);
-  stage.position.set(RX - 1, 4.6, 1);
-  stage.rotation.x = Math.PI / 2;
+  stage.position.set(RX - 0.5, 4.2, -2); stage.rotation.x = Math.PI / 2;
   g.add(stage);
-  cyl(2.55, 0.4, M.band, RX - 1, 4.6, 1, 20).rotation.x = Math.PI / 2;   // 环标（横放）
-  for (const sz of [-1, 1]) {                                     // 鞍座
-    box(5.6, 2.2, 1.6, M.steel, RX - 1, 0, 1 + sz * 7);
-    box(6.2, 0.5, 2.0, M.safety, RX - 1, 2.2, 1 + sz * 7);
+  for (const sz of [-1, 1]) {
+    box(5.6, 2.0, 1.6, M.steel, RX - 0.5, 0.12, -2 + sz * 7);
+    box(6.2, 0.5, 2.0, M.orange, RX - 0.5, 2.12, -2 + sz * 7);
   }
-  box(5.2, 5.2, 0.25, M.dark, RX - 1, 2.0, 11.9);                 // 尾段发动机安装法兰盘（竖直朝门）
-  for (let k = 0; k < 6; k++) {                                   // 法兰上的 6 个安装座
+  box(5.2, 5.2, 0.25, M.dark, RX - 0.5, 1.6, 9.1);              // 发动机安装法兰（竖直朝门）
+  for (let k = 0; k < 6; k++) {
     const a = k * 60 * DEG;
-    box(0.7, 0.5, 0.5, M.engine, RX - 1 + 1.7 * Math.cos(a), 4.4 + 1.7 * Math.sin(a), 12.0);
+    box(0.7, 0.5, 0.5, M.engine, RX - 0.5 + 1.7 * Math.cos(a), 4.2 + 1.7 * Math.sin(a), 9.2);
   }
-  // ---- 拆下来的东西（"这里在拆检"的证据链）----
-  for (let k = 0; k < 2; k++) {                                   // 发动机 ×2 上架
-    const ex = RX + 8, ez = -6 + k * 7;
-    box(3.0, 0.5, 2.6, M.steel, ex, 1.2, ez);                     // 架子
-    for (const sx of [-1, 1]) box(0.3, 1.2, 0.3, M.steel, ex + sx * 1.2, 0, ez);
+  for (let k = 0; k < 2; k++) {                                 // 拆下的发动机 ×2
+    const ex = RX + 4.6, ez = -12 + k * 6;
+    box(3.0, 0.5, 2.6, M.steel, ex, 1.0, ez);
+    for (const sx of [-1, 1]) box(0.3, 1.0, 0.3, M.steel, ex + sx * 1.2, 0.12, ez);
     const noz = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 1.05, 2.4, 14, 1, true),
       new THREE.MeshStandardMaterial({ color: 0x8a6a4a, roughness: 0.55, metalness: 0.3, side: THREE.DoubleSide }));
-    noz.position.set(ex, 2.9, ez);                                // 开口容器 → DoubleSide（坑账 5）
+    noz.position.set(ex, 2.7, ez);
     g.add(noz);
-    cyl(0.62, 1.3, M.engine, ex, 4.6, ez, 12);                    // 涡轮泵/燃烧室
-    box(0.9, 0.5, 0.9, M.engine, ex, 5.2, ez);
+    cyl(0.62, 1.3, M.engine, ex, 4.4, ez, 12);
+    box(0.9, 0.5, 0.9, M.engine, ex, 5.0, ez);
   }
-  // 栅格舵立在检查架上（长十乙特征件）
+  // 栅格舵检查架
   const fin = new THREE.Group();
-  fin.position.set(RX - 11, 0, -7);
+  fin.position.set(RX - 4.4, 0.12, 12);
   g.add(fin);
-  box(0.5, 3.2, 0.5, M.steel, 0, 0, 0, 0, fin);                   // 检查架柱
-  box(2.6, 0.3, 1.2, M.steel, 0, 3.2, 0, 0, fin);
-  box(3.2, 0.35, 0.3, M.grid, 0, 3.5, 0, 0, fin);                 // 舵面外框
-  box(3.2, 0.35, 0.3, M.grid, 0, 6.3, 0, 0, fin);
-  for (const sx of [-1, 1]) box(0.3, 3.15, 0.3, M.grid, sx * 1.45, 3.5, 0, 0, fin);
-  for (let i = -1; i <= 1; i++) box(0.16, 2.8, 0.22, M.grid, i * 0.85, 3.6, 0, 0, fin);  // 格栅
-  for (let i = 0; i < 3; i++) box(2.9, 0.16, 0.22, M.grid, 0, 4.2 + i * 0.85, 0, 0, fin);
-  // 网捕挂钩 ×2 在检查台上（与 ops-spaceport-02 网架直接呼应）
-  box(3.4, 0.9, 1.8, M.steel, RX + 10, 0, 7);
+  box(0.5, 2.6, 0.5, M.steel, 0, 0, 0, 0, fin);
+  box(2.6, 0.3, 1.2, M.steel, 0, 2.6, 0, 0, fin);
+  box(3.2, 0.35, 0.3, M.grid, 0, 2.9, 0, 0, fin);
+  box(3.2, 0.35, 0.3, M.grid, 0, 5.5, 0, 0, fin);
+  for (const sx of [-1, 1]) box(0.3, 2.95, 0.3, M.grid, sx * 1.45, 2.9, 0, 0, fin);
+  for (let i = -1; i <= 1; i++) box(0.16, 2.6, 0.22, M.grid, i * 0.85, 3.0, 0, 0, fin);
+  for (let i = 0; i < 3; i++) box(2.9, 0.16, 0.22, M.grid, 0, 3.5 + i * 0.8, 0, 0, fin);
+  // 网捕挂钩 ×2 在检查台（呼应 ops-spaceport-02 网架）
+  box(3.4, 0.9, 1.8, M.steel, RX + 4.2, 0.12, 13);
   for (const sx of [-1, 1]) {
     const hk = new THREE.Group();
-    hk.position.set(RX + 10 + sx * 0.9, 0.9, 7);
+    hk.position.set(RX + 4.2 + sx * 0.9, 1.02, 13);
     g.add(hk);
-    box(0.34, 1.5, 0.34, M.safety, 0, 0, 0, 0, hk);
-    beam(0, 1.45, 0, 0, 1.95, sx * 0.75, 0.32, M.safety, hk);     // 钩尖
+    box(0.34, 1.5, 0.34, M.orange, 0, 0, 0, 0, hk);
+    beam(0, 1.45, 0, 0, 1.95, sx * 0.75, 0.32, M.orange, hk);
   }
-  railing(RX - RW + 1.5, RD - 1.5, RX + RW - 1.5, RD - 1.5, 0);   // 门内安全线护栏
 
   // ================================================================
-  // 3. 测试控制附楼（+X 侧）14×20×11，发光窗带
+  // 3. 半掩体控制间（+X 侧嵌进覆土坡）+ 门外转运铁轨
   // ================================================================
-  const CX = 28;
-  boxT(14, 11, 20, M.wall, M.wallTop, CX, 0, -2);
-  box(14.6, 0.8, 20.6, M.rib, CX, 11, -2);                        // 顶盖压条
-  box(14.4, 0.9, 20.4, M.rib, CX, 0, -2);                         // 裙边
-  box(0.3, 1.3, 14, windowMat, CX + 7.1, 4.2, -2);                // 朝东窗带
-  box(11, 1.3, 0.3, windowMat, CX, 4.2, 8.1);                     // 朝门口窗带（看转运）
-  box(11, 1.3, 0.3, windowMat, CX, 7.6, 8.1);
-  hatch(CX - 3, 0.15, 8.15);
-  box(1.6, 0.5, 1.6, M.dark, CX + 4, 11.8, -8);                   // 屋顶设备
-  cyl(0.2, 4, M.rib, CX + 4, 13.8, -8, 8);                        // 天线杆
-  // 外墙管线（工业细节语法）
-  for (const dx of [-1.6, -1.2]) cyl(0.05, 9, M.rib, CX + dx, 4.5, 10.05, 6);
-  box(0.2, 0.5, 0.4, M.dark, CX - 1.4, 9.2, 10.1);
-
-  // ================================================================
-  // 4. 门前转运轨道 + 活动发射平台（转运环节的答案）
-  // ================================================================
-  boxT(26, 0.4, 40, M.conc, M.concTop, 0, -0.05, 38);             // 轨道路基
+  const CX = 19;
+  box(13, 5.0, 20, M.rammed, CX, 0, -4);
+  box(13.6, 0.6, 20.6, M.brickD, CX, 5.0, -4);                  // 压顶
+  berm([[CX + 6.5, 0], [CX + 14, 0], [CX + 6.5, 5.0]], -14, 6, 0x8a4a30, 0x6b3823);
+  box(9, 1.1, 0.28, windowMat, CX, 2.5, 6.05);                  // 朝出箭方向观察窗
+  box(1.0, 2.0, 0.14, M.orange, CX - 4.6, 0.12, 6.02);          // 密封门
+  box(0.9, 1.86, 0.16, M.rammed, CX - 4.6, 0.2, 5.96);
+  cyl(0.18, 3.4, M.steel, CX + 4, 6.7, -10, 8);                 // 屋顶天线杆
+  box(1.6, 0.4, 1.6, M.dark, CX + 4, 5.6, -10);
+  // 门外铁轨（与 ops-spaceport-02 门前四轨同制，箭躺着运出去）
+  box(24, 0.35, 14, M.pad, 0, -0.02, 44);
   for (const sx of [-1, 1]) {
-    box(0.4, 0.45, 40, M.rail, sx * 3.2, 0.35, 38);               // 双轨（轨距 6.4）
-    box(0.4, 0.45, 40, M.rail, sx * 9.6, 0.35, 38);               // 外侧承重轨（重型四轨制）
+    box(0.4, 0.42, 14, M.rail, sx * 3.2, 0.33, 44);
+    box(0.4, 0.42, 14, M.rail, sx * 9.6, 0.33, 44);
   }
-  for (let i = 0; i < 13; i++) box(21, 0.2, 0.6, M.dark, 0, 0.35, 20 + i * 3.1);  // 轨枕
-  // 活动发射平台（橙色 = 工位发射台同色，"驮着箭出去"的因果链）
-  const MLP = 34;
-  boxT(17, 2.6, 15, M.orange, dusted(0xd4671f, 0.85), 0, 2.2, MLP);
-  box(6.4, 0.5, 6.4, M.dark, 0, 4.8, MLP);                        // 台面导流口盖
-  for (const sx of [-1, 1]) for (const sz of [-1, 1])             // 四组牵制点（与工位托架对应）
-    box(1.1, 1.5, 1.1, M.safety, sx * 3.4, 4.8, MLP + sz * 3.4);
-  railing(-8.5, MLP + 7.5, 8.5, MLP + 7.5, 4.8);
-  railing(-8.5, MLP - 7.5, 8.5, MLP - 7.5, 4.8);
-  for (let k = 0; k < 4; k++) for (const sx of [-1, 1]) {         // 台车轮组（4 轴 × 2 侧 × 双轮）
-    const bz = MLP - 5.4 + k * 3.6;
-    box(2.4, 1.4, 2.6, M.dark, sx * 6.4, 0.35, bz);
-    for (const o of [-0.8, 0.8]) {
-      const wh = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.85, 0.7, 12), M.rail);
-      wh.position.set(sx * (6.4 + o * 0.9), 0.85, bz);
-      wh.rotation.z = Math.PI / 2;
-      g.add(wh);
-    }
-  }
-  for (const sx of [-1, 1]) for (const sz of [-1, 1])             // 液压支腿（停放态放下）
-    box(0.8, 2.2, 0.8, M.steel, sx * 7.8, 0, MLP + sz * 6.2);
-  box(2.2, 3.2, 1.6, M.dark, 0, 4.8, MLP - 6.6);                  // 平台配电/液压柜
-  box(1.6, 0.4, 0.25, windowMat, 0, 6.6, MLP - 5.75);
-
-  // ================================================================
-  // 5. 屋顶设备层 + 排风罩 + 避雷针与障碍灯
-  // ================================================================
-  boxT(16, 3.2, 12, M.wall, M.wallTop, -6, HH + 1.2, -6);
-  box(6, 2.0, 5, M.rib, 8, HH + 1.2, -8);
-  for (const sx of [-1, 1]) cyl(1.1, 2.6, M.rib, 8 + sx * 2, HH + 4.5, -8, 10);   // 排风罩
-  cyl(0.28, 9, M.steel, -6, HH + 8.9, -6, 8);
-  const tip = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.8, 8), M.steel);
-  tip.position.set(-6, HH + 14.3, -6);
-  g.add(tip);
-  const blink1 = new THREE.Mesh(new THREE.SphereGeometry(0.5, 10, 8), blinkMat);
-  blink1.position.set(-6, HH + 13.0, -6);
-  g.add(blink1);
-  const blink2 = new THREE.Mesh(new THREE.SphereGeometry(0.42, 8, 6), blinkMat);
-  blink2.position.set(18, HH + 1.9, 14);
-  g.add(blink2);
-  // 屋顶泛光灯（照大门前场）
+  for (let i = 0; i < 5; i++) box(21, 0.18, 0.55, M.dark, 0, 0.33, 38.5 + i * 2.9);
+  // 门口障碍灯 ×2 + 泛光
   for (const sx of [-1, 1]) {
-    const hd = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.7, 0.8), bayLampMat);
-    hd.position.set(sx * 15, HH - 1.5, HD + 0.9);
-    hd.lookAt(sx * 8, 0, MLP);
+    const bl = new THREE.Mesh(new THREE.SphereGeometry(0.4, 8, 6), blinkMat);
+    bl.position.set(sx * 7.4, SP + RO + 0.4, Z1 + 0.3);
+    g.add(bl);
+    const hd = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.55, 0.7), bayLamp);
+    hd.position.set(sx * 9.8, 6.4, Z1 + 1.2);
+    hd.lookAt(0, 0, 46);
     g.add(hd);
+    box(0.3, 6.4, 0.3, M.steel, sx * 9.8, 0.12, Z1 + 1.2);
   }
 
   // ---------------------------------------------------------------- POI
-  anchor('poi_highbay', 0, 44, -4);
-  anchor('poi_refurb', RX, 9, 1);
-  anchor('poi_mlp', 0, 6, MLP);
-  anchor('poi_crane', 0, 76, -4);
-  anchor('poi_control', CX, 8, 4);
+  anchor('poi_hall', 0, 9, 4);
+  anchor('poi_refurb', RX, 7, -2);
+  anchor('poi_erector', 0, 3, 26);
+  anchor('poi_vault', 0, 13, -26);
+  anchor('poi_control', CX, 4, 2);
 
   // ---------------------------------------------------------------- 引擎接口
   g.userData.lights = [
-    { color: 0xfff2d8, pos: [0, 40, 6], range: 60 },      // 高间内
-    { color: 0xffe8c0, pos: [RX, 14, 4], range: 34 },     // 检修线
-    { color: 0xdfe8ff, pos: [0, 10, MLP], range: 40 },    // 门前转运区
+    { color: 0xffe4bc, pos: [0, 8, 0], range: 44 },       // 主拱内
+    { color: 0xffdcae, pos: [RX, 6, -2], range: 30 },     // 检修拱内
+    { color: 0xdfe8ff, pos: [0, 7, 44], range: 30 },      // 门外转运区
   ];
   g.userData.beams = [];
-  // 桥吊小车沿主梁往复（声明式优先；base = 注册时 position.x = 0，坑账 21）
   g.userData.oscillators = [
-    { node: 'crane_trolley', prop: 'position', axis: 'x', amp: 13, period: 34 },
+    { node: 'crane_trolley', prop: 'position', axis: 'z', amp: 26, period: 40 },
   ];
 
   // ---------------------------------------------------------------- 尘膜 pass
   const dust = new THREE.Color(0x9e5b3d);
-  [M.wall, M.wallTop, M.rib, M.band, M.steel, M.orange, M.safety, M.rocket,
-   M.engine, M.grid, M.rail, M.dark].forEach(m => m.color.lerp(dust, 0.05));
+  [M.brick, M.brickD, M.vaultIn, M.rammed, M.pad, M.floor, M.steel, M.white,
+   M.orange, M.rocket, M.engine, M.grid, M.rail, M.dark].forEach(m => m.color.lerp(dust, 0.05));
 
   return g;
 }

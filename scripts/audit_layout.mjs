@@ -131,6 +131,10 @@ const roads = [
   { name: 'G-M',  a: [-350, -100], b: [-372, -18],  w: 1 },
   { name: 'G-N',  a: [-350, -100], b: [-560, -220], w: 1 },
   { name: 'G-P',  a: [150, -120],  b: [300, -300],  w: 1 },
+  { name: 'G-R1', a: [-140, -780], b: [-200, -120], w: 1 },
+  { name: 'G-R2', a: [-200, -120], b: [-205, 10],   w: 1 },
+  { name: 'G-S1', a: [-140, -780], b: [-345, -110], w: 1 },
+  { name: 'G-S2', a: [-345, -110], b: [-330, -30],  w: 1 },
 ];
 try {                                               // memorial highway to rover
   const m = JSON.parse(readFileSync(
@@ -188,6 +192,8 @@ const ROAD_EXEMPT = new Set([
   'ops-spaceport-01|G-H', 'veh-rocket-01|G-H', 'com-station-01|G-J',
   'sci-seis-01|G-K2', 'hab-village-01|G-L', 'hab-lift-01|G-M', 'hab-tunnel-01|G-M',
   'sci-obs-01|G-N', 'sci-weather-01|G-P',
+  'pwr-fission-01|G-R1', 'pwr-grid-01|G-R2',      // fission tie doorsteps
+  'pwr-fission-01|G-S1', 'hab-tunnel-01|G-S2',    // survival bypass doorsteps
 ]);
 for (const r of rects) {
   for (const rd of roads) {

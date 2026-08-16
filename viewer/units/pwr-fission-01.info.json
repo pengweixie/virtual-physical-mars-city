@@ -1,0 +1,505 @@
+{
+  "id": "pwr-fission-01",
+  "pois": [
+    {
+      "id": "gap",
+      "label": "缺口账：失超 × 全球尘暴（本站的立项理由）",
+      "label_en": "The gap: quench x global dust storm (why this plant exists)",
+      "range": 40,
+      "detail": "这座城不缺电。聚变站 pwr-fusion-01 净出力 176 MWe，全城连接负荷只有 707 kW 均值 / 1,075 kW 同时峰值——余量 165 倍，城市消耗它的 0.40%。所以本站不是容量项目，是可用性项目：单堆 = 单点故障。pwr-grid-01 把停电分三档，前两档已闭合：跳闸（小时级）电池不减载撑 1.33 sol；失超（周级）减到 T1+T2 的 217 kW，晴天光伏 2.8 倍覆盖。**第三种组合没人算过：失超 + 全球尘暴。** 这张卡把它算实。",
+      "detail_en": "This city is not short of power. pwr-fusion-01 nets 176 MWe against a connected load of 707 kW mean and 1,075 kW coincident peak - a margin of 165x, of which the city consumes 0.40%. So this is not a capacity project, it is an availability project: one reactor is one point of failure. pwr-grid-01 classifies outages three ways and closed the first two: a trip is hours and the battery rides it unshed for 1.33 sol; a quench is weeks, so shed to T1+T2 at 217 kW and clear-sol PV covers it 2.8x. THE THIRD COMBINATION WAS NEVER COSTED: a quench during a global dust storm. This card costs it.",
+      "specs": {
+        "尘暴期生存电网能力": "15% 残余光伏 145 kW + RFC 8.3 kW = 153 kW",
+        "受保护层需求 T1+T2": "217 kW → 覆盖率 0.71×（缺 63.7 kW）",
+        "T1 生存层的临界残余": "7.5%（5% 黑尘暴下 64 vs 78 kW，连 T1 都不闭合）",
+        "T1+T2 的临界残余": "23.1% —— 相当于晴天，尘暴期永不成立",
+        "能量缺口": "30 sol 47.1 MWh / 60 sol 94.2 MWh / 100 sol 157 MWh",
+        "对照全城储能": "20 MWh 可用 → 缺口是它的 2.4 ~ 7.9 倍",
+        "重合频次": "约每 39 火星年（73 地球年）一次"
+      },
+      "specs_en": {
+        "Survival-grid capability in a storm": "145 kW at 15% residual PV + 8.3 kW RFC = 153 kW",
+        "Protected tier T1+T2": "217 kW -> coverage 0.71x (short by 63.7 kW)",
+        "Residual PV needed for T1 alone": "7.5% (a 5% black storm gives 64 vs 78 kW - even T1 fails)",
+        "Residual PV needed for T1+T2": "23.1% - i.e. clear sky; never true inside a storm",
+        "Energy deficit": "47.1 MWh over 30 sols / 94.2 over 60 / 157 over 100",
+        "Against the whole city store": "20 MWh usable -> the deficit is 2.4 to 7.9 times it",
+        "Coincidence rate": "about once per 39 Mars years (73 Earth years)"
+      },
+      "sim": [
+        "闸门复核（账1，3 闸全绿）：pwr-storage-01 的 30-sol 生存包线三个锚点（5%→56、15%→145、25%→234 kW）严格线性，8.90 kW/百分点；用它独立复算 T1 覆盖率得 145/78 = 1.86×，与 pwr-grid-01 的 1.85× 逐位对上。两本册的口径确实是同一套。",
+        "**这是发电问题不是储能问题（闸 3）**：60 sol 的 94.2 MWh 缺口是全城可用储能的 4.7 倍。用电池买单要 147 MWh 铭牌 = 38 个 Megapack 级柜，而场区现有 8 个；而且这批电池会在两次事件之间闲置几十年，日历老化照走不误。缺口的形状是「持续数十 sol 的功率」，那是发电机的形状，不是电池的形状。",
+        "**账1 顺手削尖了一处**：pwr-grid-01 说储能场覆盖 T1 有 1.85 倍余量——这话只在 15% 残余下成立。5% 级黑尘暴下场区只剩 56 kW，加上 RFC 的 8.3 kW 也只有 64 kW，**低于 T1 的 78 kW**。生存层本身有一个 7.5% 残余的悬崖，此前没有任何一张卡写下这件事。",
+        "尘暴期负荷是**上升**的（pwr-grid-01 scada 卡）：储能场停止外送转由干线充电 +597 kW，温室补光跳到全人工光周期 +35 kW，地表作业退出 −45 kW。供电塌了而负荷涨了，这正是缺口被低估的机制。",
+        "诚实标注：重合率 0.026/火星年用 λ₁λ₂(D₁+D₂) 算，取聚变失超 MTBF 5 地球年、修复 28 sol、尘暴每 3 火星年一次、事件 110 sol。**MTBF 是假设，不是实测**——首台行星际托卡马克没有可靠性数据。若 MTBF 实为 2 年，重合率翻 2.5 倍到每 16 火星年一次。结论对这个参数不敏感：本站同时也覆盖**普通失超**（每 2.7 火星年一次），把减载从那个工况里整个拿掉。"
+      ],
+      "sim_en": [
+        "Gate check (ledger 1, 3/3 green): pwr-storage-01's three 30-sol survival anchors (5% -> 56, 15% -> 145, 25% -> 234 kW) are exactly linear at 8.90 kW per point of residual. Re-deriving T1 coverage from them independently gives 145/78 = 1.86x against pwr-grid-01's 1.85x - digit for digit. The two dossiers really are on one calibre.",
+        "THIS IS A GENERATION PROBLEM, NOT A STORAGE ONE (gate 3): the 60-sol deficit of 94.2 MWh is 4.7x the entire usable city store. Buying it with battery needs 147 MWh of nameplate - 38 Megapack-class cabinets against the 8 the field has - and that bank would idle for decades between events while its calendar ageing ran anyway. The deficit is shaped like tens of sols of continuous power. That is the shape of a generator, not a battery.",
+        "LEDGER 1 SHARPENED ONE THING IN PASSING: pwr-grid-01 says the storage field covers T1 with 1.85x margin. That holds only at 15% residual. In a 5%-class black storm the field carries 56 kW, and even with the RFC's 8.3 kW that is 64 kW - BELOW T1's 78 kW. The survival tier itself has a cliff at 7.5% residual, and no card had written that down.",
+        "Load goes UP in a storm (pwr-grid-01's scada card): the storage field stops exporting and charges from the trunk, +597 kW; greenhouse lamps step to a full artificial photoperiod, +35 kW; surface operations suspend, -45 kW. Supply collapses while demand rises - that is the mechanism by which this gap was under-read.",
+        "Labelled honestly: the 0.026/Mars-year coincidence rate uses lambda1.lambda2.(D1+D2) with a 5 Earth-year quench MTBF, a 28-sol repair, one storm per 3 Mars years and a 110-sol event. THE MTBF IS AN ASSUMPTION, NOT A MEASUREMENT - the first interplanetary tokamak has no reliability record. At a 2-year MTBF the rate rises 2.5x to once per 16 Mars years. The conclusion is insensitive to it, because the same plant also covers the ORDINARY quench (once per 2.7 Mars years) by removing load-shedding from that case entirely."
+      ],
+      "physics": [
+        "为什么第三档必须单算：前两档的闭合各自依赖一个不同的资源——跳闸靠电池的**能量**，失超靠光伏的**功率**。尘暴恰好抽掉后者，于是失超工况退回到只剩电池，而电池是按小时级设计的。两个独立措施在同一个天气事件下同时失效，这就是共因失效的教科书形状，任何按单一故障做的可用性论证都看不见它。",
+        "余量 165 倍和缺口 64 kW 可以同时成立，因为它们不是同一个量：165 倍是**容量**余量，缺口是**可用性**缺口。一台机器的容量再大，它停机时的出力都是零。这也是为什么本站的定容依据是分级负荷表而不是全城负荷——备份不复制主源，备份只保住不能断的那部分。"
+      ],
+      "physics_en": [
+        "Why the third class must be costed on its own: the first two close on different resources - a trip is covered by the battery's ENERGY, a quench by the PV field's POWER. A dust storm removes exactly the second, which throws the quench case back onto a battery sized in hours. Two independent mitigations failing to one weather event is the textbook shape of common-cause failure, and no single-failure availability argument can see it.",
+        "A 165x margin and a 64 kW deficit are both true because they are not the same quantity: 165x is a CAPACITY margin, the deficit is an AVAILABILITY gap. However large a machine is, its output while stopped is zero. That is also why this plant is sized against the shedding ladder rather than the city load - a backup does not duplicate the primary, it holds up only the part that must not stop."
+      ]
+    },
+    {
+      "id": "crop",
+      "label": "作物存活账：让作物「不死」比让它「生长」便宜：光少 10.8 倍，电少 8.9 倍",
+      "label_en": "Crop survival: staying alive needs 10.8x less light and 8.9x less power than growing",
+      "range": 40,
+      "detail": "T1 的成员是应急生保、舱室热控、通信、电梯、气闸、火震站——**没有农业**。而主粮舱 res-grain-01 的补光装机 329 kW，是全城最大的单笔可中断负荷，占均值负荷 47%。失超遇尘暴，2300 m² 冠层全黑数周，res-recycle-01 那份「16 个火星年堆肥自举到全自给」的时间表要从头再来。本册最该出的新东西就是这张卡：作物「不死」和「生长」之间，隔着一个从来没人算过的第三个数。",
+      "detail_en": "T1 contains emergency ECLSS, cabin thermal, comms, the lift, the airlocks and the seismic station - NO AGRICULTURE. Meanwhile res-grain-01's grow lights are 329 kW installed, the largest single interruptible block on the grid at 47% of the city mean. A quench inside a storm blacks out 2,300 m2 of canopy for weeks, and res-recycle-01's 16-Mars-year compost bootstrap restarts from zero. This is the card this dossier owed the city: between 'alive' and 'growing' there is a third number nobody had computed.",
+      "specs": {
+        "生长模式": "PPFD 400 µmol/m²/s × 16 h · DLI 23.0 mol/m²/天 · 329 kW",
+        "存活模式": "PPFD 37 µmol/m²/s × 16 h · DLI 2.14 mol/m²/天 · 37 kW",
+        "冠层光补偿点": "70 µmol/m²/s（连续光，23 °C）",
+        "两级杠杆": "停止生长 3.8× × 冠层降到 10 °C 2.8× = 10.8×",
+        "含循环风机的存活负荷": "37 + 12 = 49 kW（占 T1+T2 的 22%）",
+        "可撑时长": "30 sol 减产 10~15% · 60 sol 减产 25~35% · 90 sol 是底线",
+        "地表温室 490 m²": "**放弃** —— 保温 75 kW，等于 97% 的 T1",
+        "存活负荷（账 9 蒙卡）": "P5 32 / P50 53 / P95 93 kW（点估计 49 落在 41 百分位）",
+        "撑着的那个决策": "P（需要第 9 台模块） = 35~48% → 建第 9 舱位，推迟买模块"
+      },
+      "specs_en": {
+        "Growth mode": "PPFD 400 umol/m2/s x 16 h - DLI 23.0 mol/m2/d - 329 kW",
+        "Survival mode": "PPFD 37 umol/m2/s x 16 h - DLI 2.14 mol/m2/d - 37 kW",
+        "Whole-canopy light compensation point": "70 umol/m2/s (continuous light, 23 C)",
+        "The two levers": "stop growing 3.8x, chill the canopy to 10 C 2.8x = 10.8x",
+        "Survival load with circulation": "37 + 12 = 49 kW (22% of T1+T2)",
+        "How long it holds": "30 sols costs 10-15% of a cycle - 60 sols 25-35% - 90 sols is the floor",
+        "Surface glass, 490 m2": "SACRIFICED - frost protection alone is 75 kW, 97% of all of T1",
+        "Survival load (ledger 9 Monte Carlo)": "P5 32 / P50 53 / P95 93 kW (the 49 kW point estimate sits at the 41st percentile)",
+        "The decision it holds up": "P(a 9th module is needed) = 35-48% -> build the 9th BAY, defer the module"
+      },
+      "sim": [
+        "闸门复核（账2，4 闸全绿）：用 res-grain-01 自己的锚（DLI 23.0、干物质 20.8 g/m²/天）复算光利用效率得 0.903 g/mol，卡上写 0.90；400/2.8 = 143 W/m² × 2300 m² = 329 kW，与卡片一致。**存活账建在同一个锚上，没有另立口径。**",
+        "存活模式的推导：维持呼吸 m₂₅ = 0.020/天 × 立苗量 500 g 干物质/m² = 10 g CH₂O/m²/天 = 0.333 mol CO₂/m²/天；除以冠层量子产额 0.055 mol CO₂/mol 光子 → 光补偿点 70 µmol/m²/s。**这个数落在闭合 C3 冠层的 40~120 带内**（单叶只有 20~40，因为整株还要养茎、根、块茎）。",
+        "**第四道闸：光周期不变性。** 24 h / 16 h / 12 h / 8 h 四种光周期算出的存活 DLI 全是 2.14 mol/m²/天——因为要还的是一笔 24 小时不停的呼吸账，光周期只决定还款速率不决定总额。取 16 h 是因为长而暗的白天让更多下层叶片长时间停在自身补偿点之上，而且马铃薯需要暗期。",
+        "**降温为什么只降到 10 °C**：Q10 = 2，从 23 °C 降到 10 °C 呼吸掉到 0.354。再降到 5 °C 还能省 1.4 倍，但大豆是冷敏作物、10 °C 以下受害，而大豆贡献 54% 的蛋白（res-grain-01 选型卡：蛋白 3.08 对马铃薯 1.40、小麦 1.22 g/m²/天）。**为一个已经很小的数再省 29%，代价是整块蛋白供应。不值。**",
+        "**地表温室的判决是算出来的，不是感情用事**：res-dome-hall-01 自己写夜间散热 90 kW（18 °C 内 / −80 °C 外）。降到 2 °C 防冻仍要 75 kW——U 值不管你的意图。490 m² 要 184 W/m²，而埋在地下城里的 2300 m² 只要 21 W/m²，差 8.8 倍。**75 kW 是 T1 全层的 97%，为了全城的沙拉。** 判为 T4：立即甩负荷，接受损失，一个 30~90 天周期从种子重建。",
+        "**不用一瓦电的那条措施**：全球尘暴的 τ 从 1 爬到 5 有 15~20 sol 的预警窗口。给 pwr-grid-01 的五步尘暴序列加一步——τ>1 即对地表温室提前采收并把种源转入地下城。零功率，救回大部分本会损失的东西。",
+        "**37 kW 到底买回了什么**：用 res-grain-01 自己的堆肥递推 A → 1.08·A + 169（A₀ = 430 m²）独立复现全自给在第 14 火星年（该卡自算 14，res-recycle-01 保守值 16——本册复现的是 14）。若在第 8 火星年（床面 2593 m²）全损，递推回到 A₀，代价是 8 火星年 = 15 地球年的自举。60 sol 的保命成本是 49 kW × 60 sol = 72 MWh。**72 MWh 换 15 个地球年的农业进度。**",
+        "**【第二轮 · 账 9：这个 49 kW 被压力测试过了】** 账 5 扫过它最弱的参数，账 2 没扫——同一册两套标准。补上后:**①独立模型形式**——把集总冠层换成分层 Beer-Lambert（LAI 3、k 0.6、截获 0.835，叶呼吸0.5×LAI + 非叶 2.0 µmol/m²/s）,25 °C 存活 PPFD 得 114.4 对集总法的 105.2，**两个结构不同的模型差 9%**（分层法略高，因为它为漏掉冠层的 17% 光子付了钱，而集总法默认那些是免费的）;**②两个绝对校核**——隐含冠层暗呼吸 3.86 µmol CO₂/m²/s 落在闭合 C3 冠层实测带 1.5–6.0 内，维持呼吸占总光合 26% 落在教科书 20–40% 内。",
+        "**蒙特卡洛与真正的发现（账 9）**：把六个参数按文献带抽 40 万次，存活负荷 **P5 31.9 / P50 52.6 / P95 93.3 kW**，账 2 的 48.6 kW 落在第 41 百分位。主导不确定度是**立苗量**（方差占比 53%），因为它的带最宽（3 倍）——而它恰恰是**唯一一个用秤就能定死的参数**。**真正的发现不是这个区间，是它撑着的那个离散决策**：本机 N−1 要 280 kWe，反推**作物负荷超过 53.7 kW 就需要第 9 台模块**，而点估计是 48.6 kW——**只有 11% 余量**。**P（需要第 9 台） = 47.7%（无约束）/ 35.0%（用实测呼吸约束后），接近抛硬币。**",
+        "**设计响应，以及本册最便宜的一个实验（账 9）**：不要为此买第 9 台模块——**建第 9 个舱位**（账 3 早已声明的扩容位），筏板、覆土与 NaK 母管按 9 台定容，把决定推迟到那间苗床被称过重、夜间 CO₂ 上升率被测过为止。推迟的代价是一个空舱位的混凝土；猜错的代价是一台模块或一个分级。**而那个测量 res-grain-01 今天就能做**：夜里把舱封上，看 CO₂ 涨多快。一次夜间测量就能把本账大部分不确定度删掉（区间从 2.9 倍宽收到 2.4 倍宽,P（第9台） 从 47.7% 降到 35.0%）。**结论本身从不翻船**:40 万次抽样里「生长/存活功率比 < 2」的概率是 0.00%，「存活负荷 > T1+T2 本身」的概率也是 0.00%。**动的是建造量，不是「作物值不值得救」。**"
+      ],
+      "sim_en": [
+        "Gate check (ledger 2, 4/4 green): re-deriving light-use efficiency from res-grain-01's own anchors (DLI 23.0, 20.8 g DM/m2/d) gives 0.903 g/mol against the 0.90 on their card, and 400/2.8 = 143 W/m2 x 2300 m2 = 329 kW reproduces their installed figure. THE SURVIVAL ACCOUNT IS BUILT ON THE SAME ANCHOR - no second calibre was invented.",
+        "The derivation: maintenance respiration m(25 C) = 0.020/d against a 500 g DM/m2 standing crop = 10 g CH2O/m2/d = 0.333 mol CO2/m2/d; divided by a canopy quantum yield of 0.055 mol CO2 per mol incident photons gives a compensation point of 70 umol/m2/s. THAT LANDS INSIDE THE 40-120 BAND for a closed C3 stand (single leaves compensate at 20-40; a whole plant also has to feed stems, roots and tubers).",
+        "GATE 4: PHOTOPERIOD INVARIANCE. Photoperiods of 24, 16, 12 and 8 h all return the same survival DLI of 2.14 mol/m2/d - because the bill being paid is 24 hours of respiration that never stops, and the photoperiod sets only the repayment rate, not the total. 16 h is chosen because a long dim day keeps more of the lower canopy above its own instantaneous compensation point, and potato needs a dark period regardless.",
+        "WHY THE FLOOR IS 10 C AND NOT LOWER: with Q10 = 2, going from 23 C to 10 C takes respiration to 0.354. Another 1.4x is available at 5 C, but soybean is chilling-SENSITIVE below about 10 C, and soybean carries 54% of the protein (res-grain-01's crop card: 3.08 g/m2/d against potato's 1.40 and wheat's 1.22). SAVING 29% OF AN ALREADY SMALL NUMBER IS NOT WORTH THE ENTIRE PROTEIN SUPPLY.",
+        "THE VERDICT ON THE SURFACE GLASS IS COMPUTED, NOT SENTIMENTAL: res-dome-hall-01 states its own night heat loss as 90 kW at 18 C inside and -80 C outside. Dropped to 2 C frost protection it still needs 75 kW - the U-value does not care about your intentions. 490 m2 of film dome costs 184 W/m2 where the buried 2,300 m2 bay costs 21 W/m2, a factor of 8.8. 75 kW IS 97% OF THE ENTIRE T1 TIER, FOR THE CITY'S SALAD. Classed T4: shed at once, accept the loss, rebuild from seed in one 30-90 day cycle.",
+        "THE MITIGATION THAT COSTS NOTHING: a global storm takes 15-20 sols to climb from tau 1 to tau 5, which is a warning window. Add a step to pwr-grid-01's five-step dust sequence - at tau > 1, harvest the surface domes early and move seed stock below ground. Zero power, and it recovers most of what would otherwise be lost.",
+        "WHAT THE 37 kW ACTUALLY BUYS: running res-grain-01's own compost recursion A -> 1.08A + 169 from A0 = 430 m2 independently reproduces full self-sufficiency at Mars year 14 (their card computes 14; res-recycle-01's conservative value is 16 - this dossier reproduces 14). A total loss at Mars year 8, with 2,593 m2 of bed established, resets the recursion to A0 and costs 8 Mars years = 15 Earth years of bootstrap. Holding for 60 sols costs 49 kW x 60 sols = 72 MWh. 72 MWh BUYS BACK 15 EARTH YEARS OF AGRICULTURE.",
+        "SECOND ROUND, LEDGER 9 - THE 49 kW HAS NOW BEEN STRESS-TESTED. Ledger 5 swept its weakest parameter and ledger 2 did not: two standards in one dossier. Fixed. (1) AN INDEPENDENT MODEL FORM - replacing the lumped canopy with a layered Beer-Lambert one (LAI 3, k 0.6, interception 0.835, leaf respiration 0.5 x LAI plus 2.0 umol/m2/s of non-leaf) gives a 25 C survival PPFD of 114.4 against the lumped route's 105.2 - TWO STRUCTURALLY DIFFERENT MODELS 9% APART, the layered one slightly higher because it charges for the 17% of photons that miss the canopy, which the lumped model quietly assumed were free. (2) TWO ABSOLUTE CHECKS - the implied canopy dark respiration of 3.86 umol CO2/m2/s sits inside the measured 1.5-6.0 band for a closed C3 canopy, and maintenance at 26% of gross photosynthesis sits inside the textbook 20-40%.",
+        "THE MONTE CARLO, AND THE REAL FINDING (ledger 9): drawing 400,000 samples over the six parameters' literature bands puts the survival load at P5 31.9 / P50 52.6 / P95 93.3 kW, with ledger 2's 48.6 kW at the 41st percentile. The dominant uncertainty is STANDING CROP BIOMASS (53% of the variance) because its band is the widest at 3x - and it is the one parameter that can be settled with a scale. THE REAL FINDING IS NOT THE INTERVAL, IT IS THE DISCRETE DECISION THE INTERVAL WAS HOLDING UP: N-1 on eight modules is 280 kWe, which means a crop load above 53.7 kW requires a NINTH MODULE - against a point estimate of 48.6 kW, a margin of 11%. P(a ninth module is needed) = 47.7% on the raw bands and 35.0% once constrained by a measured respiration rate. Close to a coin toss.",
+        "THE DESIGN RESPONSE, AND THE CHEAPEST EXPERIMENT IN THE DOSSIER (ledger 9): do not buy a ninth module on this. BUILD THE NINTH BAY - already a declared growth slot in ledger 3 - size the raft, the cover and the NaK header for nine, and defer the decision until the bay has been weighed and its night-time CO2 rise measured. Deferring costs the concrete of one empty bay; guessing wrong costs a module or a tier. AND res-grain-01 CAN RUN THAT MEASUREMENT TODAY: seal the bay at night and watch the CO2 climb. One night removes most of the uncertainty in this ledger (the band narrows from 2.9x to 2.4x wide and P(ninth module) falls from 47.7% to 35.0%). THE CONCLUSION ITSELF NEVER FLIPS: in 400,000 draws the probability that the growth/survival power ratio falls below 2x is 0.00%, and the probability that the survival load exceeds T1+T2 itself is also 0.00%. What moves is the BUILD, not whether the crops are worth saving."
+      ],
+      "physics": [
+        "「存活」和「生长」在碳收支里是两个不同的方程。生长要求净同化为正：总光合 − 维持呼吸 − 生长呼吸 > 0。存活只要求净同化不为负，而生长呼吸项直接归零——不长新组织就不用付建造成本。剩下的只有维持呼吸，那是一笔按立苗量计、24 小时不停的固定开销。于是「不死」的光照需求由维持呼吸单独决定，与产量无关，这就是 8.9 倍从哪来的。",
+        "第二级杠杆是温度而不是别的，因为维持呼吸是酶促过程，Q10 ≈ 2；而光合的量子产额在低温下反而略微改善（光呼吸减弱）。降温同时压低分母、抬高分子，两头都朝好的方向走。**这是低温胁迫罕见的一次站在工程师这边**——代价只是作物停止发育，而那正是我们要的。",
+        "自稳定性：低光下冠层会主动脱落下层叶片，立苗量下降，维持呼吸随之下降。所以存活模式的功率需求是**随时间衰减**的，保得越久越便宜。代价记在复苏侧——脱掉的叶面积要重新长出来，这就是 60 sol 之后减产 25~35% 的来源。"
+      ],
+      "physics_en": [
+        "Alive and growing are two different equations in the carbon budget. Growth requires net assimilation to be positive: gross photosynthesis minus maintenance respiration minus growth respiration > 0. Survival requires only that it not be negative - and the growth-respiration term goes straight to zero, because tissue that is not being built costs nothing to build. What remains is maintenance respiration alone, a fixed 24-hour overhead proportional to standing biomass. So the light needed to stay alive is set by maintenance respiration and is independent of yield. That is where the factor of 8.9 comes from.",
+        "The second lever is temperature and not something else because maintenance respiration is enzymatic with Q10 about 2, while the quantum yield of photosynthesis actually improves slightly in the cold as photorespiration weakens. Chilling lowers the denominator and raises the numerator at once. THIS IS ONE OF THE RARE OCCASIONS COLD STRESS IS ON THE ENGINEER'S SIDE - the price is that the crop stops developing, which is precisely what was wanted.",
+        "It is self-stabilising: under low light a canopy sheds its lower leaves, standing biomass falls, and maintenance respiration falls with it. The survival load therefore DECAYS with time - the longer the hold, the cheaper it gets. The bill is moved to recovery instead: the shed leaf area has to be regrown, and that is where the 25-35% cycle penalty after 60 sols comes from."
+      ]
+    },
+    {
+      "id": "modules",
+      "label": "8 × 40 kWe：为什么不是一台 300 kWe",
+      "label_en": "8 x 40 kWe: why not one 300 kWe machine",
+      "range": 34,
+      "detail": "剖开的一排是四台在役模块（后排还有四台在顶板下）。每台 40 kWe，是 NASA 表面裂变电源（FSP）概念的量级；Kilopower/KRUSTY 只有 10 kWe 一台。本站要的 275 kWe 比它们大一个数量级，所以必须正面回答：N × 40 还是单台 ~300？答案是 N × 40，但**理由不是「模块化总是更好」——按可用性算，N−1 并不白送。**",
+      "detail_en": "The sectioned row is four modules in service; four more stand behind under the roof slab. Each is 40 kWe, the class of NASA's Fission Surface Power concept; Kilopower/KRUSTY is a 10 kWe unit. This plant needs 275 kWe, an order of magnitude above both, so the question has to be answered head-on: N x 40, or one ~300? The answer is N x 40 - but NOT because modularity is always better. On the availability arithmetic, N-1 is not free.",
+      "specs": {
+        "刚性需求": "275.1 kWe 净（T1 78 + T2 139 + T2c 作物 49 + 网损 0.9 + 变流 8.3）",
+        "装机": "8 × 40 = 320 kWe，N−1 = 280 kWe（1.02×）",
+        "N−2": "240 kWe —— 仍覆盖 T1+T2 的 1.11×，只丢作物",
+        "已知答案闸": "KRUSTY 1 kWe / Kilopower ≤10 kWe / FSP 40 kWe、≤6000 kg、10 年",
+        "模块化交叉点": "单机不可用度 4.23% —— 高于此则单台更优",
+        "期望缺供": "单台 13.8 kW vs 8 台 2.3 kW（u=5%），差 6 倍",
+        "净质量代价": "模块化 +10.0 t，覆土退款 −7.3 t，净 +2.8 t",
+        "燃耗（账 13）": "十年 1.6% U-235、~0.5 dpa → 寿命是鉴定限而非物理限"
+      },
+      "specs_en": {
+        "Firm requirement": "275.1 kWe net (T1 78 + T2 139 + T2c crops 49 + I2R 0.9 + conversion 8.3)",
+        "Installed": "8 x 40 = 320 kWe; N-1 firm = 280 kWe (1.02x)",
+        "N-2": "240 kWe - still covers T1+T2 at 1.11x, losing only the crops",
+        "Known-answer gates": "KRUSTY 1 kWe / Kilopower <=10 kWe / FSP 40 kWe, <=6000 kg, 10 yr",
+        "Modularity crossover": "4.23% per-unit unavailability - above it, one machine wins",
+        "Expected unserved load": "monolith 13.8 kW vs 8-module 2.3 kW at u = 5% - 6x apart",
+        "Net mass cost": "modularity +10.0 t, burial refund -7.3 t, net +2.8 t",
+        "Burnup (ledger 13)": "1.6% of U-235 and ~0.5 dpa per decade - a qualification limit, not a physical one"
+      },
+      "sim": [
+        "**刚性需求全部来自账 1 和账 2，不取任何光伏折让。** 黑尘暴下光伏还剩 56 kW，把它计进去能把本机砍掉 20%——然后本机的容量就成了天气的函数。那正是本册要修的错误。电池只用于暂态（2 MW PCS），本机按分级负荷的**稳态**定容，不按峰值。",
+        "**账 3 最反直觉的一条：N−1 不是白送的。** 8 台各自可用度 p 的机组要 7 台在线，可用度 p⁸+8p⁷(1−p)；单台就是 p。解 p⁶(8−7p) = 1 得交叉点 p = 95.77%。**单机不可用度高于 4.23% 时，模块化反而更差**——你只是买了八次失败机会而不是一次。u=5%：单台 0.9500 对 8×40 的 0.9428，单台赢。u=2%：0.9800 对 0.9897，模块化赢。**结论是有条件的，条件是一条转换器可靠性要求，不是一句愿望。**",
+        "**但可用度是错的指标，期望缺供才是对的。** 单台失效出力为零；8 台坏两台还有 240 kW，够 T1+T2。u=2% 时期望缺供：单台 5.50 kW，8×40 只有 0.38 kW，差 14 倍；u=5% 时 13.76 对 2.26 kW。**后果的分布比后果的概率更重要**，这才是备份电源该看的量。",
+        "**质量账，并且要把退款记上。** FSP 单台 6000 kg 按功能拆：堆芯+反射层+控制鼓 1200、斯特林 1500、辐射板 1200、发射屏蔽 1300、BoP/仪控 800。只有**堆芯与 BoP 按台数标度**（临界装置有一个几乎与功率无关的最小尺寸），斯特林与辐射板按功率标度、零惩罚。8 台重复堆芯 9.6 t + 重复 BoP（共用厂房后 60%）3.8 t，对单台的 2.5+0.9 t → **模块化代价 10.0 t**。",
+        "**退款：覆土把发射屏蔽退回来 70%。** NASA 那 1300 kg/台是给「身边没有东西可躲」的着陆器算的。火星有土：把模块放进坑里推 4 m 覆土（见覆土卡），从地球运来的只剩护住紧贴堆芯的转换器与电子件的那圈项圈，约 30%。退款 7.3 t，净代价 +2.8 t。**在行星表面，模块化几乎是免费的；在太空不是。付账的是脚下的土。**",
+        "为什么不是 30 × Kilopower：30 套临界装置、30 组屏蔽穿透（每一个都是中子流泄漏路径）、堆芯质量惩罚按 30 倍而不是 8 倍走。40 kWe 这个粒度不是巧合——它正是**一圈阴影屏蔽还罩得住一个堆芯**的粒度。",
+        "**交付的折中：核岛模块化，BoP 共用。** 一个洞库、一片辐射板、一排开关柜、一座控制掩体、一座土丘。冗余放在会坏的地方，共用放在不会坏的地方。第 9 台是洞库里**声明的扩容位**，不在本期建设内。",
+        "**【第二轮 · 账 9】第 9 台模块从「声明的扩容位」升级为「已建的舱位、待定的模块」**。账 9 对作物存活负荷做 40 万次蒙卡后发现：N−1 要 280 kWe，**作物负荷一旦超过 53.7 kW 就需要第 9 台**，而点估计 48.6 kW 只有 11% 余量，**P（需要第 9 台）=35~48%**。交付决定：**筏板、覆土、NaK 母管、开关柜位全部按 9 台建，模块本身待一次夜间 CO₂ 测量后再定**。这正是模块化的第四项好处——**决策可以被推迟**；单台 300 kWe 的机器必须在发射前两年就把这个数字猜死。",
+        "**【第二轮 L1 · 账 13：十年之后怎么办，此前一张卡都没有】** 按裂变能自算：全厂 50% 基荷运行，十年烧掉 **2.46 kg U-235 = 8 个堆芯 158 kg 装量的 1.6%**；快中子注量约 0.5 dpa，对照轻水堆堆内构件的 10–80 dpa。**燃料与钢材都远不到极限——「10 年寿命」是鉴定期限，不是物理极限**，真正终结寿命的是热管吸液芯与斯特林密封的鉴定试验时数，即文书工作。**对账 7 的连带结论**：为「让机器时刻自证能转」而常年跑 160 kWe，燃料代价是每十年 1.6%——它在推进剂上已经只要 0.089%，在燃料上几乎免费。",
+        "**换料与退役（账 13）**：这些是密封堆芯，**没有换料**——寿命终点就是换模块。**这是模块化第三次付账**：单台机器的寿命终点是**全厂停役**，八台是**一次换一台、另外七台照常运行**，全程不跌破定容时的 N−1；6 t 一台，来时用哪台运输车，走时还用哪台。**处置路线**：乏模块留在自己的舱位里，回填，土丘就是处置库，**什么都不运走**。乏模块一年后衰变热约 335 W、十年后约 210 W，靠覆土导热排掉只需几十 K 温差，无设备、无操作员、无决定。**地球上整个后段燃料循环之所以存在，是因为反应堆场址不被允许兼作处置库**；火星没有竞争性土地利用、没有地下水（根本没有液态水）、地表本来就是 234 mSv/年。**这笔主导地球裂变经济学的成本不迁移。** 会迁移的是 158 kg HALEU 的衡算与保管——那是全城的账，不是我的工程问题，已报总控。"
+      ],
+      "sim_en": [
+        "THE FIRM REQUIREMENT COMES ONLY FROM LEDGERS 1 AND 2, WITH NO SOLAR CREDIT. A black storm still leaves 56 kW of PV; crediting it would shave 20% off this plant - and make the plant's rating a function of the weather. That is the error this dossier exists to correct. The battery is credited for transients only (the 2 MW PCS); the plant is sized to the STEADY tier sum, not to a peak.",
+        "THE MOST COUNTER-INTUITIVE LINE IN LEDGER 3: N-1 IS NOT FREE. Eight units each of availability p, needing seven online, give p^8 + 8p^7(1-p); one machine gives p. Solving p^6(8-7p) = 1 puts the crossover at p = 95.77%. ABOVE 4.23% PER-UNIT UNAVAILABILITY THE MODULAR PLANT IS WORSE - you have bought eight chances to fail instead of one. At u = 5%: 0.9500 for the monolith against 0.9428. At u = 2%: 0.9800 against 0.9897, and modularity wins. THE ANSWER IS CONDITIONAL, and the condition is a converter reliability requirement, not a wish.",
+        "BUT AVAILABILITY IS THE WRONG METRIC; EXPECTED UNSERVED LOAD IS THE RIGHT ONE. A failed monolith delivers zero; eight modules with two down still deliver 240 kW, enough for T1+T2. At u = 2% the expected unserved load is 5.50 kW for the monolith and 0.38 kW for the modular plant, 14x apart; at u = 5% it is 13.76 against 2.26 kW. THE DISTRIBUTION OF THE CONSEQUENCE MATTERS MORE THAN ITS PROBABILITY - which is the quantity a backup source should be judged on.",
+        "THE MASS ACCOUNT, WITH THE REFUND BOOKED. Splitting FSP's 6000 kg by function: core + reflector + drums 1200, Stirling 1500, radiator 1200, launched shield 1300, BoP and I&C 800. Only the CORE AND BoP SCALE WITH UNIT COUNT (a critical assembly has a minimum size that barely cares about power rating); Stirling and radiator scale with power and carry no penalty. Eight duplicated cores at 9.6 t plus duplicated BoP at 3.8 t (60% after sharing the vault), against 2.5 + 0.9 t for one machine, gives a MODULARITY PENALTY OF 10.0 t.",
+        "THE REFUND: BURIAL GIVES BACK 70% OF THE LAUNCHED SHIELD. NASA's 1300 kg per module is sized for a lander with nothing to hide behind. Mars has dirt: put the module in a pit and push 4 m of regolith over it (see the berm card) and all that still has to fly is a local collar around the converters and electronics sitting against the core, about 30%. Refund 7.3 t, net cost +2.8 t. ON A PLANETARY SURFACE MODULARITY IS ESSENTIALLY FREE, AND IN SPACE IT IS NOT. The refund that pays for it is the ground.",
+        "Why not 30 x Kilopower: thirty critical assemblies, thirty sets of shield penetrations (each one a neutron streaming path), and a core-mass penalty running at 30x instead of 8x. The 40 kWe granularity is not a coincidence - it is the granularity at which one shadow shield still covers one core.",
+        "THE COMPROMISE DELIVERED: MODULAR NUCLEAR ISLAND, SHARED BALANCE OF PLANT. One vault, one radiator field, one switchgear line-up, one control bunker, one berm. Redundancy where the failures are, sharing where they are not. A ninth module is a DECLARED GROWTH SLOT in the vault, not part of this build.",
+        "SECOND ROUND, LEDGER 9 - the ninth module is upgraded from 'a declared growth slot' to 'a built bay with an undecided module'. After 400,000 Monte Carlo draws over the crop survival load, N-1 at 280 kWe means a crop load above 53.7 kW REQUIRES a ninth module, against a point estimate of 48.6 kW - 11% of margin - and P(ninth needed) = 35-48%. DELIVERED: raft, cover, NaK header and switchgear position are all built for nine; the module itself waits on one night-time CO2 measurement. This is modularity's fourth benefit - THE DECISION CAN BE DEFERRED - where a single 300 kWe machine would have had to guess that number two years before launch.",
+        "SECOND ROUND, L1, LEDGER 13 - WHAT HAPPENS AFTER TEN YEARS, WHICH NO CARD HAD ADDRESSED. Computed from fission energy: at 50% baseload the plant burns 2.46 kg of U-235 in ten years, 1.6% of the 158 kg loaded across eight cores, and the fast fluence reaches about 0.5 dpa against the 10-80 dpa light-water internals accumulate. NEITHER FUEL NOR STEEL IS NEAR A LIMIT - the ten-year life is a QUALIFICATION limit, not a physical one, and what ends it is heat-pipe wick and Stirling seal test hours, i.e. paperwork. CONSEQUENCE FOR LEDGER 7: running 160 kWe continuously to keep the machine proven costs 1.6% of the fuel per decade. It already cost only 0.089% of the propellant export; on fuel it is nearly free.",
+        "REFUELLING AND DISPOSAL (ledger 13): these are SEALED cores - there is no refuelling, and end of life means replacing a module. THIS IS THE THIRD TIME MODULARITY PAYS: a single machine's end of life is a TOTAL PLANT OUTAGE, while eight modules are replaced ONE AT A TIME with seven still running, never dropping below the N-1 rating the plant was sized for; at 6 t each they leave on the crawler they arrived on. DISPOSAL: the spent module stays in its own bay, the bay is backfilled, and the berm becomes the repository - NOTHING IS SHIPPED ANYWHERE. Decay heat is about 335 W after a year and 210 W after ten, shed by conduction through the cover across a few tens of K, with no equipment, no operator and no decision. ON EARTH THE ENTIRE BACK END OF THE FUEL CYCLE EXISTS BECAUSE A REACTOR SITE IS NOT ALLOWED TO BE A REPOSITORY; Mars has no competing land use, no groundwater (no liquid water at all), and a surface already at 234 mSv/yr. The cost that dominates terrestrial fission economics DOES NOT TRANSFER. What does transfer is safeguards accounting on 158 kg of HALEU - a custody problem for the city, not an engineering one for me, and flagged to main control."
+      ],
+      "physics": [
+        "为什么堆芯质量不随功率线性缩放：链式反应需要一个最小临界质量，它由中子学（裂变截面、泄漏、反射层反照率）决定，几乎与你打算从中取出多少功率无关。所以把 320 kWe 拆成 8 份，你付了 8 份临界质量的钱，却只买到 1 份的功率。这是模块化在核裂变里唯一真实的物理惩罚——其余各项（转换、排热、控制）都是按功率标度的，拆开不花钱。",
+        "而屏蔽的标度方向相反：所需厚度只按 ln（源强） 增长（指数衰减的反函数），面积按堆芯尺寸增长。所以把功率拆小，屏蔽**厚度**几乎不减，但每个屏蔽壳的**面积**变小——在太空这仍是净惩罚（八个壳比一个大壳重），在行星表面则完全消失，因为壳换成了土丘，而土丘的成本是推土机小时数。"
+      ],
+      "physics_en": [
+        "Why core mass does not scale linearly with power: a chain reaction needs a minimum critical mass set by neutronics - fission cross-sections, leakage, reflector albedo - almost independently of how much power you intend to take out of it. Split 320 kWe eight ways and you pay for eight critical masses while buying the power of one. That is the only real physical penalty modularity carries in fission; everything else (conversion, heat rejection, control) scales with power and is free to divide.",
+        "Shielding scales the other way: the required THICKNESS grows only as ln(source strength) - the inverse of exponential attenuation - while the AREA grows with core size. So splitting the power barely reduces shield thickness but does shrink each shell's area. In space that is still a net penalty (eight shells outweigh one big one). On a planetary surface it vanishes entirely, because the shell is replaced by a hill and a hill costs loader-hours."
+      ]
+    },
+    {
+      "id": "convert",
+      "label": "自由活塞斯特林：为什么全站没有一个转动件",
+      "label_en": "Free-piston Stirling: why nothing on this site rotates",
+      "range": 26,
+      "detail": "两台活塞对置安装、相位相反——动画里它们反向往复，那正是**你能看见的力抵消**。这不是造型，是本站敢坐在火震站 617 m 外的原因。斯特林之外还有布雷顿和温差发电两条路，本卡把三条都算了；决定性的一条理由却不在效率表里，而在「哪一种工质会流出屏蔽体」。",
+      "detail_en": "Two pistons mounted opposed and driven in antiphase - in the animation they reciprocate against each other, and that is FORCE CANCELLATION YOU CAN WATCH. It is not styling; it is why this plant can sit 617 m from a seismometer. Brayton and thermoelectric were both costed too - but the decisive argument is not in the efficiency table, it is in which working fluid leaves the shield.",
+      "specs": {
+        "循环": "自由活塞斯特林，Carnot 的 46%",
+        "热端 / 冷端": "1050 K（钠热管）/ 480 K",
+        "效率与热功率": "25% · 1,280 kWt · 排热 960 kW",
+        "运行频率": "102 Hz（模型中减速约 120 倍以便观察）",
+        "对置抵消后残余力": "每对 20.5 N，八台非相干合成 58.1 N",
+        "转动部件": "0 个 —— 活塞走气浮轴承，NaK 靠电磁泵，控制鼓只在启停时动"
+      },
+      "specs_en": {
+        "Cycle": "free-piston Stirling at 46% of Carnot",
+        "Hot / cold end": "1050 K (sodium heat pipes) / 480 K",
+        "Efficiency and thermal power": "25% - 1,280 kWt - 960 kW rejected",
+        "Operating frequency": "102 Hz (slowed about 120x in the model so the eye can read it)",
+        "Residual force after opposed cancellation": "20.5 N per pair, 58.1 N incoherent across eight",
+        "Rotating parts": "ZERO - pistons on gas bearings, NaK on EM pumps, drums move only at startup and scram"
+      },
+      "sim": [
+        "**冷端温度是算出来的，不是抄的（闸 2）。** 「越冷越好」错（效率降、排热涨），「越热越好」也错（辐射板变小但反应堆爆炸）。按**总质量**最小化：反应堆岛 12.5 kg/kWt + 转换 37.5 kg/kWe + 辐射板 8 kg/m²，扫 T_c/T_h = 0.30~0.90，最小值落在 **0.45，即 T_c = 472 K，η = 0.253，总质量 32.1 t**。FSP 基线正是 480 K / 25%。**本账证实基线而不是推翻它——而且现在知道了 480 K 是质量最优点，不是惯例。**",
+        "注意最小**面积**点完全在别处：T_c/T_h ≈ 0.79（T_c = 830 K），那里辐射板只要 170 m² 却要 3.3 MWt 的反应堆。**在燃料靠星舰运来、板子在本地铺的行星上，要最小化的从来不是辐射面积。**",
+        "三条路的对比（同为 320 kWe）：斯特林 η 25%、1,280 kWt、515 m²；布雷顿 η 22%、1,455 kWt、608 m²（同冷端）；温差发电 η 7%、**4,571 kWt**、1,916 m²。温差发电很诱人（零运动部件，正是本站最想要的），但它 **3.6 倍的堆芯、3.6 倍的燃料、3.6 倍的屏蔽源强、3.7 倍的辐射板**。**用一台 4.6 MWt 的反应堆买安静，买不起。** 否决。",
+        "**真正判定斯特林胜出的是屏蔽，不是效率。** 闭式布雷顿的工质要**穿过堆芯**，被活化，然后被泵到屏蔽体之外、露天站着的 500 m² 辐射板里去——辐射板就变成主要辐射源，整本屏蔽账推倒重来。斯特林用热管耦合：**见过堆芯的钠从不离开屏蔽体，去板子的 NaK 只碰过斯特林冷端。离开屏蔽的工质从没见过中子。**（模型里冷端夹套涂蓝色，就是这条论证的颜色。）**这条论证在航天器上根本不存在，因为没有「屏蔽体之外」可言。它是一条行星表面论证。**",
+        "衰变热（闸 3）：Wigner-Way，停堆瞬间 6.6% × 1,280 kWt = 84.5 kW，1 h 后 16.4 kW，1 sol 后 8.7 kW，30 sol 后 4.4 kW。84 kW 在 450 K 板面只要 45.8 m²，即 16 块板中的 1.4 块。**设计：16 块里有 2 块专供衰变热，常开，由变导热管在堆芯温度越过运行设定点时自行打开。无泵、无阀、无电、无操作员。**",
+        "**火星特有的陷阱**：土丘是一床 0.04 W/mK 的保温被（正是 pwr-grid-01 电缆沟卡对抗的那个导热率）。**把反应堆埋起来让衰变热更难排，不是更容易**——屏蔽体是这些热量最不该去的地方。所以衰变热管在堆芯标高穿出覆土、水平走到落地站立的板子上：无提升、无毛细极限、与重力无关。几何是这本热账的结果。",
+        "**【第二轮 · 账 12】辐射板不是一块等温面，是一片鳍。** 账 4 给了板面平均 450 K 就算完了，隐含 η_fin = 1.00 而从未写下。实算：h = 4εσT³ = 17.6 W/m²K（双面 35.1），1 mm 铝板在 10 cm 热管间距下η_fin = 0.864，在默认会画的 30 cm 间距下只有 0.463。**排热链条因此多一条规格：热管间距 ≤10 cm，板数 16 → 20。** 这不改变本卡任何选型结论（斯特林对布雷顿、对温差发电的差距远大于 16%），只改建造量。"
+      ],
+      "sim_en": [
+        "THE COLD-END TEMPERATURE WAS FOUND, NOT COPIED (gate 2). 'As cold as possible' is wrong (efficiency falls, rejection rises); 'as hot as possible' is also wrong (the radiator shrinks but the reactor explodes). Minimising TOTAL MASS - reactor island 12.5 kg/kWt, conversion 37.5 kg/kWe, radiator 8 kg/m2 - and sweeping T_c/T_h from 0.30 to 0.90 puts the minimum at 0.45, i.e. T_c = 472 K, eta = 0.253, 32.1 t total. The FSP baseline is 480 K and 25%. THE ACCOUNT CONFIRMS THE BASELINE RATHER THAN OVERTURNING IT - and now we know 480 K is the mass optimum, not a convention.",
+        "Note that the minimum-AREA point is somewhere else entirely: T_c/T_h about 0.79 (T_c = 830 K), where the radiator is only 170 m2 but the reactor is 3.3 MWt. ON A PLANET WHERE THE FUEL ARRIVES BY STARSHIP AND THE PANELS ARE BUILT LOCALLY, RADIATOR AREA WAS NEVER THE THING TO MINIMISE.",
+        "The three routes at 320 kWe: Stirling, eta 25%, 1,280 kWt, 515 m2; Brayton, eta 22%, 1,455 kWt, 608 m2 at the same cold end; thermoelectric, eta 7%, 4,571 kWt, 1,916 m2. Thermoelectric is tempting - zero moving parts, exactly what this site wants - but it costs 3.6x the core, 3.6x the fuel, 3.6x the shield source term and 3.7x the radiator. YOU CANNOT BUY SILENCE WITH A 4.6 MWt REACTOR. Rejected.",
+        "WHAT ACTUALLY SETTLES STIRLING IS SHIELDING, NOT EFFICIENCY. A closed Brayton loop takes its gas THROUGH the core, activates it, and pumps it outside the shield into 500 m2 of panel standing in the open - the radiator becomes the dominant source and the entire shielding account restarts. A Stirling module is heat-pipe coupled: THE SODIUM THAT SEES THE CORE NEVER LEAVES THE SHIELD, AND THE NaK THAT GOES TO THE PANELS HAS ONLY TOUCHED THE STIRLING COLD END. The fluid that leaves the shield has never seen a neutron. (The blue cold-end jackets in the model are that argument, in colour.) THIS ARGUMENT DOES NOT EXIST ON A SPACECRAFT, because there is no 'outside the shield' to be outside of. It is a planetary-surface argument.",
+        "Decay heat (gate 3): Wigner-Way gives 6.6% of 1,280 kWt = 84.5 kW at trip, 16.4 kW at 1 h, 8.7 kW at 1 sol, 4.4 kW at 30 sols. 84 kW at a 450 K panel needs 45.8 m2, which is 1.4 of the 16 panels. DESIGN: two of the sixteen are dedicated to an always-open decay-heat leg fed by variable-conductance heat pipes that crack open when core temperature rises above the running set-point. No pump, no valve, no power, no operator.",
+        "THE MARS-SPECIFIC TRAP: the mound is a 0.04 W/mK thermal blanket - the same conductivity pwr-grid-01's trench card had to fight. BURYING THE REACTOR MAKES DECAY HEAT HARDER, NOT EASIER; the shield is the last place that heat may go. So the decay-heat pipes leave the cover at core elevation and run horizontally to panels standing at grade: no lift, no capillary limit, gravity-neutral. The geometry is a consequence of the thermal account.",
+        "SECOND ROUND, LEDGER 12 - A RADIATOR PANEL IS NOT AN ISOTHERMAL SURFACE, IT IS A FIN. Ledger 4 stopped at a 450 K mean panel temperature, carrying an implicit eta_fin = 1.00 it never wrote down. Computed: h = 4.eps.sigma.T^3 = 17.6 W/m2K (35.1 for two faces), and a 1 mm aluminium sheet gives eta_fin = 0.864 at a 10 cm heat-pipe pitch but only 0.463 at the 30 cm pitch anyone would draw. THE REJECTION CHAIN THEREFORE GAINS A SPECIFICATION - heat-pipe pitch <= 10 cm - and the panel count goes 16 -> 20. It changes no selection conclusion on this card (Stirling beats Brayton and thermoelectric by far more than 16%); it changes the build."
+      ],
+      "physics": [
+        "自由活塞斯特林没有曲轴，活塞与排出器由工作气体的压力波和板弹簧耦合，气浮轴承使其无接触磨损——这就是它能声称十年免维护的物理基础，也是它没有飞轮的原因。它的往复力靠对置安装抵消：两台同频反相，一阶惯性力相消，剩下的只是加工与相位的不完美（ASRG 级平衡可到 1e-3）。**模型里两只活塞振幅取 +0.17 与 −0.17 m，反相是几何保证的，不依赖引擎怎么解释 phase 参数。**",
+        "为什么排热只能靠辐射：6 mbar 的 CO₂ 里自然对流的 Grashof 数比地球低约四个数量级，强迫对流又要风扇和一堆转动件。辐射不看气压——εσ(T⁴−T_sky⁴) 在 6 mbar 和 1 atm 一模一样。于是火星把「散热」这件事从流体力学问题变成了几何问题：你需要的只是一片能看见天的面。",
+        "热管是这套设计的隐形主角：它以工质的蒸发-冷凝潜热输运热量，等效导热率比铜高两三个数量级，而且**完全被动**。堆芯到斯特林热头之间因此不需要泵，也就不需要在屏蔽体里放一个会坏的转动件。变导热管更进一步——用不凝性气体做自调节活塞，堆芯一热它自己就开，这让衰变热排放成为一个不需要任何决定的过程。"
+      ],
+      "physics_en": [
+        "A free-piston Stirling has no crankshaft: piston and displacer are coupled by the working gas pressure wave and planar springs, riding gas bearings with no contacting wear. That is the physical basis of its ten-year unattended life, and the reason it has no flywheel. Its reciprocating force is cancelled by opposed mounting - two machines at the same frequency in antiphase cancel the first-order inertial force, leaving only manufacturing and phase imperfection (ASRG-class balancing reaches 1e-3). IN THE MODEL THE TWO PISTONS CARRY AMPLITUDES OF +0.17 AND -0.17 m, so the antiphase is guaranteed by geometry and does not depend on how the engine interprets a phase parameter.",
+        "Why rejection can only be radiative: in 6 mbar of CO2 the Grashof number for natural convection is about four decades below Earth's, and forced convection means fans and a pile of rotating parts. Radiation does not care about pressure - eps.sigma.(T^4 - T_sky^4) is identical at 6 mbar and at 1 atm. Mars therefore converts heat rejection from a fluid-mechanics problem into a geometry problem: all you need is a surface that can see the sky.",
+        "Heat pipes are the quiet protagonist here: they move heat as latent heat of vaporisation and condensation, with an effective conductivity two to three decades above copper, and they are ENTIRELY PASSIVE. No pump is needed between core and Stirling heater head, so no failable rotating part has to live inside the shield. Variable-conductance pipes go further - a non-condensable gas acts as a self-adjusting piston, so the path opens by itself when the core warms, making decay-heat rejection a process that requires no decision from anyone."
+      ]
+    },
+    {
+      "id": "radiator",
+      "label": "辐射散热翼：以及为什么不能蹭 pwr-radiator-01",
+      "label_en": "The radiator wings, and why pwr-radiator-01 cannot be borrowed",
+      "range": 40,
+      "detail": "两列各八块、共 16 块 3.0 × 5.5 m 双面板，向外倾斜 15° 以免互相辐射。每列末端那块带绿色标记的是**衰变热专用板**，永远接通、不受停堆影响。城北还有一片 4.7 万 m² 的散热阵，本站一块也用不上——理由不是它满了，而是它太热了。",
+      "detail_en": "Two rows of eight - sixteen double-sided panels of 3.0 x 5.5 m - leaning outward 15 degrees so the rows do not radiate into one another. The green-marked panel at the end of each row is the DEDICATED DECAY-HEAT PANEL, permanently connected and indifferent to shutdown. There is a 47,000 m2 radiator field in the north of the city and this plant can use none of it - not because it is full, but because it is too hot.",
+      "specs": {
+        "需求 / 建成": "521 m² 辐射面 / 528 m²（16 板双面）",
+        "板面平均温度": "450 K（工质 480 K 冷端）",
+        "净辐射通量": "1,844 W/m²（天空 210 K，地面 240 K 各占一半视角）",
+        "太阳吸收代价": "6 W/m² = 0.3%（α_s 0.2，sol 平均）",
+        "衰变热专用板": "2 块（停堆瞬间 84 kW 只需 1.4 块）",
+        "夜间会不会发红": "不会 —— 450 K 无可见辐射（对照聚变阵 600 K 暗红）",
+        "需求 / 建成（账 12 修正）": "300 m² 板面 / 20 块 3.0×5.5 m，热管间距 ≤10 cm",
+        "鳍效率 η_fin": "0.864 @10 cm 间距（30 cm 间距只有 0.463）",
+        "板一阶模态（账 15）": "如画 3.62 Hz → 加中层横撑 14.5 Hz；板脚隔振 f_n = 1.5 Hz"
+      },
+      "specs_en": {
+        "Required / built": "521 m2 of radiating area / 528 m2 (16 double-sided panels)",
+        "Mean panel temperature": "450 K (from a 480 K cold end)",
+        "Net radiated flux": "1,844 W/m2 (half-view to a 210 K sky, half to 240 K ground)",
+        "Cost of solar absorption": "6 W/m2 = 0.3% (alpha_s 0.2, sol-averaged)",
+        "Dedicated decay-heat panels": "2 (the 84 kW trip transient needs only 1.4)",
+        "Does it glow at night": "No - 450 K emits nothing visible (the fusion field at 600 K does glow dull red)",
+        "Required / built (ledger 12 correction)": "300 m2 of panel / 20 panels of 3.0 x 5.5 m, heat-pipe pitch <= 10 cm",
+        "Fin efficiency": "0.864 at a 10 cm pitch (only 0.463 at 30 cm)",
+        "Panel first mode (ledger 15)": "3.62 Hz as drawn -> 14.5 Hz with a mid-height cross rail; footings isolated at f_n = 1.5 Hz"
+      },
+      "sim": [
+        "闸门复核（闸 1）：拿 pwr-radiator-01 自己的数复算它自己的平衡——2 × 46,800 m² × ε0.9 × σ × (600⁴−210⁴) = **610 MW** ≥ 585 MW，与它卡上的 610 MW 一致。同一套 T⁴ 工具用在本站才有资格。",
+        "**为什么不蹭那片阵，五条理由，按诚实程度排序：**",
+        "**① 容量不是理由**，说它是就是不诚实：那片阵计入积尘后余量 597−585 = 12 MW，本站要排的 0.96 MW 只占余量的 8%。它装得下。",
+        "**② 温度才是决定性的。** 他们的回路 650→550 K、板面 600 K。热量不会从我 480 K 的冷端流进 600 K 的板子。要用他们的场，我的冷端必须抬到 650 K 以上，效率从 0.25 掉到 0.175，**反应堆涨 1.4 倍到 1,826 kWt，为的是省 521 m² 板子**。**让那片阵变小的那个 T⁴，正是让它对我无用的那个 T⁴。**",
+        "**③ 故障域。** 那片阵的母管顺 pipe-heat-1/2/3 走廊接回 pwr-fusion-01。排热路径穿过主源厂区的备份不叫备份——失超工况和检修隔离工况都会一起带走它。",
+        "**④ 距离。** 他们在 (−80, 370)，本站按选址账在 800 m 以外。一条 480 K 的传输管跨一公里要泵、要伸缩节、要保温：更多转动件，更多失效模式，而本站的整个设计取向是把转动件减到零。",
+        "**⑤ 危险叠加。** 那片 430 × 110 m 的场本来就是 600 K 禁入区、立着警示桅杆。把一个反应堆禁区套进去，等于把两个互相独立的危险合并到同一块地上。",
+        "T⁴ 取舍表（同为 960 kW 排热）：350 K 要 1,626 m²（3.12×）、400 K 872 m²、450 K 521 m²（交付）、500 K 333 m²、600 K 157 m²（0.30×）。**辐射面积随温度四次方反比坍缩**——但见转换卡，往上走的代价是反应堆，不是板子。",
+        "太阳吸收这一项算过并**判为可忽略**：垂直板面 sol 平均日射约 61 W/m²，α_s = 0.2 吸 12 W/m²，摊到双面是 6 W/m²，占 1,844 的 0.3%。诚实地说：这一项在 350 K 的冷板上会涨到 1%，在本站的 450 K 上不值一提。",
+        "**【第二轮 L2 · 账 12：板数从 16 改成 20，而改它的不是我担心的那一项】** 账 4 的 521 m² 里藏着两个手算：视角因子「一半天一半地」，以及**一个从未写下的隐含假设 η_fin = 1.00**。两个都算了。**① 我特地去查的那一项可以忽略**：蒙特卡洛光线投射实测，内侧板面有 **25.5% 的半球被 10.5 m 的土丘占据**，代价却只有 **0.4%**——账 4 在视角因子上反而略偏保守。又是 T⁴ 的暴政：250 K 的土丘对 450 K 的板面是 (250/450)⁴ = 0.095，填掉四分之一天空也几乎不要钱。**同一条物理让尘埃对 pwr-radiator-01 无关紧要，也让一座山对本站无关紧要。** 顺带：把两列板从 33 m 推到 60 m，土丘份额从 25% 降到 5%，只买回 0.3%——**别动布局。**",
+        "**② 我从没考虑的那一项才是咬人的（账 12）**：板是一片**鳍**，热量要从热管沿板面导出去才能辐射掉。线性化辐射换热系数 h = 4εσT³ = 17.6 W/m²K，双面 35.1。1 mm 铝板配 **30 cm 热管间距时 η_fin 只有 0.463**——任何人默认画出来的间距会让板子少掉一半。收到 **10 cm 间距得 η_fin = 0.864**。**交付修正：有效排热 3,198 W/m² 板面，需 300 m²，即 20 块 3.0×5.5 m 板，不是 16 块**，并新增一条账 4 完全没有的规格：**热管间距 ≤10 cm**。2 mm 板能省下两块板，但面板质量多花的比省下的多一倍。",
+        "**方法论，写给下一册（账 12）**：**没写下来的假设对灵敏度扫描是隐形的。** 账 5 扫了 λ_n，因为它**给 λ_n 起过名字**；没有人会去扫 η_fin = 1，因为没有人写下过它。这一轮的对比很干净：被命名的参数（λ_n）摆动五个数量级却没改变任何结论，未被命名的假设（η_fin）只错 16% 却直接改了建造量。**审计的价值不在于动摇结论，而在于找出这个数字一直在悄悄撑着哪个决定。**",
+        "**【第三轮 L1 · 账 15】每块板加一道中层横撑，并给板脚隔振定了频率。** 账 7 把辐射板一阶弯曲模态推给了「投运实测」——算出来才发现不该推：**如画的板 f1 = 3.62 Hz**，落在 sci-seis-01 的 SP 频带内，而普通 30 m/s 尘暴的**湍流抖振**（不需要涡激锁定，锁定要 54 m/s）就让 10 m 处地面速度到 8.8e-6 m/s，**超红线 7 倍**。加一道中层横撑把 f1 抬到 14.5 Hz（每块约 6 kg，全场 120 kg），板脚弹性支座定在 **f_n = 1.5 Hz**（账 7 只说了要隔振，没给频率，而频率就是全部要点：必须低于 f1/√2）。**两者缺一不可**：只加横撑 0.07×、只做隔振 0.66×，两者齐上 6.3×，最坏 40 m/s 阵风下仍有 3.6×。**一处自我更正**：本条初稿说「横撑缩短导热路径,η_fin 拿到退款」——**错的**。账 12 的鳍模型是 η = tanh(mL)/(mL)，其中 **L = 热管间距/2 = 5 cm**，即竖直热管之间的**水平**距离；中层横撑是水平构件，碰不到它。**η_fin 仍是 0.864，板数仍是 20。** 记在这里是因为这条主张当时听着合理而我没验。"
+      ],
+      "sim_en": [
+        "Gate check (gate 1): re-running pwr-radiator-01's own balance with its own numbers - 2 x 46,800 m2 x eps 0.9 x sigma x (600^4 - 210^4) = 610 MW against 585 MW needed - reproduces the 610 MW on their card. The same T^4 tooling then earns the right to be used here.",
+        "WHY THAT FIELD CANNOT BE BORROWED - five reasons, ordered by how honest they are:",
+        "1. CAPACITY IS NOT THE REASON, and claiming it would be dishonest: with dust their margin is 597 - 585 = 12 MW, and this plant's 0.96 MW is 8% of that margin. It would physically fit.",
+        "2. TEMPERATURE IS THE DECISIVE ONE. Their loop runs 650 -> 550 K with panels at 600 K. Heat does not flow from a 480 K cold end into a 600 K panel. To use their field this plant's cold end must rise above 650 K, taking efficiency from 0.25 to 0.175: THE REACTOR GROWS 1.4x TO 1,826 kWt IN ORDER TO SAVE 521 m2 OF PANEL. The same T^4 that makes their field small is what makes it useless here.",
+        "3. FAILURE DOMAIN. Their headers run back to pwr-fusion-01 along the pipe-heat-1/2/3 corridors. A backup whose heat rejection transits the primary's plant is not a backup - both the quench case and the isolate-for-repair case take it away.",
+        "4. DISTANCE. They sit at (-80, 370); the siting account puts this plant more than 800 m away. A 480 K transfer line over a kilometre needs pumps, expansion loops and its own insulation: more rotating parts and more failure modes, against a design whose whole direction is to have none.",
+        "5. HAZARD STACKING. That 430 x 110 m field is already a 600 K keep-out with warning masts. Nesting a reactor exclusion zone inside it merges two independent hazards onto one piece of ground.",
+        "The T^4 trade at a fixed 960 kW of rejection: 350 K needs 1,626 m2 (3.12x), 400 K 872, 450 K 521 (delivered), 500 K 333, 600 K 157 (0.30x). RADIATOR AREA COLLAPSES AS THE FOURTH POWER - but per the conversion card, the price of going up is paid by the reactor, not the panels.",
+        "Solar absorption was computed and JUDGED NEGLIGIBLE: a vertical face takes about 61 W/m2 sol-averaged, alpha_s = 0.2 absorbs 12 W/m2, and spread over both faces that is 6 W/m2, or 0.3% of 1,844. Said honestly: on a 350 K panel this term would climb to about 1%; at this plant's 450 K it does not matter.",
+        "SECOND ROUND, L2, LEDGER 12 - THE PANEL COUNT GOES 16 -> 20, AND THE TERM THAT MOVED IT IS NOT THE ONE I WENT LOOKING FOR. Ledger 4's 521 m2 hid two hand-calculations: a 'half sky, half ground' view factor, and AN IMPLICIT eta_fin = 1.00 THAT WAS NEVER WRITTEN DOWN. Both are now computed. (1) THE TERM I WENT LOOKING FOR IS NEGLIGIBLE: Monte Carlo ray casting shows the inward face has 25.5% of its hemisphere filled by the 10.5 m mound - and it costs 0.4%. Ledger 4 was in fact marginally CONSERVATIVE on view factors. The tyranny of T^4 again: a 250 K berm against a 450 K panel is (250/450)^4 = 0.095, so filling a quarter of the sky with it is nearly free. THE SAME PHYSICS THAT MAKES DUST IRRELEVANT TO pwr-radiator-01 MAKES A HILL IRRELEVANT TO THIS ONE. Incidentally, pushing the rows from 33 m to 60 m drops the berm's share from 25% to 5% and buys 0.3% - KEEP THE LAYOUT.",
+        "(2) THE TERM I NEVER CONSIDERED IS THE ONE THAT BITES (ledger 12): a panel is a FIN, and heat must conduct from the heat pipes across the sheet before it can radiate. The linearised radiation coefficient h = 4.eps.sigma.T^3 is 17.6 W/m2K, 35.1 for two faces. A 1 mm aluminium sheet with heat pipes at a 30 cm pitch - the pitch anyone would draw by default - gives eta_fin = 0.463, throwing away half the panel. Closing to 10 cm gives 0.864. CORRECTED BUILD: effective rejection 3,198 W per m2 of panel, 300 m2 required, TWENTY 3.0 x 5.5 m PANELS AND NOT SIXTEEN - plus a specification ledger 4 did not contain at all: HEAT-PIPE PITCH <= 10 cm. A 2 mm sheet saves two panels and pays for them twice over in facesheet mass.",
+        "A METHODOLOGICAL NOTE FOR THE NEXT DOSSIER (ledger 12): AN UNSTATED ASSUMPTION IS INVISIBLE TO A SENSITIVITY SWEEP. Ledger 5 swept lambda_n because it had NAMED lambda_n; nobody sweeps eta_fin = 1 because nobody wrote it down. The contrast is clean: the named parameter moved across five decades and changed no conclusion, while the unnamed assumption was wrong by 16% and changed the build. THE VALUE OF AN AUDIT IS NOT SHAKING THE CONCLUSION - IT IS FINDING WHICH DECISION THE NUMBER HAD QUIETLY BEEN HOLDING UP.",
+        "THIRD ROUND, L1, LEDGER 15 - A MID-HEIGHT CROSS RAIL ON EVERY PANEL, AND A NUMBER ON THE FOOTING ISOLATION. Ledger 7 deferred the panels' first bending mode to 'a commissioning measurement'; computing it shows it should not have been deferred. AS DRAWN f1 = 3.62 Hz, inside sci-seis-01's SP band, and ordinary 30 m/s storm BUFFETING - no vortex lock-in needed, which would take 54 m/s - puts 8.8e-6 m/s at the 10 m spec point, SEVEN TIMES OVER THE RED LINE. A mid-height cross rail takes f1 to 14.5 Hz for about 6 kg a panel (120 kg across the field), and the footings go on elastomeric mounts at f_n = 1.5 Hz - ledger 7 asked for footing isolation but never gave it a frequency, and the frequency is the whole point: it must sit below f1/sqrt(2). NEITHER ALONE IS ENOUGH: the rail alone gives 0.07x, isolation alone 0.66x, the pair 6.3x, and 3.6x under a worst-case 40 m/s gust. ONE SELF-CORRECTION: the first draft of this entry said the rail shortens the conduction path and earns ledger 12's eta_fin a refund. IT DOES NOT. That model is eta = tanh(mL)/(mL) with L = HEAT-PIPE PITCH / 2 = 5 cm - the HORIZONTAL spacing between vertical pipes - and a horizontal rail at mid-height does not touch it. eta_fin stays 0.864 and the panel count stays 20. It is recorded here because the claim sounded plausible and I had not checked it."
+      ],
+      "physics": [
+        "斯特藩-玻尔兹曼定律 P = εσA(T⁴ − T_sky⁴) 是本站几何的第一因。火星把天空有效温度压到 ~210 K，于是天空回辐射项在 450 K 板面的能量平衡里只占 (210/450)⁴ ≈ 4.7%——散热几乎全是净支出，而且**与大气、与风、与尘暴都无关**。这正是 pwr-grid-01 尘暴序列第四步「散热阵积尘：不动作」的同一条物理。",
+        "垂直板的另一半视角看的是地面而不是天空。火星午后地表可达 ~250 K，把等效汇温从 210 K 抬到约 226 K——听起来很糟，实际只吃掉 1.8% 的通量，因为四次方对 450 K 与 226 K 的差距是压倒性的。**T⁴ 的暴政对辐射器是恩惠：它让热端一切都好办，让冷端一切都不重要。**"
+      ],
+      "physics_en": [
+        "Stefan-Boltzmann, P = eps.sigma.A.(T^4 - T_sky^4), is the first cause of this plant's geometry. Mars pins the effective sky near 210 K, so the back-radiation term is only (210/450)^4 = 4.7% of the balance at a 450 K panel - rejection is almost pure outgo, and it is INDEPENDENT OF THE ATMOSPHERE, THE WIND AND THE DUST. That is the same physics behind step four of pwr-grid-01's storm sequence: dust on the radiator field, take no action.",
+        "The other half of a vertical panel's view is ground, not sky. Martian regolith can reach about 250 K in the afternoon, raising the effective sink from 210 K to roughly 226 K - which sounds bad and costs 1.8% of the flux, because the fourth power of 450 K overwhelms that of 226 K. THE TYRANNY OF T^4 IS A GIFT TO A RADIATOR: it makes everything at the hot end easy and everything at the cold end irrelevant."
+      ]
+    },
+    {
+      "id": "berm",
+      "label": "覆土屏蔽丘：剂量随距离不是曲线，是悬崖",
+      "label_en": "The regolith berm: dose against distance is a cliff, not a curve",
+      "range": 45,
+      "detail": "4.0 m 压实风化层，以 0.5 m 压实层逐层堆筑（剖面上的横向色带就是这些压实层），边坡 1:1.5。剖面靠内两米做了深色带——那一段在 273 K 以上，是本册否决「掺冰增氢」方案的地方。全丘搬土 4,831 m³。这张卡回答的是「反应堆离城多远才安全」，而答案是：**距离几乎不参与这个问题。**",
+      "detail_en": "4.0 m of compacted regolith placed in 0.5 m lifts - the horizontal banding in the section IS those lifts - on 1:1.5 side slopes. The inner two metres of the section are drawn darker: that zone runs above 273 K, which is where the tempting 'add hydrogen as ice' option dies. 4,831 m3 of material moved in total. This card answers 'how far from the city must a reactor be', and the answer is that DISTANCE BARELY PARTICIPATES IN THE QUESTION.",
+      "specs": {
+        "覆土 / 面密度": "4.0 m 覆土 + 0.5 m 顶板 = 20.0 个中子平均自由程",
+        "风化层中子衰减长度": "λ_n = 22.4 cm（ρ 1.65 g/cm³，干硅酸盐）",
+        "无屏蔽 100 m 处": "17.4 Sv/h（中子对伽马 71:1）",
+        "纯靠距离达到 1 mSv/年": "1,236 km —— 火星半径的 36%",
+        "500 m 处天空散射": "0.0002 µSv/h = 天然本底的 0.0009%",
+        "搬土量 / 工时": "4,831 m³ · 7,971 t · 约 161 装载机小时 · 3,864 kWh",
+        "λ_n（账 11 OpenMC 实算）": "19.0 cm（账 5 文献值 22.4 → L1 在满厚度上保守 5,553×）",
+        "流泄（账 11 实算）": "直通管 5.23× / 一道折弯 3.22× —— 一道弯只值 1.6 倍，不是 1e2",
+        "边坡（账 13）": "1:1.5 需实测 c ≥ 2.1 kPa，否则放缓到 1:2",
+        "丘顶剂量（定版）": "1.70 µSv/h = 天然地表本底 26.7 的 1/16；链条 145（账 5 的 1 群模型）→ 0.03（账 11 输运）→ 1.70（账 14 加俘获伽马）",
+        "俘获伽马 γ/n（账 14）": "γ/n = 64.3× @4.5 m"
+      },
+      "specs_en": {
+        "Cover / areal density": "4.0 m of cover + 0.5 m roof = 20.0 neutron mean free paths",
+        "Neutron attenuation length in regolith": "lambda_n = 22.4 cm (rho 1.65 g/cm3, dry silicate)",
+        "Unshielded at 100 m": "17.4 Sv/h (neutrons beat gammas 71:1)",
+        "Distance alone to reach 1 mSv/yr": "1,236 km - 36% of a planetary radius",
+        "Skyshine at 500 m": "0.0002 uSv/h = 0.0009% of natural background",
+        "Material moved": "4,831 m3, 7,971 t, about 161 loader-hours, 3,864 kWh",
+        "lambda_n (ledger 11, OpenMC)": "19.0 cm against ledger 5's literature 22.4 - the L1 model was 5,553x conservative at full thickness",
+        "Duct streaming (ledger 11)": "straight 5.23x, one dog-leg 3.22x - a bend is worth 1.6x, not 1e2",
+        "Slope (ledger 13)": "1:1.5 requires a demonstrated c >= 2.1 kPa, else flatten to 1:2",
+        "Crest dose (final)": "1.70 uSv/h = 1/16 of the 26.7 uSv/h natural surface background; the chain runs 145 (ledger 5's 1-group model) -> 0.03 (ledger 11 transport) -> 1.70 (ledger 14 adds capture gammas)",
+        "Capture gamma ratio (ledger 14)": "gamma/neutron = 64.3x at 4.5 m"
+      },
+      "sim": [
+        "**闸 2：距离单独做不到，用数字说。** 1.28 MWt 给出中子泄漏 1.5e16 n/s；裸源 100 m 处 17.4 Sv/h。按平方反比退到 1 mSv/年连续需要 **1,236 km**；就算放宽到「不给全城已经承受的 234 mSv/年再加 1%」也要 **808 km**。**所需退避距离是这颗行星半径的 36%，是全城直径的 494 倍。距离不是屏蔽策略，是屏蔽策略上的一个舍入误差。**（与 pwr-grid-01 接地卡「所需接地极比行星本身还大」是同一形状的答案。）",
+        "**埋起来之后，曲线塌成悬崖。** 地面上的受体与堆芯之间没有直视线——射线要从土丘**侧面**出去，水平路径 ≥15 m 即 exp(−67)，任何距离上都是死的。剩下两条路：站在丘顶（4.5 m 路径），和**天空散射**。",
+        "**火星的天空散射几乎不存在。** 大气 0.02 kg/m³，快中子散射平均自由程 14.3 km（地球 0.23 km，差 61 倍）。单次散射估算给出 500 m 处 1.7e-4 n/cm²/s、剂量 0.0002 µSv/h——天然地表本底 26.7 µSv/h 的百万分之九。**在地球上，天空散射是长距离屏蔽的克星；在火星，挡住直视线之后基本没有东西剩下可挡。**",
+        "**厚度 vs 距离的取舍表**（同为围栏处 25 µSv/h）：覆土 2.0 m → 禁区半径 3,054 m（29 km²）；2.5 m → 1,110 m；3.0 m → 396 m；**4.0 m → 49 m（0.008 km²）**。**从 2.5 m 加到 4.0 m 只多 1,500 m³ 土，禁区半径缩小 22 倍、面积缩小 500 倍。** 衰减对厚度是指数、对距离只是平方，指数永远赢，而在行星上指数是免费的。**2.0 m 时那个禁区圈比整座城的占地还大——你根本没有那么多地可以送。**",
+        "**同样的 20 个自由程若从地球运来**：LiH 需 154 cm 厚壳，单模块 119 t，八台 954 t ≈ **10 艘星舰货运**。对照推土机的 161 小时。**这就是它被埋起来的全部理由。**",
+        "**灵敏度（闸 3）：λ_n 是本账最弱的数字，结论必须扛住它。** λ 从 16 到 30 cm 扫描，丘顶剂量摆动了五个数量级（0.1 → 17,000 µSv/h）——所以丘顶被判为**签牌管制区而不是设计驻留点**。但选址结论毫发无损：500 m 处的天空散射在整个范围内都比天然本底低 4~6 个数量级。**措施：按 4.0 m 建，并在土丘上预留加高 1.0 m 的余地，等首次投运实测衰减后再定。风化层是唯一一种可以事后追加的屏蔽——地球运来的 LiH 是两年前在另一颗行星上做的决定。**",
+        "**掺冰增氢：诱人，算完否决。** 20% 冰的胶结风化层 λ 降到 12.5 cm（1.8 倍改善），且冰只能放在外层（内 2 m 越过 273 K）——恰好也是氢最该放的位置。但 0.5 m 冰壳要 **243 t 水 = res-rodwell-01 全井 639 sol 的产量**，而全城水银行只有 26 m³。否决。**同样的衰减，把土丘加高 0.5 m 只要 21 个装载机小时。在火星，土是便宜的屏蔽、水是昂贵的屏蔽；地球上每一座研究堆都泡在水池里，库存关系反过来了，设计也就反过来。**",
+        "**本卡明确不覆盖的三件事**：① 穿透件流泄——一条直通管道能废掉几米屏蔽，故每根热管、NaK 母管与电缆穿透都做两道 90° 折弯并朝上坡方向出口（几何里画了）；② 超设计基准——没有任何可达距离能防住屏蔽尽失（500 m 处裸堆 1 Sv/h），答案是 4 m 压实风化层不是会失效的工程屏障，它是一座山，且堆芯按温度被动停堆；③ 场址活化——覆土俘获生成微量 Na-24/Fe-59，留在土里，而土本来就在那儿。",
+        "**【第二轮 L2 · 账 11：OpenMC 连续能量输运，替掉 1 群移出模型】** 在 Ubuntu HEP 虚拟机上跑 OpenMC 0.15.3（真 ENDF 截面）。**声明的近似**：该机截面库只有 24 种核素、缺 Al/Mg/Ca/Na/Ti/S——即耶泽罗玄武岩的 19 wt%——故按**平均质量数**折入 Si28（91%）与 Fe56（9%）；得 ⟨A⟩ = 22.31，对 **sci-cray-01 为完全不同目的（风化层量能器）独立发表的 22.6 差 1.3%**，这是闸不是自证。**结果：λ_n = 19.0 cm，而账 5 用的文献值是 22.4 cm——真实屏蔽每厘米比 L1 模型好 1.18 倍**，且局域 λ 在 40 cm 处就稳定，说明穿透谱已硬化、单指数在那之后合法（账 5 假设了这点却没验）。满厚度上账 5 的「指数×线性积累因子」比输运结果保守 **5,553 倍**，丘顶剂量从 145 µSv/h 落到 ~0.03 µSv/h（天然地表本底 26.7 µSv/h）。**校核：水（该库精确表示）得 6.3 cm，落在预期带内。**",
+        "**但不许因此削薄覆土（账 11）**：① 这是**代用成分**加纯 Watt 源谱，余量现在是已知的，却是通过一个有声明软肋的模型知道的；② **光子输运整个关着**——账 5 证明源伽马输给中子 71:1，但**在 4 m 厚屏蔽内部由俘获生成的次级伽马是另一回事，本轮完全没建模，而它正是厚屏蔽里的经典后段项**，**这就是我下一步要补的缺口，也是唯一可能把丘顶数字推回去的一项**；③ 覆土是 4,831 m³ 的推土机活。**账 5「风化层是本设计里最便宜的东西」的结论被加强而不是削弱**——我们只是发现自己多了 1.64 m 的余量。",
+        "**流泄：账 5 声明未算，现在算了，而且发现手册数字用错了地方（账 11）。** 1 m 覆土、30 cm 管径、探测器是贴在出口的 25 cm 圆饼：实心 1.00× / 直通管 **5.23×** / 一道 90° 折弯 **3.22×**——**一道折弯只找回直通损失的 48%，合 1.6 倍，而不是账 5 引用的 1e2~1e3。** 原因是纵横比：这个测试是 30 cm 穿 1 m，即 3.3:1，**又肥又短的洞，一道弯关不上**；手册那个 1e2/弯 假设的是细长管。真实覆土 4 m 给 13:1，折弯在那里有效得多。**新设计规则，而且这次带理由：穿透件按纵横比定尺寸，不按折弯数量；最少两道弯。**",
+        "**【第二轮 L1 · 账 13：边坡这条我说得不完整】** 本卡说 1:1.5 边坡「在 0.38 g 下保守，因为驱动应力随重力标度而填料的黏聚力不随」。机理对，话不完整：**摩擦阻力也随重力标度，而且精确抵消。** 干燥无黏聚填料的安全系数是 tan φ / tan β，**与重力无关**——1:1.5、φ=37° 在两颗行星上都是 **1.13，低于工程惯例要求的 1.5**。重力只通过**黏聚力项**帮忙，而那里帮得很多（c=2 kPa 时火星 1.84 对地球 1.40）。**新要求：压实填料须实测 c ≥ 2.1 kPa，否则边坡放缓到 1:2**（无黏聚力即达 1.51，代价是丘底从 52 m 涨到 63 m、覆土方量 +44%）。**真正属于火星的那条优势在别处**：地球上要加 0.1~0.15 g 的拟静力地震系数、把安全系数打掉三成，而火星是我们量过的最安静的类地行星（InSight 四年最大 M4.7、距 2000 km），拟静力项可以忽略。",
+        "**埋一座反应堆在火星上便宜 2.6 倍，而这条此前没人写（账 13）**：屏蔽买的是**面密度**（g/cm²），结构付的是**面密度 × g**。同样 4 m 覆土在火星是 24.5 kPa、在地球是 64.7 kPa。**同样的屏蔽，火星的顶板只承 1/2.6 的载荷。** 但 18 m 净跨的平板弯矩仍有 992 kN·m/m——**几何已据此改过一半**：中间那排立柱已经画进洞库（跨度减半，弯矩降到 1/4）；**拱形衬里（3 m 矢高时纯压推力 331 kN/m）仍未画，如实标为下一版**。洞库叫 vault，就该长成 vault 的样子——现在只做到了一半。",
+        "**【第三轮 L2+L1 · 账 14：账 11 自己点名的缺口，补上了】** 账 11 关着光子输运并写下「4 m 厚屏蔽内部由俘获生成的次级伽马是另一回事……这是我下一步要补的缺口，也是唯一可能把丘顶数字推回去的一项」。虚拟机的光子截面在下载到一半时被对端拒绝连接，所以改成**两段拼接**:**L2 段**用 OpenMC 中子输运给出**俘获在屏蔽体内的空间分布** R(z)（即次级伽马的源项）,**L1 段**用点核 + 积累因子把这些伽马解析地送到表面。这样反而比黑箱耦合更透明——看得见伽马在哪儿出生、还剩多少屏蔽要穿。**顺带把成分也修了**：合并两个截面库后，真实耶泽罗玄武岩只有 Ti(1.0 wt%)缺数据要折入 Fe，而账 11 的代用成分折掉了 19 wt%——**成分保真度提高 19 倍**。",
+        "**铁拿走了 63% 的俘获，而铁俘获是一次 7.65 MeV 的事件（账 14）。** 按「质量分数 ÷ A × 热俘获截面」排序,Fe-56 主导;Si-28 8.47 MeV、Al-27 7.73、Ca-40 8.36 紧随。**关键在于 7.6 MeV 光子在硅酸盐里的衰减长度是 23 cm，比中子的 19.0 cm 还长。**于是：一个从屏蔽体**背面附近**出生的俘获伽马只需穿过剩下的几十厘米，而从正面进来的中子要穿 450 cm。结果是 γ/n 比值**随厚度增长**——正是账 11 担心的那个机制。实算:64.3× 在 4.5 m 处(1.35× 在 1 m 处)。**这座屏蔽在 4.5 m 上是伽马限制的，不是中子限制的。**",
+        "**但结论活下来了，而且覆土一厘米都不动（账 14）**：丘顶剂量从账 11 的中子 0.026 µSv/h 变成**1.697 µSv/h**，仍是天然地表本底 26.7 µSv/h 的 **1/16**。**改变的是答案的结构而不是答案**：此后任何人想用「减薄覆土」做交易，买到的会比账 5 的指数少得多——因为他要交易的是 λ_γ = 23 cm，不是 λ_n = 19 cm。**便宜的旋钮（已登记，未指定）**：俘获伽马是**热**中子造的，在覆土内面铺几厘米含硼层(B-10 俘获只放 0.48 MeV，不是 7.6)，源项就大幅消失。本城硼来源不明，而且**根本不需要**——丘顶已经比本底低两个数量级。写在这里是为了让下一个人知道该拧哪个旋钮。"
+      ],
+      "sim_en": [
+        "GATE 2: DISTANCE ALONE CANNOT DO IT, WITH A NUMBER. 1.28 MWt gives a neutron leakage of 1.5e16 n/s and 17.4 Sv/h at 100 m bare. Falling off as inverse square to 1 mSv/yr continuous needs 1,236 km; even the far laxer 'do not add 1% to the 234 mSv/yr the city already takes' needs 808 km. THE REQUIRED STAND-OFF IS 36% OF A PLANETARY RADIUS AND 494 CITY DIAMETERS. Distance is not a shielding strategy, it is a rounding error on one. (The same shape of answer as pwr-grid-01's bonding card: the required earth electrode is bigger than the planet.)",
+        "ONCE IT IS BURIED, THE CURVE COLLAPSES INTO A CLIFF. A receptor at ground level has no line of sight to the core - the ray leaves through the SIDE of the mound, a horizontal path of 15 m or more, i.e. exp(-67), which is dead at any distance. Two paths remain: standing on the crest (a 4.5 m path), and SKYSHINE.",
+        "MARTIAN SKYSHINE BARELY EXISTS. At 0.02 kg/m3 the fast-neutron scattering mean free path is 14.3 km against Earth's 0.23 km, 61x weaker. A single-scatter estimate gives 1.7e-4 n/cm2/s at 500 m, a dose of 0.0002 uSv/h - nine parts per million of the 26.7 uSv/h natural surface background. ON EARTH SKYSHINE IS WHAT DEFEATS LONG-RANGE SHIELDING; ON MARS, ONCE THE DIRECT LINE IS BLOCKED THERE IS ESSENTIALLY NOTHING LEFT TO BLOCK.",
+        "THE THICKNESS-VERSUS-DISTANCE TRADE, at a fixed 25 uSv/h at the fence: 2.0 m of cover needs a 3,054 m exclusion radius (29 km2); 2.5 m needs 1,110 m; 3.0 m needs 396 m; 4.0 m NEEDS 49 m (0.008 km2). GOING FROM 2.5 TO 4.0 m COSTS 1,500 m3 OF DIRT AND SHRINKS THE EXCLUSION RADIUS 22-FOLD AND ITS AREA 500-FOLD. Attenuation is exponential in thickness and only quadratic in distance; the exponential always wins, and on a planet the exponential is free. AT 2.0 m THE EXCLUSION CIRCLE IS LARGER THAN THE ENTIRE CITY FOOTPRINT - there is not that much ground to give away.",
+        "THE SAME 20 MEAN FREE PATHS, IF FLOWN FROM EARTH: 154 cm of LiH in a shell is 119 t per module and 954 t for eight - about TEN STARSHIP CARGO FLIGHTS - against 161 hours of loader time. That is the entire reason it is buried.",
+        "SENSITIVITY (gate 3): lambda_n is the weakest number in this account and the conclusion has to survive it. Sweeping lambda from 16 to 30 cm swings the crest dose across five decades (0.1 to 17,000 uSv/h) - which is why the crest is classed as a SIGNED CONTROLLED AREA RATHER THAN A DESIGN OCCUPANCY. The siting conclusion is untouched: skyshine at 500 m stays four to six decades below natural background across the whole range. ACTION: build to 4.0 m and leave room on the mound to add 1.0 m once the first commissioning survey measures the real attenuation. REGOLITH IS THE ONLY SHIELD YOU CAN ADD AFTER THE FACT - a LiH shield is a decision made two years earlier on another planet.",
+        "ADDING HYDROGEN: TEMPTING, COSTED, REJECTED. Ice-bonded regolith at 20% ice takes lambda to 12.5 cm, a 1.8x improvement, and the ice can only live in the outer shell (the inner 2 m crosses 273 K) - which happens to be where hydrogen belongs anyway. But a 0.5 m ice skin needs 243 t of water = 639 SOLS OF THE ENTIRE res-rodwell-01 WELL, against a city water bank of 26 m3. Rejected. The same attenuation costs 21 loader-hours if you simply make the hill 0.5 m taller. ON MARS DIRT IS THE CHEAP SHIELD AND WATER IS THE EXPENSIVE ONE; on Earth every research reactor sits in a water pool. The inventory inverts, and so does the design.",
+        "THREE THINGS THIS CARD EXPLICITLY DOES NOT COVER: (1) duct streaming - a straight penetration defeats metres of shield, so every heat pipe, NaK header and cable penetration takes two 90-degree dog-legs and exits up-slope, away from the city (it is drawn in the geometry); (2) beyond-design-basis - no achievable distance protects against total loss of shielding (a bare core reads 1 Sv/h at 500 m), and the answer is that 4 m of compacted regolith is not an engineered barrier that can fail, it is a hill, and the cores scram passively on temperature; (3) site activation - capture in the cover makes trace Na-24 and Fe-59, which stays in the cover, which is where it already was.",
+        "SECOND ROUND, L2, LEDGER 11 - OpenMC CONTINUOUS-ENERGY TRANSPORT REPLACES THE 1-GROUP REMOVAL MODEL. Run on the Ubuntu HEP VM with OpenMC 0.15.3 and real ENDF cross sections. DECLARED APPROXIMATION: that library carries only 24 nuclides and has no Al/Mg/Ca/Na/Ti/S - 19 wt% of Jezero basalt - so those are folded into Si28 (91%) and Fe56 (9%) by matching the MEAN MASS NUMBER. The surrogate gives <A> = 22.31 against the 22.6 sci-cray-01 published for a completely different purpose (a regolith calorimeter), 1.3% apart - a gate, not self-certification. RESULT: lambda_n = 19.0 cm against ledger 5's literature 22.4 cm, so the real shield is 1.18x better per centimetre than the L1 model assumed; and the local lambda settles by 40 cm, confirming the penetrating spectrum has hardened and a single exponential is legitimate beyond that - which ledger 5 assumed without checking. At full thickness ledger 5's exponential-times-linear-buildup was 5,553x CONSERVATIVE, taking the crest dose from 145 uSv/h to about 0.03 uSv/h against a 26.7 uSv/h natural surface background. VALIDATION: water, which this library represents exactly, comes out at 6.3 cm, inside the expected band.",
+        "BUT THE COVER IS NOT THINNED ON THIS (ledger 11): (1) it is a SURROGATE composition with a pure Watt source - the margin is now known, but known through a model with a declared soft spot; (2) PHOTON TRANSPORT IS OFF ENTIRELY - ledger 5 showed source gammas lose to neutrons 71:1, but capture gammas BORN INSIDE a 4 m shield are a different term, are not modelled here, and are the classic late contributor in a thick shield. THAT IS THE GAP I WOULD CLOSE NEXT AND THE ONE THING THAT COULD PUSH THE CREST NUMBER BACK UP; (3) the cover is 4,831 m3 of dozer work. Ledger 5's conclusion that regolith is the cheapest thing in this design is REINFORCED, not weakened, by learning we have 1.64 m more margin than we thought.",
+        "STREAMING - ledger 5 declared it uncomputed; it is computed now, and the handbook number was being used in the wrong place (ledger 11). Through 1 m of cover with a 30 cm duct and a 25 cm detector puck on the exit: solid 1.00x, straight duct 5.23x, one 90-degree dog-leg 3.22x. ONE BEND RECOVERS ONLY 48% OF WHAT THE STRAIGHT DUCT LOST - a factor of 1.6, not the 1e2-1e3 ledger 5 quoted. The reason is ASPECT RATIO: this test is 30 cm through 1 m, i.e. 3.3:1, a fat short hole one bend cannot close, while the handbook's 1e2-per-bend assumes a long thin duct. The real 4 m cover gives 13:1, where bends work far better. NEW DESIGN RULE, this time with a reason: PENETRATIONS ARE SIZED BY ASPECT RATIO, NOT BY BEND COUNT, and get two bends minimum.",
+        "SECOND ROUND, L1, LEDGER 13 - MY SLOPE ARGUMENT WAS INCOMPLETE. This card said the 1:1.5 slope is 'conservative at 0.38 g where the driving stress scales with gravity but the fill's cohesion does not'. The mechanism is right and the statement is incomplete: THE FRICTIONAL RESISTANCE SCALES WITH GRAVITY TOO, AND CANCELS EXACTLY. For a dry cohesionless fill the factor of safety is tan(phi)/tan(beta), INDEPENDENT OF GRAVITY - 1.13 on either planet at 1:1.5 with phi = 37 deg, BELOW the 1.5 ordinary practice requires. Gravity helps only through the COHESION term, where it helps a great deal (at c = 2 kPa, FoS 1.84 on Mars against 1.40 on Earth). NEW REQUIREMENT: demonstrate c >= 2.1 kPa in the compacted fill, or flatten to 1:2 (which passes with no cohesion at all, at the cost of a mound base growing 52 -> 63 m and 44% more cover volume). THE ADVANTAGE THAT REALLY IS MARTIAN LIES ELSEWHERE: on Earth a pseudo-static seismic coefficient of 0.1-0.15 g would take 30% off the factor of safety, and Mars is the quietest terrestrial planet we have measured - InSight's largest event in four years was M4.7 at 2,000 km - so that term is negligible here.",
+        "BURYING A REACTOR IS 2.6x CHEAPER ON MARS, AND NOBODY HAD WRITTEN THAT DOWN (ledger 13): shielding buys AREAL MASS (g/cm2) and structure pays AREAL MASS TIMES g. The same 4 m of cover is 24.5 kPa here and 64.7 kPa on Earth - FOR THE SAME SHIELDING, A MARTIAN ROOF CARRIES 1/2.6 OF THE LOAD. But an 18 m clear span still gives a flat-slab moment of 992 kN.m per metre, and THE GEOMETRY HAS NOW BEEN HALF-FIXED: the central column line IS drawn into the vault (halving the span, quartering the moment). THE ARCHED LINER (a 3 m rise gives 331 kN/m of pure compression) IS STILL NOT DRAWN and is honestly flagged for the next revision. It is called a vault; so far it is only half shaped like one.",
+        "THIRD ROUND, L2+L1, LEDGER 14 - THE GAP LEDGER 11 NAMED FOR ITSELF, NOW CLOSED. Ledger 11 ran with photon transport off and wrote that capture gammas born inside a 4 m shield were 'the gap I would close next, and the one thing that could push the crest number back up'. The VM's photon cross sections stopped being served partway through the fetch (connection refused), so the job was SPLIT instead of abandoned: an L2 half in which OpenMC neutron transport gives the SPATIAL DISTRIBUTION OF CAPTURE through the shield - R(z), the source term for the secondary gammas - and an L1 half that propagates those gammas to the surface with a point kernel and a buildup factor. That split is arguably more transparent than a black-box coupled run: you can see where the gammas are born and how much shield each still has to cross. IT ALSO FIXED THE COMPOSITION: merging the two partial libraries leaves only Ti (1.0 wt%) without data, against the 19 wt% ledger 11's surrogate folded into stand-ins - a 19x improvement in fidelity.",
+        "IRON TAKES 63% OF THE CAPTURES, AND AN IRON CAPTURE IS A 7.65 MeV EVENT (ledger 14). Ranking by weight fraction over A times thermal capture cross-section, Fe-56 dominates, with Si-28 at 8.47 MeV, Al-27 at 7.73 and Ca-40 at 8.36 behind it. THE CRUX IS THAT A 7.6 MeV PHOTON IN SILICATE HAS AN ATTENUATION LENGTH OF 23 cm - LONGER THAN THE NEUTRONS' 19.0 cm. So a capture gamma born near the BACK of the shield only has to cross the few tens of centimetres that remain, while a neutron entering the front must cross 450. The gamma-to-neutron ratio therefore GROWS with thickness - exactly the mechanism ledger 11 feared. Computed: 64.3x at 4.5 m against 1.35x at 1 m. THIS SHIELD IS GAMMA-LIMITED AT 4.5 m, NOT NEUTRON-LIMITED.",
+        "BUT THE CONCLUSION SURVIVES AND NOT ONE CENTIMETRE OF COVER MOVES (ledger 14): the crest dose goes from ledger 11's neutron-only 0.026 uSv/h to 1.697 uSv/h, still 1/16 of the 26.7 uSv/h natural surface background. WHAT CHANGED IS THE STRUCTURE OF THE ANSWER, NOT THE ANSWER: anyone who later tries to trade cover thickness away will find it buys far less than ledger 5's exponential suggested, because they will be trading against lambda_gamma = 23 cm and not lambda_n = 19 cm. THE CHEAP KNOB, LOGGED AND NOT SPECIFIED: capture gammas are made by THERMAL neutrons, so a few centimetres of borated layer on the inner face of the cover (B-10 captures to 0.48 MeV, not 7.6) would largely remove the source. Boron is not obviously on this city's inventory, and it is NOT NEEDED - the crest already sits two decades below background. It is here so the next person knows which knob to turn."
+      ],
+      "physics": [
+        "指数与平方的竞赛决定了整张卡。屏蔽衰减 ~ exp(−t/λ)，距离衰减 ~ 1/r²。要多买一个数量级的防护，厚度只需 +2.3λ（本站 52 cm 土），距离却要 ×3.16。在 λ = 22.4 cm 的介质里，一米土等于把距离拉远 88 倍。**行星表面的屏蔽经济学就是这一行：你站在无限多的 λ 上面。**",
+        "中子而非伽马定尺寸：本堆中子对伽马的剂量比是 71:1，而风化层对快中子的移出长度（22.4 cm）比对 1 MeV 伽马的（约 14 cm）更长。**所以屏蔽按中子设计，伽马自动附送**。风化层缺氢是这里最大的遗憾——干硅酸盐只能靠 Si/Fe/O 的非弹性散射慢化，λ 比含水混凝土差约 40%。",
+        "覆土的第二重身份是热学的，而且方向相反：0.04 W/mK 的风化层是极好的保温层（hab-village-01 靠它把舱壳夜间热负荷从 325 压到 2 W/m²），对反应堆却意味着衰变热无路可走。**同一堆土，对居住舱是恩惠，对反应堆是麻烦**——所以本站的排热路径必须从覆土里穿出来，而不是往里排。"
+      ],
+      "physics_en": [
+        "The whole card is a race between an exponential and a square. Shield attenuation goes as exp(-t/lambda); distance goes as 1/r^2. Buying one more decade of protection costs +2.3 lambda of thickness (52 cm of dirt here) or a factor of 3.16 in distance. In a medium with lambda = 22.4 cm, one metre of cover is worth moving 88 times further away. THAT LINE IS THE WHOLE ECONOMICS OF SHIELDING ON A PLANETARY SURFACE: you are standing on an unlimited supply of lambda.",
+        "Neutrons and not gammas set the size: the dose ratio here is 71:1, and regolith's removal length for fast neutrons (22.4 cm) is longer than for 1 MeV gammas (about 14 cm). SO THE SHIELD IS DESIGNED ON NEUTRONS AND THE GAMMAS COME FREE. The absence of hydrogen is the real disappointment - dry silicate can only slow neutrons by inelastic scatter off Si, Fe and O, giving a lambda about 40% worse than hydrated concrete.",
+        "The cover's second identity is thermal, and it points the other way: regolith at 0.04 W/mK is superb insulation (hab-village-01 uses it to take a hull's night heat load from 325 to 2 W/m2) but for a reactor it means decay heat has nowhere to go. THE SAME PILE OF DIRT IS A GIFT TO A HABITAT AND A NUISANCE TO A REACTOR - which is why this plant's rejection path has to come out THROUGH the cover rather than into it."
+      ]
+    },
+    {
+      "id": "seis",
+      "label": "振动与选址：碰不得的不是频率，是包络",
+      "label_en": "Vibration and siting: the trap is not the carrier, it is the envelope",
+      "range": 45,
+      "detail": "sci-seis-01 给全城 24 h 连续振源定过线：10 m 处 ≤1.2e-6 m/s/√Hz。斯特林是 102 Hz 连续往复源，正面撞上这条线。而 pwr-grid-01 的火震支线卡早已埋好陷阱：**「50 Hz 本来就在地震频带之上」是错的辩护**——问题不在载波，在包络。本站因此得到一条设计规则，而这条规则顺手解决了另外两个问题。",
+      "detail_en": "sci-seis-01 set a line for every 24-hour source in the city: 1.2e-6 m/s/rtHz at 10 m. A Stirling is a continuous 102 Hz reciprocating source and walks straight into it. And pwr-grid-01's seismic-feeder card already laid the trap: '50 Hz is above the seismic band anyway' IS THE WRONG DEFENCE - the problem is not the carrier, it is the envelope. This plant therefore carries a design rule, and that rule happens to solve two other problems as well.",
+      "specs": {
+        "红线": "≤1.2e-6 m/s/√Hz @10 m（sci-seis-01 安静选址卡）",
+        "对置抵消后 8 台合成": "58.1 N rms @102 Hz",
+        "隔振": "弹性支座 f_n = 10 Hz → 102 Hz 处传递率 0.0097（103×）",
+        "10 m 处实测模型": "7.7e-10 m/s/√Hz —— **余量 1,554×**",
+        "102 Hz 吸收长度": "8.2 m（α = πf/QVs，Vs 175 m/s，Q 15）",
+        "候选 A 处衰减": "617 m 上 e^−75 —— 不是小数，是没有数",
+        "设计规则": "全时定功率运行，160 kWe 基荷，失超时阶跃到 320 kWe"
+      },
+      "specs_en": {
+        "Red line": "1.2e-6 m/s/rtHz at 10 m (sci-seis-01's quiet-siting card)",
+        "Eight modules after opposed cancellation": "58.1 N rms at 102 Hz",
+        "Isolation": "elastomeric mounts at f_n = 10 Hz -> transmissibility 0.0097 at 102 Hz (103x)",
+        "Modelled at the 10 m spec point": "7.7e-10 m/s/rtHz - MARGIN 1,554x",
+        "Absorption length at 102 Hz": "8.2 m (alpha = pi.f/QVs, Vs 175 m/s, Q 15)",
+        "Attenuation at candidate A": "e^-75 over 617 m - not a small number, not a number at all",
+        "Design rule": "constant thermal power at all times; 160 kWe baseload, step to 320 kWe on a quench"
+      },
+      "sim": [
+        "载波路径（闸 1、2）：用 sci-seis-01 自己的地层参数（Vs 175 m/s、ρ 1650、Q 15）。单活塞不平衡力 m·ω²·x = 20.5 kN，对置安装抵消到 1e-3（ASRG 级平衡），8 台非相干合成 58.1 N。Lysmer 半空间阻抗给基础速度，再按 1/√r · exp(−αr) 传播。**三种基础模型**：单模块 3 m 墩硬装 3.2×、共用 23×15 m 筏板 15×、筏板+隔振 **1,554×**。**3.2 倍不是余量，是抛硬币**，所以设计不依赖它：转换器对置于 f_n = 10 Hz 弹性支座上，这是普通机械工程做法，成本是橡胶。",
+        "**注意隔振器自身的 10 Hz 共振落在该站 SP 频带内**，所以它绝不能被激励：斯特林定频运行在 102 Hz（10.2 倍以上），启动时扫过 10 Hz 是一次有计划、通报过的事件，不是常态。",
+        "**闸 3，包络：这是本卡真正的内容。** 若本站跟随城市负荷，活塞振幅就跟着负荷走，等于把城市负荷曲线写进地里。低频不衰减：1e-5 Hz 上 α = 1.2e-8 /m，617 m 的衰减是 exp(−7.4e-6) = 0.999993。**没有任何距离能跑赢一条包络。** 这正是火震支线卡用来枪毙交流馈线的同一条论证（绕组力 ∝ I²，一个 sol 一次的 4.1 倍力比落在 ~1e-5 Hz）。",
+        "**设计规则（也是本站最划算的一笔）：全时定功率。** 八台常年 50% 运行，160 kWe 基荷送城，失超时才阶跃到 100%。恒定振幅 = 没有被调制的音调；阶跃是**台阶**不是音调——正是该卡当年为直流辩护时划下的那条区别。",
+        "**这条规则的代价与三重收益。** 160 kWe 常年运行等于让聚变站少出 160 kWe，按 pwr-grid-01 的 5.45 kWh/kg 折算是每会合窗口 0.55 kt 甲烷氧，对 618 kt 出口的 **0.089%**。用这 0.089% 同时买到：① 恒幅振源（本卡）；② **一台每一秒都在证明自己能转的备份**——待机电源的失效模式就是它起不来；③ 分钟级阶跃而不是 4~8 h 冷启动（见接入卡）。",
+        "方位这条杠杆算了但**没有用它定址**：从火震站看，候选 B 落在离矿场方位仅 24° 处（该站噪声预算已经承载了那个方位），候选 A 则开了一个 48° 的干净方位。**这是 sci-radio-01 零陷的地震镜像：对射电阵要躲进已有的零陷，对火震仪要躲在已有的振源背后。** 本站不靠它，是因为 102 Hz 在 8.2 m 吸收长度下任何方位都到不了；**但如果后续版本改用透平（几 Hz），这条就会变成决定性的，所以先记录在案。**",
+        "还能辐射的东西都点名排除：NaK 电磁泵（直线感应，无运动件，磁致伸缩在 kHz，比 VBB 带顶高六个数量级）；控制鼓（只在启停时动，十年两次）；辐射板（流速不足以产生流致振动，热胀是季节性斜坡不是音调）；冷却泵（**根本没有**——这就是为什么转换选型卡和本卡是同一个决定）。**诚实剩余风险**：102 Hz 可能激起 5.5 m 悬臂板的一阶弯曲模态，使大面积板变成对地辐射器。措施：板脚与筏板之间做弹性隔离，一阶频率作为**投运实测项**而不是假设。",
+        "**【第二轮 · 账 8 的回赠】** 本卡为杜绝低频包络，把「全时定功率、5 kW/s 限速」定成设计规则，并把代价算成 0.089% 的推进剂出口。账 8 建完直流母线时域模型后发现这条规则**同时**在买第二样东西：两个构网源（1 ms 的储能 PCS 与 32 s 爬坡的裂变）因此在时间常数上差四个数量级，**结构性地打不起来**，后跳闸工作点全部特征值 Re<0。**一条为地震定的约束，顺手把电力控制的稳定性也付清了。**",
+        "**【第三轮 · 账 15：本卡漏掉的那个振源，而且它不怕距离】** 本卡把机械噪声定性为「高频问题、靠距离解决」，并算出 102 Hz 载波在 617 m 上衰减到 e⁻⁷⁵。**这对斯特林是对的，对辐射板不成立。** 板的一阶弯曲模态在 3.62 Hz，**吸收长度 231 m 而不是 8.2 m**,617 m 上只衰减到 8.0e-8 m/s。而激励源也不是斯特林——**自由活塞机没有曲轴、没有齿轮、没有旋转不平衡，产生不了 1/28 次谐波**；真正的激励是**风的湍流抖振**，它一直都在。**这是本册第三次出现同一个模式**：我特地去查的那一项（账 12 的土丘视角、账 10 的法拉第笼、本卡的斯特林次谐波）都可以忽略，**而我没点名的那一项才是活的**。修正见 radiator 卡：中层横撑 + 1.5 Hz 板脚隔振，两者缺一不可。"
+      ],
+      "sim_en": [
+        "The carrier path (gates 1 and 2), on sci-seis-01's own ground parameters (Vs 175 m/s, rho 1650, Q 15). Single-piston unbalanced force m.omega^2.x = 20.5 kN, cancelled to 1e-3 by opposed mounting (ASRG-class balancing), summed incoherently across eight modules to 58.1 N. A Lysmer half-space impedance gives the foundation velocity, propagated as 1/sqrt(r).exp(-alpha.r). THREE FOUNDATION MODELS: a hard-mounted 3 m module pad gives 3.2x, a shared 23 x 15 m raft 15x, and raft plus isolation 1,554x. 3.2x IS NOT MARGIN, IT IS A COIN TOSS, so the design does not rely on it: converters sit opposed on elastomeric mounts at f_n = 10 Hz. That is ordinary machinery practice and it costs rubber.",
+        "NOTE THAT THE ISOLATOR'S OWN 10 Hz RESONANCE LIES INSIDE THAT STATION'S SP BAND, so it must never be excited: the Stirling runs at a fixed 102 Hz, 10.2x above it, and the startup sweep through 10 Hz is a scheduled, announced event rather than a normal condition.",
+        "GATE 3, THE ENVELOPE - THIS IS WHAT THE CARD IS ACTUALLY ABOUT. If this plant followed the city load, piston amplitude would track load and write the city's demand curve into the ground. Low frequencies do not attenuate: at 1e-5 Hz, alpha = 1.2e-8 /m and 617 m of attenuation is exp(-7.4e-6) = 0.999993. NO DISTANCE OUTRUNS AN ENVELOPE. This is the same argument the seismic-feeder card used to kill an AC feeder (winding forces go as I^2, and a 4.1x force ratio once per sol lands near 1e-5 Hz).",
+        "THE DESIGN RULE, AND THE BEST BARGAIN ON THIS SITE: CONSTANT THERMAL POWER AT ALL TIMES. All eight modules run at 50% year-round, exporting 160 kWe of baseload, and step to 100% only on a quench. Constant amplitude means no modulated tone, and a step change is a STEP, not a tone - exactly the distinction that card drew in favour of DC.",
+        "WHAT THE RULE COSTS, AND THE THREE THINGS IT BUYS. Running 160 kWe continuously displaces 160 kWe of fusion output, which pwr-grid-01 converts at 5.45 kWh/kg into 0.55 kt of methalox per synod - 0.089% of a 618 kt export. That 0.089% buys, simultaneously: (1) a constant-amplitude seismic source (this card); (2) A BACKUP THAT PROVES IT RUNS EVERY SECOND OF ITS LIFE - the failure mode of standby plant is that it does not start; (3) a minutes-long step to full power instead of a 4-8 h cold start (see the tie card).",
+        "The azimuth lever was computed and DELIBERATELY NOT USED TO PICK THE SITE: seen from the seismic vault, candidate B lies only 24 degrees off the bearing to res-mine-01 - an azimuth that station's noise budget already carries - while candidate A opens a clean one at 48 degrees. THIS IS THE SEISMIC MIRROR OF sci-radio-01's NULL: for the radio array you want to hide inside an existing null, for the seismometer you want to hide behind an existing source. It does not decide the site here because at 102 Hz with an 8.2 m absorption length nothing arrives on any azimuth - BUT IF A LATER REVISION ADOPTS A TURBINE AT A FEW Hz IT WOULD BECOME DECISIVE, so it is on the record.",
+        "Everything else that could radiate is named and excluded: the NaK electromagnetic pumps (linear induction, no moving parts, magnetostriction at kHz, six decades above the VBB top); the control drums (startup and scram only, twice a decade); the radiator panels (no flow velocity high enough for flow-induced vibration; thermal expansion is a seasonal ramp, not a tone); the coolant pumps (THERE ARE NONE - which is why the conversion card and this card are the same decision). HONEST RESIDUAL RISK: 102 Hz could excite the first bending mode of a 5.5 m cantilevered panel, turning a large area into a radiator of sound into the ground. Mitigation: panel footings are elastomerically isolated from the raft, and first-mode frequency is a COMMISSIONING MEASUREMENT, not an assumption.",
+        "SECOND ROUND - A GIFT BACK FROM LEDGER 8. This card imposed 'constant thermal power, 5 kW/s ramp limit' to kill the low-frequency envelope, and priced it at 0.089% of the propellant export. The DC-bus time-domain model in ledger 8 showed the same rule buys a second thing: it separates the two grid-forming sources - a 1 ms storage PCS against a 32 s fission ramp - by four decades in time constant, so they CANNOT FIGHT, and every eigenvalue at the post-trip operating point has Re < 0. ONE CONSTRAINT IMPOSED FOR SEISMIC REASONS PAID THE POWER-CONTROL STABILITY DEBT AS WELL.",
+        "THIRD ROUND, LEDGER 15 - THE SOURCE THIS CARD MISSED, AND IT DOES NOT FEAR DISTANCE. This card classified mechanical noise as 'a high-frequency problem solved by distance' and computed the 102 Hz carrier down to e^-75 at 617 m. THAT IS TRUE OF THE STIRLING AND FALSE OF THE RADIATOR PANELS. Their first bending mode sits at 3.62 Hz, where the absorption length is 231 m and not 8.2 m, so 617 m only takes it to 8.0e-8 m/s. And the exciter is not the Stirling either - a free-piston machine has no crank, no gearbox and no rotating unbalance, so it cannot generate a sub-harmonic at f/28. The live exciter is WIND BUFFETING, which is always present. THIS IS THE THIRD TIME THE SAME PATTERN HAS APPEARED IN THIS DOSSIER: the term I went looking for (ledger 12's berm view factor, ledger 10's Faraday cage, this card's Stirling sub-harmonic) was negligible, and THE ONE I HAD NOT NAMED WAS THE LIVE ONE. The fix is on the radiator card: a mid-height cross rail plus 1.5 Hz footing isolation, and neither alone is enough."
+      ],
+      "physics": [
+        "机械噪声是高频问题，靠距离解决；风噪声是低频问题，靠罩子和夜晚解决——sci-seis-01 安静卡的这句话在本站得到最极端的例证。滞弹衰减 α = πf/(QVs) 正比于频率：102 Hz 上 8.2 m 一个 e 折，1e-5 Hz 上 8.2e7 m 一个 e 折。**同一块地，对载波是黑洞，对包络是完全透明。** 于是所有的工程努力都必须花在「不产生低频包络」上，而不是花在「离得更远」上。",
+        "对置抵消的物理是一阶惯性力的矢量相消：两台同频反相的往复机，其 m·ω²·x 项符号相反。它不消二阶力（∝ 2ω），但自由活塞机的二阶项本来就小，且 204 Hz 更加远离任何人关心的频带。这也是为什么本站宁可要往复机也不要旋转机——旋转不平衡是**不可抵消**的（只能做动平衡，而残余量随磨损增长），往复不平衡可以靠对称布置结构性地消掉。"
+      ],
+      "physics_en": [
+        "Mechanical noise is a high-frequency problem solved by distance; wind noise is a low-frequency problem solved by a shroud and by night. sci-seis-01's own sentence gets its most extreme illustration here. Anelastic absorption alpha = pi.f/(Q.Vs) is proportional to frequency: one e-fold in 8.2 m at 102 Hz, one e-fold in 8.2e7 m at 1e-5 Hz. THE SAME GROUND IS A BLACK HOLE TO THE CARRIER AND PERFECTLY TRANSPARENT TO THE ENVELOPE. So all the engineering effort has to go into not generating a low-frequency envelope, not into standing further away.",
+        "Opposed cancellation is vector subtraction of the first-order inertial force: two reciprocating machines at the same frequency in antiphase carry m.omega^2.x terms of opposite sign. It does not cancel the second-order term at 2.omega, but a free-piston machine's second-order content is small to begin with and 204 Hz is even further from anything anyone cares about. It is also why a reciprocating machine is preferred here over a rotating one: rotating unbalance CANNOT be cancelled structurally - it can only be balanced, and the residual grows with wear - whereas reciprocating unbalance can be removed by symmetry."
+      ]
+    },
+    {
+      "id": "tie",
+      "label": "接入柜与黑启动：孤岛不再是秒表",
+      "label_en": "The tie cubicle and black start: the island stops being a stopwatch",
+      "range": 30,
+      "detail": "朝电网方向的接入柜与两条出线沟头。本站在 ±10 kV 直流干线上并网，并**另拉一条常开的直供地下城支线**——因为 pwr-grid-01 虽然厂内 N−1，它仍然是一栋楼。柜后是控制掩体（在土丘背面，山就是它的屏蔽），里面那只 30 kWh 电池是全站唯一的储能，也是黑启动的全部本钱。",
+      "detail_en": "The access cubicle facing the grid, with two outgoing trench heads. This plant ties in at the +/-10 kV DC trunk AND runs a second, normally-open feeder direct to the undercity - because pwr-grid-01 is N-1 inside the building but it is still one building. Behind it, on the far side of the mound where the hill is its shield, is the control bunker; the 30 kWh pack inside is the only stored energy on this site and the entire capital for a black start.",
+      "specs": {
+        "并网点": "±10 kV 直流双极干线（极间 20 kV），16.0 A",
+        "为什么不接区配": "同一段 793 m，1500 V 要 27.1 t 铝，20 kV 只要 153 kg（178×）",
+        "变换链": "8 × 有源整流 → 1500 V 模块母线 → 2 × 160 kW DC-DC（N−1）→ ±10 kV",
+        "双走廊": "G-R 进变电站（与聚变进线 G-A 分离 110°）+ G-S 常开直供地下城",
+        "黑启动能量": "7.5 kWh 需求 / 30 kWh 电池 = 4.0×（约 200 kg）",
+        "冷启动 → 满功率": "4~8 h（电池桥 33 h，余量 4.1×）；热态阶跃：分钟级",
+        "对照聚变复电": "数周",
+        "母线最深跌落（账 8 实测）": "−1.12%（电池 450 kW，PCS 余量 4.4×）",
+        "切换总耗电（账 8）": "2.32 kWh = 全城储能的 0.012%",
+        "EMC 要求（账 10）": "共模电流 ≤1.7 µA/100 kHz → 0.5 MHz 处 42 dB"
+      },
+      "specs_en": {
+        "Connection point": "+/-10 kV bipolar DC trunk (20 kV pole-to-pole), 16.0 A",
+        "Why not the district bus": "over the same 793 m, 1500 V needs 27.1 t of aluminium against 153 kg at 20 kV (178x)",
+        "Conversion chain": "8 active rectifiers -> 1500 V module bus -> 2 x 160 kW DC-DC (N-1) -> +/-10 kV",
+        "Two corridors": "G-R into the substation (110 deg off the fusion incomer G-A) + G-S normally open, direct to the undercity",
+        "Black-start energy": "7.5 kWh needed against a 30 kWh pack = 4.0x (about 200 kg)",
+        "Cold start to full power": "4-8 h against a 33 h battery bridge, 4.1x margin; from hot standby, minutes",
+        "For comparison, fusion restart": "weeks",
+        "Worst bus excursion (ledger 8)": "-1.12% (battery 450 kW, 4.4x PCS margin)",
+        "Energy cost of the handover": "2.32 kWh = 0.012% of the city store",
+        "EMC requirement (ledger 10)": "CM current <= 1.7 uA per 100 kHz -> 42 dB at 0.5 MHz"
+      },
+      "sim": [
+        "**电压选择用 pwr-grid-01 自己的质量律复算，不是遵从。** 该册阀厅卡的工作例：1,126 m 送 400 kW、20 kV 极间、20 A、271 kg 铝。按 m ∝ 1/V² 缩放到本站的 793 m / 320 kW：20 kV 要 **153 kg**，1500 V 区配要 **27.1 t**（178 倍），400 V 要 382 t。同一条式子，同一个答案。而且本站本来就产直流——斯特林直线发电机出 102 Hz 单相，在模块内就整流掉。**全站没有一处工频磁性元件，火震支线卡对西部科学支路的那条规则在本站是构造性满足的。**",
+        "**没人点名的那个单点：pwr-grid-01 自己。** 它厂内 N−1（2 × 4 MVA 变流块），但它是一栋楼。两个电源都落在同一条母线上，等于把本站要消除的单点故障又造了一遍。交付方案是**两条走廊**：G-R 主路进变电站直流母线，且从与聚变进线 G-A 相反的象限进（候选 A 处分离 110°）；G-S 副路常开，直通 hab-tunnel-01 地下城 1500 V 区节点，失去变电站时闭合。G-S 只带 T1+作物存活的 127 kW，每公里约 86 kg 铝——用一笔零头买断本册否则会视而不见的那个资产。**两条走廊都归总控铺设（MODELS.md 门口规矩），本模块只做接入柜与几米短接。**",
+        "**黑启动：备份电源的价值核心。** 自由活塞斯特林**靠热自启动**，不需要电动盘车（KRUSTY 即如此）。钠热管在 215 K 是冻的（钠 371 K 熔化），教科书陷阱是「唯一的冷却通道被冻住了」——这里不成立：先让堆芯在几 kW 临界，固体堆芯块的热传导足以带走，热管从蒸发段向外自行解冻。**不需要电加热解冻。** 于是黑启动清单只剩控制鼓转动 0.5 kWh、仪控 12 h 6.0 kWh、斯特林控制器励磁 1.0 kWh，合计 **7.5 kWh**。30 kWh 电池给 4 倍余量，约 200 kg。**这是全站唯一的储能。**",
+        "时间账：冷启动 4~8 h（受热管浸润与热应力速率限制，不受中子学限制——快堆几乎没有氙）。**电池桥是 1.33 sol = 33 h，余量 4.1 倍。** 而热态（50% 基荷，正常状态）阶跃到满功率只要分钟。**真正在赛跑的对手是「失超后聚变复电要数周」，本站赢三个数量级。**",
+        "下垂协调：两个构网源在同一条直流母线上，要在**频域**而不是幅度上分工。裂变 DC-DC 走 2% V-P 下垂并限速 5 kW/s——慢而硬，定住母线均值、供能量；储能 PCS 走虚拟电容（响应 dV/dt）——快而软，吃掉全部暂态、稳态出力为零。两者永不争夺设定点。**这不是新控制模式**，正是 pwr-storage-01 现在对聚变站跑的那套分工，只是慢角色换人。",
+        "切换序列：t=0 聚变变流器封锁、进线分闸 → t<1 ms 储能 PCS（2 MW）接住全城 610 kW 不减载负荷 → t=0~60 s 裂变按 5 kW/s 从 160 爬到 320 kWe（32 s）→ t≈5 min 减载梯到 T1+T2+T2c 的 275 kW ≤ 320 kW → **电池净电流归零并开始回充**。",
+        "**闸 3：孤岛还是不是秒表？** pwr-grid-01 说「孤岛是一只秒表，不是一堵墙」：20 MWh ÷ 610 kW = 1.33 sol，T1+T2 则 3.7 sol。**接上本站（N−1 的 280 kWe firm）之后，275 kW 的受保护层净电池消耗为 −5 kW —— 秒表停了。** 那 20 MWh 于是彻底换了工作：它不再是让人活下去的东西，而是桥接 60 秒的东西，并转为对 N−2 裂变事件的**后备**，在 T1 上仍值 10.4 sol。",
+        "**衰变热与邻居的不对称，值得单独说一句。** pwr-fusion-01 全站失电时必须把 15 GJ 环向场储能倒进 100 t 电阻体，因为维持磁体低温要 71 MWh、是全城储能的 3.6 倍。本站的同一事件成本为零：它只是变热，然后辐射掉。**这不是细节，这就是「为什么备份该是一台裂变机」——它的安全状态是被动的，它的复电以小时计。**",
+        "**【第二轮 L2 · 账 8：这张卡被自己的时域模型改了】** 本卡原写「储能 PCS 走虚拟电容（响应 dV/dt）、稳态出力为零」。建直流母线时域模型（全网络含馈线 1.4 mH 与 0.8 mF，前 2 s 全解、其后按奇异摄动降阶，两模型在重叠窗内差 0.0003%）后，**这条控制律是错的**：零直流增益的电源撑不住持续缺额——裂变饱和在 320 kW 之后，洗出滤波把电池贡献衰减掉，**母线在 t=3,817 s 跌破 −10% 并继续下滑到 −15%**。**交付改为**：PCS 保持普通 5% 下垂（非零直流增益），「稳态为零」由**裂变侧二次调节**慢慢把设定点走到电池读零来实现。标准的分层控制——原卡把「稳态归零」这项工作派给了错误的机器。",
+        "**切换实测（账 8）**：t=0 聚变封锁 → 母线最深跌落 **−1.12%**（电池以 2 kW/V 下垂接住 450 kW，只要 225 V 偏差）→ 裂变按 5 kW/s 爬升，t=32 s 到 301 kW → t=120 s 电池回到 +2.7 kW → t≥300 s 裂变 266 kW、电池归零。**全过程电池只出 2.32 kWh = 全城储能的 0.012%**。峰值电池功率 450 kW 对 2 MW PCS 有 4.4 倍余量。**孤岛曾经是能量问题，切换之后连能量问题都不是。**",
+        "**新结论（账 8）：减载梯买的是续航，不是稳定。** 本卡原来暗示减载梯对接管本身是承重的。不是——PCS 带真实下垂时，不减载的 610 kW 对 320 kW 裂变只是让母线按缺额比例**下垂 0.73% 并稳住**，一直到 20 MWh 在 2.80 sol 后耗尽为止。**没有崩溃，只有一只更慢的秒表。** 减载从 2 s 推迟到「永不」，最深跌落只从 −1.124% 变到 −1.095%。",
+        "**稳定性（账 8，小信号）**：后跳闸工作点全部特征值 Re<0，最慢极点是 87 s 的二次调节环。馈线 LC 模态 **336 Hz、ζ=0.21**（解析式与特征值差 1.6%）。经典的直流微网失稳是恒功率负荷的**负增量电阻**吃掉线路电阻——本网需要 **317 MW** 的母线负荷才会发生，是 ISRU 战役峰值的 121 倍、全城峰值的 295 倍。**不是本站的活故障模式，而原因很平凡：793 m 铝馈线是有电阻的。**超导或极短馈线上这条余量会蒸发。**而两个构网源之所以打不起来是结构性的**——1 ms 对 32 s 的爬坡，差四个数量级。**账 7 那条为地震定的 5 kW/s 限速，同时也是让这个控制回路平凡稳定的东西。**",
+        "**【第二轮 L1 · 账 10：EMC 这条我声明过却没算过，现在算了，而且两处说错】** 本卡曾把焊封钢衬里法拉第笼称作「唯一的承重措施」并只给了一句话。做完排放链路预算：**① 天线不是设备，是那条 793 m 馈线**（0.5 MHz 上 1.32λ,10 MHz 上 26λ）。衬里挡的是设备的直接辐射，对沿馈线导出的共模电流毫无作用，而风化层在 HF 完全透明。**承重的是穿墙共模滤波器与联结电缆屏蔽，不是笼子。** **② 难度被夸大了**：用 sci-radio-01 自己的两个判据独立推导（W/Hz 容限路线 3.53 µA、−91.7 dBm 杂散限路线 1.68 µA，相差 6.5 dB），要求是**共模电流 ≤1.7 µA/100 kHz 通道**，对应 **0.5 MHz 处 42 dB 抑制**——一只共模扼流圈加一层联结屏蔽就够，是普通安装规范，不是艰难让步。",
+        "**别给变流器加扩频抖动（账 10，反直觉且必须写死）**：商用 EMC 的标准做法是抖动开关频率把谐波抹开以压低准峰值读数。**用在这里是有害的。** 稳定的谱线落在已知频率上，射电阵把那个通道标记掉即可——廉价、无损、标准做法；**被抖开的谱线变成无法标记的宽带污染，因为不再有干净通道可作对照**。抖动是拿「少数通道全损」换「全部通道小损」，而射电天文宁要前者。**交付规范四条**：① 馈线共模抑制 ≥42 dB，以钳形电流表实测验收，不接受「机柜密封」这种说法;② 开关时钟锁到全城时基（sci-seis-01 那条链,sci-cray-01 已共用），让梳状谱落在可预判的固定栅格上;③ **禁用扩频抖动，且必须写进采购规格——所有商用变流器出厂默认是开的**;④ 装料前先用阵列做一次投运扫频（变流器可以先挂城网跑）。"
+      ],
+      "sim_en": [
+        "THE VOLTAGE CHOICE IS RE-DERIVED ON pwr-grid-01's OWN MASS LAW, not deferred to. Their valve-hall worked example: 1,126 m delivering 400 kW at 20 kV pole-to-pole, 20 A, 271 kg of aluminium. Scaling by m ~ 1/V^2 to this plant's 793 m and 320 kW: 20 kV needs 153 kg, the 1500 V district bus needs 27.1 t (178x), and 400 V needs 382 t. Same expression, same answer. The plant makes DC natively anyway - the Stirling linear alternators put out 102 Hz single phase and it is rectified inside the module. THERE IS NO LINE-FREQUENCY MAGNETIC COMPONENT ANYWHERE ON THIS SITE, so the seismic-feeder card's rule for the western science branch is satisfied by construction.",
+        "THE SINGLE POINT NOBODY NAMED: pwr-grid-01 ITSELF. It is N-1 inside the building (2 x 4 MVA converter blocks) but it is one building. Landing both sources on one busbar rebuilds exactly the single point of failure this plant exists to remove. The delivered answer is TWO CORRIDORS: G-R primary into the substation's DC busbar, entering from the opposite quarter to the fusion incomer G-A (110 degrees apart at candidate A); and G-S secondary, normally open, running direct to hab-tunnel-01's undercity 1500 V district node and closing on loss of the substation. G-S carries only T1 plus crop survival, 127 kW, at about 86 kg of aluminium per kilometre - small change to close out the one asset this dossier would otherwise have ignored. BOTH CORRIDORS ARE MAIN CONTROL'S TO LAY (MODELS.md doorstep rule); this module builds the cubicle and a few metres of stub.",
+        "BLACK START - THE VALUE CORE OF A BACKUP. A free-piston Stirling SELF-STARTS ON HEAT and needs no motoring (KRUSTY did exactly this). The sodium heat pipes are frozen at 215 K (sodium melts at 371 K), and the textbook trap is that the only cooling path is frozen - which does not apply: take the core critical at a few kW first, let conduction through the solid core block carry it, and the pipes thaw from the evaporator outward. NO ELECTRIC THAW IS REQUIRED. The black-start list is then only 0.5 kWh to rotate the drums, 6.0 kWh for 12 h of I&C and 1.0 kWh of Stirling controller excitation: 7.5 kWh total. A 30 kWh pack gives 4x margin at about 200 kg. IT IS THE ONLY STORED ENERGY ON THIS SITE.",
+        "The time account: a cold start is 4-8 h, limited by heat-pipe wetting and a controlled thermal ramp rather than by neutronics (a fast core has almost no xenon). THE BATTERY BRIDGE IS 1.33 sol = 33 h, A MARGIN OF 4.1x. From hot standby - 50% baseload, the normal state - the step to full power is minutes. THE ACTUAL COMPETITOR IS 'FUSION TAKES WEEKS TO COME BACK AFTER A QUENCH', AND THIS PLANT WINS BY THREE ORDERS OF MAGNITUDE.",
+        "Droop coordination: two grid-forming sources on one DC bus must be separated in FREQUENCY, not in magnitude. The fission DC-DC runs a 2% V-P droop with a 5 kW/s ramp limit - slow and stiff, holding the bus average and supplying energy; the storage PCS runs virtual capacitance, responding to dV/dt - fast and soft, absorbing every transient with zero steady output. They never argue about the set-point. THIS IS NOT A NEW CONTROL MODE - it is the split pwr-storage-01 already runs against the fusion plant, with a different occupant in the slow role.",
+        "Switchover: t = 0, the fusion converter blanks and the incomer opens; t < 1 ms, the 2 MW storage PCS picks up the city's whole 610 kW unshed load; t = 0-60 s, fission ramps 160 -> 320 kWe at 5 kW/s (32 s); t ~ 5 min, the shed ladder reaches T1+T2+T2c at 275 kW, which is under the 320 kW available; and THE BATTERY'S NET CURRENT GOES TO ZERO AND IT BEGINS TO RECHARGE.",
+        "GATE 3: IS THE ISLAND STILL A STOPWATCH? pwr-grid-01 says 'islanding is a stopwatch, not a wall' - 20 MWh / 610 kW = 1.33 sol, or 3.7 sol at T1+T2. WITH THIS PLANT AT ITS N-1 FIRM 280 kWe, the 275 kW protected tier draws -5 kW net from the battery. THE STOPWATCH STOPS. Those 20 MWh change job completely: no longer the thing keeping people alive, but the thing bridging sixty seconds - and RESERVE against an N-2 fission event, where at T1 it is still worth 10.4 sol.",
+        "THE ASYMMETRY WITH THE NEIGHBOUR IS WORTH ONE SENTENCE OF ITS OWN. On a total blackout pwr-fusion-01 must dump 15 GJ of toroidal-field energy into 100 t of resistor, because holding the magnets cold would take 71 MWh - 3.6x the entire city store. The same event costs this plant nothing at all: it gets warm and radiates. THAT IS NOT A DETAIL, IT IS THE WHOLE REASON THE BACKUP SHOULD BE A FISSION MACHINE - its safe state is passive and its restart is measured in hours.",
+        "SECOND ROUND, L2, LEDGER 8 - THIS CARD WAS CORRECTED BY ITS OWN TIME-DOMAIN MODEL. It used to say the storage PCS 'responds to dV/dt, zero average'. Building the DC-bus model (full network with the 1.4 mH feeder and 0.8 mF of link capacitance for the first 2 s, then a singular-perturbation reduction; the two agree to 0.0003% in the overlap) shows that control law is WRONG: a source with zero DC gain cannot hold a sustained deficit. Once fission saturates at 320 kW the washout decays the battery's contribution and THE BUS FALLS THROUGH -10% AT t = 3,817 s and keeps going to -15%. DELIVERED INSTEAD: the PCS keeps an ordinary 5% droop (non-zero DC gain) and the 'zero average' is produced by a SECONDARY controller on the FISSION side, walking its setpoint until the battery reads zero. Standard hierarchical control - the card had given the zero-average job to the wrong machine.",
+        "THE SWITCHOVER, MEASURED (ledger 8): at t = 0 the fusion converter blanks and the bus dips to -1.12% (the battery's 2 kW/V droop picks up 450 kW on 225 V of deviation); fission ramps at 5 kW/s and reaches 301 kW by t = 32 s; the battery is back to +2.7 kW by t = 120 s; and beyond t = 300 s fission carries 266 kW with the battery at zero. THE WHOLE TRANSIENT COSTS 2.32 kWh - 0.012% of the city store. Peak battery power is 450 kW against a 2 MW PCS, 4.4x margin. Islanding used to be an energy problem; after the handover it is not even that.",
+        "NEW RESULT (ledger 8): THE SHED LADDER BUYS ENDURANCE, NOT STABILITY. This card implied the ladder was load-bearing for the takeover itself. It is not. With a real droop on the PCS, an unshed 610 kW against 320 kW of fission simply sags the bus 0.73% in proportion to the deficit and HOLDS THERE, until the 20 MWh runs out after 2.80 sol. No collapse, just a slower stopwatch. Moving the shed from 2 s to never moves the worst excursion from -1.124% to -1.095%.",
+        "STABILITY (ledger 8, small signal): every eigenvalue at the post-trip operating point has Re < 0, the slowest pole being the 87 s secondary loop. The feeder LC mode sits at 336 Hz with zeta = 0.21 (analytic and eigenvalue agree to 1.6%). The classic DC-microgrid instability - constant-power loads' NEGATIVE incremental resistance cancelling the line resistance - would need 317 MW on this bus, 121x the ISRU campaign peak and 295x the whole city peak. NOT A LIVE FAILURE MODE HERE, for the mundane reason that a 793 m aluminium feeder is a resistive one; on a superconducting or very short feeder the margin evaporates. And the two grid-forming sources cannot fight because they are separated STRUCTURALLY - 1 ms against a 32 s ramp, four decades apart. THE 5 kW/s LIMIT LEDGER 7 IMPOSED FOR SEISMIC REASONS IS ALSO WHAT MAKES THIS CONTROL LOOP TRIVIALLY STABLE.",
+        "SECOND ROUND, L1, LEDGER 10 - I DECLARED THIS ONE LOAD-BEARING WITHOUT COMPUTING IT, AND GOT TWO THINGS WRONG. This card called the welded steel liner 'the single load-bearing measure' and gave it one sentence. With the emission link budget built: (1) THE ANTENNA IS NOT THE EQUIPMENT, IT IS THE 793 m FEEDER (1.32 wavelengths at 0.5 MHz, 26 at 10 MHz). A liner attenuates what the equipment radiates directly and does nothing about common-mode current conducted out along the cable, while regolith is transparent at HF. THE LOAD-BEARING ITEMS ARE THE FEEDTHROUGH COMMON-MODE FILTER AND THE BONDED CABLE SCREEN, NOT THE CAGE. (2) THE DIFFICULTY WAS OVERSTATED: derived twice from sci-radio-01's own numbers - 3.53 uA from their W/Hz allowance and 1.68 uA from their -91.7 dBm spurious limit, 6.5 dB apart - the requirement is a common-mode current below 1.7 uA per 100 kHz channel, i.e. 42 dB of suppression at 0.5 MHz. One common-mode choke plus a bonded screen. Ordinary installation practice, not a hard-won concession.",
+        "DO NOT DITHER THE CONVERTERS (ledger 10 - counter-intuitive, and it has to be written down). Standard commercial EMC practice is to dither the switching frequency so harmonics smear and the quasi-peak reading drops. HERE IT IS HARMFUL. A stable line sits at a known frequency and a radio array flags that channel - cheap, lossless, standard. A DITHERED line becomes broadband contamination that cannot be flagged, because no clean channel is left to flag against. Dithering trades a total loss of a few channels for a small loss of all of them, and radio astronomy much prefers the former. DELIVERED SPECIFICATION: (1) common-mode suppression >= 42 dB on the feeder, accepted as a CLAMP-METER CURRENT MEASUREMENT and not as an enclosure claim; (2) switching clock phase-locked to the city time reference (sci-seis-01's chain, already shared by sci-cray-01) so the comb lands on a predictable grid; (3) NO spread-spectrum dithering, written into the purchase specification because every commercial converter ships with it enabled; (4) a commissioning sweep with the array as receiver before the reactor is fuelled - the converters can run on the city bus first."
+      ],
+      "physics": [
+        "帕邢陷阱在本站是构造性回避的：全站唯一超过 249 V 的部位都在焊封钢衬里或固体绝缘内，因为 6 mbar CO₂ 下任何毫米级气隙在 249 V 就击穿（pwr-grid-01 母线卡）。而钢衬里同时是**法拉第笼**——这一点必须点破：**风化层在 HF 波段是透明的**，3 MHz 上趋肤深度约 3 km，所以「埋起来」对射频屏蔽的贡献是**零**。sci-radio-01 的 30 dB 零陷对准城区，本站落在城区方位之外，**得不到零陷保护**。因此钢衬里加穿墙滤波器不是可选项，它是本站满足全城 HF 排放纪律的唯一承重措施。",
+        "直流母线上没有旋转电机，所以短路电流没有次暂态分量——每一个电源都是可以被叫停的变流器（pwr-grid-01 账 7）。本站的加入不改变这条：斯特林后面是有源整流器，故障时封锁即停。这也是为什么本站的接入不需要重新做全网短路计算，只需要把两台 DC-DC 的限流电抗计进去。"
+      ],
+      "physics_en": [
+        "The Paschen trap is avoided here by construction: everything above 249 V lives inside a welded steel liner or in solid insulation, because in 6 mbar of CO2 any millimetre-scale gap breaks down at 249 V (pwr-grid-01's busduct card). That liner is simultaneously a FARADAY CAGE - and this has to be said plainly: REGOLITH IS TRANSPARENT AT HF. The skin depth at 3 MHz is about 3 km, so burial contributes exactly ZERO RF attenuation. sci-radio-01's 30 dB null is aimed at the city, and this plant sits outside the city's azimuth sector, so IT GETS NO PROTECTION FROM THAT NULL. The steel liner plus feedthrough filters is therefore not an option but the single load-bearing measure by which this site meets the city's HF emission discipline.",
+        "There is no rotating machine on the DC bus, so a short circuit has no subtransient contribution - every source is a converter that can be told to stop (pwr-grid-01, ledger 7). Adding this plant does not change that: an active rectifier sits behind each Stirling and blanking stops it. Which is why this connection does not require the network short-circuit study to be redone - only the two DC-DC limiting reactors need to be added to it."
+      ]
+    }
+  ]
+}
