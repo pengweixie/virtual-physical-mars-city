@@ -9,8 +9,12 @@
 //   「一舱三主粮」一眼读懂;并留一层「刚收割空盘」作状态对照。
 // 水/氧/CO₂ 不另立账:全部挂 res-eclss-01 的 115 人总账(见 info 卡)。
 // 质感六招:beam 桁架层架/反光灯槽/安全橙检修马道栏杆/滴灌歧管+滴头/工业收边/尘膜。
+// 夜测仪表(应 pwr-fission-01 crop 卡之请,账见 mars-grain/ledger/night_co2_ledger.py):
+//   三组各一支 NDIR CO₂/T 传感杆 + 门侧夜测仪表柜 + 门框琥珀「封舱测试」信标(blinkMats)
+//   —— 夜里封舱测 CO₂ 上升率(预计 ~656 ppm/h),直接量出维持通量 M=m×B,
+//   把存活负荷蒙卡的两条主导不确定带一次删掉(53.1 vs 阈值 53.7 kW,纸面裁不了)。
 // 动画:声明式 —— spinners(循环风机×3 + 营养液泵) · oscillators(收获桁架沿 x)
-//   · nightMats(补光条/状态灯/门灯)。无累积状态。
+//   · nightMats(补光条/状态灯/门灯) · blinkMats(封舱信标)。无累积状态。
 
 export const meta = {
   id: 'res-grain-01',
@@ -264,13 +268,28 @@ export function build(THREE) {
   g.add(gantry);
   box(g, L - 1, 0.2, 0.3, M.steel, 0, 6.35, 1.4);                        // 顶轨
 
-  /* ===================== 门 + 门灯(左墙服务舱门:框+扇+闩+双铰) ===================== */
-  box(g, 0.12, 2.3, 1.5, M.trim, -L / 2 + 0.14, 1.2, 4.6);
-  box(g, 0.08, 2.0, 1.2, M.steel, -L / 2 + 0.2, 1.15, 4.6);
-  box(g, 0.06, 0.26, 0.09, M.rackD, -L / 2 + 0.24, 1.15, 4.28);          // 闩
-  box(g, 0.06, 0.1, 0.14, M.rackD, -L / 2 + 0.24, 1.9, 5.05);           // 铰
-  box(g, 0.06, 0.1, 0.14, M.rackD, -L / 2 + 0.24, 0.5, 5.05);
-  box(g, 0.06, 0.22, 0.5, doorLit, -L / 2 + 0.22, 2.55, 4.6);
+  /* ===================== 门 + 门灯(左墙服务舱门:框+扇+闩+双铰,外立面外凸) ===================== */
+  box(g, 0.12, 2.3, 1.5, M.trim, -L / 2 - 0.05, 1.2, 4.6);              // 密封框
+  box(g, 0.1, 2.0, 1.2, M.steel, -L / 2 - 0.1, 1.15, 4.6);              // 门扇
+  box(g, 0.07, 0.26, 0.09, M.rackD, -L / 2 - 0.17, 1.15, 4.28);         // 闩
+  box(g, 0.07, 0.1, 0.14, M.rackD, -L / 2 - 0.15, 1.9, 5.08);           // 铰 ×2
+  box(g, 0.07, 0.1, 0.14, M.rackD, -L / 2 - 0.15, 0.5, 5.08);
+  box(g, 0.08, 0.22, 0.5, doorLit, -L / 2 - 0.08, 2.55, 4.6);           // 门灯
+
+  /* ===================== 夜测 CO₂ 仪表(应 pwr-fission-01 之请) ===================== */
+  // 琥珀「封舱测试」信标:亮 = 封舱测量中、任何人不得进入(把 2% 的人呼吸项按规程钉在零)
+  const sealBeacon = new THREE.MeshStandardMaterial({ color: 0x2a1c05, emissive: 0xffa020,
+    emissiveIntensity: 0.9, roughness: 0.5 });
+  box(g, 0.12, 0.18, 0.34, sealBeacon, -L / 2 - 0.08, 2.95, 4.6);       // 门框上方信标(外立面)
+  // NDIR CO₂/T 传感杆 ×3(每作物组一支,立在组前沿走道边)
+  for (const sx of [-9.8, 0.6, 9.8]) {
+    box(g, 0.07, 2.3, 0.07, M.rackD, sx, 1.15, 3.15);                    // 杆
+    box(g, 0.22, 0.3, 0.16, M.steel, sx, 2.42, 3.15);                    // NDIR 传感头
+    box(g, 0.06, 0.06, 0.05, okLit, sx, 2.3, 3.24);                      // 采样指示
+  }
+  // 夜测仪表柜(门侧:记录仪 + 显示屏)
+  box(g, 0.5, 1.5, 0.9, M.trim, -L / 2 + 0.55, 0.75, 3.0);
+  box(g, 0.05, 0.42, 0.6, grow, -L / 2 + 0.82, 1.05, 3.0);               // 屏(夜里同补光色发光)
 
   /* ===================== 作业痕迹:前坪车辙 + 散石 ===================== */
   for (const rz of [D / 2 + 1.2, D / 2 + 2.6]) box(g, L, 0.03, 0.5, M.slab, 0, 0.03, rz);
@@ -308,9 +327,10 @@ export function build(THREE) {
     { node: 'harvest_gantry', prop: 'position', axis: 'x', amp: 11, period: 20 },
   ];
   g.userData.nightMats = nightMats;
+  g.userData.blinkMats = [sealBeacon];   // 封舱测试信标:引擎驱动闪烁
   g.userData.lights = [
     { color: 0xff6faa, pos: [0, 3.2, 1.2], range: 34 },
-    { color: 0xffc37a, pos: [-L / 2 + 1, 2.5, 4.6], range: 10 },
+    { color: 0xffc37a, pos: [-L / 2 - 1, 2.5, 4.6], range: 10 },
   ];
   return g;
 }

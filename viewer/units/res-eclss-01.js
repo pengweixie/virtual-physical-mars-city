@@ -249,16 +249,29 @@ export function build(THREE) {
     kiln.position.set(PX + 0.4, 2.4, PZ + 1.9);
     kiln.rotation.z = -4 * Math.PI / 180;
     g.add(kiln);
-    cyl(0.72, 0.72, 6.4, M.hot, 0, 0, 0, 14, kiln).rotation.z = Math.PI / 2;
-    // 齿圈与托轮（动力核心可见）
-    for (const dx of [-1.8, 1.6]) {
-      const ring = cyl(0.86, 0.86, 0.22, M.steel, dx, 0, 0, 16, kiln);
-      ring.rotation.z = Math.PI / 2;
-    }
-    const gear = cyl(1.02, 1.02, 0.3, M.dark, -1.8, 0, 0, 18, kiln);
-    gear.rotation.z = Math.PI / 2;
+    // 朝向(kilnAxis) 与自转(barrel) 分两层：回转窑是整只筒带着齿圈转，
+    // 只让齿圈转、筒不动在几何上就是错的；而朝向与自转叠在同一节点上，
+    // 欧拉 XYZ 复合又会让筒轴摆动而不是自转。
+    const kilnAxis = new THREE.Group();
+    kilnAxis.rotation.z = Math.PI / 2;
+    kiln.add(kilnAxis);
+    const barrel = new THREE.Group();
+    barrel.name = 'perc_barrel';
+    kilnAxis.add(barrel);
+    cyl(0.72, 0.72, 6.4, M.hot, 0, 0, 0, 14, barrel);    // 筒身（局部 +Y = 窑轴）
+    for (let k = 0; k < 3; k++)                          // 纵向焊缝条：光面筒转了看不出来
+      box(0.10, 6.2, 0.10, M.steel,
+        Math.cos(k * 2.0944) * 0.75, 0, Math.sin(k * 2.0944) * 0.75, barrel);
+    for (const dy of [-1.8, 1.6])                        // 托轮滚圈
+      cyl(0.86, 0.86, 0.22, M.steel, 0, dy, 0, 16, barrel);
+    const gear = cyl(1.02, 1.02, 0.3, M.dark, 0, -1.8, 0, 18, barrel);
     gear.name = 'perc_gear';
-    spinners.push({ node: 'perc_gear', axis: 'y', rpm: 6 });
+    for (let k = 0; k < 12; k++) {                       // 齿圈随筒一起转（girth gear）
+      const a = k / 12 * Math.PI * 2;
+      box(0.15, 0.34, 0.15, M.steel,
+        Math.cos(a) * 1.06, 0, Math.sin(a) * 1.06, gear).rotation.y = -a;
+    }
+    spinners.push({ node: 'perc_barrel', axis: 'y', rpm: 6 });
     box(1.0, 0.9, 0.9, M.grey, PX - 1.6, 1.5, PZ + 1.9);        // 传动电机壳
     cyl(0.22, 0.22, 0.6, M.dark, PX - 1.05, 1.9, PZ + 1.9, 10).rotation.z = Math.PI / 2;
     // 保温外壳（半开：只做背侧与顶，前侧露筒身）
@@ -356,10 +369,18 @@ export function build(THREE) {
       box(3.2, 1.5, 1.9, M.white, x, 1.15, CZ - 0.5);           // 机体
       box(3.4, 0.18, 2.1, M.grey, x, 1.95, CZ - 0.5);           // 顶压条
       box(1.5, 1.1, 1.3, M.dark, x - 1.9, 0.95, CZ - 0.5);      // 电机
-      // 飞轮 / 联轴护罩（动力核心可见）
-      const fw = cyl(0.62, 0.62, 0.22, M.steel, x + 1.85, 1.15, CZ - 0.5, 14);
-      fw.rotation.z = Math.PI / 2;
+      // 飞轮（动力核心可见）。朝向交给 pivot、自转交给网格自身的 y 轴：
+      // 若把朝向 rotation.z 和自转 rotation.y 叠在同一个节点上，欧拉 XYZ 复合
+      // 会让轮轴在 XZ 平面里摆动而不是自转——光面圆柱看不出来，加了辐条就露馅。
+      const fwPivot = new THREE.Group();
+      fwPivot.position.set(x + 1.85, 1.15, CZ - 0.5);
+      fwPivot.rotation.z = Math.PI / 2;
+      g.add(fwPivot);
+      const fw = cyl(0.62, 0.62, 0.22, M.steel, 0, 0, 0, 14, fwPivot);
       fw.name = 'comp_fw_' + i;
+      for (let sp = 0; sp < 2; sp++)                     // 十字轮辐（略厚于轮盘，转起来才读得出）
+        box(0.09, 0.26, 1.10, M.dark, 0, 0, 0, fw).rotation.y = sp * Math.PI / 2;
+      box(0.13, 0.30, 0.13, M.orange, 0.46, 0, 0, fw);   // 轮缘配重销
       spinners.push({ node: 'comp_fw_' + i, axis: 'y', rpm: 110 });
       // 级间冷却器（翅片）
       for (let k = 0; k < 6; k++)

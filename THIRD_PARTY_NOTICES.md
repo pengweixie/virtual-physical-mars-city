@@ -19,7 +19,7 @@
 - `models/crystal/2/base_tex.glb`(魔幻城水晶王城)由项目所有者
   使用其订阅账号通过生成式 3D 服务创建,商用权利归项目所有者,
   随本仓库资产许可(CC BY 4.0)分发。
-- `viewer/audio/*.m4a`(环境配乐 "Quiet Infrastructure"、"Glass Moon Halo")
+- `viewer/audio/*.m4a`(环境配乐 "Quiet Infrastructure"、"Glass Moon Halo"、"Bedrock Pulse")
   由项目所有者使用其 Suno 付费订阅账号生成,商用权利归项目所有者,
   随本仓库资产许可(CC BY 4.0)分发。
 

@@ -66,13 +66,13 @@
       },
       "sim": [
         "账2:波束 FWHM 36°@3 MHz(第一旁瓣 −16 dB)/ 10.6°@10 MHz;SEFD 6.8e5 Jy@3 MHz,1 s×100 kHz 灵敏度 ~2e3 Jy;太阳 III 型暴(1e-17 W/m²/Hz 折算 1.52 AU)SNR ≈ 2e4。",
-        "账2(零陷):自适应零陷深度 = 定标残差地板 σ²/N,10%/5° 给 32 dB、3%/2° 给 41 dB(N=28),设计取 30 dB。",
+        "账2(零陷)→账11(实算取代估计):残差地板估计给 32/41 dB,但账11 用**实际 28 桩位姿 + manifest 里 47 个真实城区资产**做近场 LCMV 重算,含 3%/2° 定标残差的实现值是 **26.1/31.9/27.0/24.1 dB(0.5/1/3/10 MHz)**——30 dB 占位值在带两端偏乐观。",
         "诚实边界:低于 ~2 MHz 阵因子主瓣填满整个天空,这台阵在带底是频谱仪不是成像仪——写进设计册,不藏。",
         "账10(扩阵天花板):星际散射把源展宽 θ∝λ^2.2——1 MHz 上 1.1°、0.5 MHz 上 5.1°、10 MHz 上 25″。对应可用基线上限 1 MHz 约 16 km、3 MHz 约 58 km、10 MHz 约 246 km;再长就是在分辨散射盘而不是分辨源。当前阵仅 0.16 km,离天花板还有两个量级——但路线图是有限的,而且**上限随频率升高**,这是往 10–30 MHz 扩的第二个理由。(该锚点取中等银纬视线,朝银盘方向散射再差一个量级。)"
       ],
       "sim_en": [
         "Account 2: beam FWHM 36 deg @3 MHz (first sidelobe -16 dB) / 10.6 deg @10 MHz; SEFD 6.8e5 Jy @3 MHz, 1-s x 100-kHz sensitivity ~2e3 Jy; a solar type III burst (1e-17 W/m2/Hz scaled to 1.52 AU) arrives at SNR ~ 2e4.",
-        "Account 2 (null): adaptive null depth bottoms out at the calibration-residual floor sigma^2/N -- 32 dB at 10%/5 deg, 41 dB at 3%/2 deg (N=28); the design takes 30 dB.",
+        "Account 2 (null) -> account 11 (computation replaces estimate): the residual-floor estimate gives 32/41 dB, but account 11 recomputed it as a near-field LCMV problem against the ACTUAL 28 mast poses and the 47 real city assets in the manifest; with 3%/2 deg residuals the realized rejection is 26.1/31.9/27.0/24.1 dB at 0.5/1/3/10 MHz -- the 30 dB placeholder was optimistic at both band edges.",
         "Honest boundary: below ~2 MHz the main lobe fills the sky, so at the bottom of the band this is a spectrometer and not an imager -- stated in the design book, not hidden.",
         "Account 10 (roadmap ceiling): interstellar scattering broadens sources as theta ~ lambda^2.2 -- 1.1 deg at 1 MHz, 5.1 deg at 0.5 MHz, 25 arcsec at 10 MHz. The corresponding useful baseline limits are ~16 km at 1 MHz, 58 km at 3 MHz, 246 km at 10 MHz; beyond those you are resolving the scattering disk, not the source. The array is 0.16 km across, two orders inside the ceiling -- but the roadmap is finite, and **the ceiling rises with frequency**, a second argument for expanding upward into 10-30 MHz. (Anchored on a moderate Galactic-latitude sight line; toward the plane scattering is an order worse.)"
       ],
@@ -107,7 +107,7 @@
         "Chain gain": "32.6 dB total (sky lands at 8 LSB rms)"
       },
       "sim": [
-        "账4(评审 v2:约束最紧处在带底——EIRP 容限 ∝ T_sky·f²,偶极子在 0.5 MHz\"以波长计最大\"):800 m + 30 dB 零陷 → 容许 5.6e-12 W/Hz@0.5 MHz(10 MHz 处 3e-11,松 5 倍);EMC 受控城区(~1e-13 W/Hz)余量 17.5 dB;失控城区(~1e-9)差 23 dB。",
+        "账4+账11(实测落位 1107 m,不是 800 m 稻草人,白拿 2.8 dB;零陷用实算值):容许泄漏 4.4e-12 W/Hz@0.5 MHz;EMC 受控城区余量 **16.4 dB@0.5 / 27.0@1 / 26.5@3 / 21.7@10**——约束最紧仍在带底(EIRP 容限 ∝ T_sky·f²),仍然闭合,但比初稿紧。",
         "账4(结论):距离每翻倍只买 6 dB,纯距离永不闭合——≥400 m 距离 + 30 dB 零陷 + 全城 HF 排放纪律,三根杠杆缺一不可。",
         "账5(位数):天空噪声在 ADC 上定到 ~8 LSB 有效值、留 5σ 波峰余量,14 bit 给 46 dB 暴发余量(4e4 倍天空底);12 bit 只有 34 dB 不够用;史上最大级事件(~60 dB)仍会削顶数秒,故数字化前留一档 20 dB 可切衰减器。",
         "账9(链路电平):端子 23 µV → LNA +26 dB → 桅顶带定滤波 −1 → 线驱 +6 → 84 m 同轴 −1.7@10 MHz → 抗混叠 −1.5 → ADC 驱动 +4.8,合计 32.6 dB,天空恰落 0.98 mV = 8 LSB。",
@@ -118,7 +118,7 @@
         "排放登记（总控代改，依 pwr-fission-01 账 10，第二轮修正后的口径）：pwr-fission-01 落位 843 m、方位 −16.2°，在城区零陷扇区之外。真正的天线是其 793 m 馈线（0.5 MHz 上 1.32λ），不是机壳——交付规范为可实测量：馈线共模电流 ≤1.7 µA/100 kHz 通道（0.5–10 MHz），即 0.5 MHz 处 42 dB 共模抑制，钳形电流表验收；其变流器禁用扩频抖动，开关钟锁 sci-seis-01 时基链，梳状谱落在可预判栅格上。该站另请求：若 F+X 引擎可加挂第二只近场零陷指向 −16.2°，作为纵深防御（零陷是权重不是硬件）；并请本站确认「风化层 0.5–10 MHz 对 RF 透明、埋深不提供射频屏蔽」这一前提。"
       ],
       "sim_en": [
-        "Account 4 (review v2: the binding frequency is the band BOTTOM -- the EIRP allowance scales as T_sky*f^2, the dipole is biggest in wavelengths at 0.5 MHz): at 800 m with the 30 dB null the allowance is 5.6e-12 W/Hz at 0.5 MHz (3e-11 at 10 MHz, 5x looser); an EMC-disciplined colony (~1e-13 W/Hz) keeps 17.5 dB margin, an uncontrolled one (~1e-9) fails by 23 dB at any realistic distance.",
+        "Accounts 4 + 11 (surveyed at the real 1107 m rather than the 800 m strawman, +2.8 dB, and using the computed null): the allowance is 4.4e-12 W/Hz at 0.5 MHz, and an EMC-disciplined colony keeps 16.4 dB of margin at 0.5 MHz, 27.0 at 1, 26.5 at 3, 21.7 at 10. The binding frequency is still the band bottom (the allowance scales as T_sky*f^2) and it still closes -- with less room than the first draft claimed.",
         "Account 4 (conclusion): doubling the distance buys only 6 dB, so distance alone never closes -- >=400 m of separation, a 30 dB null and a colony-wide HF emission rule are all three load-bearing.",
         "Account 5 (bit depth): with the sky set to ~8 LSB rms and 5 sigma of crest kept inside full scale, 14 bit yields 46 dB of burst headroom (4e4 x the sky floor); 12 bit gives only 34 dB and does not close; the largest historical events (~60 dB) still clip for seconds, hence the switchable 20 dB pad ahead of the digitizer.",
         "Account 9 (level diagram): 23 uV at the terminals -> LNA +26 dB -> mast shaping filter -1 -> line driver +6 -> 84 m coax -1.7 at 10 MHz -> anti-alias -1.5 -> ADC driver +4.8 = 32.6 dB total, landing the sky at 0.98 mV = 8 LSB.",
@@ -131,13 +131,13 @@
       "physics": [
         "自适应零陷的地板是定标残差:每桩幅相误差 σ 让零陷填到 σ²/N。城区收在单一方位扇区,一只零陷全覆盖——这就是落位要求\"城在一个方向\"、并要求 manifest 的 rotation_deg 把 +Z 对准城区的原因。",
         "动态范围的本质是高斯噪声的波峰因数:削顶发生在瞬时峰值而不是有效值,所以\"天空噪声占几个 LSB\"这个看似随意的选择,直接决定了能不饱和地记录多大的暴。",
-        "**零陷是数字的,前端却要扛未打零陷的全量干扰**:波束合成在数字域,每根单桩看到的是没有任何抑制的城市信号——所以 30 dB 零陷一点都不能减轻前端的线性度要求,两笔账各付各的。",
+        "**带底没有便宜的零陷**(账11):0.5 MHz 时阵径只有 0.27λ,要抑制一个它几乎分辨不出的源就必须动用超指向性权重——**只要想有零陷就先付 7.6 dB 灵敏度**,25 dB 零陷付 9.0 dB,30 dB 付 14.4 dB。而这恰是账4 判定约束最紧的频率。于是决策变成运行层的:1 MHz 以下零陷深度按观测模式选——暴发值守留深零陷付 9 dB(账10 的 2–8 量级裕度扛得住),银河巡天改用 20 dB 浅零陷+全城 EMC 纪律+安静时段。一台阵,两套权重。\n\n**零陷是数字的,前端却要扛未打零陷的全量干扰**:波束合成在数字域,每根单桩看到的是没有任何抑制的城市信号——所以 30 dB 零陷一点都不能减轻前端的线性度要求,两笔账各付各的。",
         "**二阶交调为什么在这个波段是主角**:20:1 的相对带宽让任意两个干扰的差频落进科学带内,包括两个带外干扰(如城里两部相隔 5 MHz 的 UHF 电台在无滤波宽带放大器里拍频)。带内产物没有任何滤波器能救,唯一的防线是电路平衡——这就是全链从偶极子端子起就做差分的原因,而这份平衡同时又切断了选同轴带来的地环路:一个拓扑还两笔债。"
       ],
       "physics_en": [
         "The adaptive null bottoms out at calibration residuals: per-element amplitude/phase error sigma fills it to sigma^2/N. Keeping the colony inside one azimuth sector lets a single null cover it -- which is why the siting rule says 'city in one direction' and why the manifest rotation_deg must put +Z toward the colony.",
         "Dynamic range is really about the crest factor of Gaussian noise: clipping happens on instantaneous peaks, not on the rms, so the seemingly arbitrary choice of how many LSB the sky occupies directly sets the largest burst that can be recorded without saturating.",
-        "**The null is digital, so the front end still faces the un-nulled colony**: beamforming happens after digitization and every individual mast sees the city with no suppression at all -- 30 dB of null buys the front end's linearity budget precisely nothing. Two separate bills.",
+        "**There is no cheap null at the band bottom** (account 11): at 0.5 MHz the aperture is 0.27 lambda, so rejecting a source it can barely resolve demands superdirective weights -- any useful null at all costs 7.6 dB of sensitivity, 25 dB of null costs 9.0 dB and 30 dB costs 14.4 dB. That is exactly the frequency account 4 finds binding, so the decision becomes operational: below ~1 MHz the null depth is chosen per observing mode -- burst watch keeps the deep null and pays the 9 dB (account 10's 2-8 orders of margin absorb it), while the Galactic survey drops to a 20 dB null and leans on colony EMC discipline and quiet hours. One array, two weight sets.\n\n**The null is digital, so the front end still faces the un-nulled colony**: beamforming happens after digitization and every individual mast sees the city with no suppression at all -- 30 dB of null buys the front end's linearity budget precisely nothing. Two separate bills.",
         "**Why second-order intermodulation runs this band**: a 20:1 fractional bandwidth drops the difference product of any two interferers inside the science band, including two out-of-band ones -- two colony UHF radios 5 MHz apart beating inside an unfiltered wideband amplifier will do it. Nothing downstream can filter an in-band product, and the only defence is circuit balance, which is why the chain is differential from the dipole terminals onward -- the same balance that breaks the ground loop the coax decision created. One topology, two debts."
       ]
     },

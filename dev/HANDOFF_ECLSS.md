@@ -8,12 +8,13 @@
 
 | 文件 | 说明 |
 |---|---|
-| `viewer/units/res-eclss-01.js` | 制氧与气体储配站，**11,538 三角形**（预算 1.2 万），实测 bbox 48.20 × 12.72 × 30.00 |
+| `viewer/units/res-eclss-01.js` | 制氧与气体储配站，**11,790 三角形**（预算 1.2 万），实测 bbox 48.20 × 12.72 × 30.00 |
 | `viewer/units/res-eclss-01.info.json` | **6 张双语卡**（screen / stack / perc / tanks / intake / fill），全带 `sim` + `physics` |
-| `viewer/units/res-recycle-01.js` | 水与固废回收厂，**6,582 三角形**，实测 bbox 44.00 × 9.10 × 30.60 |
+| `viewer/units/res-recycle-01.js` | 水与固废回收厂，**6,846 三角形**，实测 bbox 44.00 × 9.10 × 30.60 |
 | `viewer/units/res-recycle-01.info.json` | **6 张双语卡**（water / urine / compost / sort / metal / hazmat） |
 | `models/manifest.json` | 两条记录已加（含 `name_en`），**`pos: null`**，`sink_m: 0.3` |
 | `CHECKLIST.md` | 资源 res 段新增两行，交付格 ✅ |
+| `snaps/anim/res-eclss-01.gif` · `res-recycle-01.gif` | §6a 动图，各 960×540 / ≤12 s / ≤3.7 MB（详见 §6b） |
 
 `validate_unit.mjs` 两个模块全绿；`scripts/audit_layout.mjs` 在两组候选位下均 `layout clean`。
 
@@ -178,8 +179,8 @@
 
 | 项 | 结果 |
 |---|---|
-| `validate_unit.mjs res-eclss-01.js` | 全绿 · 11,538 三角形 · bbox 48.20/12.72/30.00 · size_m 与实测一致 · spinners ×3 / nightMats ×4 / lights ×3 / 7 个 poi_ 锚点 |
-| `validate_unit.mjs res-recycle-01.js` | 全绿 · 6,582 三角形 · bbox 44.00/9.10/30.60 · spinners ×8 / nightMats ×3 / lights ×3 / 7 个 poi_ 锚点 |
+| `validate_unit.mjs res-eclss-01.js` | 全绿 · **11,790** 三角形 · bbox 48.20/12.72/30.00 · size_m 与实测一致 · spinners ×3 / nightMats ×4 / lights ×3 / 7 个 poi_ 锚点 |
+| `validate_unit.mjs res-recycle-01.js` | 全绿 · **6,846** 三角形 · bbox 44.00/9.10/30.60 · spinners ×8 / nightMats ×3 / lights ×3 / 7 个 poi_ 锚点 |
 | `audit_layout.mjs`（候选 A 组） | `layout clean: no overlaps, roads clear` |
 | `audit_layout.mjs`（候选 B 组） | `layout clean: no overlaps, roads clear` |
 | 城内烟测（临时给 pos 跑，跑完已还原 null） | 两资产 `group.scale === [1,1,1]`；控制台唯一 404 是 `res-cryo-01.info.json`（**他人资产，非本 session**） |
@@ -197,14 +198,54 @@
 
 ---
 
+## 6b. 动件返工与动图（§6a）
+
+**先说一个我自己犯的错，因为它值得进 skill 坑账。**
+首轮交付时我用"泵帧后读 `node.rotation` 数值"来验证动画，三个 spinner 全部对上理论转角，
+判定通过。但**转角对 ≠ 看得见**：那三个节点全是光面圆柱绕自身轴旋转，屏幕上一个像素都不变。
+拍动图时按坑账 19 改数"变化像素"，半圈只差 2 px，才把这件事抓出来。
+
+顺带查出第二个更硬的错：**朝向与自转叠在同一个节点上**。
+把 `rotation.z = π/2`（摆朝向）和 spinner 的 `rotation.y`（自转）放在同一 mesh 上，
+欧拉 XYZ 复合下 `Rx·Ry·Rz` 会让轮轴在平面里**摆动**而不是自转——光面圆柱看不出来，
+一加辐条就露馅。分选滚筒（`rotation.x` 朝向 + 绕 z 自转）更严重，是**翻跟头**。
+
+**修法（两站统一）**：朝向交给一层 pivot Group，自转留给网格自身的 y 轴。
+另外补上"转起来看得见"的特征件，并修了两处几何事实错误：
+
+| 站 | 改动 |
+|---|---|
+| res-eclss-01 | 压缩机飞轮 → pivot + 十字轮辐 + 橙色配重销；高氯酸盐窑 → **整只筒带齿圈转**（girth gear 12 齿 + 3 条纵向焊缝条 + 托轮滚圈同组）。原来只有齿圈转、筒不动，回转窑不是那样工作的。11,538→11,790 面 |
+| res-recycle-01 | 分选滚筒/RO 泵/VCD 飞轮 → 全部拆 pivot，滚筒加纵向橙条纹；堆肥齿圈加 14 齿；刮泥机加橙色标记臂；**中和槽搅拌桨叶重新挂到搅拌轴上**（原来轴转桨不动）；**抄板改大并贴近筒壁**（1.1×1.25@r0.85 → 1.5×1.40@r0.95，剖口 1.20π→1.08π）——原尺寸在剖口外几乎看不见，改后同机位运动像素 2549→4786。6,582→6,846 面 |
+
+**交付**
+
+| 文件 | 规格 | 循环验收（变化像素，阈值 >25 灰度） |
+|---|---|---|
+| `snaps/anim/res-eclss-01.gif` | 960×540 · 10.0 s · 100 帧 · 3.7 MB | 窑整一转=天然循环；相邻帧步长 5660 px、**接缝 5715 px 相差 1%**；峰值运动 6.8k px（1.3%） |
+| `snaps/anim/res-recycle-01.gif` | 960×540 · 12.0 s · 120 帧 · 2.2 MB | 抄板螺旋排布**无 6 重对称**，真实周期是整一转 24 s，按 §6a 上限 2× 变速压到 12 s；24 s 残差 65 px（运动量 1.4%）、**接缝 1333 px vs 相邻帧 1116 px**；峰值运动 5.5k px |
+
+两张都是 960 px 宽、8~12 s、≤8 MB、画面内无 HUD 与标签（sprite 全部置不可见）。
+
+**拍法坑（建议进 mars-unit-flow skill，两条都是新的）**
+
+1. **`scripts/capture_gif.mjs` 在当前城市规模下拍不出动画。** headless Edge + SwiftShader 下
+   全城 48 资产只有 0.5~2 fps；更要命的是 **headless 里 rAF 不推进，录出来的 GIF 是静止的**
+   （我第一版 10 s GIF 半圈只差 2 px）。这与 sci-seis-01 记的"headless 白片坑"同源。
+   另外它的 `--eval` 在固定 `--wait` 后只跑一次，而资产要 60 s 以上才加载完 —— `--eval`
+   应写成**轮询到资产出现再返回的 Promise**（工具用了 `awaitPromise: true`，可以这么写）。
+2. **可行替代：可见页确定性逐帧驱动。** 每帧手动
+   `for (const f of __mars.unitAnims) f(0, dt, 0)` → `renderer.render()` → `toDataURL` → POST 上传，
+   再 `ffmpeg -framerate <1/dt>` 合成。100 帧只要 5 s，且 dt 完全可控，
+   循环长度可以精确对齐机构周期。本轮两张图都是这么拍的。
+3. 端口仍要自选（本轮用 8481）：8462/8466/8123 都被并行 session 占着。
+
 ## 7. 本 session 未做 / 边界声明
 
 - **未改 `viewer/main.js`**，未改任何他人资产文件（村子/居住区/fab/硫厂/井/温室的卡一字未动）——
   所有回引都写成 §4 的建议文本报总控代改。
 - **未推 GitHub**，提交留本地。
-- 未交动图（§6a GIF）：两站的动件都是稳态旋转（电解槽无动件、压缩机飞轮、堆肥翻抛桨、
-  分选滚筒、刮泥机），没有"标志性一次性动作"；若总控要，建议拍**堆肥转鼓特写**
-  （料床三段色 + 翻抛桨，周期 24 s @ 2.5 rpm，setpts 压到 12 s）。
+- 动图（§6a）**已交**，见下方 §6b。
 - `res-cryo-01`（另一 session 并行交付）的 `info.json` 缺失导致城内一条 404——**不是本 session 的**，
   一并报给总控。
 - **端口事故报备**：本 session 曾把截图上传服务绑在 8462，与另一 session（res-cryo-01）的

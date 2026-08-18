@@ -7,22 +7,22 @@
       "label_en": "Remote Nodes: Azimuthal Coverage for Location",
       "range": 18,
       "pos": [0, 0.9, 0],
-      "detail": "单台站定事件只能靠 P 偏振+S-P 距离的'单站技艺';主站外 1.2~2.2 km、方位岔开 ≥90° 的远端节点把到时差变成真正的三角定位。它们同时接管纯净高频地板:24h 城市源的 8 Hz 残余在 877 m(Q15)外才压进夜地板——主站够不到的那块由节点补齐。",
-      "detail_en": "A lone station locates events only by P polarization plus S−P distance — single-station craft; remote nodes 1.2–2.2 km out with azimuths ≥90° apart turn arrival-time differences into true triangulation. They also own the pristine high-frequency floor: the 8 Hz residue of the city's 24 h sources only drops below the night floor beyond 877 m (Q15) — the nodes cover what the main station cannot.",
+      "detail": "单台站定事件只能靠 P 偏振+S-P 距离的「单站技艺」;三个远端节点把到时差变成真正的三角定位。主站于 08-09 落位 (-700,-520) 后,坐标已由账 12 定死:A(1205,-1620)/B(-1850,-1403)/C(-1269,1605),方位 120°/232.5°/345°,近似均匀包住主站。它们同时接管纯净高频地板:24h 城市源的 8 Hz 残余要到 877 m(Q15)外才压进夜地板——主站够不到的那块由节点补齐。三点距射电阵 sci-radio-01 为 1243/2174/2408 m,均远超其 400 m 红线;UHF 回传又远在其 0.5–10 MHz 观测带之上,双重不构成 RFI。",
+      "detail_en": "A lone station locates events only by P polarization plus S−P distance — single-station craft; three remote nodes turn arrival-time differences into true triangulation. With the station placed at (-700,-520) on 08-09, ledger 12 fixes their coordinates: A(1205,-1620) / B(-1850,-1403) / C(-1269,1605) at azimuths 120°/232.5°/345°, wrapping the station almost evenly. They also own the pristine high-frequency floor: the 8 Hz residue of the city's 24 h sources only drops below the night floor beyond 877 m (Q15) — the nodes cover what the main station cannot. All three sit 1243/2174/2408 m from the radio array sci-radio-01 — well beyond its 400 m keep-out — and their UHF downlink lies far above its 0.5–10 MHz observing band, so it poses no RFI on either count.",
       "specs": {
-        "撒放建议": "主站 1.2~2.2 km,3 桩方位互隔 ≥90°",
-        "定位增益": "3 节点 = 二维慢度矢量最小闭合",
-        "纯净地板半径": "877 m(Q15)~1414 m(Q25)",
+        "定版坐标(账 12)": "A(1205,-1620) / B(-1850,-1403) / C(-1269,1605),方位 120°/232.5°/345°",
+        "定位增益": "GDOP 6.37e-4 /m → 面波方位 σ 1.8°(账 7 的 <5° 承诺守住),比单条 1.5 km 基线好 1.9 倍",
+        "实测地形": "三点坡度 0.54/0.74/0.82°(引擎 40 m 九宫格实测),距最近振源 1817~2048 m",
         "单件预算": "A 型 348 面 / B 型 384 面(≤500)"
       },
       "specs_en": {
-        "Scatter guidance": "1.2–2.2 km from the station, 3 stakes ≥90° apart in azimuth",
-        "Location gain": "3 nodes = minimal closure for the 2-D slowness vector",
-        "Pristine-floor radius": "877 m (Q15) to 1414 m (Q25)",
+        "Final coordinates (ledger 12)": "A(1205,-1620) / B(-1850,-1403) / C(-1269,1605); azimuths 120°/232.5°/345°",
+        "Location gain": "GDOP 6.37e-4 /m → 1.8° surface-wave azimuth (ledger 7's <5° promise held), 1.9× better than a single 1.5 km baseline",
+        "Terrain, measured": "slopes 0.54/0.74/0.82° (engine-probed over 40 m), 1817–2048 m from the nearest city source",
         "Per-piece budget": "type A 348 tris / type B 384 tris (≤500)"
       },
-      "sim": "城市噪声账(mars-seis sim/03)与观测网几何:平面波前到时差最小二乘反演慢度矢量,3 站是二维解的最小闭合——与气象观测网 sci-weather-net-01 的三角定位账同构。",
-      "sim_en": "City-noise ledger (mars-seis sim/03) plus network geometry: least-squares inversion of plane-wavefront arrival differences for the slowness vector needs 3 stations as the minimal 2-D closure — isomorphic to the sci-weather-net-01 triangulation ledger.",
+      "sim": ["城市噪声账(mars-seis sim/03)与观测网几何:平面波前到时差最小二乘反演慢度矢量,3 站是二维解的最小闭合——与气象观测网 sci-weather-net-01 的三角定位账同构。","定点账(sim/12,10 闸全绿):主站落位后把「方位岔开 ≥90°」收成三个可施工坐标。目标最小化 GDOP=√trace((AᵀA)⁻¹),约束含地形边界、振源距离、发射下射程走廊、已落位资产净空。**两个非几何约束才是真正的裁决者**:①HiRISE 数字孪生只有 3780 m 见方,主站在西南象限使西向可用半径只剩 1160 m——纸面最优的第三点落在图幅外 629 m,那里根本没有地面;②引擎实测把首选 nodeB 否掉——那点坡度 13.5°、40 m 内高差 9.6 m,打入桩耦合不可靠。在合法方位窗口内改址后三点坡度降到 0.54–0.82°,方位分离反而从 105° 改善到 112.5°。"],
+      "sim_en": ["City-noise ledger (mars-seis sim/03) plus network geometry: least-squares inversion of plane-wavefront arrival differences for the slowness vector needs 3 stations as the minimal 2-D closure — isomorphic to the sci-weather-net-01 triangulation ledger.","Siting ledger (sim/12, 10 gates green): with the station fixed, the 'azimuths ≥90° apart' principle becomes three buildable coordinates by minimising GDOP=√trace((AᵀA)⁻¹) subject to terrain bounds, source distance, the launch downrange corridor and clearance from placed assets. **The two non-geometric constraints turned out to be the real arbiters**: the HiRISE twin is only 3780 m across and the station sits in the southwest quadrant, so the paper optimum put the third node 629 m off the tile where no ground exists; and an in-engine probe rejected the first nodeB for sitting on a 13.5° slope with 9.6 m of relief over 40 m, where a driven stake could not couple reliably. Re-sited within the legal azimuth windows, all three slopes fall to 0.54–0.82° and the azimuth separation actually improves from 105° to 112.5°."],
       "physics": "到时差 δt = s·δx(慢度×基线):基线方位越张开,慢度两个分量的条件数越好;三站共线则法向分量不可解——这就是'方位岔开 ≥90°'的数学身份。",
       "physics_en": "Arrival difference δt = s·δx (slowness × baseline): the wider the azimuths spread, the better conditioned both slowness components are; three collinear stations leave the normal component unsolvable — the mathematical identity behind 'azimuths ≥90° apart'."
     },

@@ -1,0 +1,149 @@
+{
+  "id": "hab-rec-01",
+  "pois": [
+    {
+      "id": "court",
+      "label": "低重力半场（人人都能扣篮）",
+      "label_en": "Low-g half court (everyone dunks)",
+      "range": 14,
+      "detail": "一块半场,两只筐:南侧黄圈 3.05 m 是地球规格,北侧红圈 4.66 m 是「火星规则」。同一双腿,0.38 g 下垂直起跳高度乘 2.63——地球上摸不到网的人,在这里指尖过筐。红筐的高度就是按这笔账定的:让扣篮在火星重新变难。",
+      "detail_en": "One half court, two rims: the south hoop at 3.05 m is Earth-spec, the north one in red at 4.66 m is 'Mars rules'. The same pair of legs jumps 2.63x higher at 0.38 g - people who never touched net on Earth clear the rim here. The red rim's height is set by exactly that ledger: to make dunking hard again on Mars.",
+      "specs": {
+        "地球筐": "3.05 m（黄圈）",
+        "火星筐": "4.66 m（红圈）",
+        "起跳高度": "×2.63",
+        "滞空时间": "×2.63"
+      },
+      "specs_en": {
+        "Earth rim": "3.05 m (yellow)",
+        "Mars rim": "4.66 m (red)",
+        "Jump height": "x2.63",
+        "Hang time": "x2.63"
+      },
+      "sim": "起跳账:离地速度由肌肉功决定,不随重力变——h=v²/2g,g 缩到 0.38 则 h 乘 2.63。地球垂直弹跳 0.5 m 的普通人这里跳 1.32 m,指尖摸高 3.4 m,过 3.05 m 筐绰绰有余。火星筐 4.66 m = 3.05 m 处地球体验的等效换算:要求地球弹跳 0.61 m 才能扣,和地球上扣 3.05 m 筐一样难。滞空 t=2v/g 同样乘 2.63:一次起跳挂空近 1.5 秒,空中动作从天赋变成课程。",
+      "sim_en": "Jump ledger: takeoff speed is set by muscle work and does not care about gravity - h = v squared over 2g, so at 0.38 g height multiplies by 2.63. An average person with a 0.5 m Earth vertical jumps 1.32 m here, reaching 3.4 m - clearing the 3.05 m rim with room to spare. The 4.66 m Mars rim is the equivalence computed backwards: it demands a 0.61 m Earth-vertical, making a Mars dunk exactly as hard as an Earth dunk. Hang time t = 2v/g also multiplies by 2.63: one jump floats nearly 1.5 seconds, and aerial moves turn from talent into curriculum.",
+      "physics": "投篮的手感却全要重学:同一出手速度下射程乘 2.63,弧线平得反直觉——肌肉记忆里的三分力道在这里是后场超远投。篮球是「重量打折、惯性原价」定律的运动版:球变轻了,但传球砸在手上的冲量一克没少。",
+      "physics_en": "Shooting touch, though, must be relearned: the same release speed carries 2.63x farther and the arc flattens counterintuitively - Earth muscle memory for a three-pointer is a full-court heave here. Basketball is the sports edition of the cheap-weight, full-price-inertia law: the ball got lighter, but a hard pass still stings with every gram of its momentum."
+    },
+    {
+      "id": "climb",
+      "label": "攀岩墙（体重打 38 折的运动）",
+      "label_en": "Climbing wall (the sport at a 62% discount)",
+      "range": 12,
+      "detail": "8 m 宽、6 m 高、内倾 8° 的岩壁,红绿两条发光路线。攀岩是全馆受 0.38 g 恩惠最大的运动:指力抓的是体重,而体重打了 38 折,肌肉一点没缩水——地球上的入门者在这里爬出职业选手的指力储备比。",
+      "detail_en": "An 8 m wide, 6 m tall wall overhung 8 degrees, with red and green glowing routes. Climbing benefits from 0.38 g more than anything else in this hall: fingers hold body weight, the weight is discounted 62%, and the muscles shrank not at all - an Earth beginner climbs here with a pro's strength-to-weight ratio.",
+      "specs": {
+        "墙面": "8 × 6 m,内倾 8°",
+        "等效负重": "体重 ×0.38",
+        "坠落末速": "×0.62",
+        "坠落动能": "×0.38"
+      },
+      "specs_en": {
+        "Wall": "8 x 6 m, 8 deg overhang",
+        "Effective load": "body weight x0.38",
+        "Fall speed": "x0.62",
+        "Fall energy": "x0.38"
+      },
+      "sim": "安全账:从 6 m 顶落到垫,末速 v=√(2gh) 乘 0.62(6 m 火星坠落 ≈ 地球 2.3 m 的着地速度),动能乘 0.38。同一块缓冲垫的防护余量放大 2.6 倍——所以这面墙敢做到 6 m 而不设顶绳,规范依据就是这一行。",
+      "sim_en": "Safety ledger: topping out at 6 m and dropping to the pad, impact speed v = sqrt(2gh) multiplies by 0.62 - a 6 m Mars fall lands like 2.3 m on Earth - and kinetic energy by 0.38. The same crash pad carries 2.6x the protective margin, which is the one-line justification for building this wall to 6 m with no top rope.",
+      "physics": "但动态动作要重学:跳跃抓点(dyno)的抛体时间乘 2.63,你在空中飘得太久,地球肌肉记忆会提前伸手。攀岩教练的火星第一课:等。",
+      "physics_en": "Dynamic moves must be relearned though: a dyno's ballistic time multiplies by 2.63, you float too long, and Earth muscle memory reaches for the hold early. The first lesson a Mars climbing coach teaches: wait."
+    },
+    {
+      "id": "cue",
+      "label": "台球区（唯一要重学走位的桌子）",
+      "label_en": "Billiards (where position play must be relearned)",
+      "range": 10,
+      "detail": "两张台球桌一张乒乓台。台球的碰撞完全不变——球对球是质量对质量,0.38 g 插不上手;变的是滚动:摩擦阻力正比于 mg,球在台呢上滚得远 2.6 倍。开球一杆,球堆散得满台都是;地球高手的走位手感全部作废,轻推变重推。",
+      "detail_en": "Two pool tables and a ping-pong table. Billiard collisions are untouched - ball on ball is mass on mass, and 0.38 g has no say in it. What changes is the roll: rolling resistance scales with mg, so balls run 2.6x farther on the same felt. The break scatters the rack across the whole table, and every Earth player's position touch is void - a soft roll became a firm one.",
+      "specs": {
+        "碰撞": "不变（质量决定）",
+        "滚动距离": "×2.6",
+        "库边反弹": "不变",
+        "乒乓球旋转": "70 kPa 下 Magnus 力 ×0.7"
+      },
+      "specs_en": {
+        "Collisions": "unchanged (mass-governed)",
+        "Roll distance": "x2.6",
+        "Cushion bounce": "unchanged",
+        "Ping-pong spin": "Magnus force x0.7 at 70 kPa"
+      },
+      "sim": "两笔对照账:台球是「水平运动,重力只通过摩擦出场」——摩擦 ∝ mg 打 38 折,球滚 2.6 倍远,解法是换高滚阻台呢或干脆接受新手感。乒乓是「轻球,空气才是主角」——舱内 70 kPa 空气密度是海平面的 0.7,Magnus 力同比缩水,弧圈球下坠变平,旋转发球的威胁降一档;而重力下坠又慢,球的飞行整体变「飘」。同一间屋,两张桌子各自吃了一条不同的物理。",
+      "sim_en": "Two contrasting ledgers: billiards is horizontal motion where gravity only enters through friction - friction goes with mg, discounted to 0.38, balls run 2.6x farther, and the fix is higher-resistance felt or simply learning the new touch. Ping-pong is a light ball where air is the protagonist - cabin air at 70 kPa is 0.7x sea-level density, Magnus force shrinks in proportion, loops flatten, spin serves lose a grade of menace; meanwhile the slower gravitational drop makes every flight floatier. One room, two tables, each eating a different line of physics.",
+      "physics": "台球因此成了全城最好的物理教具:同一张桌上,「碰撞守恒不理重力」和「摩擦正比重力」两条定律并排可见——打一局,比一堂课讲得清楚。",
+      "physics_en": "This makes billiards the city's best physics demonstrator: on one table, 'collisions conserve momentum regardless of gravity' and 'friction is proportional to gravity' sit side by side, visible in every shot - one rack teaches more than a lecture."
+    },
+    {
+      "id": "cinema",
+      "label": "影院包间（全城最安静的房间）",
+      "label_en": "The cinema (quietest room in the city)",
+      "range": 10,
+      "detail": "十五座小影院,银幕 5.4 m。它敢叫全城最安静,凭的是位置:头顶 30 m 玄武岩把地表的一切——风、机械、发射——隔在声学意义上的另一个星球;porous 岩体对 100 Hz 以上衰减 >60 dB。地下城的本底噪声只剩通风,而通风在放映时降速运行。",
+      "detail_en": "Fifteen seats, a 5.4 m screen. Its claim to being the city's quietest room rests on location: 30 m of basalt overhead puts the surface - wind, machinery, launches - on another planet acoustically, with over 60 dB of attenuation above 100 Hz through the rock. The undercity's noise floor is ventilation alone, and ventilation slows down during screenings.",
+      "specs": {
+        "座位": "15（3 排）",
+        "银幕": "5.4 m",
+        "岩体隔声": ">60 dB @ >100 Hz",
+        "本底": "通风,放映时降速"
+      },
+      "specs_en": {
+        "Seats": "15 in 3 rows",
+        "Screen": "5.4 m",
+        "Rock attenuation": ">60 dB above 100 Hz",
+        "Noise floor": "ventilation, slowed for screenings"
+      },
+      "sim": "隔声账:声波在致密玄武岩中传播损耗小,但「地表空气→岩体→室内空气」两次阻抗失配才是主角——每次界面反射掉 99.9% 以上的声能,这正是深地实验室把地震计埋进岩洞的同一条物理,在这里用来看电影。发射日 14:00 的长十乙起飞,地表 110 dB,这个房间里读数变化小于 1 dB。",
+      "sim_en": "Isolation ledger: sound propagates through dense basalt with little loss, but the two impedance mismatches - surface air to rock, rock to room air - do the real work, each interface reflecting over 99.9% of acoustic energy. It is the same physics that buries the seismometers in rock vaults, here spent on watching films. On launch days the 14:00 CZ-10B liftoff reads 110 dB on the surface; in this room the needle moves less than 1 dB.",
+      "physics": "0.38 g 给影院的唯一改动在爆米花:油锅对流弱了,受热不均,火星爆米花要靠搅拌——菜单上那句「手工翻炒」不是情怀,是流体力学。",
+      "physics_en": "The only change 0.38 g makes to a cinema is the popcorn: weaker convection in the oil means uneven heating, so Mars popcorn must be stirred - the menu's 'hand-tossed' is not nostalgia, it is fluid dynamics."
+    },
+    {
+      "id": "bar",
+      "label": "酒吧（泡沫经久不散的地方）",
+      "label_en": "The bar (where the head never dies)",
+      "range": 10,
+      "detail": "L 形吧台,十二支酒瓶背着绿光。火星调酒的三条新规:倒酒流速乘 0.62(√0.38),同一瓶酒要多倾斜等一拍;气泡上浮速度乘 0.38(Stokes 浮力),啤酒泡沫升得慢、散得更慢——一杯的泡沫头能撑三倍久;摇酒壶里的冰块惯性原价,手感不变。",
+      "detail_en": "An L-shaped counter, twelve bottles backlit in green. Three new rules of Mars bartending: pours run at 0.62x speed (sqrt of 0.38), so the same bottle needs a steeper tilt and an extra beat; bubbles rise at 0.38x (Stokes buoyancy), so a beer's head builds slowly and dies far slower - one pour holds its foam three times as long; and the ice in the shaker pays full inertial price, so the shake feels exactly like home.",
+      "specs": {
+        "倒酒流速": "×0.62",
+        "气泡上浮": "×0.38",
+        "泡沫寿命": "≈×3",
+        "摇壶手感": "不变（惯性）"
+      },
+      "specs_en": {
+        "Pour rate": "x0.62",
+        "Bubble rise": "x0.38",
+        "Foam lifetime": "about x3",
+        "Shaker feel": "unchanged (inertia)"
+      },
+      "sim": "泡沫账:泡沫衰减由排液主导,排液由重力驱动——g 打 38 折,液膜变薄的速率同比放慢,加上气泡上浮慢、补充泡沫的通量低,净效果是「一杯啤酒从倒出到泡沫塌完」的时间拉长约 3 倍。对酒保是美学,对生保是同一条物理的另一面:res-eclss-01 的水气分离器正是因为「气泡不肯走」才需要离心级——酒吧里的慢泡沫,和生保舱里的分离难题,是同一个 0.38。",
+      "sim_en": "Foam ledger: head decay is drainage-dominated, and drainage is gravity-driven - discount g to 0.38 and the film thins proportionally slower, while slow-rising bubbles refresh the head at a lower flux. Net effect: the life of a beer's head, pour to collapse, stretches about 3x. For the bartender this is aesthetics; for life support it is the other face of the same physics - the water-gas separators in res-eclss-01 need their centrifugal stage precisely because bubbles refuse to leave. The slow foam in this bar and the separation problem in that module are the same 0.38.",
+      "physics": "官方口径一条:本吧供应的是低度发酵饮品与合成风味饮料——乙醇在闭环生保里是受控物资,配额账在 ECLSS,不在酒单上。",
+      "physics_en": "One official line: this bar serves low-alcohol ferments and synthetic-flavor drinks - ethanol is a controlled substance in a closed-loop habitat, and its quota ledger lives in ECLSS, not on the menu."
+    },
+    {
+      "id": "arcade",
+      "label": "街机角（一台是 MB-1 彩蛋）",
+      "label_en": "The arcade (one cabinet is an MB-1 easter egg)",
+      "range": 10,
+      "detail": "四台机柜,三红一黄。黄顶那台跑的不是游戏,是隔壁算力中心 MB-1 芯片的字符级 bigram 模型——同一颗流片过 sky130 的芯片设计,在这里以「你打一个字,它猜下一个」的猜字游戏形态出现。城里最小的推理引擎,被当街机玩。",
+      "detail_en": "Four cabinets, three red and one yellow. The yellow-topped one runs not a game but the character-level bigram model of the MB-1 chip from the compute center next door - the same design that went through the sky130 tape-out flow, appearing here as a guess-the-next-letter game. The smallest inference engine in the city, played as an arcade machine.",
+      "specs": {
+        "机柜": "4（3 游戏 + 1 MB-1）",
+        "彩蛋": "字符级 bigram 猜字",
+        "同源": "ops-compute-01 的 MB-1",
+        "延迟": "单周期查表"
+      },
+      "specs_en": {
+        "Cabinets": "4 (3 games + 1 MB-1)",
+        "Easter egg": "char-level bigram guessing",
+        "Lineage": "MB-1 from ops-compute-01",
+        "Latency": "single-cycle lookup"
+      },
+      "sim": "游戏延迟账:街机手感的红线是输入到画面 <50 ms。地下城局域网单跳 <1 ms,但真正的保障是「不出城」——四台机柜的游戏全部本地运行,零依赖地球。与地球联机对战在物理上不存在:单程光延迟 3~22 分钟,火星电竞永远是城内联赛。",
+      "sim_en": "Latency ledger: arcade feel draws its red line at under 50 ms input-to-photon. The undercity LAN is under 1 ms per hop, but the real guarantee is never leaving town - all four cabinets run fully local, zero Earth dependency. Playing against Earth is physically nonexistent: one-way light delay runs 3 to 22 minutes, so Mars esports will forever be an intramural league.",
+      "physics": "娱乐设施的存在本身就是一条生保账:115 人在 26 个月的会合周期里没有「回家」选项,心理维护不是福利是系统冗余——这间屋子在 ECLSS 的框架里,和水循环器同属一类设备。",
+      "physics_en": "The existence of this hall is itself a life-support ledger: 115 people with no going home inside a 26-month synodic period make psychological maintenance not a perk but system redundancy - in the ECLSS framework, this room and the water recycler belong to the same equipment class."
+    }
+  ]
+}

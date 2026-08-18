@@ -393,6 +393,22 @@
       ]
     },
     {
+      "id": "hab-rec-01",
+      "name": "地下城娱乐中心",
+      "name_en": "Undercity Recreation Hall",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/hab-rec-01.js",
+      "size_m": 30.5,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
       "id": "sci-deeplab-01",
       "name": "深地暗物质实验室（100t 液氙）",
       "name_en": "Deep Underground Dark-Matter Lab (100 t LXe)",
@@ -1031,10 +1047,7 @@
       "module": "units/res-eclss-01.js",
       "size_m": 48.2,
       "size_axis": "width",
-      "pos": [
-        5,
-        60
-      ],
+      "pos": null,
       "rotation_deg": 0,
       "sink_m": 0.3,
       "effects": [
@@ -1049,10 +1062,7 @@
       "module": "units/res-recycle-01.js",
       "size_m": 44,
       "size_axis": "width",
-      "pos": [
-        -300,
-        40
-      ],
+      "pos": null,
       "rotation_deg": 0,
       "sink_m": 0.3,
       "effects": [

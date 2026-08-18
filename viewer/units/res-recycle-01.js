@@ -175,6 +175,7 @@ export function build(THREE) {
     for (const [dx, dz] of [[1.4, 0], [-1.4, 0], [0, 1.4], [0, -1.4]])
       box(0.5, 0.5, 0.1, M.dark, dx, -0.3, dz, scr);
     cyl(0.22, 0.22, 0.9, M.dark, 0, 0.5, 0, 8, scr);
+    box(2.0, 0.10, 0.16, M.orange, 1.05, 0.12, 0, scr);      // 单侧橙标记臂=转向可读
     spinners.push({ node: 'settler_rake', axis: 'y', rpm: 1.2 });
     box(0.9, 1.1, 0.9, M.grey, -14.0, 3.2, WZ);                 // 驱动头
     // 排泥斗（污泥去堆肥）
@@ -197,8 +198,13 @@ export function build(THREE) {
     // 高压泵（带飞轮）
     box(1.6, 1.0, 1.1, M.white, -12.0, 0.9, WZ + 2.2);
     box(1.0, 0.8, 0.9, M.dark, -13.1, 0.85, WZ + 2.2);
-    const pw = cyl(0.42, 0.42, 0.18, M.steel, -11.0, 0.9, WZ + 2.2, 12);
-    pw.rotation.z = Math.PI / 2; pw.name = 'ro_pump';
+    const pwPivot = new THREE.Group();
+    pwPivot.position.set(-11.0, 0.9, WZ + 2.2);
+    pwPivot.rotation.z = Math.PI / 2; g.add(pwPivot);
+    const pw = cyl(0.42, 0.42, 0.18, M.steel, 0, 0, 0, 12, pwPivot);
+    pw.name = 'ro_pump';
+    for (let k = 0; k < 2; k++)
+      box(0.07, 0.22, 0.76, M.dark, 0, 0, 0, pw).rotation.y = k * Math.PI / 2;
     spinners.push({ node: 'ro_pump', axis: 'y', rpm: 90 });
     // 浓水（RO reject）支线 → 卤水固化
     pipeX(-11.2, -5.4, 0.85, WZ + 3.0, 0.09, M.wSettle);
@@ -243,8 +249,13 @@ export function build(THREE) {
     vcd.rotation.z = Math.PI / 2;
     cyl(0.88, 0.88, 0.25, M.wMem, UX + 3.7, 1.6, UZ - 0.6, 12).rotation.z = Math.PI / 2;
     box(1.1, 0.9, 0.9, M.dark, UX + 0.3, 1.6, UZ - 0.6);
-    const vfw = cyl(0.34, 0.34, 0.16, M.steel, UX + 0.9, 1.6, UZ - 0.6, 10);
-    vfw.rotation.z = Math.PI / 2; vfw.name = 'vcd_fw';
+    const vfwPivot = new THREE.Group();
+    vfwPivot.position.set(UX + 0.9, 1.6, UZ - 0.6);
+    vfwPivot.rotation.z = Math.PI / 2; g.add(vfwPivot);
+    const vfw = cyl(0.34, 0.34, 0.16, M.steel, 0, 0, 0, 10, vfwPivot);
+    vfw.name = 'vcd_fw';
+    for (let k = 0; k < 2; k++)
+      box(0.06, 0.20, 0.62, M.dark, 0, 0, 0, vfw).rotation.y = k * Math.PI / 2;
     spinners.push({ node: 'vcd_fw', axis: 'y', rpm: 70 });
     // 卤水处理器（BPA）：小型加热干燥箱 + 干盐出料抽屉（抽出半格）
     box(1.9, 1.5, 1.6, M.white, UX + 4.6, 1.05, UZ + 1.3);
@@ -265,7 +276,7 @@ export function build(THREE) {
     // 转鼓：只做背半壳（露出前半的料床）——剖切样板
     const drumBack = new THREE.Mesh(
       // theta: 0=+Z(观察侧)，0.5pi=+Y(上)。壳体覆盖 上→后→下，把 +Z 那一面整个让出来
-      new THREE.CylinderGeometry(1.7, 1.7, 9.6, 16, 1, true, Math.PI * 0.55, Math.PI * 1.20),
+      new THREE.CylinderGeometry(1.7, 1.7, 9.6, 16, 1, true, Math.PI * 0.60, Math.PI * 1.08),
       new THREE.MeshLambertMaterial({ color: 0xcfc9bc, side: THREE.DoubleSide }));
     drumBack.rotation.z = Math.PI / 2;
     drumBack.rotation.y = 0;
@@ -291,16 +302,23 @@ export function build(THREE) {
     paddle.name = 'compost_paddles';
     g.add(paddle);
     cyl(0.16, 0.16, 9.4, M.dark, 0, 0, 0, 8, paddle).rotation.z = Math.PI / 2;
+    // 抄板做大并贴近筒壁：真实堆肥转鼓的翻抛板本就接近内径，小板子在剖口外根本看不见
+    // （螺旋排布——每片沿轴前移，所以整组没有 6 重对称，视觉周期是整整一转 24 s）
     for (let i = 0; i < 6; i++) {
       const a = i / 6 * Math.PI * 2, x = -3.9 + i * 1.56;
-      const p = box(1.1, 1.25, 0.14, M.steel, x, 0, 0, paddle);
-      p.position.set(x, Math.cos(a) * 0.85, Math.sin(a) * 0.85);
+      const p = box(1.5, 1.40, 0.16, M.steel, x, 0, 0, paddle);
+      p.position.set(x, Math.cos(a) * 0.95, Math.sin(a) * 0.95);
       p.rotation.x = -a;
     }
     spinners.push({ node: 'compost_paddles', axis: 'x', rpm: 2.5 });
     // 齿圈传动 + 电机（动力核心可见）
     const gear = cyl(1.9, 1.9, 0.26, M.dark, DX - 3.6, 2.5, DZ - 0.55, 20);
     gear.rotation.z = Math.PI / 2; gear.name = 'compost_gear';
+    for (let k = 0; k < 14; k++) {                    // 齿（朝向 z 与自转 x 正交，此处不会摆）
+      const a = k / 14 * Math.PI * 2;
+      box(0.20, 0.32, 0.20, M.steel,
+        Math.cos(a) * 1.96, 0, Math.sin(a) * 1.96, gear).rotation.y = -a;
+    }
     spinners.push({ node: 'compost_gear', axis: 'x', rpm: 2.5 });
     box(1.2, 1.0, 1.0, M.grey, DX - 3.6, 0.95, DZ + 1.3);
     beam(DX - 3.6, 1.4, DZ + 1.3, DX - 3.6, 2.5, DZ + 0.2, 0.16, M.steel);
@@ -348,9 +366,15 @@ export function build(THREE) {
     }
     // 头尾滚筒（转）
     for (let i = 0; i < 2; i++) {
-      const d = cyl(0.32, 0.32, 1.3, M.dark, SX - 7.0 + i * 14.0, 1.55, SZ, 10);
-      d.rotation.x = Math.PI / 2; d.name = 'sort_drum_' + i;
-      spinners.push({ node: 'sort_drum_' + i, axis: 'z', rpm: 22 });
+      // 朝向进 pivot、自转进网格自身 y 轴：原写法（rotation.x 朝向 + 绕 z 自转）
+      // 在欧拉复合下会让滚筒翻跟头而不是打转——光面圆柱看不出，加了条纹就露馅。
+      const dPivot = new THREE.Group();
+      dPivot.position.set(SX - 7.0 + i * 14.0, 1.55, SZ);
+      dPivot.rotation.x = Math.PI / 2; g.add(dPivot);
+      const d = cyl(0.32, 0.32, 1.3, M.dark, 0, 0, 0, 10, dPivot);
+      d.name = 'sort_drum_' + i;
+      box(0.10, 1.34, 0.68, M.orange, 0, 0, 0, d);   // 纵向橙条纹=滚筒在转的证据
+      spinners.push({ node: 'sort_drum_' + i, axis: 'y', rpm: 22 });
     }
     box(1.1, 1.0, 1.0, M.grey, SX + 7.9, 1.3, SZ);                   // 驱动电机
     // 上料斗（城内垃圾进厂）
@@ -440,7 +464,8 @@ export function build(THREE) {
     const stir = cyl(0.10, 0.10, 1.5, M.steel, HX - 2.8, 2.2, HZ - 0.6, 8);
     stir.name = 'acid_stir';
     spinners.push({ node: 'acid_stir', axis: 'y', rpm: 40 });
-    box(0.7, 0.14, 0.14, M.steel, HX - 2.8, 1.6, HZ - 0.6);
+    box(0.7, 0.14, 0.14, M.steel, 0, -0.6, 0, stir);   // 桨叶必须挂在轴上,否则轴转桨不动
+    box(0.14, 0.14, 0.7, M.steel, 0, -0.6, 0, stir);
     box(0.8, 0.7, 0.7, M.grey, HX - 2.8, 3.0, HZ - 0.6);             // 搅拌电机
     cyl(0.42, 0.2, 0.8, M.gypsum, HX - 1.4, 2.9, HZ - 1.5, 10);      // Ca(OH)2 加灰斗
     // 石膏滤饼出料（回 res-sulfur-01！）

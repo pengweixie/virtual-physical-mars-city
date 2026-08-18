@@ -111,6 +111,7 @@ let musicSetScene = () => {};  // assigned in the UI block, called by toggleMagi
   const tracks = {
     city: new Audio('audio/quiet-infrastructure.m4a'),
     magic: new Audio('audio/glass-moon-halo.m4a'),
+    under: new Audio('audio/bedrock-pulse.m4a'),
   };
   for (const a of Object.values(tracks)) { a.loop = true; a.volume = 0; a.preload = 'auto'; }
   let musicOn = localStorage.getItem('mars_music') !== '0';
@@ -1631,6 +1632,12 @@ const INTERIOR_DOORS = [
   { from: 'hab-quarter-01', pos: [0, 7.5], radius: 1.5, to: 'hab-foyer-01',
     label: '玄关', label_en: 'Foyer',
     entry: { pos: [-4.6, 0, -3.5], yaw: -Math.PI / 2 } },
+  // 玄关左墙后段 → 娱乐中心(低重力半场/攀岩/台球/影院/酒吧/街机)
+  { from: 'hab-foyer-01', pos: [-5.4, -13], radius: 1.6, to: 'hab-rec-01',
+    label: '娱乐中心', label_en: 'Recreation hall' },
+  { from: 'hab-rec-01', pos: [0, 0.5], radius: 1.5, to: 'hab-foyer-01',
+    label: '玄关', label_en: 'Foyer',
+    entry: { pos: [-4.6, 0, -13], yaw: -Math.PI / 2 } },
   // 玄关右墙中段 → 冷冻电镜实验室(300 kV,城市的分子之眼);其自带的
   // 门龛标着「返回玄关」,故 exitZone 已在 manifest 里禁用,回程走这道门
   { from: 'hab-foyer-01', pos: [5.4, -9.0], radius: 1.6, to: 'sci-cryoem-01',
@@ -1868,6 +1875,9 @@ async function enterInterior(id, portal) {
   if (document.pointerLockElement) canvas.requestPointerLock();
   rec.exitArmed = false;                     // re-arm the exit zone each entry
   inInterior = rec;
+  // the greenhouse dome is a surface interior - it keeps the surface score
+  musicSetScene(id === 'res-dome-hall-01'
+    ? (magicGroup.visible ? 'magic' : 'city') : 'under');
   nearPortal = null;
   portalPromptEl.style.display = 'none';
   hintEl.textContent = T.interiorHint(pick(rec.meta, 'name'));
@@ -1888,6 +1898,7 @@ async function exitInterior() {
   rig.position.copy(savedEnv.pos);
   yaw = savedEnv.yaw; pitch = savedEnv.pitch; flying = savedEnv.fly;
   inInterior = null;
+  musicSetScene(magicGroup.visible ? 'magic' : 'city');
   interiorExiting = false;
   nearDoor = null;
   portalPromptEl.style.display = 'none';

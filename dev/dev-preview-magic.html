@@ -13,9 +13,12 @@ html,body{margin:0;height:100%;overflow:hidden;background:#0b0813}
 #hud{position:fixed;left:12px;bottom:12px;padding:9px 13px;font:12.5px/1.7 ui-monospace,monospace;
   border-radius:8px;color:#d8c8ff;background:rgba(20,14,32,.85);white-space:pre;z-index:10}
 </style>
+<!-- 与主查看器共用同一份本地 three(0.172.0)——预览页曾钉 unpkg@0.160,
+     Cone/Lathe 在 r16x 后不再生成尖点退化三角形,同代码两页面差了 ~400 面,
+     排查半天以为是确定性坏了(2026-08-16 实踩)。版本必须跟引擎走。 -->
 <script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-               "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
+{ "imports": { "three": "../node_modules/three/build/three.module.js",
+               "three/addons/": "../node_modules/three/examples/jsm/" } }
 </script>
 </head>
 <body>
@@ -30,6 +33,9 @@ html,body{margin:0;height:100%;overflow:hidden;background:#0b0813}
   <button id="bPalace">📍 视角：水晶王城</button>
   <button id="bGate">📍 视角：符文环</button>
   <button id="bBand">📍 视角：过渡带</button>
+  <button id="bAcademy">📍 视角：奥术学院</button>
+  <button id="bQuarry">📍 视角：水晶矿场</button>
+  <button id="bSanct">📍 视角：空中圣所</button>
 </div>
 <div id="hud"></div>
 <script type="module">
@@ -137,6 +143,9 @@ document.getElementById('bTower').onclick = () => look(-90, GROUND + 38, -440, -
 document.getElementById('bPalace').onclick = () => look(-170, GROUND + 70, -500, -170, GROUND + 78, -730);
 document.getElementById('bGate').onclick = () => look(-203, GROUND + 12, -451, -231, GROUND + 7, -493);
 document.getElementById('bBand').onclick = () => look(-160, GROUND + 218, -180, -160, GROUND, -600);
+document.getElementById('bAcademy').onclick = () => look(-10, GROUND + 26, -528, -55, GROUND + 20, -560);
+document.getElementById('bQuarry').onclick = () => look(-252, GROUND + 32, -598, -290, GROUND + 6, -640);
+document.getElementById('bSanct').onclick = () => look(35, GROUND + 83, -580, -12, GROUND + 58, -640);
 
 // 穿门：把相机沿门轴推过符印面，走的是模块自己的 onBeforeRender 玩家探针
 let walk = 0;

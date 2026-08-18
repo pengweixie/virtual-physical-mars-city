@@ -304,7 +304,9 @@ export function build(ctx) {
   // glowing walkway ribbon draped on the terrain
   const pathMat = new THREE.MeshLambertMaterial(
     { color: 0x9fdcff, emissive: 0x2f7fa8, emissiveIntensity: 0.9 });
+  const pathSegs = [];                          // every walkway, for the wisps
   function glowPath(x1, z1, x2, z2, w = 2.6) {
+    pathSegs.push([x1, z1, x2, z2, Math.hypot(x2 - x1, z2 - z1)]);
     const len = Math.hypot(x2 - x1, z2 - z1);
     const n = Math.max(2, Math.ceil(len / 8));
     const dx = (x2 - x1) / len, dz = (z2 - z1) / len;
@@ -515,55 +517,81 @@ export function build(ctx) {
     });
   }
 
-  // ---- crystal palace — built here, no longer imported --------------------
-  // It used to be a Rodin photoscan GLB (models/crystal/2/base_tex.glb, 1.0 M
-  // triangles / 50 MB, lazy-loaded on first X). Two rounds of shader grafting
-  // got it close, but a warm photoscan will never be the same object as a
-  // faceted low-poly layer, and it cost a 40 s stall on first open. So the
-  // capital is written in the layer's own vocabulary instead — the mage
-  // tower's grammar at ten times the scale: fluted lathes, a helical ramp, lit
-  // windows spiralling up, and faceted crystal grown straight through the
-  // masonry. The layer now opens instantly and has no imported parts at all.
-  // (The GLB path is recoverable from git — see dev/HANDOFF_magic-city.md.)
-  const palace = new THREE.Group();
-  palace.name = 'magicPalace';
-  magicGroup.add(palace);
+  // ---- building vocabulary ------------------------------------------------
+  // The capital's detail kit — per-material batcher, pointed arches, window
+  // bays, three tower tops, swaying banners — extracted from the palace block
+  // so every district of the city builds in the same language. Materials and
+  // unit geometries live here ONCE (material count does not grow with the
+  // number of buildings); makeBuilder(group) binds the kit to one building.
+  const roofMat = new THREE.MeshLambertMaterial({ color: 0x565080,
+    flatShading: true, emissive: 0x1c1930 });
+  const trimMat = new THREE.MeshLambertMaterial({ color: 0xe6dff7,
+    flatShading: true, emissive: 0x4c4576 });
+  const slitMat = new THREE.MeshLambertMaterial({ color: 0x241f33 });
+  const woodMat = new THREE.MeshLambertMaterial({ color: 0x54412e,
+    flatShading: true, emissive: 0x1d160e });
+  nightStone.push(roofMat, trimMat, woodMat);
+  // batching is keyed on material identity; only static parts use these mats.
+  // Crystals never batch — their shader reads each object's own origin for
+  // the growth stagger and the vein field, and merging would fuse them.
+  // runeMat batches safely: merging shares the material, and its colour anim
+  // (portal flash) applies to the merged mesh exactly as to the parts
+  const BATCHABLE = new Set([stonePale, stoneDark, rock, roofMat, trimMat,
+    slitMat, woodMat, pathMat, runeMat, winMats[0], winMats[1], winMats[2]]);
+  const ARCH_HEAD = new THREE.TorusGeometry(1, 0.085, 3, 7, Math.PI);
+  const JAMB = new THREE.BoxGeometry(1, 1, 1);
+  const UNIT = new THREE.BoxGeometry(1, 1, 1);
   const winPts = [];                            // window-fire seeds, world space
-  let palaceGroundY = 0, palaceTopY = 0, palaceGate = null;
-  {
-    const NW = 12, R_WALL = 96, PHI = -Math.PI / 12, GATE = 3;
-    const vA = (i) => i * Math.PI / 6 + PHI;    // wall vertex angles
-    let baseY = gY(CX, CZ);                     // sit on the lowest ground we cover
-    for (let i = 0; i < 12; i++) {
-      const a = i / 12 * Math.PI * 2;
-      baseY = Math.min(baseY, gY(CX + Math.cos(a) * 104, CZ + Math.sin(a) * 104));
+  let nWin = 0;                                 // phase dealer for winMats
+  // Hanging banners. Cloth is the one thing a fortress has that is not
+  // stone, and the sway is what stops the whole city from reading as a
+  // frozen model — one anim drives every banner in every district.
+  const bannerMats = [0x8f6fd8, 0xd86f9f, 0x6fa8d8, 0xd8b06f].map((c) =>
+    new THREE.MeshLambertMaterial({ color: c, side: THREE.DoubleSide,
+      emissive: c, emissiveIntensity: 0.45, flatShading: true }));
+  // deliberately NOT in nightStone: the masonry ramp would drive cloth to
+  // 0.9 and the banners would read as neon strips after dusk
+  const banners = [];
+  const BANNER = (() => {                       // a strip with a baked ripple
+    const g = new THREE.PlaneGeometry(8.5, 24, 3, 6);
+    const p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const u = p.getX(i) / 8.5, v = (p.getY(i) / 24) + 0.5;
+      p.setZ(i, Math.sin(u * 5.2 + v * 3.1) * 0.8 * (1 - v * 0.55));
+      if (v < 0.12) p.setX(i, p.getX(i) * (0.55 + v * 3.6));   // tapered foot
     }
-    baseY -= 1.5;
-    palace.position.set(CX, baseY, CZ);         // everything below is local
+    g.computeVertexNormals();
+    return g;
+  })();
+  magicAnims.push((t) => {
+    for (const b of banners) {
+      b.rotation.y = b.userData.ry + Math.sin(t * 0.9 + b.userData.ph) * 0.16;
+      b.rotation.z = Math.sin(t * 1.3 + b.userData.ph) * 0.05;
+    }
+  });
 
-    // Placement helper. A capital detailed down to arrow slits is ~1000 small
-    // meshes = ~1000 draw calls, which is a worse bill than the triangles. So
-    // every static part built from one of the batchable materials is *not*
-    // added to the scene: its geometry is banked with its matrix and the whole
-    // material's worth is merged into a single mesh at the end (below).
-    // Crystals stay individual — their shader reads each object's own origin
-    // for the growth stagger and the vein field, and merging would fuse them.
+  function makeBuilder(group) {
+    // Placement + batching. A building detailed down to arrow slits is many
+    // hundreds of small meshes = as many draw calls, a worse bill than the
+    // triangles. Static parts in a BATCHABLE material are banked (geometry +
+    // matrix) instead of entering the graph, and flush() merges each
+    // material's worth into a single mesh. Anything animated must bypass put()
+    // and go straight to group.add(), or the batch would freeze it.
     const batches = new Map();
-    let batchable = null;                       // filled once the mats exist
     const put = (mesh, x, y, z, ry = 0) => {
       mesh.position.set(x, y, z);
       mesh.rotation.y = ry;
-      if (batchable && batchable.has(mesh.material)) {
+      if (BATCHABLE.has(mesh.material)) {
         mesh.updateMatrix();
         let arr = batches.get(mesh.material);
         if (!arr) batches.set(mesh.material, arr = []);
         arr.push({ g: mesh.geometry, m: mesh.matrix.clone() });
         return mesh;                            // deliberately not in the graph
       }
-      palace.add(mesh);
+      group.add(mesh);
       return mesh;
     };
-    function flushBatches() {
+    const flush = () => {
       for (const [mat, parts] of batches) {
         let n = 0;
         const flat = parts.map(({ g, m }) => {
@@ -583,20 +611,29 @@ export function build(ctx) {
         const g = new THREE.BufferGeometry();
         g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
         g.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
-        palace.add(new THREE.Mesh(g, mat));
+        group.add(new THREE.Mesh(g, mat));
       }
       batches.clear();
-    }
-    // a window: lit box on the facade + a seed for the window-fire sprites
-    // (winPts.length is always a multiple of 3, so it can't pick the phase)
-    let nWin = 0;
-    const UNIT = new THREE.BoxGeometry(1, 1, 1);
+    };
+    // a pointed arch (two jambs + a stretched half-torus head). Arcades are
+    // the cheapest thing that reads as *architecture* rather than as boxes.
+    const arch = (x, y, z, ry, w, h, d, mat) => {
+      const c = Math.cos(ry), s0 = Math.sin(ry);
+      for (const s of [-1, 1]) {                     // jambs, rotated into place
+        const j = new THREE.Mesh(JAMB, mat);
+        j.scale.set(w * 0.16, h, d);
+        put(j, x + s * (w / 2) * c, y + h / 2, z - s * (w / 2) * s0, ry);
+      }
+      const head = new THREE.Mesh(ARCH_HEAD, mat);
+      head.scale.set(w / 2, w * 0.72, d / 0.17);     // stretched = pointed
+      put(head, x, y + h, z, ry);
+    };
+    // a window: lit box + surround (reveal, sill, pointed head) + a seed for
+    // the shared window-fire sprites. Coordinates are group-local; the seed is
+    // world, so every district's windows join the same Points.
     const window = (x, y, z, ry, w = 1.6, h = 3.4) => {
       put(new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.5), winMats[nWin++ % 3]),
         x, y, z, ry);
-      // A lit box on a blank wall is a sticker. The surround — reveal, sill,
-      // pointed head — is what makes it read as an opening, and it is the
-      // detail the player is closest to.
       const c = Math.cos(ry), s0 = Math.sin(ry);
       for (const s of [-1, 1]) {
         const j = new THREE.Mesh(UNIT, trimMat);
@@ -611,77 +648,12 @@ export function build(ctx) {
       head.scale.set(w / 2 + 0.28, w * 0.85, 5.4);
       put(head, x, y + h / 2, z, ry);
       const r = Math.hypot(x, z) || 1;
-      winPts.push(CX + x + x / r * 1.2, baseY + y, CZ + z + z / r * 1.2);
+      winPts.push(group.position.x + x + x / r * 1.2,
+        group.position.y + y, group.position.z + z + z / r * 1.2);
     };
-
-    // -- the vocabulary the capital is detailed with. Three extra materials
-    //    cost nothing and do more against "crude" than any amount of geometry:
-    //    roofs read as roofs, cornices catch the eye, slits read as dark.
-    const roofMat = new THREE.MeshLambertMaterial({ color: 0x565080,
-      flatShading: true, emissive: 0x1c1930 });
-    const trimMat = new THREE.MeshLambertMaterial({ color: 0xe6dff7,
-      flatShading: true, emissive: 0x4c4576 });
-    const slitMat = new THREE.MeshLambertMaterial({ color: 0x241f33 });
-    nightStone.push(roofMat, trimMat);
-    batchable = new Set([stonePale, stoneDark, rock, roofMat, trimMat, slitMat,
-      pathMat, winMats[0], winMats[1], winMats[2]]);
-
-    // a pointed arch (two jambs + a stretched half-torus head). Arcades are the
-    // cheapest thing that reads as *architecture* rather than as boxes.
-    const ARCH_HEAD = new THREE.TorusGeometry(1, 0.085, 3, 7, Math.PI);
-    const JAMB = new THREE.BoxGeometry(1, 1, 1);
-    const arch = (x, y, z, ry, w, h, d, mat) => {
-      const c = Math.cos(ry), s0 = Math.sin(ry);
-      for (const s of [-1, 1]) {                     // jambs, rotated into place
-        const j = new THREE.Mesh(JAMB, mat);
-        j.scale.set(w * 0.16, h, d);
-        put(j, x + s * (w / 2) * c, y + h / 2, z - s * (w / 2) * s0, ry);
-      }
-      const head = new THREE.Mesh(ARCH_HEAD, mat);
-      head.scale.set(w / 2, w * 0.72, d / 0.17);     // stretched = pointed
-      put(head, x, y + h, z, ry);
-    };
-
-    // Hanging banners. Cloth is the one thing a fortress has that is not
-    // stone, and the sway is what stops the whole capital from reading as a
-    // frozen model — one anim drives every banner in the city.
-    const bannerMats = [0x8f6fd8, 0xd86f9f, 0x6fa8d8, 0xd8b06f].map((c) =>
-      new THREE.MeshLambertMaterial({ color: c, side: THREE.DoubleSide,
-        emissive: c, emissiveIntensity: 0.45, flatShading: true }));
-    // deliberately NOT in nightStone: the masonry ramp would drive cloth to
-    // 0.9 and the banners would read as neon strips after dusk
-    const banners = [];
-    const BANNER = (() => {                      // a strip with a baked ripple
-      const g = new THREE.PlaneGeometry(8.5, 24, 3, 6);
-      const p = g.attributes.position;
-      for (let i = 0; i < p.count; i++) {
-        const u = p.getX(i) / 8.5, v = (p.getY(i) / 24) + 0.5;
-        p.setZ(i, Math.sin(u * 5.2 + v * 3.1) * 0.8 * (1 - v * 0.55));
-        if (v < 0.12) p.setX(i, p.getX(i) * (0.55 + v * 3.6));   // tapered foot
-      }
-      g.computeVertexNormals();
-      return g;
-    })();
-    const banner = (x, y, z, ry, seed) => {
-      const b = new THREE.Mesh(BANNER, bannerMats[seed % 4]);
-      b.position.set(x, y - 12, z);
-      b.rotation.y = ry;
-      b.userData.ry = ry;
-      b.userData.ph = seed * 1.7;
-      palace.add(b);
-      banners.push(b);
-    };
-    magicAnims.push((t) => {
-      for (const b of banners) {
-        b.rotation.y = b.userData.ry + Math.sin(t * 0.9 + b.userData.ph) * 0.16;
-        b.rotation.z = Math.sin(t * 1.3 + b.userData.ph) * 0.05;
-      }
-    });
-
-    // a tower top: corbel band, parapet, steep spire, finial. Reused by both
-    // the wall towers and the flanking towers so the capital has one language.
-    // Three roof types, dealt round the wall. One repeated silhouette is what
-    // made the first pass read as a toy; the eye counts shapes, not triangles.
+    // a tower top: corbel table, machicolated ring, parapet, then one of
+    // three roofs — steep spire / onion dome / open lantern. The eye counts
+    // silhouettes, not triangles.
     const spireTop = (x, z, r, y, tint, kind = 0) => {
       for (let m = 0; m < 8; m++) {                  // corbel table
         const ma = m / 8 * Math.PI * 2 + 0.2;
@@ -737,6 +709,82 @@ export function build(ctx) {
         put(fin, x, top + 0.4 + r * 3.8, z);
       }
     };
+    const banner = (x, y, z, ry, seed, sc = 1) => {
+      const b = new THREE.Mesh(BANNER, bannerMats[seed % 4]);
+      b.scale.setScalar(sc);                    // wall-size by default (8.5x24)
+      b.position.set(x, y - 12 * sc, z);
+      b.rotation.y = ry;
+      b.userData.ry = ry;
+      b.userData.ph = seed * 1.7;
+      group.add(b);
+      banners.push(b);
+    };
+    return { put, flush, arch, window, spireTop, banner };
+  }
+
+  // an energy link: tube + pulse shader, one material instance per beam
+  function energyBeam(curve, color, radius = 1.5, segs = 72) {
+    const beam = new THREE.Mesh(
+      new THREE.TubeGeometry(curve, segs, radius, 6, false),
+      new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending,
+        uniforms: { uColor: { value: new THREE.Color(color) },
+                    uTime: crystalTime, uDay: crystalDay },
+        vertexShader: /* glsl */`
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }`,
+        fragmentShader: /* glsl */`
+          uniform vec3 uColor;
+          uniform float uTime, uDay;
+          varying vec2 vUv;
+          void main() {
+            float pulse = 0.0;
+            for (int i = 0; i < 3; i++) {
+              float ph = fract(uTime * 0.19 + float(i) * 0.3333);
+              float d = abs(fract(vUv.x - ph + 0.5) - 0.5);
+              pulse += exp(-d * d * 900.0);
+            }
+            float base = 0.16 + 0.08 * sin(vUv.x * 46.0 - uTime * 2.6);
+            float a = (base + pulse) * (1.25 - uDay * 0.85);
+            gl_FragColor = vec4(mix(uColor, vec3(1.0), min(pulse, 1.0) * 0.65),
+                                clamp(a, 0.0, 1.0) * 0.6);
+          }`,
+      }));
+    beam.frustumCulled = false;
+    magicGroup.add(beam);
+    return beam;
+  }
+
+  // ---- crystal palace — built here, no longer imported --------------------
+  // It used to be a Rodin photoscan GLB (models/crystal/2/base_tex.glb, 1.0 M
+  // triangles / 50 MB, lazy-loaded on first X). Two rounds of shader grafting
+  // got it close, but a warm photoscan will never be the same object as a
+  // faceted low-poly layer, and it cost a 40 s stall on first open. So the
+  // capital is written in the layer's own vocabulary instead — the mage
+  // tower's grammar at ten times the scale: fluted lathes, a helical ramp, lit
+  // windows spiralling up, and faceted crystal grown straight through the
+  // masonry. The layer now opens instantly and has no imported parts at all.
+  // (The GLB path is recoverable from git — see dev/HANDOFF_magic-city.md.)
+  const palace = new THREE.Group();
+  palace.name = 'magicPalace';
+  magicGroup.add(palace);
+  let palaceGroundY = 0, palaceTopY = 0, palaceGate = null;
+  {
+    const NW = 12, R_WALL = 96, PHI = -Math.PI / 12, GATE = 3;
+    const vA = (i) => i * Math.PI / 6 + PHI;    // wall vertex angles
+    let baseY = gY(CX, CZ);                     // sit on the lowest ground we cover
+    for (let i = 0; i < 12; i++) {
+      const a = i / 12 * Math.PI * 2;
+      baseY = Math.min(baseY, gY(CX + Math.cos(a) * 104, CZ + Math.sin(a) * 104));
+    }
+    baseY -= 1.5;
+    palace.position.set(CX, baseY, CZ);         // everything below is local
+
+    const { put, flush, arch, window, spireTop, banner } = makeBuilder(palace);
 
     // -- L0 stepped rock plinth: the castle stands on its own mesa, which is
     //    also what keeps a 200 m footprint from cutting a hard line in the dirt
@@ -1390,7 +1438,7 @@ export function build(ctx) {
     palace.add(crownRing);
     magicAnims.push((t, dt) => { crownRing.rotation.y -= dt * 0.11; });
 
-    flushBatches();                              // ~950 parts → 10 draw calls
+    flush();                                     // ~950 parts → 10 draw calls
     palaceTopY = baseY + WARD + KEEP_H + 26;
     palaceGroundY = baseY;
   }
@@ -1403,15 +1451,6 @@ export function build(ctx) {
     const groundY = palaceGroundY, topY = palaceTopY;
     const gate = palaceGate = [CX, CZ + 132];    // outside the curtain wall
     glowPath(MX, MZ, gate[0], gate[1], 3.2);     // walkway from the tower
-
-    // -- window fire: the windows are ours now, so the sprites sit exactly on
-    //    them instead of being guessed off a photoscan's vertices
-    if (winPts.length) {
-      const winFire = new THREE.Points(sparkGeometry(winPts),
-        sparkMaterial(0xffd58a, 6.2));
-      winFire.frustumCulled = false;
-      magicGroup.add(winFire);
-    }
 
     // -- fly-lights: sprites drifting along a closed spline around the capital
     const ctrl = [];
@@ -1447,43 +1486,11 @@ export function build(ctx) {
 
     // -- energy beam: mage tower orb <-> the keep's crown, pulses along the arc
     const beamEnd = new THREE.Vector3(CX, topY - 20, CZ);
-    const beamCurve = new THREE.CatmullRomCurve3([
+    energyBeam(new THREE.CatmullRomCurve3([
       new THREE.Vector3(MX, ORB_Y, MZ),
       new THREE.Vector3((MX + CX) / 2, (ORB_Y + beamEnd.y) / 2 + 34, (MZ + CZ) / 2),
       beamEnd,
-    ]);
-    const beam = new THREE.Mesh(
-      new THREE.TubeGeometry(beamCurve, 72, 1.5, 6, false),
-      new THREE.ShaderMaterial({
-        transparent: true, depthWrite: false, side: THREE.DoubleSide,
-        blending: THREE.AdditiveBlending,
-        uniforms: { uColor: { value: new THREE.Color(0xbfe8ff) },
-                    uTime: crystalTime, uDay: crystalDay },
-        vertexShader: /* glsl */`
-          varying vec2 vUv;
-          void main() {
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }`,
-        fragmentShader: /* glsl */`
-          uniform vec3 uColor;
-          uniform float uTime, uDay;
-          varying vec2 vUv;
-          void main() {
-            float pulse = 0.0;
-            for (int i = 0; i < 3; i++) {
-              float ph = fract(uTime * 0.19 + float(i) * 0.3333);
-              float d = abs(fract(vUv.x - ph + 0.5) - 0.5);
-              pulse += exp(-d * d * 900.0);
-            }
-            float base = 0.16 + 0.08 * sin(vUv.x * 46.0 - uTime * 2.6);
-            float a = (base + pulse) * (1.25 - uDay * 0.85);
-            gl_FragColor = vec4(mix(uColor, vec3(1.0), min(pulse, 1.0) * 0.65),
-                                clamp(a, 0.0, 1.0) * 0.6);
-          }`,
-      }));
-    beam.frustumCulled = false;
-    magicGroup.add(beam);
+    ]), 0xbfe8ff);
 
     // -- crystal roots: the garden's own crystals break out of the ground all
     //    round the walls, in clumps — evenly spaced shafts read as a fence
@@ -1985,6 +1992,555 @@ export function build(ctx) {
     l.position.set(lx2, ly2, lz2);
     magicGroup.add(l);
     magicLights.push(l);
+  }
+
+  // ---- the city between the landmarks -------------------------------------
+  // Five districts fill the empty flanks of the tower-palace corridor. Every
+  // one builds through makeBuilder (static parts batch per material), places
+  // itself deterministically off rnd(), and joins the layer's existing
+  // channels: crystals wear cryShaderMats (growth wave / strike ripple for
+  // free), windows seed the shared window fire, banners join the city sway,
+  // lights go through magicLights for the engine's night ramp.
+
+  // -- Arcanum Academy: three unequal towers round a cloistered court, the
+  //    east flank's answer to the palace. Kind 0/1/2 roofs — one of each.
+  {
+    const AX = -55, AZ = -560;
+    const g = new THREE.Group();
+    g.name = 'magicAcademy';
+    const ay = gY(AX, AZ) - 0.5;
+    g.position.set(AX, ay, AZ);
+    magicGroup.add(g);
+    const { put, flush, arch, window, spireTop, banner } = makeBuilder(g);
+    // court platform with a lipped edge
+    put(new THREE.Mesh(new THREE.CylinderGeometry(26, 29.5, 4, 12), stoneDark), 0, 2, 0);
+    put(new THREE.Mesh(new THREE.CylinderGeometry(26.6, 26.6, 0.8, 12), trimMat), 0, 4.2, 0);
+    // cloister arcade, open toward the walkway from the tower (west-north-west)
+    const GAP = Math.atan2(-40, -95);            // direction back to the tower
+    for (let i = 0; i < 14; i++) {
+      const a = i / 14 * Math.PI * 2;
+      let d = Math.abs(a - ((GAP + Math.PI * 2) % (Math.PI * 2)));
+      d = Math.min(d, Math.PI * 2 - d);
+      if (d < 0.30) continue;
+      arch(Math.cos(a) * 21.5, 4.6, Math.sin(a) * 21.5, -a + Math.PI / 2,
+        7.2, 5.2, 1.5, trimMat);
+    }
+    // three towers, heights and roofs all different
+    const towers = [];
+    for (const [ta, r, h, kind, tint] of
+         [[0.35, 6.4, 38, 2, 0], [2.45, 5.6, 30, 1, 2], [4.55, 4.9, 24, 0, 3]]) {
+      const x = Math.cos(ta) * 15.5, z = Math.sin(ta) * 15.5;
+      const pts = [];
+      for (let k = 0; k <= 14; k++) {
+        const t2 = k / 14;
+        const rr = r * (1 - 0.34 * t2) * (1 + 0.05 * Math.sin(t2 * Math.PI * 6));
+        pts.push(new THREE.Vector2(rr, t2 * h));
+      }
+      put(new THREE.Mesh(new THREE.LatheGeometry(pts, 12), stonePale), x, 4, z);
+      put(new THREE.Mesh(new THREE.CylinderGeometry(r * 1.08, r * 1.22, 1.5, 12),
+        trimMat), x, 5.1, z);
+      spireTop(x, z, r * 0.68 + 0.5, 4 + h, tint, kind);
+      for (let wi = 0; wi < Math.floor(h / 8); wi++) {   // windows spiral up
+        const wa = ta + 0.9 + wi * 1.9;
+        const wr = r * (1 - 0.34 * ((6 + wi * 8) / h)) + 0.3;
+        window(x + Math.cos(wa) * wr, 4 + 6 + wi * 8, z + Math.sin(wa) * wr,
+          wa + Math.PI / 2, 1.4, 2.9);
+      }
+      towers.push([x, z, 4 + h]);
+    }
+    banner(Math.cos(0.35) * 9.5, 16, Math.sin(0.35) * 9.5, -0.35 + Math.PI / 2, 5);
+    banner(Math.cos(2.45) * 8.6, 15, Math.sin(2.45) * 8.6, -2.45 + Math.PI / 2, 6);
+    // bridges: tall->mid, mid->low, each a walkway arc over a thin rib
+    for (const [i0, i1] of [[0, 1], [1, 2]]) {
+      const [x1, z1, y1] = towers[i0], [x2, z2, y2] = towers[i1];
+      const lo = Math.min(y1, y2) - 6;
+      const arc = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(x1, y1 - 4, z1),
+        new THREE.Vector3((x1 + x2) / 2, lo + 5.5, (z1 + z2) / 2),
+        new THREE.Vector3(x2, y2 - 4, z2),
+      ]);
+      put(new THREE.Mesh(new THREE.TubeGeometry(arc, 16, 1.0, 5), stoneDark), 0, 0, 0);
+      const rib = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(x1, y1 - 9, z1),
+        new THREE.Vector3((x1 + x2) / 2, lo - 1, (z1 + z2) / 2),
+        new THREE.Vector3(x2, y2 - 9, z2),
+      ]);
+      put(new THREE.Mesh(new THREE.TubeGeometry(rib, 12, 0.55, 4), trimMat), 0, 0, 0);
+    }
+    // the court studies one thing: a hero crystal on a stepped dais
+    put(new THREE.Mesh(new THREE.CylinderGeometry(4.6, 5.4, 1.1, 10), trimMat), 0, 4.7, 0);
+    put(new THREE.Mesh(new THREE.CylinderGeometry(3.4, 4.2, 1.1, 10), stoneDark), 0, 5.6, 0);
+    const heroC = new THREE.Mesh(crystalGeometry(2.1, 14, 6, 8, 3), cryShaderMats[2]);
+    heroC.position.set(0, 6, 0);
+    g.add(heroC);
+    for (let i = 0; i < 4; i++) {                // satellites round the dais
+      const a = i / 4 * Math.PI * 2 + 0.7;
+      const c = new THREE.Mesh(crystalGeometry(0.6, 3 + (i % 2) * 1.5, 1.6),
+        cryShaderMats[(i + 1) % 4]);
+      c.position.set(Math.cos(a) * 6.8, 4.4, Math.sin(a) * 6.8);
+      c.rotation.set(Math.cos(a) * 0.3, a, -Math.sin(a) * 0.3);
+      g.add(c);
+    }
+    flush();
+    const l = new THREE.PointLight(0xbfa8ff, 0, 120, 2);
+    l.position.set(AX, ay + 22, AZ);
+    magicGroup.add(l);
+    magicLights.push(l);
+  }
+  glowPath(MX, MZ, -76, -551, 2.6);              // tower -> academy court rim
+
+  // -- Mushroom Hamlet: six cottages under cap roofs, between the portal
+  //    walkway and the elder mushrooms. The caps reuse capMats/gillMats, so
+  //    the village glows the way the wild mushrooms already do.
+  {
+    const HX = -215, HZ = -545;
+    const g = new THREE.Group();
+    g.name = 'magicHamlet';
+    g.position.set(HX, 0, HZ);                   // flat group: local y is world y
+    magicGroup.add(g);
+    BATCHABLE.add(capMats[0]).add(capMats[1]).add(capMats[2]);
+    BATCHABLE.add(gillMats[0]).add(gillMats[1]).add(gillMats[2]);
+    const { put, flush, window } = makeBuilder(g);
+    for (let i = 0; i < 6; i++) {
+      const a = i / 6 * Math.PI * 2 + 0.5 + (rnd() - 0.5) * 0.5;
+      const r = 9 + (i % 3) * 5 + rnd() * 3;
+      const lx = Math.cos(a) * r, lz = Math.sin(a) * r;
+      const hy = gY(HX + lx, HZ + lz);
+      const s = 0.85 + (i % 3) * 0.2;
+      const bodyR = 2.7 * s, bodyH = 3.4 * s;
+      put(new THREE.Mesh(new THREE.CylinderGeometry(bodyR * 0.86, bodyR, bodyH, 9),
+        stonePale), lx, hy + bodyH / 2, lz);
+      put(new THREE.Mesh(new THREE.CylinderGeometry(bodyR * 0.92, bodyR * 0.92, 0.5, 9),
+        trimMat), lx, hy + bodyH - 0.2, lz);     // eaves ring under the cap
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(
+        bodyR * 1.8, 12, 7, 0, Math.PI * 2, 0, Math.PI / 2), capMats[i % 3]);
+      cap.scale.y = 0.6;
+      put(cap, lx, hy + bodyH, lz);
+      const gill = new THREE.Mesh(new THREE.CircleGeometry(bodyR * 1.6, 14),
+        gillMats[i % 3]);
+      gill.rotation.x = Math.PI / 2;
+      put(gill, lx, hy + bodyH - 0.05, lz);
+      const da = Math.atan2(-lz, -lx);           // door faces the village green
+      const door = new THREE.Mesh(UNIT, slitMat);
+      door.scale.set(1.35 * s, 2.1 * s, 0.6);
+      put(door, lx + Math.cos(da) * bodyR * 0.92, hy + 1.05 * s,
+        lz + Math.sin(da) * bodyR * 0.92, da + Math.PI / 2);
+      const head = new THREE.Mesh(ARCH_HEAD, trimMat);
+      head.scale.set(0.75 * s, 0.8 * s, 4.2);
+      put(head, lx + Math.cos(da) * bodyR * 0.95, hy + 2.1 * s,
+        lz + Math.sin(da) * bodyR * 0.95, da + Math.PI / 2);
+      window(lx + Math.cos(da + 2.2) * bodyR * 0.96, hy + bodyH * 0.55,
+        lz + Math.sin(da + 2.2) * bodyR * 0.96, da + 2.2 + Math.PI / 2,
+        1.0 * s, 1.5 * s);
+      put(new THREE.Mesh(new THREE.BoxGeometry(0.75 * s, 3.2 * s, 0.75 * s),
+        stoneDark), lx + Math.cos(da + 3.6) * bodyR * 0.8, hy + bodyH,
+        lz + Math.sin(da + 3.6) * bodyR * 0.8);  // chimney through the cap rim
+    }
+    // the village green: a lamp crystal on a post, and a well
+    put(new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.36, 4.6, 6), woodMat),
+      0, gY(HX, HZ) + 2.3, 0);
+    const lamp = new THREE.Mesh(crystalGeometry(0.55, 2.2, 1.1, 7, 2), cryShaderMats[1]);
+    lamp.rotation.x = Math.PI;
+    lamp.position.set(0, gY(HX, HZ) + 6.6, 0);
+    g.add(lamp);
+    put(new THREE.Mesh(new THREE.CylinderGeometry(1.7, 1.9, 1.3, 8), stoneDark),
+      4.2, gY(HX + 4.2, HZ) + 0.65, 1.5);        // the well ring
+    put(new THREE.Mesh(new THREE.CircleGeometry(1.35, 8).rotateX(-Math.PI / 2),
+      gillMats[2]), 4.2, gY(HX + 4.2, HZ) + 1.35, 1.5);  // water glows faintly
+    flush();
+    const l = new THREE.PointLight(0xff9fe0, 0, 70, 2);
+    l.position.set(HX, gY(HX, HZ) + 8, HZ);
+    magicGroup.add(l);
+    magicLights.push(l);
+  }
+  glowPath(-215, -545, -213, -502, 1.4);         // lane to the portal walkway
+
+  // -- Crystal Quarry: a terraced dig into a knoll on the west flank — the
+  //    quarry can't cut the engine's terrain, so it rises: a rim of spoil
+  //    boulders round three stepped benches, hero crystals still in the seam.
+  {
+    const QX = -290, QZ = -640;
+    const g = new THREE.Group();
+    g.name = 'magicQuarry';
+    const qy = gY(QX, QZ);
+    g.position.set(QX, qy, QZ);
+    magicGroup.add(g);
+    const { put, flush } = makeBuilder(g);
+    for (let i = 0; i < 14; i++) {               // spoil rim
+      const a = i / 14 * Math.PI * 2 + 0.3;
+      if (Math.abs(a - 0.9) < 0.35) continue;    // haul road gap (toward NE)
+      const b = new THREE.Mesh(cragGeometry(2.6 + (i % 3) * 1.1, 0, 0.5), rock);
+      b.scale.y = 0.62;
+      put(b, Math.cos(a) * 25, 3.4, Math.sin(a) * 25, a * 2.1);
+    }
+    // benches: wall ring + floor disc, stepping down toward the centre
+    for (const [wr, wh, fy] of [[22, 4.4, 3.2], [15.5, 3.2, 1.9], [9.5, 2.2, 0.8]]) {
+      put(new THREE.Mesh(new THREE.CylinderGeometry(wr, wr + 1.2, wh, 14, 1, true),
+        stoneDark), 0, fy + wh / 2 - 1.6, 0);
+      put(new THREE.Mesh(new THREE.CircleGeometry(wr, 14).rotateX(-Math.PI / 2),
+        rock), 0, fy, 0);
+    }
+    // the seam: hero crystals on the benches, small ones in the walls
+    for (const [cx2, cz2, cr, ch, tint] of
+         [[0, -2, 1.7, 9, 0], [-4.5, 3.5, 1.2, 6.5, 2], [5, 2, 1.0, 5, 3]]) {
+      const c = new THREE.Mesh(crystalGeometry(cr, ch, ch * 0.45, 8, 2),
+        cryShaderMats[tint]);
+      c.position.set(cx2, 0.8, cz2);
+      c.rotation.y = tint * 1.3;
+      g.add(c);
+    }
+    {
+      const NV = 34;                             // vein stubs in the bench walls
+      const vein = new THREE.InstancedMesh(crystalGeometry(1, 1, 0.5), cryInstMat, NV);
+      vein.frustumCulled = false;
+      const mm = new THREE.Matrix4(), mq = new THREE.Quaternion();
+      const mv = new THREE.Vector3(), ms = new THREE.Vector3(), mc = new THREE.Color();
+      const COL = [0x8fe8ff, 0xff9fe0, 0xbfa8ff, 0xffd98f];
+      for (let i = 0; i < NV; i++) {
+        const a = rnd() * Math.PI * 2;
+        const [wr, fy] = [[22, 3.2], [15.5, 1.9], [9.5, 0.8]][i % 3];
+        mq.setFromEuler(new THREE.Euler(
+          Math.sin(a) * (0.9 + rnd() * 0.5), rnd() * 6.28,
+          -Math.cos(a) * (0.9 + rnd() * 0.5)));  // leaning out of the wall
+        const s = 0.5 + rnd() * 0.9;
+        ms.set(s * 0.5, s * 1.6, s * 0.5);
+        mv.set(Math.cos(a) * (wr - 0.5), fy + 0.6, Math.sin(a) * (wr - 0.5));
+        mm.compose(mv, mq, ms);
+        vein.setMatrixAt(i, mm);
+        vein.setColorAt(i, mc.setHex(COL[i % 4]));
+      }
+      vein.instanceMatrix.needsUpdate = true;
+      if (vein.instanceColor) vein.instanceColor.needsUpdate = true;
+      g.add(vein);
+    }
+    // timber derrick on the rim, hoisting a crystal out of the pit.
+    // Everything hangs off one rim anchor angle: u = radial out, t = tangent,
+    // so the jib provably points at the pit and the hoist rides INSIDE it.
+    const DA2 = -0.46;
+    const ux = Math.cos(DA2), uz = Math.sin(DA2);
+    const tx2 = -uz, tz2 = ux;
+    const px3 = ux * 18, pz3 = uz * 18;          // tower base on the rim
+    const AT = Math.atan2(tz2, tx2);             // tangent yaw for boxes
+    for (const [su, st] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
+      const leg = new THREE.Mesh(new THREE.BoxGeometry(0.55, 15, 0.55), woodMat);
+      leg.rotation.set(st * -0.18, 0, su * 0.18);
+      put(leg, px3 + su * 3.4 * ux + st * 3.4 * tx2, 9.4,
+        pz3 + su * 3.4 * uz + st * 3.4 * tz2);
+    }
+    for (const [y2, s2] of [[6, 2.6], [11, 1.8]]) {      // brace rings
+      put(new THREE.Mesh(new THREE.BoxGeometry(s2 * 2.9, 0.45, 0.45), woodMat),
+        px3, y2, pz3, -AT);
+      put(new THREE.Mesh(new THREE.BoxGeometry(s2 * 2.9, 0.45, 0.45), woodMat),
+        px3, y2, pz3, -DA2);
+    }
+    const jib = new THREE.Mesh(new THREE.BoxGeometry(13, 0.6, 0.6), woodMat);
+    jib.rotation.set(0, -Math.atan2(-uz, -ux), -0.18);   // inward, nose down
+    put(jib, px3 - ux * 5.8, 17.6, pz3 - uz * 5.8);
+    const wheel = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.9, 0.9, 0.5, 8).rotateX(Math.PI / 2), trimMat);
+    put(wheel, px3 - ux * 11.6, 18.9, pz3 - uz * 11.6, -AT);
+    const hx3 = px3 - ux * 11.6, hz3 = pz3 - uz * 11.6; // hoist line, r=6.4: in the pit
+    const rope = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 1, 4), woodMat);
+    const hoist = new THREE.Mesh(crystalGeometry(0.9, 3.2, 1.5, 7, 2), cryShaderMats[0]);
+    g.add(rope, hoist);                          // animated: never batched
+    magicAnims.push((t) => {
+      const y2 = 6.5 + Math.sin(t * 0.32) * 4.9; // slow round trips out of the pit
+      const len = 18.9 - y2;
+      rope.scale.y = len;
+      rope.position.set(hx3, 18.9 - len / 2, hz3);
+      hoist.position.set(hx3, y2 - 1.6, hz3);
+      hoist.rotation.y = t * 0.4;
+    });
+    // haul road: rails from just outside the top bench, out through the rim gap
+    const RA = 0.9;
+    const rx = Math.cos(RA), rz = Math.sin(RA);
+    for (const off of [-0.9, 0.9]) {
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.3, 20), woodMat);
+      put(rail, rx * 34 - rz * off, 2.9, rz * 34 + rx * off, -RA + Math.PI / 2);
+    }
+    for (let i = 0; i < 5; i++) {                // sleepers
+      put(new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.24, 0.7), woodMat),
+        rx * (26 + i * 4.4), 2.75, rz * (26 + i * 4.4), -RA + Math.PI / 2);
+    }
+    for (const d of [28, 37]) {                  // two ore carts
+      put(new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.5, 3.2), woodMat),
+        rx * d, 3.9, rz * d, -RA + Math.PI / 2);
+      for (const [wx2, wz2] of [[-1.2, -1.1], [1.2, -1.1], [-1.2, 1.1], [1.2, 1.1]]) {
+        const wl = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.45, 0.45, 0.3, 7).rotateZ(Math.PI / 2), stoneDark);
+        // cart frame: across the road = (-rz, rx), along it = (rx, rz)
+        put(wl, rx * d - rz * wx2 + rx * wz2, 3.1,
+          rz * d + rx * wx2 + rz * wz2, -RA + Math.PI / 2);
+      }
+    }
+    const ore = new THREE.Mesh(crystalGeometry(0.8, 1.6, 0.8, 6, 1), cryShaderMats[3]);
+    ore.position.set(rx * 28, 4.8, rz * 28);
+    g.add(ore);
+    flush();
+    const l = new THREE.PointLight(0x8fe8ff, 0, 90, 2);
+    l.position.set(QX, qy + 8, QZ);
+    magicGroup.add(l);
+    magicLights.push(l);
+  }
+
+  // -- Sky Sanctuary: a fifth island, larger than the four and not anchored —
+  //    it patrols a slow 25 m circle with a shrine on its back. No windows
+  //    (window fire seeds are static; a moving building may not use them).
+  {
+    const SX = -10, SZ = -640;                   // open sky on the east flank
+    const g = new THREE.Group();
+    g.name = 'magicSanctuary';
+    const base = gY(SX, SZ) + 62;
+    g.position.set(SX, base, SZ);
+    magicGroup.add(g);
+    const { put, flush, arch, spireTop } = makeBuilder(g);
+    const chunk = new THREE.Mesh(cragGeometry(11, 1, 0.5), rock);
+    chunk.scale.y = 0.55;
+    put(chunk, 0, 0, 0);
+    put(new THREE.Mesh(new THREE.CylinderGeometry(8.8, 10, 1.6, 12), trimMat), 0, 3.4, 0);
+    put(new THREE.Mesh(new THREE.CylinderGeometry(6.4, 7, 6.2, 12), stonePale), 0, 7.3, 0);
+    for (let i = 0; i < 8; i++) {                // open ring of arches
+      const a = i / 8 * Math.PI * 2;
+      arch(Math.cos(a) * 6.8, 4.2, Math.sin(a) * 6.8, -a + Math.PI / 2,
+        4.4, 4.4, 1.2, trimMat);
+    }
+    spireTop(0, 0, 5.4, 10.6, 1, 1);             // onion dome crown
+    for (let h = 0; h < 5; h++) {                // roots of crystal underneath
+      const hc = new THREE.Mesh(
+        crystalGeometry(0.8, 3 + (h % 3), 1.6), cryShaderMats[h % 4]);
+      hc.rotation.x = Math.PI;
+      hc.position.set(Math.sin(h * 2.4) * 4.4, -3, Math.cos(h * 2.4) * 4.4);
+      g.add(hc);
+    }
+    const shaft = new THREE.Mesh(
+      new THREE.CylinderGeometry(2.4, 7, 62, 12, 1, true),
+      new THREE.MeshBasicMaterial({ color: 0xbfa8ff, transparent: true,
+        opacity: 0.03, blending: THREE.AdditiveBlending,
+        depthWrite: false, side: THREE.DoubleSide }));
+    shaft.position.set(0, -31.5, 0);
+    g.add(shaft);
+    flush();
+    magicAnims.push((t) => {
+      const a = t * 0.045;
+      g.position.set(SX + Math.cos(a) * 25, base + Math.sin(t * 0.35) * 1.8,
+        SZ + Math.sin(a) * 25);
+      g.rotation.y = -a * 0.6;
+    });
+  }
+
+  // -- Mana Mill: a squat tower with two counter-rotating crystal rings,
+  //    feeding the mage tower's orb through a thin beam — the north-east
+  //    walkway finally leads somewhere, and the orb has a power source.
+  {
+    const LX2 = -108, LZ2 = -450;
+    const g = new THREE.Group();
+    g.name = 'magicMill';
+    const my = gY(LX2, LZ2);
+    g.position.set(LX2, my, LZ2);
+    magicGroup.add(g);
+    const { put, flush, arch, window } = makeBuilder(g);
+    const pts = [];
+    for (let k = 0; k <= 12; k++) {
+      const t2 = k / 12;
+      const rr = 4.4 * (1 - 0.30 * t2) * (1 + 0.05 * Math.sin(t2 * Math.PI * 5));
+      pts.push(new THREE.Vector2(rr, t2 * 15));
+    }
+    put(new THREE.Mesh(new THREE.LatheGeometry(pts, 11), stonePale), 0, 0.5, 0);
+    put(new THREE.Mesh(new THREE.CylinderGeometry(4.6, 5.2, 1.4, 11), trimMat), 0, 0.9, 0);
+    const door = new THREE.Mesh(UNIT, slitMat);
+    door.scale.set(1.6, 2.6, 0.6);
+    put(door, 4.15, 1.9, 0, Math.PI / 2);
+    arch(4.3, 0.6, 0, Math.PI / 2, 2.1, 2.6, 0.9, trimMat);
+    window(0, 7, 4.0, Math.PI, 1.3, 2.6);
+    window(-3.6, 11, 0, -Math.PI / 2, 1.2, 2.4);
+    put(new THREE.Mesh(new THREE.CylinderGeometry(3.3, 3.7, 1, 10), trimMat),
+      0, 15.9, 0);
+    flush();
+    const collector = new THREE.Mesh(crystalGeometry(1.3, 6.5, 3, 7, 2), cryShaderMats[0]);
+    collector.position.set(0, 16.4, 0);
+    g.add(collector);
+    for (const [ry, rr, dir, n] of [[9.6, 6.4, 1, 6], [13.2, 4.8, -1, 5]]) {
+      const ring = new THREE.Group();
+      ring.position.y = ry;
+      ring.add(new THREE.Mesh(
+        new THREE.TorusGeometry(rr, 0.16, 5, 24).rotateX(Math.PI / 2), pathMat));
+      for (let i = 0; i < n; i++) {
+        const a = i / n * Math.PI * 2;
+        const c = new THREE.Mesh(crystalGeometry(0.5, 2.2, 1.1), cryShaderMats[i % 4]);
+        c.position.set(Math.cos(a) * rr, -1.1, Math.sin(a) * rr);
+        ring.add(c);
+      }
+      g.add(ring);
+      magicAnims.push((t, dt) => { ring.rotation.y += dt * 0.5 * dir; });
+    }
+    energyBeam(new THREE.CatmullRomCurve3([
+      new THREE.Vector3(LX2, my + 20, LZ2),
+      new THREE.Vector3((LX2 + MX) / 2, (my + 20 + ORB_Y) / 2 + 15, (LZ2 + MZ) / 2),
+      new THREE.Vector3(MX, ORB_Y, MZ),
+    ]), 0x8fe8ff, 0.8, 48);
+  }
+  glowPath(-108, -450, MX + 60, MZ + 46, 2.0);   // mill -> the NE walkway's end
+
+  // ---- commons: the city grows together -----------------------------------
+  // Odds and ends that belong to no one district. One builder at the world
+  // origin (local coords = world coords) batches all of it.
+  {
+    const commons = new THREE.Group();
+    commons.name = 'magicCommons';
+    magicGroup.add(commons);
+    const { put, flush, banner } = makeBuilder(commons);
+
+    // -- the mage tower catches up. It is the first thing the player sees and
+    //    it predates every vocabulary upgrade — the newest hamlet cottage was
+    //    better dressed than the founding tower. Trim, surrounds, a balcony
+    //    and banners, all fitted around the existing geometry.
+    const ty2 = gY(MX, MZ), TH2 = 46;
+    put(new THREE.Mesh(new THREE.CylinderGeometry(9.6, 10.4, 1.3, 18), trimMat),
+      MX, ty2 + 2.9, MZ);                        // plinth moulding
+    for (const tt of [0.30, 0.62]) {             // string courses up the flute
+      const rr = 8.6 * (1 - 0.62 * tt) * (1 + 0.055 * Math.sin(tt * Math.PI * 7));
+      put(new THREE.Mesh(new THREE.CylinderGeometry(rr + 0.5, rr + 0.7, 0.85, 18),
+        trimMat), MX, ty2 + 2 + tt * TH2, MZ);
+    }
+    {                                            // crown balcony under the orb
+      const br = 8.6 * 0.38 + 1.3;
+      put(new THREE.Mesh(new THREE.CylinderGeometry(br + 1.3, br + 0.2, 1.7, 14),
+        trimMat), MX, ty2 + 2 + TH2 - 1.9, MZ);
+      for (let i = 0; i < 9; i++) {
+        const a = i / 9 * Math.PI * 2;
+        put(new THREE.Mesh(new THREE.BoxGeometry(0.55, 2.0, 0.55), stoneDark),
+          MX + Math.cos(a) * (br + 1.15), ty2 + 2 + TH2 + 0.1,
+          MZ + Math.sin(a) * (br + 1.15), -a);
+      }
+    }
+    for (let i = 0; i < 11; i++) {               // surrounds for the ramp windows
+      const t = 0.12 + i * 0.075;
+      const a = t * Math.PI * 6.5 + Math.PI / 5;
+      const r = 8.6 * (1 - 0.62 * t) + 0.12;
+      const wx = MX + Math.cos(a) * r, wz = MZ + Math.sin(a) * r;
+      const wy = ty2 + 2 + t * TH2, ry = a + Math.PI / 2;
+      const c = Math.cos(ry), s0 = Math.sin(ry);
+      for (const s2 of [-1, 1]) {                // reveals
+        const j = new THREE.Mesh(UNIT, trimMat);
+        j.scale.set(0.34, 1.75, 0.62);
+        const d = s2 * 0.62;
+        put(j, wx + d * c, wy, wz - d * s0, ry);
+      }
+      const sill = new THREE.Mesh(UNIT, trimMat);
+      sill.scale.set(1.9, 0.32, 0.9);
+      put(sill, wx, wy - 0.82, wz, ry);
+      const head = new THREE.Mesh(ARCH_HEAD, trimMat);
+      head.scale.set(0.62, 0.85, 3.8);
+      put(head, wx, wy + 0.6, wz, ry);
+      // and the founding tower's windows finally join the window fire
+      const rr2 = Math.hypot(wx - MX, wz - MZ) || 1;
+      winPts.push(wx + (wx - MX) / rr2 * 1.0, wy, wz + (wz - MZ) / rr2 * 1.0);
+    }
+    // hung from the crown balcony — anywhere lower tangles with the ramp
+    banner(MX + 5.3, ty2 + 2 + TH2 - 2.4, MZ, Math.PI * 0.5, 1, 0.38);
+    banner(MX - 5.3, ty2 + 2 + TH2 - 2.4, MZ, -Math.PI * 0.5, 4, 0.38);
+
+    // -- processional way: paired rune stones walk the pilgrim from the portal
+    //    to the tower. Their runes share the portal's material, so a crossing
+    //    lights the whole avenue at once. Jitter is hashed, not rnd() — the
+    //    stones must not shift every earlier jitter in the city.
+    {
+      const dx2 = MX - px2, dz2 = MZ - pz2;
+      const L2 = Math.hypot(dx2, dz2);
+      const ux2 = dx2 / L2, uz2 = dz2 / L2;
+      const nx3 = -uz2, nz3 = ux2;
+      for (let i = 0; i < 4; i++) {
+        const d = 16 + i * 17;
+        for (const s2 of [-1, 1]) {
+          const x = px2 + ux2 * d + nx3 * s2 * 5.4;
+          const z = pz2 + uz2 * d + nz3 * s2 * 5.4;
+          const y = gY(x, z);
+          const st = new THREE.Mesh(UNIT, stoneDark);
+          st.scale.set(1.35, 3.6 + ((i * 5 + s2) % 3) * 0.5, 0.95);
+          st.rotation.set(Math.sin(i * 3.1 + s2) * 0.07, 0, Math.cos(i * 5.3) * 0.07);
+          put(st, x, y + 1.7, z, Math.atan2(ux2, uz2));
+          const rn = new THREE.Mesh(UNIT, runeMat);
+          rn.scale.set(0.42, 1.6, 0.14);
+          put(rn, x - nx3 * s2 * 0.56, y + 2.3, z - nz3 * s2 * 0.56,
+            Math.atan2(ux2, uz2));
+          const cap = new THREE.Mesh(UNIT, trimMat);
+          cap.scale.set(1.55, 0.4, 1.15);
+          put(cap, x, y + 3.6 + ((i * 5 + s2) % 3) * 0.5 * 0.5, z,
+            Math.atan2(ux2, uz2));
+        }
+      }
+    }
+    flush();
+  }
+
+  // ---- wisps: somebody lives here ------------------------------------------
+  // Drifting lights that patrol the walkway network — the same network the
+  // districts hang off, so the roads read as used, not just lit. Points only;
+  // zero triangles, one draw call, ~140 gY samples per frame.
+  {
+    const totalLen = pathSegs.reduce((s2, e) => s2 + e[4], 0);
+    const NW2 = Math.min(140, Math.round(totalLen / 6));
+    const wisps = new THREE.Points(sparkGeometry(new Float32Array(NW2 * 3)),
+      sparkMaterial(0xcfe8d8, 4.6));
+    wisps.frustumCulled = false;
+    magicGroup.add(wisps);
+    const asg = [];
+    for (let i = 0; i < NW2; i++) {              // longer roads get more wisps
+      let pick = rnd() * totalLen, k = 0;
+      while (pick > pathSegs[k][4] && k < pathSegs.length - 1) {
+        pick -= pathSegs[k][4];
+        k++;
+      }
+      asg.push([k, rnd(), (0.014 + rnd() * 0.022) * 60 / pathSegs[k][4],
+        rnd() * 6.28]);
+    }
+    const attr = wisps.geometry.attributes.position;
+    magicAnims.push((t) => {
+      for (let i = 0; i < NW2; i++) {
+        const [k, ph, sp, wo] = asg[i];
+        const seg = pathSegs[k];
+        let u = (ph + t * sp) % 1;
+        u = u < 0.5 ? u * 2 : (1 - u) * 2;       // there and back again
+        const x = seg[0] + (seg[2] - seg[0]) * u + Math.sin(t * 1.1 + wo) * 1.4;
+        const z = seg[1] + (seg[3] - seg[1]) * u + Math.cos(t * 0.9 + wo) * 1.4;
+        attr.setXYZ(i, x, gY(x, z) + 1.4 + Math.sin(t * 1.7 + wo) * 0.5, z);
+      }
+      attr.needsUpdate = true;
+    });
+  }
+
+  // ---- opening shockwave ---------------------------------------------------
+  // The growth wave already replays on every X press; this rides it — a thin
+  // ground ring racing out from the tower just ahead of the crystals breaking
+  // soil, so the whole city visibly answers the switch being thrown.
+  {
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(0.94, 1, 48).rotateX(-Math.PI / 2),
+      new THREE.MeshBasicMaterial({ color: 0x9fe8ff, transparent: true,
+        opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false,
+        side: THREE.DoubleSide }));
+    ring.position.set(MX, gY(MX, MZ) + 0.7, MZ);
+    ring.visible = false;
+    magicGroup.add(ring);
+    magicAnims.push(() => {
+      const g2 = uGrow.value;
+      const on = g2 > 0.02 && g2 < 0.9;
+      ring.visible = on;
+      if (on) {
+        ring.scale.setScalar(24 + g2 * 400);
+        ring.material.opacity = 0.5 * (1 - g2) * (1.3 - crystalDay.value * 0.6);
+      }
+    });
+  }
+
+  // ---- window fire, city-wide ---------------------------------------------
+  // created AFTER every district (the palace used to own this Points; now the
+  // academy, hamlet and mill windows breathe in the same swarm)
+  if (winPts.length) {
+    const winFire = new THREE.Points(sparkGeometry(winPts),
+      sparkMaterial(0xffd58a, 6.2));
+    winFire.frustumCulled = false;
+    magicGroup.add(winFire);
   }
 
   // ---- layer API ----------------------------------------------------------

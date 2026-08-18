@@ -25,14 +25,16 @@
         "柜级电化学产热仅 0.8 kW，占早期 η=92% 假设的 10% —— 热的主角是 PCS 与辅助系统，不是电池",
         "SOC 日摆动 42%~100%（浅循环，日历老化主导），灯柱按 L0v2 校准调度曲线数据驱动",
         "身份更新（pwr-grid-01 台账，总控裁定）：本场不是「另一张城市电网」——反应堆够得着一切。它的真实身份是**生存电网**：全城 T1 生存层负荷 78 kW（电网册独立算出），本场实证的 145 kW @15% 残余光伏 ×30 sol 覆盖 1.85 倍。两个 session 互不知情而闭合。",
-        "身份再更新一行（总控代改，依 pwr-fission-01 账 8）：「生存电网」在 pwr-fission-01 落成后再变一次——它不再是失超时让人活下去的东西，而是桥接 60 秒的东西（裂变侧二次调节把设定点走到电池读零，时间常数 60 s），并转为对 N−2 裂变事件的后备（T1 上仍值 10.4 sol）。孤岛不再是秒表。"
+        "身份再更新一行（总控代改，依 pwr-fission-01 账 8）：「生存电网」在 pwr-fission-01 落成后再变一次——它不再是失超时让人活下去的东西，而是桥接 60 秒的东西（裂变侧二次调节把设定点走到电池读零，时间常数 60 s），并转为对 N−2 裂变事件的后备（T1 上仍值 10.4 sol）。孤岛不再是秒表。",
+        "L4 桥接瞬态（秒级步长，上游取 pwr-fission-01 账 8 口径）：聚变跳闸瞬间电池以 450 kW 接管缺额，裂变 24 s 爬到 N−1 firm 280 kW，t=359 s 电池净电流归零转回充，末端 −5.0 kW —— 与裂变卡「稳态 −5 kW」独立复现一致。全程 SOC 只掉 0.2 个百分点（0.03 MWh）。桥接不是储能问题，是控制时序问题。"
       ],
       "sim_en": [
         "L1 PyBaMM (SPMe + lumped thermal, Prada2013): 99.45% cell round-trip over the sol cycle, 0.04 K self-heating rise",
         "Cabinet electrochemical heat is only 0.8 kW - 10% of the early eta=92% assumption; the thermal load is really the PCS and auxiliaries, not the cells",
         "SOC swings 42%-100% daily (shallow cycling, calendar-aging dominated); the light-stacks are data-driven from the L0v2-calibrated dispatch curve",
         "Identity update (pwr-grid-01 ledger, integrator ruling): this farm is not a second city grid - the reactor reaches everything. Its real identity is the SURVIVAL GRID: the city T1 survival tier is 78 kW (computed independently by the grid ledger), and this farm verified 145 kW at 15% residual PV for 30 sols - 1.85x coverage. Two sessions closed the loop without knowing of each other.",
-        "Identity, updated once more (integrator edit, per pwr-fission-01 ledger 8): with pwr-fission-01 on line, the \"survival grid\" changes role again - no longer the thing that keeps people alive through a quench, but the thing that bridges 60 seconds (fission-side secondary control walks the setpoint until the battery reads zero, time constant 60 s), and the reserve against an N-2 fission event, where it is still worth 10.4 sol on T1. The island stops being a stopwatch."
+        "Identity, updated once more (integrator edit, per pwr-fission-01 ledger 8): with pwr-fission-01 on line, the \"survival grid\" changes role again - no longer the thing that keeps people alive through a quench, but the thing that bridges 60 seconds (fission-side secondary control walks the setpoint until the battery reads zero, time constant 60 s), and the reserve against an N-2 fission event, where it is still worth 10.4 sol on T1. The island stops being a stopwatch.",
+        "L4 bridging transient (second-scale steps, upstream figures from pwr-fission-01 ledger 8): at the trip the battery picks up the 450 kW deficit, fission ramps to its N-1 firm 280 kW in 24 s, and at t=359 s the battery current crosses zero into recharge, settling at -5.0 kW - independently reproducing the fission card's \"steady -5 kW\". SOC falls only 0.2 points (0.03 MWh) end to end. Bridging is a control-timing problem, not a storage problem."
       ]
     },
     {
@@ -54,11 +56,13 @@
       },
       "sim": [
         "L3 调度暴露：晴 sol 充电段电池顶着 1 MW 限幅运行 —— PCS 才是真瓶颈，非散热",
-        "L0v2 闭环校准：PCS 从 1 MW 扩至 2 MW 后，标称设计点 419 → 833 kW（1.9×），卡口移交辐射板"
+        "L0v2 闭环校准：PCS 从 1 MW 扩至 2 MW 后，标称设计点 419 → 833 kW（1.9×），卡口移交辐射板",
+        "L4：桥接峰值 450 kW 对 2 MW PCS 是 4.4× 裕度；峰值 0.022C 远低于 L2 定的 0.3~0.4C 持续热上限 —— 当初为「充电窗口灌满夜供」扩的 2 MW，反过来把 60 秒桥接这件事变成了免费的。"
       ],
       "sim_en": [
         "L3 dispatch exposed it: on a clear sol the battery charges pinned against a 1 MW clamp - the PCS, not heat rejection, is the true bottleneck",
-        "L0v2 closed-loop calibration: raising the PCS from 1 to 2 MW lifts the nominal design point 419 -> 833 kW (1.9x) and hands the binding limit to the radiators"
+        "L0v2 closed-loop calibration: raising the PCS from 1 to 2 MW lifts the nominal design point 419 -> 833 kW (1.9x) and hands the binding limit to the radiators",
+        "L4: the 450 kW bridging peak leaves 4.4x headroom on the 2 MW PCS, and 0.022C peak sits far below the 0.3-0.4C sustained thermal ceiling set in L2 - the 2 MW that was sized to refill the night's charge inside the solar window makes the 60-second bridge free."
       ]
     },
     {
