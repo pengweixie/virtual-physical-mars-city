@@ -121,6 +121,7 @@ One city, four toggle layers, each with its own ambient score.
 
 | | |
 |---|---|
+| ![The industrial loop](snaps/industry-poster.png) | ![The Celestial Palace](snaps/palace-poster.png) |
 | ![The spectrum net](snaps/spectrum-poster.png) | ![The cleanroom](snaps/fab-poster.png) |
 | ![Twin rockets](snaps/rockets-poster.png) | ![The radiation net](snaps/radnet-poster.png) |
 | ![Gravitational waves](snaps/gwave-poster.png) | ![Weather station](snaps/weather-poster.png) |

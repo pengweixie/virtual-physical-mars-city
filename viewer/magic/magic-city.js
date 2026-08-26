@@ -2597,6 +2597,185 @@ export function build(ctx) {
   }
   glowPath(-55, -560, -24, -556, 2.2);           // academy -> the Wheel
 
+  // ---- the outer wards -----------------------------------------------------
+  // The landmarks were reading as islands in bare dirt — a city is mostly its
+  // fabric, not its monuments. Seven residential wards fill the pockets
+  // between districts: ~45 houses in four rotating types round small plazas,
+  // one medium building per few wards, lanes tying into the walkway network
+  // (laid before the wisps section, so the lanes are patrolled too), every
+  // window seeding the city-wide window fire. All jitter is index-hashed —
+  // zero rnd(), the older city keeps its exact shapes.
+  {
+    const h1 = (n) => {                          // cheap deterministic hash
+      const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+      return x - Math.floor(x);
+    };
+    // [cx, cz, houses, plazaR, lane end x, lane end z]
+    const WARDS = [
+      [-100, -588, 8, 7.5, -166, -586],          // corridor east
+      [-205, -612, 7, 7.0, -172, -599],          // corridor west
+      [-68, -497, 6, 6.5, -104, -486],           // tower / mill / academy triangle
+      [-252, -492, 6, 6.5, -234, -494],          // portal north
+      [-78, -632, 7, 7.0, -59, -566],            // south of the academy
+      [-243, -688, 6, 6.5, -260, -660],          // quarry side
+      [-155, -462, 5, 6.0, -171, -511],          // north gate pocket
+    ];
+    glowPath(-215, -545, -290, -640, 2.2);       // west trunk: hamlet -> quarry
+    for (let wi = 0; wi < WARDS.length; wi++) {
+      const [cx, cz, N, plazaR, lx2, lz2] = WARDS[wi];
+      const g = new THREE.Group();
+      g.name = 'magicWard' + wi;
+      g.position.set(cx, 0, cz);                 // flat group: local y = world y
+      magicGroup.add(g);
+      const { put, flush, arch, window, spireTop } = makeBuilder(g);
+      const py3 = gY(cx, cz);
+      // plaza: paved disc + kerb + a lantern post
+      put(new THREE.Mesh(new THREE.CylinderGeometry(plazaR, plazaR + 0.7, 0.8, 10),
+        stoneDark), 0, py3 + 0.2, 0);
+      put(new THREE.Mesh(new THREE.CylinderGeometry(plazaR - 0.9, plazaR - 0.9, 0.3, 10),
+        trimMat), 0, py3 + 0.7, 0);
+      put(new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.3, 4.2, 6), woodMat),
+        0, py3 + 2.7, 0);
+      const lamp = new THREE.Mesh(crystalGeometry(0.5, 1.9, 0.95, 7, 2),
+        cryShaderMats[wi % 4]);
+      lamp.rotation.x = Math.PI;
+      lamp.position.set(cx * 0 + 0, py3 + 6.4, 0);
+      g.add(lamp);
+      for (let i = 0; i < N; i++) {              // houses ring the plaza
+        const seed = wi * 31 + i * 7;
+        const a = i / N * Math.PI * 2 + h1(seed) * 0.7;
+        const r = plazaR + 5.5 + h1(seed + 1) * 5;
+        const hx = Math.cos(a) * r, hz = Math.sin(a) * r;
+        const hy = gY(cx + hx, cz + hz);
+        const kind = (wi * 2 + i) % 4;
+        const s = 0.85 + h1(seed + 2) * 0.4;
+        const face = a + Math.PI;                // door faces the plaza
+        if (kind === 0) {                        // gabled row house
+          const w = 7 * s, d = 5.4 * s, hh = 4.6 * s;
+          put(new THREE.Mesh(new THREE.BoxGeometry(w, hh, d), stonePale),
+            hx, hy + hh / 2, hz, -a);
+          put(new THREE.Mesh(new THREE.BoxGeometry(w + 1, 0.5, d + 1), trimMat),
+            hx, hy + hh + 0.15, hz, -a);
+          const roof = new THREE.Mesh(new THREE.ConeGeometry(d * 0.74, 3 * s, 4),
+            roofMat);
+          roof.scale.set(w / d * 0.95, 1, 1);
+          roof.rotation.y = -a + Math.PI / 4;
+          put(roof, hx, hy + hh + 1.5 * s + 0.3, hz);
+          put(new THREE.Mesh(new THREE.BoxGeometry(1.1, 3.4 * s, 1.1), stoneDark),
+            hx + Math.cos(a + 1.9) * w * 0.28, hy + hh + 1.2, hz + Math.sin(a + 1.9) * w * 0.28, -a);
+        } else if (kind === 1) {                 // round hut, conical cap
+          const rr = 2.9 * s, hh = 3.6 * s;
+          put(new THREE.Mesh(new THREE.CylinderGeometry(rr * 0.9, rr, hh, 9),
+            stonePale), hx, hy + hh / 2, hz);
+          put(new THREE.Mesh(new THREE.CylinderGeometry(rr * 0.96, rr * 0.96, 0.4, 9),
+            trimMat), hx, hy + hh - 0.15, hz);
+          put(new THREE.Mesh(new THREE.ConeGeometry(rr * 1.3, 2.8 * s, 9), roofMat),
+            hx, hy + hh + 1.4 * s, hz);
+        } else if (kind === 2) {                 // tower house
+          const rr = 2.4 * s, hh = 8.5 * s;
+          const pts = [];
+          for (let k = 0; k <= 6; k++) {
+            const t2 = k / 6;
+            pts.push(new THREE.Vector2(rr * (1 - 0.22 * t2), t2 * hh));
+          }
+          put(new THREE.Mesh(new THREE.LatheGeometry(pts, 9), stonePale),
+            hx, hy, hz);
+          put(new THREE.Mesh(new THREE.ConeGeometry(rr * 1.05, 2.6 * s, 9), roofMat),
+            hx, hy + hh + 1.2 * s, hz);
+          const fin = new THREE.Mesh(crystalGeometry(0.4, 1.3, 0.7),
+            cryShaderMats[(wi + i) % 4]);
+          fin.position.set(hx, hy + hh + 2.6 * s, hz);
+          g.add(fin);
+          window(hx + Math.cos(a) * (rr * 0.82), hy + hh * 0.68,
+            hz + Math.sin(a) * (rr * 0.82), a + Math.PI / 2, 1.0, 1.7);
+        } else {                                 // L-shaped cottage
+          const w = 5.4 * s, hh = 3.9 * s;
+          put(new THREE.Mesh(new THREE.BoxGeometry(w, hh, 4.2 * s), stonePale),
+            hx, hy + hh / 2, hz, -a);
+          put(new THREE.Mesh(new THREE.BoxGeometry(3.4 * s, hh * 0.78, 3.2 * s),
+            stonePale), hx + Math.cos(a + 2.2) * w * 0.62, hy + hh * 0.39,
+            hz + Math.sin(a + 2.2) * w * 0.62, -a);
+          const roof = new THREE.Mesh(new THREE.ConeGeometry(3.4 * s, 2.6 * s, 4),
+            roofMat);
+          roof.scale.set(w / (4.2 * s) * 0.9, 1, 1);
+          roof.rotation.y = -a + Math.PI / 4;
+          put(roof, hx, hy + hh + 1.2 * s, hz);
+        }
+        // door + a lit window on the plaza face (all kinds)
+        const dr = kind === 1 ? 2.9 * s : (kind === 2 ? 2.4 * s : 2.7 * s);
+        const door = new THREE.Mesh(UNIT, slitMat);
+        door.scale.set(1.15 * s, 1.9 * s, 0.5);
+        put(door, hx + Math.cos(face) * dr * 0.96, hy + 0.95 * s,
+          hz + Math.sin(face) * dr * 0.96, face + Math.PI / 2);
+        window(hx + Math.cos(face + 0.85) * dr * 0.94, hy + 1.9 * s,
+          hz + Math.sin(face + 0.85) * dr * 0.94, face + 0.85 + Math.PI / 2,
+          1.05 * s, 1.5 * s);
+      }
+      // one medium building for every second ward, opposite the lane mouth
+      if (wi % 2 === 0) {
+        const la = Math.atan2(lz2 - cz, lx2 - cx) + Math.PI;
+        const mx2 = Math.cos(la) * (plazaR + 12), mz2 = Math.sin(la) * (plazaR + 12);
+        const my2 = gY(cx + mx2, cz + mz2);
+        if (wi % 4 === 0) {                      // chapel with an apse
+          put(new THREE.Mesh(new THREE.BoxGeometry(9, 6.5, 6.4), stonePale),
+            mx2, my2 + 3.25, mz2, -la);
+          const apsePts = [];
+          for (let k = 0; k <= 6; k++) {
+            const t2 = k / 6;
+            apsePts.push(new THREE.Vector2(
+              3.1 * Math.sqrt(Math.max(1 - t2 * t2 * 0.6, 0.01)), t2 * 6));
+          }
+          put(new THREE.Mesh(new THREE.LatheGeometry(apsePts, 8), stonePale),
+            mx2 + Math.cos(la) * 4.6, my2, mz2 + Math.sin(la) * 4.6);
+          const roof = new THREE.Mesh(new THREE.ConeGeometry(4.6, 3.4, 4), roofMat);
+          roof.scale.set(9 / 6.4 * 0.92, 1, 1);
+          roof.rotation.y = -la + Math.PI / 4;
+          put(roof, mx2, my2 + 8.1, mz2);
+          arch(mx2 - Math.cos(la) * 4.7, my2 + 0.4, mz2 - Math.sin(la) * 4.7,
+            la + Math.PI / 2, 2.6, 3.4, 0.8, trimMat);
+          const fin = new THREE.Mesh(crystalGeometry(0.6, 2.4, 1.2, 7, 2),
+            cryShaderMats[wi % 4]);
+          fin.position.set(mx2, my2 + 10, mz2);
+          g.add(fin);
+        } else {                                 // watch tower with a real top
+          const pts = [];
+          for (let k = 0; k <= 8; k++) {
+            const t2 = k / 8;
+            pts.push(new THREE.Vector2(3.1 * (1 - 0.3 * t2), t2 * 13));
+          }
+          put(new THREE.Mesh(new THREE.LatheGeometry(pts, 10), stonePale),
+            mx2, my2, mz2);
+          spireTop(mx2, mz2, 2.4, my2 + 13, wi, (wi >> 1) % 3);
+          window(mx2 + Math.cos(la) * 2.6, my2 + 8, mz2 + Math.sin(la) * 2.6,
+            la + Math.PI / 2, 1.1, 2.2);
+        }
+      }
+      flush();
+      // the lane into the network — narrow, and patrolled once wisps spawn
+      glowPath(cx, cz, lx2, lz2, 1.6);
+    }
+    // street lamps down the ceremonial spine (tower -> palace gate): the road
+    // the player actually walks deserves more than a glowing ribbon
+    for (let i = 1; i <= 4; i++) {
+      const u = i / 5;
+      const sx2 = MX + (-170 - MX) * u, sz2 = MZ + (-598 - MZ) * u;
+      const dxn = (-170 - MX) / 78, dzn = (-598 - MZ) / 78;
+      for (const s2 of [-1, 1]) {
+        const lx3 = sx2 - dzn * s2 * 3.6, lz3 = sz2 + dxn * s2 * 3.6;
+        const ly3 = gY(lx3, lz3);
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.26, 3.8, 6),
+          woodMat);
+        post.position.set(lx3, ly3 + 1.9, lz3);
+        magicGroup.add(post);
+        const lc = new THREE.Mesh(crystalGeometry(0.42, 1.6, 0.8, 7, 2),
+          cryShaderMats[(i + (s2 > 0 ? 0 : 2)) % 4]);
+        lc.rotation.x = Math.PI;
+        lc.position.set(lx3, ly3 + 5.4, lz3);
+        magicGroup.add(lc);
+      }
+    }
+  }
+
   // ---- wisps: somebody lives here ------------------------------------------
   // Drifting lights that patrol the walkway network — the same network the
   // districts hang off, so the roads read as used, not just lit. Points only;

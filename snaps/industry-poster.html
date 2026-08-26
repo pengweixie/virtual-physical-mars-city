@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Works - One Tonne, Used Twice</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #0b0704; color: #ecdfd2;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .poster { width: 1600px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #140c06 0%, #0b0704 45%, #080503 100%); }
+  header { text-align: center; padding: 52px 0 14px; }
+  header h1 { font-size: 56px; letter-spacing: 11px; color: #f4ece2; font-weight: 800; }
+  header h1 .accent { color: #e0913e; }
+  header .sub { margin-top: 12px; font-size: 20px; letter-spacing: 4px; color: #a4835f; }
+  header .rule { width: 640px; height: 2px; margin: 20px auto 0;
+    background: linear-gradient(90deg, transparent, #e0913e, transparent); }
+  .heroPanel { width: 1540px; margin: 26px auto 0; border-radius: 12px; overflow: hidden;
+    border: 1px solid #35241a; box-shadow: 0 14px 40px rgba(0,0,0,.55); position: relative; }
+  .heroPanel img { width: 100%; display: block; }
+  .heroPanel .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 14px;
+    font-size: 14px; color: #e8d8c4; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(8,5,3,.93) 60%); }
+  .half-title { display: flex; align-items: baseline; gap: 14px;
+    width: 1540px; margin: 30px auto 12px; }
+  .half-title .t { font-size: 30px; font-weight: 800; color: #f4ece2; letter-spacing: 3px; }
+  .half-title .d { font-size: 15.5px; color: #c08a4e; letter-spacing: 1px; }
+  .half-title .ln { flex: 1; height: 1px; background: #35241a; }
+  .flow { width: 1540px; margin: 0 auto; display: block; }
+  .cols { display: flex; justify-content: center; gap: 20px; width: 1540px; margin: 22px auto 0; }
+  .col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .cname { font-size: 23px; font-weight: 800; color: #f4ece2; letter-spacing: 2px; padding: 0 4px; }
+  .cname small { display: block; font-size: 13.5px; color: #b08a5e; font-weight: 400;
+    letter-spacing: 1px; margin-top: 3px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 9px 13px;
+    background: #140d08; border: 1px solid #2c1d12; border-radius: 8px; }
+  .row .k { flex: 0 0 128px; font-size: 14.5px; color: #b08a5e; letter-spacing: .4px; }
+  .row .v { font-size: 15px; color: #eee0d0; line-height: 1.45; }
+  .row .v b { color: #f0a24e; font-weight: 700; }
+  .row.sim { border-left: 3px solid #a06a30; }
+  footer { text-align: center; padding: 30px 0 40px; }
+  footer .line { font-size: 19px; color: #caa87c; letter-spacing: 2.5px; }
+  footer .src { margin-top: 10px; font-size: 13px; color: #6e5638; letter-spacing: 1px;
+    font-family: Consolas, monospace; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>THE WORKS <span class="accent">·</span> ONE TONNE, USED TWICE</h1>
+    <div class="sub">SULFUR &nbsp;·&nbsp; IRON &nbsp;·&nbsp; GLASS — THE INDUSTRIAL LOOP OF MARS CITY</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="heroPanel">
+    <img src="./industry-hero.jpg" alt="The industrial quarter">
+    <div class="cap">The industrial quarter at 15:00 LTST — sulfur kiln line centre, cryogenic farm behind,
+      depot / fire station / glassworks on the east road, the ore hauler mid-cycle.</div>
+  </div>
+
+  <div class="half-title"><span class="t">THE LOOP</span>
+    <span class="d">every stream ends at another plant's intake — no stockpile is a graveyard</span>
+    <span class="ln"></span></div>
+
+  <svg class="flow" viewBox="0 0 1540 300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" style="fill:#c08a4e"/>
+      </marker>
+    </defs>
+    <!-- nodes -->
+    <g style="font-family:'Segoe UI',sans-serif">
+      <rect x="30"  y="110" width="180" height="74" rx="10" style="fill:#1c120a;stroke:#7a4f28"/>
+      <text x="120" y="140" text-anchor="middle" style="fill:#f4ece2;font-size:19px;font-weight:700">REGOLITH MINE</text>
+      <text x="120" y="164" text-anchor="middle" style="fill:#b08a5e;font-size:13px">selective grades</text>
+
+      <rect x="330" y="20"  width="200" height="74" rx="10" style="fill:#1c120a;stroke:#7a4f28"/>
+      <text x="430" y="50"  text-anchor="middle" style="fill:#f4ece2;font-size:19px;font-weight:700">SULFUR KILN</text>
+      <text x="430" y="74"  text-anchor="middle" style="fill:#b08a5e;font-size:13px">900 &#176;C &#183; 1.1 t/sol in</text>
+
+      <rect x="330" y="113" width="200" height="74" rx="10" style="fill:#1c120a;stroke:#7a4f28"/>
+      <text x="430" y="143" text-anchor="middle" style="fill:#f4ece2;font-size:19px;font-weight:700">H&#8322; FURNACE</text>
+      <text x="430" y="167" text-anchor="middle" style="fill:#b08a5e;font-size:13px">FeO &#8594; Fe &#183; 153 kg/sol</text>
+
+      <rect x="330" y="206" width="200" height="74" rx="10" style="fill:#1c120a;stroke:#7a4f28"/>
+      <text x="430" y="236" text-anchor="middle" style="fill:#f4ece2;font-size:19px;font-weight:700">GLASS MELTER</text>
+      <text x="430" y="260" text-anchor="middle" style="fill:#b08a5e;font-size:13px">1450 &#176;C basalt bath</text>
+
+      <rect x="700" y="20"  width="215" height="74" rx="10" style="fill:#221409;stroke:#a06a30"/>
+      <text x="807" y="50"  text-anchor="middle" style="fill:#f0c896;font-size:18px;font-weight:700">LIQUID SULFUR</text>
+      <text x="807" y="74"  text-anchor="middle" style="fill:#b08a5e;font-size:13px">100 kg/sol &#183; binder</text>
+
+      <rect x="700" y="113" width="215" height="74" rx="10" style="fill:#221409;stroke:#a06a30"/>
+      <text x="807" y="143" text-anchor="middle" style="fill:#f0c896;font-size:18px;font-weight:700">CAST + MACHINE</text>
+      <text x="807" y="167" text-anchor="middle" style="fill:#b08a5e;font-size:13px">8.9 kg/sol finished parts</text>
+
+      <rect x="700" y="206" width="215" height="74" rx="10" style="fill:#221409;stroke:#a06a30"/>
+      <text x="807" y="236" text-anchor="middle" style="fill:#f0c896;font-size:18px;font-weight:700">FIBER + PLATE</text>
+      <text x="807" y="260" text-anchor="middle" style="fill:#b08a5e;font-size:13px">1014 MPa pultruded bar</text>
+
+      <rect x="1130" y="66" width="230" height="74" rx="10" style="fill:#132015;stroke:#3f7a4f"/>
+      <text x="1245" y="96" text-anchor="middle" style="fill:#9ee0b0;font-size:19px;font-weight:700">3-D PRINT WORKS</text>
+      <text x="1245" y="120" text-anchor="middle" style="fill:#7ba488;font-size:13px">sulfur concrete + rebar</text>
+
+      <rect x="1130" y="160" width="230" height="74" rx="10" style="fill:#101a22;stroke:#3f6a8a"/>
+      <text x="1245" y="190" text-anchor="middle" style="fill:#9ec8e8;font-size:19px;font-weight:700">CITY O&#8322; NET</text>
+      <text x="1245" y="214" text-anchor="middle" style="fill:#7b96a8;font-size:13px">+8.3 kg/sol from iron</text>
+    </g>
+    <!-- arrows -->
+    <g style="stroke:#c08a4e;stroke-width:2.5;fill:none" marker-end="url(#ar)">
+      <path d="M210,135 C260,120 280,70 328,57" marker-end="url(#ar)"/>
+      <path d="M210,147 L328,150" marker-end="url(#ar)"/>
+      <path d="M210,160 C260,175 280,225 328,243" marker-end="url(#ar)"/>
+      <path d="M530,57 L698,57" marker-end="url(#ar)"/>
+      <path d="M530,150 L698,150" marker-end="url(#ar)"/>
+      <path d="M530,243 L698,243" marker-end="url(#ar)"/>
+      <path d="M915,57 C1020,60 1040,85 1128,97" marker-end="url(#ar)"/>
+      <path d="M915,243 C1020,240 1040,150 1128,120" marker-end="url(#ar)"/>
+      <path d="M915,150 C1010,155 1040,185 1128,192" marker-end="url(#ar)"/>
+    </g>
+    <!-- return streams (dashed) -->
+    <g style="stroke:#8a6a48;stroke-width:2;fill:none;stroke-dasharray:7 5">
+      <path d="M430,94 L430,111" marker-end="url(#ar)"/>
+      <path d="M700,80 C620,95 560,100 532,120" marker-end="url(#ar)"/>
+    </g>
+    <text x="446" y="106" style="fill:#8a6a48;font-size:12px;font-family:'Segoe UI'">tailings 1.0 t/sol &#8594; aggregate</text>
+  </svg>
+
+  <div class="cols">
+    <div class="col">
+      <div class="cname">SULFUR WORKS <small>res-sulfur-01 — the plant whose real product is oxygen</small></div>
+      <div class="row sim"><span class="k">Rotary kiln</span><span class="v">1.3 m &#215; 11 m, <b>900 &#176;C</b>, H&#8322; recirculated not consumed — hangs on fusion baseload, never cycled with the sun</span></div>
+      <div class="row sim"><span class="k">Output</span><span class="v"><b>100 kg/sol</b> liquid S at 140 &#176;C (the viscosity minimum) + 1.0 t/sol desulfurised tailings</span></div>
+      <div class="row"><span class="k">Where it goes</span><span class="v">S binds <b>333 kg/sol</b> of concrete; tailings return as print aggregate and shielding fill — one tonne in, no tonne wasted</span></div>
+    </div>
+    <div class="col">
+      <div class="cname">FOUNDRY <small>res-foundry-01 — "wait for Earth" becomes "wait for the shop"</small></div>
+      <div class="row sim"><span class="k">Reduction</span><span class="v">H&#8322; shaft furnace at 900 &#176;C (same regime as the kiln); FFC melt cells add <b>2 kg/sol Si + 0.5 kg/sol Ti</b></span></div>
+      <div class="row sim"><span class="k">Shop</span><span class="v">Lathe + mill to IT7, EBM printer &#177;0.2 mm — <b>33.6%</b> of the 20 t/window spares stream made locally</span></div>
+      <div class="row"><span class="k">Byproduct</span><span class="v">Every kg of Fe frees <b>0.2865 kg O&#8322;</b> — 8.3 kg/sol joins the city oxygen ledger beside the sulfur plant's</span></div>
+    </div>
+    <div class="col">
+      <div class="cname">GLASSWORKS <small>res-glass-01 — black glass by the tonne, clear glass by the gram</small></div>
+      <div class="row sim"><span class="k">Black line</span><span class="v">Basalt fiber at 1450 &#176;C + cast plate <b>120 kg/sol</b>; pultruded rebar <b>1014 MPa</b> — matrix is the sulfur next door, material flow 100% local</span></div>
+      <div class="row sim"><span class="k">Float line</span><span class="v">Natural thickness <b>11.2 mm</b> vs 6.9 on Earth — the &#8730;g in the float equation is the poster physics of low gravity</span></div>
+      <div class="row"><span class="k">Clear line</span><span class="v">1.9 kg/sol silica, selectively mined at 70% SiO&#8322; — windows local, telescope blanks stay imported, and the ledger says so</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">THE FIRST CITY WHERE EVERY TONNE OF SOIL IS USED TWICE</div>
+    <div class="src">ledgers: mars-sulfur (29 gates) &#183; mars-foundry (round 5) &#183; mars-glass (29 gates) — all numbers from delivered knowledge cards</div>
+  </footer>
+</div>
+</body>
+</html>

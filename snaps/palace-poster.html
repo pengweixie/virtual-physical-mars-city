@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Celestial Palace</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; background: #0c0605; color: #f0e4d4;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .poster { width: 1600px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #180a08 0%, #0c0605 45%, #080404 100%); }
+  header { text-align: center; padding: 52px 0 14px; }
+  header h1 { font-size: 58px; letter-spacing: 14px; color: #f6ecdc; font-weight: 800; }
+  header h1 .accent { color: #e8b44e; }
+  header .sub { margin-top: 12px; font-size: 20px; letter-spacing: 5px; color: #b08a62; }
+  header .rule { width: 640px; height: 2px; margin: 20px auto 0;
+    background: linear-gradient(90deg, transparent, #c8402e, #e8b44e, #c8402e, transparent); }
+  .heroPanel { width: 1540px; margin: 26px auto 0; border-radius: 12px; overflow: hidden;
+    border: 1px solid #3a2018; box-shadow: 0 14px 40px rgba(0,0,0,.6); position: relative; }
+  .heroPanel img { width: 100%; display: block; }
+  .heroPanel .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 14px;
+    font-size: 14px; color: #f0e0c8; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(10,5,4,.93) 60%); }
+  .duo { display: flex; justify-content: center; gap: 20px; width: 1540px; margin: 20px auto 0; }
+  .panel { position: relative; border-radius: 12px; overflow: hidden; flex: 1;
+    border: 1px solid #3a2018; box-shadow: 0 12px 34px rgba(0,0,0,.55); }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap2 { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px;
+    font-size: 13.5px; color: #eadcc4; letter-spacing: .4px;
+    background: linear-gradient(180deg, transparent, rgba(10,5,4,.92) 60%); }
+  .half-title { display: flex; align-items: baseline; gap: 14px;
+    width: 1540px; margin: 30px auto 12px; }
+  .half-title .t { font-size: 30px; font-weight: 800; color: #f6ecdc; letter-spacing: 3px; }
+  .half-title .d { font-size: 15.5px; color: #c89a5e; letter-spacing: 1px; }
+  .half-title .ln { flex: 1; height: 1px; background: #3a2018; }
+  .cols { display: flex; justify-content: center; gap: 20px; width: 1540px; margin: 0 auto; }
+  .col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: baseline; gap: 10px; padding: 10px 13px;
+    background: #160c08; border: 1px solid #301a12; border-radius: 8px; }
+  .row .k { flex: 0 0 148px; font-size: 14.5px; color: #c89a5e; letter-spacing: .4px; }
+  .row .v { font-size: 15px; color: #f2e6d2; line-height: 1.5; }
+  .row .v b { color: #f0be5e; font-weight: 700; }
+  .row.sim { border-left: 3px solid #b04a32; }
+  footer { text-align: center; padding: 30px 0 40px; }
+  footer .line { font-size: 19px; color: #d8b484; letter-spacing: 2.5px; }
+  footer .src { margin-top: 10px; font-size: 13px; color: #7a5c3c; letter-spacing: 1px;
+    font-family: Consolas, monospace; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <h1>THE <span class="accent">CELESTIAL</span> PALACE</h1>
+    <div class="sub">A FOURTH WORLD &nbsp;·&nbsp; NINE TERRACES OVER JEZERO &nbsp;·&nbsp; 天宫城</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="heroPanel">
+    <img src="./imperial-panorama.jpg" alt="The Celestial Palace across its moat">
+    <div class="cap">Across the moat at 15:00 LTST — five-arch bridges, the marble huabiao pair,
+      and the ceremonial axis climbing nine terraces to the summit hall.</div>
+  </div>
+
+  <div class="duo">
+    <div class="panel"><img src="./imperial-night.jpg" alt="The palace at night">
+      <div class="cap2">Night: warm windows, lantern lines, the huabiao pale under the stars.</div></div>
+    <div class="panel"><img src="./magic-panorama.jpg" alt="The crystal castle, its neighbour world">
+      <div class="cap2">Its neighbour world: the crystal castle — one crater, four worlds, four scores.</div></div>
+  </div>
+
+  <div class="half-title"><span class="t">THE LEDGER</span>
+    <span class="d">a monument is still an engineering deliverable</span>
+    <span class="ln"></span></div>
+
+  <div class="cols">
+    <div class="col">
+      <div class="row sim"><span class="k">Envelope</span><span class="v"><b>1200 &#215; 800 m</b> on nine rising terraces, axis due north, entrance bridge facing the science city</span></div>
+      <div class="row sim"><span class="k">Walkable axis</span><span class="v"><b>721 m</b> end to end — 16 checkpoints, <b>0 blocks</b>, every riser 0.599 m against a 0.600 m limit, zero platform gaps</span></div>
+      <div class="row sim"><span class="k">Budget</span><span class="v"><b>169,012 / 170,000</b> triangles &#183; 114 / 120 draw calls &#183; 165 fps — tower cap 48.7% of 75%, corner towers 5,132 of 6,000</span></div>
+      <div class="row"><span class="k">Score</span><span class="v">"Dawn Over Marble Terraces" — bianzhong bronze bells, temple drum, and the space between notes</span></div>
+    </div>
+    <div class="col">
+      <div class="row sim"><span class="k">One generator</span><span class="v">All <b>51 buildings</b> — gates, galleries, bell and drum pavilions, corner towers, the summit hall — derive from a single parametric hall() with terraces and roofs swept from one profile</span></div>
+      <div class="row sim"><span class="k">Five bronzes</span><span class="v">Guardian lion, huabiao column, censer, turtle, crane — generative sculpture, simplified from up to <b>1M triangles</b> each into the city budget</span></div>
+      <div class="row"><span class="k">Built by</span><span class="v">An external coding agent, against the same layer contract as Magic Mars, in <b>six logged stages</b> — accepted at R6 with all four gates green</span></div>
+      <div class="row"><span class="k">Collision</span><span class="v">The axis climbs for real: triangle-classified floor and wall grids, stairs mount at 0.65 m step height, <b>zero bytes</b> added to the module</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line">ONE CITY &#183; FOUR WORLDS &#183; EACH WITH ITS OWN PHYSICS AND ITS OWN MUSIC</div>
+    <div class="src">sources: mars-imperial/dev/STAGE-LOG.md (6 stages) &#183; viewer/imperial/imperial-city.js &#183; engine collision grids &#183; models/imperial (5 GLB)</div>
+  </footer>
+</div>
+</body>
+</html>
