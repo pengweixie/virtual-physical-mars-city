@@ -103,7 +103,7 @@
 
 <header class="phead">
   <div class="wrap">
-    <div class="label">com-relay-01 · com-station-01</div>
+    <div class="label">com-relay-01 · com-station-01 · com-optical-01</div>
     <h1>Comms</h1>
     <p class="phead__sub">Three relay satellites parked 17,032 km over the equator, a hot spare,
       and a 12 m deep-space dish on the crater floor. Every headline number on this page came out
@@ -268,9 +268,80 @@
 
 <section class="band">
   <div class="wrap">
-    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
+    <div class="sec-head"><span class="num">05</span><h2>The laser is a ramp, not a trunk</h2></div>
+    <p class="lead">A 40 cm telescope 39 m from the big dish sends 1550 nm light to Earth two
+      orders of magnitude faster than the radio trunk — on the days Mars lets it.</p>
+    <div class="prose">
+      <p>Optical works out to be the easy part. Twenty watts of average power through a 40 cm
+        aperture puts <strong>52 Mbps</strong> into a 5 m telescope on Earth at conjunction range
+        (2.67 AU), and <strong>832 Mbps</strong> at opposition — against 0.2 to 5 Mbps for the
+        X-band direct-to-Earth path, a factor of <strong>259× and 166×</strong>. The same model,
+        fed the parameters of NASA's DSOC demonstration, returns 22.6 Mbps at 1.5 AU where the
+        real thing measured 25; it also reproduces the 267 Mbps and lunar 622 Mbps ceilings.
+        Nothing here needed inventing. What needed answering was the other question:
+        <em>on a planet that stages planet-wide dust storms, what is a laser link actually worth?</em></p>
+      <p>The answer is an availability ledger, and it is not flattering. Dust of ~µm radius is a
+        Mie scatterer at 1550 nm and a Rayleigh non-event at Ka's 9.4 mm: the same storm that costs
+        the radio downlink 9.5 dB and no outage puts a <strong>27.7 dB</strong> wall in front of
+        the laser. A 300-Mars-year Monte Carlo over synthesized optical-depth time series — seasonal
+        baseline, regional storm arrivals, global events, day-to-day scatter, its climatology pinned
+        to the weather station's τ statistics — gives <strong>93.3%</strong> long-run availability:
+        96.7% in an ordinary year, <strong>85.6%</strong> in a global-storm year, when the link is
+        simply gone for a stretch that reaches <strong>94 sols</strong>. That outage is not
+        schedulable and no amount of margin buys it back.</p>
+      <p>So the architecture writes itself. <strong>The laser is a high-rate ramp for science
+        traffic; the radio is the trunk, permanently.</strong> City telemetry and emergency
+        commanding never leave the three-tier RF chain — Ka relay, X-band direct-to-Earth, and the
+        3 m emergency dish at 500 bps. The two are not redundant so much as complementary: one is
+        fast and interruptible, the other slow and unbreakable, and grain size decides which is
+        which. Handover runs off the same τ the weather station already publishes: below 1 the
+        laser carries bulk science; from 1 to 2 it derates on rate; from 2 to 3.5 only the
+        high-value queue moves, and the usable window shrinks with solar geometry; at
+        <strong>τ ≥ 3.5</strong> the cover shuts, the optics stay clean, and everything falls back
+        to Ka. A global storm backlogs about 42 TB, which the trunk drains in roughly 72 sols
+        afterwards — slow drainage is geometry, not a fault.</p>
+      <p>Three things about Mars turned out to help. Seeing is extraordinary: the refractive-index
+        structure constant scales with the square of density, so the Fried parameter at 1550 nm is
+        about <strong>30 m</strong> and a 40 cm aperture is diffraction-limited in broad daylight
+        with no adaptive optics. Daylight is unavoidable anyway — Earth is an inner planet from
+        here, never more than <strong>41°</strong> from the Sun, so there is no night shift to
+        wait for. And the sky background that would end the story on Earth is beaten not by
+        darkness but by field of view: the Martian daytime sky at 1550 nm is in fact
+        <em>brighter</em> than a good terrestrial site, and optical still wins 6.6× once the
+        seeing-limited field is folded in. Pointing is where the price is paid. The beam is
+        3.9 µrad wide and Earth has moved while the light was in transit, so the transmit
+        direction leads the beacon by up to <strong>360 µrad — 93 beamwidths</strong>. Point where
+        you see it and you miss the planet.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/comms/optical-pair.jpg" alt="com-optical-01 optical terminal with the 12 m radio dish 39 m behind it, in-engine" loading="lazy">
+        <figcaption>CO-SITED — 40 CM OPTICAL TERMINAL, 12 M KA DISH 39 M BEHIND IT (IN-ENGINE)</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/comms/optical-night.jpg" alt="Optical terminal at night with the uplink beacon column along the optical axis" loading="lazy">
+        <figcaption>NIGHT — UPLINK BEACON ALONG THE OPTICAL AXIS, CLAMSHELL COVER LATCHED OPEN</figcaption>
+      </figure>
+    </div>
+    <div class="prose">
+      <p>Two conclusions arrived by being wrong first. The cover petals were drawn as 3 mm
+        aluminium; a shell eigenfrequency solve put their first mode at <strong>7.99 Hz</strong>,
+        28% away from the 6.25 Hz vortex shedding of the tube in a 25 m/s storm — resonance, not
+        margin. They are now a honeycomb sandwich at 45.2 Hz, which is also <em>half</em> the areal
+        mass. And the detector array grew from 16 to 64 pixels to make the near-range cap honest,
+        which quietly broke the cold budget: 64 direct readout lines draw 167 mW against 250 mW of
+        cooling, a margin of 1.50 where the design claimed 2.5. Eight-to-one RF multiplexing put it
+        back to 3.4× — the alternative, a bigger cryocooler, would have taken the station from 3.7
+        to 6.4 kW and rewritten its whole power ledger to avoid building one multiplexer.</p>
+    </div>
+  </div>
+</section>
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>The ledger</h2></div>
     <p class="lead">Every number above, and the run that produced it. Twelve simulations reached
-      the archive; nothing on this page is a bare assertion.</p>
+      the archive on the radio side and thirteen ledgers on the optical side — 42 gates, all green;
+      nothing on this page is a bare assertion.</p>
     <div class="tablewrap"><table>
       <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
       <tbody>
@@ -294,14 +365,32 @@
         <tr><td>Conjunction direct-to-Earth @ 500 bps, 2.5 AU</td><td class="num">21.4 dB margin</td><td class="src">mars-com-station/link-budget.json</td></tr>
         <tr><td>Global dust storm hit on downlink (atten + T<sub>sys</sub> 75→212 K)</td><td class="num">≈9.5 dB, no outage</td><td class="src">mars-com-station/link-budget.json (dust_storm)</td></tr>
         <tr><td>LNA bias-sequencer PCB: schematic / routing / fab files</td><td class="num">0 mismatch · 0 failed nets · Gerber</td><td class="src">mars-com-station/hw/lna_bias_spec.md</td></tr>
+        <tr><td>Optical downlink, conjunction range (2.67 AU) · opposition (0.38 AU)</td><td class="num">52 Mbps · 832 Mbps</td><td class="src">mars-optical/sim/o01_link_budget.py</td></tr>
+        <tr><td>Optical advantage over the X-band direct-to-Earth path</td><td class="num">259× far · 166× near</td><td class="src">o01_link_budget.py (both ends' assets stated)</td></tr>
+        <tr><td>Global dust storm attenuation at 1550 nm (vs 9.5 dB at Ka)</td><td class="num">27.7 dB → link zeroed</td><td class="src">mars-optical/sim/o02_dust_availability.py</td></tr>
+        <tr><td>Long-run optical availability · ordinary year · global-storm year</td><td class="num">93.3% · 96.7% · 85.6%</td><td class="src">o07_tau_montecarlo.py (300 Mars-year MC)</td></tr>
+        <tr><td>Longest single optical outage · backlog · drain time</td><td class="num">94 sols · 42 TB · ~72 sols</td><td class="src">o07_tau_montecarlo.py (outage-duration distribution)</td></tr>
+        <tr><td>Handover threshold, tracking loop killed by daytime sky background</td><td class="num">τ = 3.5</td><td class="src">o02_dust_availability.py + o13_frontend_spectral.py</td></tr>
+        <tr><td>Point-ahead angle, max · median (beam is 3.9 µrad)</td><td class="num">360 · 244 µrad</td><td class="src">o03_pointing_vibration.py (2v⊥/c, full synodic sweep)</td></tr>
+        <tr><td>Pointing budget after wind and servo were solved in the time domain</td><td class="num">0.35 µrad RSS</td><td class="src">o03 + o08_wind_servo.py (von Karman + two-stage loop)</td></tr>
+        <tr><td>Fried parameter at 1550 nm → no adaptive optics needed</td><td class="num">r₀ ≈ 30 m</td><td class="src">o03_pointing_vibration.py (Cn² density scaling)</td></tr>
+        <tr><td>Earth's maximum elongation from Mars → daylight-only operation</td><td class="num">41.0°</td><td class="src">o05_daylight_conjunction.py</td></tr>
+        <tr><td>Daytime background penalty vs a good Earth site (field-of-view limited)</td><td class="num">0.15× (6.6× better)</td><td class="src">o05_daylight_conjunction.py</td></tr>
+        <tr><td>Conjunction outage, optical (±3° keep-out) vs radio (SEP &lt; 2°)</td><td class="num">33 d vs 14 d</td><td class="src">o05_daylight_conjunction.py (reproduces the relay's 14.4 d)</td></tr>
+        <tr><td>Detector choice: SNSPD vs InGaAs SPAD, far end · near end</td><td class="num">4.9× · 28×</td><td class="src">o11_detector_choice.py (efficiency × bits/photon)</td></tr>
+        <tr><td>Cover petal first mode, bare 3 mm sheet vs honeycomb sandwich</td><td class="num">7.99 vs 45.2 Hz</td><td class="src">mars-optical/comsol/shell_modal.java (COMSOL Shell)</td></tr>
+        <tr><td>Mount first structural mode → drivetrain stiffness spec</td><td class="num">62.9 Hz → ≥27 Hz</td><td class="src">mars-optical/comsol/mount_modal.java</td></tr>
+        <tr><td>Readout heat load, 64 direct lines vs 8:1 multiplexed</td><td class="num">1.50× vs 3.4× margin</td><td class="src">o12_readout_heatload.py (4 K stage)</td></tr>
+        <tr><td>Filter passband floor set by Doppler → capacity gain when narrowed</td><td class="num">0.18 nm → +35% data/yr</td><td class="src">o13_frontend_spectral.py</td></tr>
+        <tr><td>Station draw · radiator area (cryocooler is 75% of it)</td><td class="num">3.7 kW · 15 m²</td><td class="src">o06_power_siting.py (closed twice, via heat rejection)</td></tr>
       </tbody>
     </table></div>
   </div>
 </section>
 
-<section class="band band--alt">
+<section class="band">
   <div class="wrap">
-    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <div class="sec-head"><span class="num">07</span><h2>What broke</h2></div>
     <p class="lead">The sims were only half the story. The other half was being wrong in public.</p>
     <div class="prose">
       <p><span class="verdict verdict--fix">solver bug</span><strong>The transparent-wall horn.</strong>
@@ -352,9 +441,9 @@
   </div>
 </section>
 
-<section class="band">
+<section class="band band--alt">
   <div class="wrap">
-    <div class="sec-head"><span class="num">07</span><h2>Try it</h2></div>
+    <div class="sec-head"><span class="num">08</span><h2>Try it</h2></div>
     <p class="lead">The constellation flies in the city's orbit view, and the knowledge base
       travels with it.</p>
     <div class="prose">

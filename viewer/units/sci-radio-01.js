@@ -1,11 +1,13 @@
 // viewer/units/sci-radio-01.js — 低频射电天文阵（0.5–10 MHz）
-// 设计册 E:\Claude\mars-radio（十本解析账）
+// 设计册 E:\Claude\mars-radio（二十本解析账）
 // 单资产内摆阵（非 scatter）：干涉阵的基线就是仪器本身——28 桩坐标由设计册
 // sim/02_array.py 确定性生成（种子 20260806，最小间距 18 m），缆道电长实测标定，
 // 不能交给引擎随机撒放。全阵无转动部件（指向纯电子波束合成）＝spinners 留空是设计特征。
 //
 // v2 深挖（几何全部由账反推）：
 //   刀片臂        ← 账5：短偶极子是电容分压高阻探头，C_a 是唯一几何杠杆（+46% / +1.06 dB）
+//                   臂长 2.5 m（5 m 翼展）＝账5 建模的那副天线本身：10 MHz 上 0.17λ，
+//                   短偶极子框架成立；08-09 前误建成 5.3 m 臂（0.35λ 近谐振，账1/账5 公式失效）
 //   桩顶 LNA 盒   ← 账5：放大器必须在天线端子上（挪到桩下 C_in 10→25 pF，0.5 MHz 损失 12%→24%）
 //   桩基剖切单元  ← 账5/6/9：射频分配（偏置 T + 共模扼流 + 带定滤波罐）+ 定标注入耦合器 + 电源
 //                   馈线定版同轴（非模拟光纤）：账6 的 50 ppm/K 与 duct 卡的铜束由此自洽；
@@ -14,6 +16,8 @@
 //   动态谱瀑布屏  ← 账3/7：截止暗带 + III 型暴群 + II 型暴基频/谐频，纯 t 120 s 超循环
 //   SEP 警报灯    ← 账7：II 型暴出现 = 给 sci-rad-01 警报塔的 27–105 min 提前量
 //   对城零陷方位牌← 账4：常驻零陷指向城区扇区（+Z 侧，与进场车辙同向）
+//   紫色定标注入链← 账6/15/18：夜里没有强点源可做自定标（账18 B），全阵相位
+//                   基准就落在这条链的等臂功分器上——它不是偏振细节，是夜班基准
 
 export const meta = {
   id: 'sci-radio-01',
@@ -71,6 +75,8 @@ export function build(THREE) {
   const beaconMat = new THREE.MeshLambertMaterial({ color: 0xff5540, emissive: 0xff3322, emissiveIntensity: 2.0 });
   // 自管材质（animate 自驱，两个数组都不进——避免双驱动）
   const alertMat = new THREE.MeshLambertMaterial({ color: 0x2a0a08, emissive: 0xff3a20, emissiveIntensity: 0.05 });
+  // 账17：触发器状态灯——值守(暗绿)/命中转储(亮白)/风暴限速(琥珀)。自管，不进两数组
+  const trigMat  = new THREE.MeshLambertMaterial({ color: 0x0d1a12, emissive: 0x53c98a, emissiveIntensity: 0.25 });
   const calMat   = new THREE.MeshLambertMaterial({ color: 0x1a1024, emissive: 0xa070ff, emissiveIntensity: 0.15 });
 
   const box = (w, h, d, mat, x, y, z, parent) => {
@@ -81,11 +87,13 @@ export function build(THREE) {
   };
 
   // ---- 偶极子桩：交叉倒 V 刀片偶极子（LWA blade 体制）----
-  // 账5：刀片有效半径 = w/4，C_a 17.7→25.8 pF（+46%），分压比 0.639→0.721（+1.06 dB）
+  // 账5：刀片有效半径 = w/4，C_a 17.7→25.8 pF（+46%，账13 矩量法实解 35.4 pF），分压比 0.639→0.721（+1.06 dB）
+  // 账16：刀片只有宽度进电学账，厚度纯属结构——0.5 mm 薄板每桩省 10 kg、
+  //       固有频率 1.87→2.71 Hz、天线场 2.26→1.98 t（几何按薄板画）
   const poleGeo   = new THREE.CylinderGeometry(0.055, 0.07, 4.8, 6, 1, true);
-  const bladeX    = new THREE.BoxGeometry(0.25, 5.3, 0.022);   // ±x 臂：刀面在 x-y 竖直面
-  const bladeZ    = new THREE.BoxGeometry(0.022, 5.3, 0.25);   // ±z 臂：刀面在 y-z 竖直面
-  const ARM_TILT  = Math.atan2(3.35, 3.9);
+  const bladeX    = new THREE.BoxGeometry(0.25, 2.5, 0.012);   // ±x 臂：刀面在 x-y 竖直面
+  const bladeZ    = new THREE.BoxGeometry(0.012, 2.5, 0.25);   // ±z 臂：刀面在 y-z 竖直面
+  const ARM_TILT  = Math.atan2(1.62, 1.90);   // 40.5°，2.5 m 臂：水平 1.62 / 落差 1.90
   const mast = (mx, mz, cut) => {
     const g = new THREE.Group();
     g.position.set(mx, 0, mz);
@@ -98,11 +106,11 @@ export function build(THREE) {
     for (let k = 0; k < 4; k++) {
       const dx = [1, -1, 0, 0][k], dz = [0, 0, 1, -1][k];
       const arm = new THREE.Mesh(dx ? bladeX : bladeZ, M.blade);
-      arm.position.set(dx * 1.675, 3.05, dz * 1.675);
+      arm.position.set(dx * 0.81, 4.07, dz * 0.81);
       if (dx) arm.rotation.z = dx * ARM_TILT;
       else    arm.rotation.x = -dz * ARM_TILT;
       g.add(arm);
-      box(0.07, 3.0, 0.07, M.darker, dx * 3.35, -0.5, dz * 3.35, g); // 端锚桩（下延 2 m）
+      box(0.07, 5.0, 0.07, M.darker, dx * 1.62, 0.62, dz * 1.62, g); // 端锚桩（顶 3.12 接臂尖，下延 2 m）
     }
     box(0.08, 0.08, 0.08, tipMat, 0, 5.38, 0, g);                 // 桩顶微光（夜）
     // 桩基接收单元：端子后的第一段链路（偏置 T / 定标注入 / 共模扼流 / 电源）
@@ -196,6 +204,7 @@ export function build(THREE) {
     an.position.set(rx, 2.1, -1.0); SH.add(an);
   };
   rack(-1.35, M.copper, 'rack_adc');                              // 56 路 14 bit @50 MS/s
+  box(0.16, 0.09, 0.05, trigMat, -1.35, 0.68, -0.7, SH);          // 触发器状态灯（账17）
   box(0.62, 0.3, 0.18, M.alu, -1.35, 0.32, -0.78, SH);            // 抗混叠滤波盘（账9：6 阶,50 MS/s 才建得出来）
   for (let i = 0; i < 4; i++)
     box(0.06, 0.06, 0.05, M.darker, -1.55 + i * 0.13, 0.32, -0.68, SH);
@@ -441,9 +450,17 @@ export function build(THREE) {
     // SEP 警报：II 型暴出现即置警（账7：27–105 min 提前量交给 sci-rad-01）
     const on = tc > T2A && tc < T2B + 6;
     alertMat.emissiveIntensity = on ? 0.5 + 1.9 * (0.5 + 0.5 * Math.sin(t * 6.5)) : 0.05;
-    // 定标注入：每 20 s 一次短脉冲（账6：注入源 → 28 桩，0.006° 相位精度）
-    const ci = ((t % 20) + 20) % 20;
+    // 定标注入（账6 精度 0.006°；账18 定周期）：巡天模式 300 s 一次——
+    // 比任何漂移快 300 倍，占空代价 1.75%→0.12%。屏上超循环 120 s，
+    // 故此处按 60 s 演示节奏呈现，实机为 300 s。
+    const ci = ((t % 60) + 60) % 60;
     calMat.emissiveIntensity = ci < 0.35 ? 1.6 : 0.15;
+    // 账17 触发器：III 型暴群里每次命中闪白转储，II 型段亮琥珀=风暴限速生效
+    let hit = 0;
+    for (const tb of T3) { const d = tc - tb; if (d > 0 && d < 0.55) hit = 1 - d / 0.55; }
+    if (on) { trigMat.color.setHex(0x3a2a08); trigMat.emissive.setHex(0xffb020); trigMat.emissiveIntensity = 1.1; }
+    else if (hit > 0) { trigMat.color.setHex(0x1a1a1a); trigMat.emissive.setHex(0xffffff); trigMat.emissiveIntensity = 0.4 + 2.2 * hit; }
+    else { trigMat.color.setHex(0x0d1a12); trigMat.emissive.setHex(0x53c98a); trigMat.emissiveIntensity = 0.25; }
   };
 
   // ---- 引擎声明 ----

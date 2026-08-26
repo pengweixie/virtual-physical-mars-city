@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>unit preview</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#1a1210}
+#ui{position:fixed;top:12px;right:12px;display:flex;flex-direction:column;gap:8px;z-index:10;font-family:system-ui}
+#ui button{padding:10px 16px;font-size:15px;border-radius:8px;cursor:pointer;
+  background:rgba(30,20,15,.82);color:#f2e3d5;border:1px solid rgba(255,255,255,.18)}
+#tip{position:fixed;left:12px;top:12px;color:#e8cdb4;font:12.5px system-ui;opacity:.75;z-index:10}
+#hud{position:fixed;right:12px;top:150px;padding:8px 12px;font:12.5px/1.7 system-ui;border-radius:8px;
+  color:#ffd9b0;background:rgba(30,20,15,.82);display:none;white-space:pre;z-index:10}
+</style>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+               "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
+</script>
+</head>
+<body>
+<div id="tip">拖动旋转 · 滚轮缩放 · ?unit=&lt;资产ID&gt; 指定模块</div>
+<div id="ui">
+  <button id="bNight">🌙 夜景</button>
+  <button id="bHome">⟳ 复位视角</button>
+  <button id="bAuto" style="display:none">🤖 自主模式</button>
+</div>
+<div id="hud"></div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const q = new URLSearchParams(location.search);
+const unitId = q.get('unit') || 'sci-astro-01';
+const { meta, build } = await import(`../viewer/units/${unitId}.js?ts=${Date.now()}`);
+document.title = unitId + ' preview';
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth || 1280, innerHeight || 720);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xc9906b);
+const camera = new THREE.PerspectiveCamera(50, (innerWidth||1280)/(innerHeight||720), 0.1, 800);
+const controls = new OrbitControls(camera, renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xd9a583, 0x6b4632, 0.85));
+const sun = new THREE.DirectionalLight(0xffe8cc, 1.6);
+sun.position.set(60, 80, 30);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+const sc = Math.max(60, (meta.size_m || 40));
+sun.shadow.camera.left = -sc; sun.shadow.camera.right = sc;
+sun.shadow.camera.top = sc; sun.shadow.camera.bottom = -sc;
+sun.shadow.camera.near = 10; sun.shadow.camera.far = 300;
+sun.shadow.bias = -0.0006;
+scene.add(sun);
+const fillLight = new THREE.DirectionalLight(0xffd9c0, 0.25);
+fillLight.position.set(-50, 30, -40);
+scene.add(fillLight);
+
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600),
+  new THREE.MeshLambertMaterial({ color: 0x8a5236 }));
+ground.rotation.x = -Math.PI / 2;
+ground.position.y = +(q.get('ground') || 0);
+ground.receiveShadow = true;
+scene.add(ground);
+
+const unit = build(THREE);
+unit.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+scene.add(unit);
+
+const ud = unit.userData, TAU = Math.PI * 2;
+const anims = [];
+const resolveNode = n => typeof n === 'string' ? unit.getObjectByName(n) : n;
+for (const s of ud.spinners || []) {
+  const node = resolveNode(s.node); if (!node) continue;
+  const rate = (s.rpm || 1) * TAU / 60, ax = s.axis || 'y';
+  anims.push((t, dt) => { node.rotation[ax] += rate * dt; });
+}
+for (const o of ud.oscillators || []) {
+  const node = resolveNode(o.node); if (!node) continue;
+  const prop = o.prop || 'rotation', ax = o.axis || 'y', base = node[prop][ax];
+  o._base = base;
+  const w = TAU / (o.period || 4);
+  anims.push(t => { node[prop][ax] = base + (o.amp || 0.3) * Math.sin(t * w + (o.phase || 0)); });
+}
+const sensors = (ud.sensors || []).map(s => {
+  s._cam = resolveNode(s.camera);
+  s.width = s.width || 64; s.height = s.height || 64;
+  if (s._cam) { s._cam.aspect = s.width / s.height; s._cam.updateProjectionMatrix(); }
+  s.data = null; s.frame = 0; s.stamp = 0; s._rt = null; s._next = 0;
+  return s;
+});
+let auto = false;
+function driveSensors(t) {
+  if (!auto) return;
+  for (const s of sensors) {
+    if (!s._cam || t < s._next) continue;
+    s._next = t + 1 / (s.hz || 5);
+    if (!s._rt) { s._rt = new THREE.WebGLRenderTarget(s.width, s.height); s.data = new Uint8Array(s.width * s.height * 4); }
+    renderer.setRenderTarget(s._rt);
+    renderer.render(scene, s._cam);
+    renderer.readRenderTargetPixels(s._rt, 0, 0, s.width, s.height, s.data);
+    renderer.setRenderTarget(null);
+    s.frame++; s.stamp = t;
+    return;
+  }
+}
+
+let tris = 0;
+unit.traverse(o => { if (o.isMesh) { const g = o.geometry; tris += (g.index ? g.index.count : g.attributes.position.count) / 3; } });
+const bb = new THREE.Box3().setFromObject(unit);
+console.log('meta', JSON.stringify(meta), '| triangles:', Math.round(tris),
+  '| bbox', bb.min.toArray().map(v=>+v.toFixed(2)), bb.max.toArray().map(v=>+v.toFixed(2)));
+
+const c0 = bb.getCenter(new THREE.Vector3()), r0 = bb.getSize(new THREE.Vector3()).length();
+camera.position.set(c0.x + r0 * 0.9, c0.y + r0 * 0.6, c0.z + r0 * 1.0);
+controls.target.copy(c0);
+
+const clock = new THREE.Clock();
+let tAcc = 0;
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), 0.1);
+  tAcc += dt;
+  driveSensors(tAcc);
+  for (const f of anims) f(tAcc, dt);
+  ud.animate?.(tAcc, dt, { t: tAcc, dt, night: 0 });
+  controls.update();
+  renderer.render(scene, camera);
+});
+
+window.__unit = unit; window.__scene = scene; window.__THREE = THREE; window.__renderer = renderer;
+window.draw = () => { renderer.render(scene, camera); return 'ok'; };
+window.shotSize = (w, h) => { renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); };
+window.cam = (x, y, z, tx = 0, ty = 0, tz = 0) => {
+  camera.position.set(x, y, z); controls.target.set(tx, ty, tz); controls.update(); window.draw(); return 'ok';
+};
+window.animT = t => {
+  for (const s of ud.spinners || []) {
+    const node = resolveNode(s.node);
+    if (node) node.rotation[s.axis || 'y'] = t * (s.rpm || 1) * TAU / 60;
+  }
+  ud.animate?.(t, 0.016, { t, dt: 0.016, night: 0 });
+  window.draw(); return 'ok';
+};
+window.driveT = t => {
+  for (const s of ud.spinners || []) {
+    const node = resolveNode(s.node);
+    if (node) node.rotation[s.axis || 'y'] = t * (s.rpm || 1) * TAU / 60;
+  }
+  for (const o of ud.oscillators || []) {
+    const node = resolveNode(o.node); if (!node) continue;
+    const prop = o.prop || 'rotation', ax = o.axis || 'y';
+    const base = o._base ?? node[prop][ax];
+    const w = TAU / (o.period || 4);
+    node[prop][ax] = base + (o.amp || 0.3) * Math.sin(t * w + (o.phase || 0));
+  }
+  ud.animate?.(t, 0.016, { t, dt: 0.016, night: 0 });
+  window.draw(); return 'ok';
+};
+let night = false;
+window.setNight = on => {
+  night = on;
+  sun.intensity = on ? 0.08 : 1.6;
+  scene.background.set(on ? 0x140d0b : 0xc9906b);
+  document.getElementById('bNight').textContent = on ? '☀ 白天' : '🌙 夜景';
+};
+window.setAuto = on => {
+  auto = on;
+  if (ud.autonomy) ud.autonomy.disabled = !on;
+  document.getElementById('hud').style.display = on ? 'block' : 'none';
+  document.getElementById('bAuto').textContent = on ? '⏹ 停自主' : '🤖 自主模式';
+  return 'auto=' + on;
+};
+document.getElementById('bNight').onclick = () => setNight(!night);
+document.getElementById('bHome').onclick = () => cam(c0.x + r0*0.9, c0.y + r0*0.6, c0.z + r0, c0.x, c0.y, c0.z);
+if (sensors.length) {
+  const b = document.getElementById('bAuto');
+  b.style.display = 'block';
+  b.onclick = () => setAuto(!auto);
+}
+window.addEventListener('resize', () => {
+  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+});
+</script>
+</body>
+</html>

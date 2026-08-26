@@ -8,8 +8,18 @@
       "range": 22,
       "detail": "方格构塔(锥度 0.56→0.32 m),2/5/10 m 三高度测风臂拉出近地边界层风梯度——城市尺度的 MEDA 放大版。三根钢拉线 120° 锚固;设计驱动项不是风载而是昼夜差胀。",
       "detail_en": "Square lattice tower (taper 0.56 to 0.32 m) with wind booms at 2/5/10 m resolving the near-surface boundary-layer wind gradient — a city-scale MEDA. Three steel guys anchored at 120 deg; the design driver is diurnal thermal expansion, not wind load.",
-      "specs": { "塔高": "10 m", "测风高度": "2 / 5 / 10 m", "拉线": "3×钢索,锚距 6 m", "预紧": "285 N" },
-      "specs_en": { "Height": "10 m", "Wind levels": "2 / 5 / 10 m", "Guys": "3 steel, 6 m anchor radius", "Pretension": "285 N" },
+      "specs": {
+        "塔高": "10 m",
+        "测风高度": "2 / 5 / 10 m",
+        "拉线": "3×钢索,锚距 6 m",
+        "预紧": "285 N"
+      },
+      "specs_en": {
+        "Height": "10 m",
+        "Wind levels": "2 / 5 / 10 m",
+        "Guys": "3 steel, 6 m anchor radius",
+        "Pretension": "285 N"
+      },
       "sim": "桅杆差胀账(sim_mast_thermal.py):±60 K 昼夜摆幅下 10 m 铝杆总胀缩 27.6 mm,铝杆-钢索差胀致拉线张力摆 ±190 N → 预紧 285 N(最冷工况不松弛,1.5× 裕度);尘暴 30 m/s 侧向力仅 6.3 N",
       "sim_en": "Mast expansion account (sim_mast_thermal.py): over ±60 K diurnal swing the 10 m Al mast strokes 27.6 mm; Al-vs-steel differential expansion swings guy tension ±190 N → 285 N pretension (no slack at coldest, 1.5x margin); 30 m/s storm side load is only 6.3 N",
       "physics": "α(铝)=23e-6/K 对 α(钢)=12e-6/K 的差胀经 EA/L 刚度放大成上百牛的张力摆;而 610 Pa 大气 30 m/s 动压仅 6.6 Pa(地球同速 551 Pa)——拉线是为热循环与装卸,不是为风",
@@ -22,8 +32,20 @@
       "range": 14,
       "detail": "每臂端部环形护罩内 3 片热膜芯片(金色薄膜加热区朝外可见),恒温差 40 K 工作,由维持功率反演风速——MEDA 同款体制。三方位芯片解算风向。610 Pa 下杯式启动勉强、超声换能器声耦合差,热膜是火星测风的正解;大杯风杯仅作塔顶展示。",
       "detail_en": "Three hot-film dies inside each boom-tip ring shroud (gold film heater zones facing outward), run at constant 40 K overheat; wind speed is inverted from the sustaining power — the MEDA approach — and the three azimuths resolve direction. At 610 Pa cup starting is marginal and ultrasonic transducers couple poorly, so hot film is the right answer on Mars; the big cups up top are display only.",
-      "specs": { "体制": "恒温差(CTA)电桥伺服,ΔT=40 K", "元件": "d≈1 mm 圆柱膜 ×3 方位", "功率": "22-44 mW/元件", "分辨率": "0.13 m/s / 风向 σ≈1.6°", "带宽": "f3dB 5.4 Hz @5 m/s" },
-      "specs_en": { "Principle": "CTA bridge servo, dT=40 K", "Element": "d≈1 mm cylinder x3 azimuths", "Power": "22-44 mW/element", "Resolution": "0.13 m/s / direction ~1.6 deg", "Bandwidth": "f3dB 5.4 Hz @5 m/s" },
+      "specs": {
+        "体制": "恒温差(CTA)电桥伺服,ΔT=40 K",
+        "元件": "d≈1 mm 圆柱膜 ×3 方位",
+        "功率": "22-44 mW/元件",
+        "分辨率": "0.13 m/s / 风向 σ≈1.6°",
+        "带宽": "f3dB 5.4 Hz @5 m/s"
+      },
+      "specs_en": {
+        "Principle": "CTA bridge servo, dT=40 K",
+        "Element": "d≈1 mm cylinder x3 azimuths",
+        "Power": "22-44 mW/element",
+        "Resolution": "0.13 m/s / direction ~1.6 deg",
+        "Bandwidth": "f3dB 5.4 Hz @5 m/s"
+      },
       "sim": [
         "低压换热账(sim_hotfilm.py):Re@5m/s=6.7,Nu=1.58(Collis-Williams 与 Churchill-Bernstein 双关联互证);功率 21.6 mW@5 → 44.1 mW@30 m/s,灵敏度 1.63 mW/(m/s),1% 桥噪下分辨率 0.13 m/s;辐射地板 1.19 mW 占 5.5%",
         "CTA 伺服频响账(sim_cta_response.py):元件开环热惯量 τ=17–48 s——定功率加热连 0.01 Hz 都跟不上,是死路;恒温差电桥以桥失衡误差伺服加热电流,把有效 τ 压缩 2a·G≈925 倍到 29.5 ms(f3dB 5.4 Hz@5 m/s),阵风谱主段 0.1–3 Hz 全覆盖",
@@ -44,8 +66,18 @@
       "range": 18,
       "detail": "D20 cm 半球杯、R35 cm 臂——为火星特意放大的「能转起来的风杯」,让路过的人一眼看到风;定量数据仍出自热膜。风向标小幅摆动指示风向,红色障碍信标供飞行器避让。",
       "detail_en": "20 cm hemispheric cups on 35 cm arms — deliberately oversized so cups actually spin on Mars, giving passers-by an at-a-glance wind read; quantitative data still comes from the hot films. The vane dithers with wind direction; the red beacon warns aircraft.",
-      "specs": { "杯径": "0.20 m", "臂长": "0.35 m", "启动阈": "0.79 m/s(轴承摩擦 5e-5 N·m)", "信标": "红闪,航空避让" },
-      "specs_en": { "Cup dia": "0.20 m", "Arm": "0.35 m", "Start threshold": "0.79 m/s (5e-5 N·m bearing)", "Beacon": "red flash, aviation" },
+      "specs": {
+        "杯径": "0.20 m",
+        "臂长": "0.35 m",
+        "启动阈": "0.79 m/s(轴承摩擦 5e-5 N·m)",
+        "信标": "红闪,航空避让"
+      },
+      "specs_en": {
+        "Cup dia": "0.20 m",
+        "Arm": "0.35 m",
+        "Start threshold": "0.79 m/s (5e-5 N·m bearing)",
+        "Beacon": "red flash, aviation"
+      },
       "sim": "启动账(sim_cup_start.py):地球标准杯(D7cm/R15cm)在火星启动阈 3.44 m/s——漏掉大半风谱;放大到 D20/R35 后 0.79 m/s;同几何地球阈仅 0.38 m/s",
       "sim_en": "Start-up account (sim_cup_start.py): Earth-standard cups (D7cm/R15cm) need 3.44 m/s to start on Mars — missing most of the wind spectrum; enlarged to D20/R35 the threshold drops to 0.79 m/s; the same geometry starts at 0.38 m/s on Earth",
       "physics": "启动 = 动压差扭矩 ½ρv²·ΔCd·A·R 战胜轴承静摩擦;火星动压比地球低 83.4×,30 m/s 尘暴狂风的动压 6.6 Pa 只相当于地球 3.3 m/s 微风——这就是火星任务弃用杯式的原因",
@@ -58,8 +90,20 @@
       "range": 12,
       "detail": "剖切开放的恒温舱:铜恒温块上双硅膜盒(真空参考电容式)、进气缓冲腔、加热片与 CDC 读出板全部可见;鹅颈进气管加尘滤防尘暴倒灌。火星 ~610 Pa 薄大气下,昼夜热潮汐和尘暴中心气压跌落都是清晰信号——InSight APSS 曾靠它听见尘卷风路过。",
       "detail_en": "A cutaway thermostatted box: twin silicon capsules (vacuum-reference capacitive) on the copper thermal block, intake buffer volume, heater foil and CDC readout board all exposed; the gooseneck inlet with dust filter blocks storm infall. In the ~610 Pa atmosphere, diurnal thermal tides and dust-storm pressure drops are clear signals — InSight APSS heard dust devils pass this way.",
-      "specs": { "膜盒": "Si ⌀5 mm × 40 µm,真空参考", "电容间隙": "2 µm", "分辨率": "0.1 Pa 级", "恒温": "±0.05 K", "进气": "鹅颈管+尘滤+缓冲腔" },
-      "specs_en": { "Capsule": "Si D5 mm x 40 um, vacuum ref", "Cap gap": "2 um", "Resolution": "0.1 Pa class", "Thermostat": "±0.05 K", "Inlet": "gooseneck + filter + buffer" },
+      "specs": {
+        "膜盒": "Si ⌀5 mm × 40 µm,真空参考",
+        "电容间隙": "2 µm",
+        "分辨率": "0.1 Pa 级",
+        "恒温": "±0.05 K",
+        "进气": "鹅颈管+尘滤+缓冲腔"
+      },
+      "specs_en": {
+        "Capsule": "Si D5 mm x 40 um, vacuum ref",
+        "Cap gap": "2 um",
+        "Resolution": "0.1 Pa class",
+        "Thermostat": "±0.05 K",
+        "Inlet": "gooseneck + filter + buffer"
+      },
       "sim": [
         "膜盒挠度账(sim_baro_membrane.py):满量程 900 Pa 下 40 µm 膜片中心挠度 0.56 µm——18 µm 首算挠度 6.2 µm 会把 2 µm 电容间隙打穿,w∝1/t³ 加厚定版;0.1 Pa ↔ ΔC/C 10.4 ppm(成熟 CDC 量程内);恒温 ±0.05 K 后温漂残差 0.028 Pa",
         "进气滤波账(sim_inlet_filter.py):进气管黏性阻力(Poiseuille R∝1/r⁴)× 缓冲腔气容(V/p)= 一阶气动低通;r=0.5 mm 时 fc=0.001 Hz 会把尘卷风信号滤没——设计陷阱;定版 r=3 mm、0.4 L 腔 → fc=1.39 Hz:热潮汐(mHz)与尘卷风事件(0.1–1 Hz)带内,>3 Hz 风湍流动压噪声带外;鹅颈朝下把残余动压污染压到 ≤1.3 Pa@30 m/s"
@@ -73,15 +117,29 @@
     },
     {
       "id": "ats",
-      "label": "温度百叶罩杆组",
-      "label_en": "Air-Temperature Shield Stack",
+      "label": "温度杆组(裸丝主 + 百叶罩副)",
+      "label_en": "Air-Temperature Mast (bare-wire primary + louvered cross-check)",
       "range": 12,
-      "detail": "1.8 m 杆上三个高度的叠盘百叶罩温度计,读近地气温梯度。火星弱对流下辐射误差主导:白天罩体晒热、罩内滞流,读数偏离真实气温——同城 sci-lidar-01 的对策是干脆去罩用裸细丝热电偶三取最冷;此处保留百叶罩作为互校的第二体制。",
-      "detail_en": "Louvered plate-stack thermometers at three heights on a 1.8 m pole read the near-surface temperature gradient. With Mars' weak convection, radiation error dominates: shields heat in sunlight while air inside stagnates, biasing readings — sister asset sci-lidar-01 answers by removing shields entirely (bare-wire thermocouples, take-the-coldest); the louvered stack is kept here as a cross-calibration second method.",
-      "specs": { "高度": "0.85 / 1.3 / 1.75 m", "罩": "5 叠盘,自然通风", "互校": "sci-lidar-01 裸线热电偶" },
-      "specs_en": { "Heights": "0.85 / 1.3 / 1.75 m", "Shield": "5-plate stack, passive", "Cross-cal": "bare TCs on sci-lidar-01" },
-      "physics": "对流换热系数比地球低一个量级,百叶罩靠「通风带走辐射吸热」的地球逻辑在火星失效大半——罩体与传感器的辐射耦合成为主要误差源,昼夜偏置方向相反,需与裸线体制互校剔除",
-      "physics_en": "With the convection coefficient an order of magnitude below Earth's, the terrestrial logic of 'ventilation removes absorbed radiation' largely fails on Mars — radiative coupling between shield and sensor dominates the error budget, with opposite day/night bias, hence cross-calibration against the bare-wire method"
+      "detail": "1.8 m 杆上三个高度、每高度两套体制并列:主用裸细丝热电偶三元组(120° 三方位,取最冷以剔除支架热污染),副用叠盘百叶罩。并不是冗余——设计轮 #15 算出百叶罩在 610 Pa 下正午偏 +4.4 K、夜间 −2.1 K(反号),不能当绝对气温用;裸丝只偏 0.53 K。测的是近地超绝热梯度(昼)与逆温(夜),这正是穹顶与飞行判读的边界层输入。",
+      "detail_en": "Two methods side by side at each of three heights on a 1.8 m pole: a bare fine-wire thermocouple triad (three azimuths at 120 deg, take-the-coldest to reject strut contamination) as primary, and a louvered plate stack as cross-check. Not redundancy — design account #15 shows the louvered shield runs +4.4 K at midday and -2.1 K at night at 610 Pa (the sign reverses), so it cannot serve as absolute air temperature; the bare wire is off by only 0.53 K. What they measure is the near-surface superadiabatic gradient by day and the inversion by night — the boundary-layer input behind dome and flight calls.",
+      "specs": {
+        "高度": "0.85 / 1.3 / 1.75 m",
+        "主": "裸铂丝 ⌀75 µm ×3 方位/高度,取最冷",
+        "副": "5 叠盘百叶罩",
+        "罩偏差": "+4.4 K 昼 / −2.1 K 夜",
+        "裸丝偏差": "0.53 K"
+      },
+      "specs_en": {
+        "Heights": "0.85 / 1.3 / 1.75 m",
+        "Primary": "bare Pt wire 75 um, 3 azimuths/height, take-coldest",
+        "Backup": "5-plate louvered stack",
+        "Shield bias": "+4.4 K day / -2.1 K night",
+        "Bare-wire bias": "0.53 K"
+      },
+      "sim": "百叶罩辐射误差账(sim_ats_radiation.py):610 Pa 下传感器对流系数只有辐射耦合的 2.1 倍(地球是 16 倍)——百叶罩从「挡辐射的」变成「辐射源」。正午罩体比空气高 20 K、传感器偏 +4.4 K;夜间罩体向冷天空辐射反低于空气、偏 −2.1 K。梯度比绝对值幸存:罩偏差大部分是共模,但风切变(0.85 m 处 4.3 m/s vs 1.75 m 处 5.0 m/s)留下 0.30 K 差模残差,压在正午 1.7 K 真信号上是 17%、压在夜间 0.7 K 逆温上就是 45%——所以梯度必须用同址热膜的风廓线改正;裸丝差模残差仅 0.023 K",
+      "sim_en": "Shield radiation-error account (sim_ats_radiation.py): at 610 Pa the sensor's convective coefficient beats its radiative one by only 2.1x (16x on Earth), so the louvered shield stops blocking radiation and becomes a radiator. At midday the shield sits 20 K above air and the sensor reads +4.4 K; at night it radiates to the cold sky, falls below air, and the bias flips to -2.1 K. The gradient survives better than the absolute value — most of the shield bias is common-mode — but wind shear (4.3 m/s at 0.85 m vs 5.0 m/s at 1.75 m) leaves a 0.30 K differential, which is 17% of the 1.7 K midday signal but 45% of the 0.7 K night inversion. Hence the gradient is only trustworthy after the co-located hot films supply the wind profile; the bare wire leaves just 0.023 K.",
+      "physics": "生成误差的比值 h_对流/h_辐射 = h/(4εσT³):火星薄大气把分子压到与分母同量级,地球的「通风带走辐射吸热」逻辑随之失效。裸细丝赢在直径——d=75 µm 的对流系数 57 W/m²K 比 5 mm 传感器高一个量级,而辐射耦合与直径无关,于是细丝天然锁在气温上;代价只剩它自己吸的那点阳光(α G/πh ≈ 0.5 K),再靠三方位取最冷压掉支架污染",
+      "physics_en": "The error ratio is h_conv/h_rad = h/(4 e sigma T^3): the thin atmosphere pushes the numerator down to the denominator's order, and Earth's 'ventilation carries away absorbed radiation' logic fails with it. The bare wire wins on diameter — at 75 um the convective coefficient is 57 W/m2K, an order above a 5 mm sensor, while radiative coupling is diameter-independent, so a fine wire is naturally pinned to air temperature. What remains is the sunlight it absorbs itself (alpha G / pi h, about 0.5 K), and taking the coldest of three azimuths removes strut contamination"
     },
     {
       "id": "photometer",
@@ -90,8 +148,20 @@
       "range": 16,
       "detail": "双轴云台带 880 nm 镜筒对日跟踪,由直射消光反演尘埃光学厚度 τ——整座城的尘暴之眼:温室穹顶(res-dome-01)光账写明 τ>3 时 LED 补光成为主力,触发切换的就是这里的读数;储能场、备用水罐的尘暴模式与发射场的发射窗口预警同源。",
       "detail_en": "A two-axis gimbal tracks the sun with an 880 nm barrel, retrieving dust optical depth tau from direct-beam extinction — the city's dust-storm eye: the greenhouse dome (res-dome-01) light budget states LED grow-lights take over at tau>3, and this reading throws that switch; storm modes of the storage yard and reserve water tank, and spaceport launch-window alerts, share the same source.",
-      "specs": { "波段": "880 nm 主 + 6 位滤光轮", "跟踪": "双轴云台", "杂光": "遮光罩内消光挡板环", "反演": "Beer-Lambert 直射消光", "城联动": "τ>3 → 温室 LED 接管" },
-      "specs_en": { "Band": "880 nm + 6-slot filter wheel", "Tracking": "2-axis gimbal", "Stray light": "baffle rings in hood", "Retrieval": "Beer-Lambert direct extinction", "City hook": "tau>3 → dome LED takeover" },
+      "specs": {
+        "波段": "880 nm 主 + 6 位滤光轮",
+        "跟踪": "双轴云台",
+        "杂光": "遮光罩内消光挡板环",
+        "反演": "Beer-Lambert 直射消光",
+        "城联动": "τ>3 → 温室 LED 接管"
+      },
+      "specs_en": {
+        "Band": "880 nm + 6-slot filter wheel",
+        "Tracking": "2-axis gimbal",
+        "Stray light": "baffle rings in hood",
+        "Retrieval": "Beer-Lambert direct extinction",
+        "City hook": "tau>3 → dome LED takeover"
+      },
       "sim": [
         "τ 反演账(sim_tau_retrieval.py):晴天(m=1,τ=0.3)到尘暴(m=2,τ=6)信号跨 5.1 个量级 → 16-bit ADC + 3 增益档;σ_τ≈0.011(0.5% 测量噪声+1% Langley 标定);τ=3 触发点直射透过率仅 2.7%",
         "对日跟踪账(sim_sun_tracking.py):火星太阳角径 0.35°(1.52 AU),四象限差分线性斜率 5.1/°,0.5% 电流噪声 → 指向噪声 0.0014°,被 0.05° 云台步距主导 → 跟踪残差 0.014°,对 2° 视场有 ~70× 裕度——尘暴弱信号下仍锁得住",
@@ -112,15 +182,29 @@
       "range": 14,
       "detail": "鱼眼朝天拍全天云图与尘暴前锋,除尘刮环缓转扫过穹罩;夜里改拍亮星,用恒星消光把 τ 监测延伸到整夜。旁边细杆挂环电极数撞击尘粒(脉冲高度还给粒径谱),静电探针读尘暴摩擦起电的大气电场——尘暴逼近时,光学、尘通量、电场三路证据互相印证。",
       "detail_en": "The fisheye stares at the sky for cloud maps and advancing storm fronts while a slow wiper ring sweeps the dome; at night it switches to bright stars, extending tau monitoring through the night via stellar extinction. On the side rod, ring electrodes count impacting grains (pulse height doubles as a size spectrum) and an electrostatic probe reads the triboelectric field — three independent lines of evidence as a storm closes in.",
-      "specs": { "传感器": "CIS 复用(QE 0.60/满阱 17.9ke⁻/读噪 1.76e⁻)", "光圈档": "昼 f/16+ND8 / 夜 f/2", "夜 τ": "亮星消光 σ_τ≈0.01–0.02", "尘通量": "计数/电流双模", "静电": "球头 3.3 pF 高阻探针" },
-      "specs_en": { "Sensor": "CIS reuse (QE 0.60 / FW 17.9ke- / RN 1.76e-)", "Aperture": "day f/16+ND8 / night f/2", "Night tau": "stellar extinction ~0.01-0.02", "Dust flux": "count/current dual mode", "E-field": "3.3 pF ball probe" },
+      "specs": {
+        "传感器": "CIS 复用(QE 0.60/满阱 17.9ke⁻/读噪 1.76e⁻)",
+        "光圈档": "昼 f/16+ND8 / 夜 f/2",
+        "夜 τ": "亮星消光 σ_τ≈0.01–0.02",
+        "尘通量": "计数/电流双模",
+        "静电": "球头 3.3 pF 高阻探针"
+      },
+      "specs_en": {
+        "Sensor": "CIS reuse (QE 0.60 / FW 17.9ke- / RN 1.76e-)",
+        "Aperture": "day f/16+ND8 / night f/2",
+        "Night tau": "stellar extinction ~0.01-0.02",
+        "Dust flux": "count/current dual mode",
+        "E-field": "3.3 pF ball probe"
+      },
       "sim": [
         "成像链账(sim_skycam_imaging.py,CIS 参数复用自 CIS 项目,与矿场机器人相机同源):昼夜照度差 ~7 个量级——f/2 白天半满阱只要 13 µs(快门做不到),昼档 f/16+ND8 曝 6.8 ms / 夜档 f/2 曝 10 s;夜间 mV≤3 亮星 SNR 95–380,双大气质量差分光子极限 σ_τ 0.003–0.01(计标定/闪烁实际 ~0.01–0.02)——夜里的 τ 由星光接班",
+        "全天图像预测(sim_skycam_scenes.py,前向模型):四种天况的成片与自动曝光已正演——晴天正午 6.8 ms、尘暴正午反而缩到 2.6 ms(尘暴天空比晴天更亮:均匀辉光取代了「暗天+硬日面」),所以光看亮度判不出尘暴,要看日面-反日点对比度;可用星数 315(晴夜)→23(τ=5)。**修正上一条**:双大气质量差分法在 τ≈3.0 就失效(低仰角星先被吃掉),恰好撞上城市 τ=3 触发线——尘暴夜里没有独立 τ 通道,只能沿用日落前最后一次光度计反演到日出;可接受(τ 按 sol 演化)但必须明说,不能让「星光接夜班」被读成无条件成立",
         "静电探针账(sim_efield_probe.py):球头 3.3 pF × 10¹² Ω 静电计 = RC 3.3 s、带宽 0.05 Hz,够跟尘暴电场的分钟级演化;悬浮电位 78 V–19.5 kV 高阻分压进 ADC;帕邢账:610 Pa CO₂ 米尺度击穿场 ~28 kV/m——尘暴电场的物理天花板由大气自己定,量程按此封顶",
         "尘通量账(sim_dust_flux.py):τ→尘数密度(τ0.5 → 3.2e6 /m³),环电极迎风 4.3e-3 m²;晴天常态撞击率 ≤1e5 /s 在 1 µs 成形 pile-up 限内,单粒计数(10 fC = 6.2e4 e⁻ 对 ENC 100 e⁻,SNR 625)+ 脉冲高度粒径谱;尘暴(τ5,30 m/s)4.2e6 /s × 10 fC → 切积分电流模式 41.7 nA"
       ],
       "sim_en": [
-        "Imaging-chain account (sim_skycam_imaging.py, CIS params reused from the CIS project, same sensor family as the mine robot camera): day and night differ by ~7 decades — at f/2 daytime half-well takes 13 us (no shutter can), so day runs f/16+ND8 at 6.8 ms and night f/2 at 10 s; bright stars mV<=3 reach SNR 95-380, two-airmass differential gives photon-limited sigma_tau 0.003-0.01 (~0.01-0.02 with calibration/scintillation) — starlight takes over the tau watch at night",
+        "Imaging-chain account (sim_skycam_imaging.py, CIS params reused from the CIS project, same sensor family as the mine robot camera): day and night differ by ~7 decades — at f/2 daytime half-well takes 13 us (no shutter can), so day runs f/16+ND8 at 6.8 ms and night f/2 at 10 s; bright stars mV<=3 reach SNR 95-380, two-airmass differential gives photon-limited sigma_tau 0.003-0.01 (~0.01-0.02 with calibration/scintillation)",
+        "All-sky image prediction (sim_skycam_scenes.py, forward model): frames and auto-exposure are now forward-modelled for four sky states — 6.8 ms at clear midday but only 2.6 ms in a storm, because a storm sky is BRIGHTER than a clear one (uniform glow replaces dark sky plus a hard solar disk), so brightness alone cannot flag a storm; sun-to-antisolar contrast can. Usable stars fall from 315 on a clear night to 23 at tau 5. This corrects the line above: the two-airmass differential method dies at tau ~3.0 as the low-elevation stars go first — right at the city's tau=3 trip line. On a storm night there is no independent tau channel and the station coasts on the last daytime retrieval until sunrise. Acceptable (tau evolves on the sol scale) but it must be stated, not implied by 'starlight takes over at night'",
         "E-field probe account (sim_efield_probe.py): the 3.3 pF ball on a 1e12-ohm electrometer gives RC 3.3 s, 0.05 Hz bandwidth — enough for minute-scale storm-field evolution; float potential 78 V-19.5 kV divides down into the ADC; Paschen account: CO2 at 610 Pa breaks down at ~28 kV/m over meter gaps — the atmosphere itself caps storm fields, and the range is sized to that ceiling",
         "Dust-flux account (sim_dust_flux.py): tau maps to number density (tau 0.5 → 3.2e6 /m3); the rings present 4.3e-3 m2; clear-weather impact rates <=1e5 /s stay within the 1 us-shaping pile-up limit, so grains are counted singly (10 fC = 6.2e4 e- against 100 e- ENC, SNR 625) with a pulse-height size spectrum; in a storm (tau 5, 30 m/s) 4.2e6 /s times 10 fC switches the front end to integrating-current mode, 41.7 nA"
       ],
@@ -134,10 +218,28 @@
       "range": 14,
       "detail": "检修盖板外翻,露出「舱中舱」构型:外舱只是风雨壳,真正保温的是内层 WEB(warm electronics box)——6 cm 气凝胶壳里装双 LiFePO4 电池箱、数采机与铜加热板。顶部 PV 供电,小碟回传 com-station-01;门侧绿灯=链路正常,琥珀灯闪=尘暴预警已发布。",
       "detail_en": "With the access hatch swung open the box-in-a-box layout shows: the outer cabin is just a weather shell — the real insulation is the inner WEB (warm electronics box), a 6 cm aerogel shell holding twin LiFePO4 battery boxes, the DAQ and a copper heater plate. Roof PV powers the station; the dish backhauls to com-station-01; green lamp = link OK, flashing amber = storm warning issued.",
-      "specs": { "WEB": "0.9×0.6×0.6 m,6 cm 气凝胶", "电池": "2×750 Wh LiFePO4(≥−20 ℃)", "夜间加热": "15.3 W 铜板", "回传": "小碟 → com-station-01", "状态灯": "绿=链路 / 琥珀闪=尘暴预警" },
-      "specs_en": { "WEB": "0.9 x 0.6 x 0.6 m, 6 cm aerogel", "Battery": "2 x 750 Wh LiFePO4 (>= -20 C)", "Night heater": "15.3 W copper plate", "Backhaul": "dish → com-station-01", "Lamps": "green=link / amber flash=storm alert" },
-      "sim": "WEB 夜间热平衡账(sim_cabin_thermal.py):整舱包 4 cm 气凝胶在 −80 ℃ 冬夜漏热 128 W——死路;舱中舱 2.88 m² 面积 + 6 cm 气凝胶(k=0.010 @610 Pa CO₂)漏热 27.3 W,内部耗散顶 12 W、加热器补 15.3 W → 夜耗 336 Wh = 双电池 DoD 22%;尘暴生存模式(−30 ℃ 设定+降占空)压到 ~280 Wh,与 τ 预警联动",
-      "sim_en": "WEB night thermal account (sim_cabin_thermal.py): insulating the whole cabin with 4 cm aerogel leaks 128 W on a -80 C winter night — a dead end; the 2.88 m² inner box with 6 cm aerogel (k=0.010 at 610 Pa CO2) leaks 27.3 W, internal dissipation covers 12 W and the heater adds 15.3 W → 336 Wh per night = 22% DoD of the twin batteries; storm-survival mode (-30 C setpoint, reduced duty) cuts it to ~280 Wh, keyed to the tau warning",
+      "specs": {
+        "WEB": "0.9×0.6×0.6 m,6 cm 气凝胶",
+        "电池": "2×750 Wh LiFePO4(≥−20 ℃)",
+        "夜间加热": "15.3 W 铜板",
+        "回传": "小碟 → com-station-01",
+        "状态灯": "绿=链路 / 琥珀闪=尘暴预警"
+      },
+      "specs_en": {
+        "WEB": "0.9 x 0.6 x 0.6 m, 6 cm aerogel",
+        "Battery": "2 x 750 Wh LiFePO4 (>= -20 C)",
+        "Night heater": "15.3 W copper plate",
+        "Backhaul": "dish → com-station-01",
+        "Lamps": "green=link / amber flash=storm alert"
+      },
+      "sim": [
+        "WEB 夜间热平衡账(sim_cabin_thermal.py):整舱包 4 cm 气凝胶在 −80 ℃ 冬夜漏热 128 W——死路;舱中舱 2.88 m² 面积 + 6 cm 气凝胶(k=0.010 @610 Pa CO₂)漏热 27.3 W,内部耗散顶 12 W、加热器补 15.3 W → 夜耗 336 Wh = 双电池 DoD 22%;尘暴生存模式(−30 ℃ 设定+降占空)压到 ~280 Wh,与 τ 预警联动",
+        "尘暴能源生存预测(sim_synthetic_sols.py,12 sol 正演):这一条推翻了「自持供电」的隐含假设。τ 0.4→5 时 PV 从 827 掉到 156 Wh/sol,而站载荷 670 Wh/sol,双 750 Wh 电池在第 5.7 sol 见底;开生存模式只多撑 0.5 sol。原因是结构性的而非调参失误——电子学耗散本身就是加热源,站功率 = max(电子学功率, WEB 漏热),把占空砍到 1/4 只是把同样的瓦数交给加热器。即使压到合法极限(−40 ℃ 电池存储下限 + 10% 占空)仍要 18 W = 449 Wh/sol,是 τ=5 时发电量的 2.9 倍。结论:多周全球尘暴——正是本站存在的理由——靠自身电池撑不过去;解法不是加大电池(30 sol 需 ~5×),而是从 300 m 外接生存电网 pwr-storage-01,或接受计划性休眠只留气压守望"
+      ],
+      "sim_en": [
+        "WEB night thermal account (sim_cabin_thermal.py): insulating the whole cabin with 4 cm aerogel leaks 128 W on a -80 C winter night — a dead end; the 2.88 m² inner box with 6 cm aerogel (k=0.010 at 610 Pa CO2) leaks 27.3 W, internal dissipation covers 12 W and the heater adds 15.3 W → 336 Wh per night = 22% DoD of the twin batteries; storm-survival mode (-30 C setpoint, reduced duty) cuts it to ~280 Wh, keyed to the tau warning",
+        "Storm energy-survival prediction (sim_synthetic_sols.py, 12-sol forward run): this one overturns the implicit self-powered assumption. As tau goes 0.4 to 5 the panel falls from 827 to 156 Wh/sol against a 670 Wh/sol station load, and the 2x750 Wh battery is flat by sol 5.7; survival mode buys only half a sol more. The reason is structural rather than a tuning failure — the electronics dissipation IS the heater, so station power is max(electronics, WEB leak), and cutting the duty cycle to a quarter merely hands the same watts to the heater. Even the deepest legal floor (-40 C battery storage limit, 10% duty) still burns 18 W = 449 Wh/sol, 2.9x what the panel makes at tau 5. Conclusion: the station cannot ride out a multi-week global storm — the very event it exists to announce. The fix is not a bigger battery (a 30-sol storm would need ~5x) but a tether to the survival grid 300 m away, or scheduled dormancy with a pressure-only watch"
+      ],
       "physics": "610 Pa 下气凝胶孔径小于气体平均自由程(~5 µm),气相导热被压制,k 比地球常压还低;对流散热几乎不可用,电子废热靠背阳侧鳍片辐射排出——保温和排热在火星是同一枚硬币的两面",
       "physics_en": "At 610 Pa the aerogel pore size is below the gas mean free path (~5 um), suppressing gas-phase conduction — k is lower than at Earth pressure. Convective cooling is nearly useless, so waste heat leaves by radiation via the anti-sun fins: insulation and heat rejection are two faces of the same coin on Mars"
     }

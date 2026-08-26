@@ -1,0 +1,171 @@
+{
+  "id": "ops-fire-01",
+  "pois": [
+    {
+      "id": "station",
+      "label": "消防站(为什么 70 kPa 的城比地球更怕火)",
+      "label_en": "Fire station (why a 70 kPa city burns faster than Earth)",
+      "range": 30,
+      "detail": "这座城一半空间物理上不可能着火,另一半烧得比地球快——本站为后一半而建。城内标准气 70 kPa、氧 26.5%,氧分压其实比地球还低 2.6 kPa,直觉说更安全;燃烧物理说反了。可燃性由氧的体积分数主导,不由分压主导:火焰温度取决于每摩尔氧拖带多少稀释气来当热沉,那是个体积分数的函数。更隐蔽的一笔:缓冲气里 42% 是氩——ECLSS 为省提纯电选的天然混比——氩的热容只有氮的六成,是个更差的热沉。两笔合起来,本城大气燃烧学上等效于纯氮稀释下的 30.1% 氧,恰好落在 NASA 富氧警戒口径上。",
+      "detail_en": "Half this city physically cannot burn; the other half burns faster than Earth - this station serves the second half. Cabin air is 70 kPa at 26.5% O2. The oxygen partial pressure is actually 2.6 kPa lower than Earth's, which intuition reads as safer; combustion physics reads it the other way. Flammability is governed by oxygen volume fraction, not partial pressure: flame temperature depends on how much diluent each mole of O2 drags along as a heat sink - a function of the fraction. The hidden entry: 42% of the buffer gas is argon - the natural mix ECLSS chose to save separation power - and argon's heat capacity is only 60% of nitrogen's. Together they make this atmosphere combustion-equivalent to 30.1% O2 in pure N2, squarely in NASA's enriched-oxygen caution regime.",
+      "specs": {
+        "舱内大气": "70 kPa / O₂ 26.5%(pO₂ 18.6 kPa)/ N₂ 58% + Ar 42%(res-eclss-01 口径)",
+        "火焰传播比(vs 地球)": "1.63×(包络 1.38~1.99)",
+        "氩当量氧浓度": "26.5% @ 58/42 缓冲 ≡ 30.1% O₂ @ 纯 N₂",
+        "材料验收口径": "全城可燃性试验按 30% O₂ 做,不是 26.5%"
+      },
+      "specs_en": {
+        "Cabin atmosphere": "70 kPa, 26.5% O2 (pO2 18.6 kPa), N2 58% + Ar 42% (per res-eclss-01)",
+        "Flame spread vs Earth": "1.63x (envelope 1.38-1.99)",
+        "Ar-equivalent O2 fraction": "26.5% in 58/42 buffer = 30.1% O2 in pure N2",
+        "Materials acceptance": "citywide flammability testing at 30% O2, not 26.5%"
+      },
+      "sim": [
+        "薄燃料蔓延标度 V ∝ X_O₂^1.8·P^0.45(文献带 n 1.5~2.2 / m 0.3~0.6):(0.301/0.209)^1.8 × (70/101.3)^0.45 = 1.63;四道闸:NASA campout 30%@70.3 kPa 比地球危险(算得 1.63×)、分压更低却更危险、CH₄-空气绝热焰温代理 2277 K 对已知 2226 K 偏 2.3%、LOC 反推 12.7% 对 NFPA 69 甲烷 MOC 12%(sim/f01)",
+        "本城真极限氧浓度(58/42 稀释)10.9%——比纯 N₂ 的 12.7% 更深:同一场火在这座城里要烧掉更多氧才自熄"
+      ],
+      "sim_en": [
+        "Thin-fuel spread scaling V ~ X_O2^1.8 * P^0.45 (literature bands n 1.5-2.2, m 0.3-0.6): (0.301/0.209)^1.8 x (70/101.3)^0.45 = 1.63. Four gates: NASA campout 30% at 70.3 kPa more hazardous than Earth (model: 1.63x); lower pO2 yet more dangerous; CH4-air adiabatic flame proxy 2277 K vs known 2226 K (2.3%); LOC back-out 12.7% vs NFPA 69 methane MOC of 12% (sim/f01)",
+        "True limiting O2 in the 58/42 mix: 10.9% - deeper than 12.7% in pure N2. The same fire must consume more oxygen here before it self-extinguishes"
+      ],
+      "physics": "火焰锋面的能量收支里,总压近乎两边同乘一个系数(反应放热与气相热容都正比密度),约掉了;留下的是每摩尔氧配多少摩尔惰性气、每摩尔惰性气吃多少热——前者是体积分数,后者是稀释气的种类。所以 30%@70 kPa 比 21%@101 kPa 危险,所以氩比氮危险。用分压评火险,是把生理学的尺子拿去量燃烧学。",
+      "physics_en": "In the flame front's energy budget, total pressure multiplies both sides - heat release and gas heat capacity scale with density - and cancels. What remains is how many moles of inert gas ride with each mole of O2 (the volume fraction) and how much heat each inert mole absorbs (the diluent species). That is why 30% at 70 kPa outburns 21% at 101 kPa, and why argon is worse than nitrogen. Judging fire risk by partial pressure is measuring combustion with physiology's ruler."
+    },
+    {
+      "id": "tower",
+      "label": "训练塔(0.38 g 的火要重新学)",
+      "label_en": "Training tower (fire must be relearned at 0.38 g)",
+      "range": 25,
+      "detail": "八米半桁架塔,兼水带干燥架。兼职队在这里学的不是地球的火:0.38 g 加 70 kPa 让浮力对流弱到地球的 18%,火焰更圆、贴地、蔓延慢三成——但同一个物理让阴燃烧得慢一半、持续近一倍,深部阴燃更难在明火前被发现。烟仍然上顶,只是羽流慢了、分层强度减半、通风混合占了上风——所以全城烟感是双轨制:顶置感烟保留,ECLSS 回风道再加一道光电感烟(ISS 在 0 g 的做法,0.38 g 取两者并集),高大空间用吸气式采样。",
+      "detail_en": "An 8.5 m lattice tower doubling as the hose-drying rack. What the brigade learns here is not Earth's fire: 0.38 g plus 70 kPa cuts buoyant convection to 18% of Earth's - flames rounder, lower, spreading 30% slower. The same physics makes smoldering burn half as fast and last nearly twice as long, harder to catch before flaming. Smoke still reaches the ceiling, but the plume is slower, stratification strength is halved, and ventilation mixing wins - so detection runs on two rails: ceiling smoke detectors stay, photoelectric detectors go into the ECLSS return ducts (the ISS zero-g practice; at 0.38 g you take the union), and tall volumes get aspirating sampling.",
+      "specs": {
+        "浮力诱导流": "0.615×地球(√0.38)",
+        "Grashof 数": "0.18×地球(g·P² 标度)",
+        "蔓延 g 因子": "0.70×;与富氧账相乘净效应 1.14×地球——仍更快",
+        "阴燃氧供给": "0.59× → 更慢、更久",
+        "烟感布置": "顶置 + ECLSS 回风道光电 + 高大空间吸气式"
+      },
+      "specs_en": {
+        "Buoyancy-induced flow": "0.615x Earth (sqrt 0.38)",
+        "Grashof number": "0.18x Earth (g*P^2 scaling)",
+        "Spread g-factor": "0.70x; times the O2 account, net 1.14x Earth - still faster",
+        "Smolder O2 supply": "0.59x - slower and longer",
+        "Detector doctrine": "ceiling + ECLSS return-duct photoelectric + aspirating in tall volumes"
+      },
+      "sim": "蔓延速率烘焙进 NASA Saffire 锚(0 g、20 cm/s 通风流,实测 1.0~1.4 mm/s,模型复现 1.20)后按有效流速幂律内插 0.38 g;四道闸:Saffire 复现、1 g 浮力流≫通风流(6.2×)、对 g 单调、羽流速对 McCaffrey 关联 u=1.9·Q^(1/5) 落 ±35%(sim/f02)。羽流到 3 m 舱顶:火星 1.3 s vs 地球 0.8 s",
+      "sim_en": "Spread rate anchored to NASA Saffire (0 g, 20 cm/s duct flow, measured 1.0-1.4 mm/s; model reproduces 1.20) then interpolated to 0.38 g via an effective-flow power law. Four gates: Saffire reproduction; 1 g buoyant flow >> vent flow (6.2x); monotonic in g; plume speed within 35% of McCaffrey's u=1.9*Q^(1/5) (sim/f02). Plume to a 3 m ceiling: 1.3 s on Mars vs 0.8 s on Earth",
+      "physics": "浮力是火焰的鼓风机也是烟的电梯。g 打了 0.38 折、气体密度又打了 0.69 折,鼓风机转速只剩六成——火焰因此更圆更慢;但同一台鼓风机也在给阴燃供氧、给烟感送烟,它慢下来,火的每个环节都跟着改。低重力不是消防的赦免,是整套侦测逻辑的重写。",
+      "physics_en": "Buoyancy is the flame's blower and the smoke's elevator. Gravity is discounted to 0.38 and gas density to 0.69, so the blower runs at 60% - flames go rounder and slower. But the same blower feeds oxygen to smolder and delivers smoke to detectors; when it slows, every link in the fire chain changes with it. Low gravity is not an amnesty - it is a rewrite of the entire detection logic."
+    },
+    {
+      "id": "truck",
+      "label": "火星消防车(CO₂ 罐组 + 水雾模组 + 破拆臂)",
+      "label_en": "Mars fire truck (CO2 bank, water-mist module, breaching arm)",
+      "range": 25,
+      "detail": "7.2 m 加压驾驶舱底盘,乘员常压登车、常压抵达气闸——车是把舱内灭火剂送到最近气闸口的运载器,600 Pa 的舱外没有它的敌人。车上三件套对应分级预案:手持细水雾灭 50 kW 设备火只要 1.7 升水,冷凝回收九成,水账上几乎免费;四罐 CO₂ 用于无人舱段全淹没——但地球手册在这里会杀人也会失灵:NFPA 12 的 34% 设计浓度是从 21% 氧推的,本城 26.5% 氧要 52%,而那个浓度下 CO₂ 分压 36.5 kPa,一分钟内失能——所以全淹没只进无人舱段,带双重人员联锁;尾部破拆钳臂对付最贵的敌人:烧变形卡死的密封门。",
+      "detail_en": "A 7.2 m chassis with a pressurized cab - crew boards in shirtsleeves and arrives at the airlock in shirtsleeves. The truck is a carrier that delivers cabin extinguishing agents to the nearest airlock; outside, at 600 Pa, it has no enemy. Its three modules map the graded response: a handheld fine-water-mist kill of a 50 kW equipment fire takes 1.7 liters, 90% recovered by condensers - nearly free on the water ledger. Four CO2 bottles serve total flooding of unmanned bays - where the Earth handbook both fails and kills: NFPA 12's 34% design concentration was derived from 21% O2; at this city's 26.5% you need 52%, and at that concentration pCO2 is 36.5 kPa - incapacitation within a minute - so flooding is for unmanned bays only, behind double personnel interlocks. The rear breaching arm handles the costliest enemy: a heat-warped, jammed pressure door.",
+      "specs": {
+        "整车": "7.2 m × 2.4 m,6×6,加压驾驶舱 2 人",
+        "水雾模组": "1.5 m³ 罐 + 泵撬 + 卷盘;单起用水 ~1.7 kg,净损 0.17 kg",
+        "CO₂ 罐组": "4×2.1 m 横卧罐;120 m³ 舱段一次全淹没 79 kg",
+        "本城 CO₂ 设计浓度": "52%(NFPA 12 地球口径 34% 在此失效)",
+        "破拆臂": "双节 1.7+1.3 m,钳口对密封门铰链"
+      },
+      "specs_en": {
+        "Vehicle": "7.2 m x 2.4 m, 6x6, pressurized 2-crew cab",
+        "Water mist": "1.5 m3 tank + pump skid + reel; ~1.7 kg per incident, 0.17 kg net loss",
+        "CO2 bank": "4 x 2.1 m horizontal bottles; one 120 m3 bay flood = 79 kg",
+        "City CO2 design concentration": "52% (Earth's NFPA 12 value of 34% fails here)",
+        "Breaching arm": "two-segment 1.7+1.3 m, jaws sized for door hinges"
+      },
+      "sim": [
+        "剂量三连算(sim/f03,四闸):NFPA 12 复现闸——20.9% 氧稀释到 15% 加 20% 裕量 = 34% ✓;同判据从 26.5% 出发 = 52%,按本城真 LOC 10.9% 更要 71%;细水雾吸热判据 50 kW×30 s ÷(汽化焓×35% 利用率)= 1.7 kg,与 NASA 手持细水雾同量级",
+        "分级预案矩阵:有人区小火→手持水雾+断电;无人设备舱/电池间→固定 CO₂(52%+联锁);蔓延→关密封环隔离;失控→封段耗氧自熄;危及结构→确认无人后泄压(78 m³ 段代价 408 kWh)"
+      ],
+      "sim_en": [
+        "Agent triple-audit (sim/f03, four gates): NFPA 12 reproduction - diluting 20.9% O2 to 15% plus 20% margin = 34% (check); same criterion from 26.5% = 52%, and 71% against the true LOC of 10.9%. Water-mist heat-absorption criterion: 50 kW x 30 s / (latent heat x 35% utilization) = 1.7 kg, same order as NASA's handheld fine-water-mist unit",
+        "Graded matrix: occupied small fire - handheld mist + power cut; unmanned equipment/battery bays - fixed CO2 (52% + interlocks); spreading - close the seal ring; uncontrolled - seal and let it burn down its O2; structure-threatening - vent after confirming no occupants (408 kWh for a 78 m3 segment)"
+      ],
+      "physics": "灭火剂的本质是给火焰锋面加热容或减氧,两条路都通向同一个判据:把焰温压到自持极限之下。水雾赢在汽化潜热(2.6 MJ/kg,没有气体比得过液气相变),CO₂ 赢在原料:这颗行星的大气 95% 就是它,压缩即得,0.15 kWh/kg——用缓冲气淹没同一个舱要贵 13 倍。火星把地球上最贵的固定灭火系统变成了最便宜的。",
+      "physics_en": "Every agent either adds heat capacity to the flame front or removes oxygen; both roads lead to the same criterion - push flame temperature below the sustaining limit. Water mist wins on latent heat (2.6 MJ/kg; no gas rivals a phase change). CO2 wins on feedstock: 95% of this planet's atmosphere is the agent, yours for 0.15 kWh/kg of compression - flooding the same bay with buffer gas costs 13x more. Mars turns Earth's most expensive fixed suppression system into its cheapest."
+    },
+    {
+      "id": "mast",
+      "label": "了望通信桅(响应时间账与两级布防)",
+      "label_en": "Watch and comms mast (the response-time ledger and two-tier defense)",
+      "range": 30,
+      "detail": "站址是一道算出来的题:路网 Dijkstra 加 90 秒整备,全部常住加压点行车都在 NFPA 1710 的 320 秒圈内——城紧凑到覆盖圈失效,判据退化为『贴近无人值守的火载荷』:有人区的火,第一响应者睡在火点隔壁(兼职队);硫厂的 900 °C 回转窑、库房、电池间没有邻居,车就是它们唯一的响应。但这一切对地下城无效:井口到 3000 m 井底,气闸 3 分钟加电梯 4.2 分钟,7.2 分钟与车速无关——所以布防分两级,车管地表,地下城靠下沉的器材柜:主街一柜,再借力竖井每 500 米的六处避难龛,龛内各置手持水雾与面罩。",
+      "detail_en": "The siting was a computed problem: road-network Dijkstra plus 90 s turnout puts every permanently occupied pressurized point inside NFPA 1710's 320-second drive circle - the city is compact enough that the circle stops discriminating, and the criterion degenerates to 'sit next to the unmanned fire loads.' Fires among people are answered first by people who sleep next door (the brigade); the sulfur plant's 900 C kiln, the depot, the battery rooms have no neighbors - the truck is their only response. None of this reaches the underground city: gate to the 3000 m shaft bottom is 3 min of airlock plus 4.2 min of lift, 7.2 minutes no truck can shorten - so defense runs in two tiers: the truck owns the surface, and the underground city relies on sunk equipment caches - one on the main street, plus the six refuge niches every 500 m down the shaft, each stocked with handheld mist units and masks.",
+      "specs": {
+        "推荐站址 B": "(95, -160) 干线东节点:硫厂 33 s / 库房 20 s / 矿场 35 s / 村 79 s / 地下城大门 87 s(行车)",
+        "备选站址 A": "(-170, -172) 干线西节点:村 42 s / 地下城大门 49 s / 硫厂 63 s",
+        "NFPA 1710 圈": "320 s——两案核心加压点全部达标(A 最大 115 s / B 101 s)",
+        "地下城硬底线": "井底 7.2 min 与车无关 → 器材柜级分站下沉",
+        "分站配置": "主街器材柜 ×1 + 竖井避难龛 ×6(借力 hab-lift-01)"
+      },
+      "specs_en": {
+        "Recommended site B": "(95, -160), east trunk node: sulfur plant 33 s / depot 20 s / mine 35 s / village 79 s / underground gate 87 s (drive)",
+        "Alternate site A": "(-170, -172), west trunk node: village 42 s / underground gate 49 s / sulfur 63 s",
+        "NFPA 1710 circle": "320 s - both candidates clear it for all core points (max 115 s at A, 101 s at B)",
+        "Underground hard floor": "7.2 min to shaft bottom, truck-independent - caches must sink",
+        "Substation kit": "1 main-street cache + 6 shaft refuge niches (riding hab-lift-01)"
+      },
+      "sim": "路网图取自城市布局审计的 14 条道路表,道路 8 m/s / 越野 2.5 m/s,Dijkstra 最短时;四闸:自身=整备 90 s、路网快于纯越野、井底 7.2 min 下限、两案 320 s 圈全过(sim/f04);两站址均过 audit_layout.mjs(道路/管廊/电缆沟净空)",
+      "sim_en": "Road graph mirrors the layout auditor's 14-road table; 8 m/s on road, 2.5 m/s off-road, Dijkstra shortest time. Four gates: self = 90 s turnout; roads beat off-road; the 7.2 min shaft floor; both candidates clear the 320 s circle (sim/f04). Both sites pass audit_layout.mjs for road, pipe-rack and trench clearance",
+      "physics": "响应时间的每一项都有物理出处:整备 90 秒买的是常压登车(免穿 EVA 服的 20 分钟),行车 8 m/s 是压力化底盘在碎石路面的极限,而地下城的 7.2 分钟是重力井的通行费——电梯 12 m/s 已经是绳曳引的火星上限。当一个时间项对站址的导数为零,它就该从选址账里出去,变成分站账。",
+      "physics_en": "Every term in the response time has a physical source: the 90 s turnout buys shirtsleeve boarding (versus 20 minutes of suit donning); 8 m/s is a pressurized chassis's limit on gravel; and the underground's 7.2 minutes is the gravity well's toll - 12 m/s is already the Martian ceiling for rope traction. When a time term's derivative with respect to station position is zero, it leaves the siting ledger and becomes the substation ledger."
+    },
+    {
+      "id": "co2",
+      "label": "CO₂ 充填站(舱外唯一与火有关的东西,是灭火剂的原料)",
+      "label_en": "CO2 refill skid (outside, the only thing fire-related is the agent's feedstock)",
+      "range": 22,
+      "detail": "进气帽直接吞火星大气:95% 都是 CO₂,压缩即成灭火剂,0.15 kWh/kg——这排立瓶是全太阳系最便宜的灭火剂库。它立在舱外也在讲另一半城的故事:600 Pa 下淬熄距离从地球的 2 毫米放大到 34 厘米,任何设备缝隙都是阻火器;氧含量 0.16%,比熄灭极限还低 68 倍;总压低于纯氧火焰的维持下限。EVA 服、舱外设备、地面设施的火灾在火星物理上不存在——甚至舱外灭火作业也不存在:600 Pa 下水的沸点是零下 5 度。唯一例外是自带氧化剂的体系:LOX/CH₄ 泄漏不需要大气,发射场与低温罐区是全城仅有的舱外火险区,预案是撤人、隔离、防护相邻罐——不存在『扑灭一场液氧火』。",
+      "detail_en": "The intake hood swallows raw Martian atmosphere: 95% of it is CO2, compressed straight into extinguishing agent at 0.15 kWh/kg - this bottle rank is the cheapest fire-suppression stockpile in the solar system. Standing outside, it also tells the other half of the city's story: at 600 Pa the quenching distance scales from Earth's 2 mm to 34 cm, so every equipment gap is a flame arrestor; oxygen is 0.16%, 68 times below the extinction limit; total pressure sits under the sustaining floor of even pure-O2 flames. Fires on EVA suits, exterior equipment and ground facilities do not exist in Martian physics - nor does exterior firefighting itself: at 600 Pa water boils at minus 5 C. The one exception carries its own oxidizer: a LOX/CH4 leak needs no atmosphere, making the launch complex and cryo farm the city's only exterior fire zones - and the plan there is evacuate, isolate, protect the neighboring tanks. There is no such thing as putting out a LOX fire.",
+      "specs": {
+        "原料": "火星大气(CO₂ 95.1%),0.6 kPa → 压缩充瓶",
+        "充值成本": "0.15 kWh/kg;120 m³ 舱段一次全淹没折 23.7 kWh",
+        "对照": "缓冲气淹没同舱段 313 kWh —— 贵 13 倍",
+        "舱外三重封杀": "O₂ 0.16%(LOC 的 1/68)/ 淬熄距离 34 cm / 总压 < 1 kPa 维持限",
+        "唯一例外": "LOX/CH₄ 自带氧化剂 —— 罐区净距 24 m + 防火堤(res-cryo-01 口径)"
+      },
+      "specs_en": {
+        "Feedstock": "Martian atmosphere (95.1% CO2), 0.6 kPa compressed to bottle",
+        "Refill cost": "0.15 kWh/kg; one 120 m3 bay flood costs 23.7 kWh",
+        "Contrast": "buffer-gas flooding of the same bay: 313 kWh - 13x dearer",
+        "Triple exterior kill": "O2 at 0.16% (1/68 of LOC) / 34 cm quenching distance / total pressure under the ~1 kPa sustaining floor",
+        "Sole exception": "LOX/CH4 carries its own oxidizer - 24 m tank spacing + dikes (per res-cryo-01)"
+      },
+      "sim": "四闸(sim/f05):淬熄 1/P 标度从 Lewis & von Elbe 的 2 mm 外推得 0.34 m 落 0.2~0.5 带;LOC 裕度 68×;600 Pa < 纯氧低压极限 ~1 kPa;克劳修斯-克拉佩龙算 600 Pa 沸点 −5 °C(三相点 611 Pa 之下液态水不存在)",
+      "sim_en": "Four gates (sim/f05): quench 1/P scaling from Lewis & von Elbe's 2 mm extrapolates to 0.34 m, inside the 0.2-0.5 band; LOC margin 68x; 600 Pa under the ~1 kPa pure-O2 floor; Clausius-Clapeyron gives a -5 C boiling point at 600 Pa (below the 611 Pa triple point, liquid water cannot exist)",
+      "physics": "火焰是一场要交三份押金的化学反应:够浓的氧化剂、够小的散热面体比、够高的碰撞频率。火星大气三份都交不起——氧被地质史收走了,低压把淬熄距离放大到设备尺度,分子碰撞率低到反应热赶不上散失。同一颗行星把舱内的火变贵、把舱外的火变为不可能,而消防站恰好开在这两个世界的界面上。",
+      "physics_en": "A flame is a chemical reaction that must post three deposits: oxidizer concentration, a small enough surface-to-volume ratio for heat retention, and collision frequency. Mars's atmosphere can post none - geology confiscated the oxygen, low pressure inflates the quenching distance to equipment scale, and collision rates lose the race against heat loss. The same planet makes indoor fire dearer and outdoor fire impossible - and the fire station sits exactly on the interface between those two worlds."
+    },
+    {
+      "id": "cache",
+      "label": "器材间(专职 0 人:16 套战斗服与两台机器人)",
+      "label_en": "Gear room (zero full-timers: 16 suits and two robots)",
+      "range": 22,
+      "detail": "挂架上 16 套战斗服,没有一套属于专职消防员。115 人的城养一个 4 人 24/7 专职班要 19.2 个全时人力——人口的六分之一,换来人均每年出勤 0.2 次。答案与南极站、与每一艘军舰相同:专职 0 人,全员里选 16 名兼职队员(人口 14%,舰艇损管队的占比),三班分布下任意时刻 5 分钟集齐 4 人的概率 99.1%。第 0 分钟属于机器人:hab-bot-01 舱内机器人在烟感报警后 60 秒内到场核实并拖来手持水雾;ops-dog-01 巡逻狗管舱外——舱外本无火,它巡的就是罐区与发射场那个唯一例外。",
+      "detail_en": "Sixteen turnout suits on the rack; none belongs to a full-time firefighter. A 4-person 24/7 professional watch in a city of 115 costs 19.2 FTE - a sixth of the population - for 0.2 callouts per firefighter per year. The answer is the South Pole station's and every warship's: zero professionals, sixteen part-time brigade members (14% of population, the naval damage-control fraction), with a 99.1% probability of mustering four within 5 minutes at any hour across three shifts. Minute zero belongs to the robots: hab-bot-01 indoor units reach and verify a smoke alarm within 60 s and drag over a handheld mist unit; ops-dog-01 patrols outside - where there is no fire, only the one exception it exists to watch: the cryo farm and the launch complex.",
+      "specs": {
+        "专职消防": "0 人",
+        "兼职队": "16 人(114% 冗余口径:任意班次在城 ≥4 人,P=99.1%)",
+        "期望事件率": "~1 起/年(ISS 人时密度上界 3.8 / 工业占用 0.23,取中)",
+        "第 0 分钟": "hab-bot-01 舱内核实首灭 / ops-dog-01 舱外例外区热巡",
+        "第 1 梯队": "兼职 4 人组 <5 min;第 2 梯队:消防车 + 破拆"
+      },
+      "specs_en": {
+        "Full-time firefighters": "0",
+        "Brigade": "16 part-time (any shift keeps >=4 in town, P = 99.1%)",
+        "Expected incident rate": "~1 per year (ISS person-hour upper bound 3.8, industrial-occupancy 0.23, geometric mean)",
+        "Minute zero": "hab-bot-01 verifies and first-attacks indoors / ops-dog-01 thermal-patrols the exterior exception zone",
+        "First echelon": "4-person team under 5 min; second echelon: the truck and its breaching arm"
+      },
+      "sim": "四闸(sim/f06):南极站先例(冬季 ~45 人专职 0)、舰艇损管占比带 10~20%、二项模型 P(≥4 人/5 min)=99.1% ≥95%、专职人均出勤 0.2 次/年低于职业队可持续下限两个量级",
+      "sim_en": "Four gates (sim/f06): the South Pole precedent (winter ~45, zero professionals); the naval damage-control fraction band 10-20%; binomial model P(>=4 within 5 min) = 99.1% >= 95%; professional utilization of 0.2 callouts/yr, two orders below any sustainable career-crew floor",
+      "physics": "小人口封闭系统的消防学第一定律:当事件率低于人力的闲置成本,响应能力必须寄生在别的职业上。军舰和南极站早就解出了这道题——不是没有消防员,而是每个人都是。机器人改的是这道题的常数项:它把『发现到首灭』从人的 5 分钟压到 60 秒,而这 4 分钟正是账 1 里 1.6 倍蔓延速率最贵的 4 分钟。",
+      "physics_en": "The first law of firefighting in small closed populations: when the incident rate falls below the idle cost of labor, response capability must live parasitically on other professions. Warships and polar stations solved this long ago - not no firefighters, but everyone is one. Robots change the constant term: they compress detection-to-first-attack from a human 5 minutes to 60 seconds - and those 4 minutes are the most expensive ones a 1.6x flame-spread city has."
+    }
+  ]
+}

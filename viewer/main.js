@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { build as buildComRelay, meta as comRelayMeta }
   from './units/com-relay-01.js';
 import { build as buildPan, meta as panMeta } from './units/sci-pan-01.js';
+import { build as buildComPolar, meta as comPolarMeta } from './units/com-polar-01.js';
+import { build as buildComL4, meta as comL4Meta } from './units/com-l4-01.js';
 import { build as buildMagicCity } from './magic/magic-city.js';
 
 // ---------------------------------------------------------------- data
@@ -27,6 +29,7 @@ const T = LANG === 'en' ? {
   orbit: '↑ Orbit view', orbitBack: '↓ Back to surface',
   colony: (on) => `🌱 Future Mars: ${on ? 'ON' : 'OFF'}`,
   magic: (on) => `🔮 Magic Mars: ${on ? 'ON' : 'OFF'}`,
+  imperial: (on) => `🏯 Celestial Palace: ${on ? 'ON' : 'OFF'}`,
   under: '⬇ Undercity', now: 'Live', langBtn: '中文',
   music: (on) => `♪ Music: ${on ? 'ON' : 'OFF'}`,
   mission: (sol, utc, n) => `Perseverance sol ${sol} · data ${utc} UTC · ${n} new photos`,
@@ -35,12 +38,21 @@ const T = LANG === 'en' ? {
   posOrbit: (alt) => `Orbit altitude ${alt} km · drag to rotate · scroll to zoom`,
   orbLbl: {
     spare: 'Hot spare',
-    coverage: 'Areostationary coverage limit ±71° · polar blind zone',
+    coverage: 'Areostationary limit ±71° - the caps belong to the polar ring',
+    polar: 'Polar-cap ring x3 · 20,428 km polar orbit · closes the ±71° blind zone',
+    l4: 'L4 conjunction relay · Sun-Mars L4 · blackout 14 d -> 0 (scale break, 1.52 AU)',
     earth: '→ Earth',
     relay: 'Relay constellation: 3 primary + 1 spare · areostationary, 17,032 km',
     lowOrbiter: 'Science orbiter · 400 km · relays ground data',
     cmb: 'CMB polarization survey station · Sun-Mars L2',
     cmbDist: '1.08 million km from Mars · schematic, not to scale',
+    phobos: 'Phobos · 9,376 km · 7.65 h - crosses the sky twice a sol, west to east',
+    deimos: 'Deimos · 23,463 km · 30.3 h - near-stationary, hangs for 2.5 sols',
+    convoy: 'Methalox export convoy · ~515 ship-loads per synodic window',
+    optical: 'Optical uplink · 1550 nm (com-optical-01)',
+    inbound: 'Import ship · aerocapture · ~100 t per window, half of it food',
+    phobosBase: 'Phobos forward post',
+    elevator: 'The space elevator Phobos vetoed - it crosses the tether every 11 h',
   },
   posInterior: (n) => `${n} · indoors`,
   inspectHint: (n) => `Inspect: ${n} · drag to rotate · scroll to zoom · V to exit`,
@@ -54,6 +66,7 @@ const T = LANG === 'en' ? {
   orbit: '↑ 轨道视角', orbitBack: '↓ 返回地表',
   colony: (on) => `🌱 未来火星：${on ? '开' : '关'}`,
   magic: (on) => `🔮 魔幻火星：${on ? '开' : '关'}`,
+  imperial: (on) => `🏯 天宫城：${on ? '开' : '关'}`,
   under: '⬇ 地下城', now: '实时', langBtn: 'EN',
   music: (on) => `♪ 音乐：${on ? '开' : '关'}`,
   mission: (sol, utc, n) => `毅力号任务日 Sol ${sol} · 数据更新 ${utc} UTC · 最新照片 ${n} 张`,
@@ -62,12 +75,21 @@ const T = LANG === 'en' ? {
   posOrbit: (alt) => `轨道高度 ${alt} km · 拖动旋转 · 滚轮缩放`,
   orbLbl: {
     spare: '备份星',
-    coverage: '静止轨道覆盖极限 ±71° · 极区盲区',
+    coverage: '静止轨道覆盖极限 ±71°——极帽已由极轨星接管',
+    polar: '极轨补盲三星 · 20,428 km 极轨 · 封住 ±71° 盲区',
+    l4: 'L4 合日中继 · 日火 L4 · 黑障 14 天 → 0(比例断裂,1.52 AU)',
     earth: '→ 地球',
     relay: '中继星 ×3 主 + 1 备份 · 火星静止轨道 17,032 km',
     lowOrbiter: '科学轨道器 · 400 km · 代传地面数据',
     cmb: 'CMB 偏振巡天站 · 日-火 L2',
     cmbDist: '距火星 108万 km · 示意未按比例',
+    phobos: '火卫一 · 9,376 km · 7.65 h——每 sol 过境两次,西升东落',
+    deimos: '火卫二 · 23,463 km · 30.3 h——近乎驻留,一挂两天半',
+    convoy: '甲烷氧出口船队 · 每会合窗口约 515 船',
+    optical: '光通信上行 · 1550 nm(com-optical-01)',
+    inbound: '进口船 · 气动捕获 · 每窗口 ~100 t,一半是粮食',
+    phobosBase: '火卫一前哨',
+    elevator: '被火卫一否决的太空电梯——每 11 h 撞缆一次',
   },
   posInterior: (n) => `${n} · 室内`,
   inspectHint: (n) => `环视：${n} · 拖动旋转 · 滚轮缩放 · V 退出`,
@@ -84,6 +106,7 @@ let musicSetScene = () => {};  // assigned in the UI block, called by toggleMagi
   document.getElementById('underBtn').textContent = T.under;
   document.getElementById('colonyBtn').textContent = T.colony(false);
   document.getElementById('magicBtn').textContent = T.magic(false);
+  document.getElementById('imperialBtn').textContent = T.imperial(false);
   document.getElementById('timeNow').textContent = T.now;
   document.getElementById('timeInfo').textContent = T.timeWait;
   const lb = document.getElementById('langBtn');
@@ -112,6 +135,7 @@ let musicSetScene = () => {};  // assigned in the UI block, called by toggleMagi
     city: new Audio('audio/quiet-infrastructure.m4a'),
     magic: new Audio('audio/glass-moon-halo.m4a'),
     under: new Audio('audio/bedrock-pulse.m4a'),
+    imperial: new Audio('audio/dawn-over-marble-terraces.m4a'),
   };
   for (const a of Object.values(tracks)) { a.loop = true; a.volume = 0; a.preload = 'auto'; }
   let musicOn = localStorage.getItem('mars_music') !== '0';
@@ -292,6 +316,9 @@ status('正在构建地形网格（210 万三角形）…');
 // ---------------------------------------------------------------- orbit view
 
 const ORBIT_R = 3389.5;                      // Mars mean radius; 1 unit = 1 km here
+let moonTick = () => {};                     // assigned by the orbit block; ltst-driven
+const polarSats = [];                        // com-polar-01 x3, moved by moonTick
+let polarPosFn = null;
 const orbitGroup = new THREE.Group();
 orbitGroup.visible = false;
 scene.add(orbitGroup);
@@ -800,6 +827,16 @@ let haulTick = null;              // ore-hauler animator, registered with unitAn
     [600, 300, 700, 370, 12],     // crawlerway park spur -> transporter stand
     [480, 320, 600, 300, 6],      // payload building -> VAB transfer link
     [636, 190, 600, 300, 5],      // campus tie-in from the launch highway
+    // fission service road (HANDOFF_FISSION section 2): trunk west end to the
+    // plant's west gate, kept west of the G-R trench to avoid running on it -
+    // HALEU casks and the spent-module road both use this, so it is a real
+    // road, not the off-road access the handoff was resigned to
+    [-190, -145, -210, -690, 4],  // fission spur leg 1
+    [-210, -690, -180, -778, 4],  // fission spur leg 2 (doorstep, exempt)
+    // acceptance-wave spurs (each handoff's doorstep rule, section 2):
+    [-100, -142, -100, -486, 4],  // astro spur: trunk -> handover apron, east of G-R1
+    [150, -190, 148, -252, 4],    // foundry ore spur: env node -> west intake
+    [150, -190, 124, -214, 4],    // glass feed spur: same node -> batch hoppers
   ];
   for (const [x1, z1, x2, z2, w] of SPURS) road(x1, z1, x2, z2, w);
   // roadside furniture: alternating light masts and marker posts
@@ -1137,6 +1174,13 @@ let haulTick = null;              // ore-hauler animator, registered with unitAn
   // baseload oxygen: the sulfur kiln's 200 kg/sol by-product is the city's
   // primary metabolic supply (1.57x demand) — this is the oxygen aorta
   const o2Main = [{ o: -0.3, r: 0.3, m: pmat.o2 }, { o: 0.3, r: 0.1, m: pmat.small }];
+  // foundry oxygen: metal-oxide reduction's byproduct joins the city O2 net at
+  // the sulfur-plant junction (integrator ruling on HANDOFF_FOUNDRY section 3-2:
+  // one aorta, two producers - same bus, same bookkeeping)
+  pipeRack(173, -280, 85, -300, [{ o: 0, r: 0.22, m: pmat.o2 }], 0, 'start');
+  pipeRack(85, -300, 28, -200, [{ o: 0, r: 0.22, m: pmat.o2 }], 8, 'none');
+  pipeRack(28, -200, 28, -90, [{ o: 0, r: 0.22, m: pmat.o2 }], 8, 'none');
+  pipeRack(28, -90, 70, -70, [{ o: 0, r: 0.22, m: pmat.o2 }], 0, 'none');
   pipeRack(70, -70, 0, 20, o2Main, 8, 'start');        // west of the ISRU footprint
   pipeRack(0, 20, 5, 60, o2Main, 0, 'end');
   // oxygen to the undercity gate: the south line, three legs riding the road
@@ -1212,6 +1256,40 @@ let haulTick = null;              // ore-hauler animator, registered with unitAn
   // on one busbar would rebuild the single point of failure.
   cableTrench(-140, -780, -345, -110, vmat.dc15);          // G-S1 bypass trunk
   cableTrench(-345, -110, -330, -30, vmat.dc15);           // G-S2 shaft approach
+  // acceptance-wave spurs: astro taps a 400 V branch beside the G-R1 trench
+  // (10 kV never enters the lab), glass taps G-P, optical rides the
+  // com-station trench for its 39 m
+  cableTrench(-165, -500, -113, -498, vmat.dc04);          // G-T astro branch
+  cableTrench(225, -210, 122, -222, vmat.dc04);            // G-U glass branch
+  cableTrench(-350, -280, -385, -262, vmat.dc04);          // G-V optical fibre+power
+}
+
+// ------------------------------------------------------------- imperial city
+// Third toggle layer (Codex-built module, accepted R6). The palace thinks in
+// local metres with its axis on -Z; the whole 1200 x 800 m envelope sits on
+// the empty northeast quadrant, entrance facing the science city. The ctx
+// sampleHeight is offset-wrapped so the module keeps believing it lives at
+// the origin.
+const imperialGroup = new THREE.Group();
+imperialGroup.visible = false;
+const IMPERIAL_SITE = [1100, -800];
+imperialGroup.position.set(IMPERIAL_SITE[0], 0, IMPERIAL_SITE[1]);
+surfaceGroup.add(imperialGroup);
+const imperialAnims = [];
+const imperialLights = [];
+let imperialLoadP = null;
+function loadImperial() {
+  imperialLoadP ??= import('./imperial/imperial-city.js').then((mod) => {
+    mod.build({ THREE, group: imperialGroup, anims: imperialAnims,
+      lights: imperialLights,
+      sampleHeight: (x, z) =>
+        sampleHeight(x + IMPERIAL_SITE[0], z + IMPERIAL_SITE[1]),
+      renderer, T, sunDirUniform: sky.material.uniforms.sunDir });
+    imperialGroup.position.y = 0;   // module anchors to sampled terrain height
+    unitNightMats.push(...(imperialGroup.userData.nightMats || []));
+    collectColliders(imperialGroup, 2);   // terraces/stairs become walkable
+  }).catch((e) => { console.warn('[imperial] load failed', e); });
+  return imperialLoadP;
 }
 
 // ---------------------------------------------------------------- magic city
@@ -1231,11 +1309,17 @@ buildMagicCity({ THREE, group: magicGroup, anims: magicAnims, lights: magicLight
   sampleHeight, renderer, T, sunDirUniform: sky.material.uniforms.sunDir,
   crystalTime, crystalDay, cryGlowMats, cityPbrMats });
 
+// which score the surface deserves right now - interiors override via enterInterior
+function surfaceScene() {
+  return imperialGroup.visible ? 'imperial'
+    : magicGroup.visible ? 'magic' : 'city';
+}
+
 function toggleMagic(force) {
   magicGroup.visible = force ?? !magicGroup.visible;
   const btn = document.getElementById('magicBtn');
   btn.textContent = T.magic(magicGroup.visible);
-  musicSetScene(magicGroup.visible ? 'magic' : 'city');
+  musicSetScene(surfaceScene());
   if (magicGroup.visible) magicGroup.userData.loadCity?.();
 }
 document.getElementById('magicBtn').addEventListener('click', () => toggleMagic());
@@ -1243,6 +1327,16 @@ document.getElementById('underBtn').addEventListener('click', () => {
   if (!inInterior && !orbitMode && !inspectUnit) enterInterior('hab-foyer-01', null);
 });
 if (q.get('magic') === '1') toggleMagic(true);
+
+function toggleImperial(force) {
+  imperialGroup.visible = force ?? !imperialGroup.visible;
+  document.getElementById('imperialBtn').textContent =
+    T.imperial(imperialGroup.visible);
+  musicSetScene(surfaceScene());
+  if (imperialGroup.visible) loadImperial();
+}
+document.getElementById('imperialBtn').addEventListener('click', () => toggleImperial());
+if (q.get('imperial') === '1') toggleImperial(true);
 
 function toggleColony(force) {
   colonyGroup.visible = force ?? !colonyGroup.visible;
@@ -1596,6 +1690,7 @@ const PORTALS = [
   { pos: [-372, -18], radius: 5, interior: 'hab-foyer-01', label: '地下城（电梯）', label_en: 'Undercity (lift)' },
   // 温室穹顶气闸门廊(res-dome-01 @ (95,70) rot180,门廊朝城)
   { pos: [95, 53], radius: 5.5, interior: 'res-dome-hall-01', label: '温室穹顶', label_en: 'Greenhouse dome' },
+  { pos: [-262, -159.4], radius: 4.5, interior: 'hab-museum-hall-01', label: '博物馆', label_en: 'Museum' },
   // FEL access shaft: sited by the delivering session at 625 m from the seismic
   // station (its 400 m quiet radius) and inside the undercity gate cluster
   { pos: [-395, 25], radius: 5.5, interior: 'sci-fel-01',
@@ -1638,6 +1733,13 @@ const INTERIOR_DOORS = [
   { from: 'hab-rec-01', pos: [0, 0.5], radius: 1.5, to: 'hab-foyer-01',
     label: '玄关', label_en: 'Foyer',
     entry: { pos: [-4.6, 0, -13], yaw: -Math.PI / 2 } },
+  // 玄关左墙末段 → 分析测试中心(六台仪器共享平台,全城的送样终点)
+  { from: 'hab-foyer-01', pos: [-5.4, -18], radius: 1.6, to: 'sci-lab-01',
+    label: '分析测试中心', label_en: 'Analytical core facility',
+    entry: { pos: [0, 0, 9.2], yaw: 0 } },
+  { from: 'sci-lab-01', pos: [0, 10.2], radius: 1.5, to: 'hab-foyer-01',
+    label: '玄关', label_en: 'Foyer',
+    entry: { pos: [-4.6, 0, -18], yaw: -Math.PI / 2 } },
   // 玄关右墙中段 → 冷冻电镜实验室(300 kV,城市的分子之眼);其自带的
   // 门龛标着「返回玄关」,故 exitZone 已在 manifest 里禁用,回程走这道门
   { from: 'hab-foyer-01', pos: [5.4, -9.0], radius: 1.6, to: 'sci-cryoem-01',
@@ -1876,8 +1978,7 @@ async function enterInterior(id, portal) {
   rec.exitArmed = false;                     // re-arm the exit zone each entry
   inInterior = rec;
   // the greenhouse dome is a surface interior - it keeps the surface score
-  musicSetScene(id === 'res-dome-hall-01'
-    ? (magicGroup.visible ? 'magic' : 'city') : 'under');
+  musicSetScene(id === 'res-dome-hall-01' ? surfaceScene() : 'under');
   nearPortal = null;
   portalPromptEl.style.display = 'none';
   hintEl.textContent = T.interiorHint(pick(rec.meta, 'name'));
@@ -1898,7 +1999,7 @@ async function exitInterior() {
   rig.position.copy(savedEnv.pos);
   yaw = savedEnv.yaw; pitch = savedEnv.pitch; flying = savedEnv.fly;
   inInterior = null;
-  musicSetScene(magicGroup.visible ? 'magic' : 'city');
+  musicSetScene(surfaceScene());
   interiorExiting = false;
   nearDoor = null;
   portalPromptEl.style.display = 'none';
@@ -2035,7 +2136,130 @@ async function loadUnits() {
     }
   }
 }
-loadUnits();
+loadUnits()
+  .catch((e) => console.warn('[units] loader rejected', e))
+  .then(() => {
+    try { collectColliders(colonyGroup, 1); }
+    catch (e) { console.warn('[collide] colony collect failed', e); }
+  });
+
+// ------------------------------------------------------------- collision
+// Static AABB colliders derived at load time from geometry that already
+// exists - zero bytes added to any asset file. Three-way classification per
+// box against the walker: tops within step height are mountable (stairs,
+// pads, palace terraces), bottoms above head height are walk-under (eaves,
+// pipe lanes, lintels), the rest block. Instanced meshes (trees, posts,
+// balustrades) are deliberately transparent to walking.
+// Triangle-classified height/wall grids, 2 m cells. Mesh-level AABBs fail on
+// merged batches (one palace mesh spans hundreds of metres), so every
+// triangle is sorted once at load: up-facing ones (ny > 0.55) stamp platform
+// heights into a floor grid, steep ones (|ny| < 0.55) stamp [minY,maxY]
+// blocking spans into a wall grid. Risers below step height never block, so
+// stairs climb; eaves above head height never block, so doors and pipe lanes
+// pass. Instanced meshes (trees, posts, balustrades) stay transparent.
+const COL_CELL = 2, COL_STEP = 0.65, COL_HEAD = 1.7, COL_R = 0.35;
+// per-layer grids so a hidden layer stops colliding (1 = colony, 2 = imperial)
+const colGrids = { 1: { floor: new Map(), wall: new Map() },
+                   2: { floor: new Map(), wall: new Map() } };
+function colActiveGrids() {
+  const out = [];
+  if (colonyGroup.visible) out.push(colGrids[1]);
+  if (imperialGroup.visible) out.push(colGrids[2]);
+  return out;
+}
+let colTris = 0;
+const colKey = (x, z) => Math.floor(x / COL_CELL) * 200000 + Math.floor(z / COL_CELL);
+function collectColliders(root, tag) {
+  const t0 = performance.now();
+  const colFloor = colGrids[tag].floor, colWall = colGrids[tag].wall;
+  root.updateMatrixWorld(true);
+  const va = new THREE.Vector3(), vb = new THREE.Vector3(), vc = new THREE.Vector3();
+  const ab = new THREE.Vector3(), ac = new THREE.Vector3(), n = new THREE.Vector3();
+  root.traverse((o) => {
+    if (!o.isMesh || o.isInstancedMesh || o.isSprite) return;
+    const g = o.geometry, pos = g.getAttribute('position');
+    if (!pos) return;
+    const idx = g.getIndex();
+    const triN = (idx ? idx.count : pos.count) / 3;
+    for (let i = 0; i < triN; i++) {
+      const a = idx ? idx.getX(i * 3) : i * 3;
+      const b = idx ? idx.getX(i * 3 + 1) : i * 3 + 1;
+      const c = idx ? idx.getX(i * 3 + 2) : i * 3 + 2;
+      va.fromBufferAttribute(pos, a).applyMatrix4(o.matrixWorld);
+      vb.fromBufferAttribute(pos, b).applyMatrix4(o.matrixWorld);
+      vc.fromBufferAttribute(pos, c).applyMatrix4(o.matrixWorld);
+      n.crossVectors(ab.subVectors(vb, va), ac.subVectors(vc, va));
+      const len = n.length();
+      if (len < 1e-8) continue;
+      const ny = Math.abs(n.y / len);
+      const up = ny > 0.55, wall = ny < 0.55;
+      const minX = Math.min(va.x, vb.x, vc.x), maxX = Math.max(va.x, vb.x, vc.x);
+      const minZ = Math.min(va.z, vb.z, vc.z), maxZ = Math.max(va.z, vb.z, vc.z);
+      const minY = Math.min(va.y, vb.y, vc.y), maxY = Math.max(va.y, vb.y, vc.y);
+      colTris++;
+      for (let cx = Math.floor(minX / COL_CELL); cx <= Math.floor(maxX / COL_CELL); cx++)
+        for (let cz = Math.floor(minZ / COL_CELL); cz <= Math.floor(maxZ / COL_CELL); cz++) {
+          const k = cx * 200000 + cz;
+          if (up) {
+            let f = colFloor.get(k);
+            if (!f) colFloor.set(k, f = []);
+            let dup = false;                       // quantize: merge near-equal levels
+            for (let j = 0; j < f.length; j++) if (Math.abs(f[j] - maxY) < 0.35) { dup = true; if (maxY > f[j]) f[j] = maxY; break; }
+            if (!dup && f.length < 10) { f.push(maxY); f.sort((p, q) => p - q); }
+          }
+          if (wall) {
+            let w = colWall.get(k);
+            if (!w) colWall.set(k, w = []);
+            let merged = false;                    // merge overlapping spans
+            for (let j = 0; j < w.length; j += 2)
+              if (minY < w[j + 1] + 0.3 && maxY > w[j] - 0.3) {
+                w[j] = Math.min(w[j], minY); w[j + 1] = Math.max(w[j + 1], maxY);
+                merged = true; break;
+              }
+            if (!merged && w.length < 16) w.push(minY, maxY);
+          }
+        }
+    }
+  });
+  console.info('[collide]', colTris, 'tris ->', colFloor.size, 'floor cells,',
+    colWall.size, 'wall cells,', Math.round(performance.now() - t0), 'ms');
+}
+function colFloorAt(px, pz, feet) {
+  let best = sampleHeight(px, pz);
+  for (const g of colActiveGrids()) {
+    const f = g.floor.get(colKey(px, pz));
+    if (f) for (let j = f.length - 1; j >= 0; j--)
+      if (f[j] <= feet + COL_STEP) { if (f[j] > best) best = f[j]; break; }
+  }
+  return best;
+}
+function colBlocked(px, pz, feet, floor) {
+  for (const g of colActiveGrids())
+    for (const dx of [-COL_R, COL_R]) for (const dz of [-COL_R, COL_R]) {
+      const w = g.wall.get(colKey(px + dx, pz + dz));
+      if (!w) continue;
+      for (let j = 0; j < w.length; j += 2)
+        if (w[j + 1] > floor + COL_STEP && w[j] < feet + COL_HEAD
+            && w[j + 1] - w[j] > 0.2) return true;
+    }
+  return false;
+}
+window.__col = { colGrids, colFloorAt, colBlocked, colKey };   // debug handle
+// walker resolve: axis-separated slide - blocked moves cancel per axis
+function collideWalk(dt, px0, pz0) {
+  const feet = rig.position.y;
+  let nx = rig.position.x, nz = rig.position.z;
+  let floor = colFloorAt(nx, nz, feet);
+  if (colBlocked(nx, nz, feet, floor)) {
+    if (!colBlocked(nx, pz0, feet, colFloorAt(nx, pz0, feet))) nz = pz0;
+    else if (!colBlocked(px0, nz, feet, colFloorAt(px0, nz, feet))) nx = px0;
+    else { nx = px0; nz = pz0; }
+    rig.position.x = nx; rig.position.z = nz;
+    floor = colFloorAt(nx, nz, feet);
+  }
+  const dy = floor - feet;                         // snap up steps, fall smoothly
+  rig.position.y = dy < -1.0 ? feet - Math.min(-dy, 22 * dt) : floor;
+}
 
 const _cp = new THREE.Vector3();
 function updatePois() {
@@ -2157,6 +2381,7 @@ function updateSun() {
   const s = marsSolar(Date.now());
   const ltst = realTime ? s.ltst : parseFloat(timeSlider.value);
   updateClockText(s, ltst);
+  if (orbitMode) moonTick(ltst);             // Phobos/Deimos ride the same clock
   // scheduled auto-triggers (meta.schedule): fire once when local time reaches it
   for (const sc of scheduled) {
     const near = Math.abs(ltst - sc.ltst) < 0.05;
@@ -2211,6 +2436,7 @@ function updateSun() {
   for (const l of unitLights) l.intensity = colonyGroup.visible ? 300 * night : 0;
   lastNight = night;
   for (const l of magicLights) l.intensity = magicGroup.visible ? 40 + 500 * night : 0;
+  for (const l of imperialLights) l.intensity = imperialGroup.visible ? 30 + 260 * night : 0;
   crystalDay.value = day;
   for (const m of cryGlowMats) m.opacity = 0.1 + 0.35 * night;
   for (const m of cityPbrMats) m.emissiveIntensity = 0.05 + 0.4 * night;
@@ -2380,6 +2606,256 @@ function buildSat(scale = 1) {                // still used by the low orbiter
   covLbl.position.copy(latLon(80, 77.4, ORBIT_R + 900));
   orbitGroup.add(covLbl);
 
+  // ---- polar-cap ring (com-polar-01 x3): circular polar orbit at the same
+  // radius as the areostationary ring, plane through the rotation axis on the
+  // city meridian (display choice; coverage is longitude-blind per its s02).
+  // Unlike the stationary ring these three MOVE - one lap per sidereal sol,
+  // driven from the same ltst clock as the moons.
+  {
+    const eEq = latLon(0, 77.4, 1).normalize();
+    const jAx = new THREE.Vector3(0, 1, 0);
+    const polarPos = (uDeg) => {
+      const u = uDeg * Math.PI / 180;
+      return eEq.clone().multiplyScalar(Math.cos(u) * AREO)
+        .addScaledVector(jAx, Math.sin(u) * AREO);
+    };
+    const ring = [];
+    for (let i = 0; i <= 128; i++) ring.push(polarPos(i / 128 * 360));
+    orbitGroup.add(new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(ring),
+      new THREE.LineBasicMaterial({ color: 0x88eebb, transparent: true, opacity: 0.28 })));
+    for (let k = 0; k < 3; k++) {
+      const sat = buildComPolar(THREE);
+      sat.scale.setScalar(60);                 // same convention as relaySat
+      sat.position.copy(polarPos(120 * k));
+      sat.lookAt(0, 0, 0);
+      sat.rotateY(Math.PI);
+      orbitGroup.add(sat);
+      registerMotion(sat, orbitAnims);
+      sat.traverse((o) => { if (o.name?.startsWith('poi_')) relayPoiAnchors.push(o); });
+      polarSats.push(sat);
+    }
+    polarPosFn = polarPos;
+    const pLbl = textSprite(T.orbLbl.polar, 36, '#a0e8c0');
+    pLbl.scale.set(6600, 730, 1);
+    pLbl.position.copy(polarPos(90)).add(new THREE.Vector3(0, 1800, 0));
+    orbitGroup.add(pLbl);
+  }
+
+  // ---- L4 conjunction relay (com-l4-01): 1.52 AU does not fit a km stage,
+  // so it sits at a declared scale break in the far corner toward
+  // Earth-direction + 60 degrees, same not-to-scale treatment as the L2
+  // station. Its coronagraph is the storm-season sun sentinel upstream of
+  // the polar ring's 76-minute particle warning.
+  {
+    const earthD = latLon(0, 77.4, 1).normalize();
+    const l4Dir = earthD.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 3);
+    const sat = buildComL4(THREE);
+    sat.scale.setScalar(200);
+    sat.position.copy(l4Dir.clone().multiplyScalar(55000));
+    sat.lookAt(sat.position.clone().addScaledVector(earthD, -1000));  // HGA toward Earth
+    orbitGroup.add(sat);
+    registerMotion(sat, orbitAnims);
+    sat.traverse((o) => { if (o.name?.startsWith('poi_')) relayPoiAnchors.push(o); });
+    const dash = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(
+        [l4Dir.clone().multiplyScalar(30000), l4Dir.clone().multiplyScalar(52000)]),
+      new THREE.LineDashedMaterial({ color: 0x9adcc8, dashSize: 500, gapSize: 380,
+        transparent: true, opacity: 0.5 }));
+    dash.computeLineDistances();
+    orbitGroup.add(dash);
+    const lLbl = textSprite(T.orbLbl.l4, 34, '#a0e0cc');
+    lLbl.scale.set(7200, 800, 1);
+    lLbl.position.copy(l4Dir.clone().multiplyScalar(55000)).add(new THREE.Vector3(0, 2400, 0));
+    orbitGroup.add(lLbl);
+  }
+
+  // ---- the two real moons. Distances and periods are true; the potatoes are
+  // enlarged by the standing convention (hardware exaggerated, orbits not).
+  // The orbit view sits in the Mars-fixed rotating frame (the areo sats hang
+  // still), so each moon moves at its synodic rate: Phobos orbits faster than
+  // Mars rotates and sweeps +32.4 deg/h - rising in the west, twice a sol;
+  // Deimos nearly matches the rotation and creeps -2.7 deg/h, hanging in the
+  // sky for two and a half sols. Driven from updateSun's ltst so the time
+  // slider scrubs them.
+  const potato = (rKm, scale, squash, seed) => {
+    const geo = new THREE.IcosahedronGeometry(rKm * scale, 2);
+    const p = geo.getAttribute('position');
+    let s = seed;
+    const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    const bump = [];
+    for (let i = 0; i < 8; i++) bump.push([rnd() * 2 - 1, rnd() * 2 - 1, rnd() * 2 - 1, 0.75 + rnd() * 0.5]);
+    const v = new THREE.Vector3();
+    for (let i = 0; i < p.count; i++) {
+      v.fromBufferAttribute(p, i);
+      const n = v.clone().normalize();
+      let m = 1;
+      for (const [bx, by, bz, k] of bump)
+        m += 0.09 * Math.sin(k * 7 * (n.x * bx + n.y * by + n.z * bz));
+      p.setXYZ(i, v.x * m, v.y * m * squash, v.z * m);
+    }
+    geo.computeVertexNormals();
+    return new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ color: 0x8a7f74 }));
+  };
+  const moon = (rKm, sizeKm, scale, squash, seed, incDeg, labelKey, labelW) => {
+    const pivot = new THREE.Group();
+    pivot.rotation.z = incDeg * Math.PI / 180;
+    orbitGroup.add(pivot);
+    const body = potato(sizeKm, scale, squash, seed);
+    body.position.x = rKm;
+    pivot.add(body);
+    const ring = [];
+    for (let i = 0; i <= 128; i++) {
+      const a = i / 128 * Math.PI * 2;
+      ring.push(new THREE.Vector3(Math.cos(a) * rKm, 0, Math.sin(a) * rKm));
+    }
+    pivot.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(ring),
+      new THREE.LineBasicMaterial({ color: 0xb0a090, transparent: true, opacity: 0.22 })));
+    const lbl = textSprite(T.orbLbl[labelKey], 34, '#d8c8b4');
+    lbl.scale.set(labelW, labelW / 8, 1);
+    body.add(lbl);
+    lbl.position.set(0, sizeKm * scale * 1.6 + 500, 0);
+    return { pivot, body, rKm };
+  };
+  const phobos = moon(9376, 13, 9, 0.82, 11, 1.1, 'phobos', 5600);
+  const deimos = moon(23463, 8, 14, 0.88, 23, 1.8, 'deimos', 5600);
+  {                                            // forward post on Phobos: the
+    const base = new THREE.Group();            // staging camp rides the moon
+    const bm = new THREE.MeshLambertMaterial({ color: 0xc8ccd4 });
+    const hab = new THREE.Mesh(new THREE.CylinderGeometry(22, 22, 30, 10), bm);
+    const hab2 = new THREE.Mesh(new THREE.CylinderGeometry(16, 16, 24, 10), bm);
+    hab2.position.set(38, -4, 8);
+    const dish = new THREE.Mesh(
+      new THREE.SphereGeometry(16, 10, 5, 0, Math.PI * 2, 0, 0.5),
+      new THREE.MeshLambertMaterial({ color: 0xf0f0f0, side: THREE.DoubleSide }));
+    dish.position.set(-30, 16, -6);
+    dish.rotation.x = -1.1;
+    const glow = new THREE.Mesh(new THREE.SphereGeometry(5, 6, 4),
+      new THREE.MeshBasicMaterial({ color: 0xffd890 }));
+    glow.position.set(0, 22, 0);
+    base.add(hab, hab2, dish, glow);
+    base.position.set(0, 96, 0);               // perched on the potato's pole
+    phobos.body.add(base);
+    const bLbl = textSprite(T.orbLbl.phobosBase, 30, '#ffd8a0');
+    bLbl.scale.set(2200, 275, 1);
+    bLbl.position.set(0, 340, 0);
+    phobos.body.add(bLbl);
+  }
+  // the space elevator that never got built: an areostationary tether from the
+  // city's longitude - vetoed by Phobos itself, whose orbit sits below the
+  // balance point and crosses the tether line every ~11 hours. Kept on the
+  // map as a dashed ghost with a red X at the collision radius, in the same
+  // honest tradition as every What-broke section on the site.
+  {
+    const foot = latLon(0, 77.4, ORBIT_R + 5);
+    const top = latLon(0, 77.4, AREO);
+    const ghost = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([foot, top]),
+      new THREE.LineDashedMaterial({ color: 0xc87878, dashSize: 260,
+        gapSize: 200, transparent: true, opacity: 0.4 }));
+    ghost.computeLineDistances();
+    orbitGroup.add(ghost);
+    const cross = textSprite('✕', 64, '#ff5040');
+    cross.scale.set(900, 900, 1);
+    cross.position.copy(latLon(0, 77.4, 9376));
+    orbitGroup.add(cross);
+    const eLbl = textSprite(T.orbLbl.elevator, 32, '#e8a0a0');
+    eLbl.scale.set(6200, 775, 1);
+    eLbl.position.copy(latLon(0, 77.4, 13400)).add(new THREE.Vector3(0, -1500, 0));
+    orbitGroup.add(eLbl);
+  }
+  moonTick = (ltst) => {                       // called from updateSun
+    const ph = (77.4 + 140 + 32.36 * ltst) * Math.PI / 180;
+    phobos.body.position.set(Math.cos(ph) * phobos.rKm, 0, -Math.sin(ph) * phobos.rKm);
+    phobos.body.rotation.y = ph;               // tidally locked
+    const dm = (77.4 + 55 - 2.72 * ltst) * Math.PI / 180;
+    deimos.body.position.set(Math.cos(dm) * deimos.rKm, 0, -Math.sin(dm) * deimos.rKm);
+    deimos.body.rotation.y = dm;
+    if (polarPosFn) for (let k = 0; k < polarSats.length; k++) {
+      // one lap per sidereal sol in the fixed meridian plane
+      polarSats[k].position.copy(polarPosFn(120 * k + 360 * ltst / 24.62));
+      polarSats[k].lookAt(0, 0, 0);
+      polarSats[k].rotateY(Math.PI);
+    }
+  };
+  moonTick(12);
+
+  // ---- the export convoy: what 99.6% of the reactor is for. Three ships on
+  // an outbound spiral from low orbit toward Earth, plus the dashed arc.
+  {
+    const earthDir = latLon(0, 77.4, 1).normalize();
+    const upDir = new THREE.Vector3(0, 1, 0);
+    const side = new THREE.Vector3().crossVectors(upDir, earthDir).normalize();
+    const arc = [];
+    for (let i = 0; i <= 60; i++) {
+      const t = i / 60;
+      const r = 3789 + t * t * 26000;          // LMO 400 km out to escape
+      const a = t * 2.4;                       // two-thirds of a wind-up turn
+      arc.push(earthDir.clone().multiplyScalar(Math.cos(a) * -1 * r)
+        .addScaledVector(side, Math.sin(a) * r)
+        .addScaledVector(upDir, t * 2200));
+    }
+    arc.reverse();                             // ends pointing at Earth
+    const arcLine = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(arc),
+      new THREE.LineDashedMaterial({ color: 0xd8b478, dashSize: 420,
+        gapSize: 300, transparent: true, opacity: 0.55 }));
+    arcLine.computeLineDistances();
+    orbitGroup.add(arcLine);
+    const shipMat = new THREE.MeshLambertMaterial({ color: 0xd8dde4 });
+    for (const t of [0.35, 0.55, 0.78]) {
+      const p = arc[Math.round(t * 60)];
+      const dir = arc[Math.min(60, Math.round(t * 60) + 1)].clone().sub(p).normalize();
+      const ship = new THREE.Group();
+      const hull = new THREE.Mesh(new THREE.CylinderGeometry(90, 90, 520, 10), shipMat);
+      const nose = new THREE.Mesh(new THREE.ConeGeometry(90, 190, 10), shipMat);
+      nose.position.y = 355;
+      ship.add(hull, nose);
+      ship.position.copy(p);
+      ship.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+      orbitGroup.add(ship);
+    }
+    const cvLbl = textSprite(T.orbLbl.convoy, 36, '#e8cc9a');
+    cvLbl.scale.set(6200, 700, 1);
+    cvLbl.position.copy(arc[Math.round(0.55 * 60)]).add(new THREE.Vector3(0, 1600, 0));
+    orbitGroup.add(cvLbl);
+
+    // the return traffic: one import ship on an aerocapture pass - approach
+    // from Earthward space, a bright skim through the upper atmosphere at
+    // periapsis, and a captured ellipse out the other side. Mirrored off the
+    // export spiral's plane so the two flows read as separate lanes.
+    const inb = [];
+    for (let i = 0; i <= 70; i++) {
+      const t = i / 70;
+      const r = 3489 + Math.pow(Math.abs(t - 0.55) / 0.55, 1.7) * 30000;
+      const a = -0.5 - t * 2.6;                // sweeps past the planet's far side
+      inb.push(earthDir.clone().multiplyScalar(Math.cos(a) * r)
+        .addScaledVector(side, Math.sin(a) * -r)
+        .addScaledVector(upDir, (0.5 - t) * 1600));
+    }
+    orbitGroup.add(new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(inb),
+      new THREE.LineBasicMaterial({ color: 0x9ab8d8, transparent: true, opacity: 0.45 })));
+    // plasma skim: the few points nearest periapsis, drawn hot
+    const peri = inb.slice(34, 44);
+    orbitGroup.add(new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(peri),
+      new THREE.LineBasicMaterial({ color: 0xffa050, transparent: true, opacity: 0.95 })));
+    const inbShip = new THREE.Group();
+    const ih = new THREE.Mesh(new THREE.CylinderGeometry(90, 90, 520, 10), shipMat);
+    const inose = new THREE.Mesh(new THREE.ConeGeometry(90, 190, 10), shipMat);
+    inose.position.y = 355;
+    inbShip.add(ih, inose);
+    inbShip.position.copy(inb[24]);
+    inbShip.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0),
+      inb[25].clone().sub(inb[24]).normalize());
+    orbitGroup.add(inbShip);
+    const inLbl = textSprite(T.orbLbl.inbound, 34, '#b8d0e8');
+    inLbl.scale.set(5800, 725, 1);
+    inLbl.position.copy(inb[20]).add(new THREE.Vector3(0, -1700, 0));
+    orbitGroup.add(inLbl);
+  }
+
   const sat0 = latLon(0, 77.4, AREO);
   const beamMat = new THREE.LineBasicMaterial(
     { color: 0x9fdcff, transparent: true, opacity: 0.35 });
@@ -2391,6 +2867,16 @@ function buildSat(scale = 1) {                // still used by the low orbiter
   earthLbl.scale.set(2600, 325, 1);
   earthLbl.position.copy(sat0.clone().normalize().multiplyScalar(27000));
   orbitGroup.add(earthLbl);
+  // optical uplink: the lasercom terminal's thin thread from the city straight
+  // past the relay ring toward Earth - the RF beam's quiet, faster sibling
+  orbitGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
+    [jezero, jezero.clone().normalize().multiplyScalar(46000)]),
+    new THREE.LineBasicMaterial({ color: 0xb0ffd8, transparent: true, opacity: 0.28 })));
+  const optLbl = textSprite(T.orbLbl.optical, 32, '#b0e8c8');
+  optLbl.scale.set(4400, 550, 1);
+  optLbl.position.copy(jezero.clone().normalize().multiplyScalar(9500))
+    .add(new THREE.Vector3(0, -1400, 0));
+  orbitGroup.add(optLbl);
   const satLbl = textSprite(T.orbLbl.relay, 44);
   satLbl.scale.set(7400, 775, 1);
   satLbl.position.copy(sat0).add(new THREE.Vector3(0, 1500, 0));
@@ -2451,6 +2937,24 @@ fetch('units/sci-pan-01.info.json').then((r) => r.json()).then((info) => {
     relayPoiCards[p.id] = h;
   }
 }).catch(() => {});
+// polar ring + L4 relay cards (com-gap delivery): same per-POI pipeline
+for (const [file, m] of [['units/com-polar-01.info.json', comPolarMeta],
+                         ['units/com-l4-01.info.json', comL4Meta]]) {
+  fetch(file).then((r) => r.json()).then((info) => {
+    const lines = (icon, val, cls) => (Array.isArray(val) ? val : [val])
+      .map((s) => `<p class="${cls}">${icon} ${s}</p>`).join('');
+    for (const p of info.pois) {
+      let h = `<h3>${pick(p, 'label')}</h3><div class="u">${pick(m, 'name')} · ${info.id}</div>`;
+      const d = pick(p, 'detail'), sp = (LANG === 'en' && p.specs_en) || p.specs;
+      if (d) h += `<p>${d}</p>`;
+      if (sp) h += '<table>' + Object.entries(sp).map(
+        ([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') + '</table>';
+      if (p.physics) h += lines('🔬', pick(p, 'physics'), 'phys');
+      if (p.sim) h += lines('📐', pick(p, 'sim'), 'sim');
+      relayPoiCards[p.id] = h;
+    }
+  }).catch(() => {});
+}
 const loSpin = new THREE.Group();            // low orbiter, animated
 {
   const loTilt = new THREE.Group();
@@ -2736,7 +3240,9 @@ rig.position.y = q.has('y') ? +q.get('y')
 const vel = new THREE.Vector3();
 let snapCooldown = 0;
 
+let _px0 = 0, _pz0 = 0;
 function moveDesktop(dt) {
+  _px0 = rig.position.x; _pz0 = rig.position.z;
   rig.rotation.y = yaw;
   camera.rotation.x = pitch;
   const speed = (keys.has('ShiftLeft') ? 40 : 8) * (flying ? 4 : 1);
@@ -2757,7 +3263,8 @@ function moveDesktop(dt) {
   }
   if (up) rig.position.y += up * speed * dt;
   if (!flying) {
-    rig.position.y = sampleHeight(rig.position.x, rig.position.z);
+    if (!inInterior && colTris) collideWalk(dt, _px0, _pz0);
+    else rig.position.y = sampleHeight(rig.position.x, rig.position.z);
   }
 }
 
@@ -2854,6 +3361,7 @@ function hangDeviceTags(group, range, owner) {
 function captureViewState() {
   const s = { colony: colonyGroup.visible ? '1' : null,
               magic: magicGroup.visible ? '1' : null,
+              imperial: imperialGroup.visible ? '1' : null,
               interior: null, view: null, inspect: null,
               x: null, z: null, y: null, yaw: null, pitch: null, fly: null };
   if (inInterior) { s.interior = inInterior.id; return s; }
@@ -2920,6 +3428,7 @@ renderer.setAnimationLoop(() => {
     if (magicGroup.visible) {
       const t = clock.elapsedTime;
       for (const f of magicAnims) f(t, dt);
+  if (imperialGroup.visible) for (const f of imperialAnims) f(t, dt);
     }
     if (colonyGroup.visible) {
       if (!renderer.xr.isPresenting) driveSensors(clock.elapsedTime);

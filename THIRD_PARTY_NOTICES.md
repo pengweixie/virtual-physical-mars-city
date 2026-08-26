@@ -19,7 +19,10 @@
 - `models/crystal/2/base_tex.glb`(魔幻城水晶王城)由项目所有者
   使用其订阅账号通过生成式 3D 服务创建,商用权利归项目所有者,
   随本仓库资产许可(CC BY 4.0)分发。
-- `viewer/audio/*.m4a`(环境配乐 "Quiet Infrastructure"、"Glass Moon Halo"、"Bedrock Pulse")
+- `docs/assets/origin/manga-en.jpg` 与发布仓库 `idea/manga-en.jpg`(「世界A/世界B」
+  七格漫画英文版,2026-08 重绘)由项目所有者使用其 Gemini 账号生成,
+  商用权利归项目所有者,随本仓库资产许可(CC BY 4.0)分发。
+- `viewer/audio/*.m4a`(环境配乐 "Quiet Infrastructure"、"Glass Moon Halo"、"Bedrock Pulse"、"Dawn Over Marble Terraces" 等)
   由项目所有者使用其 Suno 付费订阅账号生成,商用权利归项目所有者,
   随本仓库资产许可(CC BY 4.0)分发。
 

@@ -1,0 +1,383 @@
+{
+  "id": "com-optical-01",
+  "pois": [
+    {
+      "id": "scope",
+      "label": "40 cm 跟踪望远镜(链路预算)",
+      "label_en": "40 cm tracking telescope (link budget)",
+      "range": 25,
+      "detail": "方位-俯仰架上的 40 cm 收发合一望远镜:1550 nm 下行 20 W 平均功率(EDFA MOPA 光纤放大链),PPM 调制;同一口径接收地球上行信标与前向数据。波束衍射发散仅 3.9 µrad——地球端由 5 m 级望远镜 + SNSPD 光子计数接收(DSOC 地面段同族)。镜筒缓慢转动就是在跟地球;它是全城唯一直接对地球说话的光学口径。",
+      "detail_en": "A 40 cm transmit/receive telescope on an az-el mount: 1550 nm downlink at 20 W average (EDFA MOPA fiber amplifier chain), PPM modulation; the same aperture receives the Earth uplink beacon and forward data. Diffraction divergence is just 3.9 urad - on Earth a 5 m class telescope with SNSPD photon counting does the receiving (same family as the DSOC ground segment). The slow slew you see is the telescope tracking Earth; this is the only optical aperture in the city that speaks directly to Earth.",
+      "specs": {
+        "口径 / 波长": "40 cm / 1550 nm",
+        "发射": "20 W 平均 · PPM(SCPPM 编码)",
+        "波束发散": "3.9 µrad(衍射极限)",
+        "远端速率": "52 Mbps @2.67 AU(τ=0.5)",
+        "近端速率": "832 Mbps @0.38 AU(SNSPD 阵列计数率封顶)",
+        "对比城市 X-DTE": "~260×(远端)/ ~166×(近端)"
+      },
+      "specs_en": {
+        "Aperture / wavelength": "40 cm / 1550 nm",
+        "Transmit": "20 W average, PPM (SCPPM coded)",
+        "Beam divergence": "3.9 urad (diffraction limited)",
+        "Far-end rate": "52 Mbps at 2.67 AU (tau 0.5)",
+        "Near-end rate": "832 Mbps at 0.38 AU (SNSPD array count-rate cap)",
+        "vs city X-DTE": "~260x far / ~166x near"
+      },
+      "physics": [
+        "射频与光的体制分界(com-relay rf 卡同一句话的另一半):射频受 kT 热噪声限,光受单光子能量 hf 限——1550 nm 一颗光子 1.28e-19 J,链路的账不再用 dB-Hz 记,用「每比特几颗光子」记。PPM + 光子计数在深空区间做到 ~0.5-1 bit/photon。",
+        "增益差就是口径比:40 cm 光学口径的发射增益 118 dBi,比 com-relay 3 m Ka 碟(58 dBi)高 60 dB——同一条 Friis 公式,λ 从 9.4 mm 缩到 1.55 µm 的红利。代价是 3.9 µrad 的束必须指到 0.4 µrad(指向卡)。"
+      ],
+      "physics_en": [
+        "The regime boundary between RF and optical (the other half of the sentence on the com-relay rf card): radio is limited by kT thermal noise, optical by the single-photon energy hf. One 1550 nm photon carries 1.28e-19 J, so the link ledger is no longer kept in dB-Hz but in photons per bit; PPM plus photon counting achieves ~0.5-1 bit/photon at deep-space ranges.",
+        "The gain gap is just the aperture ratio: a 40 cm optical aperture transmits at 118 dBi, 60 dB above the com-relay 3 m Ka dish (58 dBi) - the same Friis equation, with lambda shrunk from 9.4 mm to 1.55 um. The price: a 3.9 urad beam must be pointed to 0.4 urad (see the pointing card)."
+      ],
+      "sim": [
+        "链路预算(mars-optical o01,4 闸全绿):20 W × 118 dBi 发射增益(η_tx 0.5)→ 2.67 AU 处地球 5.1 m 望远镜收 9.4e7 ph/s → 0.65 bit/photon → 净 52 Mbps;0.38 AU 光子容量 2.56 Gbps,被 SNSPD 阵列计数率封顶在 832 Mbps(64 px × 20 Mcps × 0.65 bpp)。**这个封顶原写 1 Gbps,是 o11 的跨账自洽闸抓出来的**:1 Gbps 需要 1538 Mcps,而当时卡上的 16 px 阵列只有 320 Mcps,差 4.8×——封顶的理由(「SNSPD 计数率」)从未用探测器卡的参数核过。阵列改 64 px(DSOC 地面端本来就是 64 px)后两账逐位闭合。",
+        "已知答案闸:同模型代入 DSOC 飞行终端(4 W/22 cm)得 22.6 Mbps @1.5 AU,对实测 25 Mbps(2024-04);0.22 AU 容量 1.05 Gbps ≥ 实测封顶 267 Mbps;LLCD 月球几何容量 ≥622 Mbps ✓;光子受限段严格 1/d² 同族(49.4× = (2.67/0.38)²)。",
+        "与射频的诚实对比(两边都写明地球端资产):X-DTE(com-relay 2.5 m 星载碟→DSN 34 m)0.2~5 Mbps;本站(40 cm→地球 5 m 望远镜)52 Mbps~1 Gbps——1~2 个数量级为实。营销口径的『千倍』只在近端封顶前的光子容量上成立,不写。"
+      ],
+      "sim_en": [
+        "Link budget (mars-optical o01, 4 gates green): 20 W x 118 dBi transmit gain (eta_tx 0.5) delivers 9.4e7 ph/s into Earth's 5.1 m telescope at 2.67 AU; at 0.65 bit/photon that is 52 Mbps net. At 0.38 AU the photon capacity is 2.56 Gbps, capped at 832 Mbps by the SNSPD array count rate (64 px x 20 Mcps x 0.65 bpp). **That cap used to read 1 Gbps until o11's cross-ledger consistency gate caught it**: 1 Gbps demands 1538 Mcps while the card's 16-pixel array supplied only 320 Mcps, 4.8x short - the stated reason for the cap (\"SNSPD count rate\") had never been checked against the detector card's own numbers. With the array at 64 px (which is what the DSOC ground segment uses) the two ledgers close digit for digit.",
+        "Known-answer gates: the same model with DSOC flight-terminal parameters (4 W / 22 cm) returns 22.6 Mbps at 1.5 AU against the measured 25 Mbps (2024-04); 1.05 Gbps capacity at 0.22 AU, above the measured 267 Mbps modem cap; LLCD lunar geometry capacity >= 622 Mbps; and the photon-limited regime scales exactly as 1/d^2 (49.4x = (2.67/0.38)^2).",
+        "The honest RF comparison (Earth-end assets stated on both sides): X-DTE (com-relay's 2.5 m dish to a DSN 34 m) does 0.2-5 Mbps; this station (40 cm to a 5 m telescope on Earth) does 52 Mbps-1 Gbps. One to two orders of magnitude is real. The marketing '1000x' only exists in pre-cap photon capacity at close range, so it is not written."
+      ]
+    },
+    {
+      "id": "shell",
+      "label": "蛤壳护尘罩(尘可用性头条)",
+      "label_en": "Clamshell dust cover (the dust-availability headline)",
+      "range": 25,
+      "detail": "两瓣外翻的护尘罩是本站与火星的停战线,也是本册头条的实体:在一个会起全球尘暴的行星上,光链路凭什么值得建?答案不在峰值速率,在可用性账。τ 读数由 sci-weather-01 的太阳光度计实时供给:τ≥3.5 或全球尘暴时罩子关闭、链路整段交还射频;晴季它全开呼吸,开位机械锁死——尘暴风抖振纪律(pwr-fission §10 ⑯ 先例:大面积柔性结构 + 风,不只是转机)。",
+      "detail_en": "The two folded-back cover petals are this station's truce line with Mars, and the physical form of this dossier's headline: on a planet that stages global dust storms, what earns an optical link its keep? Not peak rate - the availability ledger. The tau reading comes live from sci-weather-01's sun photometer: at tau >= 3.5 or in a global storm the cover closes and the whole link hands back to RF; in the clear season it breathes fully open, mechanically latched at the open stop - wind-buffet discipline for large flexible structures (the pwr-fission s10-16 precedent: it is not just rotating machinery that flutters).",
+      "specs": {
+        "断链阈(规划)": "τ = 3.5(0.30 nm 滤光片后;白昼近日 2.9 / 晨昏 3.9)",
+        "全球尘暴(τ~5)": "27.7 dB 斜程衰减 → 光整段归零 60~100 sol",
+        "可用率(区域尘暴年)": "96.7%(τ 时序蒙卡)",
+        "可用率(GDS 年)": "85.6%",
+        "长期期望": "93.3%(容量加权 64%,含背景折扣)",
+        "断链时长(蒙卡)": "非 GDS p90 10 sol / GDS p90 70 · 最长 94 sol(τ=3.5 阈)",
+        "τ 来源": "sci-weather-01 880 nm 光度计(σ_τ≈0.011)",
+        "壳瓣构型(o10 判决)": "夹层 0.6 mm 蒙皮/20 mm 蜂窝芯,一阶 45.2 Hz",
+        "裸 3 mm 铝板": "一阶 7.99 Hz = 涡脱 1.28× → 判不合格"
+      },
+      "specs_en": {
+        "Cutoff (planning)": "tau = 3.5 with the 0.30 nm filter (daytime near-sun 2.9 / twilight 3.9)",
+        "Global dust storm (tau~5)": "27.7 dB slant loss -> optical zeroed 60-100 sol",
+        "Availability (regional-storm year)": "96.7% (tau time-series MC)",
+        "Availability (GDS year)": "85.6%",
+        "Long-run expectation": "93.3% (capacity-weighted 64%, background derating included)",
+        "Outage duration (MC)": "non-GDS p90 10 sol / GDS p90 70, max 94 sol (tau 3.5 cutoff)",
+        "tau source": "sci-weather-01 880 nm photometer (sigma_tau ~0.011)",
+        "Petal build (o10 verdict)": "sandwich, 0.6 mm skins / 20 mm honeycomb core, first mode 45.2 Hz",
+        "Bare 3 mm aluminium": "first mode 7.99 Hz = 1.28x shedding -> rejected"
+      },
+      "physics": [
+        "尘对波长的选择性就是本册的全部地缘政治:尘粒 ~µm,对 1550 nm 是米氏散射体(τ_1550≈0.85·τ_880,几乎全额消光),对 Ka 9.4 mm 处深瑞利区(衰减 <0.1 dB @τ=5,com-relay ka 卡)。同一场尘暴,对光是 27.7 dB 的墙,对射频是透明的——光/射频互为备份不是偏好,是尘粒尺寸写死的物理分工。",
+        "链路死因不是纯消光:从火星看地球是内行星(永远在太阳 41° 内),跟踪信标顶着白昼天光做。τ 升高时信号 ∝exp(-τm) 跌、前向散射天光 ∝(1-exp(-τm)) 涨,质心信噪比两头受敌——白昼近日几何在 τ≈2.5 就断,比纯消光(τ≈5)早得多。"
+      ],
+      "physics_en": [
+        "Dust's wavelength selectivity is this dossier's entire geopolitics: ~um grains are Mie scatterers at 1550 nm (tau_1550 ~ 0.85 tau_880, nearly full extinction) but sit deep in the Rayleigh regime at Ka's 9.4 mm (<0.1 dB at tau 5, per the com-relay ka card). The same storm is a 27.7 dB wall for light and transparent for radio - optical/RF mutual backup is not a preference, it is a division of labor dictated by grain size.",
+        "The link does not die of pure extinction: from Mars, Earth is an inner planet (never more than 41 deg from the Sun), so the tracking beacon is centroided against daytime sky. As tau rises the signal falls as exp(-tau m) while forward-scattered skylight grows as (1-exp(-tau m)) - the centroid SNR is attacked from both ends, and the daytime near-sun geometry cuts off near tau 2.5, far earlier than extinction alone (tau ~5) would."
+      ],
+      "sim": [
+        "尘可用性账(mars-optical o02,3 闸全绿,一次自我修正):首版纯消光模型给 τ_cut=5.2,闸破——漏了白昼天光背景。Henyey-Greenstein 单散射背景 + 200 Hz 质心 SNR≥13 重算:白昼近日几何 τ_cut=2.5、晨昏窗 3.6,规划阈首轮取 3(o13 定版 0.30 nm 滤光片后已升至 3.5),与 sci-weather『τ>3 全城尘暴姿态』同带。",
+        "全年记账 L1(清季 371 sol 全可用;尘暴季按 55/25/12/8% 假设分布;GDS 年另加 80 sol;合日 21 sol/火星年):区域年 93.3%、GDS 年 82.3%、长期 89.6%。L2 升级(o07,300 火星年 τ 时序蒙卡:季节基线+区域尘暴事件过程+GDS+日际抖动,气候学三闸钉 sci-weather 口径):区域年 96.4%、GDS 年 84.0%、长期 92.6%——L1 拍的『尘暴季 8% sol 断链』偏保守,非 GDS 年 τ>3 其实罕见。两口径都 <95%,结论不动:本终端是科学数据回传的高速斜坡,不是主链路;城市工程遥测与应急指令永远走射频三级(Ka 中继 → X-DTE → com-station 3 m 应急 500 bps)。",
+        "蒙卡给出 L1 给不出的东西——断链持续时间分布(缓存定容的真输入):非 GDS 年 p50 2 / p90 10 / 最长 29 sol;GDS 年 p90 70 / 最长 94 sol(τ=3.5 阈重跑口径)。按 40 Mbps 均值产率,GDS 最坏单段积压 ~42 TB,晴后 52 Mbps 干线全速 ~72 sol 排空——与 L1 的『~90 sol』同量级,缓存要在城内落地不在站内。",
+        "切换矩阵(τ 实时驱动):τ<1 光主/Ka 遥测常开;1~2 光降级自适应(-1.9~-7.5 dB);2~3.5 只跑高价值队列、调度窗随太阳几何收缩;τ≥3.5 或 GDS 关罩断光,流量回 Ka 干线,GDS 积压蒙卡最坏 ~42 TB(94 sol)晴后 ~72 sol 排空(先例:com-relay 合日 434.7 Gb 缓冲账,同一门手艺)。",
+        "GDS 归零不止衰减一票:27.7 dB 斜程衰减之外还有镜面积尘(关罩就是为了这个)与近地尘幕;三票同向,结论稳。",
+        "护罩瓣薄壳模态实解(o10,COMSOL 6.3 无头 Shell,L3;补 o08 自己列的缺口——壳瓣是本站面积最大的柔性件,风力算了、涡脱频率算了,却从没验过它自己颤不颤):半球瓣 R=2 m、rim 全固支,裸 3 mm 铝一阶仅 **7.99 Hz**,而 25 m/s 时镜筒尾流涡脱 6.25 Hz——只差 28%,铝壳 Q 高(50~100),这是共振不是裕量。**自我修正**:本卡原写「开位锁死 + 2 道环肋是设计裕量来源」,反了——夹层/环肋是合格线。定版 0.6 mm 蒙皮 + 20 mm 蜂窝芯夹层:一阶 45.2 Hz = 7.2× 判据(≥3× 涡脱),且面密度 4.24 kg/m² 比裸铝 8.10 还轻一半,单瓣省 24 kg → 铰链负载与开合电机峰值功耗同步下降。曲率交叉闸:同尺寸平板悬臂解析仅 0.65 Hz,曲率的膜刚度抬了 12.3×——floppy 平板直觉在壳上不成立。",
+        "模型边界即设计要求(与 o09 传动链规格同一手法):45.2 Hz 成立的前提是 rim **全固支**,即连续铰链条 + 沿 rim 分布锁扣;两点铰链会显著降低一阶。几何据此改过:双层壳面 + 瓣缘封边型材(露芯色)+ 加粗环肋 ×2 + 径向肋 ×3 + 5 节共轴铰链条,「这是夹层板不是铁皮」摆在边上给人看。",
+        "滤光片带宽定版(o13):o02 一直用的 1.0 nm 带宽是**我拍的**,而背景是本卡头条的直接输入。带宽下限其实由多普勒定死——火星-地球径向速度 ±13.9 km/s → 多普勒全幅 0.144 nm,加发射机温控稳定 0.02 + PPM 边带 0.016 = **0.18 nm 下限**,窄于此就是用自己的滤光片切自己的信号。定版 0.30 nm 固定带宽(留 66% 裕度、不需任何调谐机构;评审补一句前提:0.18 nm 下限假设地球上行**不做**波长预补偿——若地面站按星历预补偿(DSOC 即此制),下限降到 ~0.04 nm,但更窄已被 G4 算出不值得,定版不动):背景降 5.2 dB → 断链阈 τ 3.0→**3.5**,长期可用率 92.6→**93.3%**。可调谐 0.22 nm 方案要温控标准具+星历前馈,只多换 2.8 pt 容量,在「电便宜、机构贵」的城里不值得(与 o11 同一条判据)。",
+        "**又一次「以为是 A,算出来是 B」**:开这本账时的假设是「窄带 → 可用率改善」,算完只涨 0.9 个百分点——因为可用率被 GDS 的 τ~5 平台期主导,那时滤光片再窄也救不回来。窄带的真价值在**速率**:容量加权(含背景对 bit/photon 的折扣)从 47.4% 抬到 **64.2%**,即全年可交付数据量 **+35%**。顺带修正一处口径:o07 的容量加权只含消光项、不含背景折扣,偏高;64% 才是含折扣的口径。"
+      ],
+      "sim_en": [
+        "Dust availability ledger (mars-optical o02, 3 gates green, one self-correction): the first pure-extinction model gave tau_cut = 5.2 and broke its gate - it had missed the daytime sky background. Recomputed with Henyey-Greenstein single-scatter background and a 200 Hz centroid SNR >= 13 requirement: tau_cut = 2.5 in daytime near-sun geometry, 3.6 in the twilight window; the first-round planning threshold of 3 (raised to 3.5 once o13 froze the 0.30 nm filter) sits in the same band as sci-weather's city-wide 'tau > 3' storm posture.",
+        "The L1 annual account (clear season 371 sol available; storm season discretized 55/25/12/8% by assumption; GDS years add 80 sol; conjunction 21 sol per Mars year): 93.3% regional, 82.3% GDS, 89.6% long run. The L2 upgrade (o07: a 300-Mars-year tau time-series Monte Carlo - seasonal baseline + regional-storm event processes + GDS + day-to-day jitter, climatology pinned to sci-weather by three gates): 96.4% regional, 84.0% GDS, 92.6% long run - the L1 guess of '8% of storm-season sols cut' was conservative; tau > 3 is actually rare outside GDS years. Both calibers sit below 95%, so the conclusion stands: this terminal is a high-rate ramp for science return, not a trunk. City engineering telemetry and emergency commanding stay on the three-tier RF chain forever (Ka relay -> X-DTE -> com-station's 3 m emergency 500 bps).",
+        "The Monte Carlo yields what L1 never could - the outage-duration distribution, the true input for buffer sizing: non-GDS years p50 2 / p90 10 / max 29 sol; GDS years p90 70 / max 94 sol (recomputed at the tau 3.5 cutoff). At a 40 Mbps mean production rate the worst single GDS outage backlogs ~42 TB, drained in ~72 sol at the full 52 Mbps trunk afterwards - same order as L1's '~90 sol', and the buffer belongs in the city, not at the station.",
+        "The switching matrix (driven live by tau): tau<1 optical primary, Ka always-on telemetry; 1-2 optical degrades adaptively (-1.9 to -7.5 dB); 2-3 high-value queue only, the scheduling window shrinking with sun geometry; tau>=3.5 or GDS closes the cover, traffic returns to the Ka trunk, and the worst-case MC backlog of ~42 TB (94 sol) drains in ~72 sol afterwards (precedent: com-relay's 434.7 Gb conjunction buffer ledger - the same craft).",
+        "GDS zeroing has more than one vote: besides the 27.7 dB slant loss there is dust deposition on the optics (the reason the cover closes at all) and the near-surface dust veil; three votes, same direction, stable conclusion.",
+        "Petal thin-shell modal solution (o10, COMSOL 6.3 headless Shell physics, L3 - closing the gap o08 listed against itself: the petals are the largest flexible surfaces on the station, their wind load and shedding frequency were both computed, yet their own flutter modes never were): a half-dome petal, R = 2 m, clamped along the full rim, gives a first mode of just **7.99 Hz** in bare 3 mm aluminium against 6.25 Hz of tube-wake shedding at 25 m/s - 28% apart, and with a high-Q aluminium shell that is resonance, not margin. **Self-correction**: this card used to say the open-position latch and two ring ribs were the \"source of design margin\" - backwards; the sandwich and ribs are the pass mark. The frozen build is a 0.6 mm skin / 20 mm honeycomb sandwich at 45.2 Hz, 7.2x the criterion (>=3x shedding), and at 4.24 kg/m2 it is half the areal mass of the bare sheet - 24 kg lighter per petal, which lowers hinge loads and the cover motor peak alike. Curvature cross-check: the same-size flat cantilever plate computes to only 0.65 Hz, so membrane stiffness lifts it 12.3x - flat-plate intuition does not survive on a shell.",
+        "The model boundary is the design requirement (same move as the o09 drivetrain spec): 45.2 Hz holds only if the rim is fully clamped - a continuous hinge strip plus latches distributed along the rim; two-point hinges would drop the first mode substantially. The geometry was changed to match: twin skin surfaces, edge close-out sections showing the core colour, two thickened ring ribs, three radial ribs and a five-knuckle coaxial hinge strip - \"this is a sandwich panel, not sheet metal\", put where you can see it.",
+        "Filter bandwidth frozen (o13): the 1.0 nm passband o02 had always used was **my guess**, and background is the direct input to this card's headline. The lower bound is in fact set by Doppler - a Mars-Earth radial velocity of +/-13.9 km/s spreads the line by 0.144 nm, and with transmitter stability (0.02) and PPM sidebands (0.016) the floor is **0.18 nm**; anything narrower cuts the signal with its own filter. The frozen choice is a fixed 0.30 nm passband (66% margin, no tuning mechanism at all; one review caveat: the 0.18 nm floor assumes the Earth uplink is NOT wavelength-precompensated - with ephemeris precompensation, which is how DSOC actually operates, the floor drops to ~0.04 nm, but G4 already showed narrower is not worth a mechanism, so the frozen choice stands): 5.2 dB less background lifts the cutoff from tau 3.0 to **3.5** and long-run availability from 92.6% to **93.3%**. A tunable 0.22 nm design would need a thermally controlled etalon plus ephemeris feed-forward for only 2.8 more points of capacity - not worth it in a city where power is cheap and mechanisms are not (the same criterion as o11).",
+        "**Another case of expecting A and computing B**: this ledger was opened on the premise that a narrower filter would improve availability. It gains 0.9 of a percentage point - availability is dominated by the tau~5 plateau of global storms, where no passband helps. The real value is in rate: capacity-weighted throughput (including the background derating of bits per photon) climbs from 47.4% to **64.2%**, i.e. **+35% of deliverable data per year**. It also corrects a caliber: o07's capacity weighting carried only the extinction term and no background derating, so it read high; 64% is the honest figure."
+      ]
+    },
+    {
+      "id": "paa",
+      "label": "点前机构与指向预算",
+      "label_en": "Point-ahead and the pointing budget",
+      "range": 20,
+      "detail": "镜筒后端的快摆镜(FSM)做两件事:把跟踪残差压到亚 µrad,以及执行提前量角——光走到地球要 3~22 分钟,发射方向必须偏离信标来向,打地球届时所在的位置。提前量最大 360 µrad = 93 个波束宽:『点哪打哪』在深空光通信里不成立,收发两个方向由星历开环标定。",
+      "detail_en": "The fast-steering mirror behind the tube does two jobs: squeezing tracking residuals below a microradian, and executing the point-ahead angle - light takes 3 to 22 minutes to reach Earth, so the transmit direction must lead the beacon direction and hit where Earth will be. The maximum lead is 360 urad, 93 beamwidths: 'point where you see it' simply fails in deep-space lasercom, and the receive and transmit directions are calibrated open-loop from ephemeris.",
+      "specs": {
+        "提前量角": "40~360 µrad(2v⊥/c,全会合周期)",
+        "提前量/波束": "最大 93 束宽",
+        "指向预算 RSS": "0.35 µrad ≤ θ/10",
+        "指向损耗": "0.08 dB(<1 dB 预算)",
+        "架构": "粗架(±25° 慢跟踪)+ FSM 精环 1 kHz(降级 200 Hz)/30 Hz 带宽",
+        "风扰残余(o08 实解)": "0.116 µrad @15 m/s(池 0.19)",
+        "架一阶模态(COMSOL)": "62.9 Hz(25 Hz 前提裕 2.5×);传动链规格 ≥27 Hz",
+        "火星 r0(1550 nm)": "≈30 m → 白昼免自适应光学"
+      },
+      "specs_en": {
+        "Point-ahead angle": "40-360 urad (2 v_perp/c over the synodic cycle)",
+        "Lead / beamwidth": "up to 93 beamwidths",
+        "Pointing budget RSS": "0.35 urad <= theta/10",
+        "Pointing loss": "0.08 dB (<1 dB budget)",
+        "Architecture": "coarse mount (+/-25 deg slow track) + 1 kHz FSM loop (200 Hz degraded) / 30 Hz bandwidth",
+        "Wind residual (o08 solved)": "0.116 urad at 15 m/s (pool 0.19)",
+        "Mount first mode (COMSOL)": "62.9 Hz (2.5x over the 25 Hz premise); drivetrain spec >= 27 Hz",
+        "Mars r0 (1550 nm)": "~30 m -> daytime, no adaptive optics"
+      },
+      "physics": [
+        "提前量 = 2·v⊥/c:横向相对速度在往返光行时里积累的角位移。合日附近地球与火星在太阳两侧反向运动,v⊥≈29.8+24.1 km/s → 2×54/c = 360 µrad;冲日附近几何相对速度近乎全径向,提前量缩到几十 µrad。这与 TT-1 引力波星座的指向呼吸是同一条物理,尺度差三个量级。",
+        "火星大气几乎不折腾光束:折射率结构常数 Cn² ∝ (n-1)²·δT²,火星 (n-1) 只有地球 0.9%,即使白昼对流 δT 强 3×,Cn² 仍低 ~7e-4 → r0≈30 m,40 cm 口径的 D/r0=0.013——倾斜抖动 0.05 µrad,白昼衍射极限白送。地球台站梦寐以求的视宁度,火星用 6 mbar 大气免费发放。"
+      ],
+      "physics_en": [
+        "Point-ahead = 2 v_perp / c: the angular displacement the transverse relative velocity accumulates over the round-trip light time. Near conjunction Earth and Mars move oppositely on either side of the Sun, v_perp ~ 29.8 + 24.1 km/s giving 2 x 54/c = 360 urad; near opposition the relative velocity is nearly all radial and the lead shrinks to tens of urad. The same physics as the TT-1 constellation's pointing breathing, three orders of magnitude apart.",
+        "The Martian atmosphere barely disturbs the beam: Cn^2 scales as (n-1)^2 dT^2, and Mars's (n-1) is 0.9% of Earth's; even with 3x stronger daytime convection, Cn^2 is ~7e-4 of Earth's, so r0 ~ 30 m and D/r0 = 0.013 for a 40 cm aperture - 0.05 urad of tilt jitter, diffraction-limited by day for free. The seeing Earth stations dream of, Mars hands out with its 6 mbar atmosphere."
+      ],
+      "sim": [
+        "提前量账(mars-optical o03,闸:圆轨道共面扫全 780 d 会合周期):2v⊥/c 最大 360 µrad(合日)/中位 244/冲日趋 0——落任务书 ~100-300 µrad 口径带;FSM 偏置行程 ±1 mrad 盖住提前量+粗架残差。",
+        "指向预算 RSS 0.35 µrad ≤ θ_div/10=0.39:质心噪声 0.15 + FSM 残差 0.15 + 点前标定 0.12 + 结构热漂 0.20 + 大气倾斜 0.10 + 基座振动 0.12——热漂是最大单项,标定周期(对恒星/信标重标)是它的闸。",
+        "振动双向账:①城给我的——sci-seis 规格级地噪 1.2e-6 m/s@10 Hz 折合视轴 0.016 µrad,可忽略;预算 0.12 µrad 实际留给风抖振与自伺服反作用。②我给城的——制冷机压缩机(50 N @1.4 Hz)Boussinesq 近场账:10 m 处 1.1e-7 m/s,已在 sci-seis 城市源规格内(11× 裕),仍加独立基座+弹性垫(→1000×),为的是自己 3 m 外的镜筒像质。一次自我修正:1.4 Hz 的瑞利波长 125 m,10 m 处是深近场,首版面波远场公式无效已换。",
+        "风抖振纪律(pwr-fission §10 ⑯ 先例):开罩后两瓣护罩是 ~3 m² 帆,30 m/s 尘暴脉动力 ~6 N、涡脱 ~5 Hz → ①开位机械锁死不悬停 ②架一阶模态压在涡脱之上 ③τ>3 或风 >25 m/s 关罩——反正尘已断链,关罩不亏可用性。",
+        "风扰-两级环时域实解(o08,L2;von Karman 谱 -5/3 实测 -1.67、闭环抑制比对解析 1/|1+L| 三频点 1.00/1.00/0.99):风把架子晃到 0.62 µrad RMS(粗架自己远超预算),FSM 压到 0.116 µrad ≤ 合池 0.19。两轮闸破换来三条设计改动——①精跟踪帧率 200 Hz→1 kHz(200 Hz 下一拍延迟在 30 Hz 处吃 81° 相位,环在失稳边缘振铃)②架一阶 15→25 Hz(15 Hz/Q25 模态被风宽带激出 0.96 µrad 振铃,恰坐 FSM 权威边缘)③约束层阻尼 Q 25→8。运行包线:≤18 m/s 全规格 / 18~25 降级(<0.5 dB)/ >25 关罩。",
+        "COMSOL 6.3 模态实解(o09,L3;钢基墩管+双铝空心叉臂+80 kg 集中质量,底面固支):一阶 62.9 Hz,对 25 Hz 前提裕 2.5×;解析 Rayleigh 交叉 99 Hz(比 0.63,FE 偏软方向正确)。模型边界即结论边界:传动链柔度不在内 → 1/f² 串联反推采购规格『轴承/驱动锁定刚度单独模态 ≥27 Hz』——预算表里的分配值现在一半是解出来的,一半变成了规格书。"
+      ],
+      "sim_en": [
+        "Point-ahead ledger (mars-optical o03; gate: coplanar circular orbits swept over the full 780 d synodic cycle): 2 v_perp/c peaks at 360 urad (conjunction), median 244, tending to zero at opposition - inside the tasking's ~100-300 urad band; the FSM's +/-1 mrad bias stroke covers the lead plus coarse-mount residual.",
+        "Pointing budget RSS 0.35 urad <= theta_div/10 = 0.39: centroid noise 0.15 + FSM residual 0.15 + point-ahead calibration 0.12 + structural thermal drift 0.20 + atmospheric tilt 0.10 + base vibration 0.12. Thermal drift is the largest single term; the recalibration cadence (against stars/beacon) is its gate.",
+        "Vibration, both directions: (1) city to me - spec-level ground noise of 1.2e-6 m/s at 10 Hz maps to 0.016 urad of boresight, negligible; the 0.12 urad allocation actually covers wind buffet and servo reaction. (2) me to the city - the cryocooler compressor (50 N at 1.4 Hz) in a Boussinesq near-field account gives 1.1e-7 m/s at 10 m, already within the sci-seis city-source spec (11x margin); an isolated foundation with elastomer pads is still fitted (to 1000x) for this station's own image quality 3 m away. One self-correction: the Rayleigh wavelength at 1.4 Hz is 125 m, so 10 m is deep near-field and the first draft's far-field surface-wave formula was invalid and replaced.",
+        "Wind-buffet discipline (the pwr-fission s10-16 precedent): once open, the two cover petals are ~3 m^2 sails; a 30 m/s storm applies ~6 N of fluctuating force with ~5 Hz vortex shedding - so (1) latch at the open stop, never hover mid-angle, (2) keep the mount's first mode above the shedding, (3) close the cover above tau 3 or 25 m/s wind. Dust has already cut the link by then, so closing costs no availability.",
+        "Wind-to-two-stage-loop time-domain solution (o08, L2; von Karman spectrum slope -1.67 measured vs -5/3, closed-loop rejection matching analytic 1/|1+L| at 1.00/1.00/0.99 over three test tones): wind rocks the mount to 0.62 urad RMS (the coarse mount alone blows the budget), the FSM presses it to 0.116 urad against the 0.19 pool. Two broken gates bought three design changes - (1) fine-tracking frame rate 200 Hz -> 1 kHz (at 200 Hz the one-sample delay eats 81 deg of phase at 30 Hz and the loop rings at the edge of instability), (2) mount first mode 15 -> 25 Hz (the 15 Hz / Q25 mode rang to 0.96 urad under broadband wind, sitting right at the FSM's authority edge), (3) constrained-layer damping Q 25 -> 8. Operating envelope: full spec below 18 m/s, degraded (<0.5 dB) to 25, cover closed above.",
+        "COMSOL 6.3 modal solution (o09, L3; steel pedestal tube + two hollow aluminium fork arms + 80 kg lumped mass, base fixed): first mode 62.9 Hz, 2.5x over the 25 Hz premise; analytic Rayleigh cross-check 99 Hz (ratio 0.63, FE softer in the expected direction). The model boundary is the conclusion boundary: drivetrain compliance is excluded, so the 1/f^2 series rule turns it into a procurement spec - bearing/drive locked stiffness must stand alone at >= 27 Hz. Half the budget's allocations are now solved numbers; the other half became a spec sheet."
+      ]
+    },
+    {
+      "id": "snspd",
+      "label": "SNSPD 单光子焦面(0.95 K)",
+      "label_en": "SNSPD single-photon focal plane (0.95 K)",
+      "range": 20,
+      "detail": "剖切小间里的金色杜瓦是光子饥饿链路的终点:16 像元 WSi 超导纳米线单光子探测器,工作在 0.95 K。地球 5 kW 信标走完 2.67 AU 到这里只剩几百万光子每秒——落在 40 cm 口径里的功率约 0.7 皮瓦。纳米线吸收一颗光子就失超一次,咔哒一声数出一个计数;效率 0.88、暗计数 300 cps/像元、时间抖动 120 ps,与 DSOC 地面端阵列同族。",
+      "detail_en": "The gold dewar in the cutaway room is where the photon-starved link terminates: a 16-pixel WSi superconducting-nanowire single-photon detector at 0.95 K. Earth's 5 kW beacon, after 2.67 AU, arrives here as a few million photons per second - about 0.7 picowatts into the 40 cm aperture. Each absorbed photon quenches the nanowire once, clicking out one count; 0.88 efficiency, 300 cps/pixel dark counts, 120 ps jitter - the same family as the DSOC ground arrays.",
+      "specs": {
+        "器件": "WSi SNSPD ×64 px(NbTiN 备份)",
+        "系统效率": "0.88 @1550 nm",
+        "暗计数": "300 cps/px(合计 19.2 kcps = 信标的 0.35%)",
+        "时间抖动": "120 ps",
+        "工作点": "0.95 K",
+        "信标 @2.67 AU": "5.5e6 ph/s → 前向 3.6 Mbps",
+        "阵列计数率": "1280 Mcps → 近端封顶 832 Mbps",
+        "选型判决(o11)": "对 InGaAs SPAD 远端 4.9×/近端 28×;对 NIR-PMT 62×/179×",
+        "辐射本底(o13)": "平静 GCR 假计数 7.8 /s = 暗计数的 0.04%;最坏 SEP 期 4×",
+        "动态范围(o13)": "最坏工作背景 89 kcps/px = 恢复率上限的 0.45%"
+      },
+      "specs_en": {
+        "Device": "WSi SNSPD x64 px (NbTiN backup)",
+        "System efficiency": "0.88 at 1550 nm",
+        "Dark counts": "300 cps/px (19.2 kcps total = 0.35% of beacon)",
+        "Timing jitter": "120 ps",
+        "Operating point": "0.95 K",
+        "Beacon at 2.67 AU": "5.5e6 ph/s -> 3.6 Mbps forward",
+        "Array count rate": "1280 Mcps -> 832 Mbps near-end cap",
+        "Selection verdict (o11)": "4.9x far / 28x near vs InGaAs SPAD; 62x / 179x vs NIR-PMT",
+        "Radiation floor (o13)": "quiet GCR 7.8 /s = 0.04% of dark counts; 4x during a worst-case SEP",
+        "Dynamic range (o13)": "worst working background 89 kcps/px = 0.45% of the recovery-rate ceiling"
+      },
+      "physics": [
+        "SNSPD 的一颗光子怎么变成一次计数:偏置在临界电流之下的超导纳米线,吸收 1.28e-19 J 的光子后局部成为正常态热点,电流被挤到两侧超过临界密度 → 整段失超,电压脉冲弹出,皮秒级恢复。没有雪崩增益的统计噪声,没有读出噪声——这就是效率 0.88 与抖动 120 ps 能同时成立的原因。",
+        "为什么必须 ~1 K:WSi 的超导转变温度 ~3.7 K,工作点要压到 Tc 的 1/4 左右才能同时拿到高效率、低暗计数与低时延抖动。对照 sci-ir 的探测器谱系分岔:热探测器(测辐射热计)室温可用、光子探测器要深冷——SNSPD 是这条谱系在单光子极限处的终点,没有室温替身。"
+      ],
+      "physics_en": [
+        "How one photon becomes one count in an SNSPD: a superconducting nanowire biased just under its critical current absorbs a 1.28e-19 J photon, a normal-state hotspot forms, current crowds past the critical density on both sides, the whole cross-section quenches, a voltage pulse pops out, and the wire recovers in picoseconds. No avalanche-gain statistics, no readout noise - which is why 0.88 efficiency and 120 ps jitter can coexist.",
+        "Why ~1 K is mandatory: WSi's transition temperature is ~3.7 K and the operating point must sit near a quarter of Tc to get high efficiency, low dark counts and low jitter at once. Compare the detector family fork on the sci-ir card: thermal detectors work warm, photon detectors go cold - the SNSPD is that family's terminus at the single-photon limit, and it has no room-temperature stand-in."
+      ],
+      "sim": [
+        "上行信标预算(mars-optical o04,与尘账 o02 逐位同源):地球 5 kW/40 µrad 上行 @2.67 AU、τ=0.5 → 焦面 5.5e6 ph/s;前向数据 0.65 bit/photon → 3.6 Mbps(指令/软件上注/乘组邮件);0.38 AU 处计数率受限封 ~100 Mbps。",
+        "器件闸(DSOC 地面端同族,不许超班):效率 0.7~0.93 带内、暗计数 <1 kcps/px、抖动 ~100 ps 量级——0.88/300 cps/120 ps 全落带。暗计数合计 4.8 kcps 仅为信标 0.09%:真正的对手是白昼天光背景(尘账:τ=3 时背景是信号的 34×),不是器件。",
+        "64 px 阵列的用途不是成像:PPM 槽内计数率超过单线恢复时间时,阵列做计数率分摊(近距端 832 Mbps 的封顶正是 64 px × 20 Mcps × 0.65 bpp),同时四象限分组兼做精跟踪误差信号。",
+        "选型账(o11,3 闸;本册前十本欠的一笔——SNSPD 原本是沿用 DSOC 地面段体制直接选的,从没把候选摆在一起比):同链路下三候选的远端优值 = 探测效率 × bit/photon(抖动定 PPM 阶数:120 ps→M=128,250/300 ps→M=32)。SNSPD 0.572 / InGaAs SPAD 0.116 / NIR-PMT 0.0093 → 远端 4.9× 与 62×;近端更狠,SPAD 为抑后脉冲要 ~1 µs 死时间,阵列封顶 29.7 Mbps 对 SNSPD 832 Mbps = **28×**,而这一项口径补不回来。判决唯一,数量级级别。",
+        "「2.8 kW 值不值」按城市台账口径答(不按直觉):改 SPAD 省 2.75 kW,但要拿回同样远端速率须把口径 40 cm 放到 89 cm(光机 +913 kg),近端仍差 28×;而 2.8 kW 只是城市均值的 0.40%、聚变净电的 0.0016%(pwr-grid:全城只吃掉反应堆 0.40%)——**这座城里电几乎免费,质量与结构复杂度才贵**。89 cm 口径还会把 o08/o09/o10 三本账全部推倒:风载 ∝ 面积翻 4 倍,护罩瓣 R 从 2 m 到 4 m,壳模态直接跌进涡脱带。用 2.8 kW 换 913 kg 光机加一整套加倍的结构问题,方向正确。",
+        "两条被否的体制,理由都不在器件上:①**相干接收**(零差量子极限 ~1 光子/bit)在火星端其实可行——r0≈30 m、D/r0=0.013,单模耦合白送;但下行的接收端在**地球**(5 m 口径、白昼 r0~0.5 m、D/r0≈10),要上自适应光学 + 深空多普勒下本振锁相,DSOC 正因此选直接探测。体制随弱的那一端定。②**线性 APD**:过剩噪声因子 F≈4-6,在每比特几个光子的区间,倍增过程自己的噪声就压过信号涨落——光子饥饿区只有「数光子」有意义,「放大光子」没有。",
+        "两条一直没核的假设(o13 钉死,城内互引 sci-rad-01):①**辐射诱发假计数**——火星地表平静 GCR 9~31 /cm²/s(由 sci-rad-01 的「62 hit/s/片」反推)× 衬底 0.25 cm² = 7.8 /s,只有器件暗计数 19.2 kcps 的 0.04%,**可忽略**(诚实的负结果)。但最坏 SEP 期会跳到 78 kcps = 暗计数的 **4×**——对通信无影响(仍只有信标的 1.4%),却意味着「暗计数 300 cps/px」这条器件规格在 SEP 期不成立:**器件本底标定必须避开 SEP 窗口**,联动 sci-rad-01 的 SEP 警报——与链路调度联动 sci-weather 的 τ 是同一手法,本站因此同时挂在城里两套预警上。②**动态范围**:最坏工作背景(τ=3,再高就关罩)5.71 Mcps ÷ 64 px = 89 kcps/px,只占 20 Mcps 恢复率上限的 0.45%,背景打不进 latching。"
+      ],
+      "sim_en": [
+        "Uplink beacon budget (mars-optical o04, digit-for-digit shared with dust ledger o02): Earth's 5 kW / 40 urad uplink at 2.67 AU, tau 0.5, delivers 5.5e6 ph/s to the focal plane; forward data at 0.65 bit/photon is 3.6 Mbps (commands, software uplinks, crew mail); at 0.38 AU the count rate caps it near 100 Mbps.",
+        "Device gate (DSOC ground-segment family, no overachieving allowed): efficiency within 0.7-0.93, dark counts under 1 kcps/px, jitter of order 100 ps - 0.88 / 300 cps / 120 ps all land in band. Total dark counts of 4.8 kcps are 0.09% of the beacon: the real adversary is daytime skylight (dust ledger: at tau 3 the background is 34x the signal), not the device.",
+        "The 64-pixel array is not for imaging: when in-slot count rates exceed a single wire's recovery time the array shares the load (the 832 Mbps near-range cap is exactly 64 px x 20 Mcps x 0.65 bpp), and its quadrant grouping doubles as the fine-tracking error signal.",
+        "Selection ledger (o11, 3 gates - the entry the first ten ledgers owed: SNSPD had simply been inherited from the DSOC ground segment, never weighed against alternatives). On the same link, each candidate's far-end figure of merit is detection efficiency x bits per photon (jitter sets the PPM order: 120 ps -> M=128, 250-300 ps -> M=32). SNSPD 0.572, InGaAs SPAD 0.116, NIR-PMT 0.0093 - 4.9x and 62x at the far end. The near end is harsher: a SPAD needs ~1 us of dead time to suppress afterpulsing, capping its array at 29.7 Mbps against the SNSPD's 832 Mbps, **28x**, and no amount of aperture buys that back. The verdict is unique and order-of-magnitude.",
+        "Is 2.8 kW worth it? Answered in city-ledger units, not by intuition: switching to SPADs saves 2.75 kW but restoring the same far-end rate demands growing the aperture from 40 to 89 cm (+913 kg of optics) and still leaves the near end 28x short - while 2.8 kW is 0.40% of the city mean and 0.0016% of the fusion net (pwr-grid: the whole city consumes 0.40% of the reactor). **Electricity is nearly free in this city; mass and structural complexity are what cost.** An 89 cm aperture would also overturn ledgers o08, o09 and o10 together: wind load scales with area (4x), the cover petals go from R = 2 m to 4 m and their shell modes drop straight into the shedding band. Trading 2.8 kW for 913 kg of optics plus a doubled structural problem is the right direction.",
+        "Two architectures were rejected for reasons that have nothing to do with the detector: (1) **coherent reception** (homodyne quantum limit ~1 photon/bit) is actually viable at the Mars end - r0 ~ 30 m, D/r0 = 0.013, single-mode coupling for free - but the downlink is received on **Earth** (5 m aperture, daytime r0 ~ 0.5 m, D/r0 ~ 10), demanding adaptive optics plus local-oscillator phase lock under deep-space Doppler; DSOC chose direct detection for exactly this reason. The architecture is set by the weaker end. (2) **Linear-mode APDs** carry an excess noise factor F ~ 4-6, so where a bit is worth only a few photons the multiplication process out-noises the signal itself - in the photon-starved regime counting photons is meaningful and amplifying them is not.",
+        "Two assumptions finally checked (o13, cross-referencing the city's own sci-rad-01): (1) **radiation-induced false counts** - quiet Martian surface GCR of 9-31 /cm2/s (back-derived from sci-rad-01's \"62 hits/s per chip\") across a 0.25 cm2 substrate gives 7.8 /s, just 0.04% of the device's 19.2 kcps dark count: **negligible**, an honest negative result. But a worst-case solar particle event lifts it to 78 kcps, **4x** the dark count - harmless to the link (still 1.4% of the beacon) yet enough to invalidate the \"300 cps/px\" device spec while it lasts, so **device floor calibration must avoid SEP windows**, keyed to sci-rad-01's SEP alert exactly as link scheduling is keyed to sci-weather's tau. This station now hangs on both of the city's warning systems. (2) **Dynamic range**: the worst working background (tau 3; above that the cover closes) is 5.71 Mcps over 64 pixels, 89 kcps each - 0.45% of the 20 Mcps recovery ceiling, far from latching."
+      ]
+    },
+    {
+      "id": "cryo",
+      "label": "制冷:共享判死与 2.8 kW 物理税",
+      "label_en": "Cryogenics: the sharing verdict and a 2.8 kW physics tax",
+      "range": 20,
+      "detail": "独立基座上的压缩机撬块(绿色弹性垫可见)驱动两级脉管 + 闭循环 He-4 吸附级,把 SNSPD 压到 0.95 K。城里现成的低温谱系——sci-quantum-01 的稀释制冷机(20 mK)、CMB 册的 TES 链——都在别处:共享判死不是偏好,是 500 m 低温传输线漏热 150 W 对稀释机 4 K 冷量 1.5 W 的 100 倍数量级判决。",
+      "detail_en": "The compressor skid on its own foundation (green elastomer pads visible) drives a two-stage pulse tube plus closed-cycle He-4 sorption stage, holding the SNSPD at 0.95 K. The city's existing cryogenic lineage - sci-quantum-01's dilution refrigerator (20 mK), the CMB dossier's TES chain - lives elsewhere: the sharing verdict is not a preference but a 100x order-of-magnitude ruling, 150 W of leak over a 500 m cryogenic transfer line against the dilution fridge's 1.5 W at 4 K.",
+      "specs": {
+        "构型": "两级脉管(4 K)+ 闭循环 He-4 吸附级(0.95 K)",
+        "4 K 级": "负荷 73 mW / 冷量 250 mW(3.4×)",
+        "1 K 级": "负荷 ~1 mW / 吸附级 10 mW(周期再生)",
+        "输入功率": "2.8 kW(全站 75%)",
+        "质量": "≈180 kg",
+        "共享判死": "500 m 线损 150 W = 稀释机冷量 100×",
+        "读出架构(o12)": "8:1 射频频分复用 → 8 根同轴(64 路直连不合格)"
+      },
+      "specs_en": {
+        "Configuration": "two-stage pulse tube (4 K) + closed-cycle He-4 sorption (0.95 K)",
+        "4 K stage": "73 mW load / 250 mW capacity (3.4x)",
+        "1 K stage": "~1 mW load / 10 mW sorption (cyclic regeneration)",
+        "Input power": "2.8 kW (75% of station)",
+        "Mass": "~180 kg",
+        "Sharing verdict": "150 W line leak over 500 m = 100x fridge capacity",
+        "Readout architecture (o12)": "8:1 RF frequency multiplexing to 8 coax lines (64 direct lines fail)"
+      },
+      "physics": [
+        "卡诺在 1 K 处的税率:从 300 K 抽热到 1 K,理想 COP 只有 1/299,实机(脉管+吸附)再打几十分之一的折扣——毫瓦级冷量吃千瓦级电功。对照 sci-ir 的 TEC vs MCT 51:1 账:那边用『不制冷』逃掉了,单光子计数逃不掉,2.8 kW 是光子饥饿的物理税。",
+        "吸附级为什么能到 1 K 且无运动件:活性炭泵吸附 He-4 蒸气压低了液面温度(减压蒸发制冷),加热炭泵即再生——整级只有热开关在动。振动上它是 SNSPD 的好邻居;真正的振源是 300 K 端的压缩机,所以撬块被赶到独立基座上。"
+      ],
+      "physics_en": [
+        "Carnot's tax rate at 1 K: lifting heat from 300 K to 1 K allows an ideal COP of only 1/299, and real machines (pulse tube + sorption) discount that by another factor of tens - milliwatts of cooling for kilowatts of electricity. Against sci-ir's 51:1 TEC-vs-MCT ledger: that camera escaped by not cooling at all; single-photon counting cannot escape, and 2.8 kW is the physics tax of photon starvation.",
+        "Why a sorption stage reaches 1 K with no moving parts: a charcoal pump adsorbs He-4 vapor, lowering the vapor pressure and hence the bath temperature (evaporative cooling); heating the charcoal regenerates it - only a heat switch ever moves. Vibrationally it is a good neighbor to the SNSPD; the real vibration source is the 300 K compressor, which is why the skid is exiled to its own foundation."
+      ],
+      "sim": [
+        "共享判死账(mars-optical o04,闸:比值须数量级级别):任一地表候选到地下城 ≥500 m,4 K 级传输线漏热 ~0.3 W/m → 150 W,是 sci-quantum 稀释机 4 K 级冷量(~1.5 W)的 100×。另两票:①本站伺服/压缩机是振源,不许搬去量子中心隔壁(其 83 条入线的 20 mK 混合腔怕的就是这个)②氦循环拉 500 m 的漏点风险——sci-quantum ghs 卡的原话:火星大气无氦,漏了就没了,闭循环是生存条件不是节约。",
+        "独立定容:4 K 负荷(8 根**复用**同轴 + 光纤 + 支撑 + 辐射)73 mW 对冷量 0.25 W(3.4×,o12 定版;o04 首版按 8 根直连写 0.1 W/2.5×,阵列改 64 px 后由 o12 重算);1 K 负荷 ~1 mW 对吸附级 10 mW,再生周期错开通联窗口。输入 2.8 kW 进 o06 台账,是全站功耗的 75%。",
+        "退路留在卡上:NbTiN 器件可在 2.5~3 K 工作,砍掉吸附级省 ~类似输入功率但效率与暗计数退档——基线仍 WSi@0.95 K,退路是维修期的降级运行模式,不是省钱方案。",
+        "读出线热负荷账(o12,补 o11 连带出的第二个洞):o11 为与 o01 自洽把阵列 16→64 px,但 4 K 热负荷还写着「8 根同轴」——**64 路读出线的热负荷从没算过**。每线口径由城内sci-quantum-01 的 83 线账反推(1.5 W 冷量 ÷ 10.8× 裕量 ÷ 83 线 = 1.67 mW/线,落 SS 半刚性同轴公认区间):64 路直连 = 167 mW 对 250 mW 冷量,裕量只有 **1.50×**,不合格。定版 8:1 射频频分复用(每线 160 Mcps、占 8 GHz < 同轴通带 18 GHz),8 根线 73 mW → 裕量 **3.4×**;1 K 段改 NbTi 超导同轴可再到 3.9×。阵列封顶 1280 Mcps 不变,o11 的 832 Mbps 不受影响。",
+        "被否的懒办法:把制冷机从 0.25 加到 0.5 W@4 K。输入 2.8→~5.5 kW,全站 3.7→6.4 kW(+73%),散热面 15→26 m²,城市台账占比 0.5%→0.9%——为省一套复用电路推翻 o06 整本台账与几何。**跨项目互引**:同种器件的另一本深挖(Codex x-snspd,511 keV TOF-PET,追 <10 ps 定时)把 2324 个直连端口聚合成 224 路分段总线、总线残差仅 0.024 ps FWHM——「复用不毁定时」那半边已被它证过;本账负责它没有的那半边:**复用要不要,由 4 K 冷量说了算,不由定时说了算**。同一器件,两套约束,各问各的问题。"
+      ],
+      "sim_en": [
+        "The sharing-verdict ledger (mars-optical o04; gate: the ratio must be order-of-magnitude): any surface candidate is >= 500 m from the undercity, a 4 K transfer line leaks ~0.3 W/m -> 150 W, which is 100x the dilution fridge's ~1.5 W at 4 K. Two more votes: (1) this station's servos and compressor are vibration sources and may not move in next to the quantum center (whose 20 mK mixing chamber with 83 lines fears exactly that); (2) running a helium loop 500 m multiplies leak points - in the sci-quantum ghs card's words, the Martian atmosphere holds no helium: lose it and it is gone; closed cycle is survival, not thrift.",
+        "Standalone sizing: 4 K load (8 multiplexed coax + fiber + supports + radiation) 73 mW against 0.25 W capacity (3.4x, the o12 frozen figure; the o04 first draft wrote 0.1 W / 2.5x for 8 direct lines, redone by o12 after the array grew to 64 px); 1 K load ~1 mW against the sorption stage's 10 mW, with regeneration cycles scheduled around pass windows. The 2.8 kW input enters the o06 ledger as 75% of the station.",
+        "The fallback stays on the card: NbTiN devices run at 2.5-3 K, deleting the sorption stage - at the price of efficiency and dark-count grade. The baseline remains WSi at 0.95 K; the fallback is a degraded maintenance mode, not a cost saving.",
+        "Readout heat-load ledger (o12, closing the second hole o11 opened): o11 grew the array from 16 to 64 pixels for consistency with o01, but the 4 K heat load still read \"8 coax lines\" - **the heat load of 64 readout lines had never been computed**. The per-line figure is back-derived from the city's own sci-quantum-01 account (1.5 W capacity / 10.8x margin / 83 lines = 1.67 mW per line, inside the accepted band for stainless semi-rigid coax): 64 direct lines come to 167 mW against 250 mW of cooling, a margin of only **1.50x** - failing. The frozen design is 8:1 RF frequency multiplexing (160 Mcps and 8 GHz per line, against 18 GHz of coax bandwidth): 8 lines, 73 mW, margin **3.4x**, and 3.9x with NbTi superconducting coax on the sub-4 K run. The 1280 Mcps array cap is unchanged, so o11's 832 Mbps stands.",
+        "The lazy alternative was rejected: growing the cryocooler from 0.25 to 0.5 W at 4 K would roughly double input power (2.8 -> ~5.5 kW), take the station from 3.7 to 6.4 kW (+73%), the radiator from 15 to 26 m2 and the city ledger share from 0.5% to 0.9% - overturning all of o06 and the geometry to avoid building one multiplexer. **Cross-project cross-reference**: a separate deep dive on the same device (Codex x-snspd, 511 keV TOF-PET chasing sub-10 ps timing) aggregated 2324 direct ports into 224 segmented buses with only 0.024 ps FWHM of bus residual - that work already proved multiplexing does not wreck timing. This ledger supplies the half it never needed: **whether to multiplex is decided by the 4 K budget, not by timing.** One device, two constraint sets, two different questions."
+      ]
+    },
+    {
+      "id": "day",
+      "label": "白昼运行与合日(地球是火星的「金星」)",
+      "label_en": "Daytime operations and conjunction (Earth is Mars's Venus)",
+      "range": 22,
+      "detail": "从火星看,地球是内行星——最大距角 arcsin(1/1.524)=41°,永远贴着太阳,像地球黄昏的金星。所以这台望远镜没有深夜档:通联要么在白昼、要么在晨昏窗做,「白天天空背景下还能不能收」是本站能不能存在的问题。答案是能,但优势跟直觉相反:火星白昼的天空并不比地球暗,赢在视宁度给的小视场。",
+      "detail_en": "From Mars, Earth is an inner planet - maximum elongation arcsin(1/1.524) = 41 deg, forever hugging the Sun like Venus at dusk. This telescope therefore has no midnight shift: passes happen in daylight or in the twilight window, and 'can we receive against the daytime sky' decides whether this station exists at all. The answer is yes - but the advantage is the opposite of intuition: the Martian daytime sky is not darker than Earth's; the win comes from the seeing-limited small field of view.",
+      "specs": {
+        "地球最大距角": "41°(内行星几何)",
+        "白昼跟踪 SNR": "148(需 13,τ=0.5)",
+        "天空辐亮度(清季)": "火星 12.8 vs 地球 8.6 mW/m²/nm/sr——火星反而亮 1.49×",
+        "有效背景(∝L·FOV²)": "火星/地球 = 0.15(6.6× 优势)",
+        "合日断链": "光 33 d(±3° 规避)vs 射频 14 d(SEP<2°)",
+        "双断期兜底": "com-station 3 m X 应急 500 bps"
+      },
+      "specs_en": {
+        "Earth max elongation": "41 deg (inner-planet geometry)",
+        "Daytime tracking SNR": "148 (13 needed, tau 0.5)",
+        "Sky radiance (clear)": "Mars 12.8 vs Earth 8.6 mW/m2/nm/sr - Mars is 1.49x brighter",
+        "Effective background (L x FOV^2)": "Mars/Earth = 0.15 (6.6x advantage)",
+        "Conjunction outage": "optical 33 d (+/-3 deg keep-out) vs RF 14 d (SEP<2 deg)",
+        "Fallback in the dual outage": "com-station 3 m X emergency 500 bps"
+      },
+      "physics": [
+        "白昼优势的真身:通信接收吃的背景计数 ∝ 天空辐亮度 × FOV²。火星尘的散射光学厚度(τ~0.42)比地球好台址气溶胶(~0.1)大,天空反而亮;但火星 r0≈30 m 允许 16 µrad 衍射极限视场、无自适应光学,地球白昼视宁度限 ~50 µrad——FOV² 一项赢 10×,净 6.6× 优势,而且直到尘先杀死链路都不反转。另两条:无云(地球单站云可用 ~60-70%)、无水汽吸收与结露。",
+        "合日为什么光比射频怕:射频断链是日冕等离子体闪烁(∝1/f²,com-relay dte 卡),SEP<2° 约 2 周;光的敌人是太阳本身——两端望远镜的杂散光规避角 ±3°,断 33 天。这 19 天差值里全城对地只剩 X 应急信道,是光/射频互备矩阵中唯一的双断窗口,靠双端缓存过冬(com-relay 434.7 Gb 先例)。"
+      ],
+      "physics_en": [
+        "The daytime advantage's true identity: a comm receiver's background counts scale as sky radiance x FOV^2. Martian dust's scattering optical depth (~0.42) exceeds a good Earth site's aerosol (~0.1), so the sky is actually brighter; but Mars's r0 ~ 30 m allows a 16 urad diffraction-limited field with no adaptive optics, where Earth's daytime seeing forces ~50 urad - the FOV^2 term wins 10x for a net 6.6x advantage that never inverts before dust kills the link anyway. Two more: no clouds (single Earth stations manage ~60-70% cloud availability), and no water-vapor absorption or dew.",
+        "Why conjunction hurts optical more than RF: the radio outage is coronal plasma scintillation (~1/f^2, per the com-relay dte card), about two weeks below SEP 2 deg; optical's enemy is the Sun itself - a +/-3 deg stray-light keep-out at both telescopes, 33 days out. For the 19-day difference the city's only Earth channel is the X-band emergency link, the one dual-outage window in the optical/RF matrix, survived on buffering at both ends (the com-relay 434.7 Gb precedent)."
+      ],
+      "sim": [
+        "白昼与合日账(mars-optical o05,4 闸全绿,一次自我修正):首版拿裸辐亮度当指标闸破——单散射模型(HG g=0.7)算出火星清季天空 12.8 mW/m²/nm/sr,比地球好台址(8.6)亮 1.49×,『火星天更暗』是错觉;指标改为背景计数 ∝L×FOV² 后 0.15(6.6× 优势),τ=3 仍 0.32 不反转。",
+        "白昼闭环:τ=0.5、ψ=30° 几何下跟踪单帧 S=27500/B=6853 → SNR 148,对需求 13 有 11× 裕——白昼收发成立,这就是本站没有『观测夜』概念的底气。",
+        "合日几何(圆轨道扫描,闸:射频窗须复现 com-relay 14.4 d):光 ±3° 规避断 33 d、射频 SEP<2° 断 14 d ✓;每 780 d 一次,折 21 sol/火星年,已计入尘账的可用率。"
+      ],
+      "sim_en": [
+        "Daylight and conjunction ledger (mars-optical o05, 4 gates green, one self-correction): the first draft gated on raw radiance and broke - the single-scatter model (HG g=0.7) puts the clear-season Martian sky at 12.8 mW/m2/nm/sr, 1.49x brighter than a good Earth site (8.6); 'darker Martian sky' is an illusion. Regated on background counts (L x FOV^2): 0.15, a 6.6x advantage, still 0.32 at tau 3 - never inverting.",
+        "Daytime closure: at tau 0.5 and psi 30 deg the tracker sees S = 27,500 / B = 6,853 per frame, SNR 148 against the required 13 - an 11x margin. Daytime operation stands, which is why this station has no concept of an 'observing night'.",
+        "Conjunction geometry (circular-orbit sweep; gate: the RF window must reproduce com-relay's 14.4 d): optical +/-3 deg keep-out gives 33 d, RF SEP < 2 deg gives 14 d. Once per 780 d, i.e. 21 sol per Mars year, already charged to the dust ledger's availability."
+      ]
+    },
+    {
+      "id": "power",
+      "label": "功耗台账与辐射排热墙",
+      "label_en": "Power ledger and the radiator wall",
+      "range": 22,
+      "detail": "制冷小间背面的黑色 OSR 板阵不是装饰——按 pwr-grid-01 的方法论,火星没有对流,散热面积就是电表:全站 3.7 kW 均值几乎全部要从这 15 m² 辐射面离开。台账逐项:制冷 2.8 kW(75%,光子饥饿的物理税)、电子学 0.35、恒温 0.25、激光 0.17、伺服 0.15 kW。这一行进 pwr-grid-01 全城台账(回引文本报总控):城市均值的 0.5%。",
+      "detail_en": "The black OSR panels behind the cryo room are not decoration - by pwr-grid-01's method, Mars has no convection, so radiator area is the power meter: essentially all of the station's 3.7 kW mean must leave through these 15 m2. The ledger, line by line: cryocooler 2.8 kW (75%, the photon-starvation tax), electronics 0.35, thermal control 0.25, laser 0.17, servos 0.15 kW. This row joins the pwr-grid-01 city ledger (write-back text filed with the integrator): 0.5% of the city mean.",
+      "specs": {
+        "均值 / 峰值": "3.7 kW / 4.3 kW",
+        "制冷占比": "75%(2.8 kW)",
+        "辐射面": "需 12.1 m² @308 W/m² → 设计 15 m²(1.2×)",
+        "接入": "400 V 直流区配(48 V 仪表级不够)",
+        "占城市均值": "0.5%(704 kW 口径)"
+      },
+      "specs_en": {
+        "Mean / peak": "3.7 kW / 4.3 kW",
+        "Cryo share": "75% (2.8 kW)",
+        "Radiator": "12.1 m2 needed at 308 W/m2 -> 15 m2 designed (1.2x)",
+        "Feed": "400 V DC district bus (48 V instrument tier is not enough)",
+        "Of city mean": "0.5% (704 kW basis)"
+      },
+      "physics": [
+        "散热面的选择性涂层与 com-relay thermal 卡同一条物理:OSR 反射 0.5 µm 的太阳峰(α≈0.1)、发射 10 µm 的自身热(ε≈0.8),净排热 q≈εσT⁴−αS≈308 W/m² @300 K。北墙朝向(火星北=−z)避开正午直射,是白送的半个百叶窗。",
+        "台账方法论(pwr-grid 原话『散热面积就是火星上的电表』)在这里反着用了一次:先有功耗账,再反推排热面,几何照建——模型上那 15 m² 黑板就是 o06 账的可视化,首版画 14 m² 不够 1.2× 裕,被自己的闸改成 15。"
+      ],
+      "physics_en": [
+        "The radiator's selective coating is the same physics as the com-relay thermal card: OSR reflects the 0.5 um solar peak (alpha ~0.1) and emits its own 10 um heat (eps ~0.8), netting q ~ eps sigma T^4 - alpha S ~ 308 W/m2 at 300 K. The north-facing wall (Mars north = -z here) dodges noon sun - half a louver for free.",
+        "pwr-grid's method ('radiator area is the power meter on Mars') ran in reverse here for once: the power ledger came first, the rejection area was derived from it, and the geometry was built to match - the 15 m2 of black panels on the model is ledger o06 made visible. The first draft drew 14 m2, short of the 1.2x margin, and its own gate pushed it to 15."
+      ],
+      "sim": [
+        "台账闭合(mars-optical o06,闸:逐项和 + 散热几何二次闭合):2800+350+250+170+150 = 3720 W 均值 / 4320 W 峰值;需 12.1 m² 辐射面,设计 15 m²(北墙 4 板 9.2 m² + 顶 3 板 5.9 m²)。",
+        "pwr-grid-01 台账新增一行(本 session 不动他人文件,文本在 HANDOFF_OPTICAL §4):『com-optical-01,均值 3.7 kW / 峰值 4.3 kW(制冷机 2.8 kW 为主),400 V 区配;城市均值 0.5%』——比深地实验室小、比热红外站大三个量级,光子计数的价位。",
+        "对照鲜明的城内先例:sci-ir 全站 <5 W(靠不制冷逃掉),本站 3.7 kW(逃不掉)——同在探测器谱系,差 700×,分界线就是『数单个光子』这件事。"
+      ],
+      "sim_en": [
+        "Ledger closure (mars-optical o06; gate: line-item sum plus second closure via rejection geometry): 2800+350+250+170+150 = 3,720 W mean / 4,320 W peak; 12.1 m2 of radiator needed, 15 m2 designed (4 wall panels 9.2 m2 + 3 roof panels 5.9 m2).",
+        "One new pwr-grid-01 ledger row (this session touches no one else's files; the text sits in HANDOFF_OPTICAL s4): 'com-optical-01, 3.7 kW mean / 4.3 kW peak (2.8 kW cryocooler dominant), 400 V district feed; 0.5% of city mean' - smaller than the deep lab, three orders above the thermal-IR station: the going rate for photon counting.",
+        "A sharp in-city contrast: sci-ir runs its whole station under 5 W (escaping via no cooling); this station needs 3.7 kW (no escape). Same detector family tree, 700x apart - the dividing line is precisely 'counting single photons'."
+      ]
+    },
+    {
+      "id": "site",
+      "label": "选址两案与门口短接",
+      "label_en": "Two siting candidates and the doorstep tie-in",
+      "range": 22,
+      "detail": "橙色接入柜与两米沟头是本站对城市走廊的全部越界——按门口规矩,走廊本体归总控。落位报了两案:A(推荐)与 com-station-01 同址区,39 m 外共享 12 m 站的氢钟频标、光纤与运维;B 挤进观测组团(距 sci-obs 58 m),走廊也便宜,但 1550 nm 正落在 sci-swir 的 InGaAs 波段带内——20 W 上行光柱的尘散射对 38 m 外的夜气辉相机就是一颗人造星。",
+      "detail_en": "The orange tie-in cabinet and two meters of trench head are this station's entire trespass on the city corridors - by the doorstep rule, corridors belong to the integrator. Two siting cases are filed: A (recommended) shares the com-station-01 area, borrowing the 12 m station's hydrogen-maser frequency standard, fiber and operations from 39 m away; B squeezes into the observatory cluster (58 m from sci-obs) with an equally cheap corridor - but 1550 nm falls inside sci-swir's InGaAs band, and the dust-scattered glow of a 20 W uplink column is an artificial star to a nightglow camera 38 m away.",
+      "specs": {
+        "候选 A(推荐)": "(-385,-262):距 12 m 射频碟 39 m · sci-seis 407 m(红线外)",
+        "候选 B": "(-604,-258):距 sci-obs 58 m · sci-swir 38 m · sci-seis 279 m",
+        "A 的红利": "共享氢钟/USO 频标 + 出站光纤 + 运维班次,近零新走廊",
+        "A 的代价": "800 W Ka 旁瓣 → SNSPD 电子学 EMC 屏蔽规格",
+        "B 的代价": "独立时频链 + 与 sci-swir 发射窗口互斥 + sci-seis 圈内登记",
+        "pos": "null 报总控裁定"
+      },
+      "specs_en": {
+        "Candidate A (recommended)": "(-385,-262): 39 m from the 12 m dish, 407 m from sci-seis (outside the red line)",
+        "Candidate B": "(-604,-258): 58 m to sci-obs, 38 m to sci-swir, 279 m to sci-seis",
+        "A's dividend": "shared H-maser/USO standard + backhaul fiber + ops shifts, near-zero new corridor",
+        "A's cost": "800 W Ka sidelobes -> EMC shielding spec for SNSPD electronics",
+        "B's cost": "independent time-frequency chain + transmit windows mutually exclusive with sci-swir + registration inside the sci-seis circle",
+        "pos": "null - integrator to decide"
+      },
+      "physics": "同址的第一红利是频标:PPM 解调按 120 ps 抖动切槽、测距按往返相位计数,都除以『钟有多稳』——com-station timing 卡的氢钟(Allan 1e-13@1s)从 39 m 外由光纤送来,B 案就得自建一套。第二红利是运维在场:光通信站的日常是清镜、校准、换窗口,与射频站共用班次是真金白银的人力账。",
+      "physics_en": "Co-siting's first dividend is the frequency standard: PPM demodulation slices slots against 120 ps of jitter and ranging counts round-trip phase - both divide by how stable the clock is. The com-station timing card's hydrogen maser (Allan 1e-13 at 1 s) arrives over 39 m of fiber; case B would have to build its own. The second dividend is staffed operations: an optical station's daily life is mirror cleaning, calibration and window scheduling, and sharing shifts with the RF station is a real labor ledger.",
+      "sim": [
+        "选址账(mars-optical o06,3 闸全绿,一次自我修正):首版拍 B 要 >200 m 新沟,几何算完只有 58 m(可蹭观测组团支线)——B 的真实代价换成三样:独立时频、1550 nm 对 sci-swir 带内干扰、天文组团暗天纪律反噬。A 距 sci-seis 407 m 在 400 m 红线外;B 在圈内 279 m,但本站振源裸机即合规(o03:11× 裕),据实登记而非回避。",
+        "推荐 A 的一句话:光通信站本质是通信资产不是天文资产——共享频标、光纤、值班,比挤进天文组团更值钱;白昼运行(o05)本来就不需要暗天,反而 20 W 1550 nm 激光是天文组团最不想要的邻居。",
+        "门口短接(MODELS.md §3 规矩):本站只做接入柜 + 2.4 m 沟头;A 案走廊 = com-station 既有电缆沟延伸 ~39 m,建议接驳方位与标高写在 HANDOFF_OPTICAL §4,走廊本体与审计豁免由总控落。"
+      ],
+      "sim_en": [
+        "Siting ledger (mars-optical o06, 3 gates green, one self-correction): the first draft priced case B at '>200 m of new trench'; the geometry says 58 m (riding the observatory cluster's existing spur) - so B's real costs became three others: an independent time-frequency chain, in-band 1550 nm interference with sci-swir, and the astronomy cluster's dark-sky discipline cutting back on this station. A sits 407 m from sci-seis, outside the 400 m red line; B sits inside at 279 m, but this station's vibration sources comply bare (o03: 11x margin) - registered honestly rather than dodged.",
+        "Case A in one sentence: an optical comm station is a communications asset, not an astronomy asset - sharing a frequency standard, fiber and shifts is worth more than joining the observatory cluster; daytime operation (o05) never needed a dark sky anyway, and a 20 W 1550 nm laser is the neighbor astronomers want least.",
+        "The doorstep tie-in (MODELS.md s3 rule): this station builds only the cabinet plus 2.4 m of trench head; case A's corridor is a ~39 m extension of com-station's existing cable trench, with the requested bearing and level written in HANDOFF_OPTICAL s4 - the corridor itself and its audit exemption belong to the integrator."
+      ]
+    }
+  ]
+}

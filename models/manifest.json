@@ -516,6 +516,29 @@
       }
     },
     {
+      "id": "sci-lab-01",
+      "name": "地下城分析测试中心",
+      "name_en": "Undercity Analytical Test Center",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/sci-lab-01.js",
+      "size_m": 23,
+      "size_axis": "depth",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": [
+        "glow_windows"
+      ],
+      "exitZone": {
+        "pos": [
+          0,
+          10.9
+        ],
+        "radius": 1
+      }
+    },
+    {
       "id": "res-dome-01",
       "name": "农业温室穹顶",
       "name_en": "Agricultural Greenhouse Dome",
@@ -744,6 +767,25 @@
       ],
       "rotation_deg": 0,
       "sink_m": 0.15,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "com-optical-01",
+      "name": "深空光通信终端",
+      "name_en": "Deep-Space Optical Terminal",
+      "type": "code",
+      "module": "units/com-optical-01.js",
+      "size_m": 17.15,
+      "size_axis": "width",
+      "pos": [
+        -385,
+        -262
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
       "effects": [
         "glow_windows",
         "blink"
@@ -1047,7 +1089,10 @@
       "module": "units/res-eclss-01.js",
       "size_m": 48.2,
       "size_axis": "width",
-      "pos": null,
+      "pos": [
+        5,
+        60
+      ],
       "rotation_deg": 0,
       "sink_m": 0.3,
       "effects": [
@@ -1062,7 +1107,10 @@
       "module": "units/res-recycle-01.js",
       "size_m": 44,
       "size_axis": "width",
-      "pos": null,
+      "pos": [
+        -300,
+        40
+      ],
       "rotation_deg": 0,
       "sink_m": 0.3,
       "effects": [
@@ -1342,6 +1390,25 @@
       ]
     },
     {
+      "id": "res-foundry-01",
+      "name": "冶金与机加工车间",
+      "name_en": "Foundry & Machine Shop",
+      "type": "code",
+      "module": "units/res-foundry-01.js",
+      "size_m": 56.5,
+      "size_axis": "width",
+      "pos": [
+        170,
+        -260
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
       "id": "veh-ground-01",
       "name": "地面车辆队与保障场",
       "name_en": "Ground Vehicle Fleet & Support Apron",
@@ -1359,6 +1426,123 @@
         "glow_windows",
         "blink"
       ]
+    },
+    {
+      "id": "sci-astro-01",
+      "type": "code",
+      "module": "units/sci-astro-01.js",
+      "name": "天体生物学实验室",
+      "name_en": "Astrobiology Laboratory",
+      "size_m": 39.1,
+      "size_axis": "width",
+      "pos": [
+        -100,
+        -500
+      ],
+      "rotation_deg": 0,
+      "sink_m": 2.56,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "ops-fire-01",
+      "type": "code",
+      "module": "units/ops-fire-01.js",
+      "name": "应急消防站",
+      "name_en": "Emergency Fire Station",
+      "size_m": 24.8,
+      "pos": [
+        95,
+        -160
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "hab-museum-01",
+      "type": "code",
+      "module": "units/hab-museum-01.js",
+      "name": "火星城博物馆",
+      "name_en": "Mars City Museum",
+      "size_m": 40.7,
+      "size_axis": "depth",
+      "pos": [
+        -262,
+        -170
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
+    },
+    {
+      "id": "hab-museum-hall-01",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/hab-museum-hall-01.js",
+      "name": "火星城博物馆·室内馆",
+      "name_en": "Mars City Museum — Main Hall",
+      "size_m": 30.8,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "res-glass-01",
+      "name": "玻璃厂（玄武岩纤维·铸石·浮法）",
+      "name_en": "Glassworks (basalt fiber / cast stone / float line)",
+      "type": "code",
+      "module": "units/res-glass-01.js",
+      "size_m": 48,
+      "size_axis": "width",
+      "pos": [
+        120,
+        -225
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.3,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "com-polar-01",
+      "name": "极区补盲中继星",
+      "name_en": "Polar-Cap Relay Satellite",
+      "type": "code",
+      "module": "units/com-polar-01.js",
+      "kind": "orbital",
+      "size_m": 30,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
+      "id": "com-l4-01",
+      "name": "日火 L4 合日中继星",
+      "name_en": "Sun-Mars L4 Conjunction Relay",
+      "type": "code",
+      "module": "units/com-l4-01.js",
+      "kind": "orbital",
+      "size_m": 30,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
     }
   ]
 }

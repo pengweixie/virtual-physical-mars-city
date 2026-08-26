@@ -8,6 +8,7 @@ models/**
 models/_archive/
 models/_inbox/
 !models/manifest.json
+!models/imperial/**
 !models/**/info.json
 
 # local machine config - never published (packaging rule 4)
@@ -24,3 +25,6 @@ comsol/*.log
 
 # audio masters (WAV) stay local; the viewer ships the transcoded m4a
 music/
+
+# external-agent review reports stay local
+dev/REVIEW_*.md

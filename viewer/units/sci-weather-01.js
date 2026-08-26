@@ -249,15 +249,29 @@ export function build(THREE) {
   const gooseneck = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.02, 8, 12, Math.PI), mSteel);
   gooseneck.position.set(-0.2, 0.78, 0.12); gooseneck.rotation.y = Math.PI / 2; met.add(gooseneck);
   box(0.03, 0.05, 0.08, ledGreen, -0.46, 0.45, 0.05, met);               // 状态灯(侧墙挂装)
-  // 温度杆:1.8 m + 三层百叶罩(叠盘)
+  // 温度杆:1.8 m,每高度两套体制并列——
+  //   主:裸细丝热电偶三元组(120° 三方位,取最冷) 副:叠盘百叶罩(互校)
+  // 依据设计轮 #15:610 Pa 下百叶罩正午偏 +4.4 K、夜间 −2.1 K(反号),
+  // 裸线只偏 0.53 K(自身吸阳),梯度差模残差 0.023 K vs 罩体 0.30 K。
   tube(V3(0.28, 0.12, 0), V3(0.28, 1.92, 0), 0.028, mSteel, met);
   [0.85, 1.3, 1.75].forEach(hy => {
     const arm = tube(V3(0.28, hy, 0), V3(0.55, hy, 0), 0.018, mSteel, met);
-    for (let k = 0; k < 5; k++) {                                        // 5 叠盘百叶罩
+    for (let k = 0; k < 5; k++) {                                        // 5 叠盘百叶罩(副)
       const disk = new THREE.Mesh(new THREE.CylinderGeometry(0.085 - k * 0.004, 0.095 - k * 0.004, 0.014, 14), mWhite);
       disk.position.set(0.62, hy - 0.045 + k * 0.024, 0); met.add(disk);
     }
     tube(V3(0.62, hy - 0.06, 0), V3(0.62, hy + 0.07, 0), 0.012, mDark, met);
+    // 主:三根细支臂朝背罩侧 120° 散开,臂端一段裸铂丝(镀金端子)
+    for (let i = 0; i < 3; i++) {
+      const a = Math.PI + (i - 1) * (2 * Math.PI / 3) * 0.5;             // 背向百叶罩一侧
+      const ex = 0.28 + Math.cos(a) * 0.2, ez = Math.sin(a) * 0.2;
+      tube(V3(0.28, hy, 0), V3(ex, hy, ez), 0.006, mDark, met, 5);       // 细支臂
+      const wire = new THREE.Mesh(new THREE.CylinderGeometry(0.0016, 0.0016, 0.055, 5), mGold);
+      wire.rotation.z = Math.PI / 2;
+      wire.rotation.y = -a;
+      wire.position.set(ex, hy, ez); met.add(wire);                      // 裸丝敏感段
+      box(0.018, 0.016, 0.018, mCopper, ex, hy - 0.022, ez, met);        // 冷端接线柱
+    }
   });
   poi('poi_pressure', -2.35, 0.6, 1.45);
   poi('poi_ats', -1.5, 1.4, 1.25);

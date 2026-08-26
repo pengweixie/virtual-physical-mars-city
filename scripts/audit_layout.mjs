@@ -56,7 +56,21 @@ function overlapSAT(A, B) {                        // separating axis on 2 rects
   return true;
 }
 
+// ---- placement registry (added after the fission lost-update): every
+// integrator-ruled position lives in scripts/placements.json. A session
+// committing a stale whole-file manifest silently reverts pos to null - this
+// check makes that loud. New placements: update BOTH files.
+const registry = JSON.parse(
+  readFileSync(path.join(root, 'scripts', 'placements.json'), 'utf8'));
 let bad = 0;
+for (const [id, pos] of Object.entries(registry)) {
+  const a = manifest.assets.find((x) => x.id === id);
+  if (!a) { console.log(`REGISTRY: ${id} missing from manifest`); bad++; continue; }
+  if (JSON.stringify(a.pos) !== JSON.stringify(pos)) {
+    console.log(`REGISTRY: ${id} pos ${JSON.stringify(a.pos)} != ruled ${JSON.stringify(pos)}`);
+    bad++;
+  }
+}
 for (let i = 0; i < rects.length; i++)
   for (let j = i + 1; j < rects.length; j++) {
     const A = rects[i], B = rects[j];
@@ -89,6 +103,11 @@ const roads = [
   { name: 'village-spur',   a: [-350, -100], b: [-290, -55], w: 4 },
   { name: 'launch-highway', a: [178, -40],   b: [705, 220],  w: 5 },
   { name: 'mine-spur',      a: [100, -125],  b: [138, -122], w: 5 },
+  { name: 'fission-spur-1', a: [-190, -145], b: [-210, -690], w: 4 },
+  { name: 'fission-spur-2', a: [-210, -690], b: [-180, -778], w: 4 },
+  { name: 'astro-spur',     a: [-100, -142], b: [-100, -486], w: 4 },
+  { name: 'foundry-spur',   a: [150, -190],  b: [148, -252],  w: 4 },
+  { name: 'glass-spur',     a: [150, -190],  b: [124, -214],  w: 4 },
   { name: 'industry-link',  a: [100, -125],  b: [100, -14],  w: 5 },
   { name: 'crawlerway',     a: [600, 300],   b: [750, 250],  w: 12 },
   { name: 'crawler-park',   a: [600, 300],   b: [700, 370],  w: 12 },
@@ -103,6 +122,10 @@ const roads = [
   { name: 'pipe-lox',       a: [55, 22],     b: [728, 225],  w: 2 },
   { name: 'pipe-h2o-isru',  a: [63, 79],     b: [44, 45],    w: 2 },
   { name: 'pipe-roast',     a: [68, -50],    b: [50, -2],    w: 2 },
+  { name: 'pipe-o2-foundry-1', a: [173, -280], b: [85, -300], w: 2 },
+  { name: 'pipe-o2-foundry-2', a: [85, -300],  b: [28, -200], w: 2 },
+  { name: 'pipe-o2-foundry-3', a: [28, -200],  b: [28, -90],  w: 2 },
+  { name: 'pipe-o2-foundry-4', a: [28, -90],   b: [70, -70],  w: 2 },
   { name: 'pipe-o2-sulfur-1', a: [70, -70],  b: [0, 20],     w: 2 },
   { name: 'pipe-o2-sulfur-2', a: [0, 20],    b: [5, 60],     w: 2 },
   { name: 'pipe-o2-city-1', a: [5, 60],      b: [-105, -25], w: 2 },
@@ -135,6 +158,9 @@ const roads = [
   { name: 'G-R2', a: [-200, -120], b: [-205, 10],   w: 1 },
   { name: 'G-S1', a: [-140, -780], b: [-345, -110], w: 1 },
   { name: 'G-S2', a: [-345, -110], b: [-330, -30],  w: 1 },
+  { name: 'G-T',  a: [-165, -500], b: [-113, -498], w: 1 },
+  { name: 'G-U',  a: [225, -210],  b: [122, -222],  w: 1 },
+  { name: 'G-V',  a: [-350, -280], b: [-385, -262], w: 1 },
 ];
 try {                                               // memorial highway to rover
   const m = JSON.parse(readFileSync(
@@ -193,6 +219,12 @@ const ROAD_EXEMPT = new Set([
   'sci-seis-01|G-K2', 'hab-village-01|G-L', 'hab-lift-01|G-M', 'hab-tunnel-01|G-M',
   'sci-obs-01|G-N', 'sci-weather-01|G-P',
   'pwr-fission-01|G-R1', 'pwr-grid-01|G-R2',      // fission tie doorsteps
+  'pwr-fission-01|fission-spur-2',                // service road west gate
+  'sci-astro-01|astro-spur', 'sci-astro-01|G-T',  // astro doorsteps
+  'res-foundry-01|foundry-spur', 'res-foundry-01|pipe-o2-foundry-1',
+  'res-sulfur-01|pipe-o2-foundry-4',              // junction at the sulfur plant
+  'res-glass-01|glass-spur', 'res-glass-01|G-U',
+  'com-optical-01|G-V', 'com-station-01|G-V',
   'pwr-fission-01|G-S1', 'hab-tunnel-01|G-S2',    // survival bypass doorsteps
 ]);
 for (const r of rects) {

@@ -1,0 +1,243 @@
+{
+  "id": "com-polar-01",
+  "pois": [
+    {
+      "id": "bus",
+      "label": "构型选型裁决",
+      "label_en": "Configuration adjudication",
+      "range": 30,
+      "detail": "三条候选路线摆上台面:类闪电大椭圆(远火点驻留极区)、圆极轨、静止+倾角混合。招牌账先算临界倾角——地球的 63.4349° 是 J2 一阶理论 (5cos²i−1)=0 的解,与行星无关,火星专属的答案全部藏在高阶场里(J2²、J3、J4)。数值传播火星全带谐场:e=0.60 的火星 Tundra 轨道临界倾角 = 63.379°,不等于地球数,且随偏心率变(e=0.30 时 63.430°)。然而裁决把这条轨道本身裁掉了:两颗 Tundra 只闭北帽(南帽覆盖 8.7%),双帽闭合最少要 3 颗——而 3 颗圆极轨单平面即可 100% 闭合双帽,圆轨道 e≈0 根本没有拱线可漂,临界倾角需求随之消失。定版:3 星 · 圆轨 · a=20,428 km(与静止环同半径同周期)· i≈90° · 单平面 120° 相位。",
+      "detail_en": "Three candidates on the table: a Molniya-type high-ellipse (apoapsis dwelling over the pole), a circular polar orbit, and an inclined-synchronous hybrid. The signature ledger derives the critical inclination first: Earth's 63.4349 deg is the first-order J2 solution of (5cos^2 i - 1)=0 and is planet-INDEPENDENT - the Mars-specific answer lives entirely in the higher-order field (J2^2, J3, J4). Propagating the full Mars zonal field numerically: the critical inclination of an e=0.60 Mars Tundra orbit is 63.379 deg - not the Earth number, and eccentricity-dependent (63.430 deg at e=0.30). The adjudication then retires that very orbit: two Tundra birds close only the NORTH cap (south cap 8.7% covered), both caps need three satellites minimum - and three circular polar birds in ONE plane close both caps 100%. A circular orbit has no line of apsides to drift, so the critical-inclination requirement dissolves. Final: 3 sats, circular, a = 20,428 km (same radius and period as the areo ring), i ~ 90 deg, single plane, 120 deg phasing.",
+      "specs": {
+        "轨道": "圆极轨 a=20,428 km · i≈90° · e=0",
+        "周期": "24h 37m(与静止环同,1 火星恒星日)",
+        "星座": "3 星 · 单平面 · 120° 相位",
+        "火星临界倾角(招牌数)": "63.379°(e=0.60;J2+J3+J4 全场)≠ 地球 63.4349°",
+        "抄地球数的代价": "拱线漂移仅 −0.049°/yr(账比数字更值钱)",
+        "裁决": "2 颗只闭北帽;双帽最少 3 颗 → 圆轨胜出"
+      },
+      "specs_en": {
+        "Orbit": "circular polar, a=20,428 km, i~90 deg, e=0",
+        "Period": "24h 37m (1 Mars sidereal day, same as the areo ring)",
+        "Constellation": "3 sats, single plane, 120 deg phasing",
+        "Mars critical inclination": "63.379 deg (e=0.60; full J2+J3+J4) != Earth's 63.4349",
+        "Cost of copying Earth's number": "apsidal drift only -0.049 deg/yr",
+        "Adjudication": "2 sats close one cap only; both caps need 3 -> circular wins"
+      },
+      "physics": "临界倾角的物理:J2 扁率势使拱线以 ∝(5cos²i−1) 的速率进动,63.43° 是它的普适零点——这个一阶解不含 J2 本身,所以任何行星都一样。行星个性从二阶进来:J2² 的耦合项与 J4、J3 的直接项各带 (R/p)² 因子,火星 J2 是地球的 1.8 倍、J4 是 9.5 倍,把零点往下推了 0.056°。偏心率依赖是二阶解的正身证明:一阶解与 e 无关。",
+      "physics_en": "The physics of the critical inclination: the J2 oblateness potential precesses the line of apsides at a rate proportional to (5cos^2 i - 1), and 63.43 deg is its universal zero - the first-order solution does not contain J2 itself, hence identical for every planet. Planetary identity enters at second order: J2^2 coupling terms plus direct J3/J4 terms, each carrying (R/p)^2 factors. Mars's J2 is 1.8x Earth's and its J4 is 9.5x, pushing the zero down by 0.056 deg. The eccentricity dependence is the fingerprint of a genuine second-order result - the first-order zero is e-independent.",
+      "sim": [
+        "s01(scipy DOP853 全带谐传播,已知答案闸 3 道全绿):地球闪电轨道 J2-only 复现 63.4253°(理论 63.4349,差值即 J2² 自耦合);火星 J2-only 复现 63.4307°(证明偏移是高阶物理不是数值误差);轴对称场下 Lz 守恒 6×10⁻¹⁰",
+        "s02 覆盖裁决(与静止环同口径 10° 仰角):tundra2N 北帽 100%/南帽 8.7%(最坏空窗 11.25 h);circ2 双帽 74.8%(空窗 4.1 h);circ3 双帽 100% 零空窗;3 颗 63.4° 圆轨也闭合——i 在 64°–90° 间不敏感,取 90° 为南北对称 + 升交点零漂"
+      ],
+      "sim_en": [
+        "s01 (scipy DOP853 full-zonal propagation, 3 known-answer gates green): Earth Molniya J2-only reproduces 63.4253 deg (theory 63.4349; the gap IS the J2^2 self-coupling); Mars J2-only reproduces 63.4307 (proving the shift is higher-order physics, not numerics); Lz conserved to 6e-10 under the axisymmetric field",
+        "s02 coverage adjudication (same 10-deg mask as the areo ring): tundra2N north cap 100% / south cap 8.7% (worst gap 11.25 h); circ2 both caps 74.8% (gaps 4.1 h); circ3 both caps 100%, zero gaps; three birds at i=63.4 circular ALSO close - inclination is insensitive across 64-90 deg, 90 chosen for N-S symmetry plus zero nodal drift"
+      ]
+    },
+    {
+      "id": "ka",
+      "label": "极帽覆盖与用户链路",
+      "label_en": "Cap coverage & user link",
+      "range": 30,
+      "detail": "Ø3 m Ka/X 双轴用户天线。静止环的用户永远悬在同一个方向,极轨星的用户却从脚下滑过——所以这面碗装在双轴万向架上追人。覆盖账:双极帽(|纬度|≥71°)全天 100%,71° 盲区边界上保证仰角 19.2°,极点 21.1°;顺带把 ≥45° 纬度全境都保到 ≥10° 仰角。链路几何的共构红利:圆轨半径与静止环相同,到极帽边缘的最大斜距 19,570 km ≈ 静止环覆盖边缘的 19,565 km——用户链路预算原样继承 com-relay-01,天线、行波管、速率档一个都不用重开账。",
+      "detail_en": "A 3 m two-axis Ka/X user dish. An areostationary bird's users hang forever in one direction; a polar bird's users slide past beneath it - hence the gimbal that chases them. The coverage ledger: both polar caps (|lat| >= 71 deg) covered 100% of the sol, with 19.2 deg guaranteed elevation at the 71-deg blind-zone edge and 21.1 deg at the pole; as a bonus the whole >=45 deg latitude band gets >=10 deg elevation. The commonality dividend of the geometry: same orbit radius as the areo ring means the max slant range to the cap edge is 19,570 km vs the ring's 19,565 km coverage-edge slant - the user link budget is inherited from com-relay-01 unchanged: same dish, same TWTA, same rate ladder.",
+      "specs": {
+        "口径": "Ø3 m Ka/X · 双轴万向",
+        "双帽覆盖(10° 仰角)": "100% · 零空窗(s02)",
+        "保证仰角": "71° 处 19.2° · 极点 21.1°",
+        "最大斜距": "19,570 km ≈ 静止环边缘 19,565 km",
+        "单跳时延": "68–65 ms(天底–帽缘)",
+        "链路预算": "原样继承 com-relay-01 用户链(同距离同口径)"
+      },
+      "specs_en": {
+        "Aperture": "3 m Ka/X, two-axis gimbal",
+        "Both-cap coverage (10 deg mask)": "100%, zero gaps (s02)",
+        "Guaranteed elevation": "19.2 deg at lat 71, 21.1 deg at the pole",
+        "Max slant range": "19,570 km ~ areo-ring edge 19,565 km",
+        "One-hop latency": "68-65 ms (nadir to cap edge)",
+        "Link budget": "inherited from com-relay-01 user link as-is (same range, same dish)"
+      },
+      "physics": "覆盖几何:半径 r 的星对 10° 仰角用户的可见圆半径 λmax = arccos((R/r)cos10°)−10° = 70.6°。极点要看见本星座的星,星下点纬度需 ≥19.4°;一颗星每圈有 141° 的相位段满足——120° 间隔 3 星首尾相接,2 星 180° 间隔留 39° 缺口。这就是「为什么是 3 颗」的全部几何:141° 与 120° 之差是 21° 相位裕度,还顺带吞掉了轨道摄动。",
+      "physics_en": "Coverage geometry: a satellite at radius r sees users above 10 deg elevation within a visibility circle of lambda_max = arccos((R/r)cos10) - 10 = 70.6 deg. For the pole to see a bird of this ring, the sub-satellite latitude must exceed 19.4 deg; each bird satisfies that over a 141-deg phase arc per orbit - three birds 120 deg apart chain seamlessly, two birds 180 deg apart leave 39-deg holes. That IS the whole geometry of 'why three': the 141-vs-120 margin of 21 deg also swallows orbit perturbation drift for free.",
+      "sim": [
+        "s02 已知答案闸:静止环 ±71°@10° 复现(单星覆盖边 70.6°);极点可见门限仿真 19.45° vs 解析 19.42°",
+        "s02 网格账:双帽 2°×10° 网格 × 30 s 步长全火星日扫描,最坏格点覆盖率 = 1.000;时延由斜距/c 直接给出"
+      ],
+      "sim_en": [
+        "s02 known-answer gates: areo ring +/-71 deg @10 deg mask reproduced (single-sat coverage edge 70.6 deg); pole-visibility threshold sim 19.45 vs analytic 19.42 deg",
+        "s02 grid ledger: both caps on a 2x10 deg grid at 30 s steps over a full sol - worst-cell coverage = 1.000; latency straight from slant/c"
+      ]
+    },
+    {
+      "id": "xlink",
+      "label": "与静止环的切换与回程",
+      "label_en": "Handover & backhaul to the areo ring",
+      "range": 30,
+      "detail": "Ø2.5 m 金网星间链路天线——与 com-relay-01 对地碟同一件产品,指向从地球换成静止环邻居。极区用户的数据在这里上干线:极轨星 → 静止环 → 对地 X 波段/光链路。切换账挖出一个先例口径的细节:静止环「±71° 连续覆盖」在星下点经度严格成立,但在两星接缝经度(距最近星下点 60°)上,10° 仰角的覆盖边只到纬度 48°,71° 处仰角已是 −0.2°(0° 仰角口径下才回到 70.6°)。本环把 ≥45° 纬度全境保证到 ≥10°,恰好把接缝弱区整个盖住——切换规则因此简单:谁仰角高听谁的,45°–71° 是双系统重叠带。",
+      "detail_en": "A 2.5 m gold-mesh inter-satellite dish - the same part as com-relay-01's Earth dish, repointed from Earth to its areostationary neighbors. Polar user data joins the trunk here: polar bird -> areo ring -> X-band/optical downlink. The handover ledger surfaced a subtlety in the precedent's claim: the areo ring's '+/-71 deg continuous coverage' holds exactly at sub-satellite longitudes, but at the seam longitudes (60 deg from the nearest bird) the 10-deg-mask edge sits at latitude 48 deg, and elevation at 71 deg is already -0.2 deg (only a 0-deg mask recovers 70.6). This ring guarantees >=10 deg everywhere above latitude 45 - which happens to blanket the whole seam weakness. The handover rule is therefore simple: take whichever system stands higher in the sky; 45-71 deg is the two-system overlap band.",
+      "specs": {
+        "星间天线": "Ø2.5 m 金网(与 com-relay-01 对地碟同件)",
+        "回程路径": "极轨星 → 静止环 → DTE/光链路",
+        "星间距离": "17,700–40,900 km(同半径异平面几何)",
+        "切换规则": "取仰角更高者 · 重叠带 45°–71°",
+        "静止环接缝(实测账)": "10° 口径边界 48° · 71° 处 −0.2°",
+        "本环保证": "≥45° 纬度全境 ≥10° 仰角"
+      },
+      "specs_en": {
+        "Crosslink dish": "2.5 m gold mesh (same part as com-relay-01's Earth dish)",
+        "Backhaul path": "polar bird -> areo ring -> DTE/optical trunk",
+        "Inter-sat range": "17,700-40,900 km (same radius, crossed planes)",
+        "Handover rule": "take the higher elevation; overlap band 45-71 deg",
+        "Areo seam (measured)": "10-deg-mask edge at lat 48; -0.2 deg elevation at lat 71",
+        "This ring guarantees": ">=10 deg elevation everywhere above lat 45"
+      },
+      "physics": "接缝几何:覆盖边不是纬线而是以星下点为心的球冠圆。单星覆盖半径 70.6°,三星星下点相距 120°,接缝方向离最近星下点 60°——球面勾股 cos70.6° = cos(lat)·cos60° 给出接缝纬度边 48.4°。两个「71」的巧合:星下点经度上 10° 仰角到 71°,接缝经度上 0° 仰角也到 70.6°——先例卡的数字在两种口径下各自成立,只是没写口径。",
+      "physics_en": "Seam geometry: a coverage edge is not a latitude line but a spherical cap centered on the sub-satellite point. Single-bird radius 70.6 deg, sub-satellite points 120 deg apart, the seam direction 60 deg from the nearest bird - the spherical Pythagoras cos70.6 = cos(lat) x cos60 yields a 48.4-deg seam edge. The coincidence of two '71's: at sub-satellite longitude, the 10-deg mask reaches 71; at seam longitude, a 0-deg mask also reaches 70.6 - the precedent card's number is true under each convention separately; it just never named the convention.",
+      "sim": [
+        "s02 切换扫描:纬度 45°–90° × 36 经度 × 全火星日,极轨保证仰角(时间最小·经度最坏)对静止环最坏/最好经度仰角逐纬度对表",
+        "s02:切换仰角建议 10°(与静止环同口径),71° 边界上极轨余量 +9.2°,不存在降级切换"
+      ],
+      "sim_en": [
+        "s02 handover scan: latitude 45-90 x 36 longitudes x full sol; polar guaranteed elevation (time-min, worst longitude) tabulated against areo best/worst-longitude elevation per latitude",
+        "s02: recommended handover mask 10 deg (same as the areo ring); at the 71-deg edge the polar ring holds +9.2 deg margin - no degraded handover exists"
+      ]
+    },
+    {
+      "id": "uhf",
+      "label": "极区用户段(UHF 近程链)",
+      "label_en": "Polar user segment (UHF proximity)",
+      "range": 25,
+      "detail": "+Z 甲板上的两支四臂螺旋 UHF 天线。极区的用户不是城市,是小站:极冠冰层钻探站、自主探冰车、季节性 CO₂ 霜线监测桩——巴掌大的电台,没有跟踪天线,竖一根鞭状天线就要能上网。UHF 近程链(Electra 体制的火星传统)专为它们而设:400 MHz、低增益宽波束、自适应 8–2048 kbps,过顶即通,由本星汇聚后走 Ka 干线回城。这是「补盲」的另一半含义:不只是让极区被看见,是让极区最小的用户也说得上话。",
+      "detail_en": "Two quadrifilar-helix UHF antennas on the +Z deck. Polar users are not cities but small stations: cap-ice drilling posts, autonomous ice prospectors, seasonal CO2 frost-line monitoring pylons - palm-sized radios with no tracking dish, needing connectivity from a whip antenna. The UHF proximity link (Mars's Electra tradition) exists exactly for them: 400 MHz, low-gain wide beam, adaptive 8-2048 kbps, connected whenever a bird is overhead, aggregated here and trunked home on Ka. This is the other half of what 'gap-filler' means: not just making the poles visible, but letting the poles' smallest users speak.",
+      "specs": {
+        "天线": "四臂螺旋 ×2 · 400 MHz 近程链",
+        "用户": "冰钻站/探冰车/霜线监测桩(鞭状天线级)",
+        "速率": "自适应 8–2048 kbps(Electra 体制)",
+        "可见性": "极帽内任意时刻 ≥1 星过顶(s02)",
+        "汇聚": "UHF 上行 → 星上存储 → Ka 干线回城"
+      },
+      "specs_en": {
+        "Antennas": "2x quadrifilar helix, 400 MHz proximity link",
+        "Users": "ice-drill posts / prospecting rovers / frost pylons (whip-antenna class)",
+        "Rate": "adaptive 8-2048 kbps (Electra protocol family)",
+        "Visibility": "always >=1 bird over the cap (s02)",
+        "Aggregation": "UHF up -> onboard store -> Ka trunk to the city"
+      },
+      "physics": "为什么小用户给 UHF 不给 Ka:无跟踪天线的用户只有 0 dBi 全向增益,链路只能靠波长赎回——FSPL ∝ f²,400 MHz 比 32 GHz 低 38 dB,恰好抵掉高增益天线的缺席。代价是带宽窄(几 MHz 谱段),所以这条链永远是 kbps 量级——它不送科学数据洪流,送的是「活着、坐标、要不要人来」。",
+      "physics_en": "Why small users get UHF, not Ka: a user with no tracking dish has ~0 dBi of omni gain, and the link must be redeemed by wavelength - FSPL scales with f^2, so 400 MHz sits 38 dB below 32 GHz, almost exactly refunding the absent high-gain antenna. The price is bandwidth (a few MHz of spectrum), which is why this link lives forever at kbps - it does not carry the science flood; it carries 'alive, position, send help or not'.",
+      "sim": [
+        "覆盖直接继承 s02 双帽 100% 账(UHF 波束宽于 Ka,覆盖为 Ka 账的下界之上)",
+        "38 dB 波长红利 = 20log(32000/400),与 MRO/Electra 近程链体制同族对标"
+      ],
+      "sim_en": [
+        "Coverage inherits the s02 both-caps-100% ledger directly (the UHF beam is wider than Ka, so Ka's account is the conservative bound)",
+        "The 38 dB wavelength dividend = 20log(32000/400), anchored against the MRO/Electra proximity-link family"
+      ]
+    },
+    {
+      "id": "skeep",
+      "label": "轨道维持",
+      "label_en": "Orbit maintenance",
+      "range": 25,
+      "detail": "同周期不同命:静止环的星被 Tharsis 三轴性锁在经度槽位里,最坏槽位年缴 33 m/s;本环虽然同样是共振周期(田谐共振对倾角不豁免,i=90° 下仍有 3.7–7.7 m/s/yr 的绝对漂移力),但极帽覆盖对经度全盲——本环不持有任何经度槽位,唯一要保的是三星 120° 相位,账单只剩相对漂移差 ~4.4 m/s/yr。升交点在 i=90° 处不进动(dΩ/dt ∝ cos i = 0),太阳第三体的缓慢倾角漂移直接吞下:i 在 64°–90° 间覆盖闭合不变(s02),十五年不用为它点火。15 年 ΔV 预算 111 m/s,推进剂 63 kg——静止环同期最坏槽位的约 1/5。",
+      "detail_en": "Same period, different fate: the areo ring's birds are locked into longitude slots by the Tharsis triaxiality, paying up to 33 m/s per year at the worst slot. This ring shares the resonant period (the tesseral resonance grants no inclination exemption - 3.7-7.7 m/s/yr of absolute drift force remains at i=90), but cap coverage is longitude-blind: this ring holds NO longitude slot, and the only thing to keep is the 120-deg three-bird phasing, so the bill shrinks to the differential drift, ~4.4 m/s/yr. The ascending node does not precess at i=90 (dOmega/dt ~ cos i = 0), and the Sun's slow third-body inclination drift is simply swallowed: coverage stays closed for any i between 64 and 90 deg (s02), so no burns for it in fifteen years. The 15-yr dV budget is 111 m/s, 63 kg of propellant - about one fifth of the areo ring's worst slot over the same period.",
+      "specs": {
+        "田谐共振(i=90°)": "绝对漂移力 3.7–7.7 m/s/yr(经度/相位相关)",
+        "实际账单": "相位维持 ~4.4 m/s/yr(不持槽位,只保 120°)",
+        "升交点": "i=90° 零进动 · 太阳致倾角漂移直接接受",
+        "15 年 ΔV": "111 m/s(相位 66 + 入轨修正 25 + 离轨 20)",
+        "推进剂": "63 kg(双组元,与静止环同系统)",
+        "对照": "静止环最坏槽位 33 m/s/yr(闸门复现 33.0)"
+      },
+      "specs_en": {
+        "Tesseral resonance (i=90)": "absolute drift force 3.7-7.7 m/s/yr (phase-dependent)",
+        "Actual bill": "phasing upkeep ~4.4 m/s/yr (no slot held, only the 120 deg)",
+        "Node": "zero precession at i=90; solar inclination drift accepted as-is",
+        "15-yr dV": "111 m/s (phasing 66 + injection trim 25 + disposal 20)",
+        "Propellant": "63 kg (biprop, same system as the areo ring)",
+        "Anchor": "areo worst slot 33 m/s/yr (gate reproduced at 33.0)"
+      },
+      "physics": "田谐力对倾角的折扣:C22/S22 势对 (2,2,0) 项的倾角函数 ∝ (1+cos i)²,i=90° 时缩到赤道值的 1/4——共振没消失,只是变弱。真正省钱的不是物理是需求:位保费用 = 漂移力 × 你非要待的地方。静止用户的天线钉死在一个方位上,槽位就是产品;极帽用户仰头看的是「头顶有没有星」,经度是自由变量。同一颗行星的同一个引力场,对两种需求开出 5 倍价差。",
+      "physics_en": "The inclination discount on the tesseral force: the (2,2,0) inclination function of the C22/S22 potential scales as (1+cos i)^2, shrinking to 1/4 of the equatorial value at i=90 - the resonance does not vanish, it weakens. But the real savings are not physics, they are requirements: station-keeping cost = drift force x the place you insist on staying. An areostationary user's antenna is bolted toward one azimuth, so the slot IS the product; a cap user just needs A bird overhead, and longitude is a free variable. The same gravity field of the same planet bills the two requirements five-fold apart.",
+      "sim": [
+        "s05(J2+C22/S22 旋转场传播,30 d 弧段拟合相位加速度;方法承 com-relay stationkeep.py,其地球 GEO 闸 1.76 vs 教科书 1.7–2 已过):已知答案闸 i=0 最坏经度复现 33.0 m/s/yr",
+        "s05 扫描:升交点经度 × 初始相位 4×4 阵,i=90° 绝对值 3.68–7.71,三相位差分(相位账)0/90° 节点下 4.45/4.25 m/s/yr"
+      ],
+      "sim_en": [
+        "s05 (J2 + rotating C22/S22 propagation, 30 d arcs, quadratic phase fit; method inherited from com-relay stationkeep.py whose Earth-GEO gate 1.76 vs textbook 1.7-2 already passed): known-answer gate at i=0 worst longitude reproduces 33.0 m/s/yr",
+        "s05 scan: 4x4 grid of node longitude x initial phase; absolute values 3.68-7.71 at i=90; three-slot differential (the phasing bill) 4.45/4.25 m/s/yr at node 0/90"
+      ]
+    },
+    {
+      "id": "swx",
+      "label": "空间天气搭载包",
+      "label_en": "Space-weather hosted package",
+      "range": 25,
+      "detail": "斜伸出去的悬臂杆尖上那枚金色方块是磁强计,天顶甲板的双筒是能量粒子谱仪——MAVEN 血统的精简搭载包,14 kg / 10 W,干重的 1.1%。开账前先校正一个假设:请求按大椭圆轨道设想「近火点穿电离层」,但裁决定版是 20,428 km 圆轨——没有近火点,原位电离层采样不存在(电离层输入改由星间链路掩星副产品承接,见交接册)。圆轨真正给的采样:全轨道在 6 R♂ 高度,晨昏季整圈泡在上游太阳风里,午夜季每圈 29.5% 扫过磁鞘与磁尾,三星 120° 相位保证任意时刻 ≥2 颗在上游——一套常驻的太阳风监视网,顺带每季两次穿越弓激波与磁尾做二点同时采样。SEP 预警的实账:粒子对全城「零提前量」(哨兵与城在同一处),真正的预警来自速度弥散——1.99 AU 磁力线上 100 MeV 质子 39 min 到、10 MeV 主通量 114 min 到,警报拉响到剂量峰值之间有 **~76 min** 的可动作窗口(EVA 撤收、巡视器归舱),与 com-l4-01 日冕仪的 1–3 天 CME 结构预报接成两级预警链。",
+      "detail_en": "The gold cube on the leaning boom tip is the magnetometer; the twin tubes on the zenith deck are the energetic-particle spectrometer - a MAVEN-heritage slim package, 14 kg / 10 W, 1.1% of dry mass. First, an assumption correction: the request imagined the elliptical option's 'periapsis dipping through the ionosphere', but the adjudicated orbit is circular at 20,428 km - there is no periapsis, and in-situ ionospheric sampling does not exist (ionospheric input is instead served by the crosslink occultation by-product; see the handoff). What the circular orbit actually samples: the whole orbit rides at 6 Mars radii - in the dawn-dusk season it soaks in upstream solar wind all the way around, in the noon-midnight season 29.5% of each orbit sweeps the magnetosheath and tail, and the 120-deg phasing keeps >=2 birds upstream at all times: a standing solar-wind monitoring net, with two-point simultaneous bow-shock/tail crossings twice a season for free. The honest SEP-warning ledger: the particles grant the city ZERO lead time (sentinel and city sit in the same place); the real warning is velocity dispersion - along the 1.99 AU field line, 100 MeV protons arrive in 39 min and the 10 MeV main flux in 114 min, leaving ~76 minutes of actionable window between alarm and dose peak (EVA recall, rover shelter), chained with com-l4-01's coronagraph 1-3 day CME forecasts into a two-tier warning system.",
+      "specs": {
+        "载荷": "磁强计(1.8 m 悬臂杆)+ 能量粒子谱仪 + 共用 DPU",
+        "质量/功率": "14 kg / 10 W(干重 +1.1% · 功率 +0.2%)",
+        "采样(圆轨实况)": "晨昏季 100% 上游太阳风 · 午夜季 29.5%/圈 磁鞘+磁尾",
+        "星座保证": "任意时刻 ≥2 星在上游(三星 120°)",
+        "SEP 预警窗": "~76 min(速度弥散:100 MeV 39 min vs 10 MeV 114 min)",
+        "悬臂杆对账 5": "力矩 1e-7 N·m 级,卸载 ΔV 0.006 m/s/yr——维持预算不动",
+        "真实代价": "磁洁净工程(整星双绞线/电流回路补偿),不是质量"
+      },
+      "specs_en": {
+        "Payload": "fluxgate MAG (1.8 m boom) + energetic-particle spectrometer + shared DPU",
+        "Mass/power": "14 kg / 10 W (+1.1% dry, +0.2% power)",
+        "Sampling (circular-orbit reality)": "dawn-dusk season 100% upstream solar wind; noon-midnight 29.5% per orbit in sheath+tail",
+        "Constellation guarantee": ">=2 birds upstream at all times (3 x 120 deg)",
+        "SEP warning window": "~76 min (velocity dispersion: 100 MeV in 39 min vs 10 MeV in 114)",
+        "Boom vs ledger 5": "1e-7 Nm-class torques, 0.006 m/s/yr dump dV - maintenance budget unchanged",
+        "The real cost": "a magnetic-cleanliness program on a comms bus (twisted pairs, loop compensation), not mass"
+      },
+      "physics": "速度弥散预警的物理:同一事件的质子沿同一条帕克螺旋线跑,相对论运动学给 β(100 MeV)=0.428、β(10 MeV)=0.145——能谱前锋是闹钟,主通量是洪水,时间差就是撤离窗口。磁强计要上杆的原因:通信母舱的行波管电流与太阳翼回路在星体处造出的杂散场远大于行星际场(~nT 级),磁场测量买的是距离的立方衰减。三个城内用户各取所需:sci-radio-01 拿电离层状态(掩星通道)、sci-rad/EVA 拿 76 min 警报、sci-pan-01 与本包互补——它是高精度低几何因子的磁谱仪(成分与 GeV 级能谱,静止环上),本包是大几何因子快节奏的通量监视器(keV–100 MeV,报警级),一个做科学一个拉警报,不重复。",
+      "physics_en": "The physics of dispersion warning: protons of one event ride the same Parker spiral, and relativistic kinematics gives beta(100 MeV)=0.428 vs beta(10 MeV)=0.145 - the spectral front is the alarm clock, the main flux is the flood, and the gap between them is the evacuation window. Why the magnetometer needs a boom: the TWTA currents and wing loops of a comms bus produce stray fields at the body far exceeding the ~nT interplanetary field; a boom buys cube-law falloff. Three city users, three different products: sci-radio-01 takes ionospheric state (via the occultation channel), sci-rad/EVA takes the 76-minute alarm, and sci-pan-01 complements this package - it is a high-precision low-geometry-factor magnetic spectrometer (composition and GeV-class spectra, on the areo ring) while this is a high-geometry-factor fast-cadence flux monitor (keV-100 MeV, alarm-grade): one does science, one rings bells; no duplication.",
+      "sim": [
+        "s07 已知答案闸 3 道:弓激波锥模型日下点驻点 1.64 R♂(文献 1.6–1.7);10 MeV 质子 β=0.145(相对论恒等式);包质量/功率落 MAVEN 类比量级带(整套粒子场 ~35 kg 的精简子集)",
+        "s07 采样账:轨道圆 × Vignes 型锥面逐相位判入;帕克线长 1.99 AU(400 km/s 风)数值积分;悬臂杆重力梯度+光压力矩逐项 → 账 5 判定不动"
+      ],
+      "sim_en": [
+        "s07 known-answer gates x3: conic bow-shock subsolar standoff 1.64 R_M (literature 1.6-1.7); 10 MeV proton beta = 0.145 (relativistic identity); package mass/power inside the MAVEN-analog decade (a slim subset of the ~35 kg full particles-and-fields suite)",
+        "s07 sampling ledger: orbit circle vs Vignes-type conic, phase-by-phase membership; Parker line length 1.99 AU (400 km/s wind) by numerical integration; boom gravity-gradient + SRP torques item-by-item -> ledger 5 ruled unchanged"
+      ]
+    },
+    {
+      "id": "solar",
+      "label": "平台共构与质量账",
+      "label_en": "Platform commonality & mass",
+      "range": 35,
+      "detail": "com-relay-01 平台的改型,不是新平台:逐行质量账 90.2% 与静止环中继星同件——同一副 36 m² 太阳翼(同样的星蚀瞬态热容账)、同一个 1.8 m 舱段、同一套 4 mm 铝屏蔽(同高度同辐射环境,Geant4 账直接继承)、同一族反应轮/星敏/推进。改动只有天线甲板与一件搭载:双 3 m 天底碟换成 1×3 m 双轴用户碟 + 1×2.5 m 星间碟(后者本身就是中继星对地碟的同件)+ UHF 螺旋对,外加 14 kg 空间天气搭载包(swx 卡)。单星湿重 1303 kg(含 14 kg 空间天气搭载包,s07),三星星座 3.91 t。对 26 个月会合周期备件账的意义:极轨三星与静止环 3+1 共用同一个备件池,不新开任何备件族——一颗备份星能顶两个星座的坑。",
+      "detail_en": "A variant of the com-relay-01 platform, not a new one: line-by-line, 90.2% of the mass budget is the same part as the areostationary relay - the same 36 m2 solar wing (same eclipse-transient heat-capacity ledger), the same 1.8 m bus section, the same 4 mm Al shielding (same altitude, same radiation environment, Geant4 account inherited), the same reaction-wheel/star-tracker/propulsion families. Only the antenna deck (plus one hosted package) changes: the twin 3 m nadir dishes become one 3 m two-axis user dish plus one 2.5 m crosslink dish (itself the same part as the relay's Earth dish) plus the UHF helix pair, plus the 14 kg space-weather package (see the swx card). 1303 kg wet per bird (incl. the 14 kg space-weather package, s07), 3.91 t for the ring of three. What this means for the 26-month synodic spares account: the polar three share ONE spares pool with the areo ring's 3+1 - no new spares family opens, and a single spare bird can fill a hole in either constellation.",
+      "specs": {
+        "共构件率(逐行质量加权)": "90.2%",
+        "单星质量": "干重(含 20% 裕度)1241 kg · 湿重 1303 kg",
+        "星座总湿重": "3,909 kg(3 星)",
+        "功率": "EOL 5.4 kW(同翼同账)",
+        "星蚀": "极轨平面季节性,最长同量级(~78 min)· 同电池",
+        "备件结论": "与静止环共池 · 零新增备件族"
+      },
+      "specs_en": {
+        "Commonality (mass-weighted, line-by-line)": "90.2%",
+        "Per-bird mass": "1241 kg dry (20% margin incl.), 1303 kg wet",
+        "Constellation wet": "3,909 kg (3 birds)",
+        "Power": "5.4 kW EOL (same wing, same ledger)",
+        "Eclipses": "seasonal in a polar plane, same-order max (~78 min), same battery",
+        "Spares verdict": "shared pool with the areo ring, zero new spares families"
+      },
+      "physics": "共构不是口号是几何:两个星座同半径(20,428 km),于是链路距离、辐射剂量深度曲线、热环境、星蚀最长时长全部落在同一张先例账里——平台的每一个子系统都被同一组物理量定尺寸,尺寸相同就是同件。差异被物理压缩到唯一的真差点:用户在哪个方向。这就是为什么改型只动天线甲板。",
+      "physics_en": "Commonality is not a slogan, it is geometry: both constellations share one radius (20,428 km), so link ranges, the radiation dose-depth curve, the thermal environment and the maximum eclipse length all land on the same precedent ledgers - every subsystem of the platform is sized by the same physical quantities, and same sizing means same part. Physics compresses the difference down to the single real delta: which direction the users are. That is why the variant touches only the antenna deck.",
+      "sim": [
+        "s06(承 mars-com-relay mass_budget 逐行缩放;记账闸:先原样重建中继星 1265.3/1361.9 kg 再动手):共构率 = 与先例完全同值行的质量占比",
+        "ΔV 输入取 s05(111 m/s),火箭方程 Isp 230 s → 推进剂 63 kg;功率/星蚀继承中继星 COMSOL 瞬态账,不重解"
+      ],
+      "sim_en": [
+        "s06 (line-by-line scaling of the mars-com-relay mass_budget; bookkeeping gate: the relay itself is rebuilt to 1265.3/1361.9 kg before anything is touched): commonality = mass share of lines identical to the precedent",
+        "dV input from s05 (111 m/s), rocket equation at Isp 230 s -> 63 kg propellant; power/eclipse inherited from the relay's COMSOL transient ledger, not re-solved"
+      ]
+    }
+  ]
+}

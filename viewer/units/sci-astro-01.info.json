@@ -1,0 +1,499 @@
+{
+  "id": "sci-astro-01",
+  "pois": [
+    {
+      "id": "why",
+      "label": "耶泽罗为什么值得",
+      "label_en": "Why Jezero is worth a city",
+      "range": 22,
+      "detail": "这座城建在这里，因为这里是 38 亿年前的古湖三角洲、毅力号的采样地——但此前全城 66 个资产没有一个回答「我们在这里找什么」。天体生物学实验室补的是城的科学初心，不是又一台仪器。三角洲把湖相细粒迅速埋住，有机质的保存偏置是地质给的，不是仪器给的；毅力号已经把露头地址写在管子上。管子最终进的就是这座库。",
+      "detail_en": "The city is here because this was a lake-delta 3.8 billion years ago, and because Perseverance sampled it — yet none of the city's 66 assets answered 'what are we looking for here'. This laboratory is the city's scientific reason for being, not another instrument. The delta buried lacustrine fines fast: the preservation bias for organics is geological, not instrumental. Perseverance already wrote the outcrop address on the tubes. The library they enter is this one.",
+      "specs": {
+        "湖龄": "~3.8 Ga（Noachian 西三角洲）",
+        "保存偏置": "快速掩埋的湖相底积 / 前积黏土与碳酸盐",
+        "毅力号图幅内轨迹": "Sol 13–707；现车 Sol 1947 在图幅外 11.9 km",
+        "最近途经": "Sol 200，距居住质心 347 m"
+      },
+      "specs_en": {
+        "Lake age": "~3.8 Ga (Noachian western delta)",
+        "Preservation bias": "rapidly buried lacustrine bottomsets / foreset clays and carbonates",
+        "In-tile Perseverance traverse": "Sol 13–707; rover now Sol 1947, 11.9 km off-tile",
+        "Closest approach": "Sol 200, 347 m from the hab centroid"
+      },
+      "sim": [
+        "立项理由不是灵敏度：城里已有冷冻电镜、深地氙、射电阵、火震网，唯独没有人回答「古湖里有没有过生命」。",
+        "叙事闭环：任务图层是实时真数据（data/mission）。管子在图幅内轨迹上被封，在交接坪被接收，在半埋库被留存——不走 COSPAR V 限制性地球返回，城已在采样点，样品在本地走 restricted sample handling。"
+      ],
+      "sim_en": [
+        "The reason this building exists is not sensitivity: the city already has cryo-EM, a xenon TPC, a radio array and a seismic net, and nobody had answered whether the palaeolake ever hosted life.",
+        "Narrative closure: the mission layer is live data (data/mission). Tubes sealed on the in-tile traverse are received on this pad and kept in this vault — they do not fly a COSPAR Category V restricted Earth return; the city is already at the sampling site, and the samples stay in local restricted sample handling."
+      ],
+      "physics": [
+        "三角洲前积层是一场被冻结的搬运：河流把流域的有机碳和细粒黏土一起卸在静水里，掩埋速率压过氧化与辐射花园的浅层破坏。这是选址，不是仪器指标。"
+      ],
+      "physics_en": [
+        "A delta foreset is transport frozen in place: a river dumps catchment organic carbon together with clay into standing water, and burial outruns oxidation and the shallow radiation garden. That is a siting argument, not an instrument specification."
+      ]
+    },
+    {
+      "id": "siting",
+      "label": "选址与污染物理",
+      "label_en": "Siting and contamination physics",
+      "range": 20,
+      "detail": "桅杆测的是殖民区吹过来的孢子，不是气象。头是开口进气加滤盒，不是 ISO 5 青灯——3520 /m³ 是舱规，10 m 开外是 610 Pa。这是 COSPAR IV 正向污染的源项账：115 人的生物负载经壳体泄漏、气闸、温室、堆肥四条通道排出；加 HEPA 后 98% 的残余来自不可过滤的壳体+气闸，只能靠距离和方位。夜间排水流吹向 WNW，那是最危险的下游——夜间没有紫外线。桅杆不另报一个 CFU；达闸仍是 283 m。",
+      "detail_en": "The mast measures spores blowing from the colony, not weather. The head is an inlet plus a cassette, not an ISO 5 cyan lamp — 3520 /m³ is a cabin spec, and 10 m up is 610 Pa. This is the COSPAR Category IV forward-contamination source term: bioburden from 115 people leaves by hull leak, airlock, greenhouse and compost; after HEPA, 98% of what remains is the unfilterable hull+airlock, so only distance and azimuth remain. Night drainage blows toward WNW — that is the dangerous downwind, and at night there is no UV. The mast does not invent a CFU; the gate stays 283 m.",
+      "specs": {
+        "COSPAR": "IV 着陆/城（正向）；样品本地按 V 限制性处理、不返回地球",
+        "源项裸排 / 加 HEPA": "22.9 / 0.121 CFU/s（削减 190×）",
+        "沉降闸": "COSPAR IV 300 spores/m² 的 10% ÷ 20 火星年 = 1.50 /m²/yr",
+        "下游 WNW 达闸": "裸排 6.4 km · HEPA 283 m",
+        "侧风 NNE/SSW 达闸": "HEPA 67 m（相对下游省 4.2×）",
+        "洁净规格锚": "毅力号总生物负荷 ≤5×10⁵ 孢子",
+        "桅杆": "开口进气+滤盒+泵。不是 ISO 5。不发明 CFU"
+      },
+      "specs_en": {
+        "COSPAR": "Cat. IV lander/city (forward); samples handled locally as Cat. V restricted, no Earth return",
+        "Source raw / with HEPA": "22.9 / 0.121 CFU/s (190× cut)",
+        "Deposition gate": "10% of COSPAR IV 300 spores/m² ÷ 20 Mars years = 1.50 /m²/yr",
+        "Downwind WNW to gate": "raw 6.4 km · HEPA 283 m",
+        "Crosswind NNE/SSW to gate": "HEPA 67 m (4.2× shorter than downwind)",
+        "Cleanliness spec": "Perseverance total bioburden ≤5×10⁵ spores",
+        "Mast": "Inlet + cassette + pump. Not ISO 5. No CFU invented"
+      },
+      "sim": [
+        "账 1（l1_siting.py）：定址数字是 HEPA 下游 283 m，不是漂亮的侧风 67 m。方位买的是余量（年均 17×），不是把实验室塞进后院的许可证。风玫瑰 25% 各向同性背景把「中心线 30 个数量级」变成幻觉。",
+        "堆肥 HEPA 是行星保护设备：去掉它，下游要 6.4 km。距离补不回过滤。已报 res-recycle-01：堆肥排气 HEPA 不是除臭。",
+        "UV 在 1 km 内昼间只削 2–3×，夜间为 1。城市尺度上「火星紫外线自净」不成立。",
+        "再悬浮：起沙阈值 10 m 风速 35 m/s，常态 5–10 m/s 搬不动已沉降孢子。交接坪硬化面 + 防尘裙是为尘卷风准备的，不改选址。",
+        "账 45（l45_mast.py）4 闸全绿。G45-1：ISO 5 是舱规，不是 10 m × 610 Pa。G45-2：封闭钢筒采不了样。G45-3：开口+滤盒+泵，青灯撤回。G45-4：283 m 不改，不发明桅杆 CFU。上一轮青灯当计数器，撤回。"
+      ],
+      "sim_en": [
+        "Ledger 1 (l1_siting.py): the siting number is 283 m downwind with HEPA, not the pretty 67 m crosswind. Azimuth buys margin (17× annual), not a licence to sit in the city's yard. A 25% isotropic wind-rose background makes a '30-order centreline Gaussian' a hallucination.",
+        "Compost HEPA is planetary-protection hardware: without it, downwind needs 6.4 km. Distance cannot replace filtration. Flagged to res-recycle-01: that HEPA is not an odour control.",
+        "UV cuts only 2–3× by day inside 1 km, and nothing at night. 'Mars UV will sterilise it' is false at city scale.",
+        "Resuspension: the saltation threshold is 35 m/s at 10 m; ambient 5–10 m/s cannot lift settled spores. The hardened pad and dust skirt are for dust devils, and they do not change the siting.",
+        "Ledger 45 (l45_mast.py), 4/4 gates. G45-1: ISO 5 is a cabin spec, not 10 m × 610 Pa. G45-2: a closed can does not sample. G45-3: inlet + cassette + pump, cyan withdrawn. G45-4: 283 m stands, no mast CFU. Last round treated the cyan lamp as a counter; withdrawn."
+      ],
+      "physics": [
+        "火星 10 µm 载菌粒子 Kn=0.76，Cunningham 滑移 Cc=2.02，沉降 5.11 mm/s——比重力小 2.6× 的地球同粒子还快 1.29×，滑移赢了重力。Briggs 乡村 σ + 昼夜两套稳定度（昼 A / 夜 F）是保守的地球参数，火星昼间对流边界层更深、夜间逆温更强，不额外加成。桅杆不是 ISO 5。"
+      ],
+      "physics_en": [
+        "A 10 µm carrier particle on Mars has Kn=0.76, Cunningham slip Cc=2.02, and settles at 5.11 mm/s — 1.29× faster than the same particle on Earth despite 2.6× less gravity. Slip beats gravity. Briggs rural σ with day-A / night-F stability is a conservative terrestrial parameter set; the Martian convective boundary layer is deeper by day and the inversion stronger by night, and we do not add a bonus for that. The mast is not ISO 5."
+      ]
+    },
+    {
+      "id": "hvac",
+      "label": "洁净链（翼进核不出）",
+      "label_en": "Cleanliness chain (in, not out)",
+      "range": 16,
+      "detail": "主题是样品往里不往外的洁净链：地质样品与仪器的接口，按 COSPAR 正向/反向污染分成两套风。白翼走正向：ISO 级联从西墙人气闸起（8→7→6→5），把地球生物负载挡在 restricted sample 之外。尘膜不是级联：更衣/走廊地板不跟库混凝土和屋面共用漆。层流不是钢板：翼顶开口侧露出滤材褶，钢盖只是框架。白口不是采火星气：屋顶白筒是正压外泄（滤材+封盖），补气从西墙城侧。坪口不是气闸。城廊只出几米：对接环朝 −X，走出去不是到殖民区。暗青核走 containment chain：压差向内、排气双 HEPA。翼→前室→核是气流和人；开管后的残样走罐孔，不穿 2 m 人门、不沿任何风道出。单一体积相对自身的压差恒等于零——所以这不是一栋楼一个风柜，是两栋楼共享一面传递墙；三道密封门联锁最多开一道。那是人孔：2 g 钛罐走库侧双门传递窗，开管后的杯子走翼东残样窗进核，8 m 档案留在 219 K，保温廊不是样品滑梯。",
+      "detail_en": "The subject is a cleanliness chain that takes samples in and not out: the interface between geological samples and instruments, split by COSPAR forward vs back contamination into two air systems. The white wing is forward contamination: an ISO cascade that starts at the west people airlock (8→7→6→5) and keeps Earth bioburden out of the restricted sample. Dust film is not the cascade: gowning and hall floors do not share paint with vault concrete and the roof. Laminar flow is not a steel plate: the wing ceiling shows media on the cutaway edge; the lids are frames. The white roof stack is not a Mars scoop: it is a positive-pressure bleed through media, and makeup enters from the west city side. The pad mouth is not the airlock. The city corridor is only a few metres of stub: a docking ring faces −X; walking out is not arriving at the colony. The dark-teal core is the containment chain: inward ΔP, dual-HEPA exhaust. Wing → anteroom → core is air and people; after the tube is opened the residue takes a can, not the 2 m people door, and does not leave on any duct. The pressure difference of a volume with itself is identically zero — so this is not one clever air handler, it is two buildings sharing a transfer wall; three interlocked seals open at most one at a time. That lock is for people: a 2 g Ti can takes the vault-side passbox, cups take the east-wing waste window into the core, the 8 m archive stays at 219 K, and the warm corridor is not a sample chute.",
+      "specs": {
+        "舱内 / 舱外": "70 kPa / 700 Pa（两翼相对火星都是 +69.3 kPa）",
+        "压差（相对气闸）": "翼 +45 / 前室 0 / 核 −50 Pa",
+        "ISO 5 手套箱": "≥0.5 µm ≤3520 /m³",
+        "核容积 / 换气": "256 m³ / 12 ACH",
+        "排气 HEPA×2": "穿透 1×10⁻⁸",
+        "L2 传递窗": "双门 + 钛罐。2 g = 0.87 cm³。2.2 m 保温廊和 2 m 前室是人走的",
+        "L2 残样": "翼东罐孔进核。不穿三道人门。不是焚烧",
+        "L2 气闸": "西墙双门钢闸。城廊只出几米，对接环朝 −X。朝城不是走出去",
+        "L2 尘膜": "外壳蒙 5%。更衣/走廊/箱区不蒙。0.05 不是 CFU",
+        "L2 层流": "翼顶开口侧滤材褶。钢板不是 HEPA。不发明翼 ACH",
+        "L2 补气": "城廊 70 kPa。屋顶白筒是外泄不是 scoop"
+      },
+      "specs_en": {
+        "Cabin / outside": "70 kPa / 700 Pa (both wings are +69.3 kPa vs Mars)",
+        "ΔP vs airlock": "wing +45 / ante 0 / core −50 Pa",
+        "ISO 5 glovebox": "≥0.5 µm ≤3520 /m³",
+        "Core volume / ACH": "256 m³ / 12 ACH",
+        "Exhaust HEPA×2": "penetration 1×10⁻⁸",
+        "L2 passbox": "two doors + Ti can. 2 g = 0.87 cm³. The 2.2 m corridor and 2 m anteroom are for people",
+        "L2 residue": "East-wing can into the core. Not through three people doors. Not an incinerator",
+        "L2 airlock": "West two-door steel lock. City stub a few metres, docking ring −X. Facing the city is not walking out",
+        "L2 dust": "Cladding 5%. Gowning / hall / boxes undusted. 0.05 is not CFU",
+        "L2 laminar": "Wing ceiling media on the cutaway edge. A steel lid is not HEPA. No wing ACH invented",
+        "L2 makeup": "City stub 70 kPa. White roof stack is bleed, not a scoop"
+      },
+      "sim": [
+        "账 2（l2_hvac.py）4 闸全绿。G2-4 是一句同义反复，它禁止的是「一栋楼一个风柜」。",
+        "「正压/负压」只相对邻室有意义。相对火星，两翼都是高压舱。气闸才是对火星的界面；样品核不对火星开门、无窗——破口工况 70→0.7 kPa 气流向外，HVAC 救不了，靠结构。",
+        "正向污染的样品侧天花板是毅力号自己的洁净规格 ≤5×10⁵ 孢子：实验室能做的不是比它更干净，是开管时不比它更脏。",
+        "账 35（l35_passbox.py）4 闸全绿。G35-1：2 g = 0.87 cm³ = 一根 8 m 芯的 5.54e-5；档案留库。G35-2：保温廊 1.6 m 高、门 2.0 m，传递窗 0.40 m；舱温 ≥273 K 已超 253 K 上限。G35-3：双门传递窗 + 钛罐；三重前室仍是人孔。G35-4：G2/G4/G6 不改。上一轮把走道写成岩芯进箱，撤回。",
+        "账 41（l41_openpad.py）4 闸全绿。G41-1：ISO 级联从气闸起，坪是火星。G41-2：坪尘没有露头地址。G41-3：接罐柜盖上闩上灯灭。G41-4：灰箱仍是开管 5 支。上一轮坪上玻璃撬写成开管，撤回。",
+        "账 43（l43_waste.py）4 闸全绿。G43-1：2 m 人门不是残样路径。G43-2：人孔 ≠ 样品孔。G43-3：翼东双门暗罐进核西墙。G43-4：不发明焚烧。上一轮「翼→前室→核」写成残样路，撤回。",
+        "账 44（l44_airlock.py）4 闸全绿。G44-1：610 Pa 剖切口不是 ISO 8。G44-2：级联从人门起。G44-3：西墙钢闸+闸内褐地+门内更衣灰。G44-4：不发明 BSL。上一轮坪口色带写成气闸，撤回。",
+        "账 46（l46_stub.py）4 闸全绿。G46-1：朝城不是走出去。G46-2：短接 2.8 m。G46-3：对接环+封板。G46-4：不发明城廊编号。上一轮外门朝城门外是尘，撤回。",
+        "账 47（l47_coreeast.py）4 闸全绿。G47-1：核东不是第二个人孔。G47-2：电力在西，排气是栈。G47-3：东短接删掉。G47-4：G15 北墙排火星不改。上一轮核东接城廊，撤回。",
+        "账 48（l48_dust.py）4 闸全绿。G48-1：ISO 7/6 不是覆土漆。G48-2：conc/wDust 走了尘膜。G48-3：更衣/走廊另开未蒙尘材质。G48-4：不把 0.05 写成孢子。上一轮级联地板跟屋面共用漆，撤回。",
+        "账 49（l49_laminar.py）4 闸全绿。G49-1：ISO 5 拦在滤材上。G49-2：6 块钢板不是 HEPA。G49-3：开口侧 6 褶。G49-4：核 12 ACH 不改，不发明翼 ACH。上一轮顶栅只有钢盖，撤回。",
+        "账 50（l50_intake.py）4 闸全绿。G50-1：610 Pa scoop 不是补气。G50-2：进尘会脏过天花板。G50-3：白筒封盖外泄；西墙城侧补气格。G50-4：不发明翼 ACH。上一轮屋顶白口写成进气，撤回。"
+      ],
+      "sim_en": [
+        "Ledger 2 (l2_hvac.py), 4/4 gates. G2-4 is a tautology, and what it forbids is 'one building, one air handler'.",
+        "'Positive / negative' is meaningful only versus the neighbouring room. Versus Mars both wings are high-pressure cabins. The airlock is the Mars interface; the sample core has no Mars door and no windows — a hull breach dumps 70→0.7 kPa outward, HVAC cannot help, structure has to.",
+        "The sample-side ceiling on forward contamination is Perseverance's own cleanliness spec ≤5×10⁵ spores: the lab cannot be cleaner than the tube; it can avoid being dirtier when the tube is opened.",
+        "Ledger 35 (l35_passbox.py), 4/4 gates. G35-1: 2 g = 0.87 cm³ = 5.54e-5 of one 8 m core; archive stays in the vault. G35-2: corridor 1.6 m high, door 2.0 m, passbox 0.40 m; cabin ≥273 K already exceeds 253 K. G35-3: two-door passbox + Ti can; the triple-seal stays people-only. G35-4: G2/G4/G6 do not move. Last round wrote the hallway as the core's path into the box; withdrawn.",
+        "Ledger 41 (l41_openpad.py), 4/4 gates. G41-1: ISO cascade starts at the airlock; the pad is Mars. G41-2: pad dust has no outcrop address. G41-3: receiving locker lid-down, latched, lamp off. G41-4: grey box stays the opened 5. Last round wrote the glass skid as opening; withdrawn.",
+        "Ledger 43 (l43_waste.py), 4/4 gates. G43-1: the 2 m door is not the residue path. G43-2: people hole ≠ sample hole. G43-3: east-wing two-door dark can into the core west wall. G43-4: no incinerator. Last round wrote wing→anteroom→core as the residue path; withdrawn.",
+        "Ledger 44 (l44_airlock.py), 4/4 gates. G44-1: a 610 Pa cutaway is not ISO 8. G44-2: cascade starts at the people door. G44-3: west steel lock + rust floor + grey gowning inside. G44-4: no BSL. Last round painted the pad mouth as the airlock; withdrawn.",
+        "Ledger 46 (l46_stub.py), 4/4 gates. G46-1: facing the city is not walking out. G46-2: stub 2.8 m. G46-3: docking ring + blank. G46-4: no hab id invented. Last round the outer door opened onto dust; withdrawn.",
+        "Ledger 47 (l47_coreeast.py), 4/4 gates. G47-1: core east is not a second people hole. G47-2: power west, exhaust the stack. G47-3: east stub removed. G47-4: G15 north-wall Mars dump stands. Last round docked the city onto the core; withdrawn.",
+        "Ledger 48 (l48_dust.py), 4/4 gates. G48-1: ISO 7/6 are not berm paint. G48-2: conc/wDust were in the dust pass. G48-3: gowning/hall get undusted mats. G48-4: 0.05 is not spores. Last round the cascade floors shared roof paint; withdrawn.",
+        "Ledger 49 (l49_laminar.py), 4/4 gates. G49-1: ISO 5 stops on media. G49-2: six steel lids are not HEPA. G49-3: 6 slats on the cutaway edge. G49-4: core 12 ACH stands; no wing ACH. Last round left ceiling plates; withdrawn.",
+        "Ledger 50 (l50_intake.py), 4/4 gates. G50-1: a 610 Pa scoop is not makeup. G50-2: pad dust would beat the tube ceiling. G50-3: capped bleed + west makeup grid. G50-4: no wing ACH. Last round wrote the white roof as intake; withdrawn."
+      ],
+      "physics": [
+        "内向流压差 −50 Pa（工程地板 12.5 Pa 的 4×）只保证破口时气流向内；孢子作为洁净规格拦在过滤器上。压差是方向，HEPA 是生物负荷拦截，结构是破舱。残样不走人孔。坪口不是气闸。城廊只出几米。核东不是城廊。尘膜不是级联。层流不是钢板。白口不是采火星气。"
+      ],
+      "physics_en": [
+        "An inward-flow ΔP of −50 Pa (4× a 12.5 Pa engineering floor) only guarantees inward flow at a leak; spores as a cleanliness spec are stopped on the filter. ΔP is direction, HEPA is the bioburden intercept, structure is the hull-breach case. Residue does not walk the people lock. The pad mouth is not the airlock. The city corridor is only a few metres of stub. The core east is not a city corridor. Dust film is not the cascade. Laminar flow is not a steel plate. The white stack is not a Mars scoop."
+      ]
+    },
+    {
+      "id": "core",
+      "label": "密闭样品核",
+      "label_en": "Restricted-sample containment core",
+      "range": 14,
+      "detail": "暗青、无窗、独立体量、自己的排气栈。西墙小窗收翼东残样罐——人走前室，罐走这孔，不是焚烧口。朝交接坪的南墙剖开：两只开口罐里是 8 褶滤材，不是光筒。12 ACH 的 0.85 m³/s 在 0.5 m/s 迎风下要 1.71 m²；两只 ⌀0.9 m 光筒只有 1.27 m²——罐子画成圆柱是因为褶皱把 7.6 m² 折进去。拦截在滤材上，不在压差表上，也不烧掉样品。东墙实墙，不接城廊——电力在西，排气是这根栈，排给火星。屋顶暗青烟囱排给火星；翼顶白筒是正压外泄，不是采气。两套 HVAC 的身份色仍在，进气方向撤回。",
+      "detail_en": "Dark teal, no windows, its own volume, its own stack. A small west-wall window takes the east-wing residue can — people use the anteroom, the can uses this hole, it is not an incinerator port. The south wall, toward the pad, is cut away: two open canisters hold 8-pleat media, not empty tubes. 12 ACH at 0.85 m³/s needs 1.71 m² at 0.5 m/s face velocity; two ⌀0.9 m unpleated faces are 1.27 m² — the cans are cylinders because the pleats fold 7.6 m² into them. The intercept is on the media, not on the pressure gauge, and the sample is not thermally destroyed. The east wall is blank and does not take a city corridor — power is west, exhaust is this stack to Mars. The dark-teal chimney dumps to Mars; the white wing stack is a positive-pressure bleed, not an intake. Two HVAC colours remain; the intake story is withdrawn.",
+      "specs": {
+        "外壳": "8 × 8 × 5 m，无窗",
+        "处理级别": "restricted sample handling（本地，不返回地球）",
+        "相对前室": "−50 Pa 内向流（工程地板 12.5 Pa 的 4×）",
+        "排气": "0.85 m³/s，HEPA×2 穿透 1×10⁻⁸",
+        "滤材": "8 褶 × 两罐 = 7.6 m²（需求 1.71 m² 的 4.5×）",
+        "传递": "三道门，联锁最多开一道",
+        "东墙": "实墙。核东不是城廊。电力在西，排气是屋顶栈"
+      },
+      "specs_en": {
+        "Envelope": "8 × 8 × 5 m, no windows",
+        "Handling class": "restricted sample handling (local; no Earth return)",
+        "Vs anteroom": "−50 Pa inward flow (4× a 12.5 Pa engineering floor)",
+        "Exhaust": "0.85 m³/s, HEPA×2, penetration 1×10⁻⁸",
+        "Media": "8 pleats × two cans = 7.6 m² (4.5× the 1.71 m² needed)",
+        "Transfer": "three doors, interlock opens at most one",
+        "East wall": "Blank. The core east is not a city corridor. Power west, exhaust the roof stack"
+      },
+      "sim": [
+        "账 2（l2_hvac.py）4 闸全绿。G2-4 禁止「一栋楼一个风柜」。核不对火星开门：70 kPa 舱破向 700 Pa 时气流向外，过滤器不在这条路上。",
+        "账 7（l7_hepa.py）4 闸全绿。G7-2：光筒迎风不够走完 12 ACH，必须褶皱。G7-3：撤回几何注释里的「焚烧」——样品是地质对象，拦截手段是过滤。",
+        "账 47（l47_coreeast.py）4 闸全绿。G47-1：核东不是第二个人孔。G47-2：电力在西，排气是栈。G47-3：东短接删掉。G47-4：不发明进城排气。上一轮核东写总控走廊，撤回。"
+      ],
+      "sim_en": [
+        "Ledger 2 (l2_hvac.py), 4/4 gates. G2-4 forbids 'one building, one air handler'. The core does not open onto Mars: a 70 kPa cabin breaching into 700 Pa flows outward, and the filters are not on that path.",
+        "Ledger 7 (l7_hepa.py), 4/4 gates. G7-2: unpleated faces cannot carry 12 ACH; pleats are the reason the cans exist as drawn. G7-3: the comment that said 'incinerator' is withdrawn — the sample is a geological object; the intercept is filtration.",
+        "Ledger 47 (l47_coreeast.py), 4/4 gates. G47-1: core east is not a second people hole. G47-2: power west, exhaust the stack. G47-3: east stub removed. G47-4: no dump into the city. Last round invited a corridor onto the core; withdrawn."
+      ],
+      "physics": [
+        "反向污染与正向污染的过滤器方向相反，不能共用一段风道——这是两栋楼的第二理由，压差是第一理由。核东不是城廊。"
+      ],
+      "physics_en": [
+        "Back-contamination and forward-contamination filters face opposite ways and cannot share a duct — that is the second reason for two buildings; the pressure difference is the first. The core east is not a city corridor."
+      ]
+    },
+    {
+      "id": "chain",
+      "label": "检测链（假阳性史）",
+      "label_en": "Detection chain (false-positive history)",
+      "range": 16,
+      "detail": "四台开口手套箱：蓝=DUV 拉曼（NeCu 空心阴极 + 长通 LIF + 焦面 DUV CCD + 台上标定靶，不是发光二极管，不是四块斜板），琥珀=GC-MS（地球氦瓶 + MTBSTFA 1+1 安瓿 → EPC → 两台炉 → 衍生化瓶+锈色块/氨基酸微粒 → 东炉上的衍生化杯 → 谱图旁白瓶标准品 → 程序升温炉里两根线圈 + Chirasil 1+1 备件匣 → 毛细限流 → EI 双灯丝 → 四极扫描 → 真空罐内通道倍增器（灌封穿墙） → 涡轮穿舱排火星），青=免疫三列（LDChip 1+1 密封匣，不是三只发光杯），灰=5 支见证管（坪上帽在 5 + 灰箱切封 5，不是 2+2）。样品从库经双门传递窗钛罐进箱（2 g = 0.87 cm³），2.2 m 保温廊和三重前室是人走的。钢线圈投保留时间（票 b）。炉前两张谱图：钢柱一峰（对映体共流出），青柱两峰同色（同一 m/z、两次到达）。上迹 2:1 是教学用 ee，不是耶泽罗测量；下迹 1:1 是消旋时钟，不是生命否证。一根青环只是身份漆。质量轴上青针钉住才是给这张比供数：全扫在 Δt=8.4 s 里有 ~39 张谱，两次到达都在，但 1/533 的占空比在氨基酸份额下投不出 ee。蓝游标仍扫，那是票 (b) 的谱；钉 ≠ 跳过 m/z 4。分析器顶上蓝块→青块：先扫后钉。票 (c) 是对库内/已鉴定离子的确认，不是发现通道；一次 RF 程序不能两票。未知骨架没有这根针。杆旁未接电的双杯是 IRMS 身份，这里不亮：QMS 在 f=0.01 上 σ(δ)=106‰，整船 20 pg 也只有 10.6‰；常规 CSIA 要 1 ng（差 50×/5000×）。同位素是清单项，不是这台检测器。票 (c) 画的仍是手性确认。没有程序升温，等温 50 °C 重峰要 508 min（一轮程序只有 22 min），等温 220 °C 轻峰超额 0.7 s 掉进 120 s 死时间。炉底加热条 + 走动的温度针才是斜坡；屋顶常亮灯不是，东边 850 °C 热解炉也不是。没有 EPC，恒压调节器在 220 °C 把 1 sccm 砍成约 0.5 sccm。Golay 氦柱把程序峰压到 FWHM 1.73 s；2 s/张的普查只有 0.9 点。质量轴就是 RF 电压轴，dV/dt ≥ 2460 Da/s。驻留 0.41 ms 里 LOD 主离子只有 44 fA；法拉第杯要 10 mV 则 RC=1.14 s（驻留的 2800×），通道倍增器 ×1e6 把 τ 压到 1.1 µs。喇叭口在杆后，不是源区灯丝，禁止写成扫描电镜。喇叭口在真空罐里：70 kPa 下 2.5 kV 帕邢窗是 6.1 µm–0.60 mm（相对地球 1.45×，与 XRD 舱压降额同源）；分析器 1e-4 Pa 在左支，毫米间隙打不穿。高压不骑穿舱排气管（610 Pa CO2 最小值 249 V，2.5 kV 右支到 57 mm）。上一轮把发光栈画在手套箱空气里，撤回。扫到 He+ 会在战役里抽出 4 C（寿命 10 C）；低质量端缺口=跳过 m/z 4，旁边暗色喇叭口是备件。SIM 不是未知物的谱。城内 18 s 指针是斜坡的可读压缩。没有载气/真空/毛细限流，后面的轴都会塌。氦瓶是地球进口：sci-lab-01 通用 GC 已改烧氢，本站留一瓶是因为票 (b) 要跟好奇号比 t_R。青线圈前面必须有试剂瓶。西炉先报不是洗净：B 份 2 g 里仍有 10 mg 高氯酸盐（溶进 0.5 mL 则 0.20 M）；75 °C 不是氯苯窗，试剂过量 16× 也洗不掉。锈色粒在托盘上，瓶子不是洗涤柱。手性路径不继承热解 20 pg / 1e-9。75 °C 是浸泡不是进样：闪蒸顶 = 放氧窗底 = 300 °C，裕量 0 K。衍生化杯坐在东炉上挥发，不是注射器绕过 G6-2。2 ng LOD 全算甘氨酸，氧化剂仍多 3.8e6 倍；试剂 16× 从没进过这个分数。摩尔比不是销毁速率。2:1 仍是教学。SIM 地板 2.4% 绑定 20 pg 标准品，锈杯没有这个数。谱图旁白瓶才是喂 2:1 的那一针。消旋不是「不是生命」。手性柱不替代免疫阵列。",
+      "detail_en": "Four open gloveboxes: blue = DUV Raman (NeCu hollow cathode + longpass LIF + DUV CCD at the focus + cal target on the stage, not a glowing diode, not four tilted plates), amber = GC-MS (Earth He bottle + MTBSTFA 1+1 ampoules → EPC → two ovens → derivatization vials + rust block / amino-acid speck → derivatized cup on the east oven → white standard vial at the traces → two coils in a programmed oven + Chirasil 1+1 spare box → capillary restrictor → EI dual filament → quadrupole scan → channeltron inside the vacuum can (potted feedthrough) → turbo hull-dump to Mars), teal = immunoassay three-column (LDChip 1+1 sealed kits, not three glowing cups), grey = 5 witness tubes (pad 5 cap-on + grey box 5 cut-open, not 2+2). The sample enters the boxes as a 2 g Ti can through a two-door passbox (0.87 cm³); the 2.2 m corridor and the triple-seal anteroom are for people. The steel coil casts retention time (vote b). Two traces sit in front of the oven: steel one peak (enantiomers coelute), teal two peaks the same colour (same m/z, two arrivals). The upper 2:1 is a teaching ee, not a Jezero measurement; the lower 1:1 is a racemic clock, not a life veto. A teal torus is identity paint. A parked teal pin on the mass axis is what feeds that ratio: a fast scan puts ~39 spectra inside Δt=8.4 s, so both arrivals are in the EIC, but a 1/533 duty cycle cannot cast ee at an amino-acid fraction. The blue cursor still sweeps — that is vote (b)'s spectrum. Park is not the m/z 4 skip. Blue then teal on the analyzer roof: survey first, park second. Vote (c) is confirmation on a library or already-identified ion, not a discovery channel; one RF program cannot cast both votes. An unknown backbone has no pin. Dark dual cups beside the rods are an IRMS identity, unpowered: at f=0.01 the QMS Poisson σ(δ) is 106‰, and even the whole 20 pg is only 10.6‰. Routine CSIA wants 1 ng (50× / 5000× short). Isotope is listed, not fitted. Vote (c) as drawn remains chiral confirmation. Without a program, isothermal 50 °C keeps a heavy peak for 508 min (one run is 22 min), and isothermal 220 °C drops a light peak's extra retention to 0.7 s inside a 120 s void. The floor heater and moving needle are the ramp; the roof lamp is not, and neither is the 850 °C pyrolysis oven. Without EPC a constant-P regulator halves 1 sccm by 220 °C. A Golay He column compresses a programmed peak to FWHM 1.73 s; a 2 s/spectrum survey yields 0.9 points. The mass axis is an RF-voltage axis; dV/dt ≥ 2460 Da/s. In a 0.41 ms dwell the LOD major ion is 44 fA; a Faraday cup needs RC=1.14 s for 10 mV (2800× the dwell), a ×1e6 channeltron drops τ to 1.1 µs. The horn sits after the rods, not at the filament, and is not a scanning electron microscope. The horn is inside the vacuum can: at 70 kPa a 2.5 kV Paschen window is 6.1 µm–0.60 mm (1.45× vs Earth, the XRD cabin derating); at 1e-4 Pa the analyzer is left of the minimum and a millimetre gap does not spark. HV does not ride the hull-dump (610 Pa CO2 minimum 249 V; 2.5 kV right branch to 57 mm). Last round drew the glowing stack in glovebox air; withdrawn. Scanning He+ extracts 4 C against a 10 C life; the green notch at low mass skips m/z 4, and the dark spare horn is the import. SIM is not a spectrum of an unknown. The 18 s needles compress the ramp. Without carrier, vacuum, or a capillary restrictor the later axes collapse. The He bottle is an Earth import: sci-lab-01's general GC already burns hydrogen; this station keeps one bottle because vote (b) is a t_R comparison to Curiosity SAM. Vials must sit in front of the teal coil. The west oven reporting perchlorate is not a wash: aliquot B's 2 g still holds 10 mg (0.20 M if it dissolves in 0.5 mL). 75 °C is not the chlorobenzene window, and 16× reagent excess does not remove the oxidant. A rust grain sits on the tray; the vials are not a scrubber. The chiral path does not inherit pyro 20 pg / 1e-9. 75 °C is soak, not inlet: flash ceiling = O2 floor = 300 °C, gap 0 K. The derivatized cup sits on the east oven — not a syringe bypass of G6-2. Even counting 2 ng LOD as glycine, oxidant still outnumbers amino acids 3.8e6 to 1; reagent 16× never entered that fraction. The ratio is not a destruction rate. 2:1 stays teaching. The SIM floor 2.4% is bound to a 20 pg standard; the rust cup has no such number. The white vial at the board is the injection that feeds 2:1. Racemic is not 'not life'. The chiral column does not replace the immunoassay.",
+      "specs": {
+        "L1 拉曼扫描": "台动光路不动，±6 cm（城内可读放大；真光斑 ~100 µm）",
+        "L1 NeCu 源": "248.6 nm = 4.99 eV 线。飞行点 8 µJ / 40 µs → 0.11 J/cm²。密封金属头+窗；青束是身份漆。1+1 管，种不出",
+        "L1 DUV CCD": "正照栅趋肤 5.5 nm vs 400 nm。一根光栅一片 CCD。C=C 1600 cm⁻¹ → 258.9 nm 在拉曼窗。不继承 sci-lab 可见光 CCD",
+        "L1 LIF": "8 µJ = 1.00e13 个激光光子。LIF 50% @ 253.18 nm 对齐 800 cm⁻¹ = 253.6 nm。伴线 646 cm⁻¹。不发明光密度",
+        "L1 标定靶": "聚碳酸酯 1600 cm⁻¹ → 258.9 nm。锈片=SaU 008，不是形态学生命。未知岩片不能钉轴",
+        "L2 载气": "地球进口氦瓶（SAM 血统；票 b 的 t_R 轴）。不是舱气、不是 scoop、不是本箱电解氢",
+        "L2 色谱柱": "钢线圈 = t_R（票 b，一峰共流出）；青线圈 = 对映体（票 c，两峰同色）；前有衍生化瓶与锈色块。2:1 是教学用 ee，1:1 是消旋时钟",
+        "L2 Chirasil 匣": "炉内仍两根。备件青环在匣。相死 α=1.02 Rs=1.12。23.6 针。不发明寿命针数",
+        "L2 湿化学": "西炉先报不是洗净。B 份仍有 10 mg ClO4。75 °C 是浸泡不是进样。n_ClO4/n_AA=3.8e6。不继承 20 pg",
+        "L2 试剂进口": "MTBSTFA 9.4 mL / 10 mL 安瓿 = 1.06×。1+1 密封安瓿。托盘小瓶是工作液。不替代氦瓶",
+        "L2 浸泡进样": "闪蒸顶 300 °C = 放氧窗底。裕量 0 K。衍生化杯坐在东炉上，不是第三台炉。2:1 仍是教学",
+        "L2 程序升温": "50→220 °C @ 10 K/min。加热条+温度针。不是屋顶灯，不是 850 °C 热解炉",
+        "L2 EPC": "斜坡上稳住 1 sccm。148 kPa@50 °C → 212 kPa@220 °C。在气瓶与柱头之间，不是钢瓶阀，不是柱尾针阀",
+        "L2 限流": "直连真空出口。30 m × 0.25 mm → 柱头 148 kPa（50 °C 起点）。粗管禁止当气路。不开口分流进翼",
+        "L2 电离": "70 eV EI，柱后杆前。SAM 双灯丝 1+1。丝断 I_e=0。不发明小时数。禁止 ESI",
+        "L2 四极扫描": "FWHM 1.73 s。≥8 点 → ≤0.22 s/张、≥2460 Da/s。2 s 普查 = 0.9 点。质量轴=电压轴；蓝游标在杆上",
+        "L2 SIM 驻留": "青针钉在中质量。20 pg 标准品：全扫地板 55%，SIM 2.4%。锈杯 η 未知，2.4% 不写在这只杯子上。不是 m/z 4 缺口",
+        "L2 先扫后钉": "一次采集 XOR。蓝→青。票 (c) 是确认不是发现。20 pg 标准品对半后地板 3.3%；锈杯没有这个数",
+        "L2 同位素": "不是这台四极杆。f=0.01 时 σ(δ)=106‰；CSIA 要 1 ng，船上 20 pg。双杯不接电。票 (c) 画的仍是手性确认",
+        "L2 倍增器": "杆后通道倍增器 ×1e6。LOD 驻留 44 fA；法拉第 RC 1.14 s ≫ 0.41 ms。不是灯丝，不是扫描电镜",
+        "L2 帕邢": "2.5 kV 设计点。70 kPa 空气窗 6.1 µm–0.60 mm（1.45×）。喇叭口在罐内；HV 灌封。不在 610 Pa 排气管上",
+        "L2 CEM 寿命": "扫 He+ 抽出 4.0 C / 寿命 10 C = 2.5×。跳过 m/z 4 后余量 1300×。1+1 进口，种不出铅玻璃",
+        "L2 真空": "宽域涡轮 + 北墙穿舱。行星是前级。不进翼、不进双 HEPA",
+        "L1 拉曼 LOD": "~1×10⁻⁶ g/g（规格，不是 Viking 解药）",
+        "L2 GC-MS LOD": "~1×10⁻⁹ g/g（规格，不是 Viking 解药）",
+        "L2 热解协议": "两份样：A 2 g 高氯酸盐 EGA（300–600 °C）/ B 2 g 有机热解（850 °C）",
+        "L3 免疫三列": "样品 | 同批过程空白 | 地球阳对照（~300 地球表位）",
+        "L3 抗体匣": "18×1.2=21.6 片 → 22。一匣 1.02×，1+1 密封匣。ops-fab 种不出杂交瘤。三杯是工作列",
+        "L3 免疫 LOD": "~1×10⁻⁹ g/mL 蛋白（地球同源表位）",
+        "L4 终点": "sci-cryoem-01；3.8 Ga 蛋白质不是客户（该站账 15）",
+        "L4 传递窗": "2 g = 0.87 cm³ 钛罐。档案留在 219 K。保温廊/2 m 门是人孔。舱温 ≥273 K 超 253 K",
+        "L4 见证管": "飞行 5 支。坪上密封 5、灰箱开管 5。不是 i>=8 的两支。2+2≠5。青箱空白仍是过程空白",
+        "证据发布规则": "≥3 正交 × 空白通过 × 5 支见证管一致"
+      },
+      "specs_en": {
+        "L1 Raman raster": "stage moves, optics fixed, ±6 cm (readable oversize; real spot ~100 µm)",
+        "L1 NeCu source": "248.6 nm = 4.99 eV line. Flown 8 µJ / 40 µs → 0.11 J/cm². Sealed metal head + window; cyan beam is paint. 1+1 tube, cannot grow",
+        "L1 DUV CCD": "Front-side gate skin 5.5 nm vs 400 nm. One grating, one CCD. C=C 1600 cm⁻¹ → 258.9 nm in the Raman window. Not the sci-lab visible CCD",
+        "L1 LIF": "8 µJ = 1.00e13 laser photons. LIF 50% @ 253.18 nm matches 800 cm⁻¹ = 253.6 nm. Plasma line 646 cm⁻¹. No OD invented",
+        "L1 cal target": "Polycarbonate 1600 cm⁻¹ → 258.9 nm. Rust coupon = SaU 008, not morphological life. The Jezero chip cannot pin the axis",
+        "L2 carrier": "Earth-import He bottle (SAM lineage; t_R axis of vote b). Not cabin air, not a scoop, not this box's H2",
+        "L2 GC columns": "steel coil = t_R (vote b, one coeluted peak); teal coil = enantiomers (vote c, two peaks same colour); vials and rust grain in front. 2:1 is a teaching ee; 1:1 is the racemic clock",
+        "L2 Chirasil box": "Still two coils in the oven. Spare teal ring in a sealed box. Dead phase α=1.02 Rs=1.12. 23.6 injections. No shot-life invented",
+        "L2 wet chemistry": "west-oven report is not a wash. Aliquot B still has 10 mg ClO4. 75 °C is soak, not inlet. n_ClO4/n_AA=3.8e6. Does not inherit 20 pg",
+        "L2 reagent import": "MTBSTFA 9.4 mL / 10 mL ampoule = 1.06×. 1+1 sealed ampoules. Tray vials are working aliquots. Does not replace the He bottle",
+        "L2 soak vs inlet": "flash ceiling 300 °C = O2 window floor. Gap 0 K. Derivatized cup sits on the east oven, not oven #3. 2:1 stays teaching",
+        "L2 temperature program": "50→220 °C @ 10 K/min. Heater + needle. Not the roof lamp, not the 850 °C pyro oven",
+        "L2 EPC": "holds 1 sccm through the ramp. 148 kPa @ 50 °C → 212 kPa @ 220 °C. Between bottle and inlet; not the cylinder regulator, not a tail valve",
+        "L2 restrictor": "direct vacuum outlet. 30 m × 0.25 mm → 148 kPa inlet (50 °C start). Fat pipe forbidden as the gas path. No open split into the wing",
+        "L2 ionization": "70 eV EI, after the column, before the rods. SAM dual filament 1+1. Open wire → I_e=0. No hour-spec invented. ESI forbidden",
+        "L2 quadrupole scan": "FWHM 1.73 s. ≥8 points → ≤0.22 s/spectrum, ≥2460 Da/s. A 2 s survey is 0.9 points. Mass axis = voltage; blue cursor on the rods",
+        "L2 SIM park": "teal pin parked at mid-mass. 20 pg standard: full-scan floor 55%, SIM 2.4%. Rust-cup η unknown; 2.4% is not this cup. Not the m/z 4 notch",
+        "L2 survey then park": "XOR per injection. Blue then teal. Vote (c) is confirmation, not discovery. 20 pg standard split → floor 3.3%; the rust cup has no such number",
+        "L2 isotope": "not this quadrupole. σ(δ)=106‰ at f=0.01; CSIA wants 1 ng, boat has 20 pg. Dual cups unpowered. Vote (c) as drawn stays chiral confirmation",
+        "L2 multiplier": "channeltron after the rods, ×1e6. LOD dwell 44 fA; Faraday RC 1.14 s ≫ 0.41 ms. Not the filament, not a scanning electron microscope",
+        "L2 Paschen": "2.5 kV design point. 70 kPa air window 6.1 µm–0.60 mm (1.45×). Horn in the can; HV potted. Not on the 610 Pa dump",
+        "L2 CEM life": "scanning He+ extracts 4.0 C / 10 C life = 2.5×. Notch m/z 4 → 1300×. 1+1 import; cannot grow lead glass",
+        "L2 vacuum": "wide-range turbo + north-wall hull dump. Planet is the backing pump. Not into the wing, not into dual HEPA",
+        "L1 Raman LOD": "~1×10⁻⁶ g/g (a spec, not the Viking fix)",
+        "L2 GC-MS LOD": "~1×10⁻⁹ g/g (a spec, not the Viking fix)",
+        "L2 pyrolysis protocol": "two aliquots: A 2 g perchlorate EGA (300–600 °C) / B 2 g organic pyro (850 °C)",
+        "L3 immunoassay columns": "sample | same-batch process blank | Earth+ control (~300 Earth epitopes)",
+        "L3 antibody kits": "18×1.2=21.6 chips → 22. One kit 1.02×, 1+1 sealed. ops-fab cannot grow hybridomas. Three cups are working columns",
+        "L3 immunoassay LOD": "~1×10⁻⁹ g/mL protein (Earth-homologous epitopes)",
+        "L4 endpoint": "sci-cryoem-01; 3.8 Ga proteins are not a customer (that station's ledger 15)",
+        "L4 passbox": "2 g = 0.87 cm³ Ti can. Archive stays at 219 K. Corridor / 2 m door are people. Cabin ≥273 K exceeds 253 K",
+        "L4 witness tubes": "Flight 5. Pad 5 sealed, grey box 5 opened. Not i>=8's two. 2+2≠5. Immuno blank stays on-chip",
+        "Detection-claim rule": "≥3 orthogonal × blanks pass × 5 witness tubes agree"
+      },
+      "sim": [
+        "账 3（l3_falsepos.py）4 闸全绿。G3-1：Viking 失败条件 = Labeled Release 单通道、无正交分子鉴定。G3-2：ALH84001 失败条件 = 矿物形态计为一票。G3-3：灵敏度禁止写成避免那两个教训的理由。",
+        "账 6（l6_gcms.py）4 闸全绿。G6-1 Phoenix 0.4–0.6 wt% 是已知答案锚。G6-2：放 O₂ 窗 300–600 °C 与有机热解顶 850 °C 重叠，同炉一次升温会氯代有机质——SAM 氯苯是飞行证据。G6-3：琥珀箱必须看见两台炉。G6-4：1e-9 g/g 仍不得写成 Viking 解药。",
+        "2008 Phoenix 高氯酸盐同时解释了两头：GC-MS 的「无有机质」是方法假阴性，LR 的「代谢」是化学假阳性。两个仪器都工作了，结论仍然模糊——因为没有强制正交。",
+        "账 8（l8_immuno.py）4 闸全绿。G8-1：过程空白在青箱芯片上，灰箱见证管是另一件事。G8-2：样品阴+空白过+地球阳亮 = 「不像地球表位」，禁止写成「不是生命」。G8-3：地球对照灭灯则本批作废。上一轮三色流道是身份漆，不是空白规则。",
+        "账 9（l9_raman.py）4 闸全绿。G9-1：荧光不是分子鉴定。G9-2：必须两路，单镜筒作废。G9-3：248 nm 不可见。G9-4：1e-6 g/g 仍不是 Viking 解药。",
+        "账 10（l10_ionize.py）4 闸全绿。G10-1 规格未改（EI 在杆前）；清单补上 GC。G10-2：EI 不是 ESI。G10-3：离子不是鉴定。",
+        "账 11（l11_scan.py）4 闸全绿。G11-1：单点不是空间同址票。G11-2：台动、光路不动。G11-3：填图报地址，不是形态学生命。",
+        "账 12（l12_gc.py）4 闸全绿。G12-2：柱必须绕在升温炉里，不是加长传输线。G12-3：保留时间 × m/z。G12-4：柱不替代西炉。三只环是可读身份，不是 30 m 真绕。",
+        "账 13（l13_chiral.py）4 闸全绿。G13-1：两根身份不同的线圈。G13-2：衍生化在手性柱前，湿化学仍要西炉。G13-3：手性 GC 不替代免疫。G13-4：消旋不是生命否证。城内两根是身份，不是 SAM 的六根真柱。身份还不够：票 (c) 是两次到达，见账 22。",
+        "账 14（l14_helium.py）4 闸全绿。G14-1：载气是 He，不是火星 CO₂。G14-2：4 ppm 收获的否决是分离厂（FEL 已拒），不是克级体积——战役氦 4.2 g，100 m³/s 抽 2.1 h。电解产氢不产氦。G14-3：琥珀箱西侧必须看见地球气瓶+减压器。G14-4：10 L×150 bar = 1379 L STP，需求 23 L，余量 59×；不重开吨级否决；sci-lab-01 的氢载气答案仍然成立。",
+        "账 15（l15_vacuum.py）4 闸全绿。G15-1：STP λ=65.7 nm（教科书 ~66）。70 kPa 下杆上 1.6×10⁶ 次碰撞，分析器 1e-4 Pa 下 <1 次。G15-2：1 sccm @ 0.1 Pa 需 16.9 L/s，70 L/s 罐余量 4.1×；涡轮排气 1 kPa > 火星 610 Pa，不设前级泵。G15-3：排气是分子，禁止写成核双 HEPA；禁止排进 ISO 翼。G15-4：850 °C 是化学不是真空；穿舱不是 COSPAR 灭菌步骤。",
+        "账 16（l16_restrictor.py）4 闸全绿。G16-1：可压缩 Poiseuille，30 m × 0.25 mm、1 sccm He、真空出口 → 柱头 148 kPa。G16-2：⌀50 mm × 22 cm 粗管只有 0.33 Pa，禁止当气路。G16-3：限流是柱内径，不是针阀；开口分流禁止进翼。G16-4：真空出口 t_R 才是 SAM 的；柱尾不要造 1 atm。",
+        "账 17（l17_ramp.py）4 闸全绿。G17-1：等温 50 °C 重峰超额 508 min ≫ 一轮 22 min。G17-2：等温 220 °C 轻峰超额 0.7 s，k=0.006，掉进 t0=120 s。ΔH=40 kJ/mol 设计点；80→110 °C 给 2.91×/30 K，落在教科书翻倍带。G17-3：加热条+18 s 温度针；账 12 规格未改，此前几何是灯。G17-4：斜坡不替代西炉、不替代限流。",
+        "账 18（l18_epc.py）4 闸全绿。G18-1：恒定柱头压，摩尔流量 ∝ T^{-1.7}，220 °C 只剩 0.49×（1 sccm → 0.49 sccm；u 25→19 cm/s）。G18-2：稳住 ṅ 必须抬压 ∝ (μ T)^{1/2}，148 → 212 kPa。账 16 的 148 kPa 是 50 °C 起点，闸门不改。G18-3：EPC 在氦线上，针与炉温同 18 s；不是钢瓶减压阀，不是柱尾针阀。G18-4：不替代瓶、限流、斜坡。",
+        "账 19（l19_scanrate.py）4 闸全绿。G19-1：继承 Golay N=153070、k_e=1.4 → σ=0.74 s，FWHM=1.73 s ≪ 22 min。G19-2：≥8 点/FWHM → ≤0.22 s/张、≥2460 Da/s；2 s 普查 = 0.9 点。G19-3：盒顶蓝游标 3 s + 对角杆分色；不是炉温针，不是 EPC。G19-4：不替代 EI/柱/EPC/斜坡；SIM 不是未知物的谱；不继承氢载气前置杆截止。",
+        "账 20（l20_em.py）4 闸全绿。G20-1：船上 2 ng×1% 进柱=20 pg（不改 1e-9 g/g）。驻留 0.41 ms，主离子 44 fA；法拉第 10 mV 要 τ=1.14 s（驻留 2814×）；CEM ×1e6 → τ=1.1 µs。G20-2：喇叭口在杆后，不是灯丝，不是杯。G20-3：增益不是 m/z，不是双 HEPA。G20-4：不替代快扫；离子打在打拿极上不是灭菌规程。禁止写成 SEM 显微镜。",
+        "账 21（l21_cem_life.py）4 闸全绿。G21-1：扫 He+ 抽出 4.0 C / 寿命 10 C = 2.5×；有机峰-only 0.0001 C 是假余量。G21-2：扫描律跳过 m/z 4，不是前置杆截止 2–39。G21-3：1+1 进口，还原铅玻璃不是 CMOS。跳过后余量 1300×；备件是会合窗口保险。G21-4：不替代氦瓶；跳过不是换氢。",
+        "账 22（l22_chiral_peaks.py）4 闸全绿。G22-1：Chirasil 级 α=1.05 → Purnell Rs=2.72，Δt=8.4 s = 4.8× FWHM；α=1.02 只有 Rs=1.12，肩不是两个峰。G22-2：钢柱一峰（共流出）/ 青柱两峰同色（同一 m/z）。G22-3：上迹 2:1 教学用 ee，下迹 1:1 消旋时钟；G13-4 不改。G22-4：不替代免疫、衍生化、西炉。上一轮青线圈=对映体是身份漆，与免疫三色流道同类。双峰仍要有人供数，见账 23。",
+        "账 23（l23_sim_park.py）4 闸全绿。G23-1：Δt 里 ~39 张谱，两次到达都在；f=0.01 下全扫 N=15、3σ ee 地板 55% > 教学 2:1；SIM N=8030、地板 2.4%。上一轮「全扫漏第二峰」撤回。G23-2：青针钉在中质量，不是蓝游标，不是 m/z 4 缺口。G23-3：SIM 是靶向，不是票 (b) 的谱；G19-4 不改。G23-4：不替代双峰、衍生化、西炉、免疫；LOD 规格不改。钉针仍不知道钉在哪，见账 24。",
+        "账 24（l24_confirm.py）4 闸全绿。G24-1：一次采集 XOR，先扫后钉。G24-2：分析器顶蓝→青是次序，不是一次 RF 双模。G24-3：票 (c) 是确认不是发现；未知骨架没有针；G13-4 不改。G24-4：衍生化液对半 N=4015，3σ ee 地板 3.3% 仍 ≪ 教学 2:1；不替代钢柱谱/EI/免疫；LOD 不改。同位素不是这台杆能投的，见账 25。",
+        "账 25（l25_isotope.py）4 闸全绿。G25-1：f=0.01 时 QMS σ(δ)=106‰ ≫ 几十‰ 重叠带；整船 20 pg 也只有 10.6‰。G25-2：CSIA 要 1 ng，20 pg 差 50×，f=0.01 再差到 5000×。G25-3：未接电双杯，不是 45/44 涂在四极杆上；票 (c) 画的仍是手性确认。G25-4：不装 IRMS，不替代手性/免疫/西炉；‰ 不是检出限。上一轮「剩下的票 (c) 是同位素」撤回。湿化学杯子还没洗，见账 26。",
+        "账 26（l26_deriv.py）4 闸全绿。G26-1：A 份报数不洗 B 份，10 mg ClO4 还在。G26-2：75 °C < 300 °C 放氧窗，不是氯苯热解；溶进 0.5 mL 则 0.20 M；试剂过量 16× 不是洗净。G26-3：锈色粒在托盘，瓶子不是洗涤柱。G26-4：手性路径不继承 20 pg / 1e-9；不新开第三台炉。上一轮「西炉先报则杯子干净」撤回。75 °C 仍不是进样，见账 27。",
+        "账 27（l27_oxaa.py）4 闸全绿。G27-1：2 ng LOD 全算甘氨酸，n_ClO4/n_AA=3.8e6；f=0.01 则 3.8e8。试剂 16× 比的是高氯酸盐，不进这个分数。G27-2：75 °C 是浸泡；闪蒸顶 300 °C = 放氧窗底，裕量 0 K；杯子仍要加热，不是注射器绕过 G6-2。G27-3：衍生化杯坐在东炉上，不是第三台炉；托盘锈色块 vs 青微粒。G27-4：摩尔比不是销毁速率；不发明湿收率；2:1 仍是教学。上一轮把「不是氯苯窗」写成手性路径已躲开 G6-2，撤回。2.4% 的归属见账 28。",
+        "账 28（l28_std.py）4 闸全绿。G28-1：2.4% / 3.3% 绑定 20 pg 进柱，湿路径不继承。G28-2：η_20 ≥ 0.50% 才刚够教学 2:1；η_20=1 才保持 2.4%；对半门槛 1.01%；杯子 η 未知。G28-3：谱图旁白瓶=标准品喂 2:1；东炉锈杯没有数字。G28-4：不发明 η；G23-1 对 20 pg 仍绿。上一轮把 2.4% 留在青柱上当作这只杯子的规格，撤回归属。试剂库存见账 29。",
+        "账 29（l29_mtbstfa.py）4 闸全绿。G29-1：MTBSTFA 是地球进口，电解/ISRU 不产。G29-2：18 孔×1.2 空白+2 条教学迹 = 9.44 mL；10 mL 安瓿 1.06×；1+1 = 2.12×，与 CEM 同级不是氦的 59×。G29-3：两支密封安瓿是库存；托盘小瓶是工作液。G29-4：不替代氦瓶；不发明 η。上一轮把托盘两只瓶子写成战役供应，撤回。",
+        "账 30（l30_paschen.py）4 闸全绿。G30-1：2.5 kV 设计点，70 kPa 空气窗 6.1 µm–0.60 mm，降额 1.45×（XRD 舱压已知答案）。G30-2：分析器 1e-4 Pa 在左支，1 mm 打不穿。G30-3：喇叭口进真空罐，高压灌封穿墙，不是舱内发光块。G30-4：HV 不骑 610 Pa 排气管（CO2 最小值 249 V，2.5 kV 右支 57 mm）；不替代跳过 m/z 4 / 1+1 / 氦瓶 / 涡轮；1e-9 不改。上一轮把杆后发光栈画成手套箱里的通道倍增器，撤回。",
+        "账 31（l31_necu.py）4 闸全绿。G31-1：248.6 nm = 4.99 eV，NeCu 线，不是二极管，不是 265 nm LED 带。G31-2：飞行点 8 µJ / 40 µs，光斑 7540 µm² → 0.11 J/cm²（Bhartia 2021 写作 0.1）。G31-3：密封金属头+窗；青束是身份漆；1+1 备件管，ops-fab 种不出。G31-4：不替代两路/扫描台；1e-6 不改；放电在管内，不是账 30 的舱气针。上一轮把青光方块写成 248 nm 激光器，撤回。",
+        "账 32（l32_ccd.py）4 闸全绿。G32-1：Si 趋肤 5.5 nm，正照栅 ~400 nm；瞎在栅极不在带隙。G32-2：一根光栅一片 CCD；C=C 1600 cm⁻¹ → 258.9 nm 落在 250–273 nm 拉曼窗。G32-3：焦面上 DUV CCD，青/荧光绿条是同一芯片两个波长区。G32-4：不继承 sci-lab 可见光 CCD；不替代 NeCu/两路/台；1e-6 不改。上一轮把四块斜板写成光谱仪，撤回。",
+        "账 33（l33_lif.py）4 闸全绿。G33-1：8 µJ = 1.00e13 个激光光子，滤光不是可选项。G33-2：LIF 50% @ 253.18 nm 对齐 800 cm⁻¹ = 253.64 nm；等离子体伴线 252.66 nm = 646 cm⁻¹，窗不从 0 起。G33-3：进缝前倾斜长通 + 倾泻，不是第二根光栅。G33-4：不发明光密度；不替代 CCD/NeCu/两路；1e-6 不改。上一轮光栅+CCD 当成光谱仪，激光线会直打芯片，撤回。",
+        "账 34（l34_ldchip.py）4 闸全绿。G34-1：~300 地球表位冻干印片；ops-fab 种不出杂交瘤。G34-2：18×1.2=21.6 片 → 22；一匣 1.02×，1+1 = 2.04×。G34-3：密封匣是库存，三杯是工作列，发光垫不是仓库。G34-4：G8-2 不改；不发明湿收率；不发明 IgG 毫克数。上一轮把三只发光杯写成抗体供应，撤回。",
+        "账 35（l35_passbox.py）4 闸全绿。G35-1：2 g = 0.87 cm³ = 8 m 芯的 5.54e-5；档案留库。G35-2：走道 1.6 m / 门 2.0 m vs 传递窗 0.40 m；舱温 ≥273 K 超 253 K。G35-3：双门 + 钛罐；前室仍是人孔。G35-4：G2/G4/G6 不改。上一轮把保温廊写成岩芯进箱，撤回。",
+        "账 36（l36_cal.py）4 闸全绿。G36-1：聚碳酸酯 1600 cm⁻¹ → 258.9 nm 钉波长轴；未知岩片不能钉。G36-2：白片聚合物 + 锈片 SaU 008；陨石不是形态学生命，不是第二片 CCD。G36-3：靶骑在 XY 台上，台动送进光斑。G36-4：不替代 NeCu/LIF/CCD/台；1e-6 不改。上一轮台上只有未知岩片，撤回。",
+        "账 37（l37_filament.py）4 闸全绿。G37-1：I_e=100 µA 继承账 21；丝断产率 2.87e11 → 0。G37-2：战役 130 h；不发明寿命小时；1+1 是开罐保险。G37-3：源内亮丝+暗丝，不是第二台 EI，不是 ESI。G37-4：CEM 1+1 / 跳过 m/z 4 / 70 eV 不改。上一轮只有一根发光棒，撤回。",
+        "账 38（l38_chirasil.py）4 闸全绿。G38-1：Chirasil 相是地球进口；ops-fab 涂不出缬氨酸二酰胺。G38-2：23.6 针；活相 Rs=2.72，相死 α=1.02 Rs=1.12；不发明寿命针数。G38-3：匣里一根青环，炉内仍两根。G38-4：不替代免疫；α=1.05 不改。上一轮炉内两根当成库存，撤回。",
+        "账 39（l39_witness.py）4 闸全绿。G39-1：飞行 5 支见证；旧循环画出 2 支。G39-2：坪 5 密封 ≠ 灰箱 5 开管 ≠ 青箱过程空白；2+2≠5。G39-3：交接架 5 支矮金帽 + 灰箱一排 5。G39-4：G8-1 不改；不画 38 支科学管。上一轮注释写 5、循环画 2，撤回。",
+        "账 40（l40_garden.py）4 闸全绿。G40-1：1.9/8 是每根芯的分数。G40-2：浅段不是另一口井。G40-3：6×6 两色共线。G40-4：不发明钻机。上一轮 k<3 整根赭，撤回。",
+        "账 41（l41_openpad.py）4 闸全绿。G41-1：ISO 级联从气闸起。G41-2：坪尘没有露头地址。G41-3：接罐柜盖上闩上灯灭。G41-4：灰箱仍是开管 5 支。上一轮坪上玻璃撬写成开管，撤回。",
+        "账 42（l42_cutseal.py）4 闸全绿。G42-1：开管是切封；封口圆柱仍是未开管。G42-2：帽在 ≠ 帽下，仍是 5。G42-3：坪上金/钛帽；灰箱开口+帽躺托盘。G42-4：G39/G41/G8-1 不改。上一轮灰箱五支仍是封口，撤回。",
+        "账 43（l43_waste.py）4 闸全绿。G43-1：2 m 人门不是残样路径。G43-2：人孔 ≠ 样品孔。G43-3：翼东残样窗。G43-4：不发明焚烧。上一轮残样跟人走前室，撤回。",
+        "账 44（l44_airlock.py）4 闸全绿。G44-1：坪口不是 ISO 8。G44-2：级联从人门起。G44-3：西墙人闸。G44-4：G2/G41/G43 不改。上一轮地板褐带对着尘，撤回。",
+        "账 45（l45_mast.py）4 闸全绿。G45-1：ISO 5 不是开外的灯。G45-2：封闭罐子采不了样。G45-3：开口进气。G45-4：283 m 不改。上一轮桅杆青灯，撤回。",
+        "账 46（l46_stub.py）4 闸全绿。G46-1：朝城不是走出去。G46-2：门口规矩 2.8 m。G46-3：西端封板。G46-4：G44/G2 不改。上一轮白门开在 610 Pa，撤回。",
+        "账 47（l47_coreeast.py）4 闸全绿。G47-1：核东不是第二个人孔。G47-2：电力在西。G47-3：东墙实墙。G47-4：不发明进城排气。上一轮核东总控走廊，撤回。",
+        "账 48（l48_dust.py）4 闸全绿。G48-1：ISO 7/6 是舱规。G48-2：更衣/走廊走了尘膜。G48-3：未蒙尘材质。G48-4：3520 不改。上一轮 conc/wDust 当地板，撤回。",
+        "账 49（l49_laminar.py）4 闸全绿。G49-1：粒子拦在滤材上。G49-2：钢板不是 HEPA。G49-3：开口侧褶。G49-4：不发明翼 ACH / 湿收率。上一轮层流顶栅无滤材，撤回。",
+        "账 50（l50_intake.py）4 闸全绿。G50-1：scoop 不是补气。G50-2：进尘脏过天花板。G50-3：外泄封盖。G50-4：不发明湿收率。上一轮白进气口，撤回。"
+      ],
+      "sim_en": [
+        "Ledger 3 (l3_falsepos.py), 4/4 gates. G3-1: Viking's failure mode is a single-channel Labeled Release assay with no orthogonal molecular ID. G3-2: ALH84001's failure mode is counting mineral morphology as a vote. G3-3: sensitivity is forbidden as the reason we avoid those two lessons.",
+        "Ledger 6 (l6_gcms.py), 4/4 gates. G6-1 Phoenix 0.4–0.6 wt% is a known-answer anchor. G6-2: the O₂ window 300–600 °C overlaps the 850 °C organic pyrolysis ceiling; one-shot co-pyrolysis chlorinates organics — SAM chlorobenzene is the flight evidence. G6-3: the amber box must show two ovens. G6-4: 1e-9 g/g is still not the Viking fix.",
+        "Phoenix 2008 perchlorate explains both ends at once: the GC-MS 'no organics' was a method false negative, the LR 'metabolism' a chemical false positive. Both instruments worked; the conclusion stayed ambiguous because orthogonality was not mandatory.",
+        "Ledger 8 (l8_immuno.py), 4/4 gates. G8-1: the process blank lives on the teal chip; the grey-box witness tubes are a different job. G8-2: sample dark + blank pass + Earth+ lit = 'not like Earth epitopes', and must not be written 'not life'. G8-3: a dark Earth+ control voids the batch. Last round's three coloured channels were identity paint, not the blank rule.",
+        "Ledger 9 (l9_raman.py), 4/4 gates. G9-1: fluorescence is not molecular ID. G9-2: two paths are required; a single tube is withdrawn. G9-3: 248 nm is not visible. G9-4: 1e-6 g/g is still not the Viking fix.",
+        "Ledger 10 (l10_ionize.py), 4/4 gates. G10-1's spec did not move (EI before the rods); the list now includes GC. G10-2: EI, not ESI. G10-3: ions are not identification.",
+        "Ledger 11 (l11_scan.py), 4/4 gates. G11-1: a single point is not the spatial co-location vote. G11-2: the stage moves, the optics stay. G11-3: the map is an address, not morphological life.",
+        "Ledger 12 (l12_gc.py), 4/4 gates. G12-2: the column must be coiled in a ramped oven, not a longer transfer line. G12-3: retention time × m/z. G12-4: the column does not replace the west oven. Three rings are a readable identity, not a 30 m winding.",
+        "Ledger 13 (l13_chiral.py), 4/4 gates. G13-1: two coils, two jobs. G13-2: derivatization before the chiral coil; wet chemistry still needs the west oven. G13-3: chiral GC does not replace the immunoassay. G13-4: racemic is not a life veto. Two coils in the city are identity, not SAM's six flight columns. Identity is not enough: vote (c) is two arrivals — ledger 22.",
+        "Ledger 14 (l14_helium.py), 4/4 gates. G14-1: the carrier is He, not Martian CO₂. G14-2: the 4 ppm harvest veto is the separation plant (FEL already refused it), not the gram-scale volume — 4.2 g of campaign He is 2.1 h at 100 m³/s. Electrolysis makes H₂, not He. G14-3: the amber box must show an Earth bottle and a regulator. G14-4: 10 L × 150 bar = 1379 L STP against 23 L need (59×); this does not reopen the tonne veto; sci-lab-01's hydrogen-carrier answer still stands.",
+        "Ledger 15 (l15_vacuum.py), 4/4 gates. G15-1: STP λ = 65.7 nm (textbook ~66). 1.6×10⁶ collisions along the rods at 70 kPa, <1 at 1e-4 Pa. G15-2: 1 sccm at 0.1 Pa needs 16.9 L/s; a 70 L/s can has 4.1×. Turbo exhaust 1 kPa > Mars 610 Pa, no backing pump. G15-3: exhaust is molecules — dual HEPA is the wrong filter; do not dump into the ISO wing. G15-4: 850 °C is chemistry, not vacuum; a hull dump is not a COSPAR kill step.",
+        "Ledger 16 (l16_restrictor.py), 4/4 gates. G16-1: compressible Poiseuille, 30 m × 0.25 mm, 1 sccm He, vacuum outlet → 148 kPa inlet. G16-2: a ⌀50 mm × 22 cm pipe is 0.33 Pa and is forbidden as the gas path. G16-3: the restrictor is the column ID, not a needle valve; no open split into the wing. G16-4: vacuum-outlet t_R is SAM's; do not build 1 atm at the column tail.",
+        "Ledger 17 (l17_ramp.py), 4/4 gates. G17-1: isothermal 50 °C extra 508 min ≫ one 22 min run. G17-2: isothermal 220 °C extra 0.7 s, k=0.006, inside t0=120 s. ΔH=40 kJ/mol is a design point; 80→110 °C gives 2.91× per 30 K, inside the textbook doubling band. G17-3: heater + 18 s needle; ledger 12's spec did not move, the geometry was a lamp. G17-4: the ramp does not replace the west oven or the restrictor.",
+        "Ledger 18 (l18_epc.py), 4/4 gates. G18-1: constant inlet P, molar flow ∝ T^{-1.7}, 0.49× by 220 °C (1 sccm → 0.49 sccm; u 25→19 cm/s). G18-2: holding ṅ raises P ∝ (μ T)^{1/2}, 148 → 212 kPa. Ledger 16's 148 kPa is the 50 °C start; that gate does not move. G18-3: EPC on the He line, needle in phase with the oven; not the cylinder regulator, not a tail valve. G18-4: does not replace the bottle, the restrictor, or the ramp.",
+        "Ledger 19 (l19_scanrate.py), 4/4 gates. G19-1: inherited Golay N=153070, k_e=1.4 → σ=0.74 s, FWHM=1.73 s ≪ 22 min. G19-2: ≥8 points/FWHM → ≤0.22 s/spectrum, ≥2460 Da/s; a 2 s survey is 0.9 points. G19-3: blue cursor 3 s on the analyzer + diagonal RF/DC rods; not the oven needle, not EPC. G19-4: does not replace EI/column/EPC/ramp; SIM is not a spectrum of an unknown; do not inherit the H2 prefilter cutoff.",
+        "Ledger 20 (l20_em.py), 4/4 gates. G20-1: 2 ng in the boat × 1% on-column = 20 pg (LOD spec does not move). Dwell 0.41 ms, major ion 44 fA; Faraday needs τ=1.14 s for 10 mV (2814× dwell); CEM ×1e6 → τ=1.1 µs. G20-2: horn after the rods, not the filament, not a cup. G20-3: gain is not m/z and not dual HEPA. G20-4: does not replace the fast scan; ions on a dynode are not a kill step. Must not be written as a scanning electron microscope.",
+        "Ledger 21 (l21_cem_life.py), 4/4 gates. G21-1: scanning He+ extracts 4.0 C / 10 C life = 2.5×; organics-only 0.0001 C is a fake margin. G21-2: scan-law notch at m/z 4, not an RF-only cutoff 2–39. G21-3: 1+1 import; reduced lead glass is not CMOS. After the notch, margin 1300×; the spare is conjunction insurance. G21-4: does not replace the He bottle; skipping 4 is not switching to hydrogen.",
+        "Ledger 22 (l22_chiral_peaks.py), 4/4 gates. G22-1: Chirasil-class α=1.05 → Purnell Rs=2.72, Δt=8.4 s = 4.8× FWHM; α=1.02 is Rs=1.12, a shoulder not two peaks. G22-2: steel one peak (coelution) / teal two peaks the same colour (same m/z). G22-3: upper 2:1 teaching ee, lower 1:1 racemic clock; G13-4 does not move. G22-4: does not replace the immunoassay, derivatization, or the west oven. Last round's teal coil = enantiomers was identity paint, the same class as three coloured immuno channels. The two peaks still need someone to feed them — ledger 23.",
+        "Ledger 23 (l23_sim_park.py), 4/4 gates. G23-1: ~39 spectra inside Δt, both arrivals are in the EIC; at f=0.01 full-scan N=15, 3σ ee floor 55% > teaching 2:1; SIM N=8030, floor 2.4%. Last round's 'full scan misses the second peak' is withdrawn. G23-2: teal pin parked at mid-mass, not the blue cursor, not the m/z 4 notch. G23-3: SIM is targeted, not vote (b)'s spectrum; G19-4 stands. G23-4: does not replace the two peaks, derivatization, west oven, or immunoassay; the LOD spec does not move. The pin still does not know where to sit — ledger 24.",
+        "Ledger 24 (l24_confirm.py), 4/4 gates. G24-1: XOR per injection, survey then park. G24-2: blue then teal on the roof is sequence, not one RF program doing both. G24-3: vote (c) is confirmation, not discovery; unknown backbone has no pin; G13-4 stands. G24-4: split derivatized aliquot N=4015, 3σ ee floor 3.3% still ≪ teaching 2:1; does not replace the steel spectrum / EI / immunoassay; LOD spec does not move. This quadrupole cannot cast the isotope alternative — ledger 25.",
+        "Ledger 25 (l25_isotope.py), 4/4 gates. G25-1: at f=0.01 QMS σ(δ)=106‰ ≫ the tens-of-‰ overlap band; even the whole 20 pg is 10.6‰. G25-2: CSIA wants 1 ng; 20 pg is 50× short, f=0.01 makes 5000×. G25-3: dark dual cups, not 45/44 painted on the QMS; vote (c) as drawn stays chiral confirmation. G25-4: no IRMS box; does not replace chiral/immuno/west oven; ‰ is not a detection limit. Last round's 'the remaining vote (c) is isotopes' is withdrawn. The wet cup is still dirty — ledger 26.",
+        "Ledger 26 (l26_deriv.py), 4/4 gates. G26-1: aliquot A's report does not wash B; 10 mg ClO4 stays. G26-2: 75 °C < 300 °C O2 window, not chlorobenzene pyrolysis; 0.20 M in 0.5 mL; 16× reagent is not a wash. G26-3: rust grain on the tray, vials are not a scrubber. G26-4: chiral path does not inherit 20 pg / 1e-9; no third oven. Last round's 'west oven first means the cup is clean' is withdrawn. 75 °C is still not the inlet — ledger 27.",
+        "Ledger 27 (l27_oxaa.py), 4/4 gates. G27-1: even counting the 2 ng LOD inventory as glycine, n_ClO4/n_AA=3.8e6; f=0.01 → 3.8e8. Reagent 16× is vs perchlorate, not vs amino acids. G27-2: 75 °C is soak; flash ceiling 300 °C = O2 window floor, gap 0 K; the cup still heats — not a syringe bypass of G6-2. G27-3: derivatized cup on the east oven, not oven #3; rust block vs teal speck. G27-4: the ratio is not a destruction rate; no wet yield invented; 2:1 stays teaching. Last round's 'not the chlorobenzene window, so the chiral path cleared G6-2' is withdrawn. Where 2.4% belongs — ledger 28.",
+        "Ledger 28 (l28_std.py), 4/4 gates. G28-1: 2.4% / 3.3% are bound to 20 pg on-column; the wet path does not inherit them. G28-2: η_20 ≥ 0.50% just beats teaching 2:1; η_20=1 keeps 2.4%; split threshold 1.01%; cup η unknown. G28-3: white vial at the board is the standard that feeds 2:1; the rust cup on the east oven has no number. G28-4: no η invented; G23-1 still green for 20 pg. Last round left 2.4% on the teal board as this cup's spec; the attribution is withdrawn. Reagent stock — ledger 29.",
+        "Ledger 29 (l29_mtbstfa.py), 4/4 gates. G29-1: MTBSTFA is an Earth import; electrolysis/ISRU do not make it. G29-2: 18 holes × 1.2 blanks + 2 teaching traces = 9.44 mL; a 10 mL ampoule is 1.06×; 1+1 = 2.12×, CEM-class not He 59×. G29-3: two sealed ampoules are stock; tray vials are working aliquots. G29-4: does not replace the He bottle; no η invented. Last round treated the tray vials as the campaign supply; withdrawn.",
+        "Ledger 30 (l30_paschen.py), 4/4 gates. G30-1: 2.5 kV design point, 70 kPa air window 6.1 µm–0.60 mm, derate 1.45× (XRD cabin known-answer). G30-2: analyzer 1e-4 Pa is left of the minimum; 1 mm does not spark. G30-3: horn inside the vacuum can, HV potted through the wall, not a cabin lamp. G30-4: HV does not ride the 610 Pa dump (CO2 minimum 249 V; 2.5 kV right branch 57 mm); does not replace skip m/z 4 / 1+1 / He / turbo; 1e-9 stays. Last round drew the glowing stack as a glovebox channeltron; withdrawn.",
+        "Ledger 31 (l31_necu.py), 4/4 gates. G31-1: 248.6 nm = 4.99 eV, a NeCu line, not a diode, not a 265 nm LED band. G31-2: flown 8 µJ / 40 µs, 7540 µm² spot → 0.11 J/cm² (Bhartia 2021 writes 0.1). G31-3: sealed metal head + window; cyan beam is identity paint; 1+1 spare tube, ops-fab cannot grow it. G31-4: does not replace two paths / the stage; 1e-6 stays; discharge is inside the tube, not ledger 30's cabin pin. Last round wrote the glowing cube as the 248 nm laser; withdrawn.",
+        "Ledger 32 (l32_ccd.py), 4/4 gates. G32-1: Si skin 5.5 nm vs ~400 nm poly gate; blind at the gate, not the band gap. G32-2: one grating, one CCD; C=C 1600 cm⁻¹ → 258.9 nm in the 250–273 nm Raman window. G32-3: DUV CCD at the focus; cyan/fluo stripes are two spectral regions on one chip. G32-4: does not inherit the sci-lab visible CCD; does not replace NeCu / two paths / the stage; 1e-6 stays. Last round wrote four tilted plates as the spectrograph; withdrawn.",
+        "Ledger 33 (l33_lif.py), 4/4 gates. G33-1: 8 µJ = 1.00e13 laser photons; the filter is not optional. G33-2: LIF 50% @ 253.18 nm matches 800 cm⁻¹ = 253.64 nm; plasma line 252.66 nm = 646 cm⁻¹, so the window does not start at 0. G33-3: tilted longpass + dump before the slit, not a second grating. G33-4: no OD invented; does not replace CCD / NeCu / two paths; 1e-6 stays. Last round treated grating+CCD as the spectrograph, so the laser line would hit the chip; withdrawn.",
+        "Ledger 34 (l34_ldchip.py), 4/4 gates. G34-1: ~300 Earth epitopes freeze-dried on chips; ops-fab cannot grow hybridomas. G34-2: 18×1.2=21.6 chips → 22; one kit 1.02×, 1+1 = 2.04×. G34-3: sealed kits are stock; three cups are working columns; the glowing pad is not the warehouse. G34-4: G8-2 does not move; no wet yield invented; no IgG milligrams invented. Last round wrote three glowing cups as the antibody supply; withdrawn.",
+        "Ledger 35 (l35_passbox.py), 4/4 gates. G35-1: 2 g = 0.87 cm³ = 5.54e-5 of one 8 m core; archive stays in the vault. G35-2: corridor 1.6 m / door 2.0 m vs passbox 0.40 m; cabin ≥273 K exceeds 253 K. G35-3: two doors + Ti can; the anteroom stays people-only. G35-4: G2/G4/G6 do not move. Last round wrote the warm corridor as the core's path into the box; withdrawn.",
+        "Ledger 36 (l36_cal.py), 4/4 gates. G36-1: polycarbonate 1600 cm⁻¹ → 258.9 nm pins the wavelength axis; the Jezero chip cannot. G36-2: white polymer + rust SaU 008; the meteorite is not morphological life and not a second CCD. G36-3: coupons ride the XY stage into the fixed spot. G36-4: does not replace NeCu / LIF / CCD / the stage; 1e-6 stays. Last round left only an unknown chip on the stage; withdrawn.",
+        "Ledger 37 (l37_filament.py), 4/4 gates. G37-1: I_e=100 µA from ledger 21; open filament drops 2.87e11 /s to 0. G37-2: campaign 130 h; no hour-spec invented; 1+1 is can-opening insurance. G37-3: glowing wire + dark spare in the EI can, not a second ion source, not ESI. G37-4: CEM 1+1 / skip m/z 4 / 70 eV stand. Last round left a single glowing rod; withdrawn.",
+        "Ledger 38 (l38_chirasil.py), 4/4 gates. G38-1: Chirasil phase is Earth import; ops-fab cannot coat a valine diamide. G38-2: 23.6 injections; live Rs=2.72, dead α=1.02 Rs=1.12; no shot-life invented. G38-3: one teal ring in a box; still two coils in the oven. G38-4: does not replace immuno; α=1.05 stays. Last round treated the oven coils as the stock; withdrawn.",
+        "Ledger 39 (l39_witness.py), 4/4 gates. G39-1: flight 5 witness tubes; the old loop drew 2. G39-2: pad 5 sealed ≠ grey 5 opened ≠ on-chip process blank; 2+2≠5. G39-3: rack 5 short gold-caps + grey box row of 5. G39-4: G8-1 stands; do not draw 38 science tubes. Last round wrote 5 in the caption and drew 2; withdrawn.",
+        "Ledger 40 (l40_garden.py), 4/4 gates. G40-1: 1.9/8 is a fraction of each core. G40-2: the shallow end is not another hole. G40-3: 6×6 two-tone collinear. G40-4: no drill invented. Last round painted k<3 whole tubes ochre; withdrawn.",
+        "Ledger 41 (l41_openpad.py), 4/4 gates. G41-1: ISO cascade starts at the airlock. G41-2: pad dust has no outcrop address. G41-3: locker lid-down, latched, lamp off. G41-4: grey box stays the opened 5. Last round wrote the pad glass skid as opening; withdrawn.",
+        "Ledger 42 (l42_cutseal.py), 4/4 gates. G42-1: opening is the cut; a closed cylinder is still sealed. G42-2: cap-on ≠ cap-off, still 5. G42-3: pad gold/ti caps; grey open mouths + caps on the tray. G42-4: G39/G41/G8-1 stand. Last round left the grey five closed; withdrawn.",
+        "Ledger 43 (l43_waste.py), 4/4 gates. G43-1: the 2 m door is not the residue path. G43-2: people hole ≠ sample hole. G43-3: east-wing waste window. G43-4: no incinerator. Last round sent residue with people through the anteroom; withdrawn.",
+        "Ledger 44 (l44_airlock.py), 4/4 gates. G44-1: the pad mouth is not ISO 8. G44-2: cascade starts at the people door. G44-3: west people lock. G44-4: G2/G41/G43 stand. Last round aimed the brown stripe at the dust; withdrawn.",
+        "Ledger 45 (l45_mast.py), 4/4 gates. G45-1: ISO 5 is not an outdoor lamp. G45-2: a closed can does not sample. G45-3: open inlet. G45-4: 283 m stands. Last round put cyan on the mast; withdrawn.",
+        "Ledger 46 (l46_stub.py), 4/4 gates. G46-1: facing the city is not walking out. G46-2: doorway 2.8 m. G46-3: west blank. G46-4: G44/G2 stand. Last round the white door opened at 610 Pa; withdrawn.",
+        "Ledger 47 (l47_coreeast.py), 4/4 gates. G47-1: core east is not a second people hole. G47-2: power is west. G47-3: east wall blank. G47-4: no city dump. Last round wrote a corridor onto the core; withdrawn.",
+        "Ledger 48 (l48_dust.py), 4/4 gates. G48-1: ISO 7/6 are cabin specs. G48-2: gowning/hall were dusted. G48-3: undusted mats. G48-4: 3520 stands. Last round conc/wDust were the floors; withdrawn.",
+        "Ledger 49 (l49_laminar.py), 4/4 gates. G49-1: particles stop on media. G49-2: steel is not HEPA. G49-3: cutaway pleats. G49-4: no wing ACH / no wet yield. Last round the laminar grid had no media; withdrawn.",
+        "Ledger 50 (l50_intake.py), 4/4 gates. G50-1: scoop is not makeup. G50-2: dust would beat the ceiling. G50-3: capped bleed. G50-4: no wet yield. Last round wrote a white intake; withdrawn."
+      ],
+      "physics": [
+        "正交三票必须是不同物理量：(a) 空间同址（拉曼扫描台填图+露头地址）(b) 分子结构（钢柱保留时间 × EI 质荷比，且高氯酸盐已从西炉读出）(c) 手性/同位素/表位三选一——手性由青柱两个峰的高度比投出（同一 m/z、两次到达），不是线圈颜色；表位由免疫阵列投出，不能互相替代。形态学与 Viking LR 式单通道实验永久不得单独作为生命证据发布。没有载气就没有 t_R。没有毛细限流，涡轮把柱内压降抽没。没有程序升温，等温把 t_R 轴折成两截：低温重峰不出，高温轻峰与死时间共流出。斜坡是铺满时间轴，不是把色谱炉烧到 850 °C。没有 EPC，斜坡期间 μ 上升把摩尔流量腰斩，t_R 轴再次模糊——票 (b) 要比 SAM，不能让流量自己走。没有足够快的 RF 扫描，1.73 s 的峰在检测器上只剩一根棍子：质量轴是电压，缺的是 dV/dt。没有杆后的倍增器，44 fA 进不了 0.41 ms 的驻留：灯丝电子电离分子，二次电子才是可读电流。扫到 He+ 会在 130 h 抽出 4 C，贴着 10 C 寿命；跳过 m/z 4 是扫描律缺口，不是把 2–39 全砍掉。Chirasil 级 α=1.05 才把对映体拆成 Δt=8.4 s 的两个峰；一根青环没有两次到达。消旋 1:1 仍是地质时钟。全扫在 8.4 s 里有 ~39 张谱，两次到达都在提取离子流里；1/533 的占空比在氨基酸份额 f=0.01 下 3σ ee 地板 55%，高于教学 2:1。票 (c) 的比要钉住的针来供数，蓝游标仍是票 (b) 的谱。钉不是跳过 m/z 4。钉针没有自己的碎片库：先扫后钉，票 (c) 是确认不是发现。未知骨架与免疫阴性一样，仪器自己承认看不见。同位素‰不是这台四极杆：f=0.01 时 σ(δ)=106‰，CSIA 要 ng。G3-4 的三选一在本站选的是手性确认，同位素是清单项。西炉先报不是洗净：B 份仍有 10 mg 高氯酸盐，75 °C 衍生不是洗涤，20 pg 不得搬到青柱上。75 °C 是浸泡不是进样：闪蒸顶 = 放氧窗底 = 300 °C，裕量 0 K。衍生化杯坐在东炉上，不是第三台炉。即便 2 ng LOD 存货全算甘氨酸，n_ClO4/n_AA 仍是 3.8e6；试剂 16× 从没进过这个分数。摩尔比不是销毁速率。2:1 上迹仍是教学，不是这只杯子付得起的 ee。SIM 地板 2.4% / 3.3% 绑定 20 pg 标准品；相对它 η_20 ≥ 0.50% 才刚够 2:1，η_20=1 才保持 2.4%。锈杯 η 未知。谱图旁白瓶才是喂 2:1 的那一针。MTBSTFA 战役 9.4 mL，一支 10 mL 安瓿只有 1.06×，要 1+1 密封安瓿；托盘小瓶是工作液，不替代氦瓶。通道倍增器是真空件：70 kPa 下 2.5 kV 帕邢窗 6.1 µm–0.60 mm（1.45×）；喇叭口进罐、高压灌封。HV 不骑 610 Pa 穿舱管。舱气用空气系数，不是火星 CO2。248.6 nm 是 NeCu 空心阴极线（4.99 eV），不是青光二极管；飞行点 8 µJ → 0.11 J/cm²。青束是身份漆。没有焦面上的 DUV CCD，光栅是雕塑：正照硅栅趋肤 5.5 nm，250 nm 光子进不了阱。C=C 1600 cm⁻¹ 落在 258.9 nm，与荧光窗 ≥274 nm 在同一芯片上分开。不是 sci-lab 那片可见光 CCD。没有长通，1e13 个激光光子打进阱：LIF 50% @ 253.18 nm 对齐 800 cm⁻¹；伴线 646 cm⁻¹，窗不从 0 起。不发明光密度。没有密封匣，地球+ 灭灯：18×1.2=22 片，一匣 1.02×；三杯是工作列，不是仓库。G8-2 不改。没有传递窗，8 m 芯走进 ISO 5：2 g = 0.87 cm³ 走钛罐；保温廊是人孔，舱温 ≥273 K 超 253 K。G4-1 不改。没有标定靶，波长轴无处可钉：聚碳酸酯 1600 cm⁻¹ → 258.9 nm；锈片 SaU 008 不是形态学生命。1e-6 不改。灯丝断则 I_e=0：100 µA 是账 21 的发射；1+1 是开罐保险，不发明小时数。没有 Chirasil 匣，相死则 α=1.02、Rs=1.12：炉内仍两根，备件在匣里。不发明寿命针数。见证管是 5 支：注释写 5、循环画 2 撤回。坪上密封 5，灰箱开管 5；2+2≠5。G8-1 不改。浅段不是另一口井。坪上不是开管。开管是切封。残样不走人孔。坪口不是气闸。桅杆不是 ISO 5。城廊只出几米。核东不是城廊。尘膜不是级联。层流不是钢板。白口不是采火星气。"
+      ],
+      "physics_en": [
+        "The three orthogonal votes must be different physical quantities: (a) spatial co-location (Raman stage map + outcrop address), (b) molecular structure (steel-column retention time × m/z after EI, after the west oven has read the perchlorate load), (c) chirality / isotopes / epitope, pick one — chirality is the height ratio of two peaks on the teal coil (same m/z, two arrivals), not the coil's colour; epitopes by the immunoassay; they do not substitute for each other. Morphology and a Viking LR-style single-channel assay may never be published alone as a life-detection claim. There is no t_R without carrier. There is no t_R without a capillary restrictor. There is no full t_R axis without a temperature program: isothermal 50 °C never releases the heavy end, isothermal 220 °C dumps the light end into the void. The ramp fills the time axis; it is not an 850 °C chromatography oven. There is no SAM-comparable t_R without EPC: a constant-P regulator lets μ rise and halves the molar flow, so the axis blurs again on the ramp that was supposed to fill it. There is no chromatogram without a fast RF sweep: a 1.73 s peak sampled every 2 s is a stick. The mass axis is voltage; what was missing is dV/dt. There is no readable current without a multiplier after the rods: 44 fA cannot fill a 0.41 ms dwell into a Faraday cup. Filament electrons ionize neutrals; secondary electrons are the current that can be read. Scanning He+ extracts 4 C in 130 h, against a 10 C life; a notch at m/z 4 is a scan-law hole, not a 2–39 cutoff. Chirasil-class α=1.05 is what splits enantiomers into two peaks 8.4 s apart; a teal torus has no second arrival. A 1:1 racemic pair is still a geological clock. A fast scan puts ~39 spectra inside 8.4 s, so both arrivals are in the EIC; a 1/533 duty cycle at amino-acid fraction f=0.01 gives a 3σ ee floor of 55%, above the teaching 2:1. Vote (c)'s ratio is fed by a parked pin; the blue cursor remains vote (b)'s spectrum. Park is not the m/z 4 skip. The pin has no fragment library of its own: survey then park. Vote (c) is confirmation, not discovery. An unknown backbone, like an immunoassay negative, is a blind the instrument admits. Isotope ‰ is not this quadrupole: σ(δ)=106‰ at f=0.01, and CSIA wants ng. G3-4's pick-one on this station is chiral confirmation; isotope is a list item. The west oven reporting perchlorate is not a wash: aliquot B still holds 10 mg, 75 °C derivatization is not cleanup, and 20 pg must not move onto the teal column. 75 °C is soak, not inlet: the flash ceiling equals the O2 window floor at 300 °C (gap 0 K). The derivatized cup sits on the east oven, not a third oven. Even counting the 2 ng LOD inventory as glycine, n_ClO4/n_AA is still 3.8e6; reagent 16× never entered that fraction. The ratio is not a destruction rate. The 2:1 trace stays teaching — this cup cannot pay for it. The SIM floors 2.4% / 3.3% are bound to a 20 pg standard; relative to that, η_20 ≥ 0.50% just beats 2:1 and η_20=1 keeps 2.4%. The rust cup's η is unknown. The white vial at the board is the injection that feeds 2:1. Campaign MTBSTFA is 9.4 mL; one 10 mL ampoule is 1.06×, so 1+1 sealed ampoules; tray vials are working aliquots and do not replace the He bottle. The channeltron is a vacuum part: at 70 kPa a 2.5 kV Paschen window is 6.1 µm–0.60 mm (1.45×); the horn is in the can and HV is potted. HV does not ride the 610 Pa dump. Cabin gas uses air coefficients, not Mars CO2. 248.6 nm is a NeCu hollow-cathode line (4.99 eV), not a cyan diode; flown 8 µJ → 0.11 J/cm². The cyan beam is identity paint. Without a DUV CCD at the focus the grating is sculpture: a front-side poly gate has a 5.5 nm skin, so 250 nm photons never reach the well. C=C 1600 cm⁻¹ lands at 258.9 nm, split from fluorescence ≥274 nm on the same chip. Not the sci-lab visible CCD. Without a longpass, 1e13 laser photons hit the well: LIF 50% @ 253.18 nm matches 800 cm⁻¹; plasma line 646 cm⁻¹, so the window does not start at 0. No OD invented. Without sealed kits, Earth+ goes dark: 18×1.2=22 chips, one kit 1.02×; three cups are working columns, not the warehouse. G8-2 does not move. Without a passbox, an 8 m core walks into ISO 5: 2 g = 0.87 cm³ takes a Ti can; the corridor is for people, cabin ≥273 K exceeds 253 K. G4-1 does not move. Without a cal target the wavelength axis has nowhere to pin: polycarbonate 1600 cm⁻¹ → 258.9 nm; rust SaU 008 is not morphological life. 1e-6 stays. A broken filament zeros I_e: 100 µA is ledger 21's emission; 1+1 is can-opening insurance, no hour-spec invented. Without a Chirasil box a dead phase is α=1.02, Rs=1.12: two coils stay in the oven, the spare sits in the box. No shot-life invented. Witness tubes are 5: caption 5 / loop 2 withdrawn. Pad 5 sealed, grey box 5 opened; 2+2≠5. G8-1 does not move. The shallow end is not another hole. The pad is not where tubes open. Opening is cutting the seal. Residue does not walk the people lock. The pad mouth is not the airlock. The mast is not ISO 5. The city corridor is only a few metres of stub. The core east is not a city corridor. Dust film is not the cascade. Laminar flow is not a steel plate. The white stack is not a Mars scoop."
+      ]
+    },
+    {
+      "id": "pad",
+      "label": "样品管交接坪",
+      "label_en": "Sample-tube handover pad",
+      "range": 18,
+      "detail": "毅力号封的钛管在这里进库，不在这里开管。43 支（5 支见证镀金帽）。坪上 5 支帽还在（金帽见证 / 钛帽科学）；灰箱 5 支帽已切、口朝上。钢柜盖上闩上灯灭——接罐不是开管撬。单管 8 cm³ / 18 g，合计 0.79 kg——贵的不是质量，是露头地址已经写在管子上。硬化面 + 防尘裙：账 1 的尘卷风再悬浮项。管子是第一重密封；实验室是第二、第三重。",
+      "detail_en": "The titanium tubes Perseverance sealed enter the library here; they are not opened here. 43 tubes (5 witness, gold caps). Pad 5 still have their caps (gold witness / titanium science); grey-box 5 have the cap cut and the mouth up. The steel locker is lid-down, latched, lamp off — receiving, not an opening glovebox. 8 cm³ / 18 g each, 0.79 kg in all — what is precious is not the mass, it is the outcrop address already written on the tube. Hardened apron and dust skirt: ledger 1's dust-devil resuspension term. The tube is the first seal; the lab is the second and third.",
+      "specs": {
+        "飞行清单": "43 管（38 科学 + 5 见证）",
+        "单管": "内径 1.3 cm × 6 cm，钛、热密封、氦检漏",
+        "图幅内最近途经": "Sol 200，(−14, −178)，347 m",
+        "现车": "Sol 1947，图幅外 11.9 km",
+        "开管地点": "灰箱切封，不是坪上。ISO 级联从西墙人气闸起。坪口不是气闸",
+        "开管状态": "坪上帽在=密封；灰箱帽下=切开。开管是切封"
+      },
+      "specs_en": {
+        "Flight inventory": "43 tubes (38 science + 5 witness)",
+        "Per tube": "1.3 cm ID × 6 cm, titanium, heat-sealed, He leak-checked",
+        "Closest in-tile pass": "Sol 200, (−14, −178), 347 m",
+        "Rover now": "Sol 1947, 11.9 km off-tile",
+        "Where tubes open": "Grey box, cut seal, not the pad. ISO cascade starts at the west people airlock. The pad mouth is not the airlock",
+        "Opened vs sealed": "Pad cap-on = sealed; grey cap-off = cut. Opening is the cut"
+      },
+      "sim": [
+        "账 4（l4_custody.py）：见证管是开管日的污染地板。见证管脏了，所有阳性作废——这是 G3-4 发布规则的硬件身份。",
+        "账 39（l39_witness.py）：飞行 5 支。坪上密封 5、灰箱开管 5。旧循环 i>=8 画出 2 支；2+2≠5。青箱空白仍是过程空白。",
+        "账 41（l41_openpad.py）：坪上钢柜是接罐。玻璃+青灯撤回。开管在灰箱。坪尘没有露头地址。",
+        "账 42（l42_cutseal.py）：开管是切封。坪上帽在，灰箱帽躺托盘、口朝上。封口圆柱不是开管。",
+        "任务图层（P 键）是这条叙事的另一端。实验室不替代毅力号，它接收毅力号。",
+        "账 44（l44_airlock.py）：坪口褐带不是气闸。人走西墙双门钢闸。管子不换衣服。"
+      ],
+      "sim_en": [
+        "Ledger 4 (l4_custody.py): the witness tubes are the contamination floor on opening day. If they are dirty, every positive is void — that is the hardware identity of the G3-4 detection-claim rule.",
+        "Ledger 39 (l39_witness.py): flight 5. Pad 5 sealed, grey box 5 opened. The old loop i>=8 drew 2; 2+2≠5. The immuno blank stays on-chip.",
+        "Ledger 41 (l41_openpad.py): the pad locker is receiving. Glass + cyan lamp withdrawn. Opening is in the grey box. Pad dust has no outcrop address.",
+        "Ledger 42 (l42_cutseal.py): opening is cutting the seal. Pad caps on; grey caps on the tray, mouths up. A closed cylinder is not an opened tube.",
+        "The mission layer (P key) is the other end of this story. The laboratory does not replace Perseverance; it receives it.",
+        "Ledger 44 (l44_airlock.py): the pad-mouth stripe is not the airlock. People use the west two-door steel lock. Tubes do not change clothes."
+      ],
+      "physics": [
+        "热密封钛管的氦漏率把管内火星大气冻在取样瞬间。开管之前实验室碰不到样品——正向污染的时钟从切封开始，不从进场开始。坪上不是开管。开管是切封。"
+      ],
+      "physics_en": [
+        "A heat-sealed titanium tube freezes the Martian atmosphere of the sampling instant behind a helium leak rate. Until the tube is opened the lab cannot touch the sample — the forward-contamination clock starts at the cut, not at arrival. The pad is not where tubes open. Opening is cutting the seal."
+      ]
+    },
+    {
+      "id": "vault",
+      "label": "半埋岩芯库（地温就是冰箱）",
+      "label_en": "Semi-buried core vault (the ground is the fridge)",
+      "range": 16,
+      "detail": "3 m 覆土下的库。架上每根芯浅赭深青共线（1.9/8），不是三口赭井。地球 MSR 写 −20 °C 是上限；耶泽罗 3 m 地温全年 201–219 K（−72 至 −55 °C），距上限还有 35 K。第一反应「配一台 −20 °C 冰箱」被算术推翻：工程问题是把 293 K 分析翼的热挡在库外，不是提供冷。不挂 res-cryo-01：90 K / 191 kWe 的液化机温度等级不对，可用性跟会合窗口走。",
+      "detail_en": "A vault under 3 m of cover. Each core on the rack is ochre-then-teal (1.9/8), not three ochre holes. Terrestrial MSR writes −20 °C as a ceiling; Jezero ground at 3 m sits at 201–219 K (−72 to −55 °C) all year, 35 K below that ceiling. The first impulse — 'fit a −20 °C freezer' — is overturned by the arithmetic: the engineering problem is keeping 293 K lab heat out, not providing cold. It does not share res-cryo-01: a 90 K / 191 kWe liquefier is the wrong temperature class, and its uptime follows launch windows.",
+      "specs": {
+        "库体": "12 × 8 × 3 m 半埋",
+        "年趋肤深度": "δ = 1.94 m（κ=2×10⁻⁷ m²/s）",
+        "3 m 年温": "201.5–218.5 K",
+        "−20 °C 上限余量": "34.6 K",
+        "与暖翼共墙稳态抬温": "0.33 K"
+      },
+      "specs_en": {
+        "Vault": "12 × 8 × 3 m, semi-buried",
+        "Annual skin depth": "δ = 1.94 m (κ=2×10⁻⁷ m²/s)",
+        "3 m annual T": "201.5–218.5 K",
+        "Margin to −20 °C": "34.6 K",
+        "Steady rise if sharing a wall with the warm wing": "0.33 K"
+      },
+      "sim": [
+        "账 4 自我修正：本想证明需要冰箱，算出来地温已经是 −63 °C。与 sci-swir-01「制冷白送」、sci-cryoem-01「岩层恒温」同源——火星环境是热学赠款。",
+        "口径对齐 res-cryo-01 的那一句：两边都拒绝地球式一天到晚开冰箱。不共用的三句：温度等级 90 K vs 210 K；可用性挂钩会合窗口；210 K 库稳态制冷 ≈ 0 W，191 kWe 不是我们的客户。",
+        "科学库的故障模式不能是「这周要给星舰加注所以样品升温」。"
+      ],
+      "sim_en": [
+        "Ledger 4 self-correction: it set out to justify a freezer and found the ground is already −63 °C. Same gift as sci-swir-01 ('refrigeration is free') and sci-cryoem-01 ('the rock is the thermostat') — Mars ambient is a thermal grant.",
+        "The sentence that aligns with res-cryo-01: both refuse an Earth-style always-on fridge. The three sentences that refuse sharing: temperature class 90 K vs 210 K; uptime tied to launch windows; a 210 K vault needs ≈0 W and 191 kWe is not a customer.",
+        "A science library's failure mode must not be 'the Starship is loading this week so the samples warm up'."
+      ],
+      "physics": [
+        "年热波 T(z)=T̄+A e^{−z/δ} cos(ωt−z/δ)，δ=√(2κ/ω)。石膏在 210 K 仍在稳定域深侧；−20 °C 规格搬到耶泽罗变成「别让人把库加热」。接地五面是无限热沉：332 W 漏热只抬 0.33 K。"
+      ],
+      "physics_en": [
+        "Annual thermal wave T(z)=T̄+A e^{−z/δ} cos(ωt−z/δ), δ=√(2κ/ω). Gypsum at 210 K is deep in its stability field; the −20 °C spec, moved to Jezero, becomes 'do not let people heat the vault'. Five sides in the ground are an infinite sink: 332 W of leak raises the vault 0.33 K."
+      ]
+    },
+    {
+      "id": "drill",
+      "label": "岩芯库容量与钻具接口",
+      "label_en": "Core-library capacity and drill interface",
+      "range": 14,
+      "detail": "每根芯浅赭（1.9/8）+ 深灰青共线，不是 k<3 三口整根赭井。赭色段是辐射花园（浅于 1.9 m，只做矿物学），灰青段是可用芯。18 孔 × 8 m × ⌀5 cm = 283 L / 650 kg，只占库容 0.10%——库按人和热质量定，不按石头定。毅力号 43 管 0.34 L 可忽略。res-mine-01 的 RASSOR 斗轮故意搅碎层理，严禁下科学孔。",
+      "detail_en": "Each core is ochre-shallow (1.9/8) then grey-teal-deep on one axis, not k<3 three all-ochre holes. Ochre is the radiation garden (shallower than 1.9 m, mineralogy only); grey-teal is usable core. 18 holes × 8 m × ⌀5 cm = 283 L / 650 kg, 0.10% of the vault — the vault is sized for people and thermal mass, not for rock. Perseverance's 43 tubes (0.34 L) are negligible as volume. res-mine-01's RASSOR bucket-drums destroy bedding on purpose and are forbidden on a science hole.",
+      "specs": {
+        "钻探计划": "6 相 × 3 孔 = 18 孔，每孔 8 m",
+        "过 GCR 花园": "8 m > sci-cryoem-01 的 1.9 m",
+        "色标": "1.9/8 在每根芯上。不是 3/10 口井。深段不是库墙",
+        "日历": "0.5 m/sol → 378 sol = 0.57 火星年",
+        "矿场接口": "覆盖层/短驳可以；取芯不可以"
+      },
+      "specs_en": {
+        "Campaign": "6 facies × 3 holes = 18 holes, 8 m each",
+        "Past the GCR garden": "8 m > sci-cryoem-01's 1.9 m",
+        "Colour code": "1.9/8 on each core. Not 3/10 holes. Deep end is not vault concrete",
+        "Calendar": "0.5 m/sol → 378 sol = 0.57 Mars years",
+        "Mine interface": "overburden/haul yes; coring no"
+      },
+      "sim": [
+        "账 5（l5_cores.py）4 闸全绿。日历不是瓶颈（10 火星年寿命的 0.4 年）；空白、季节复测、否证取样才是。",
+        "sci-drill-01 在 MODELS.md 只是例子 ID，城里不存在。取芯血统是毅力号自己那台已经在耶泽罗钻过的回转冲击钻，加长到 8 m——人+电是漫游车没有的。",
+        "foundry 向矿场要 153 kg/sol 细料，要的是品位不是地址。科学取芯要层理还在的圆柱。",
+        "账 40（l40_garden.py）4 闸全绿。G40-1：1.9/8 是每根芯的分数；旧循环 3/10 整根赭。G40-2：浅段不是另一口井。G40-3：6×6 两色共线；不画 144 段。G40-4：G5/G4/2g 不改；不发明 sci-drill-01。上一轮 k<3 整根当花园井，撤回。"
+      ],
+      "sim_en": [
+        "Ledger 5 (l5_cores.py), 4/4 gates. The calendar is not the bottleneck (0.4 yr of a 10-Mars-year city); blanks, seasonal repeats and disproof sampling are.",
+        "sci-drill-01 is an example ID in MODELS.md and does not exist in the city. The coring lineage is Perseverance's own rotary-percussive drill, already proven at Jezero, lengthened to 8 m — people and power are what the rover did not have.",
+        "The foundry asks the mine for 153 kg/sol of fines: it wants grade, not address. A science core wants a cylinder with the bedding still in it.",
+        "Ledger 40 (l40_garden.py), 4/4 gates. G40-1: 1.9/8 is a fraction of each core; the old loop painted 3/10 whole tubes ochre. G40-2: the shallow end is not another hole. G40-3: 6×6 two-tone collinear; 144 sections stay off-stage. G40-4: G5/G4/2g stand; no sci-drill-01. Last round treated k<3 as garden holes; withdrawn."
+      ],
+      "physics": [
+        "sci-cryoem-01 账 15：3.5 Ga 累积 9.56 MGy 把 300 kDa 蛋白打成不能互为副本。浅于 1.9 m 的段不是「较差的样品」，是不同的科学——矿物学可以，单颗粒冷冻电镜不行。浅段不是另一口井。"
+      ],
+      "physics_en": [
+        "sci-cryoem-01 ledger 15: 9.56 MGy over 3.5 Ga breaks 300 kDa proteins so they are no longer copies of each other. Core shallower than 1.9 m is not a worse sample, it is a different science — mineralogy yes, single-particle cryo-EM no. The shallow end is not another hole."
+      ]
+    }
+  ]
+}

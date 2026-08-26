@@ -1,0 +1,155 @@
+{
+  "id": "hab-museum-hall-01",
+  "pois": [
+    {
+      "id": "origin",
+      "label": "起源厅(一页手稿如何变成整座城)",
+      "label_en": "Origin Hall (how one page became a city)",
+      "range": 14,
+      "detail": "「世界A/世界B」七格漫画的放大装裱展墙,加上恒湿柜里的那页手稿。展签严格保持手稿原味:终幕人们佩戴的接口写作带引号的「眼镜」——按 B 世界自己的规则,B 里没有人能验证脸上那个东西在做它声称的事,它可能是接口,也可能是障眼法,引号不是标点,是认识论。第七格是普查之问:如果 51% 的居民主要生活在 B、49% 在 A,哪边是哪边的附属?展签到此为止,不作答。",
+      "detail_en": "The seven-panel Worlds A/B comic, enlarged and framed, beside the climate case holding the notebook page itself. The labels keep the page's own wording, untouched: the interface people wear in the final act is written as the \"headset\" - always in quotes - because by World B's own rules nobody inside B can verify that the thing on their face is doing what it claims. It may be the interface; it may be a decoy. The quotes are not punctuation; they are epistemology. Panel seven asks the census question: if 51% of residents now mainly live in B and 49% in A, which world is the annex of which? The label stops there. It does not answer.",
+      "specs": {
+        "手稿": "1 页(2026-07-19),原件在恒湿柜",
+        "漫画": "7 格,放大装裱,末格独立成幅",
+        "「眼镜」": "永远带引号(手稿规则)",
+        "第七格": "51% / 49%——只提问"
+      },
+      "specs_en": {
+        "The page": "1 notebook page (2026-07-19), original in the case",
+        "The comic": "7 panels enlarged; the last hangs alone",
+        "The \"headset\"": "always in quotes (the page's rule)",
+        "Panel seven": "51% / 49% - a question, not an answer"
+      },
+      "sim": "手稿→城的实测对照(与 docs/origin.html 互为虚实):世界B=这座数字孪生本身(viewer/ 引擎与全部资产);51/49 普查=居住区世界B休息室的三张躺椅舱(hab-quarter-01);「眼镜」=躺椅托架上那只带引号的展品;找裂缝的方法=城的验证文化(validate_units / audit_layout / 对抗评审)。这面墙讲的不是一页纸,是这页纸的执行记录。",
+      "sim_en": "Page-to-city sightings (this hall and docs/origin.html annotate each other): World B = this digital twin itself (the viewer engine and all its assets); the 51/49 census = the three recliner pods in the residential lounge (hab-quarter-01); the \"headset\" = the quoted object resting on each cradle; the crack-hunt = the city's verification culture (validate_units, audit_layout, adversarial reviews). This wall does not exhibit a page - it exhibits the page's execution log.",
+      "physics": "恒湿柜是全馆最深的嵌套:在一座虚拟火星城里,为一页描写「世界里造世界」的纸,重建了一小格真实地球的气候(20 °C、35% RH)。保存它的柜子,本身就是它画的那个圈。",
+      "physics_en": "The climate case is the deepest nesting in the building: inside a virtual Mars city, for one sheet of paper describing worlds built inside worlds, a small cell of real Earth climate is rebuilt (20 C, 35% RH). The case preserving the page is the very circle the page draws."
+    },
+    {
+      "id": "rover",
+      "label": "毅力号厅(虚拟城里的真火星今天)",
+      "label_en": "Perseverance Hall (real Mars, today, in a virtual city)",
+      "range": 16,
+      "detail": "毅力号 1:1 复制品,身后是一块实时数据屏。这块屏没有做任何新管线:本城查看器的任务图层本来就是 NASA 公开 API 的实时数据——sol 数、行驶里程、途经点、最新照片索引,启动脚本每日拉取落在 data/mission/。所以博物馆里的「实时展品」在数字孪生里是真实时:你站在虚拟城的博物馆里,看的是真火星的今天。数据署名:NASA/JPL/University of Arizona(地形),NASA Mars 2020 (Perseverance) 公开 API(任务数据)——与城市 HUD 及 THIRD_PARTY_NOTICES 同一口径。",
+      "detail_en": "A 1:1 Perseverance replica, with a live data screen behind it. The screen needed no new plumbing: this city's mission layer has always been live NASA public-API data - sol count, odometry, waypoints, latest-photo index - pulled daily at launch into data/mission/. So the museum's 'live exhibit' is genuinely live inside the digital twin: standing in a virtual city's museum, you are looking at the real Mars of today. Data credit: NASA/JPL/University of Arizona (terrain); NASA Mars 2020 (Perseverance) public API (mission data) - the same line as the city HUD and THIRD_PARTY_NOTICES.",
+      "specs": {
+        "复制品": "1:1(轮径 0.525 m,桅杆、HGA、MMRTG)",
+        "屏上 sol": "1947(交付时点;引擎侧接活口径)",
+        "累计行驶": "11.9 km(同一时点)",
+        "数据源": "NASA Mars 2020 公开 API,每日拉取"
+      },
+      "specs_en": {
+        "Replica": "1:1 (0.525 m wheels, mast, HGA, MMRTG)",
+        "Sol on screen": "1947 (as delivered; live feed is an engine hook)",
+        "Odometry": "11.9 km (same snapshot)",
+        "Data source": "NASA Mars 2020 public API, pulled daily"
+      },
+      "sim": "数据通路:启动脚本每日拉取 NASA 公开 API → data/mission/mission.json(rover 位姿 + 全部途经点 + 照片索引)→ 查看器任务图层与本屏。屏上折线是途经点主干 24 点(site 3→37),红点=最新位置,琥珀条=里程。屏为几何烘焙,总控可用 effects 钩子接活数据——接口已在 HANDOFF 声明。",
+      "sim_en": "Data path: the launch script pulls NASA's public API daily into data/mission/mission.json (rover pose, all waypoints, photo index), feeding both the city's mission layer and this screen. The polyline is a 24-point trunk of the traverse (sites 3 to 37), the red dot the latest position, the amber bars the odometry. The screen ships as baked geometry; city control can bind the live feed via an effects hook, declared in the HANDOFF.",
+      "physics": "嵌套账:这是全馆唯一「不属于世界B」的展品——馆里其他一切都是这座城(世界B)自己的故事,而这块屏的数据从世界A来。手稿第五格教的方法是「在造出来的世界里找上游世界的裂缝」;这块屏是反着用:上游世界主动伸进来的一根真实数据的手指。",
+      "physics_en": "The nesting ledger: this is the one exhibit in the building that does not belong to World B - everything else here is the city's own story, but this screen's data arrives from World A. Panel five taught crack-hunting: search the built world for leaks from the world above. This screen is that method inverted - a finger of real upstream data deliberately reaching in."
+    },
+    {
+      "id": "timeline",
+      "label": "建城纪年厅(交付序列就是城史)",
+      "label_en": "Chronicle Hall (the delivery log is the history)",
+      "range": 14,
+      "detail": "从第一块打印砖到裂变电源的时间轴墙,十二块里程碑牌,牌下六件文物:首砖、烧蚀过的防热瓦片、首罐井水样瓶、MB-1 晶圆、第一根玄武岩纤维卷、熔渣样。素材全部现成——这座城的每个资产都有交付日期,城史不用编,只用抄。时间轴末端留了一段空白轴带和一个空牌框:下一块牌子还没发生。",
+      "detail_en": "A timeline wall from the first printed brick to the fission plant: twelve milestone plaques, six artifacts on pedestals below - the first brick, an ablated heat-shield tile, the first jar of well water, an MB-1 wafer, the first spool of basalt fiber, a slag sample. The material was all on hand: every asset in this city has a delivery date, so the history needed no writing, only copying. At the end, the rust band runs on into a blank stretch with one empty frame: the next plaque has not happened yet.",
+      "specs": {
+        "里程碑": "12 块(2026-07-12 → 08-19)",
+        "首件": "07-12 聚变首次点火(pwr-fusion-01)",
+        "末件": "08-19 第一根玄武岩纤维(res-foundry-01)",
+        "文物": "6 件,玻璃罩底座"
+      },
+      "specs_en": {
+        "Milestones": "12 plaques (2026-07-12 to 08-19)",
+        "First": "07-12 first fusion ignition (pwr-fusion-01)",
+        "Latest": "08-19 first basalt fiber drawn (res-foundry-01)",
+        "Artifacts": "6, on glazed pedestals"
+      },
+      "sim": [
+        "选目(日期核对 CHECKLIST 交付列):07-12 聚变点火 · 07-12 星舰着陆运输线建立 · 07 首周 首批打印砖 · 07-13 水冰井出水 · 07-17 长十乙首飞回收 · 07-18 地下城贯通 · 07-31 MB-1 流片 · 07-31 居住区入住种下第一棵树 · 08-06 掩土村落成 · 08-09 电网合环+孤岛演习 · 08-15 裂变备份并网 · 08-19 玄武岩纤维。",
+        "娱乐中心开张不进时间轴——它进了本馆的观众账卡:两馆同属心理维护账。"
+      ],
+      "sim_en": [
+        "The selection (dates checked against the delivery ledger): 07-12 fusion ignition; 07-12 Starship landing, supply line open; first week of 07, first printed bricks; 07-13 ice well flows; 07-17 CZ-10B first flight and recovery; 07-18 undercity holed through; 07-31 MB-1 tape-out; 07-31 quarter occupied, first tree planted; 08-06 village complete; 08-09 grid closed and islanding drill; 08-15 fission backup online; 08-19 first basalt fiber.",
+        "The recreation hall's opening is not on this wall - it lives on this museum's audience card instead: both buildings sit on the same psychological-maintenance ledger."
+      ],
+      "physics": "一座边疆城市的历史就是它的建造记录——没有战争、没有王朝,只有交付。时间轴末端的空牌与后墙的空墙是同一个承诺的两种写法。",
+      "physics_en": "A frontier city's history is its construction record - no wars, no dynasties, only deliveries. The empty frame at the end of this band and the empty wall at the back of the hall are two spellings of the same promise."
+    },
+    {
+      "id": "materials",
+      "label": "火星物质厅(展示件与研究件的分工)",
+      "label_en": "Mars Matter Hall (display vs. custody)",
+      "range": 14,
+      "detail": "岩芯架、风化层剖面柱、铁镍陨石、尘暴滤芯三态对比。与天体生物学实验室 sci-astro-01 的样品库分工写在墙上:博物馆放「讲故事的展示件」,科学库放「有监管链的研究件」。任何样品先过科学库登记,退役或复制后才进博物馆;博物馆永不反向供样。这里的岩芯是展示级复制芯,原始编号芯在科学库的 −20 °C 冷链里。",
+      "detail_en": "A core rack, a regolith stratigraphy column, an iron-nickel meteorite, and three dust-filter cartridges - new, mid-life, and post-storm. The division of labor with the astrobiology lab sci-astro-01 is written on the wall: the museum keeps display pieces that tell stories; the science vault keeps research pieces with a chain of custody. Every sample registers at the vault first and reaches the museum only on retirement or as a replica; the museum never supplies samples back. These cores are display replicas - the numbered originals sit in the vault's -20 C cold chain.",
+      "specs": {
+        "岩芯": "8 支展示级复制芯",
+        "剖面柱": "6 层(表尘 → 玄武岩基底)",
+        "滤芯": "3 态(新 / 半程 / 尘暴后)",
+        "原始样品": "sci-astro-01,T ≤ −20 °C,限制接触"
+      },
+      "specs_en": {
+        "Cores": "8 display-grade replicas",
+        "Strat column": "6 layers (surface dust to basalt basement)",
+        "Filters": "3 states (new / mid-life / post-storm)",
+        "Originals": "sci-astro-01, T <= -20 C, restricted access"
+      },
+      "sim": "分工账:展示件的价值在可看——70 kPa 舱内大气、可视、可复制;研究件的价值在可证——冷链、洁净、每一次接触都有记录。两种保管一旦混用,展示毁掉监管链(不可逆),研究件锁死展陈(无人能看):各自的失败模式正好是对方的日常操作。",
+      "sim_en": "The division ledger: a display piece is valuable because it can be seen - 70 kPa cabin air, visible, replicable; a research piece is valuable because it can testify - cold chain, clean handling, every contact logged. Mix the two regimes and each destroys the other: display breaks the custody chain (irreversibly), custody locks the exhibit away (nobody sees it). Each regime's failure mode is the other's daily routine.",
+      "physics": "底层是信息论的分工:监管链保护的是不可复制的信息(这支芯从哪来、谁碰过),展示传播的是可复制的信息(它长什么样、说明什么)。前者复制即失效,后者复制即增值——所以是两栋楼。",
+      "physics_en": "Underneath is an information-theoretic split: custody protects information that cannot be copied (where this core came from, who touched it); display spreads information that copies freely (what it looks like, what it means). The first is destroyed by copying, the second multiplied by it - hence two buildings."
+    },
+    {
+      "id": "conserve",
+      "label": "保存科学角(天堂还是地狱?)",
+      "label_en": "Conservation corner (paradise or hell?)",
+      "range": 12,
+      "detail": "火星对保存者是天堂还是地狱?答案劈成两半:对化学是天堂——舱外冷、干、无氧,怕水怕氧怕热的有机物在外面每放一年抵地球千年;对光学是地狱——无臭氧层的太阳紫外直达地表,含地球上不存在的 UV-C 波段,颜料褪色、聚合物粉化按小时计。所以手稿必须进舱内,而舱内 70 kPa、氧分压与地球海平面相同——展柜里其实是一格刻意重建的「地球化」保存环境:氧化速率回到地球值,换来的是人能站在它面前。",
+      "detail_en": "Is Mars a conservator's paradise or hell? The answer splits clean in two. For chemistry, paradise: outside is cold, dry, and oxygen-free, so a year outdoors ages water-, oxygen- and heat-fearing organics like a millennium on Earth. For optics, hell: with no ozone layer, solar UV reaches the ground including UV-C, a band that does not exist on Earth's surface - pigments fade and polymers chalk by the hour. So the manuscript must live indoors, where 70 kPa cabin air carries an Earth-sea-level oxygen partial pressure: the display case is a deliberately rebuilt 'terrestrial' preservation climate. Oxidation returns to Earth rates - the price of letting a person stand in front of the page.",
+      "specs": {
+        "舱外 UV(τ=0.5 正午)": "37.1 W/m²,含 UV-C 1.90 W/m²",
+        "UV 指数": "226(地球「极端」= 11)",
+        "展柜": "20±1 °C · RH 35±5% · ≤50 lux · UV ≤10 µW/lm",
+        "年曝光预算": "≤150 klux·h"
+      },
+      "specs_en": {
+        "Outdoor UV (tau 0.5, noon)": "37.1 W/m2, incl. UV-C 1.90 W/m2",
+        "UV index": "226 (Earth 'extreme' = 11)",
+        "Case": "20+/-1 C, RH 35+/-5%, <=50 lux, UV <=10 uW/lm",
+        "Annual light budget": "<=150 klux-h"
+      },
+      "sim": "天堂账:舱外 pO₂ ≈ 0.8 Pa(地球的 ~1/26000)→ 氧化通道≈关闭;年均 210 K 较 293 K 低 83 K,Arrhenius 每 10 K 减半 → 热化学再慢 ~300×;霜点 ~200 K,水活度≈0 → 水解停。地狱账(口径=sci-uv-01 账 R4):τ=0.5 正午 UV 总量 37.1 W/m²,对比博物馆敏感品 UV 限值(≤10 µW/lm × 50 lux ≈ 0.5 mW/m²)高约 7 万倍——舱外晒一个白天 ≈ 合规展厅几十年的光损伤预算;再加 GCR 234 mSv/yr 对聚合物的慢刑。",
+      "sim_en": "Paradise ledger: outdoor pO2 ~0.8 Pa (about 1/26,000 of Earth) shuts the oxidation channel; a 210 K mean runs 83 K below 293 K, and with Arrhenius halving per 10 K that is ~300x slower thermal chemistry; a ~200 K frost point puts water activity near zero, stopping hydrolysis. Hell ledger (calibrated to sci-uv-01, ledger R4): noon UV at tau 0.5 totals 37.1 W/m2, about 70,000x the museum limit for sensitive works (10 uW/lm at 50 lux, ~0.5 mW/m2) - one afternoon outdoors spends decades of a compliant gallery's light budget - plus 234 mSv/yr of GCR slowly working on every polymer.",
+      "physics": "同一颗行星,两份判决,分界线是反应需要什么:化学劣化要水、氧、热,火星舱外三者全无;光劣化只要光子,火星舱外光子管够。保存科学的第一定律因此在这里倒装:地球上你防的是环境,火星上你防的是天空。",
+      "physics_en": "One planet, two verdicts, and the dividing line is what each reaction needs: chemical decay wants water, oxygen, and warmth - outdoor Mars offers none; photolytic decay wants only photons - outdoor Mars offers plenty. The first law of conservation science thus reads backwards here: on Earth you defend against the environment, on Mars you defend against the sky."
+    },
+    {
+      "id": "emptywall",
+      "label": "空墙",
+      "label_en": "The empty wall",
+      "range": 12,
+      "detail": "全馆最认真做的展位,上面什么都没有:一面 6 米宽的留白墙、一盏射灯、一条长凳,和一块只有一句话的展签——「这面墙,留给第一个在火星出生的人。」城里有没有孩子、会不会有学校,是总控尚未裁决的世界观问题;本馆不替它作答,只把位置留出来。长凳朝墙摆——这大概是唯一一件鼓励你盯着空白看的展品。",
+      "detail_en": "The most carefully built exhibit in the museum holds nothing: a six-meter blank wall, one spotlight, one bench, and a label bearing a single line - 'This wall is reserved for the first person born on Mars.' Whether this city will have children, whether there will be a school, is a worldview question city control has not yet ruled on; this museum does not answer it, it only keeps the space. The bench faces the wall - probably the only exhibit anywhere that invites you to sit and look at blankness.",
+      "specs": {
+        "墙面": "6.0 × 3.4 m,留白",
+        "展品": "0 件",
+        "展签": "一句话(中英同牌)",
+        "状态": "预留——学校问题总控未决"
+      },
+      "specs_en": {
+        "Wall": "6.0 x 3.4 m, blank",
+        "Exhibits": "0",
+        "Label": "one line (bilingual, same plate)",
+        "Status": "reserved - the school question is undecided"
+      },
+      "sim": "观众账里对应的开放式一行:若未来有孩子,定向参观将从「新到港」扩展到「新出生」,本馆的观众模型将出现第一个不是自己选择来火星的参观者——空墙就是给那位参观者的。",
+      "sim_en": "The audience ledger keeps one open line for this: if children come, orientation tours extend from 'newly arrived' to 'newly born', and the visitor model gains its first member who never chose Mars - the wall is being kept for that visitor.",
+      "physics": "博物馆通常收藏过去;这面墙收藏未来。时间轴墙末端的空牌框与它是同一个承诺:一座城对「还没发生的事」预留展位,是这座城打算继续存在的最短证明。",
+      "physics_en": "Museums usually collect the past; this wall collects the future. The empty frame at the end of the timeline band makes the same promise: a city that reserves exhibit space for what has not happened yet has issued its shortest possible proof that it intends to keep existing."
+    }
+  ]
+}

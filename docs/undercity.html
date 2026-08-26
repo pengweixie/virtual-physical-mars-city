@@ -100,13 +100,15 @@
 
 <header class="phead">
   <div class="wrap">
-    <div class="label">hab-tunnel-01 · hab-lift-01 · hab-foyer-01 · hab-quarter-01 · hab-clinic-01</div>
+    <div class="label">hab-tunnel-01 · hab-lift-01 · hab-foyer-01 · hab-quarter-01 · hab-clinic-01 · hab-rec-01 · sci-lab-01</div>
     <h1>Undercity</h1>
     <p class="phead__sub">On Mars, radiation is not weather — it is geography. The surface takes
-      ~230 mSv a year; 30 m of rock takes that down to Earth background, for free, forever.
+      234 mSv a year; 30 m of rock takes that down to Earth background, for free, forever.
       So the city keeps its machines upstairs and its people below: a camouflaged gate in a berm,
       an elevator whose speed limit is set by your ears, a quarter with a hydroponic wall and one
-      real tree, and a clinic. Five assets, every number on this page traceable to a ledger.</p>
+      real tree, a clinic, a recreation hall where the low gravity is the entertainment rather than
+      the constraint, and a six-instrument analytical lab. Seven assets, every number on this page
+      traceable to a ledger.</p>
   </div>
 </header>
 
@@ -180,6 +182,37 @@
         on its left, a viewport. Behind that window a 2500-triangle diorama fakes the whole cavern city:
         tower silhouettes, lit-window grids, street lamps, a skylight band. The cheapest square meters
         in the district buy its most important sentence: <em>there is a city down here.</em></p>
+      <p>Two more doors open off that same left wall. At <strong>z = &minus;13</strong> is
+        <strong>hab-rec-01</strong>, the recreation hall &mdash; the one room where low gravity is the
+        entertainment rather than the constraint. The half court carries two rims: the regulation
+        <strong>3.05 m</strong> in yellow, and a Mars-rules <strong>4.66 m</strong> in red, because
+        jump height and hang time both scale <strong>&times;2.63</strong> and on the yellow rim everyone
+        dunks and nobody learns anything. Beside it an 8 &times; 6 m wall is climbed <strong>ropeless</strong>:
+        at 0.38 g the effective load is 38% of body weight and a fall arrives with 38% of the energy.
+        There is billiards, where the cushions behave exactly as on Earth &mdash; collisions are governed
+        by mass, not weight &mdash; while the roll runs <strong>2.6&times; further</strong>, so every player
+        relearns position play; a 15-seat cinema whose quiet is structural, the surrounding basalt
+        attenuating <strong>&gt;60 dB above 100 Hz</strong>; a bar where the head on a poured beer
+        outlives the conversation; and four arcade cabinets, one of them running this city's own MB-1
+        bigram chip.</p>
+      <p>Five meters further along, at <strong>z = &minus;18</strong>, <strong>sci-lab-01</strong>: six
+        instruments &mdash; GC-MS, ICP-OES, XRD, Raman, SEM and a water line &mdash; sharing one platform,
+        one queue board and one standards cabinet. Each is a small argument about which planet you are
+        on. The GC-MS carries no helium, because there is none to import: its carrier is electrolytic
+        hydrogen, <strong>3.9 g/sol</strong>, 0.014% of the ISRU line. The ICP is the one instrument
+        that is <em>cheaper</em> here &mdash; it burns 6.4 kg of argon a sol, and Martian air is
+        <strong>2.1&times; richer in argon</strong> than Earth's, so the gas comes off a cold box that
+        already exists. The XRD runs a cobalt anode for the same reason MSL's CheMin did: cobalt's
+        K&alpha; sits below the iron absorption edge, where a copper tube would set an iron-rich planet
+        fluorescing. And every vacuum system in the room skips its backing pump &mdash; <strong>600 Pa of
+        ambient Mars is what a two-stage rotary vane delivers on Earth</strong> &mdash; a stage the planet
+        provides for free, saving 19.7 kWh a sol.</p>
+      <p>The two rooms are neighbours, and that is a problem with a number attached. An 80 kg player
+        landing from a 1.32 m jump puts <strong>4.2 kN</strong> into the floor; the SEM next door wants
+        a VC-D floor, 6.25 &micro;m/s. Twenty-five meters of basalt between them turns that landing into
+        <strong>0.054 &micro;m/s</strong> &mdash; one hundred and sixteenth of the spec. A hand envelope
+        had put a continuous slab at ~7 &micro;m/s, uncomfortably marginal, and the FEM overturned it at
+        1.6. The basketball is not the problem it sounds like.</p>
     </div>
     <div class="fig2">
       <figure class="figure">
@@ -275,7 +308,7 @@
     <div class="tablewrap"><table>
       <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
       <tbody>
-        <tr><td>Surface GCR + neutron dose</td><td class="num">~230 mSv/yr</td><td class="src">hab-tunnel-01 info.json · shielding ledger</td></tr>
+        <tr><td>Surface GCR + neutron dose</td><td class="num">234 mSv/yr</td><td class="src">hab-tunnel-01 info.json · shielding ledger</td></tr>
         <tr><td>Regolith shielding knee</td><td class="num">5 m</td><td class="src">hab-tunnel-01 info.json · shielding ledger</td></tr>
         <tr><td>Rock overhead at the quarter</td><td class="num">30 m → &gt;5000 g/cm²</td><td class="src">hab-quarter-01 info.json · mass-thickness account</td></tr>
         <tr><td>Vehicle airlock cycle</td><td class="num">~15 kWh · ~20 min</td><td class="src">hab-tunnel-01 info.json · airlock economics</td></tr>
@@ -290,6 +323,14 @@
         <tr><td>Metabolic O₂ in / CO₂ out</td><td class="num">0.84 / 1.0 kg·person-day</td><td class="src">hab-quarter-01 info.json · ECLSS card</td></tr>
         <tr><td>PET/CT geometry</td><td class="num">Ø700 · 592×64 · 37 mod</td><td class="src">pet-ct-design/system/out/system_params.json</td></tr>
         <tr><td>Whole-body scan time</td><td class="num">~24 min</td><td class="src">pet-ct-design system_params.json · workflow</td></tr>
+        <tr><td>Court rims, regulation vs Mars rules</td><td class="num">3.05 / 4.66 m &middot; jump &times;2.63</td><td class="src">hab-rec-01 info.json · low-g court card</td></tr>
+        <tr><td>Ropeless wall: effective load / fall energy</td><td class="num">&times;0.38 / &times;0.38</td><td class="src">hab-rec-01 info.json · climbing card</td></tr>
+        <tr><td>Billiard roll distance</td><td class="num">&times;2.6</td><td class="src">hab-rec-01 info.json · billiards card</td></tr>
+        <tr><td>Cinema attenuation through basalt</td><td class="num">&gt;60 dB above 100 Hz</td><td class="src">hab-rec-01 info.json · cinema card</td></tr>
+        <tr><td>GC-MS carrier (no helium on Mars)</td><td class="num">3.9 g H&#8322;/sol = 0.014% of ISRU</td><td class="src">sci-lab-01 info.json · GC-MS card</td></tr>
+        <tr><td>ICP argon draw vs atmospheric abundance</td><td class="num">6.4 kg/sol &middot; Ar 2.1&times; Earth air</td><td class="src">sci-lab-01 info.json · ICP-OES card</td></tr>
+        <tr><td>Vacuum stage the planet provides</td><td class="num">600 Pa &rarr; 19.7 kWh/sol saved</td><td class="src">sci-lab-01 info.json · vacuum card</td></tr>
+        <tr><td>Court landing into the SEM floor</td><td class="num">4.2 kN &rarr; 0.054 &micro;m/s (1/116 of VC-D)</td><td class="src">sci-lab-01 info.json · isolation card</td></tr>
         <tr><td>Triangle budgets (5 assets)</td><td class="num">13.9k / 1.4k / 2.7k / 6.0k / 8.1k</td><td class="src">scripts/validate_units.mjs run log</td></tr>
       </tbody>
     </table></div>
@@ -327,9 +368,9 @@
 <footer>
   <div class="wrap">
     <div class="label" style="margin-bottom:10px;">Sources</div>
-    <p style="margin:0;">Design ledgers: <span class="src">viewer/units/hab-tunnel-01.info.json · hab-lift-01.info.json · hab-quarter-01.info.json</span> ·
+    <p style="margin:0;">Design ledgers: <span class="src">viewer/units/hab-tunnel-01.info.json · hab-lift-01.info.json · hab-quarter-01.info.json · hab-rec-01.info.json · sci-lab-01.info.json</span> ·
       PET/CT geometry: <span class="src">pet-ct-design/system/out/system_params.json</span> ·
-      City assets: <span class="src">viewer/units/hab-{tunnel,lift,foyer,quarter,clinic}-01.js</span></p>
+      City assets: <span class="src">viewer/units/hab-{tunnel,lift,foyer,quarter,clinic,rec}-01.js · sci-lab-01.js</span></p>
     <p style="margin:12px 0 0;">Walk it: serve the repo root, open <span class="src">/viewer/</span> —
       WASD to walk, <span class="src">U</span> jumps to the undercity, <span class="src">E</span> enters
       the buildings, POI cards surface as you approach. ·

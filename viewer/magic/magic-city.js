@@ -2473,6 +2473,130 @@ export function build(ctx) {
     flush();
   }
 
+  // ---- the Great Wheel -----------------------------------------------------
+  // A 60 m crystal ferris wheel on the east flank, facing the mage tower.
+  // In-world it is not a fairground ride but an orrery the city built for
+  // itself: a rune-lit rim, ten lantern gondolas that stay level as it turns,
+  // stone A-frames astride a glowing hub. Key trick: parts that are static
+  // *relative to the rotating group* still batch — makeBuilder is bound to
+  // the wheel group, so rim + spokes merge per material and rotate as one.
+  // No rnd(): all jitter is index-hashed, so the older city keeps its shapes.
+  {
+    // H0 - R - gondola drop must clear the deck: 37 - 30 - 4.3 = 2.7 m over
+    // the 1.45 m deck top (at 34 the bottom car carved into the boards)
+    const WX = -15, WZ = -555, R = 30, H0 = 37;
+    const g = new THREE.Group();
+    g.name = 'magicWheel';
+    g.position.set(WX, gY(WX, WZ), WZ);
+    g.rotation.y = Math.atan2(-150 - WX, -520 - WZ);   // plane faces the tower
+    magicGroup.add(g);
+
+    // static frame: A-frame pylons, axle, boarding deck
+    {
+      const { put, flush } = makeBuilder(g);
+      for (const sz of [-1, 1]) {                // two pylons astride the wheel
+        for (const sx of [-1, 1]) {
+          const leg = new THREE.Mesh(new THREE.BoxGeometry(1.7, 39, 2.3), stonePale);
+          leg.rotation.z = sx * 0.244;
+          put(leg, sx * 4.6, 18.7, sz * 6.5);
+          put(new THREE.Mesh(new THREE.BoxGeometry(3.2, 2.2, 3.6), trimMat),
+            sx * 9.2, 1.1, sz * 6.5);            // feet
+        }
+        put(new THREE.Mesh(new THREE.BoxGeometry(11, 1.4, 2.1), stoneDark),
+          0, 22, sz * 6.5);                      // crossbar
+        put(new THREE.Mesh(new THREE.BoxGeometry(4.4, 1.6, 2.5), trimMat),
+          0, H0 + 1.3, sz * 6.5);                // bearing cap
+      }
+      const axle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.9, 0.9, 15, 8).rotateX(Math.PI / 2), stoneDark);
+      put(axle, 0, H0, 0);
+      // boarding deck under the bottom arc, steps off the tower side
+      put(new THREE.Mesh(new THREE.CylinderGeometry(7.5, 8.4, 1.2, 10), stoneDark),
+        0, 0.6, 0);
+      put(new THREE.Mesh(new THREE.CylinderGeometry(7.8, 7.8, 0.4, 10), trimMat),
+        0, 1.35, 0);
+      for (let k = 0; k < 4; k++) {              // steps
+        put(new THREE.Mesh(new THREE.BoxGeometry(6.5, 0.9, 1.7), stoneDark),
+          0, 0.45 + k * 0.0, 8.5 + k * 1.5);
+      }
+      for (const sx of [-1, 1]) {                // gate lamps on the deck edge
+        put(new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.3, 3.4, 6), woodMat),
+          sx * 4.4, 3.1, 8.2);
+      }
+      flush();
+      for (const sx of [-1, 1]) {
+        const lc = new THREE.Mesh(crystalGeometry(0.5, 1.9, 0.95, 7, 2),
+          cryShaderMats[sx > 0 ? 0 : 3]);
+        lc.rotation.x = Math.PI;
+        lc.position.set(sx * 4.4, 6.6, 8.2);
+        g.add(lc);
+      }
+    }
+
+    // the wheel itself: rim, spokes and hub batch INTO the rotating group
+    const w = new THREE.Group();
+    w.position.set(0, H0, 0);
+    g.add(w);
+    {
+      const { put, flush } = makeBuilder(w);
+      put(new THREE.Mesh(new THREE.TorusGeometry(R, 0.75, 6, 40), pathMat), 0, 0, 0);
+      put(new THREE.Mesh(new THREE.TorusGeometry(R - 3.2, 0.4, 5, 36), trimMat),
+        0, 0, 0);
+      for (let i = 0; i < 12; i++) {             // spokes, hub to inner ring
+        const a = i / 12 * Math.PI * 2;
+        const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.55, R - 3.2, 0.55),
+          stonePale);
+        spoke.rotation.z = a - Math.PI / 2;
+        put(spoke, Math.cos(a) * (R - 3.2) / 2, Math.sin(a) * (R - 3.2) / 2, 0);
+        const tie = new THREE.Mesh(new THREE.BoxGeometry(0.4, 3.4, 0.4), trimMat);
+        tie.rotation.z = a - Math.PI / 2;        // rim-to-inner-ring tie
+        put(tie, Math.cos(a) * (R - 1.7), Math.sin(a) * (R - 1.7), 0);
+      }
+      put(new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.6, 3.4, 10)
+        .rotateX(Math.PI / 2), trimMat), 0, 0, 0);       // hub drum
+      flush();
+    }
+    const hubOrb = new THREE.Mesh(new THREE.SphereGeometry(1.7, 14, 10),
+      new THREE.MeshBasicMaterial({ color: 0xaef4ff }));
+    w.add(hubOrb);                               // echoes the tower's orb
+
+    // ten lantern gondolas; each pivot counter-rotates to stay level
+    const gondolas = [];
+    for (let i = 0; i < 10; i++) {
+      const a = i / 10 * Math.PI * 2;
+      const p = new THREE.Group();
+      p.position.set(Math.cos(a) * R, Math.sin(a) * R, 0);
+      w.add(p);
+      gondolas.push(p);
+      const { put, flush } = makeBuilder(p);     // arm+cup merge: 1 draw each
+      put(new THREE.Mesh(new THREE.BoxGeometry(0.32, 2.8, 0.32), stoneDark),
+        0, -1.4, 0);
+      const cupPts = [];
+      for (let k = 0; k <= 5; k++) {
+        const t2 = k / 5;
+        cupPts.push(new THREE.Vector2(2.25 * (0.55 + 0.45 * t2), t2 * 1.9));
+      }
+      put(new THREE.Mesh(new THREE.LatheGeometry(cupPts, 8), stoneDark), 0, -4.3, 0);
+      put(new THREE.Mesh(new THREE.CylinderGeometry(2.42, 2.42, 0.34, 8), trimMat),
+        0, -2.4, 0);                             // gunwale
+      flush();
+      const lantern = new THREE.Mesh(crystalGeometry(0.85, 2.3, 1.1, 7, 2),
+        cryShaderMats[i % 4]);
+      lantern.rotation.x = Math.PI;
+      lantern.position.set(0, -0.35, 0);         // hung at the pivot arm
+      p.add(lantern);
+    }
+    magicAnims.push((t, dt) => {
+      w.rotation.z += dt * 0.055;                // one lap ≈ two minutes
+      for (const p of gondolas) p.rotation.z = -w.rotation.z;
+    });
+    const l = new THREE.PointLight(0xffd98f, 0, 140, 2);
+    l.position.set(WX, gY(WX, WZ) + H0, WZ);
+    magicGroup.add(l);
+    magicLights.push(l);
+  }
+  glowPath(-55, -560, -24, -556, 2.2);           // academy -> the Wheel
+
   // ---- wisps: somebody lives here ------------------------------------------
   // Drifting lights that patrol the walkway network — the same network the
   // districts hang off, so the roads read as used, not just lit. Points only;

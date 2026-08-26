@@ -6,8 +6,8 @@ simulation-backed engineering → a real chip running the city's AI.*
 ![Mars city panorama](docs/assets/hero.png)
 
 Starting from real NASA HiRISE terrain (Jezero Crater, 1 m/px), this project
-builds a Mars city digital twin in the browser: **48 placed facilities, nine
-walk-in interiors, 380+ bilingual knowledge cards each backed by simulation**,
+builds a Mars city digital twin in the browser: **54 placed facilities, twelve
+walk-in interiors, 460+ bilingual knowledge cards each backed by simulation**,
 a live Perseverance mission layer, and day/night driven by true Martian solar
 time — plus a compute center that closes the **real world → digital twin → AI
 → silicon** loop: a character-level bigram language model runs live on the big
@@ -62,6 +62,37 @@ e.g. Launch) · `M` orbit view · `E` enter interiors through their doors
 bottom-right slider scrubs Martian time. The corner button switches the UI
 between English and Chinese.
 
+## The four worlds
+
+One city, four toggle layers, each with its own ambient score.
+
+| | |
+|---|---|
+| ![The Celestial Palace](snaps/imperial-panorama.jpg) | ![Magic Mars](snaps/magic-panorama.jpg) |
+| ![The palace at night](snaps/imperial-night.jpg) | ![Orbit view](snaps/orbit-panorama.jpg) |
+
+## What's new in v1.3.0
+
+- **The Celestial Palace**: a fourth world - a Chinese imperial mega-palace
+  on nine rising terraces with a 721 m walkable ceremonial axis, corner
+  towers, bell and drum pavilions, five Rodin-sculpted bronzes, and its own
+  bianzhong-and-drum score. Built by an external agent against the layer
+  contract, integrated on the empty northeast quadrant.
+- **Collision, for free**: every triangle already in the scene is classified
+  once at load into floor and wall grids - stairs climb, doorways pass,
+  walls stop you, and not one byte was added to any asset file.
+- **Orbit view grows up**: Phobos and Deimos at true radii and synodic
+  rates on the time slider, a polar-cap ring that finally closes the ±71°
+  blind zone, an L4 conjunction relay cutting the 14-day blackout to zero,
+  export and import traffic, and the space elevator Phobos vetoed.
+- **Seven stations in one wave**: astrobiology lab, analytical core
+  facility, foundry, glass works, fire station, optical terminal, museum -
+  each sited from its own pre-audited dossier, plus an emergency fission
+  plant red-teamed by an external model that found the dossier's eighth
+  error and, incidentally, two plants that had never been placed at all.
+- **Recreation underground**: a hall where 0.38 g rewrites every sport,
+  from the 4.66 m Mars-rules rim to the beer whose head will not die.
+
 ## What's new in v1.2.0
 
 - **The emergency fission plant**: the city's answer to its own single point
@@ -113,7 +144,7 @@ The whole city traces back to a single notebook page (July 19, 2026):
 Worlds A & B — build a world, rebuild the world inside it, hunt for the
 source-code cracks, and ask which side is real.
 
-![The idea, as a seven-panel comic](idea/manga-en.png)
+![The idea, as a seven-panel comic](idea/manga-en.jpg)
 
 [中文版 / Chinese version](idea/manga-cn.png)
 

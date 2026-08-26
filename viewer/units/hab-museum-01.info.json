@@ -1,0 +1,55 @@
+{
+  "id": "hab-museum-01",
+  "pois": [
+    {
+      "id": "entry",
+      "label": "为什么 115 人的城要博物馆",
+      "label_en": "Why a city of 115 builds a museum",
+      "range": 25,
+      "detail": "docs/origin.html 讲了这座城从一页手稿长出来的故事,但城里此前没有任何实体承载它。博物馆是这座城「向自己解释自己」的地方。开放模式:无人值守常开 + 预约讲解——讲解员由轮休居民轮值,当讲解员本身计入心理维护账,与娱乐中心「心理维护是系统冗余」同一条账的另一面:hab-rec-01 是消费端,这里是生产端——把自己的工作讲给同伴听,是意义感的闭环。",
+      "detail_en": "docs/origin.html tells how this city grew out of one notebook page, but until now nothing physical in the city carried that story. The museum is where the city explains itself to itself. Operating mode: unattended open hours plus booked guided tours - docents are residents on rotation, and docenting itself is booked into the psychological-maintenance ledger. It is the other face of the recreation hall's 'psychological maintenance is system redundancy': hab-rec-01 is the consumption side; this is the production side - telling your own work to your neighbors closes the meaning loop.",
+      "specs": {
+        "人口": "115 人,26 个月会合周期无归途",
+        "常态到访": "2~4 人次/sol(休息日 ×2~3)",
+        "年到访": "≈1000 人次(人均 ~9 次/年)",
+        "开放模式": "无人值守常开 + 预约讲解(4 人/场)"
+      },
+      "specs_en": {
+        "Population": "115, no way home within a 26-month synod",
+        "Typical visits": "2-4 per sol (x2-3 on rest sols)",
+        "Annual visits": "~1000 (about 9 per resident per year)",
+        "Operating mode": "unattended + booked tours (4 per tour)"
+      },
+      "sim": "观众账:人均 0.5~1 次/月 → 58~115 人次/月 ≈ 2~4 人次/sol;新到港轮换月全员定向参观是峰值(~4 场 × 30 人)。人均年到访 ~9 次——地球大城市博物馆人均 <1 次:按人均口径,这是人类最被使用的博物馆。无人值守可行的前提:有监管链要求的样品全部在 sci-astro-01 科学库,馆内只放展示件。",
+      "sim_en": "Audience ledger: 0.5-1 visit per resident per month gives 58-115 visits monthly, roughly 2-4 per sol; the arrival month each synod is the peak (about 4 orientation tours of 30). Nine visits per resident per year - Earth metropolises average under one - makes this, per capita, the most-used museum in human history. Unattended opening works only because every chain-of-custody sample lives at sci-astro-01; this building holds display pieces only.",
+      "physics": "娱乐中心的卡写过:115 人在无归途的会合周期里,心理维护不是福利是系统冗余。身份维系是同一台设备的另一个模块——一座知道自己为什么存在的城,比一座只会运转的城冗余度更高。",
+      "physics_en": "The recreation hall's card said it: for 115 people inside a no-return synod, psychological maintenance is not a perk but system redundancy. Identity maintenance is another module of the same machine - a city that knows why it exists carries more redundancy than one that merely runs."
+    },
+    {
+      "id": "berm",
+      "label": "选址与覆土(要人流,不要振动)",
+      "label_en": "Siting & the berm (footfall, not vibration)",
+      "range": 30,
+      "detail": "半埋覆土主体的辐射防护语言与掩土村 hab-village-01 完全一致:2 m 压实风化层把年剂量打到三十八分之一。选址原想贴村心广场,但道路/管廊审计否了门口方案(氧气管廊与电缆沟正穿那片)——博物馆最终报的两个候选都在村北的走廊空带里,大门朝村,步行两分钟。博物馆要人流,不要振动与工业噪声:两候选距发射区 >1.1 km、矿场 >440 m,最近的工业邻居是 190 m 外的静设备变电站。",
+      "detail_en": "The buried, earth-sheltered body speaks the same radiation language as hab-village-01: two meters of compacted regolith cut the annual dose thirty-eight-fold. The first siting instinct was the village doorstep, but the road-and-corridor audit vetoed it - the oxygen pipe rack and grid trenches run right through that ground. Both final candidates sit in the corridor-free belt just north of the village, door facing home, a two-minute walk away. A museum wants footfall, not vibration: both keep the launch complex beyond 1.1 km, the mine beyond 440 m, and the nearest industrial neighbor is a quiet substation 190 m out.",
+      "specs": {
+        "覆土": "2 m 压实风化层(与村同规)",
+        "屏蔽账": "234 → 6.2 mSv/yr(38×)",
+        "候选 A(推荐)": "(-262, -170) 村北空带,门朝村",
+        "候选 B": "(-285, -160) 同带偏玄关侧",
+        "前厅玻璃": "产自本城(res-glass-01 玻璃厂)"
+      },
+      "specs_en": {
+        "Berm": "2 m compacted regolith (village spec)",
+        "Shielding ledger": "234 to 6.2 mSv/yr (38x)",
+        "Candidate A (rec.)": "(-262, -170), door facing the village",
+        "Candidate B": "(-285, -160), same belt, gate side",
+        "Foyer glass": "made in this city (res-glass-01)"
+      },
+      "sim": "选址账(audit_layout 实跑):门口方案 (-205,-95) 压 pipe-o2-city-2 氧气管廊与 G-R2 电缆沟双线,否。候选 A (-262,-170):距村心广场 ~124 m、地下城入口 ~156 m、变电站 ~189 m、矿场 ~444 m,四向走廊净距 ≥52 m,审计全绿;候选 B (-285,-160):距村 ~119 m、玄关侧更近,同样全绿。40 m 足迹在这片路网密区里,这两块是仅有的贴村空地。",
+      "sim_en": "Siting ledger (audit_layout actually run): the doorstep option (-205,-95) crosses both the pipe-o2-city-2 oxygen rack and the G-R2 cable trench - vetoed. Candidate A (-262,-170): ~124 m to the village plaza, ~156 m to the undercity gate, ~189 m to the substation, ~444 m to the mine, with >=52 m clearance to every corridor - audit green. Candidate B (-285,-160): ~119 m to the village, closer to the gate side, also green. For a 40 m footprint in this dense road network, these two are the only village-adjacent clearings.",
+      "physics": "覆土屏蔽与村同一条物理:GCR 在土中的衰减长度 ~20 cm 量级,2 m ≈ 10 个衰减长度。玻璃前厅是唯一不覆土的体量——它里面只放灯箱复制品,原件手稿在覆土主体深处的恒湿柜里。前厅展签注明:本厅玻璃产自本城——res-glass-01 玻璃厂的浮法线,与博物馆同日交付。",
+      "physics_en": "The berm shares the village's physics: GCR attenuates in regolith on a ~20 cm length scale, so 2 m is ~10 attenuation lengths. The glass foyer is the only unshielded volume - it holds backlit reproductions only; the original manuscript sits in the climate case deep inside the sheltered body. A foyer label notes: the glass of this hall was made in this city - on the float line of res-glass-01, delivered the same day as the museum."
+    }
+  ]
+}

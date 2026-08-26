@@ -109,12 +109,13 @@
 
 <header class="phead">
   <div class="wrap">
-    <div class="label">pwr-fusion-01 · pwr-radiator-01 · pwr-storage-01</div>
+    <div class="label">pwr-fusion-01 · pwr-radiator-01 · pwr-storage-01 · pwr-fission-01</div>
     <h1>Power</h1>
     <p class="phead__sub">A compact high-field tokamak that makes <strong>848&nbsp;MW</strong> of
       fusion power on Mars — and the 4.65-hectare radiator field that dumps the heat it can't sell.
-      Beside it, a solar-charged storage field carries the loads the reactor doesn't reach, through
-      the night and the dust storms. Every headline number is pinned to the solver that produced it.</p>
+      Beside it, a solar-charged storage field and an eight-module fission plant answer the question the
+      tokamak cannot: what the city runs on when the tokamak stops. Every headline number is pinned to
+      the solver that produced it.</p>
   </div>
 </header>
 
@@ -142,6 +143,22 @@
       <p>Everything on the platform exists to serve or feed that cylinder: the cryogenic plant, two
       RF current-drive launchers, a heat exchanger into an enclosed generator hall, and — set apart,
       because it dwarfs the plant — a radiator field the size of a small industrial estate.</p>
+      <p><strong>One plant is not an architecture.</strong> A tokamak is a superb baseload machine and a
+      terrible insurance policy: a quench takes it off the bus in milliseconds, and the repair is measured
+      in sols. Pair that with a global dust storm — when the solar field that charges the storage yard is
+      delivering 15% of nameplate, or less — and the two failures overlap into the one case the city cannot
+      ride out. So the district carries <strong>two sources with nothing in common</strong>. Fusion is the
+      baseload and the propellant export: 176 MWe at the plant fence, enough that the reactor reaches
+      everything and the storage yard is not a second grid. <span class="hl">pwr-fission-01</span> is the
+      availability insurance — eight 40 kWe free-piston Stirling modules under four metres of regolith, on
+      their own corridor 110° off the fusion incomer, sized not for the city's demand but for its
+      <em>protected tier</em>.</p>
+      <p>The split shows up in the numbers. The storage field alone holds 153 kW through a storm
+      (145 kW of battery at 15% residual sun, plus 8.3 kW from the regenerative loop) against a protected
+      tier of 217 kW — <span class="hl">0.71× coverage</span>, short by 63.7 kW and 47.1 MWh over 30 sols.
+      That deficit has the shape of sustained power, not stored energy: buying it with batteries would take
+      38 Megapack-class cabinets that then sit idle for decades while calendar ageing runs anyway. It is a
+      generator-shaped hole, and the fission plant is the generator.</p>
     </div>
     <figure class="figure">
       <img src="assets/power/hero.jpg" alt="3D render of the Mars tokamak power plant" loading="lazy">
@@ -157,6 +174,10 @@
         <figcaption>RADIATOR FIELD, TRUE SCALE — 4.65×10⁴ M² REJECTS 585 MW</figcaption>
       </figure>
     </div>
+    <figure class="figure">
+      <img src="assets/power/fission_plant.jpg" alt="The emergency fission plant under its regolith berm" loading="lazy">
+      <figcaption>THE SECOND SOURCE — 8 × 40 kWe UNDER A 4 m REGOLITH BERM, RADIATOR WINGS BOTH FLANKS</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -164,8 +185,9 @@
 <section class="band band--alt">
   <div class="wrap">
     <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
-    <p class="lead">Six physics domains, each closed by a real solver, each handing a hard number to
-      the next. The design only became self-consistent after all six agreed.</p>
+    <p class="lead">Six physics domains close the reactor, each handing a hard number to the next; the
+      design only became self-consistent after all six agreed. A seventh chain, run separately, answers a
+      different question — what carries the city when the reactor is gone.</p>
     <div class="domains">
       <div class="dom"><div class="tool">FreeGS · Grad-Shafranov</div>
         <h3>Plasma equilibrium</h3>
@@ -191,6 +213,12 @@
         <h3>Heat rejection</h3>
         <p>No air to convect into — 585 MW must radiate. At 600 K that needs 4.65×10⁴ m², which
         the ISRU study turns from a liability into process heat for water and propellant.</p></div>
+      <div class="dom"><div class="tool">OpenMC · Stirling · switchover</div>
+        <h3>The second source</h3>
+        <p>Eight 40 kWe free-piston Stirling modules — nothing on the site rotates — convert at
+        <span class="hl">25%</span> from a 1050 K sodium-heat-pipe hot end. Four metres of regolith is
+        20 neutron mean free paths; distance alone would need 1,236 km. On a trip the storage PCS holds
+        the bus for the 24 s the fission ramp needs.</p></div>
     </div>
     <div class="fig2">
       <figure class="figure">
@@ -237,7 +265,11 @@
       Eight Megapack-class LFP cabinets — 31.2 MWh — ride the diurnal cycle; a regenerative
       hydrogen–oxygen loop (electrolyser, spherical tanks, fuel cell) is held in reserve for the
       global dust storms no battery bank can economically span. The whole field is sized to a
-      verified <span class="hl">833 kW</span> islanded design point.</p>
+      verified <span class="hl">833 kW</span> islanded design point — sized, that is, for a city with one
+      source. With the fission plant on line the yard keeps the hardware and changes the job: it now catches
+      the bus in under a millisecond, holds 450 kW for the 24 s the fission ramp needs, and is back to
+      recharging by t = 359 s. Its own transient model and the fission plant's landed on the same
+      steady-state figure, −5 kW, from opposite directions.</p>
       <p>That number came out of a five-layer chain, L0 through L3, and the chain kept overturning
       its own assumptions — which was the useful part.</p>
     </div>
@@ -286,18 +318,22 @@
     <div class="sec-head"><span class="num">04</span><h2>The ledger</h2></div>
     <p class="lead">Every headline number on this page, and the exact run that produced it. Nothing
       here is a guess — for the reactor, 19 Python scripts, 2 COMSOL studies, 18 Geant4 transports and
-      one HFSS solve; for the storage field, a five-layer L0–L3 chain.</p>
+      one HFSS solve; for the storage field, a six-layer L0–L4 chain; for the fission plant, 21 ledgers
+      backed by OpenMC transport. Where two of those chains overlap, they were run without a shared model
+      and are quoted side by side.</p>
     <div class="tablewrap"><table>
       <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
       <tbody>
-        <tr><td>Fusion power &amp; gain</td><td class="num">848 MW · Q 34</td><td class="src">tokamak/sysdesign/tokamak_0d.py</td></tr>
+        <tr><td>Fusion power &amp; gain <em>(2026-07 design account; superseded, see What broke)</em></td><td class="num">848 MW · Q 34</td><td class="src">tokamak/sysdesign/tokamak_0d.py</td></tr>
         <tr><td>On-axis / conductor field</td><td class="num">8.85 / 21 T</td><td class="src">tokamak/sysdesign/tokamak_0d.py</td></tr>
-        <tr><td>Net electric (honest recirc)</td><td class="num">176 MWe</td><td class="src">tokamak/sysdesign/current_drive.py</td></tr>
+        <tr><td>Net electric (honest recirc) <em>(2026-07; superseded)</em></td><td class="num">176 MWe</td><td class="src">tokamak/sysdesign/current_drive.py</td></tr>
         <tr><td>Equilibrium, PF currents, fx≥20</td><td class="num">q95 3.93</td><td class="src">tokamak/sysdesign/equilibrium_longleg.py</td></tr>
         <tr><td>D-coil peak stress</td><td class="num">999 MPa</td><td class="src">tokamak/comsol/tf_coil_stress_dshape.java</td></tr>
         <tr><td>Net breeding ratio @88%</td><td class="num">1.10</td><td class="src">tokamak/neutronics/blanket_tbr.cc</td></tr>
         <tr><td>REBCO life @0.12 m WC-B4C</td><td class="num">&ge;5 yr</td><td class="src">tokamak/neutronics/blanket_tbr.cc</td></tr>
         <tr><td>Divertor exhaust difficulty</td><td class="num">49 MW/m</td><td class="src">tokamak/sysdesign/divertor_2pm.py</td></tr>
+        <tr><td>Predictive-transport operating point (2026-08)</td><td class="num">640 MW · Q 5.3 · +48 MWe</td><td class="src">tokamak/sysdesign/torax/ + v5_rebaseline.py</td></tr>
+        <tr><td>LH wave deposition (ray-traced)</td><td class="num">&rho; 0.85&ndash;1.0</td><td class="src">tokamak/sysdesign/lhcd_raytrace.py</td></tr>
         <tr><td>Detachment: Ne seed + density</td><td class="num">3% · 0.67 n<sub>GW</sub></td><td class="src">tokamak/sysdesign/divertor_1d.py</td></tr>
         <tr><td>LHCD TE10 cutoff verified</td><td class="num">3.75 GHz</td><td class="src">tokamak/hfss/lhcd_hfss.py</td></tr>
         <tr><td>Density-limit (PDI) margin</td><td class="num">5.7×</td><td class="src">tokamak/sysdesign/lhcd_density_limit.py</td></tr>
@@ -307,7 +343,15 @@
         <tr><td>Tritium startup · doubling</td><td class="num">1.7 kg · 136 d</td><td class="src">tokamak/sysdesign/tritium_cycle.py</td></tr>
         <tr><td>TES 3×50% forced shutdowns</td><td class="num">0.08 /yr</td><td class="src">tokamak/sysdesign/tes_availability.py</td></tr>
         <tr><td>W armor life @≤20 h/yr reattach</td><td class="num">21 yr</td><td class="src">tokamak/sysdesign/divertor_erosion.py</td></tr>
-        <tr><td>Storage — islanded design point</td><td class="num">833 kW · 2 MW PCS</td><td class="src">mars_pwr_storage/analysis/L0v2_calibration.py</td></tr>
+        <tr><td>Storage — islanded design point <em>(2026-07 sizing; see note below)</em></td><td class="num">833 kW · 2 MW PCS</td><td class="src">mars_pwr_storage/analysis/L0v2_calibration.py</td></tr>
+        <tr><td>Storage — role now: 60 s bridge, then N-2 reserve</td><td class="num">450 kW peak → −5 kW</td><td class="src">mars_pwr_storage/analysis/L4_bridge_transient.py</td></tr>
+        <tr><td>Storage — N-2 endurance on the T1 tier</td><td class="num">10.1 sol</td><td class="src">mars_pwr_storage/analysis/L4_bridge_transient.py</td></tr>
+        <tr><td>Grid — city steady mean load (context for the row above)</td><td class="num">707 kW</td><td class="src">pwr-grid-01 · grid_01_load_ledger.py</td></tr>
+        <tr><td>Fission — the gap it exists to fill</td><td class="num">63.7 kW · 47.1 MWh/30 sol</td><td class="src">mars-fission/sim/01_gap.py</td></tr>
+        <tr><td>Fission — installed / N-1 firm</td><td class="num">320 / 280 kWe</td><td class="src">mars-fission/sim/03_modularity.py</td></tr>
+        <tr><td>Fission — Stirling conversion @1050 K</td><td class="num">25%</td><td class="src">mars-fission/sim/04_thermal.py</td></tr>
+        <tr><td>Fission — berm to reach 1 mSv/yr</td><td class="num">4.0 m regolith</td><td class="src">mars-fission/sim/11_openmc_shield.py</td></tr>
+        <tr><td>Fission — switchover, battery current to zero</td><td class="num">t ≈ 5 min</td><td class="src">mars-fission/sim/08_switchover.py</td></tr>
         <tr><td>Storage — LFP cell round-trip</td><td class="num">99.45%</td><td class="src">mars_pwr_storage/analysis/L1_cell_electrochem.py</td></tr>
         <tr><td>Storage — module thermal ceiling (passive)</td><td class="num">27 °C @0.1C</td><td class="src">mars_pwr_storage/analysis/comsol/L2_module_thermal.java</td></tr>
         <tr><td>Storage — dust-storm survival load</td><td class="num">145 kW @15%</td><td class="src">mars_pwr_storage/analysis/L3_system_dispatch.py</td></tr>
@@ -315,6 +359,18 @@
         <tr><td>Storage — H₂ reserve store</td><td class="num">336 kg</td><td class="src">mars_pwr_storage/analysis/L0_energy_balance.py</td></tr>
       </tbody>
     </table></div>
+    <div class="prose" style="margin-top:18px;">
+      <p><strong>Note on the storage row.</strong> The 833 kW design point was sized in July 2026, when the
+      storage field was the city's islanded backstop and the tokamak its only source. It has not been
+      withdrawn and it has not changed — the hardware is the same — but the <em>job</em> has changed twice
+      since. First it became the survival grid: 145 kW held at 15% residual sun against a 78 kW T1 tier,
+      1.85× coverage, a number two sessions arrived at without knowing of each other. (The city's steady
+      mean draw is 707 kW, so the yard was never the whole grid — it was always the protected slice of it.)
+      Then pwr-fission-01
+      came on line and took the long hold away, leaving the battery the two things it is uniquely good at —
+      bridging the first sixty seconds, and standing reserve against an N-2 fission event, where it is still
+      worth 10.1 sol on T1. The island stopped being a stopwatch.</p>
+    </div>
     <figure class="figure">
       <img src="assets/power/mass.jpg" alt="Machine mass budget and Starship logistics" loading="lazy">
       <figcaption>MASS BUDGET — 10.3 KT, 103 → 34 STARSHIP FLIGHTS WITH AGGRESSIVE ISRU</figcaption>
@@ -328,6 +384,20 @@
     <div class="sec-head"><span class="num">05</span><h2>What broke</h2></div>
     <p class="lead">The design changed shape five times because a solver said no. The rejections were
       more useful than the successes.</p>
+
+    <div class="broke">
+      <h3>Predictive transport retired the headline (2026-08)</h3>
+      <p>The 848 MW / Q 34 / 176 MWe above came from a 0D account that bet on H98 = 1.0 confinement
+      and a 66% bootstrap fraction. Running the same machine through DeepMind's open-source TORAX
+      (QLKNN and TGLF-NN turbulence surrogates, real long-leg equilibrium), then ray-tracing the
+      lower-hybrid waves (they never reach mid-radius at reactor edge density), switching the core
+      current drive to ECCD, and letting sawteeth collect their tax: every self-consistent
+      steady state converges to Ip &asymp; 11 MA, 640 MW, Q &asymp; 5, about +48 MWe net.
+      The consolation is real: wall load drops 25%, divertor margin grows 1.33&times;, tritium
+      startup falls to 1.31 kg. Same hardware, honest identity: a burning-plasma demonstrator
+      and a 700 MW-class ISRU heat source that barely powers itself.</p>
+      <p class="verdict">&rarr; v5 operating point: 640 MW &middot; Q 5.3 &middot; +48 MWe &mdash; the numbers above are kept as the design record</p>
+    </div>
 
     <div class="broke">
       <h3>The Ø14 m cryostat couldn't hold it</h3>
@@ -421,7 +491,9 @@
       City assets: <span class="src">viewer/units/pwr-fusion-01.js</span> ·
       <span class="src">viewer/units/pwr-radiator-01.js</span> ·
       <span class="src">viewer/units/pwr-storage-01.js</span> ·
-      Storage chain: <span class="src">mars_pwr_storage/analysis/</span> (L0–L3 + design_point_final.json) ·
+      <span class="src">viewer/units/pwr-fission-01.js</span> ·
+      Storage chain: <span class="src">mars_pwr_storage/analysis/</span> (L0–L4 + design_point_final.json) ·
+      Fission dossier: <span class="src">mars-fission/sim/</span> (21 ledgers) ·
       <a href="index.html">Back to the city</a></p>
   </div>
 </footer>

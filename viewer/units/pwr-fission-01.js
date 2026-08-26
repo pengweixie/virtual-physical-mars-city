@@ -258,6 +258,17 @@ export function build(THREE) {
 
     if (!detailed) {                                       // rear row: outer can
       cyl(1.05, 1.05, 2.6, 12, can, 0, 1.85, 0, mg);
+      // the rear modules are NOT sectioned, so they carry the whole ring of ten
+      // control drums - this is where a visitor can actually count them
+      for (let i = 0; i < 10; i++) {
+        const a = (i / 10) * Math.PI * 2 + 0.31;
+        const dr = new THREE.Group();
+        dr.position.set(Math.sin(a) * 0.98, 1.30, Math.cos(a) * 0.98);
+        dr.rotation.y = -a;
+        cyl(0.22, 0.22, 1.05, 8, drumRef, 0, 0, 0, dr);
+        box(0.30, 1.00, 0.10, drumAbs, 0, 0, -0.19, dr);
+        mg.add(dr);
+      }
       cyl(1.25, 1.05, 0.9, 12, collar, 0, 3.6, 0, mg);
       const l = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.18, 0.06), okMat);
       l.position.set(0, 2.9, 1.06); mg.add(l);
@@ -268,8 +279,13 @@ export function build(THREE) {
     // (A closed cylinder with pins hidden inside it is the definition of a black
     //  box; the rear half-shell is drawn and the front half is simply absent.)
     const coreY = 1.30;
+    // GEOMETRY BUG, present since the first delivery and found in round 4:
+    // three.js measures cylinder theta from +Z, so thetaStart = -PI/2 with
+    // thetaLength = PI draws the arc CONTAINING +Z - the FRONT half. The
+    // "sectioned" core has been facing the viewer with its shell on the whole
+    // time, hiding the fuel it exists to reveal. The rear half is +PI/2.
     const shell = new THREE.Mesh(new THREE.CylinderGeometry(
-      0.66, 0.66, 1.10, 16, 1, true, -Math.PI / 2, Math.PI), coreMat);
+      0.66, 0.66, 1.10, 16, 1, true, Math.PI / 2, Math.PI), coreMat);
     shell.position.set(0, coreY, 0);
     mg.add(shell);
     cyl(0.66, 0.66, 0.10, 16, coreMat, 0, coreY - 0.55, 0, mg);   // vessel floor
@@ -281,13 +297,24 @@ export function build(THREE) {
           Math.cos(a) * 0.44, coreY, -Math.sin(a) * 0.44, mg);
     }
 
-    // ---- radial reflector with 8 rotating control drums -------------------
+    // ---- radial reflector with 10 rotating control drums ------------------
     // BeO drum with a B4C absorber face: rotate the black face inward and the
     // core shuts down. These move at startup and scram only - hence no spinner.
-    for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * Math.PI * 2 + 0.39;
+    // TEN, not the eight of the first draft. Ledger 16 sized the bank for the
+    // first time: the cold-to-hot temperature defect alone is $1.00, a bank is
+    // ~$3.0, and a single-drum runaway has to stay under the fuel limit. That
+    // caps per-drum worth and demands 10 at both defensible corners of the
+    // feedback table (conservative alpha against the 1400 K safety limit, and
+    // KRUSTY's measured alpha against the 1200 K design limit).
+    for (let i = 0; i < 10; i++) {
+      const a = (i / 10) * Math.PI * 2 + 0.39;
       // the section plane took the front arc of the reflector with it, which is
-      // what lets you see the fuel at all - draw only the drums behind it
+      // what lets you see the fuel at all - draw only the drums behind it.
+      // Widening this to 0.70 to make the 10-drum count readable was TRIED AND
+      // REVERTED: it put drums straight in front of the fuel and turned the core
+      // back into the black box this cutaway exists to open. The count is made
+      // legible on the INTACT REAR ROW instead - front row sectioned, rear row
+      // whole, which is how a cutaway drawing has always handled this.
       if (Math.cos(a) > 0.45) continue;
       const dr = new THREE.Group();
       dr.position.set(Math.sin(a) * 0.98, coreY, Math.cos(a) * 0.98);
@@ -386,7 +413,7 @@ export function build(THREE) {
 
     for (let i = 0; i < PANELS_PER_ROW; i++) {
       const z = (i - (PANELS_PER_ROW - 1) / 2) * P_PITCH;
-      const decay = (i === 0);                       // one per row = 2 of 16
+      const decay = (i === 0);                       // one per row = 2 of 20
       const p = new THREE.Group();
       p.position.set(side * ROW_X, 0.2, z);
       p.rotation.z = side * -0.26;                   // lean outward ~15 deg
@@ -461,6 +488,16 @@ export function build(THREE) {
     w.position.set(i * 1.6 - 0.8, 1.75, 1.16); tie.add(w);
   }
   box(1.0, 0.4, 0.3, hazard, 1.6, 0.55, 1.15, tie);                // labels
+  // THREE DC-DC converter cabinets, 160 kW each, 1500 V module bus -> +/-10 kV.
+  // Drawn as three and not two because ledger 19 (answering the independent
+  // review's A-3) found the delivered "2 x 160 kW (N-1)" leaves 160 kW on a
+  // single failure - below the 275.1 kW firm requirement this plant exists to
+  // meet. The N-1 claim is now countable from outside the fence.
+  for (let i = 0; i < 3; i++) {
+    box(1.30, 2.20, 1.50, liner, i * 1.55 - 1.55, 1.10, -2.60, tie);
+    box(1.34, 0.10, 1.54, panelFr, i * 1.55 - 1.55, 2.22, -2.60, tie);  // hood
+    box(0.90, 0.32, 0.06, okMat, i * 1.55 - 1.55, 1.70, -1.86, tie);    // lamp
+  }
   // DC power path in from the vault (copper), out to the corridor (+Z stub)
   box(2.0, 0.9, 3.2, conc, -3.4, 0.45, -2.0, tie);        // duct headwall at toe
   box(1.6, 0.26, 3.0, cablesM, -3.4, 0.62, -2.0, tie);    // DC pair, lids off

@@ -1,0 +1,415 @@
+{
+  "id": "res-foundry-01",
+  "pois": [
+    {
+      "id": "control",
+      "label": "控制间(头条:备件覆盖率账)",
+      "label_en": "Control room (the headline: spares coverage)",
+      "range": 26,
+      "detail": "本车间的立项理由写在别人的卡上:ops-depot-01 拱仓那句「库存深度是天体力学边条件」。把 20 t/窗口的维持性备件谱按可本地制造性分层——铸件、机加件、板材件本地能做,轴承钢、电子件、密封圈不能——结论是 33.6% 的备件质量可以从『等地球 26 个月』改写成『等车间数日』。这个数决定了全厂的产能、功率和面积。",
+      "detail_en": "This plant's founding argument is written on someone else's card: the ops-depot-01 arch warehouse line that stock depth is a celestial-mechanics boundary condition. Stratify the 20 t-per-window sustaining-spares spectrum by local manufacturability - castings, machined parts and plate work can be made here; bearing steel, electronics and elastomer seals cannot - and 33.6% of spares mass rewrites from 'wait 26 months for Earth' to 'wait days for the shop'. That one number sizes the whole plant.",
+      "specs": {
+        "备件流": "20 t/窗口(非食物 50 t × ISS 维持占比 40%)",
+        "本地覆盖率": "33.6%(结构机构 35%×80% + 管阀体 8%×70%)",
+        "折产量": "6.7 t/窗口 = 8.9 kg/sol 成品件",
+        "仍需进口": "轴承/电子/密封/电机绕组/滤芯(如实 0%)"
+      },
+      "specs_en": {
+        "Spares flow": "20 t/window (50 t non-food x 40% ISS sustaining share)",
+        "Local coverage": "33.6% (structures 35% x 80% + valve bodies 8% x 70%)",
+        "Throughput": "6.7 t/window = 8.9 kg/sol of finished parts",
+        "Still imported": "bearings, electronics, seals, windings, filters (honestly 0%)"
+      },
+      "sim": [
+        "分层账(17 闸之四):备件谱七类闭合加和 = 1;结构/机构类占 35%,落 ISS 经验带 30–40%(已知答案闸);会合窗口 779.9 地球日折 759 sol(闸)。本地可做 = 结构类的 80%(普通碳钢/低合金能覆盖的部分)+ 管阀体的 70%(阀体壳体可铸可铣,弹性密封件仍进口)= 33.6%。",
+        "给 ops-depot-01 拱仓卡的回引(总控代改):结构类备件的货架深度不再按 26 个月在途计,按『2× 车间交付周期』计——那部分体积从会合周期的几何表达变回普通仓库。非食物进口包线 50 → ~43 t/窗口。",
+        "【第二轮 · 账 7:头条配上误差棒,决策不翻】七个 L0 输入按声明带跑 20 万次蒙卡:覆盖率 P5–P95 = 28.1–38.4%(中位 32.9 复现点估计,闸过);铭牌 20 kg/sol 对 P97.5 需求仍余 2.0×——头条数字有软肋,它撑着的离散决策没有。方差 87% 来自结构类份额(53%)与其本地化比例(34%),而全城最便宜的实验就能压掉它:下个窗口在拱仓按类别过一次秤,ISS 的带子换成本城的实测——已写进给 ops-depot-01 的回引。",
+        "【第三轮 · 三本账都没动它】账 9 查了「做得出是否等于能铸」——覆盖率不变,变的是路线分流(壳体走铸造、轴齿走 EBM/机加);账 10 把 FFC 能耗坐实;账 11 推翻了品位杠杆并把磁选搬到炉后。**全厂电耗 224 → 225 kWh/sol,头条 33.6% 一个百分点没动**——三轮下来,被推翻的都是过程假设,而头条靠的是备件谱与 ISS 经验带,它们从一开始就没依赖任何冶金细节。",
+        "【第四轮 · 账 14:给「本地造还是进口」定一条通用规则,并把本册最大的不确定度变成决策题】本厂 217 kWh/sol 换 8.9 kg/sol 免进口 = **24 kWh 每公斤**;若允许本厂吃掉全城同时率峰值(pwr-grid-01 台账 1,075 kW)的 10%,门槛是 **298 kWh/kg** —— 余量 12×。**规则:凡能在 ~300 kWh/kg 以内做出来的,就该本地做**。据此,第三轮点名的「FFC 电流效率是反解值不是实测」这条最大能量不确定度被解掉了:FFC 翼要涨 **38 倍**才吃满门槛,对应电流效率 0.6%(实测带 20~50%)——**它是本册最大的能量不确定度,同时对决策毫无影响**。",
+        "门槛规则也改写了铝的推迟理由:电解铝 14.5 kWh/kg(霍尔-埃鲁已知答案带 13~16)只有门槛的 5%——**本册推迟铝从来不是因为电贵,是因为 CaCl2 体系做不了、要冰晶石**。而门槛管不到的另一侧要说清楚:轴承钢、电子件、弹性密封件不是电价问题,是**工序链长度**问题——它们缺的是工序,不是千瓦时。",
+        "【第五轮 · 两本账都在还债,总量微涨】账 15 补熔剂(+1.95 kWh/sol)、账 16 补型砂预焙(+1.1)→ 全厂 217 → **220 kWh/sol / 8.9 kWe**;门槛余量 12× 不变(账 14 已同步)。**头条 33.6% 五轮未动**——五轮里被推翻的依次是:换热回收率、品位杠杆、渣的安全结论、硫的分配率,**全是过程假设,没有一个碰到头条**,因为头条只依赖备件谱与 ISS 经验带。"
+      ],
+      "sim_en": [
+        "Stratification (4 of the 17 gates): the seven spectrum classes must sum to 1; structures at 35% lands inside the ISS 30-40% experience band (known-answer gate); the synodic window of 779.9 Earth days converts to 759 sols (gate). Locally makeable = 80% of structures (what plain carbon and low-alloy steel covers) + 70% of valve-body class (housings cast and milled; elastomer seals still imported) = 33.6%.",
+        "Back-reference for the ops-depot-01 arch card (integrator to apply): shelf depth for structural spares is no longer failure rate x a 26-month pipeline but 2x the shop lead time - that volume stops being the synodic period expressed as geometry and becomes an ordinary warehouse. The non-food import envelope drops from 50 to ~43 t per window.",
+        "[Round 2, ledger 7: the headline gets its error bar, the decision does not flip] The seven L0 inputs ran 200k Monte Carlo draws over their declared bands: coverage P5-P95 = 28.1-38.4% (median 32.9 reproduces the point estimate - gate). The 20 kg/sol nameplate still clears P97.5 demand by 2.0x - the headline number has soft spots; the discrete decision it carries does not. 87% of the variance comes from the structural share (53%) and its local-coverage fraction (34%), and the cheapest experiment in the city collapses both: weigh one window's arrivals by category at the arch warehouse, replacing the ISS bands with this city's own measurement - written into the ops-depot-01 back-reference.",
+        "[Round 3: three ledgers, none of which moved this one] Ledger 9 asked whether makeable also means castable - coverage unchanged, routes split (housings cast, shafts and gears via EBM or machining); ledger 10 grounded the FFC energy; ledger 11 overturned the grade lever and moved the separator behind the furnace. Plant energy went from 224 to 225 kWh/sol and the 33.6% headline did not move by a single point. Across three rounds everything overturned was a process assumption, while the headline rests on the spares spectrum and the ISS experience bands, which never depended on any metallurgical detail.",
+        "[Round 4, ledger 14: a general rule for make-or-import, and the book biggest uncertainty turned into a decision] The plant spends 217 kWh/sol to avoid 8.9 kg/sol of imports, 24 kWh per kilogram. Allowing it to draw a tenth of the city coincident peak (1,075 kW in the pwr-grid-01 ledger) sets a threshold of 298 kWh/kg - a margin of 12x. The rule: anything makeable under about 300 kWh/kg should be made here. That resolves the uncertainty round three had flagged as the largest, the back-solved FFC current efficiency: the FFC wing would have to grow 38-fold to reach the threshold, implying a current efficiency of 0.6% against a measured band of 20-50%. It is simultaneously the largest energy uncertainty in this book and irrelevant to the decision.",
+        "The threshold also rewrites why aluminium is deferred: Hall-Heroult electrolysis at 14.5 kWh/kg (known-answer band 13-16) is 5% of the threshold, so aluminium was never deferred for the cost of electricity but because a CaCl2 system cannot do it and cryolite is another design book. And the other side of the threshold deserves stating plainly: bearing steel, electronics and elastomer seals are not a question of energy price but of process-chain length - what they lack is steps, not kilowatt-hours.",
+        "[Round 5: two ledgers paying debts, totals edge up] Ledger 15 adds flux (+1.95 kWh/sol) and ledger 16 the sand pre-bake (+1.1), taking the plant from 217 to 220 kWh/sol, 8.9 kWe, with the threshold margin unchanged at 12x (ledger 14 synced). The 33.6% headline has not moved in five rounds. What was overturned along the way - heat recovery, the grade lever, the slag safety verdict, the sulfur partition - were all process assumptions; none of them touched the headline, because the headline rests only on the spares spectrum and the ISS bands."
+      ],
+      "physics": "物流学的相变:当一个零件类别从进口变为本地制造,它的安全库存公式换了变量——从『失效率×在途时间』变成『失效率×生产周期』,两者差两个数量级。车间不直接生产零件,车间生产的是把 26 个月压缩成几天的那次替换。 而门槛规则背后是这颗行星的稀缺结构:电由聚变白给(全厂只占净供电的 0.005%),质量却要跨行星送。**在电充裕、质量稀缺的地方,任何能把千瓦时换成公斤的工序都值得建**——这条不是冶金结论,是火星经济学的边条件。",
+      "physics_en": "A phase change in logistics: when a part class turns local, its safe-stock formula swaps variables - from failure rate x pipeline time to failure rate x production lead time, two orders of magnitude apart. The shop's real product is not parts; it is the substitution that compresses 26 months into days. Behind the threshold lies this planet scarcity structure: electricity is effectively free from fusion (the whole plant is 0.005% of net supply) while mass must cross interplanetary space. Where power is abundant and mass is scarce, any process that converts kilowatt-hours into kilograms is worth building - which is not a metallurgical conclusion but a boundary condition of Martian economics."
+    },
+    {
+      "id": "magsep",
+      "label": "受料与预抛磁选(品位杠杆在这里失效)",
+      "label_en": "Ore receiving and pre-scalping (where the grade lever fails)",
+      "range": 22,
+      "detail": "受料斗吃 res-mine-01 的玄武岩细料,153 kg/sol。成分口径与 sci-cray-01、pwr-fission-01 两册同一张表(Rocknest APXS):FeO 19.2 wt%,折元素铁 15.4%。第一轮这里写的是「磁选把品位翻倍,只有精矿进炉」——第三轮账 11 把它推翻了:火星土里强磁性的磁铁矿只占 2~6 wt%,即便 100% 分选效率也只够得着全铁的 19%,其余的铁锁在橄榄石与辉石的硅酸盐晶格里,一块磁铁隔着晶格是拿不出来的。所以这台磁鼓降级为「预抛」——顺手捡走已有的磁铁矿,不再是杠杆;真正的分选搬到了炉后。",
+      "detail_en": "The hopper takes basalt fines from res-mine-01, 153 kg/sol, on the same composition table as sci-cray-01 and pwr-fission-01 (Rocknest APXS): FeO 19.2 wt%, 15.4% elemental iron. Round one claimed here that magnetic separation doubled the grade so that only concentrate entered the furnace. Round three, ledger 11, overturned that: strongly magnetic magnetite is only 2-6 wt% of Martian soil, so even at perfect efficiency an upstream drum reaches just 19% of the iron. The rest is locked in the silicate lattices of olivine and pyroxene, and no magnet reaches through a lattice. The drum is therefore demoted to pre-scalping - it collects the magnetite that is already free - while the separation that matters moved downstream of the furnace.",
+      "specs": {
+        "给料": "153 kg/sol,全量入炉(不再选后入炉)",
+        "成分口径": "Rocknest APXS,FeO 19.2 wt%(三册同表)",
+        "预抛磁选": "鼓式,只够得着全铁的 ~19%(磁铁矿相)",
+        "磨矿": "P80 = 500 µm(为动力学不为解离;Bond 0.81 kWh/sol)"
+      },
+      "specs_en": {
+        "Feed": "153 kg/sol, all of it to the furnace",
+        "Composition": "Rocknest APXS, FeO 19.2 wt% (one table, three books)",
+        "Pre-scalp": "drum type, reaches only ~19% of the iron (the magnetite phase)",
+        "Grind": "P80 = 500 um, for kinetics not liberation (Bond: 0.81 kWh/sol)"
+      },
+      "sim": [
+        "口径闸:同一张成分表算平均质量数 ⟨A⟩=22.64,对 sci-cray-01 为量能器独立发表的 22.6 差 0.2%、对 pwr-fission-01 屏蔽账的 22.31 差 1.5%——三册互证,不另立口径。",
+        "【第三轮 · 账 11 推翻本卡原结论】相分配扫描(强磁性相 2/4/6 wt%)给出上游可及率 9%/19%/28%,中值 19% 过闸。**把硫厂的「品位杠杆」照搬过来时,我借了结论没借前提**:硫是蒸发岩——水蒸发把它富集成独立相,可选可磁可浮;铁是造岩元素,从来没有被分离过,它就长在硅酸盐骨架里。地质红利不是普遍的,是逐元素的。",
+        "连带修正:账 4 原只加热 76 kg 精矿,现按全量 153 kg 算,预热电耗 7.4 → 14.8 kWh/sol;但磨矿只需 P80=500 µm(解离不再是目的,动力学余量见竖炉卡),Bond 功指数给 0.81 kWh/sol,落在原假定的 5 kWh/sol 之内——**把磁选搬到炉后,顺手省掉了细磨**。"
+      ],
+      "sim_en": [
+        "Alignment gate: the same table gives a mean mass number of 22.64, within 0.2% of the 22.6 that sci-cray-01 published independently for its calorimeter and 1.5% of the 22.31 in the pwr-fission-01 shielding ledger - three books cross-proving one table.",
+        "[Round 3, ledger 11 overturns the original claim on this card] Scanning the magnetic phase at 2, 4 and 6 wt% gives upstream reach of 9%, 19% and 28%; the 19% midpoint passes the gate. Carrying the grade lever over from the sulfur plant borrowed the conclusion without its premise: sulfur is an evaporite, concentrated into a discrete phase by evaporating water and therefore sortable, magnetisable, floatable, while iron is a rock-forming element that was never separated from anything - it grew inside the silicate framework. Geological dividends are not universal; they are element by element.",
+        "Knock-on: ledger 4 used to heat only the 76 kg concentrate and now heats all 153 kg, taking preheat from 7.4 to 14.8 kWh/sol. But the grind now serves kinetics alone (P80 = 500 um, with the headroom shown on the furnace card), and the Bond work index puts that at 0.81 kWh/sol, inside the 5 kWh/sol already assumed - moving the separation downstream paid for itself by deleting the fine grind."
+      ],
+      "physics": "磁选分的是磁化率差,而磁化率是**相**的属性,不是元素的属性。硫在火星被地质过程免费富集过,铁没有——所以同一句「上游品位提一倍比下游任何优化都省电」在硫厂成立、在这里不成立。跨资产借经验时,要借的是机理的适用条件,不是它得出的数字。",
+      "physics_en": "Magnetic separation sorts by susceptibility, and susceptibility belongs to a phase, not to an element. Mars pre-concentrated its sulfur for free and did no such thing for its iron, so the maxim that doubling upstream grade beats any downstream optimisation holds at the sulfur plant and fails here. When borrowing experience across assets, borrow the conditions under which the mechanism is valid, not the number it produced."
+    },
+    {
+      "id": "sep",
+      "label": "炉后磁选(分金属,不分矿)",
+      "label_en": "Post-reduction magnetic separation (sorting metal, not ore)",
+      "range": 22,
+      "detail": "炉底卸出的是 900 °C 的**固态**海绵铁与脱铁脉石的混合物——直接还原不产铁水,这一点第一轮画错过(画成了高炉式出铁口),第三轮改了。封闭斜桥把热料送到这台磁鼓:金属铁被磁场拉住、走钢色溜槽进料箱(箱里那抹橙色是还热着的精矿),脉石落灰色溜槽直下渣堆。这才是全厂真正的分选工序——它分的是已经被还原出来的金属,不是矿。",
+      "detail_en": "What leaves the bottom of the shaft is a 900 C mixture of solid sponge iron and de-ironed gangue - direct reduction makes no liquid metal, a point round one drew wrongly as a blast-furnace taphole and round three corrected. An enclosed inclined bridge carries the hot burden to this drum: metallic iron is held by the field and rides the steel-coloured chute into the bin (the orange inside is concentrate still hot), while gangue drops down the grey chute straight to the slag pile. This is the plant real separation step, and it sorts metal that has already been reduced rather than ore.",
+      "specs": {
+        "位置": "还原之后(账 11 架构改判,原在炉前)",
+        "磁化率对比": "金属铁/脉石 436× vs 磁铁矿/脉石 184×(优 2.4×)",
+        "产物": "金属精矿 ~75% Fe → 渗碳罐;脉石 → 渣堆",
+        "回收率": "85%(金属铁分选,DRI 常规)",
+        "段数": "两段:粗选 → 精选(精矿 75% → 94% Fe)"
+      },
+      "specs_en": {
+        "Position": "downstream of reduction (ledger 11 re-architecture; formerly upstream)",
+        "Susceptibility contrast": "metallic Fe / gangue 436x vs magnetite / gangue 184x (2.4x better)",
+        "Products": "metal concentrate ~75% Fe to the carburiser; gangue to the slag pile",
+        "Recovery": "85%, standard for magnetic sorting of DRI",
+        "Stages": "two: rougher then cleaner, 75% to 94% Fe"
+      },
+      "sim": [
+        "对比度闸:金属铁比饱和磁化 218 Am²/kg,磁铁矿 92,硅酸盐脉石 ~0.5——把磁选放到炉后,分选对比度从 184× 升到 436×(2.4×)。**同一台设备,换个位置,从够不着变成好干活**。",
+        "产量:金属精矿 26.7 kg/sol(20 kg Fe + 6.7 kg 夹带脉石)→ 渗碳罐 → 感应炉;脉石并入渣流 127 kg/sol,与渣账同一条流(质量闭合 1e-9)。",
+        "【第四轮 · 账 12/13:精矿洁净度原来是牌号的决定变量】夹带脉石是**硫的载体**:75% 品位下带进的 6.7 kg 脉石按 2.74 wt% 含硫、10% 分配率算,给金属 0.091 wt% S——灰铸铁(≤0.12%)可做,球铁(≤0.02%)做不了。反解要求 93.2%,**故加二段精选**。而精选本身是**净省电的**:少熔 5.4 kg 脉石省 2.8 kWh/sol,精选只耗 0.5——洗干净精矿同时买到球铁资格与更低的熔炼电。",
+        "**一条关于取整方向的教训**:首版把规格写成 93%(反解值 93.2 向下取整),主账的硫闸当场判红——0.0206 wt% 略超 0.02 的容限。**规格取整必须朝安全侧**,定版 94%(得 0.0175 wt%)。一个百分点的笔下留情,差点让球化在纸面上就失败。",
+        "【第五轮修订】本卡第四轮写的「94% 精矿 → 金属硫 0.0175 wt%」用的是声明的分配率;账 15 按硫容量重算给 0.146 wt%。**精选规格不变(94% 仍是必要条件),但它不再单独充分**——真正的达标条件是「94% 精矿 **且** 渣碱度 B≥1.8」。本卡的两条溜槽因此各多了一层含义:钢色那条决定硫的总量,而硫最终去哪,由铸造坪那边加不加石灰决定。"
+      ],
+      "sim_en": [
+        "Contrast gate: metallic iron saturates at 218 Am2/kg against 92 for magnetite and about 0.5 for silicate gangue, so moving the separator behind the furnace lifts the sorting contrast from 184x to 436x, a factor of 2.4. The same machine, relocated, goes from out of reach to comfortably effective.",
+        "Output: 26.7 kg/sol of metal concentrate (20 kg Fe plus 6.7 kg entrained gangue) feeding the carburiser and then the induction furnace, with the gangue joining the 127 kg/sol slag stream counted on the slag card (mass closure 1e-9).",
+        "[Round 4, ledgers 12 and 13: concentrate cleanliness turns out to decide the grade] Entrained gangue is the carrier of sulfur: at 75% grade the 6.7 kg of gangue, at 2.74 wt% sulfur and a 10% partition to metal, delivers 0.091 wt% S - fine for grey iron at 0.12% but hopeless for ductile at 0.02%. Back-solving demands 93.2%, hence the second cleaning stage. And that stage pays for itself: melting 5.4 kg less gangue saves 2.8 kWh/sol against 0.5 kWh/sol to run it, so a cleaner concentrate buys both the ductile-iron qualification and a lower melting bill.",
+        "A lesson about which way to round: the first version wrote the spec as 93%, rounding the back-solved 93.2 down, and the master ledger sulfur gate went red on the spot - 0.0206 wt% against a 0.02 limit. Specifications must round to the safe side, so the release value is 94% (0.0175 wt%). One percentage point of generosity in the write-up nearly failed the nodularisation on paper.",
+        "[Round 5 revision] The 94%-concentrate figure of 0.0175 wt% on this card used a declared partition ratio; recomputed from sulfide capacity in ledger 15 it is 0.146 wt%. The cleaning spec does not change - 94% remains necessary - but it is no longer sufficient on its own: the real condition is 94% concentrate and a slag basicity of at least 1.8. The two chutes on this skid therefore carry an extra meaning: the steel-coloured one sets how much sulfur enters, while where that sulfur ends up is decided over at the casting pad, by whether lime goes in."
+      ],
+      "physics": "还原改变的不只是化学,还有物性:硅酸盐里的 Fe²⁺ 是顺磁的,还原成金属铁之后是**铁磁**的,差三个数量级。所以「先分选后还原」和「先还原后分选」不是工序次序的偏好问题,是这道工序能不能干活的问题——冶金流程图上箭头的顺序,有时候就是全部的设计。",
+      "physics_en": "Reduction changes more than chemistry; it changes physical properties. Fe2+ in a silicate is paramagnetic, and reduced to metal it is ferromagnetic - three orders of magnitude apart. So separate-then-reduce versus reduce-then-separate is not a preference about sequencing but a question of whether the step works at all. On a metallurgical flowsheet the order of the arrows is sometimes the entire design."
+    },
+    {
+      "id": "furnace",
+      "label": "氢还原竖炉(铁的核心)",
+      "label_en": "Hydrogen reduction shaft furnace (the iron core)",
+      "range": 30,
+      "detail": "全厂心脏。精矿由斜轨料车提升入炉,900 °C 氢气氛下 FeO + H2 → Fe + H2O:铁在矿粒里原位析出金属,炉气带走的水在冷凝器里凝出,进电解撬分回氢和氧——氢回炉循环,一克不耗。出铁口的辉光和硫厂窑口是同一种颜色,也是同一句话:氢是搬氧的车,不是燃料,能量账全部押在电解那一端。",
+      "detail_en": "The heart of the plant. Concentrate rides the skip hoist up the inclined rail; at 900 C in a hydrogen atmosphere FeO + H2 -> Fe + H2O, and metallic iron precipitates in place within the ore grains. The water carried out with the furnace gas condenses and enters the electrolyser skid to be split back into hydrogen and oxygen - the hydrogen loops back, none consumed. The taphole glow is the same colour as the sulfur plant's kiln mouth, and the same sentence: hydrogen is the vehicle that carries oxygen, not a fuel. The whole energy bill lands at the electrolyser.",
+      "specs": {
+        "炉温": "900 °C 还原气氛(与硫厂窑同温区)",
+        "平衡": "Chaudron K≈0.88(刚性近似),循环 H2 + 冷凝除水推平衡",
+        "循环氢": "3.3 kg/sol(账 11 计入 FeO 活度 0.45 后,由 2.0 上调)",
+        "反应热": "+30.2 kJ/mol(微吸热,炉在保温不在供能)",
+        "换热回收": "54.8%(账 6 算出,替掉拍的 60%)",
+        "运行": "24 h 连转,挂聚变基荷(热质量,冷启即热震开裂)",
+        "产物形态": "900 °C 固态海绵铁 + 脱铁脉石(直接还原不产铁水)"
+      },
+      "specs_en": {
+        "Temperature": "900 C reducing atmosphere (same regime as the sulfur kiln)",
+        "Equilibrium": "Chaudron K ~ 0.88 (rigid approx); H2 recycle with condensation drives it",
+        "H2 loop": "3.3 kg/sol (raised from 2.0 once ledger 11 applied an FeO activity of 0.45)",
+        "Reaction heat": "+30.2 kJ/mol - mildly endothermic; the furnace holds temperature, it does not power the reaction",
+        "Heat recovery": "54.8% (computed in ledger 6, replacing the assumed 60%)",
+        "Duty": "24 h continuous on fusion baseload (thermal mass; cold starts crack the lining)",
+        "Product form": "solid sponge iron at 900 C plus de-ironed gangue - direct reduction makes no liquid metal"
+      },
+      "sim": [
+        "已知答案闸(Ellingham/Chaudron):刚性近似 ΔG=ΔH−TΔS 算得 900 °C 下 K=0.88,落教科书 Fe/FeO–H2/H2O 平衡带 [0.45,0.95]——还原可行,但每趟氢只有部分被用掉,必须循环并把水连续冷凝移走。Hess 闸:还原吸热 30.2 + 水分解 241.8 = 272.0 kJ/mol = FeO 直接分解焓,分毫不差——两步法没有偷到能量,只是把账拆到了好付的地方。",
+        "铁链比能 3.29 kWh/kg Fe(电解 1.53 + 预热 0.37 + 吸热 0.15 + 破磁 0.25 + 熔炼 0.99),落绿钢 H2-DRI 文献带 2.8–4.5(带下沿:SOEC 比 PEM 省 15%,且直接铸形免轧制)。",
+        "【第二轮 L2 · 账 6:逆流塞流打靶模型,替掉『整台没建模』】上一轮诚实清单第一条补上。三个此前不存在的数:循环 H2 2.0 kg/sol(平衡界限 (1+K)/K=2.13× 化学计量,数值模型 Da→∞ 复现解析平衡到 0.1% 才许谈动力学)、单程转化 34%、动力学余量 ≥32×(τ_react 取 ×8 慢,料柱也只要 0.16 m——炉子按热工与检修定尺寸,不按动力学;扩产瓶颈在电解堆不在炉)。",
+        "【账 6 推翻账 4 一处】换热回收率拍的 60% 死了:循环氢的热容流只有固相的 0.482(Cr),气侧回收的结构天花板 61%,NTU=3 逆流 + 冷凝低品位热实算 54.8%。硫厂预热塔的 60% 不可迁移——他家窑气多、我家循环氢少,借系数没借边界条件。预热电耗 6.5 → 7.4 kWh/sol,全厂 221 → 224 kWh/sol,均值 9.0 → 9.1 kWe:假设错了,结论几乎没动,但现在知道为什么。",
+        "【第三轮 · 账 11 修正账 6 一处未命名假设】账 6 的循环氢 2.0 kg/sol 隐含 a_FeO = 1,即把铁当成纯 FeO——但炉料里的铁大部分在硅酸盐晶格中,活度只有 0.3~0.6。活度扫描(闸:a=1 必须退回账 1 的平衡水分 0.469):a=0.45 时平衡水分降到 0.284,循环倍率 2.13 → 3.52×,**循环氢 2.0 → 3.3 kg/sol**。未命名的假设对灵敏度扫描是隐形的——账 6 扫了 λ 与 Da,唯独没扫它自己默认的那个 1.0。",
+        "【动力学余量:被硅酸盐吃掉一部分,没吃穿】炉腔对这点产能极大:全量入炉后停留时间仍有 263 h,按账 6 的 Da=4.1 可容忍单颗粒反应 64 h。硅酸盐赋存比自由 FeO 慢 10~100 倍,取最悲观的 ×100(50 h)仍余 1.28×——**账 6 那 32× 的余量正好花在这里**,而磨矿到 P80=500 µm 已足够(Bond 0.81 kWh/sol)。"
+      ],
+      "sim_en": [
+        "Known-answer gate (Ellingham/Chaudron): the rigid approximation dG = dH - TdS gives K = 0.88 at 900 C, inside the textbook Fe/FeO-H2/H2O band of 0.45-0.95 - reduction works, but each pass uses only part of the hydrogen, so it must recirculate with continuous water condensation. Hess gate: reduction endotherm 30.2 + water splitting 241.8 = 272.0 kJ/mol, exactly the direct decomposition enthalpy of FeO - the two-step route steals no energy, it just moves the bill to where it can be paid.",
+        "Iron-chain specific energy 3.29 kWh/kg Fe (electrolysis 1.53 + preheat 0.37 + endotherm 0.15 + crush/magsep 0.25 + melt 0.99), inside the green-steel H2-DRI literature band of 2.8-4.5 (low end because SOEC beats PEM by ~15% and casting to shape skips the rolling mill).",
+        "[Round 2, L2 - ledger 6: counter-current plug-flow shooting model, replacing 'the furnace itself was never modelled'] Item one of the honesty list, paid. Three numbers that did not exist before: 2.0 kg/sol of circulating H2 (the equilibrium bound is (1+K)/K = 2.13x stoichiometric; the numerical model must reproduce the analytic equilibrium to 0.1% at Da->inf before it may speak of kinetics), 34% conversion per pass, and kinetics headroom of 32x or more (even at 8x slower literature kinetics the burden column needs 0.16 m - the furnace is sized by thermals and maintenance access, not kinetics; the expansion bottleneck is electrolyser stacks, not the shaft).",
+        "[Ledger 6 overturns one line of ledger 4] The assumed 60% heat recovery is dead: circulating hydrogen carries only 0.482 of the solids' heat capacity flow (Cr), putting a structural ceiling of 61% on gas-side recovery; NTU=3 counter-current plus low-grade condenser heat computes to 54.8%. The sulfur plant's 60% did not transfer - their kiln is gas-rich, our loop is hydrogen-lean; the coefficient was borrowed without its boundary conditions. Preheat electricity 6.5 -> 7.4 kWh/sol, plant total 221 -> 224 kWh/sol, mean 9.0 -> 9.1 kWe: the assumption was wrong, the conclusion barely moved, and now we know why.",
+        "[Round 3, ledger 11 corrects an unnamed assumption in ledger 6] The 2.0 kg/sol hydrogen loop implied a_FeO = 1, treating the iron as pure FeO - but most of the iron in the burden sits in silicate lattices, where its activity is only 0.3-0.6. Scanning that activity (gate: a = 1 must return ledger 1 equilibrium water fraction of 0.469), a = 0.45 drops the equilibrium water to 0.284 and raises the circulation ratio from 2.13 to 3.52x, taking the loop from 2.0 to 3.3 kg/sol. An assumption never written down is invisible to a sensitivity sweep: ledger 6 swept lambda and Da but never the 1.0 it had silently assumed.",
+        "[Kinetics headroom: partly spent on silicates, not spent through] The shaft is enormous for this throughput - even with the full feed the residence time is 263 h, which at ledger 6 Da of 4.1 tolerates a 64 h single-particle reaction. Silicate-hosted iron reduces 10-100x slower than free FeO, and even the most pessimistic 100x (50 h) leaves 1.28x margin. That is exactly where the 32x headroom of ledger 6 went, and a grind to P80 = 500 um suffices (Bond: 0.81 kWh/sol)."
+      ],
+      "physics": "Ellingham 图上,H2O 线只压得住铁一族:900 °C 下 FeO 的 K=0.88,而 SiO2 是 8e-15、Al2O3 是 1e-33——差 15 到 33 个数量级,不是工程问题,是热力学禁令。所以这座炉子只还原铁;想要硅和钛,隔壁那栋电解棚才是唯一的路。一张图定了两栋建筑。",
+      "physics_en": "On the Ellingham diagram the H2O line dominates only iron's family: at 900 C the K for FeO is 0.88, while SiO2 sits at 8e-15 and Al2O3 at 1e-33 - fifteen to thirty-three orders of magnitude, not an engineering problem but a thermodynamic prohibition. So this furnace reduces iron only; for silicon and titanium the electrolysis shed next door is the only road. One diagram sized two buildings."
+    },
+    {
+      "id": "ffc",
+      "label": "FFC 熔盐电解棚(Ellingham 下半区)",
+      "label_en": "FFC molten-salt electrolysis shed (below the H2O line)",
+      "range": 26,
+      "detail": "朝观察侧敞开的棚子里排着四只 900 °C 熔盐槽(CaCl2)。三只在运行,辉光缝就是熔盐液面;四号槽做检修态——盐已放空、盖板斜靠背墙,阴极氧化物压块与两片惰性阳极露在槽里,状态灯琥珀色(与矿场充电棚同一套色语)。盐面之下不做黑盒:氢够不着的金属在这里用电子硬拽,氧离子穿过熔盐在惰性阳极上放出 O2——FFC 剑桥法。本棚做小批量 Si(铸钢脱氧与 FeSi)和 Ti(EBM 打印粉),铝如实推迟(需冰晶石体系,另立一册才配做)。",
+      "detail_en": "Four 900 C molten-salt cells (CaCl2) line the open-fronted shed. Three run, their glowing slots marking the melt surface; cell four stands in maintenance - salt drained, lid leaning on the back wall, the oxide cathode compact and both inert anode plates exposed in the empty tank, status lamp amber (the same colour language as the mine's charging shelter). Nothing below the salt line stays a black box: metals hydrogen cannot touch are pulled loose by brute electrons here, oxide ions swimming through the salt to release O2 at inert anodes - the FFC Cambridge process. The shed makes small batches of Si (steel deoxidation and FeSi) and Ti (EBM print powder). Aluminium is honestly deferred - it needs a cryolite system and deserves its own design book.",
+      "specs": {
+        "槽": "4 × CaCl2 熔盐,900 °C,惰性阳极",
+        "产量": "Si 2 kg/sol + Ti 0.5 kg/sol",
+        "能耗": "Si 25 / Ti 30 kWh/kg",
+        "运行": "24 h 基荷(熔盐凝固=槽报废,同窑同理)",
+        "分解电压": "TiO2 1.88 V / SiO2 1.81 V(900 °C,由本册热力学表算)",
+        "槽电压": "3.0~3.1 V(过电位+IR,是分解电压的 1.65 倍)",
+        "电流效率": "Ti 23% / Si 46%(由引用能耗反解)"
+      },
+      "specs_en": {
+        "Cells": "4 x CaCl2 melt, 900 C, inert anodes",
+        "Output": "2 kg/sol Si + 0.5 kg/sol Ti",
+        "Energy": "25 kWh/kg Si, 30 kWh/kg Ti",
+        "Duty": "24 h baseload (frozen salt kills a cell - same logic as the kiln)",
+        "Decomposition voltage": "TiO2 1.88 V, SiO2 1.81 V at 900 C, from this book thermodynamic table",
+        "Cell voltage": "3.0-3.1 V (overpotential plus IR: 1.65x the decomposition voltage)",
+        "Current efficiency": "Ti 23%, Si 46%, back-solved from the cited energies"
+      },
+      "sim": [
+        "已知答案闸(任务书给定):FFC 剑桥法钛的实测能耗带 20–40 kWh/kg,本册取 30,带内;硅 25 同一量级。对照热力学下限(TiO2 分解 5.5、SiO2 分解 9.0 kWh/kg),实际能耗是下限的 3–5 倍——这正是熔盐电解的正常电流效率与过电位水平,数字落在物理与工程之间该落的地方。",
+        "【第三轮 · 账 10:把 25/30 kWh/kg 从「引」变成「推」】用账 1 同一张热力学表算分解电压:TiO2 得 1.88 V,撞 FFC 文献一致的 1.9~2.0 V(已知答案闸)。据此反解引用值隐含的电流效率:Ti 23%、Si 46%,都落在 FFC 实测带内——引用值自洽。**真正的发现是倍率的分解**:30 kWh/kg 是热力学地板 4.22 的 7.11 倍 = 电压比 1.65× × 电流效率倒数 4.32×。**这条路贵不在电压,贵在电流效率**——降耗要改熔盐化学(抑制 Ca 溶解与电子导电),不是换电源:电压 +0.3 V 只动 +10%,电流效率 +10 个百分点动 −30%。",
+        "自我修正一处:本账的 G4 最初写成「总倍率须落 3~6×」——那条带是我凭感觉设的,没先做分解就设,7.11 判红。改成**分解恒等式闸**(总倍率必须精确等于电压比 × 电流效率倒数,两条独立路径给同一个数)后过闸。**闸门本身也要有出处,拍一条带不算闸**。",
+        "回护账 2:O2 副产与**金属产量**化学计量绑定,与电流效率无关(内耗电荷走 Ca 穿梭,不净产氧)——账 2 的 8.3 kg/sol 不因本账修正而变。",
+        "【第四轮 · 账 14 接手本卡留下的不确定度】上一轮如实标注「电流效率 23%/46% 是反解值不是实测,牵着全厂 29% 的电耗」。账 14 不去猜那个数,而是问它错多少才改结论:**要错 38 倍(电流效率跌到 0.6%)才够到门槛**。结论:该测还是要测,但**不必等它落地才动工**。"
+      ],
+      "sim_en": [
+        "Known-answer gate (given in the tasking): measured FFC energy for titanium runs 20-40 kWh/kg; this book takes 30, in band, with silicon at 25 in the same regime. Against thermodynamic floors (5.5 kWh/kg to decompose TiO2, 9.0 for SiO2) the real figures are 3-5x the floor - exactly the current efficiency and overpotential territory of molten-salt electrolysis. The numbers land where physics and engineering meet.",
+        "[Round 3, ledger 10: turning 25 and 30 kWh/kg from citations into derivations] Using the same thermodynamic table as ledger 1, the decomposition voltage of TiO2 comes out at 1.88 V, hitting the 1.9-2.0 V that FFC literature agrees on (known-answer gate). Back-solving the cited energies then gives implied current efficiencies of 23% for Ti and 46% for Si, both inside measured FFC bands - the citations are self-consistent. The real find is the factorisation: 30 kWh/kg is 7.11x the thermodynamic floor of 4.22, and that 7.11 = 1.65x in voltage times 4.32x in current efficiency. This route is not expensive because of voltage but because of current efficiency, so savings come from melt chemistry - suppressing calcium dissolution and electronic conduction - not from a better rectifier: 0.3 V more moves the number by 10%, ten points of current efficiency move it by 30%.",
+        "One self-correction: gate G4 was first written as a requirement that the overall factor fall between 3x and 6x. That band was set by feel, before doing the factorisation, and 7.11 tripped it red. It was replaced by a decomposition identity gate - the overall factor must exactly equal the voltage ratio times the reciprocal current efficiency, two independent routes to one number - and passes. A gate needs a provenance too; a band set by feel is not a gate.",
+        "Protecting ledger 2: the oxygen co-product is stoichiometric with metal produced and independent of current efficiency (the recirculating charge rides the calcium shuttle and makes no net oxygen), so the 8.3 kg/sol of ledger 2 is unaffected by this correction.",
+        "[Round 4: ledger 14 takes over the uncertainty this card declared] The previous round noted honestly that the 23% and 46% current efficiencies are back-solved rather than measured while carrying 29% of the plant energy. Ledger 14 does not guess the number but asks how wrong it would have to be to change the decision: 38-fold wrong, a current efficiency of 0.6%, before it reaches the threshold. It should still be measured - but construction need not wait for it."
+      ],
+      "physics": "电解是普适的还原剂:化学还原剂能不能干活由 Ellingham 图上谁压着谁决定,而阴极上的电子没有这条线——电位够就能剥氧。代价是每剥一个氧原子都按库仑计费,没有氢循环那种『搬运工』的折扣。所以厂里的分工是:便宜的铁走氢,贵而少的 Si/Ti 走电子。",
+      "physics_en": "Electrolysis is the universal reductant: a chemical reducer's reach is set by who sits below whom on the Ellingham diagram, but electrons at a cathode obey no such line - enough potential strips any oxide. The price is that every oxygen atom is billed by the coulomb, with none of the hydrogen loop's porter discount. Hence the plant's division of labour: cheap bulk iron rides hydrogen; scarce, dear Si and Ti ride electrons."
+    },
+    {
+      "id": "cast",
+      "label": "铸造坪(0.38 g 的铸造学)",
+      "label_en": "Casting pad (foundry practice at 0.38 g)",
+      "range": 24,
+      "detail": "感应炉把还原铁精料熔到 1550 °C,铁水与残渣在此分层;浇包沿单轨往复,把铁水送到锭模阵——近端两只刚浇的还亮着,远端已冷成钢色,状态对照就是节拍表。低重力改写了铸造手册:浇注流速只有地球的 0.62 倍,冒口的补缩压头打了 0.38 折——同样的补缩压力,冒口要高 2.63 倍,所以这里的模具比地球的高挑。",
+      "detail_en": "The induction furnace melts reduced concentrate at 1550 C, where iron and residual slag separate; the ladle shuttles along the monorail to the ingot mould array - the two nearest, freshly poured, still glow, while the far ones have cooled to steel grey. The contrast is the takt time made visible. Low gravity rewrites the foundry handbook: pour velocity is 0.62x Earth's, and riser feeding head is discounted to 0.38x - the same feeding pressure needs a riser 2.63x taller, which is why the moulds here stand so tall.",
+      "specs": {
+        "感应炉": "熔分 40 kg/sol 精料(铁 20 + 伴渣 20)+ 浇冒口回炉 4.8 kg/sol",
+        "产能反推链": "8.9 成品 → ×1.05 损耗 → ×2.15 裕度 → 铭牌 20 kg Fe/sol",
+        "浇注": "流速 ×0.62,充型时间 ×1.62",
+        "冒口": "同补缩压力需 ×2.63 高(0.38 g)",
+        "渗碳": "CE 4.0(C 3.4% + Si/3):液相线 1184 °C,浇注 1334 °C",
+        "碳源": "res-isru-01 甲烷 0.91 kg/sol(占其产能 10 ppm),放氢 0.23 kg/sol 回竖炉",
+        "牌号": "灰铸铁 200 MPa(壳体支架)/ 球铁 450 MPa·延伸 14%(轴齿销)",
+        "球化剂": "本地镁 15 g/sol:皮江法硅热还原 MgO(还原剂 Si 来自 FFC 翼)",
+        "熔剂": "CaO 1.38 kg/sol(耶泽罗碳酸盐煅烧),把渣碱度 B 从 0.31 提到 1.8"
+      },
+      "specs_en": {
+        "Induction furnace": "melt-separates 40 kg/sol concentrate (20 Fe + 20 slag) + 4.8 kg/sol gating returns",
+        "Capacity chain": "8.9 finished -> x1.05 loss -> x2.15 margin -> 20 kg Fe/sol nameplate",
+        "Pouring": "velocity x0.62, fill time x1.62",
+        "Risers": "x2.63 taller for equal feeding pressure (0.38 g)",
+        "Carburising": "CE 4.0 (3.4% C plus Si/3): liquidus 1184 C, poured at 1334 C",
+        "Carbon source": "0.91 kg/sol of res-isru-01 methane (10 ppm of its output), releasing 0.23 kg/sol of H2 back to the shaft",
+        "Grades": "grey iron 200 MPa for housings and brackets; ductile 450 MPa at 14% elongation for shafts, gears, pins",
+        "Nodulariser": "15 g/sol of local magnesium, silicothermic Pidgeon reduction of MgO with FFC-wing silicon",
+        "Flux": "1.38 kg/sol of CaO from calcined Jezero carbonate, raising slag basicity from 0.31 to 1.8"
+      },
+      "sim": [
+        "产能不是拍的:铭牌 20 kg/sol 由备件账反推(成品 8.9 → 新金属 9.3 → ×2.15 政策裕度,裕度覆盖建设用材与峰谷,系数如实声明为政策量而非推导量)。质量平衡闸:矿 153 = 铁 20 + 氧 5.7 + 渣 127,闭合到 1e-9。",
+        "冒口闸:2.63 = 1/0.38,静压 ρgh 线性,已知答案。浇注流速 √0.38=0.62——薄壁件充型窗口更紧,所以能力包络里薄壁件优先走 EBM 打印而不是砂铸。",
+        "【第二轮 · 账 8 补闸并纠账两处】熔炼原用混合值 1.4 MJ/kg 没挂闸——现按两相分记:Fe 1.35 MJ/kg 撞 EAF 已知答案 380 kWh/t=1.37(闸过),伴渣 1.9 MJ/kg;熔炼电耗 17.3 → 19.8 kWh/sol。顺带修卡账不符一处:本卡回炉料原写 13 kg/sol,账里是浇注 13.6、回炉 4.8——卡抄错,账没错,已改。",
+        "【第三轮 · 账 9:一个从没被验过的前提——本厂的产品能不能铸?】账 3 说备件「本地能做」、账 5 画了浇包和锭模,但账 1 的产物是**无碳海绵铁**(C≈0.01%):纯铁熔点 1538 °C、凝固区间为零、流动性极差——**它根本不是铸造材料**。补上碳:CH4 渗碳到 CE=4.0,液相线 1184 °C(闸:同一经验式在 CE=4.3 必须给出 Fe-C 共晶 1147 °C,实得 1150),浇注温度 1334 °C 落砂型常规带 1320~1400。熔炼比焓 1.392 → 1.212 MJ/kg,熔炼电耗降 19.8 → 11.9 kWh/sol。",
+        "碳从哪来:0.68 kg C/sol ← 0.91 kg CH4/sol,取自 res-isru-01 的 Sabatier 甲烷,**仅占其产能 10 ppm**——碳在这颗行星上不是约束。副效应更妙:CH4 → C + 2H2 放出的 0.23 kg H2/sol 直接补进竖炉循环,**渗碳工序自带还原剂补给**。代价是 1.2 kWh/sol 的裂解吸热。",
+        "对备件谱的含义(不改覆盖率,改路线):灰铸铁 σ_t≈200 MPa 且脆,壳体/支架/座板够用,轴/齿/销不够——后者走**不渗碳**的低碳海绵铁,经 EBM 或棒料机加成形。结构类内约 70/30 分流,两条路都在厂内,**账 3 的 33.6% 不变,变的是机加翼的负荷**。",
+        "【第四轮 · 账 13:牌号定了,而且是本地能配齐的那个】灰铸铁 200 MPa/延伸 0.5%,球铁 450 MPa/延伸 14%——**差别在延性不在强度**(28× vs 2.25×),而轴齿销要的正是延性。球铁要两样东西:硫 ≤0.02 wt%(账 12 给了二段精选这条路)与镁球化剂。**镁的两样最贵原料火星都不缺**:MgO 占土 8.7 wt%,而皮江法要的真空——环境 600 Pa 起步,抽到工作压力比地球快 2.25×(与账 5 抽真空同一条 ln 律)。还原剂 FeSi 正是本厂 FFC 翼的产品,只吃掉硅产量的 1%:**FFC 的硅 → 皮江法 → 镁 → 球化 → 球铁,一条闭在厂内的链**。",
+        "连带改判(第三轮那条路线分流被自己改写):球铁可做之后,轴齿销从 EBM 回到铸造,结构类可铸比例 70% → 90%,EBM 日班 6 → 4 h。**整轮深挖是省电的**:熔炼少熔脉石 −2.8、EBM 让位 −6.0,加上精选 +0.5 与制镁 +0.18,净 **−8.2 kWh/sol**;全厂 225 → **217 kWh/sol**。精加工不减——铸件仍要上机床。",
+        "【第五轮 · 账 15 补上第四轮欠的那半条】第四轮用**声明的** 10% 硫分配率算出金属含硫 0.0175 wt%,并据此定了 94% 精矿规格——本账按炉渣硫容量重算,发现那个 10% **乐观了 8.4 倍**:本厂脉石是**酸性渣**(B=0.31,SiO2 占 42.9 wt%),分配比 L_S 只有 3.0,94% 精矿实际给出 **0.146 wt% S** —— 连灰铸铁的 0.12 都不保险。单靠洗精矿要 99.3% 品位,干式磁选做不到。**解法是熔剂**:加 CaO 1.38 kg/sol 把 B 提到 1.8,L_S 跳到 120,金属含硫落到 0.0103 wt%。",
+        "**规格是一对不是一个**:精矿 94% 管住硫的**总量**,熔剂 B=1.8 管住硫**往哪走**;缺任一条都做不出球铁。而两者不是二选一——只加熔剂不洗精矿也能达标(75% 精矿 + 7.2 kg 熔剂),但要 13.7 kWh/sol,比「洗 + 少量熔剂」的 3.1 贵 4.4 倍:**洗掉硫的载体比中和它便宜**。熔剂链全本地:耶泽罗碳酸盐 → 立窑煅烧(1.22 kWh/sol)→ CaO,放 CO2 1.08 kg/sol 入大气(这颗行星本就是 CO2 的)。"
+      ],
+      "sim_en": [
+        "Capacity is derived, not declared: the 20 kg/sol nameplate back-propagates from the spares ledger (8.9 finished -> 9.3 new metal -> x2.15 policy margin covering construction stock and surges; the factor is honestly labelled a policy choice, not a derivation). Mass-balance gate: 153 kg ore = 20 iron + 5.7 oxygen + 127 slag, closed to 1e-9.",
+        "Riser gate: 2.63 = 1/0.38, hydrostatic rho-g-h being linear - a known answer. Pour velocity scales as sqrt(0.38) = 0.62, so thin-wall fill windows tighten; that is why thin-walled parts route to the EBM printer, not the sand moulds, in the capability envelope.",
+        "[Round 2, ledger 8: a gate added and two errors paid] The melt energy had used a blended 1.4 MJ/kg with no gate - now split by phase: Fe at 1.35 MJ/kg hits the EAF known answer of 380 kWh/t = 1.37 (gate passed), slag at 1.9; melt electricity 17.3 -> 19.8 kWh/sol. And one card-vs-ledger mismatch fixed: this card had said 13 kg/sol of returns where the ledger says 13.6 poured, 4.8 returned - the card had miscopied, the ledger was right.",
+        "[Round 3, ledger 9: a premise nobody had checked - can this plant cast what it makes?] Ledger 3 says the spares are locally makeable and ledger 5 drew a ladle and ingot moulds, but the product of ledger 1 is carbon-free sponge iron (C about 0.01%): pure iron melts at 1538 C with zero freezing range and miserable fluidity - it is simply not a casting material. Adding the carbon: methane carburising to CE 4.0 puts the liquidus at 1184 C (gate: the same empirical relation must return the Fe-C eutectic of 1147 C at CE 4.3, and it gives 1150) and the pour at 1334 C, inside the 1320-1400 C sand-casting norm. Melt enthalpy falls from 1.392 to 1.212 MJ/kg and melting electricity from 19.8 to 11.9 kWh/sol.",
+        "Where the carbon comes from: 0.68 kg/sol of C from 0.91 kg/sol of Sabatier methane at res-isru-01 - just 10 ppm of its output. Carbon is not a constraint on this planet. The side effect is better still: cracking CH4 into C and 2 H2 releases 0.23 kg/sol of hydrogen straight into the shaft loop, so the carburiser carries its own reductant supply. The cost is 1.2 kWh/sol of cracking endotherm.",
+        "What it means for the spares spectrum (routes change, coverage does not): grey iron at about 200 MPa tensile is brittle - fine for housings, brackets and base plates, not for shafts, gears and pins. Those take the un-carburised low-carbon sponge iron and are formed by EBM or machined from bar. Roughly a 70/30 split inside the structural class, both routes inside this plant: the 33.6% of ledger 3 is unchanged, the loading of the machining wing is not.",
+        "[Round 4, ledger 13: the grade is settled, and it is one this plant can assemble locally] Grey iron gives 200 MPa at 0.5% elongation, ductile iron 450 MPa at 14% - the difference is ductility, not strength (28x against 2.25x), and ductility is exactly what shafts, gears and pins need. Ductile iron requires two things: sulfur at or below 0.02 wt% (ledger 12 supplies the second-stage cleaning route) and a magnesium nodulariser. Mars lacks neither of the two expensive inputs for magnesium: MgO is 8.7 wt% of the soil, and the vacuum the Pidgeon process needs starts from 600 Pa ambient, reaching working pressure 2.25x faster than on Earth (the same logarithmic pump-down law as ledger 5). The ferrosilicon reductant is the FFC wing own product and consumes just 1% of its silicon: FFC silicon to Pidgeon to magnesium to nodularisation to ductile iron, a chain closed inside the plant.",
+        "A knock-on that rewrites round three own route split: with ductile iron available, shafts and gears return from EBM to casting, the castable share of the structural class goes from 70% to 90%, and EBM day shift from 6 to 4 hours. The whole round turns out to save power: 2.8 kWh/sol less gangue melted and 6.0 kWh/sol of EBM stood down, against 0.5 for cleaning and 0.18 for magnesium - a net 8.2 kWh/sol, taking the plant from 225 to 217 kWh/sol. Finish machining does not shrink: castings still go on the mill.",
+        "[Round 5, ledger 15 pays the other half of round four bill] Round four used a declared 10% sulfur partition to compute 0.0175 wt% in the metal and set the 94% concentrate spec on it. Recomputing from slag sulfide capacity shows that 10% was optimistic by 8.4x: this plant gangue is an acidic slag (B = 0.31, SiO2 at 42.9 wt%) with a partition ratio of only 3.0, so a 94% concentrate actually delivers 0.146 wt% S - not even safe for grey iron at 0.12. Cleaning alone would need 99.3% purity, which dry magnetic separation cannot reach. The answer is flux: 1.38 kg/sol of CaO lifts basicity to 1.8, the partition ratio jumps to 120, and the metal lands at 0.0103 wt%.",
+        "The specification is a pair, not a number: 94% concentrate governs how much sulfur enters, flux at B = 1.8 governs where it goes, and neither alone makes ductile iron. They are not alternatives either - flux without cleaning also meets spec (75% concentrate with 7.2 kg of flux) but costs 13.7 kWh/sol against 3.1 for cleaning plus a little flux, 4.4x more: removing the carrier of the sulfur is cheaper than neutralising it. The flux chain is entirely local - Jezero carbonate calcined in a shaft kiln at 1.22 kWh/sol, venting 1.08 kg/sol of CO2 to an atmosphere that is already CO2."
+      ],
+      "physics": "铸造是重力驱动的工艺,而火星只供应 38% 的驱动力:流速按 √g、压头按 g 缩。妙处在两条缩律不同——流速只慢到 0.62,压头却掉到 0.38,所以『浇得进』比『补得实』先于成立。凡靠压头的环节(冒口、冷隔、排气)都要按 2.6 倍重新设计,凡靠流动的环节只需放宽 1.6 倍——同一个 0.38,两笔不同的账。 而碳把这条重力账又改了一次:纯铁在 0.38 g 下几乎浇不满薄壁,渗碳后液相线降 354 K、凝固区间打开、流动性成倍改善——**在低重力星球上,合金化不只是为了力学性能,它是补回重力欠缺的那部分充型驱动力的手段**。",
+      "physics_en": "Casting is a gravity-driven process, and Mars supplies only 38% of the drive: velocity scales as sqrt(g), pressure head as g. The subtlety is that the two laws differ - velocity only slows to 0.62 while head falls to 0.38, so 'it fills' is satisfied before 'it feeds'. Everything that rides on head (risers, cold shuts, venting) redesigns by 2.6x; everything that rides on flow relaxes by just 1.6x. One 0.38, two different bills. Carbon then rewrites that gravity ledger once more: pure iron can barely fill a thin section at 0.38 g, while carburising drops the liquidus by 354 K, opens a freezing range and multiplies fluidity. On a low-gravity world, alloying is not only about mechanical properties - it is how you buy back the filling force that gravity no longer supplies."
+    },
+    {
+      "id": "sand",
+      "label": "型砂间(火星白送铸造三件事)",
+      "label_en": "Sand plant (three things Mars gives the foundry for free)",
+      "range": 20,
+      "detail": "混砂机的旋臂在转,CO2 硬化台上摆着刚吹硬的砂型,后排是预焙炉与旧砂回用斗。这间不起眼的棚子决定了这座车间**能铸多薄**,而三件事全是火星白送的:**铸型导热差**(风化层 0.04 W/mK,pwr-grid-01 拿它当埋地电缆的热陷阱,在这里它是保温瓶,凝固时间拉长 23 倍)、**型腔背压低**(600 Pa,只有地球的 1/169,薄壁充型不用跟型腔里的空气搏斗)、**硬化气免费**(CO2 就是大气,水玻璃砂吹 CO2 即硬)。绿砂在这颗行星上不成立——它要 3~4 wt% 自由水,而水是井里抽的。",
+      "detail_en": "The muller arm turns, freshly gassed moulds sit on the CO2 hardening table, and the bake oven and reclaim bin stand behind. This unremarkable shed decides how thin this foundry can cast, and three of its advantages are gifts of the planet: a mould that barely conducts heat (regolith at 0.04 W/mK, the same number pwr-grid-01 treats as a thermal trap for buried cables, is a vacuum flask here and stretches solidification 23-fold); almost no back pressure in the cavity (600 Pa, one part in 169 of Earth, so thin sections need not fight the air they displace); and a free hardening gas, since CO2 is the atmosphere and silicate-bonded sand sets the moment it is gassed. Green sand simply does not work on this planet - it needs 3-4 wt% of free water, and water comes out of a well.",
+      "specs": {
+        "型砂": "95 kg/sol,回用 90%,补新 9.5 kg/sol",
+        "粘结": "CO2-水玻璃(硬化气取自大气;钠源即矿中 Na2O 2.7 wt%)",
+        "净补水": "0.17 kg/sol = 全城用水的 0.04%",
+        "预焙": "补新砂 450 °C 脱高氯酸盐,顺带 34 g O2/sol 进氧网",
+        "最小壁厚": "~1.0 mm(地球同工艺 5 mm)"
+      },
+      "specs_en": {
+        "Sand": "95 kg/sol, 90% reclaimed, 9.5 kg/sol makeup",
+        "Binder": "CO2-silicate; the hardening gas is the atmosphere, the sodium is the ore 2.7 wt% Na2O",
+        "Net water": "0.17 kg/sol, 0.04% of city consumption",
+        "Pre-bake": "makeup sand to 450 C to strip perchlorate, yielding 34 g O2/sol to the grid",
+        "Minimum section": "about 1.0 mm against 5 mm for the same process on Earth"
+      },
+      "sim": [
+        "【账 16】铸型蓄热闸:地球硅砂 kρc = 9.6e5,火星风化层砂 4.16e4 —— 差 **23 倍**(k 取 pwr-grid-01 账 3 的 0.04 W/mK,不另立)。按 Chvorinov,凝固时间同倍拉长,冷速同倍下降,**最小无白口壁厚 ∝ √(kρc)** → 地球 5 mm(闸:未孕育灰铸铁常规带 4~6)降到 **1.0 mm**。",
+        "**与 0.38 g 的对冲**:重力让流速降到 0.62×,铸型让凝固慢 23× → 流动长度 ×14(上界口径,未计辐射失热与表面张力)。**铸造的敌人是凝固不是重力**,而火星把铸型变成了保温瓶——所以第四轮那句「结构类 90% 可铸」不但成立,还偏保守;壁厚下限已由白口交给**尺寸精度与起模**。",
+        "**水账才是真约束**:CO2-水玻璃法可行的前提是砂能回用 90%,否则带水量按 1.7 kg/sol 全损。预焙不是为了产氧——是为了不让高氯酸盐在 1334 °C 的型腔里放氧(气孔 + 氧化铁水);放出的氧顺手进氧网,口径复现 res-sulfur-01 预热塔的 3.9 kg O2/1.1 t 料(闸)。"
+      ],
+      "sim_en": [
+        "[Ledger 16] Mould heat-storage gate: terrestrial silica sand has k-rho-c of 9.6e5 against 4.16e4 for Martian regolith sand, a factor of 23 (k taken from pwr-grid-01 ledger 3 at 0.04 W/mK, not re-derived). By Chvorinov the solidification time stretches by the same factor and the cooling rate falls with it, and since the minimum chill-free section scales as the square root of k-rho-c, Earth 5 mm (gate: the 4-6 mm norm for uninoculated grey iron) becomes about 1.0 mm here.",
+        "Set against 0.38 g: gravity cuts fill velocity to 0.62x while the mould slows freezing 23x, so fluid length goes up about 14x - an upper bound that ignores radiative loss and surface tension, but the direction is solid. The enemy of casting is solidification, not gravity, and Mars turns the mould into a vacuum flask. Round four claim that 90% of the structural class is castable therefore holds, and conservatively so; the floor on wall thickness has passed from chill to dimensional accuracy and draw.",
+        "The real constraint is water: CO2-silicate only works because 90% of the sand is reclaimed, without which the 1.7 kg/sol carried in the binder would all be lost. The pre-bake is not there to make oxygen - it is there to stop perchlorate releasing oxygen inside a 1334 C cavity (gas porosity and an oxidised melt); the oxygen it does release joins the grid at the same rate as the res-sulfur-01 preheat tower, 3.9 kg O2 per 1.1 t of feed (gate)."
+      ],
+      "physics": "一个材料参数的好坏,由它在哪条链上决定:同样是 0.04 W/mK,在电缆沟里它把导体烤到 424 K(pwr-grid-01 账 3 因此要挖沟),在铸型里它把凝固时间拉长 23 倍,让 0.38 g 也能浇薄壁。**行星给的不是优势或劣势,是一组参数;优劣是工艺决定的**。",
+      "physics_en": "Whether a material property is a virtue depends on which chain it sits in. The same 0.04 W/mK bakes a buried conductor to 424 K - which is why pwr-grid-01 ledger 3 digs trenches - and in a mould it stretches solidification 23-fold so that even 0.38 g can fill a thin wall. A planet hands you parameters, not advantages; which they become is decided by the process."
+    },
+    {
+      "id": "machine",
+      "label": "机加工翼(车·铣·电子束)",
+      "label_en": "Machining wing (lathe, mill, e-beam)",
+      "range": 26,
+      "detail": "剖开的厂房里三台机床:卡盘还在转的 CNC 卧车(⌀400×1000)、三轴立加(800×500×500)、电子束金属打印机(350×350×400,观察窗里粉床、半成件与蓝色束斑都露着)。EBM 在火星占了个地球给不了的便宜:舱外大气 600 Pa 本身就是粗真空,粗抽级整级取消;钛粉用 PREP 旋转电极法自制——那工艺要真空,而真空在这颗行星上不要钱。",
+      "detail_en": "Three machines in the cutaway hall: a CNC lathe with its chuck still turning (dia 400 x 1000), a 3-axis vertical mill (800 x 500 x 500), and an electron-beam metal printer (350 x 350 x 400) whose viewport shows the powder bed, a half-built part and the blue beam spot. The EBM enjoys a bargain Earth cannot offer: ambient at 600 Pa is already rough vacuum, so the roughing stage is deleted outright. Titanium powder is made in-house by PREP, the rotating-electrode process - it demands vacuum, and vacuum is free on this planet.",
+      "specs": {
+        "车": "⌀400 × 1000 mm,IT7,7.5 kW",
+        "铣": "800 × 500 × 500 mm,IT7,11 kW",
+        "EBM": "350 × 350 × 400 mm,±0.2 mm 后精加,3 kW",
+        "制粉": "PREP 旋转电极(免惰性气,火星真空白送)"
+      },
+      "specs_en": {
+        "Lathe": "dia 400 x 1000 mm, IT7, 7.5 kW",
+        "Mill": "800 x 500 x 500 mm, IT7, 11 kW",
+        "EBM": "350 x 350 x 400 mm, +-0.2 mm pre-finish, 3 kW",
+        "Powder": "PREP rotating electrode (no inert gas; Mars vacuum comes free)"
+      },
+      "sim": [
+        "真空闸:同泵同容积抽到 0.1 Pa,时间比 ln(101325/0.1)/ln(600/0.1) = 1.59(对数抽气定律,已知答案)——省的不只是 1.6 倍时间,是整级罗茨粗抽泵的采购、备件和失效模式。",
+        "0.38 g 机加账:切削力由材料屈服强度定,一牛都不少;机床精度靠铸铁床身的刚度不靠重量,同机照用。变的是两头:工件靠自重的装夹方式失效(压板扭矩按 2.6 倍补),吊运 10 t 坯料轻了 2.6 倍但刹车距离一寸不减——与 ops-depot-01 龙门吊同一条起重学。"
+      ],
+      "sim_en": [
+        "Vacuum gate: pumping the same volume to 0.1 Pa with the same pump takes ln(101325/0.1)/ln(600/0.1) = 1.59x longer on Earth (logarithmic pump-down law, a known answer) - and the saving is not just 1.6x in time but a whole Roots roughing stage: its purchase, its spares, its failure modes.",
+        "Machining at 0.38 g: cutting force is set by yield strength and loses not one newton; machine accuracy lives in the cast bed's stiffness, not its weight, so the same machines serve. What changes is at both ends - workholding that relied on dead weight fails (clamp torques go up 2.6x), and a 10 t billet lifts 2.6x lighter while braking distances shrink by nothing. The same lifting ledger as the ops-depot-01 gantry."
+      ],
+      "physics": "制造精度的来源是刚度环:刀尖到工件的力学回路里每一环的弹性变形,和重力无关。所以火星拿不走机床的精度,只拿走它的『免费夹具』——地球车间里一半的装夹其实是重力在白干活,到这里都要还给螺栓。",
+      "physics_en": "Machining accuracy comes from the stiffness loop - the elastic deflection of every link between tool tip and workpiece - and gravity appears nowhere in it. So Mars cannot take a machine's precision; it only repossesses the free fixturing. Half the workholding in an Earth shop is gravity working unpaid, and here every one of those jobs is handed back to bolts."
+    },
+    {
+      "id": "o2",
+      "label": "氧气接出柜(第三家氧源)",
+      "label_en": "Oxygen offtake cabinet (the third oxygen source)",
+      "range": 22,
+      "detail": "金属氧化物还原的另一半产物从这只柜子出厂:每还原 1 kg 铁放出 0.2865 kg 氧,加上 FFC 槽惰性阳极的直放 O2,全厂 8.3 kg/sol。接出短管朝城网方向停在门口,等总控的走廊来接。这是 res-sulfur-01 控制间卡『真正的产品是氧』的镜像:那边氧是主角硫是白得的,这边铁是主角、氧是每公斤铁自带的三两白银。",
+      "detail_en": "The other half of oxide reduction leaves through this cabinet: every kilogram of iron reduced releases 0.2865 kg of oxygen, and with the FFC cells' inert-anode O2 the plant totals 8.3 kg/sol. The offtake stub stops at the fence line, waiting for the integrator's corridor. It mirrors the res-sulfur-01 control-room card where 'the real product is oxygen': there oxygen starred and sulfur came free; here iron stars, and oxygen is the silver that every kilogram of it carries in its pocket.",
+      "specs": {
+        "化学计量": "0.2865 kg O2/kg Fe(16/55.845)",
+        "全厂副产": "8.3 kg/sol(Fe 5.7 + Si 2.3 + Ti 0.3)",
+        "并表": "全城代谢氧覆盖 1.57× → 1.64×",
+        "接入点": "直并 O2 网 vs 经 res-eclss-01 储配——报总控裁定"
+      },
+      "specs_en": {
+        "Stoichiometry": "0.2865 kg O2 per kg Fe (16/55.845)",
+        "Plant total": "8.3 kg/sol (Fe 5.7 + Si 2.3 + Ti 0.3)",
+        "Ledger merge": "city metabolic O2 coverage 1.57x -> 1.64x",
+        "Tie-in point": "direct to O2 grid vs via res-eclss-01 - integrator's ruling"
+      },
+      "sim": [
+        "并表闸:先复现 res-eclss-01 的口径(硫厂 200 kg/sol ÷ 需求 127.4 = 1.57,一位不差)才许把自己的 8.3 加进去 → 1.64×。全城氧账从此三源:水电解(要水)、硫酸盐还原(200 kg/sol,主力)、氧化物还原(8.3 kg/sol,本厂)。",
+        "边际账:8.3 kg/sol 的氧若按 SOEC 口径记电费是 44 kWh/sol,而这笔电本来就要为铁付——氧是零边际成本的副产。它的真实价值不在量(硫厂的 4%),在冗余:第三条独立工艺路线的氧,失效模式与前两家不相关。"
+      ],
+      "sim_en": [
+        "The merge gate: first reproduce the res-eclss-01 arithmetic (sulfur plant 200 kg/sol over a demand of 127.4 = 1.57, to the digit) before adding our 8.3 -> 1.64x. The city's oxygen book now has three sources: water electrolysis (drinks water), sulfate reduction (200 kg/sol, the workhorse), and oxide reduction (8.3 kg/sol, this plant).",
+        "The marginal account: charged at the SOEC rate our 8.3 kg/sol would cost 44 kWh/sol - electricity already being paid for the iron. The oxygen is a zero-marginal-cost by-product. Its worth is not the tonnage (4% of the sulfur plant's) but the redundancy: oxygen from a third independent process whose failure modes correlate with neither of the first two."
+      ],
+      "physics": "在氧化行星上炼金属,氧不是排放物是资产:风化层里每个金属原子都押着氧原子做人质,还原冶金的本质就是赎金交易——电付赎金,金属和氧一起获释。地球炼铁用碳把氧带走变成 CO2 排掉;火星没有碳可挥霍也没有大气可弄脏,于是同一座炉子在地球是碳排放源,在这里是供氧站。",
+      "physics_en": "Smelting on an oxidised planet makes oxygen an asset, not an emission: every metal atom in the regolith holds oxygen atoms hostage, and reduction metallurgy is a ransom trade - electricity pays, and metal and oxygen walk free together. Earth's blast furnaces spend carbon to carry the oxygen away as CO2; Mars has no carbon to squander and no atmosphere worth fouling, so the same furnace that is an emitter on Earth is an oxygen plant here."
+    },
+    {
+      "id": "desulf",
+      "label": "ZnO 脱硫床(对我们是毒,对邻厂是料)",
+      "label_en": "ZnO sulfur guard bed (our poison, the neighbour feedstock)",
+      "range": 22,
+      "detail": "炉气在进冷凝器与电解撬之**前**必须先过这只床子。理由是一个量级问题:矿里的硫有约 1% 以 H2S 随炉气走,在 3.3 kg/sol 的循环氢里就是 660 ppm,而 SOEC 电解槽的镍电极 **1 ppm 就中毒**——超标 660 倍。ZnO + H2S → ZnS + H2O,视窗里那层浅色就是床料。脱下来的硫不排空:黄色短管把 H2S 送出厂界,去 res-sulfur-01 的 Claus 段——那家厂的整条工艺就是把 H2S 变成单质硫。",
+      "detail_en": "Furnace gas must pass this bed before the condenser and the electrolyser skid, and the reason is a matter of orders of magnitude: about 1% of the sulfur in the ore travels with the gas as H2S, which in a 3.3 kg/sol hydrogen loop is 660 ppm, while the nickel electrodes of an SOEC are poisoned at about 1 ppm - a 660-fold exceedance. The bed runs ZnO + H2S to ZnS and water; the pale layer behind the sight glass is the charge. What it strips is not vented: the yellow stub carries the H2S past the fence to the Claus section of res-sulfur-01, whose entire process exists to turn H2S into elemental sulfur.",
+      "specs": {
+        "位置": "炉气出口与冷凝器之间(必须在电解撬之前)",
+        "进气硫": "H2S ≈ 660 ppm(SOEC 容限 ~1 ppm,超 660×)",
+        "床料": "ZnO,88 g/sol;不可再生则 67 kg/窗口(进口件)",
+        "出料去向": "H2S → res-sulfur-01 Claus 段,折硫 35 g/sol"
+      },
+      "specs_en": {
+        "Position": "between the furnace gas outlet and the condenser - upstream of the electrolyser",
+        "Inlet sulfur": "about 660 ppm H2S against an SOEC tolerance near 1 ppm, 660x over",
+        "Bed charge": "ZnO, 88 g/sol; 67 kg per window if not regenerated (an imported item)",
+        "Offtake": "H2S to the res-sulfur-01 Claus section, 35 g/sol as sulfur"
+      },
+      "sim": [
+        "【账 12】超标倍数闸:入厂硫 3.48 kg/sol × 1% 气路份额 ÷ 循环氢 3.3 kg/sol = 663 ppm,对 Ni-YSZ 的 ~1 ppm 容限超 663×——**脱硫床不是选配,是电解撬能不能活的前提**。注意这条链的脆弱处:电解撬是全厂氧账(账 2)与氢循环(账 6)共同的咽喉,一次硫穿透同时打掉制氧与还原两条线。",
+        "**跨资产的对称性**:同一种分子,在本厂是必须花钱除掉的毒物,在 res-sulfur-01 是花钱去制取的产品(该厂 Claus 卡:2H2S + SO2 → 3S + 2H2O)。35 g/sol 对邻厂只有其产量的 0.03%,但对我们是电解槽的命——**一条管子把两家的账都改善了**,这是本册第五条跨资产回引。"
+      ],
+      "sim_en": [
+        "[Ledger 12] Exceedance gate: 3.48 kg/sol of sulfur entering times a 1% gas-path share, over a 3.3 kg/sol hydrogen loop, is 663 ppm against the roughly 1 ppm tolerance of Ni-YSZ - 663 times over, so the guard bed is not optional but the precondition for the electrolyser existing at all. Note where this chain is brittle: the electrolyser skid is the shared throat of both the oxygen ledger (2) and the hydrogen loop (6), so a single sulfur breakthrough takes out oxygen production and reduction together.",
+        "A cross-asset symmetry: the same molecule is a poison this plant must pay to remove and a product res-sulfur-01 pays to make (their Claus card: 2 H2S + SO2 to 3 S + 2 H2O). The 35 g/sol is 0.03% of their output but our electrolyser depends on it - one pipe improves both ledgers, and it is this book fifth cross-asset back-reference."
+      ],
+      "physics": "催化剂中毒是一场吸附竞争:硫在镍表面的吸附自由能比反应物低得多,ppm 级的浓度就足以占满活性位——**毒性的量纲不是浓度,是覆盖度**。这也是为什么脱硫床必须在前面:任何\"先用后洗\"的顺序在中毒问题上都无效,因为被占的位子不会自己让出来。",
+      "physics_en": "Catalyst poisoning is a competition for adsorption sites: sulfur binds nickel with a far lower free energy than the reactants, so concentrations in the parts-per-million range are enough to saturate the active surface - the dimension of toxicity is coverage, not concentration. That is also why the bed must sit upstream: any use-then-clean ordering fails against poisoning, because an occupied site does not free itself."
+    },
+    {
+      "id": "slag",
+      "label": "渣场(一句被推翻的安全结论)",
+      "label_en": "Slag yard (a safety claim this book had to retract)",
+      "range": 22,
+      "detail": "两座渣堆颜色对应两条来路:锈红的是预抛磁尾,灰的是还原渣。合计 127 kg/sol,回 ops-printer-01 作打印骨料——与硫厂尾料同一条回用线。**第一轮这里写着「本渣为贫铁硅酸盐,无 CaS,去向不受限」,第四轮账 12 把它推翻了**:矿里 SO3 占 5.5 wt%,而 900 °C 氢气氛正是硫厂窑把硫酸盐变成 CaS 的同一条反应——入厂硫的 98.5% 走这两座堆。所以渣场立了黄黑警示桩:与硫厂尾料同规则,只作干态骨料与掩埋屏蔽,不进温室区、不靠近水线。",
+      "detail_en": "Two piles, two provenances: rust-red pre-scalp tails and grey reduction slag, 127 kg/sol together, returned to ops-printer-01 as print aggregate on the same reuse line as the sulfur plant tailings. Round one stated on this card that the slag was iron-poor silicate with no CaS and therefore unrestricted in use. Round three ledger 12 overturned that: the ore carries 5.5 wt% SO3, and a hydrogen atmosphere at 900 C is precisely the reaction by which the sulfur plant kiln turns sulfate into CaS - 98.5% of the sulfur entering this plant leaves in these two piles. Hence the yellow-black warning posts: same rule as the sulfur plant tailings, dry use only, as aggregate and buried shielding, never near the greenhouses or the water line.",
+      "specs": {
+        "渣量": "128 kg/sol(磁尾 + 还原渣 + 1.4 kg 熔剂渣)",
+        "含硫": "2.7 wt%(CaS/MgS 相,占入厂硫 98.5%)",
+        "去向": "ops-printer-01 干态骨料 / 掩体覆土",
+        "限制": "**遇水缓放 H2S** —— 不进温室区、不靠近水线(同 res-sulfur-01 尾料)"
+      },
+      "specs_en": {
+        "Tonnage": "128 kg/sol (tails, reduction slag and 1.4 kg of fluxed slag)",
+        "Sulfur": "2.7 wt% as CaS and MgS - 98.5% of the sulfur entering the plant",
+        "Destination": "ops-printer-01 dry aggregate and berm fill",
+        "Restriction": "releases H2S on contact with water - never near greenhouses or the water line"
+      },
+      "sim": [
+        "物料闭合:153 kg/sol 进厂,出厂 = 铁 20 + 氧 8.3 + 渣 127,无外排固废。res-sulfur-01 尾料卡那句「每一吨土被用了两次」在此复用。",
+        "【第四轮 · 账 12 推翻本卡】此前判「无 CaS」是**只看了铁没看硫**:账 1 的成分表里SO3 5.5 wt% 一直摆在那儿,三轮没人算过它。折元素硫 2.27 wt%(闸:复现 res-sulfur-01 普通土口径 2.4 wt%),入厂 3.48 kg S/sol,其中 **98.5% 进渣**、1% 进气路、0.5% 进金属。渣的安全等级因此与硫厂尾料完全相同,几何上已加警示桩。",
+        "**这条错误的形状值得记下来**:它不是算错,是**没算**——一个在成分表里从第一轮就存在的数字,因为不在「铁的故事线」上而被三轮跳过。清单式复核(逐个氧化物问「它去哪了」)本该在账 1 就做。",
+        "【第五轮】账 15 的石灰熔剂进渣后,渣量 127 → 128 kg/sol,熔炼渣那一小股的碱度升到 1.8。**这对去向反而是好消息**:碱性渣的硫以更稳定的 CaS 形式固定,且熔剂渣已玻璃化,浸出活性低于粉状还原渣。但**干态使用规则不放宽**——CaS 就是 CaS,遇水照样放 H2S。"
+      ],
+      "sim_en": [
+        "Mass closure: 153 kg/sol in; out is 20 kg iron, 8.3 kg oxygen and 127 kg slag, with no solid waste stream. The res-sulfur-01 tailings line about every tonne of soil being used twice applies here too.",
+        "[Round 4, ledger 12 overturns this card] The earlier no-CaS verdict came from looking at the iron and not at the sulfur: 5.5 wt% SO3 had sat in the ledger-1 composition table from the start and went three rounds unexamined. As elemental sulfur that is 2.27 wt% (gate: it must reproduce the res-sulfur-01 figure of 2.4 wt% for ordinary soil), or 3.48 kg S/sol entering, of which 98.5% leaves in the slag, 1% in the gas loop and 0.5% in the metal. The slag therefore inherits exactly the sulfur plant safety rule, and warning posts now stand in the yard.",
+        "The shape of this error is worth recording: it was not a miscalculation but an omission - a number present in the composition table since round one, skipped for three rounds because it was not on the iron storyline. A checklist pass asking of every oxide where does this one go belonged in ledger 1.",
+        "[Round 5] With ledger 15 lime flux reporting to the slag, the tonnage goes from 127 to 128 kg/sol and that small melting-slag fraction rises to basicity 1.8. That is if anything good news for its destination: sulfur in a basic slag is held as more stable CaS, and the fluxed slag is already vitrified, so it leaches less than powdery reduction slag. The dry-use rule does not relax, though - CaS is CaS, and it still gives up H2S on contact with water."
+      ],
+      "physics": "还原气氛对所有变价元素一视同仁:氢来还铁的时候,顺手也把硫酸盐还成了硫化物——**你只想要一个反应,炉子却按热力学把所有够得着的反应都做了**。这就是冶金里「杂质」的定义:不是它有害,而是它跟着你要的那个反应一起发生。",
+      "physics_en": "A reducing atmosphere does not discriminate between redox-active elements: while the hydrogen is reducing iron it also reduces sulfate to sulfide. You wanted one reaction, and the furnace ran every reaction thermodynamics could reach. That is what an impurity is in metallurgy - not something harmful in itself, but something that comes along with the reaction you wanted."
+    }
+  ]
+}

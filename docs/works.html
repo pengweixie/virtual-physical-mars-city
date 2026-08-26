@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Works — Virtual-Physical Mars City</title>
+<meta name="description" content="Heavy industry and big science at Jezero: a 10-150 um free-electron laser, a buried cryo-EM lab, a sulfur plant whose real product is oxygen, the life-support pair, and a horizontal launch campus.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--rust);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+
+  .plants{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:34px;}
+  .plant{background:var(--bg-3);padding:18px 16px;}
+  .plant__id{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;color:var(--accent);
+    line-height:1.4;}
+  .plant__n{font-weight:700;margin-top:6px;font-size:1.02rem;line-height:1.25;}
+  .plant__v{font-family:var(--f-mono);font-size:.78rem;color:var(--ink-dim);margin-top:8px;}
+  @media(max-width:860px){.plants{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:430px){.plants{grid-template-columns:1fr;}}
+  h3.sub{font-size:1.2rem;font-weight:700;margin:46px 0 0;}
+  h3.sub .tag{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;
+    color:var(--accent);display:block;margin-bottom:5px;font-weight:500;}
+  .broke{border-left:2px solid var(--accent);padding:2px 0 2px 20px;margin:26px 0;max-width:var(--textw);}
+  .broke h4{margin:0 0 6px;font-size:1rem;font-weight:700;}
+  .broke p{margin:0;color:var(--ink-dim);}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:7px 20px;margin-top:22px;
+    font-family:var(--f-mono);font-size:.82rem;max-width:var(--textw);}
+  .kv dt{color:var(--ink-dim);} .kv dd{margin:0;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="town.html">&larr; Prev</a>
+    <a href="origin.html">Next &rarr;</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">sci-fel-01 &middot; sci-cryoem-01 &middot; res-sulfur-01 &middot; res-eclss-01 &middot; res-recycle-01 &middot; ops-vab-01 &middot; ops-payload-01 &middot; veh-ground-01</div>
+    <h1>The Works</h1>
+    <p class="phead__sub">The buildings that came after the city could feed itself. A free-electron
+      laser tunable from 10 to 150 micrometres, a cryo-EM laboratory buried 30 m down because rock
+      is quieter than any isolation table, a sulfur plant whose real product turned out to be
+      oxygen, the life-support pair that closes water at 98.2%, and a launch campus that assembles
+      its rockets lying down.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">FEL ledgers</div><div class="spec__v">42<small>105 gates</small></div></div>
+    <div class="spec"><div class="spec__k">Cryo-EM stage motion</div><div class="spec__v">13.3<small>pm rms</small></div></div>
+    <div class="spec"><div class="spec__k">Water loop closure</div><div class="spec__v">98.2<small>%</small></div></div>
+    <div class="spec"><div class="spec__k">Assembly hall</div><div class="spec__v">94<small>m, horizontal</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>Five plants, one argument</h2></div>
+    <p class="lead">Everything on this page exists because something else in the city stopped being
+      the bottleneck. None of it would have been built first.</p>
+    <div class="prose">
+      <p>A colony still proving it can breathe does not build a free-electron laser. These five
+        sites are the second wave &mdash; the ones that assume power, water and air are solved, and
+        spend the surplus on measurement, on materials, and on getting mass off the ground.</p>
+      <p>They are also where the design ledgers ran longest, and where they most often argued
+        <em>against</em> their own brochures. The FEL accumulated <strong>42 ledgers, 105
+        known-answer gates and 69 logged pitfalls</strong> across twenty-four review rounds, and
+        spent most of them talking itself down: a 50 MeV nameplate became 37.0 MeV, a 5 micrometre
+        short-wavelength edge became 10. The sulfur plant discovered its real product was not
+        sulfur. The assembly hall was redesigned from vertical to horizontal after someone
+        compared its roofline against the tallest building in the city.</p>
+    </div>
+
+    <div class="plants">
+      <div class="plant"><div class="plant__id">sci-fel-01</div>
+        <div class="plant__n">Free-electron laser</div>
+        <div class="plant__v">10&ndash;150 um<br>20&ndash;37.0 MeV</div></div>
+      <div class="plant"><div class="plant__id">sci-cryoem-01</div>
+        <div class="plant__n">Cryo-EM laboratory</div>
+        <div class="plant__v">300 kV<br>1.8 A best</div></div>
+      <div class="plant"><div class="plant__id">res-sulfur-01</div>
+        <div class="plant__n">Sulfur works</div>
+        <div class="plant__v">100 kg S/sol<br>200 kg O2/sol</div></div>
+      <div class="plant"><div class="plant__id">res-eclss-01<br>res-recycle-01</div>
+        <div class="plant__n">Life support and recycling</div>
+        <div class="plant__v">115 people<br>98.2% water</div></div>
+      <div class="plant"><div class="plant__id">ops-vab-01<br>ops-payload-01<br>veh-ground-01</div>
+        <div class="plant__n">Launch campus</div>
+        <div class="plant__v">67 m rocket<br>assembled lying down</div></div>
+    </div>
+
+    <figure class="figure">
+      <img src="assets/works/fel-hall.jpg" alt="Cutaway view of the free-electron laser hall" loading="lazy">
+      <figcaption>SCI-FEL-01 &mdash; 29.5 M BEAMLINE UNDER 30 M OF ROCK: COPPER LINAC LEFT, INTERLOCK STACK CENTRE, SHIELDED CONTROL ROOM RIGHT</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How each one works</h2></div>
+    <p class="lead">Five mechanisms, and for each the one constraint that shaped the geometry.</p>
+
+    <h3 class="sub"><span class="tag">sci-fel-01</span>A laser you cannot buy, in the band nobody
+      else covers</h3>
+    <div class="prose">
+      <p>A free-electron laser has no gain medium. A 37 MeV electron beam is wiggled through 40
+        periods of a 65 mm permanent-magnet undulator, and the light it emits is set by geometry
+        alone: <strong>lambda equals lambda-u over 2 gamma squared, times (1 + K squared over 2)</strong>.
+        Change the beam energy or open the magnet gap and the colour moves. The published band is
+        <strong>10 to 150 micrometres</strong> &mdash; continuously tunable across a 15:1 range that
+        no benchtop source spans.</p>
+      <p>Why not an X-ray FEL? Because 1.5 Angstrom light needs 13.6 GeV, which at room-temperature
+        copper gradients is a 1.7 km machine, and the superconducting alternative needs tonnes of
+        liquid helium. <strong>Mars air holds 4 ppm helium</strong>: extracting one tonne means
+        processing 1.8e11 cubic metres of atmosphere. That single line vetoed the entire
+        superconducting route, and the infrared machine that survived fits in a 56 by 20 by 12 m
+        cavern and draws 74 kW &mdash; <strong>0.042% of the city grid</strong>.</p>
+      <p>The optical cavity is 6.00 m of near-concentric gold mirrors with a hole for out-coupling.
+        The accelerating structure is 1.0 GHz travelling-wave copper, whose shunt impedance was
+        measured in a full-wave eigenmode solve rather than quoted:
+        <strong>37.5 MOhm/m, plus or minus 5%</strong>.</p>
+    </div>
+
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/works/fel-und.jpg" alt="Undulator magnet array with the electron beam line" loading="lazy">
+        <figcaption>UNDULATOR &mdash; 65 MM PERIOD, 40 PERIODS, NdFeB N48, GAP 16&ndash;48 MM (K = 0.95&ndash;5.86)</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/works/fel-power.png" alt="Frozen output power table by wavelength" loading="lazy">
+        <figcaption>POWER TABLE &mdash; EVERY COLUMN CARRIES ITS METHOD TAG: 3-D, 1-D OR 2.5-D WAVEGUIDE</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose">
+      <p>Two capabilities on this machine cannot be reproduced by a benchtop source, and both were
+        found late, by running virtual experiments rather than by quoting a brochure. The first is
+        <strong>site-selective pumping</strong>: nitrogen donors in 4H-SiC sit at 60 and 100 meV,
+        which is 20.7 and 12.4 micrometres, both inside the band and resolvable by the
+        monochromator. The second is <strong>peak field</strong>: 14 mJ/cm2 in a 0.85 ps micropulse
+        is 1.5e10 W/cm2, or <strong>341 MV/m</strong> &mdash; 34 times the field-induced transition
+        threshold of vanadium dioxide, which puts a genuinely non-thermal phase transition inside
+        reach. The same number is a warning: it is 114 times the breakdown field of air, so every
+        dielectric part near the focus must be designed for high field.</p>
+    </div>
+
+    <h3 class="sub"><span class="tag">sci-cryoem-01</span>Buried because rock is quieter than any
+      isolation table</h3>
+    <div class="prose">
+      <p>A 300 kV electron has a wavelength of 1.9687 pm &mdash; about a hundredth of an atom. The
+        limit is never the wavelength; it is spherical aberration, and the column's Cs of 3.32 mm
+        was computed here by an in-house field solver plus ray tracing, giving a Scherzer point
+        resolution of <strong>2.63 Angstrom</strong> and an information limit of 1.51 Angstrom.
+        Routine delivery on a moderately heterogeneous complex is <strong>2.5 Angstrom</strong>;
+        well-behaved symmetric samples reach 1.8.</p>
+      <p>To hold that, the column and stage must not move relative to each other by more than
+        <strong>30 pm rms</strong> between 16 and 1000 Hz. The city's own vibration specification
+        is 1.2e-6 m/s/sqrt(Hz) at 10 m, which on a bare floor lands at 47,364 pm &mdash; a factor of
+        <strong>1579, or 64 dB</strong>, too loud. Three passive stages (1.5 Hz air legs, an 8 t
+        granite block at 4 Hz, in-column mounts at 8 Hz) bring it to 13.3 pm.</p>
+      <p>But vibration is only the second reason this laboratory is 30 m down. The first is
+        temperature: basalt's diurnal thermal skin depth is 0.156 m and its annual depth 4.04 m, so
+        at 30 m the surface's 60 K swing is simply gone. The resulting stage drift is
+        <strong>2.85e-2 nm/min, 2.8% of spec</strong> &mdash; 35 times better than a surface room.</p>
+      <p>Two Mars-specific consequences follow. The instrument's boil-off nitrogen, vented without
+        a thought on Earth, is here <strong>56% of the colony's entire buffer-gas loss</strong>;
+        recovering it costs 1.23 kWh/kg against 8.49 to vent and remake. And every Martian sample
+        must pass a perchlorate bench first &mdash; not for cleanliness but because magnesium
+        perchlorate brine reaches <strong>exactly the 1.35 g/cm3 density of protein</strong> at
+        35 wt%, at which point contrast vanishes entirely.</p>
+    </div>
+
+    <figure class="figure">
+      <img src="assets/works/cryoem.jpg" alt="Sectioned cryo-EM column colour-coded by stage" loading="lazy">
+      <figcaption>COLUMN, SECTIONED &mdash; GUN (BLUE), CONDENSERS (CYAN), STAGE (GOLD), OBJECTIVE (ORANGE), PROJECTOR (MAGENTA), ENERGY FILTER (VIOLET), DETECTOR (GREEN)</figcaption>
+    </figure>
+
+    <h3 class="sub"><span class="tag">res-sulfur-01</span>The plant whose real product is oxygen</h3>
+    <div class="prose">
+      <p>A rotary kiln 1.3 m across and 11 m long, inclined 4 degrees and turning at 1.5 rpm,
+        roasts sulfate-rich regolith at 900 C in a reducing atmosphere. Hydrogen strips oxygen from
+        the sulfates to make calcium sulfide and water vapour; two Claus converters then recover
+        elemental sulfur at about 97% per pair. Output is <strong>100 kg of sulfur per sol</strong>
+        for 63 kWe, or 0.016% of the city's power.</p>
+      <p>The hydrogen is circulated, not consumed, and the oxygen it strips is finally released in
+        the ISRU electrolyser. That is where the plant's identity flips: every kilogram of sulfur
+        liberates two kilograms of oxygen, so the site quietly delivers
+        <strong>200 kg of O2 per sol while consuming zero water</strong>. On the balance sheet it
+        is an oxygen plant that happens to leave sulfur behind.</p>
+      <p>The other lever is grade, and it is brutal. Producing 1 kg of sulfur means processing
+        1/(grade times recovery) of ore: <strong>11 kg of the 10 wt% horizon, but 46 kg of ordinary
+        2.4 wt% soil</strong>. Same kiln, same kilowatt, 4.2 times the throughput. Selective bench
+        mining upstream is the cheapest step in the entire chain, and the kiln diameter, the feeder
+        and the whole sensible-heat ledger are all sized off it.</p>
+    </div>
+
+    <figure class="figure">
+      <img src="assets/works/sulfur.jpg" alt="Sulfur works with rotary kiln and cast sulfur blocks" loading="lazy">
+      <figcaption>RES-SULFUR-01 &mdash; PREHEAT TOWER, ROTARY KILN, TWO CLAUS CONVERTERS, AND CAST BLOCKS AT 140 C, THE VISCOSITY MINIMUM</figcaption>
+    </figure>
+
+    <h3 class="sub"><span class="tag">res-eclss-01 + res-recycle-01</span>The pair that closes the
+      loops</h3>
+    <div class="prose">
+      <p>These two buildings are the city's arithmetic made physical. A population of
+        <strong>115</strong> &mdash; derived from a watch bill, post by post, across every delivered
+        asset &mdash; breathes 99.1 kg of oxygen and exhales 118.0 kg of carbon dioxide per sol.
+        Four electrolyser modules answer the first number: two steam SOEC stacks at 4.84 kWh per kg
+        of O2, and two CO2 SOXE stacks, fed on raw Martian atmosphere at 5.60 kWh per kg and
+        <strong>no water at all</strong>.</p>
+      <p>The cheapest oxygen in the city, though, comes from a small branch at the west end. Heating
+        magnesium perchlorate to 350&ndash;450 C decomposes it exothermically into magnesium
+        chloride and four molecules of O2 &mdash; 0.573 kg of oxygen per kg of salt for a marginal
+        <strong>0.24 kWh per kg</strong>. The soil's most notorious poison is also its most
+        efficient oxygen warehouse.</p>
+      <p>What actually costs is buffer gas. Martian atmosphere is 95.1% CO2 and only 2.6% nitrogen,
+        so it takes <strong>29 kg of atmosphere per kg of buffer gas</strong>, at 5.27 kWh/kg
+        &mdash; the same order as oxygen. That is why the cabin runs a 58/42 nitrogen-argon blend
+        rather than pure nitrogen, and why an airlock retrofit that cuts loss from 181.8 to
+        <strong>66.1 kg/sol</strong> is worth a whole ledger.</p>
+      <p>Next door, water. The recycling plant takes 659 kg/sol of urine, condensate and greywater
+        and returns 647 &mdash; <strong>98.2% closure</strong> &mdash; leaving just 30.3 L/sol of
+        make-up drawn from the Rodwell well, which is 8.0% of it. (ISRU propellant hydrogen takes
+        50.8%; life support is not what strains the well.) Solid waste goes to zero landfill:
+        plastics pyrolysed to printer filament, textiles shredded as compost bulking, 93.8 kg/sol
+        compacted into the habitat berm as shielding.</p>
+    </div>
+
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/works/eclss.jpg" alt="Gas bottle farm and electrolyser hall" loading="lazy">
+        <figcaption>RES-ECLSS-01 &mdash; ELEVEN 200 BAR BOTTLES, SHOULDERS PAINTED TO EN 1089-3; THE GLOWING STACKS BEHIND RUN AT 800 C</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/works/recycle.jpg" alt="Sorting line and compost drum" loading="lazy">
+        <figcaption>RES-RECYCLE-01 &mdash; SORTING BELT WITH FOUR COLOUR-CODED STREAMS, AND THE COMPOST DRUM HOLDING 55&ndash;65 C FOR THREE DAYS</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub"><span class="tag">ops-vab-01 + ops-payload-01 + veh-ground-01</span>A launch
+      campus that assembles lying down</h3>
+    <div class="prose">
+      <p>The rocket is 67 m long. Assembling it vertically would require an 86 m building &mdash; in
+        a city whose tallest structure is 20 m. So the hall is a sintered-brick barrel vault,
+        <strong>16 m span, 12.2 m high, 72 m long</strong>, and the rocket is built horizontally,
+        lying on the erector-transporter it will ride to the pad.</p>
+      <p>The vertical work that genuinely needs height already exists 170 m away: the launch complex
+        has an 85 m service tower with five rotating platforms. Building a second tower would have
+        been pure redundancy. Assemble horizontally, transport horizontally, raise at the pad
+        &mdash; the same reasoning Falcon 9 and Soyuz arrived at.</p>
+      <p>The choice propagates. The erector's 62 m beam needs only <strong>6 m of clearance</strong>
+        along the route, against the 100 m class a vertical mobile platform would demand. Next door,
+        the payload building encapsulates fairings horizontally too, so its clear height is set by
+        the 5.2 m fairing diameter rather than its 12.5 m length: <strong>10.6 m instead of
+        thirty-something</strong>. The vault is buttressed by earth berms, because an arch converts
+        load into thrust along its axis and that thrust has to be resisted &mdash; and the same berm
+        gives the walls thermal mass against a 60 K diurnal swing.</p>
+      <p>On the ground between them runs the only fleet in the city that can move big things: an
+        eight-axle-line modular transporter with a 24 m deck, each line independently levelling so a
+        5 m diameter stage crosses uneven apron without racking, and a vacuum-jacketed tanker whose
+        12.8 m3 vessel carries <strong>14.6 t of liquid oxygen or 5.4 t of methane</strong> &mdash;
+        the same tank, a different placard. Its vapour-return hose alone saves 79 kg per trip.</p>
+    </div>
+
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/works/vab.jpg" alt="Horizontal assembly hall with twin brick vaults" loading="lazy">
+        <figcaption>OPS-VAB-01 &mdash; MAIN VAULT (ASSEMBLY) AND SIDE VAULT (BOOSTER REFURBISHMENT), RAILS LEAVING THE DOOR TOWARD THE PAD ON THE HORIZON</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/works/crawler.jpg" alt="Ground fleet with modular transporter carrying a payload container" loading="lazy">
+        <figcaption>VEH-GROUND-01 &mdash; EIGHT-AXLE-LINE TRANSPORTER CARRYING A PAYLOAD CONTAINER FROM OPS-PAYLOAD-01 TO THE ASSEMBLY HALL</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number on this page, and the run that produced it. Nothing
+      appears above without a line here.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>FEL tuning band, twice revised down</td><td class="num">10&ndash;150 um</td><td class="src">mars-fel/sim/19_multiwavelength.py, 20_injector_transverse.py</td></tr>
+        <tr><td>Beam energy ceiling, two independent methods</td><td class="num">37.0 MeV</td><td class="src">mars-fel/sim/21_structure_em.py, 23_periodic_cell.py</td></tr>
+        <tr><td>Shunt impedance, eigenmode solve</td><td class="num">37.5 MOhm/m &plusmn;5%</td><td class="src">mars-fel/hfss/23_single_cell.py</td></tr>
+        <tr><td>Out-coupled pulse energy, four bands</td><td class="num">5.91 / 5.4 / 11.5 / 6.1 uJ</td><td class="src">mars-fel/sim/22_seeding.py, 24_waveguide_3d.py</td></tr>
+        <tr><td>Delivered at station after transport</td><td class="num">12.5 / 11.6 / 32.0 / 18.0 mW</td><td class="src">mars-fel/sim/31_transport_mono.py</td></tr>
+        <tr><td>Micropulse peak field</td><td class="num">341 MV/m</td><td class="src">mars-fel/sim/40_run_bl2_vo2.py</td></tr>
+        <tr><td>LLRF closed-loop bandwidth, delay-limited</td><td class="num">10 kHz</td><td class="src">mars-fel/sim/42_llrf_loop.py</td></tr>
+        <tr><td>Perchlorate detection limit, spectroscopy station</td><td class="num">0.022 wt%</td><td class="src">mars-fel/sim/07_users.py, 32_bl1_spectroscopy.py, 36_run_bl1_perchlorate.py</td></tr>
+        <tr><td>Implant-damage trap density, SiC wafer QC</td><td class="num">2.0e17 cm-3</td><td class="src">mars-fel/sim/37_run_bl2_sic_traps.py</td></tr>
+        <tr><td>Facility electrical load, share of city grid</td><td class="num">74 kW = 0.042%</td><td class="src">mars-fel/sim/04_accelerator.py</td></tr>
+        <tr><td>Shielding stack, Geant4 sign-off</td><td class="num">11.95 tenth-value layers</td><td class="src">mars-fel/g4 (Geant4 11.2.2), sim/18_geant4_signoff.py</td></tr>
+        <tr><td>Cryo-EM Scherzer resolution, in-house solver</td><td class="num">2.63 A</td><td class="src">sci-cryoem-01 card, ledger 10</td></tr>
+        <tr><td>Routine delivered resolution</td><td class="num">2.5 A</td><td class="src">sci-cryoem-01 card, ledger 12</td></tr>
+        <tr><td>Detector DQE(0), counting mode</td><td class="num">0.91</td><td class="src">sci-cryoem-01 card, ledger 14</td></tr>
+        <tr><td>Vibration attenuation required</td><td class="num">1579x = 64 dB</td><td class="src">sci-cryoem-01 card, ledger 3 (city spec from sci-seis-01)</td></tr>
+        <tr><td>Stage motion after three isolation stages</td><td class="num">13.3 pm rms</td><td class="src">sci-cryoem-01 card, ledger 3</td></tr>
+        <tr><td>Liquid nitrogen draw, share of colony loss</td><td class="num">27.3 kg/sol = 56%</td><td class="src">sci-cryoem-01 card, ledger 4</td></tr>
+        <tr><td>Contrast-null brine concentration</td><td class="num">35 wt% (1.35 g/cm3)</td><td class="src">sci-cryoem-01 card, ledger 7</td></tr>
+        <tr><td>Sulfur output and its oxygen co-product</td><td class="num">100 / 200 kg per sol</td><td class="src">res-sulfur-01 card, plant ledger</td></tr>
+        <tr><td>Ore-grade lever, high-grade vs ordinary soil</td><td class="num">11 vs 46 kg per kg S</td><td class="src">res-sulfur-01 card, grade ledger</td></tr>
+        <tr><td>City population, from a watch bill</td><td class="num">115</td><td class="src">res-eclss-01 card, staffing model</td></tr>
+        <tr><td>Oxygen energy cost, SOEC and SOXE</td><td class="num">4.84 / 5.60 kWh per kg</td><td class="src">res-eclss-01 card, electrolyser ledger</td></tr>
+        <tr><td>Perchlorate-route oxygen, marginal energy</td><td class="num">0.24 kWh per kg</td><td class="src">res-eclss-01 card, perchlorate branch</td></tr>
+        <tr><td>Buffer gas per kg, atmosphere processed</td><td class="num">29 kg at 5.27 kWh/kg</td><td class="src">res-eclss-01 card, intake ledger</td></tr>
+        <tr><td>Airlock loss before and after retrofit</td><td class="num">181.8 &rarr; 66.1 kg/sol</td><td class="src">res-eclss-01 card, airlock ledger</td></tr>
+        <tr><td>Water loop closure</td><td class="num">98.2%</td><td class="src">res-recycle-01 card, water ledger</td></tr>
+        <tr><td>Well make-up, share of the Rodwell</td><td class="num">30.3 L/sol = 8.0%</td><td class="src">res-recycle-01 card, water ledger</td></tr>
+        <tr><td>Assembly hall span and rocket length</td><td class="num">16 m span / 67 m rocket</td><td class="src">ops-vab-01 card, main-vault ledger</td></tr>
+        <tr><td>Vertical-assembly building that was avoided</td><td class="num">86 m (city max 20 m)</td><td class="src">ops-vab-01 card, configuration trade</td></tr>
+        <tr><td>Route clearance, erector vs vertical platform</td><td class="num">6 m</td><td class="src">ops-vab-01 card, erector ledger</td></tr>
+        <tr><td>Payload hall clear height, horizontal encapsulation</td><td class="num">10.6 m</td><td class="src">ops-payload-01 card, fairing ledger</td></tr>
+        <tr><td>Tanker capacity, one vessel two services</td><td class="num">14.6 t LOX / 5.4 t LCH4</td><td class="src">veh-ground-01 card, ledger 3</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">The rounds these five sites spent disagreeing with themselves. Most of the
+      interesting numbers on this page are the second or third answer, not the first.</p>
+
+    <div class="broke">
+      <h4>The FEL talked its own nameplate down twice</h4>
+      <p>The first ledger published 5&ndash;150 micrometres. Ledger 19 ran the true beam through a
+        time-dependent oscillator code and found 5 um would not lase at all &mdash; band edge moved
+        to 6.5. Ledger 20 then checked whether the 50 MeV needed for the short edge was actually
+        affordable, found it was not, and the edge moved to 10 um. Neither revision came from a
+        reviewer; both came from this project's own gates.</p>
+    </div>
+    <div class="broke">
+      <h4>Two opposite errors that cancelled, and were caught anyway</h4>
+      <p>Ledger 21 discovered that the accelerator ledger had omitted the travelling-wave feed
+        efficiency term entirely &mdash; while simultaneously under-estimating shunt impedance. The
+        two errors nearly cancelled, which is the most dangerous kind of agreement. Only a full-wave
+        eigenmode solve separated them, and the energy ceiling settled at 37.0 MeV.</p>
+    </div>
+    <div class="broke">
+      <h4>A tenfold slip, squared</h4>
+      <p>Ledger 31 quoted a differential-pumping pressure ratio of 2.3e4. Three rounds later, ledger
+        34 rebuilt the same calculation from a vacuum network model and got 280. The original had
+        mis-recorded a single-stage ratio as 1/153 instead of 1/15.3; squaring it for two stages
+        inflated the answer a hundredfold. The verdict &mdash; windowless differential pumping
+        &mdash; survived; the comfortable margin did not.</p>
+    </div>
+    <div class="broke">
+      <h4>Absorption computed as gain, with T greater than 1 as the only symptom</h4>
+      <p>The thin-film metrology code paired a Lorentz oscillator with a transfer matrix and got a
+        transmittance of 1.09 &mdash; energy from nowhere. The sign convention of the complex
+        refractive index has to match the propagator form, and it did not, so absorption came out as
+        gain. Nothing threw an exception; the first-pass conclusion "thinnest measurable film:
+        100 nm" was simply wrong. An energy-conservation gate now runs before anything else in that
+        code.</p>
+    </div>
+    <div class="broke">
+      <h4>A control criterion imported from the wrong kind of system</h4>
+      <p>The LLRF loop was first judged against the textbook 45&ndash;70 degree phase margin. That
+        rule describes second-order systems; a delay-dominated loop sits above 100 degrees
+        naturally, and applying the rule emptied the entire candidate table. The real constraint is
+        gain margin, and once that was used the bandwidth ceiling &mdash; 10 kHz, set by the
+        structure's filling time rather than by any electronics &mdash; fell out immediately.</p>
+    </div>
+    <div class="broke">
+      <h4>The control cell in the attribution table found a third culprit</h4>
+      <p>A systematic offset in the perchlorate inversion was blamed first on slow drift, then on a
+        collinear mineral component. A two-way table with both suspects switched off still showed
+        the offset &mdash; which meant neither was responsible. The real cause was that the design
+        matrix's baseline columns had never been passed through the instrument function. Keep the
+        control cell.</p>
+    </div>
+    <div class="broke">
+      <h4>The sulfur plant discovered it was an oxygen plant</h4>
+      <p>Sized, costed and named around 100 kg of sulfur per sol, the site's own mass balance showed
+        the hydrogen circuit liberating twice that mass in oxygen, at zero water cost. The product
+        that justified the building turned out to be the by-product of the one that pays for it.</p>
+    </div>
+    <div class="broke">
+      <h4>Three head-counts that disagreed for months</h4>
+      <p>The Rodwell well had sized water for four people, the sulfur plant oxygen for four, and the
+        berm village listed 28&ndash;32 berths. Nobody had reconciled them. A watch bill built post
+        by post across every delivered asset produced 115, of whom 30 live in the village &mdash;
+        inside its stated range, and now the single number every life-support card cites.</p>
+    </div>
+    <div class="broke">
+      <h4>The assembly hall was redesigned after a roofline comparison</h4>
+      <p>The first configuration assembled the rocket vertically. Then someone put the required
+        86 m building next to the tallest structure the city actually has, which is 20 m &mdash; and
+        noticed the launch complex already owns an 85 m service tower 170 m away. The hall became
+        horizontal, the payload building followed, and both lost two thirds of their height.</p>
+    </div>
+    <div class="broke">
+      <h4>Twenty kilograms a sol, booked as inventory rather than output</h4>
+      <p>The recycling plant bales 20 kg/sol of scrap metal and stacks it by alloy grade under a
+        sign reading "awaiting melt". The city has no smelter. Rather than book the stream as
+        recovered material, the ledger books it as what it is &mdash; sorted, decontaminated
+        inventory waiting for an asset that does not exist yet.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Walk through it</h2></div>
+    <p class="lead">All five sites are in the city model. Two are interiors you enter; the rest you
+      walk up to.</p>
+    <div class="prose">
+      <p>Open the viewer and use the district links, or jump straight in. The FEL and the cryo-EM
+        laboratory are underground interiors reached through their surface entrances; the sulfur
+        works, the launch campus and the ground fleet sit on the surface east and south-east of the
+        main habitat cluster.</p>
+    </div>
+    <dl class="kv">
+      <dt>Interiors</dt><dd>viewer/index.html?interior=sci-fel-01 &nbsp;|&nbsp; ?interior=sci-cryoem-01</dd>
+      <dt>Surface sites</dt><dd>viewer/index.html?colony=1&amp;inspect=res-sulfur-01 &nbsp;|&nbsp; ?inspect=ops-vab-01</dd>
+      <dt>Look for</dt><dd>the undulator gap indicator, the colour-coded EM column, the yellow cast sulfur, the twin brick vaults</dd>
+      <dt>Knowledge cards</dt><dd>9 on the FEL (89 bilingual ledger entries), 11 on the cryo-EM lab, 7 on the sulfur works</dd>
+    </dl>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0 0 8px;">Design ledgers: <span class="src">mars-fel/docs/ACCEPTANCE_sci-fel-01.md</span>
+      (42 ledgers, 105 gates, 10 home-built codes, 69 pitfalls) &middot;
+      asset knowledge cards under <span class="src">viewer/units/*.info.json</span> &middot;
+      city asset modules under <span class="src">viewer/units/*.js</span>.</p>
+    <p style="margin:0;">Other plants documented by their own sessions; numbers on this page are
+      quoted from their frozen cards. &middot; <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>
