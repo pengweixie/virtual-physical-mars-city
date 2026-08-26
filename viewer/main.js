@@ -3490,6 +3490,23 @@ if (q.has('debug')) {
   window.__mars = { units, unitSensors, unitAnims, orbitAnims, colonyGroup, scene,
     renderer, camera, rig, driveSensors, clock, sampleHeight, updateRelayCards,
     updateSun, orbitControls, get inInterior() { return inInterior; } };
+  // turntable helper for headless capture: park the flying rig on a circle
+  // around (cx,cz) at angDeg, aim at the centre, and render synchronously so
+  // the very next CDP screenshot sees this exact frame (headless background
+  // pages throttle rAF to ~1 Hz, so captures cannot wait for the loop).
+  window.__shot = (cx, cz, r, alt, angDeg) => {
+    const a = angDeg * Math.PI / 180;
+    const px = cx + Math.sin(a) * r, pz = cz + Math.cos(a) * r;
+    flying = true;
+    rig.position.set(px, sampleHeight(cx, cz) + alt, pz);
+    const fx = cx - px, fz = cz - pz;
+    yaw = Math.atan2(-fx, -fz);
+    pitch = -Math.atan2(alt * 0.8, Math.hypot(fx, fz));
+    rig.rotation.y = yaw;
+    camera.rotation.x = pitch;
+    renderer.render(scene, camera);
+    return 1;
+  };
 }
 if (q.get('view') === 'orbit') setOrbitMode(true);
 if (q.get('view') === 'cmb' && cmbAnchor) {  // jump to the L2 station

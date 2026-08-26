@@ -5,6 +5,8 @@ simulation-backed engineering → a real chip running the city's AI.*
 
 ![Mars city panorama](docs/assets/hero.png)
 
+![The city in the round](snaps/city-turntable.gif)
+
 Starting from real NASA HiRISE terrain (Jezero Crater, 1 m/px), this project
 builds a Mars city digital twin in the browser: **54 placed facilities, twelve
 walk-in interiors, 460+ bilingual knowledge cards each backed by simulation**,

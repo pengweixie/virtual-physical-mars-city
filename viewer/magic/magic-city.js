@@ -2836,6 +2836,153 @@ export function build(ctx) {
     });
   }
 
+  // ---- fields, flock, and the burning sky ----------------------------------
+  // Connective tissue and a crown. Wards gave the city its buildings; this
+  // gives it agriculture between them, birds over it, and a sky of its own.
+  {
+    const h2 = (n) => {
+      const x = Math.sin(n * 91.7 + 47.123) * 24634.6345;
+      return x - Math.floor(x);
+    };
+    // -- A) crop plots: walled fields of glowing reed near the wards. Plain
+    //    green by day; the engine's night ramp lights them (cropMat rides
+    //    nightStone). All tufts across all plots are ONE InstancedMesh.
+    const cropMat = new THREE.MeshLambertMaterial({ color: 0x9fe8c8,
+      emissive: 0x2fbf8f, flatShading: true });
+    nightStone.push(cropMat);
+    const PLOTS = [                              // [cx, cz, w, d, yaw]
+      [-125, -470, 16, 11, 0.5],
+      [-237, -577, 14, 10, 1.2],
+      [-95, -657, 15, 9, 2.4],
+    ];
+    const mats2 = [];
+    const fields = new THREE.Group();
+    fields.name = 'magicFields';
+    magicGroup.add(fields);
+    const { put, flush } = makeBuilder(fields);
+    for (let pi = 0; pi < PLOTS.length; pi++) {
+      const [cx, cz, w2, d2, yaw] = PLOTS[pi];
+      const c = Math.cos(yaw), s0 = Math.sin(yaw);
+      const py3 = gY(cx, cz);
+      for (const [ex, ez, el, across] of [      // low field walls, w x d ring
+        [0, d2 / 2, w2, true], [0, -d2 / 2, w2, true],
+        [w2 / 2, 0, d2, false], [-w2 / 2, 0, d2, false]]) {
+        const wallB = new THREE.Mesh(
+          new THREE.BoxGeometry(across ? el + 0.8 : 0.8, 0.9, across ? 0.8 : el + 0.8),
+          stoneDark);
+        put(wallB, cx + ex * c - ez * s0, py3 + 0.45, cz + ex * s0 + ez * c, -yaw);
+      }
+      for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
+        put(new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.6, 1.1), trimMat),
+          cx + (sx * w2 / 2) * c - (sz * d2 / 2) * s0, py3 + 0.8,
+          cz + (sx * w2 / 2) * s0 + (sz * d2 / 2) * c, -yaw);
+      }
+      // a drying rack: two posts, a bar, glowing pods hung from it (capMats
+      // batches since the hamlet round, so the pods cost no draws)
+      const rx2 = cx + (w2 / 2 + 3.2) * c, rz2 = cz + (w2 / 2 + 3.2) * s0;
+      const ry3 = gY(rx2, rz2);
+      for (const s2 of [-1, 1]) {
+        put(new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.2, 3, 5), woodMat),
+          rx2 - s2 * 2.2 * s0, ry3 + 1.5, rz2 + s2 * 2.2 * c);
+      }
+      put(new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.22, 4.6), woodMat),
+        rx2, ry3 + 2.9, rz2, -yaw + Math.PI / 2);
+      for (let k = 0; k < 4; k++) {
+        const pod = new THREE.Mesh(new THREE.SphereGeometry(0.34, 7, 5),
+          capMats[(pi + k) % 3]);
+        put(pod, rx2 - (k - 1.5) * 1.05 * s0, ry3 + 2.3, rz2 + (k - 1.5) * 1.05 * c);
+      }
+      // tuft matrices, in rows with hashed stagger
+      const rows = Math.floor(d2 / 1.6), cols = Math.floor(w2 / 1.1);
+      for (let r2 = 0; r2 < rows; r2++) {
+        for (let q = 0; q < cols; q++) {
+          const seed = pi * 997 + r2 * 61 + q;
+          const lx3 = (q / (cols - 1) - 0.5) * (w2 - 2.4) + (h2(seed) - 0.5) * 0.5;
+          const lz3 = (r2 / (rows - 1) - 0.5) * (d2 - 2.4) + (h2(seed + 1) - 0.5) * 0.5;
+          const x = cx + lx3 * c - lz3 * s0, z = cz + lx3 * s0 + lz3 * c;
+          mats2.push([x, gY(x, z) + 0.38, z, h2(seed + 2)]);
+        }
+      }
+    }
+    flush();
+    const tuft = new THREE.ConeGeometry(0.17, 0.95, 3);
+    const crops = new THREE.InstancedMesh(tuft, cropMat, mats2.length);
+    crops.frustumCulled = false;
+    const mm2 = new THREE.Matrix4(), mq2 = new THREE.Quaternion();
+    const mv2 = new THREE.Vector3(), ms2 = new THREE.Vector3();
+    for (let i = 0; i < mats2.length; i++) {
+      const [x, y2, z, hsh] = mats2[i];
+      mq2.setFromEuler(new THREE.Euler((hsh - 0.5) * 0.24, hsh * 6.28,
+        (hsh - 0.5) * 0.24));
+      ms2.set(1, 0.7 + hsh * 0.7, 1);
+      mv2.set(x, y2, z);
+      mm2.compose(mv2, mq2, ms2);
+      crops.setMatrixAt(i, mm2);
+    }
+    crops.instanceMatrix.needsUpdate = true;
+    fields.add(crops);
+
+    // -- B) the spirit flock: a loose ring of lights riding a city-sized
+    //    ellipse, each bird with its own wobble. Visible by day too, dimmer.
+    const NB = 26;
+    const flock = new THREE.Points(sparkGeometry(new Float32Array(NB * 3)),
+      sparkMaterial(0xffeacc, 5.2, { nightOnly: false }));
+    flock.frustumCulled = false;
+    magicGroup.add(flock);
+    const fAttr = flock.geometry.attributes.position;
+    magicAnims.push((t) => {
+      const t0 = t * 0.020;
+      for (let i = 0; i < NB; i++) {
+        const a = (t0 + i * 0.011 + Math.sin(t * 0.7 + i * 2.1) * 0.003) * Math.PI * 2;
+        const x = -140 + Math.cos(a) * (250 + Math.sin(i * 3.7) * 26);
+        const z = -590 + Math.sin(a) * (190 + Math.cos(i * 2.3) * 22);
+        fAttr.setXYZ(i, x,
+          gY(x, z) + 52 + Math.sin(t * 0.5 + i) * 13 + Math.sin(a * 2.0) * 9, z);
+      }
+      fAttr.needsUpdate = true;
+    });
+
+    // -- C) the aurora: the magic half's own sky. Two additive ribbons high
+    //    over the tower-palace axis, curtains flowing along them, faded out
+    //    entirely by day (uDay) so the engine's sky stays untouched.
+    const auroraMat = new THREE.ShaderMaterial({
+      transparent: true, depthWrite: false, side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      uniforms: { uTime: crystalTime, uDay: crystalDay },
+      vertexShader: /* glsl */`
+        varying vec2 vUv;
+        uniform float uTime;
+        void main() {
+          vUv = uv;
+          vec3 p = position;
+          p.z += sin(uv.x * 9.42 + uTime * 0.23) * 9.0
+               + sin(uv.x * 23.0 - uTime * 0.11) * 4.0;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+        }`,
+      fragmentShader: /* glsl */`
+        varying vec2 vUv;
+        uniform float uTime, uDay;
+        void main() {
+          float x = vUv.x;
+          float v = sin(x * 40.0 + sin(x * 7.0 + uTime * 0.35) * 2.6 - uTime * 0.12)
+                  + 0.5 * sin(x * 90.0 - uTime * 0.21);
+          float b = pow(max(v * 0.5 + 0.5, 0.0), 3.0);
+          vec3 c = mix(vec3(0.35, 1.0, 0.62), vec3(0.62, 0.38, 1.0), vUv.y)
+                 * (0.55 + 0.45 * b);
+          float edge = smoothstep(0.0, 0.16, x) * smoothstep(1.0, 0.84, x)
+                     * smoothstep(0.0, 0.25, vUv.y) * smoothstep(1.0, 0.6, vUv.y);
+          gl_FragColor = vec4(c, b * edge * (1.0 - uDay) * 0.32);
+        }`,
+    });
+    for (const [alt, ry2, len, wid] of [[238, 0.55, 720, 95], [268, 0.9, 640, 72]]) {
+      const rib = new THREE.Mesh(new THREE.PlaneGeometry(len, wid, 80, 1), auroraMat);
+      rib.position.set(-130, alt, -590);
+      rib.rotation.set(-Math.PI / 2 + 0.38, ry2, 0);
+      rib.frustumCulled = false;
+      magicGroup.add(rib);
+    }
+  }
+
   // ---- window fire, city-wide ---------------------------------------------
   // created AFTER every district (the palace used to own this Points; now the
   // academy, hamlet and mill windows breathe in the same swarm)
