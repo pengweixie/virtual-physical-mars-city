@@ -75,6 +75,8 @@ One city, four toggle layers, each with its own ambient score.
 
 ![The palace in the round](snaps/palace-turntable.gif)
 
+![Magic Mars in the round](snaps/magic-turntable.gif)
+
 ## What's new in v1.3.0
 
 - **The Celestial Palace**: a fourth world - a Chinese imperial mega-palace
