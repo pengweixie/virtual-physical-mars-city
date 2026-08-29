@@ -25,6 +25,9 @@
 - `viewer/audio/*.m4a`(环境配乐 "Quiet Infrastructure"、"Glass Moon Halo"、"Bedrock Pulse"、"Dawn Over Marble Terraces" 等)
   由项目所有者使用其 Suno 付费订阅账号生成,商用权利归项目所有者,
   随本仓库资产许可(CC BY 4.0)分发。
+- `docs/assets/four-worlds-box.jpg`(「玻璃标本盒」四世界概念图)由项目
+  所有者使用其订阅账号通过生成式图像服务创建,商用权利归项目所有者,
+  随本仓库资产许可(CC BY 4.0)分发。
 
 除上述内容外,仓库内全部代码、资产与文档均为本项目原创,
 许可见 `LICENSE`。

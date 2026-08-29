@@ -68,6 +68,14 @@ between English and Chinese.
 
 One city, four toggle layers, each with its own ambient score.
 
+<p align="center"><img src="docs/assets/four-worlds-box.jpg" width="640"
+  alt="Concept art: the four worlds of the Mars city collected in one glass specimen box"></p>
+
+*Concept art — the whole city as a specimen box: amber-lit habitat domes,
+greenhouse vaults, teal crystal cells and the golden palace stacked in nested
+glass volumes, a dust storm tearing out of the lower decks while the garden
+cells breathe pale ice fog into a blue Martian dusk.*
+
 | | |
 |---|---|
 | ![The Celestial Palace](snaps/imperial-panorama.jpg) | ![Magic Mars](snaps/magic-panorama.jpg) |
