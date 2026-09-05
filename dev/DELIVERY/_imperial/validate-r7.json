@@ -1,0 +1,466 @@
+{
+  "timestamp": "2026-09-05T06:28:40.881Z",
+  "passed": true,
+  "failures": [],
+  "hashes": {
+    "viewer/imperial/imperial-city.js": "855d2e9bbbd76bce3f99671fee3ab350d5d4081de5ab17f6a99cd859af3cdc57",
+    "viewer/imperial/imperial-city.info.json": "200ea4205a1431e0f2aff56a8089555e785d4d68d1a3e5ba74019401ac2ca0ab",
+    "viewer/main.js": "e5b3dc2b0199e2bbcefde6e41ccf7086f6d31cfebb3ce6bdd7503a7864094544",
+    "data/processed/heights.bin": "eb6608b770ac8b8c0b7f78c4c15bb4b002ebbdc14dbd203e741935f84e00c682"
+  },
+  "runs": [
+    {
+      "label": "flat-origin",
+      "siteTranslation": [
+        0,
+        0,
+        0
+      ],
+      "baseY": 0,
+      "revision": "7",
+      "triangles": 168400,
+      "meshes": 107,
+      "lights": 8,
+      "anims": 2,
+      "nightMats": 3,
+      "forbiddenLights": [],
+      "invalidMaterials": [],
+      "anchorChecks": [
+        {
+          "id": "imperial-bridge",
+          "exists": true,
+          "bilingual": true
+        },
+        {
+          "id": "imperial-axis",
+          "exists": true,
+          "bilingual": true
+        },
+        {
+          "id": "imperial-terraces",
+          "exists": true,
+          "bilingual": true
+        },
+        {
+          "id": "imperial-summit",
+          "exists": true,
+          "bilingual": true
+        },
+        {
+          "id": "imperial-bell-drum",
+          "exists": true,
+          "bilingual": true
+        }
+      ],
+      "optionalSculptures": {
+        "loaded": [],
+        "skipped": [
+          "lion",
+          "huabiao",
+          "censer",
+          "turtle",
+          "crane"
+        ]
+      },
+      "boundsWorldAtT0": {
+        "min": [
+          -590.3999938964844,
+          0,
+          -481
+        ],
+        "max": [
+          590.3999938964844,
+          185.10022032260895,
+          472
+        ],
+        "size": [
+          1180.7999877929688,
+          185.10022032260895,
+          953
+        ]
+      },
+      "animationEnvelopeWorld60s": {
+        "min": [
+          -590.3999938964844,
+          0,
+          -481
+        ],
+        "max": [
+          590.3999938964844,
+          185.10022032260895,
+          472
+        ],
+        "size": [
+          1180.7999877929688,
+          185.10022032260895,
+          953
+        ]
+      },
+      "smokeEnvelopeWorld60s": {
+        "min": [
+          -132.16814306541366,
+          65.47388310825937,
+          -206.24198479852464
+        ],
+        "max": [
+          132.04664096833278,
+          102.53262268591862,
+          -197.67425358595838
+        ],
+        "size": [
+          264.21478403374647,
+          37.05873957765925,
+          8.567731212566258
+        ]
+      },
+      "animationDt": 0.1,
+      "finiteAnimation": true,
+      "skyline": {
+        "summitTopY": 184.96021359999997,
+        "tallestTowerRatio": 0.6189969992795425
+      },
+      "axis": {
+        "length": 778.4100000000001,
+        "checkedEveryMetres": 0.1,
+        "tested": 7785,
+        "pathSamples": 157,
+        "checkpoints": 17,
+        "mismatches": 0,
+        "gaps": [],
+        "maxHeightChangePer10cm": 0.22928283736109734,
+        "terrainIntrusions": 0
+      },
+      "checkpointPositions": [
+        {
+          "distance": 0,
+          "x": 0,
+          "y": 9.830000076442957,
+          "z": 410
+        },
+        {
+          "distance": 50,
+          "x": 0,
+          "y": 8.62764659896493,
+          "z": 360
+        },
+        {
+          "distance": 100,
+          "x": 0,
+          "y": 6.910000000149012,
+          "z": 310
+        },
+        {
+          "distance": 150,
+          "x": 0,
+          "y": 12.910000000149012,
+          "z": 260
+        },
+        {
+          "distance": 200,
+          "x": 0,
+          "y": 14.68487205542624,
+          "z": 210
+        },
+        {
+          "distance": 250,
+          "x": 0,
+          "y": 19.91000000014901,
+          "z": 160
+        },
+        {
+          "distance": 300,
+          "x": 0,
+          "y": 26.112223053351045,
+          "z": 110
+        },
+        {
+          "distance": 350,
+          "x": 0,
+          "y": 27.91000000014901,
+          "z": 60
+        },
+        {
+          "distance": 400,
+          "x": 0,
+          "y": 36.91000000014901,
+          "z": 10
+        },
+        {
+          "distance": 450,
+          "x": 0,
+          "y": 36.91000000014901,
+          "z": -40
+        },
+        {
+          "distance": 500,
+          "x": 0,
+          "y": 46.91000000014901,
+          "z": -90
+        },
+        {
+          "distance": 550,
+          "x": 0,
+          "y": 50.29298629797995,
+          "z": -140
+        },
+        {
+          "distance": 600,
+          "x": 0,
+          "y": 58.91000000014901,
+          "z": -190
+        },
+        {
+          "distance": 650,
+          "x": 0,
+          "y": 68.40282287634909,
+          "z": -240
+        },
+        {
+          "distance": 700,
+          "x": 0,
+          "y": 79.37000122107565,
+          "z": -290
+        },
+        {
+          "distance": 750,
+          "x": 0,
+          "y": 90.91000000014901,
+          "z": -340
+        },
+        {
+          "distance": 778.4100000000001,
+          "x": 0,
+          "y": 98.41000366210938,
+          "z": -368.41
+        }
+      ]
+    },
+    {
+      "label": "main-site-real-terrain",
+      "siteTranslation": [
+        1100,
+        0,
+        -800
+      ],
+      "baseY": 41.718254169774376,
+      "revision": "7",
+      "triangles": 169640,
+      "meshes": 107,
+      "lights": 8,
+      "anims": 2,
+      "nightMats": 3,
+      "forbiddenLights": [],
+      "invalidMaterials": [],
+      "anchorChecks": [
+        {
+          "id": "imperial-bridge",
+          "exists": true,
+          "bilingual": true
+        },
+        {
+          "id": "imperial-axis",
+          "exists": true,
+          "bilingual": true
+        },
+        {
+          "id": "imperial-terraces",
+          "exists": true,
+          "bilingual": true
+        },
+        {
+          "id": "imperial-summit",
+          "exists": true,
+          "bilingual": true
+        },
+        {
+          "id": "imperial-bell-drum",
+          "exists": true,
+          "bilingual": true
+        }
+      ],
+      "optionalSculptures": {
+        "loaded": [],
+        "skipped": [
+          "lion",
+          "huabiao",
+          "censer",
+          "turtle",
+          "crane"
+        ]
+      },
+      "boundsWorldAtT0": {
+        "min": [
+          509.6000061035156,
+          28.66210113465786,
+          -1281
+        ],
+        "max": [
+          1690.3999938964844,
+          228.507462143898,
+          -328
+        ],
+        "size": [
+          1180.7999877929688,
+          199.84536100924015,
+          953
+        ]
+      },
+      "animationEnvelopeWorld60s": {
+        "min": [
+          509.6000061035156,
+          28.66210113465786,
+          -1281
+        ],
+        "max": [
+          1690.3999938964844,
+          228.507462143898,
+          -328
+        ],
+        "size": [
+          1180.7999877929688,
+          199.84536100924015,
+          953
+        ]
+      },
+      "smokeEnvelopeWorld60s": {
+        "min": [
+          967.8318569345863,
+          110.19776006138437,
+          -1006.2419847985246
+        ],
+        "max": [
+          1232.0466409683327,
+          147.25650726843816,
+          -997.6742535859584
+        ],
+        "size": [
+          264.21478403374635,
+          37.058747207053784,
+          8.567731212566287
+        ]
+      },
+      "animationDt": 0.1,
+      "finiteAnimation": true,
+      "skyline": {
+        "summitTopY": 228.36745499003462,
+        "tallestTowerRatio": 0.6189969992795425
+      },
+      "axis": {
+        "length": 778.4100000000001,
+        "checkedEveryMetres": 0.1,
+        "tested": 7785,
+        "pathSamples": 157,
+        "checkpoints": 17,
+        "mismatches": 0,
+        "gaps": [],
+        "maxHeightChangePer10cm": 0.22928283736109734,
+        "terrainIntrusions": 0
+      },
+      "checkpointPositions": [
+        {
+          "distance": 0,
+          "x": 0,
+          "y": 43.51894012466073,
+          "z": 410
+        },
+        {
+          "distance": 50,
+          "x": 0,
+          "y": 42.31658950820565,
+          "z": 360
+        },
+        {
+          "distance": 100,
+          "x": 0,
+          "y": 40.59894195571542,
+          "z": 310
+        },
+        {
+          "distance": 150,
+          "x": 0,
+          "y": 48.63360610976815,
+          "z": 260
+        },
+        {
+          "distance": 200,
+          "x": 0,
+          "y": 52.33448257483542,
+          "z": 210
+        },
+        {
+          "distance": 250,
+          "x": 0,
+          "y": 57.49283615127206,
+          "z": 160
+        },
+        {
+          "distance": 300,
+          "x": 0,
+          "y": 66.76090850867331,
+          "z": 110
+        },
+        {
+          "distance": 350,
+          "x": 0,
+          "y": 68.56707397475839,
+          "z": 60
+        },
+        {
+          "distance": 400,
+          "x": 0,
+          "y": 79.60612884536386,
+          "z": 10
+        },
+        {
+          "distance": 450,
+          "x": 0,
+          "y": 79.60612884536386,
+          "z": -40
+        },
+        {
+          "distance": 500,
+          "x": 0,
+          "y": 90.71519104018807,
+          "z": -90
+        },
+        {
+          "distance": 550,
+          "x": 0,
+          "y": 95.00142517127097,
+          "z": -140
+        },
+        {
+          "distance": 600,
+          "x": 0,
+          "y": 103.63387695327401,
+          "z": -190
+        },
+        {
+          "distance": 650,
+          "x": 0,
+          "y": 112.32574310339987,
+          "z": -240
+        },
+        {
+          "distance": 700,
+          "x": 0,
+          "y": 122.85124816931784,
+          "z": -290
+        },
+        {
+          "distance": 750,
+          "x": 0,
+          "y": 134.31724182143807,
+          "z": -340
+        },
+        {
+          "distance": 778.4100000000001,
+          "x": 0,
+          "y": 141.81724548339844,
+          "z": -368.41
+        }
+      ]
+    }
+  ],
+  "scope": "CPU validation of delivered module; instance-multiplied triangles and real mesh raycasts. GPU draws/FPS require browser smoke. Animation envelope is sampled for 60 s at 0.1 s, not an analytic all-time bound."
+}

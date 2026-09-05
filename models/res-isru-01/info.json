@@ -180,23 +180,23 @@
         "机柜": "4.3 × 2.7 m，双立柱 + 遮阳檐",
         "画面": "全厂工艺流程 mimic + 单元运行灯",
         "液位柱": "LOX 78% · LOX 52% · LCH₄ 31%",
-        "电力状态": "6×Kilopower 在线（绿灯行）",
+        "电力状态": "6×Kilopower 在线（绿灯行，建厂纪元口径）",
         "夜间": "emit_hmi_screen 自发光，不随昼夜熄灭"
       },
       "specs_en": {
         "Cabinet": "4.3 x 2.7 m, twin pylons with sun visor",
         "Screen": "full-plant mimic diagram + per-unit run lamps",
         "Level bars": "LOX 78%, LOX 52%, LCH4 31%",
-        "Power status": "6x Kilopower online (green lamp row)",
+        "Power status": "6x Kilopower online (green lamp row, commissioning era)",
         "At night": "emit_hmi_screen stays self-illuminated"
       },
       "sim": [
         "液位读数与储罐台账自洽：3×33.5 = 100 m³ 装量下，当前 78/52/31% 合计约 54 m³ 推进剂，已过一个 MAV 加注量（35.6 m³）——正处在无人生产期的攒量阶段",
-        "绿灯行对应电力账：全城稳态 63 kWe 由 6×10 kWe Kilopower 承担（N+1 冗余，5 台即可撑过夜间稳态），本厂 40 kWe 是其中最大单一负载（EQUIPMENT.md §7）"
+        "绿灯行是**建厂纪元**的读数：本厂按 EQUIPMENT.md §7 的 6×10 kWe Kilopower 方案设计（该节已标注为聚变并网前的早期纪元，63 kWe 稳态 / 107 kW 峰值），六颗灯保留投产时的进线构成。as-built 全城口径以 pwr-grid-01 台账为准：连接负荷 707 kW 均值 / 1,075 kW 同时率峰值——本厂 40 kWe 在其中是小负载，最大单块是地下城 376 kW。供电侧数值（聚变净电与裕度）正随 pwr-fusion-01 的 v5 运行点重定基，本卡刻意不复述，需要时以 pwr-grid-01 / pwr-fusion-01 为准"
       ],
       "sim_en": [
         "The level readings are consistent with the tank ledger: against an installed 3 x 33.5 = 100 m3, the present 78/52/31% holds about 54 m3 of propellant - already past one MAV load (35.6 m3), i.e. mid-way through the uncrewed accumulation campaign.",
-        "The green lamp row matches the power ledger: the city's 63 kWe steady draw is carried by 6 x 10 kWe Kilopower units (N+1 redundancy - five alone cover the night steady state), and this plant's 40 kWe is the single largest load among them (EQUIPMENT.md section 7)."
+        "The green lamp row is a commissioning-era reading: this plant was designed against the 6 x 10 kWe Kilopower scheme of EQUIPMENT.md section 7, which is now marked as the pre-fusion era (63 kWe steady, 107 kW peak), and the six lamps preserve the incoming feed as built. For the as-built city, pwr-grid-01's ledger is authoritative: 707 kW average connected load, 1,075 kW simultaneity peak. This plant's 40 kWe is a small load in that ledger; the largest single block is the undercity at 376 kW. Supply-side figures - fusion net electric and the resulting margin - are being rebased onto pwr-fusion-01's v5 operating point and are deliberately not repeated here; take them from pwr-grid-01 or pwr-fusion-01."
       ],
       "physics": [
         "为什么无人工厂还要一块户外大屏：地火单程光时 4–21 分钟（0.52–2.52 AU），往返 8–42 分钟——地面无法实时遥操，工厂必须自主运行并就地示状态；乘员到达后的舱外检修同样如此，加压手套下敲键盘不现实，能一眼读完的大幅 mimic 板才是 EVA 可用的人机界面",

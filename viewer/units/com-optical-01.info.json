@@ -266,15 +266,15 @@
       "label": "白昼运行与合日(地球是火星的「金星」)",
       "label_en": "Daytime operations and conjunction (Earth is Mars's Venus)",
       "range": 22,
-      "detail": "从火星看,地球是内行星——最大距角 arcsin(1/1.524)=41°,永远贴着太阳,像地球黄昏的金星。所以这台望远镜没有深夜档:通联要么在白昼、要么在晨昏窗做,「白天天空背景下还能不能收」是本站能不能存在的问题。答案是能,但优势跟直觉相反:火星白昼的天空并不比地球暗,赢在视宁度给的小视场。",
-      "detail_en": "From Mars, Earth is an inner planet - maximum elongation arcsin(1/1.524) = 41 deg, forever hugging the Sun like Venus at dusk. This telescope therefore has no midnight shift: passes happen in daylight or in the twilight window, and 'can we receive against the daytime sky' decides whether this station exists at all. The answer is yes - but the advantage is the opposite of intuition: the Martian daytime sky is not darker than Earth's; the win comes from the seeing-limited small field of view.",
+      "detail": "从火星看,地球是内行星——最大距角 arcsin(1/1.524)=41°,永远贴着太阳,像地球黄昏的金星。所以这台望远镜没有深夜档:通联要么在白昼、要么在晨昏窗做,「白天天空背景下还能不能收」是本站能不能存在的问题。答案是能,但优势跟直觉相反:火星白昼的天空并不比地球暗,赢在视宁度给的小视场。光链路合日断 33 天与射频 14 天同源(日冕/太阳辐照),两条链的合日断口由同一颗 com-l4-01 兜底——L4 恒离火星 60°,两跳与直连的黑障错相 130 天永不重叠;黑障季全城对地收窄为 ~1.4 Mbps 应急信道,光积压照常入缓存排空账。",
+      "detail_en": "From Mars, Earth is an inner planet - maximum elongation arcsin(1/1.524) = 41 deg, forever hugging the Sun like Venus at dusk. This telescope therefore has no midnight shift: passes happen in daylight or in the twilight window, and 'can we receive against the daytime sky' decides whether this station exists at all. The answer is yes - but the advantage is the opposite of intuition: the Martian daytime sky is not darker than Earth's; the win comes from the seeing-limited small field of view. The optical 33-day and RF 14-day conjunction outages share one cause (corona and solar glare), and both are now backstopped by the same com-l4-01: L4 sits a constant 60 deg from Mars, so the two-hop path's blackout is phase-shifted 130 days from the direct link's and they never overlap; in blackout season the whole city's Earth channel narrows to a ~1.4 Mbps emergency link, and the optical backlog drains through the usual buffer ledger.",
       "specs": {
         "地球最大距角": "41°(内行星几何)",
         "白昼跟踪 SNR": "148(需 13,τ=0.5)",
         "天空辐亮度(清季)": "火星 12.8 vs 地球 8.6 mW/m²/nm/sr——火星反而亮 1.49×",
         "有效背景(∝L·FOV²)": "火星/地球 = 0.15(6.6× 优势)",
         "合日断链": "光 33 d(±3° 规避)vs 射频 14 d(SEP<2°)",
-        "双断期兜底": "com-station 3 m X 应急 500 bps"
+        "双断期兜底": "com-l4-01 两跳 ~1.4 Mbps + com-station 3 m X 应急 500 bps"
       },
       "specs_en": {
         "Earth max elongation": "41 deg (inner-planet geometry)",
@@ -282,7 +282,7 @@
         "Sky radiance (clear)": "Mars 12.8 vs Earth 8.6 mW/m2/nm/sr - Mars is 1.49x brighter",
         "Effective background (L x FOV^2)": "Mars/Earth = 0.15 (6.6x advantage)",
         "Conjunction outage": "optical 33 d (+/-3 deg keep-out) vs RF 14 d (SEP<2 deg)",
-        "Fallback in the dual outage": "com-station 3 m X emergency 500 bps"
+        "Fallback in the dual outage": "com-l4-01 two-hop ~1.4 Mbps + com-station 3 m X emergency 500 bps"
       },
       "physics": [
         "白昼优势的真身:通信接收吃的背景计数 ∝ 天空辐亮度 × FOV²。火星尘的散射光学厚度(τ~0.42)比地球好台址气溶胶(~0.1)大,天空反而亮;但火星 r0≈30 m 允许 16 µrad 衍射极限视场、无自适应光学,地球白昼视宁度限 ~50 µrad——FOV² 一项赢 10×,净 6.6× 优势,而且直到尘先杀死链路都不反转。另两条:无云(地球单站云可用 ~60-70%)、无水汽吸收与结露。",

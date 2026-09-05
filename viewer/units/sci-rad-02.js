@@ -1,12 +1,19 @@
 // sci-rad-02 —— 聚变围界中子哨兵组(4H-SiC ×3)
 // 契约(MODELS.md §4):1u=1m;原点=组中心地面点;+Y 上;THREE 传入;纯色材质。
-// 落位:pwr-fusion-01 (-140,40) 南侧弧线,组中心 (-140,98),三柱沿 R=55 m
-//   弧线朝堆弯(柱间弧长 ~25 m),各柱 -Z 面(慢化帽)对准堆心。
-// 设计输入(E:\Claude\mars_rad_sic 四本账):
+// 落位:堆心 pwr-fusion-01 (-140,40),组中心 (-140,98) ⇒ Δx=0、Δz=+58,
+//   三柱沿 R=58 m 弧线朝堆弯(柱间弧长 ~25 m),各柱 -Z 面(慢化帽)对准堆心。
+//   **方位按堆自身端口角约定报,不用南北标签**(南北曾在跨册沟通中引起矛盾):
+//   由 pwr-fusion-01.js 的端口实现 (cos a, −sin a) 反解,本组位于 **a = 270°**,
+//   正落在 250°/290° 两端口间 40° 间隙的中点,最近端口偏离 20°(58 m 处横向 20 m)。
+//   注:现有 9 窗口是 LHCD 时代布局;v5 已改 ECCD,发射器几何未定 ⇒ 该结论暂定。
+// 设计输入(E:\Claude\mars_rad_sic 五本账;原写「四本账」,账5 SEP 接口 08-06 新增后漏改):
 //   探测叠层 = HDPE 慢化帽 → ⁶LiF 转换层 30 µm(效率峰 4.72%,账1)
 //   → 4H-SiC PiN 片 ×4(2 热道贴 LiF + 2 裸快道)→ 铜读出板 → 前放。
-//   预期计数 0.21 cps(账2:泄漏 1.9e14 → 生物屏蔽 1e-8 → 55 m 1/r²),
-//   屏显"有节奏地跳"(~5 s 周期,确定性哈希,禁 Math.random)。
+//   预期计数 2.32 cps(2026-09-02 按**已分辨**屏蔽重算:S_n 2.271e20 @640 MW ×
+//   累计 T 1.164e-10 @t=0.30 m 硼化混凝土面 ⇒ 58 m 处 62.5 n·cm⁻²·s⁻¹ ±3.3%),
+//   屏显持续闪烁(~0.43 s 周期,确定性哈希,禁 Math.random)。
+//   **旧值 0.08 cps / ~12 s 已作废** —— 那是本网**自设 2 m 屏蔽**下的值,不是界;
+//   已分辨设计只有 0.30 m ⇒ 薄 6.7 倍,这就是 29 倍差的全部来处。
 //   器件与 E:\Claude\LGAD 同外延栈(PiN 版免增益层)——同源器件、两种部署。
 // 动画约定:animate 只驱动 blip 点/心跳(专属材质);屏底/状态灯进 nightMats
 //   (引擎昼夜接管);塔顶信标进 blinkMats——三通道互不重叠(坑账 20/21)。
@@ -198,9 +205,14 @@ export function build(THREE) {
   [M.body, M.trim, M.steel, M.orange, M.concrete, M.hdpe].forEach((m) => m.color.lerp(dust, 0.05));
 
   /* ==========================================================
-   * 动画:确定性计数 blip(围界节奏 ~5 s;账2 = 0.21 cps 的屏上化身)
+   * 动画:确定性计数 blip(围界节奏 ~0.43 s;2.32 cps 的屏上化身)
+   * 【2026-08-08 修】本行原写 “~5 s;0.21 cps” —— 源项按托卡马克 v5 回执重建后,
+   *   周期常数与账本都改了,**这行注释漏改**。注释是结论的容器,
+   *   代码改了不会带着它一起改。
    * 只驱动 blipMat(专属材质),不碰 nightMats/blinkMats。
    * ========================================================== */
+  const BLIP_PERIOD_S = 0.432;   // = 1/2.32 cps(账本 RESOLVED_blip_period_s),见下方出处注
+
   function blipLevel(t, T, p, seed) {
     const k = Math.floor(t / T);
     if (hash(k * 2.71 + seed + 13.7) > p) return 0;
@@ -210,7 +222,11 @@ export function build(THREE) {
   }
   group.userData.animate = (t) => {
     for (const s of sentinels) {
-      const lv = blipLevel(t, 5.0, 0.95, s.seed);
+      // 【周期是从数导出的,不是选的】BLIP_PERIOD_S = 1/2.33 cps。
+      //   出处:PREREG_perimeter_recompute_20260902.md(0.30 m 已分辨面档)。
+      //   **换档只改这一个常量**;对照档 0.282 m 插值面为 3.84 cps ⇒ 0.261 s。
+      //   数变了动画不跟,卡就在说谎。
+      const lv = blipLevel(t, BLIP_PERIOD_S, 0.95, s.seed);
       s.blipMat.emissiveIntensity = 0.2 + 3.2 * lv;
     }
   };

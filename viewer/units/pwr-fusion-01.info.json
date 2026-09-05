@@ -11,10 +11,10 @@
         0
       ],
       "range": 40,
-      "detail": "紧凑型托卡马克的真空低温恒温器：Ø14.3 m×15 m 钢制圆筒，外壁 18 条 D 形加强肋对应内部 18 只 TF 超导环向场线圈，9 个赤道窗口（栓接法兰）分别接加热、诊断与一回路。火星大气 0.6 kPa 近真空，恒温器外壁绝热负担远小于地球同类。",
-      "detail_en": "The vacuum cryostat of a compact tokamak: a 14.3 m x 15 m steel cylinder whose 18 external D-shaped ribs mirror the 18 superconducting toroidal-field coils inside. Nine equatorial ports on bolted flanges feed heating, diagnostics and the primary loop. At 0.6 kPa the Martian atmosphere is already near-vacuum, so the outer wall carries far less insulation load than an equivalent plant on Earth.",
+      "detail": "紧凑型托卡马克的真空低温恒温器：Ø14.3 m×15 m 钢制圆筒，外壁 18 条 D 形加强肋对应内部 18 只 TF 超导环向场线圈，9 个赤道窗口（栓接法兰）分别接加热、诊断与一回路。火星大气 0.6 kPa 近真空，恒温器外壁绝热负担远小于地球同类。【注（总控 2026-09-03）】本卡的 14.3 与 15 描述的是当前城内几何，不是现行设计包络：tokamak 设计册 2026-09-02 交付的机器包络为 Ø9.07 m × 11.51 m（另有 Ø8.47 m 与 7.02 m 高度备选），直径小约 1.6 倍。重建前请勿据本卡取设计尺寸。",
+      "detail_en": "The vacuum cryostat of a compact tokamak: a 14.3 m x 15 m steel cylinder whose 18 external D-shaped ribs mirror the 18 superconducting toroidal-field coils inside. Nine equatorial ports on bolted flanges feed heating, diagnostics and the primary loop. At 0.6 kPa the Martian atmosphere is already near-vacuum, so the outer wall carries far less insulation load than an equivalent plant on Earth. [Integrator note, 2026-09-03] The 14.3 and 15 m on this card describe the current city geometry, not the live design envelope: the tokamak dossier delivered a machine envelope of dia 9.07 m x 11.51 m on 2026-09-02 (with dia 8.47 m and a 7.02 m height as alternates), about 1.6x smaller in diameter. Do not take design dimensions from this card until the geometry is rebuilt.",
       "specs": {
-        "恒温器": "Ø14.3 m × 15 m",
+        "恒温器": "Ø14.3 m × 15 m（本资产几何）→ 设计包络 Ø9.07 m × 11.51 m（tokamak 2026-09-02 交付，几何待重建）",
         "TF 线圈": "18 只（D 形肋外显）",
         "赤道窗口": "9 个，栓接法兰",
         "聚变功率": "~975 MW 热"
@@ -27,11 +27,13 @@
       },
       "sim": [
         "功率账本闭环：975 MW 热 × sCO₂ 循环效率 ~40% = 390 MWe 毛功率，余 585 MW 废热全部交给北带散热阵（pwr-radiator-01，4.7 万 m² 板面）——两资产的数字互为校验",
-        "火星优势：环境气压 0.6 kPa，恒温器外表面对流漏热比地面装置低两个量级，低温系统冷负荷以辐射与支撑导热为主"
+        "火星优势：环境气压 0.6 kPa，恒温器外表面对流漏热比地面装置低两个量级，低温系统冷负荷以辐射与支撑导热为主",
+        "v5 运行点更新（2026-08，第 14–18 轮预测输运）：TORAX（QLKNN/TGLF-NN）+ 射线追踪 + ECCD/锯齿逐项交税后，官方运行点由 848 MW 改为 640 MW——本卡上游的 975 MW 热 / 390 MWe 毛功率 / 585 MW 废热均为 848 口径的派生量，v5 等价值为 837 MW 热 / 335 MWe 毛 / 502 MW 废热（×0.86），厂界净电 176→48 MWe（再循环反升：LHCD 83 MW÷0.40=208 MWe 换成 ECCD 120 MW÷0.45=267 MWe）。硬件一件未改（恒温器/磁体/包层/屏蔽/散热阵全部照旧成立），改的是运行点口径；且全线减压——壁负荷 2.35→1.77 MW/m²、氚启动库存 1.73→1.31 kg。原数保留作设计记录。出处 tokamak/sysdesign/v5_operating_point.json"
       ],
       "sim_en": [
         "Power ledger closes: 975 MW thermal x ~40% sCO2-cycle efficiency = 390 MWe gross, and the remaining 585 MW of waste heat all goes to the northern radiator field (pwr-radiator-01, 4.7e4 m2 of panel) - the two assets cross-check each other's numbers.",
-        "Mars advantage: at 0.6 kPa ambient, convective heat leak across the cryostat wall is two orders of magnitude below a ground installation, so the cryoplant load is dominated by radiation and conduction through supports."
+        "Mars advantage: at 0.6 kPa ambient, convective heat leak across the cryostat wall is two orders of magnitude below a ground installation, so the cryoplant load is dominated by radiation and conduction through supports.",
+        "v5 operating-point update (2026-08, rounds 14-18): after TORAX predictive transport (QLKNN/TGLF-NN), LH ray tracing and ECCD-plus-sawteeth each took their tax, the official point moved from 848 MW to 640 MW. The 975 MW thermal, 390 MWe gross and 585 MW of waste heat on this card are all 848-era derivatives; the v5 equivalents are 837 MW thermal, 335 MWe gross and 502 MW rejected (x0.86), with net at the plant fence falling 176 -> 48 MWe (recirculation actually rises: 83 MW of LHCD at 0.40 wall-plug becomes 120 MW of ECCD at 0.45, i.e. 208 -> 267 MWe). No hardware changed - cryostat, magnets, blanket, shield and radiator field all still close - only the operating point, and the machine is relieved across the board (wall load 2.35 -> 1.77 MW/m2, tritium startup 1.73 -> 1.31 kg). The original figures are kept as the design record. Source: tokamak/sysdesign/v5_operating_point.json"
       ]
     },
     {

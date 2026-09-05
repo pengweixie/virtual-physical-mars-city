@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><title>天宫城 R7 主城交付烟测</title>
+<style>body{margin:0;background:#1b1612;color:#f0dec0;font:13px system-ui}header{height:45px;display:flex;align-items:center;gap:8px;padding:0 10px}button{cursor:pointer;background:#483424;color:inherit;border:1px solid #997647;padding:6px 10px}iframe{border:0;width:100%;height:calc(100vh - 45px)}#result{position:fixed;bottom:14px;left:14px;background:#16100edb;padding:10px;white-space:pre;pointer-events:none;max-width:700px;font:12px monospace}#evidence{display:none}</style>
+<header>R7 · 主城真实地形 <button id="axis">主城轴视</button><button id="oblique">主城斜视</button><button id="layer">图层预算测试</button><button id="night">图层夜景测试</button><button id="check">碰撞检查</button><span id="status">等待主城加载…</span></header>
+<iframe id="host" src="../../../viewer/index.html?imperial=1&debug=1"></iframe><pre id="result"></pre><pre id="evidence"></pre>
+<script type="module">
+import * as THREE from '../../../node_modules/three/build/three.module.js';
+const frame = document.getElementById('host'), status = document.getElementById('status');
+const output = document.getElementById('result'), evidence = document.getElementById('evidence');
+const report = { timestamp:new Date().toISOString(), url:frame.src, samples:[], errors:[], warnings:[], notes:[
+  'Actual main viewer import/context and actual processed terrain; main.js is not modified.',
+  'Isolated pass temporarily shows only this layer with diagnostic lighting; it is not the total host-scene budget.',
+  'FPS is browser rAF throughput for this viewport, not a hardware-wide 60 FPS guarantee.' ] };
+let api, group, hostWindow, ready=false, isolated=false, night=false, saved, savedBeforeRender, diagnosticLights=[];
+let previous=performance.now(), intervals=[];
+function show(extra={}) {
+  Object.assign(report,extra);
+  evidence.textContent = JSON.stringify(report,null,2);
+  const latest=report.samples.at(-1);
+  output.textContent=ready ? `R${report.revision} · 主城位置 ${group.position.toArray().join(', ')}\n`+
+    `CPU triangles ${report.triangles} / 170000 · meshes ${report.meshes}\n`+
+    `latest ${latest?.mode??'waiting'}: draws ${latest?.draws??'?'} / 120 (layer only) · rendered tris ${latest?.renderedTriangles??'?'}\n`+
+    `rAF fps ${latest?.fps?.toFixed(1)??'?'} · lights ${report.lights} · cards ${report.cards?.length??0}\n`+
+    `errors ${report.errors.length} · warnings ${report.warnings.length}\n`+
+    `walk mismatches ${report.collision?.mismatches??'unchecked'} · blocked ${report.collision?.blocked??'unchecked'}` : '等待完整主城加载';
+}
+function restore() {
+  if (!isolated) return;
+  for (const [node,visible] of saved) node.visible=visible;
+  diagnosticLights.forEach(light => api.scene.remove(light));
+  diagnosticLights=[];
+  api.scene.onBeforeRender=savedBeforeRender;
+  api.scene.background=null;
+  isolated=false;
+  api.updateSun();
+}
+function pointCamera(oblique=false) {
+  if (!ready) return;
+  hostWindow.__shot(1100,-900,oblique?980:1180,oblique?300:400,oblique?40:0);
+  intervals=[];
+}
+function isolate(asNight) {
+  if (!ready) return;
+  restore();
+  isolated=true; night=asNight;
+  savedBeforeRender=api.scene.onBeforeRender;
+  api.scene.onBeforeRender=function(...args){
+    savedBeforeRender.apply(this,args);
+    for(const mat of group.userData.nightMats)mat.emissiveIntensity=night?2.6:.08;
+    for(const light of group.userData.lights)light.intensity=night?470:0;
+    group.getObjectByName('imperial-water-surfaces').material.envMapIntensity=night?.035:1.4;
+  };
+  saved=[];
+  const ancestry=new Set();
+  for(let node=group;node;node=node.parent) ancestry.add(node);
+  function hideOthers(node) {
+    if(node===group) return;
+    for(const child of node.children) {
+      if(ancestry.has(child)) hideOthers(child);
+      else {saved.push([child,child.visible]);child.visible=false;}
+    }
+  }
+  hideOthers(api.scene);
+  const hemi = new THREE.HemisphereLight(0xffdfae,0x594b46,asNight?.12:1);
+  const sun = new THREE.DirectionalLight(0xffe2ae,asNight?0:2.35);
+  sun.position.set(400,650,600);
+  diagnosticLights=[hemi,sun];
+  api.scene.add(...diagnosticLights);
+  api.scene.background=new THREE.Color(asNight?0x0c1421:0xba9a7b);
+  pointCamera(false);
+}
+document.getElementById('axis').onclick=()=>{restore();pointCamera(false);};
+document.getElementById('oblique').onclick=()=>{restore();pointCamera(true);};
+document.getElementById('layer').onclick=()=>isolate(false);
+document.getElementById('night').onclick=()=>isolate(true);
+document.getElementById('check').onclick=()=>{
+  if (!ready) return;
+  const path=group.userData.imperial.axisInspectionPath;
+  const details=path.points.map(p=>{
+    const wp=group.localToWorld(new THREE.Vector3(p.x,p.y,p.z));
+    const floor=hostWindow.__col.colFloorAt(wp.x,wp.z,wp.y);
+    return {z:p.z,geometryY:wp.y,engineFloor:floor,error:floor-wp.y,blocked:hostWindow.__col.colBlocked(wp.x,wp.z,wp.y,floor)};
+  });
+  show({collision:{tested:details.length,mismatches:details.filter(p=>Math.abs(p.error)>.3).length,blocked:details.filter(p=>p.blocked).length,details}});
+};
+const poll=setInterval(async()=>{
+  hostWindow=frame.contentWindow;
+  if (!hostWindow.__mars) return;
+  api=hostWindow.__mars;
+  group=api.scene.getObjectByName('imperialCity');
+  if (!group?.userData.imperial) return;
+  clearInterval(poll);
+  let triangles=0,meshes=0;
+  group.traverse(o=>{if(o.isMesh){meshes++;triangles+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3*(o.isInstancedMesh?o.count:1);}});
+  const card=await (await fetch('../../../viewer/imperial/imperial-city.info.json')).json();
+  const sculptures=await group.userData.imperial.sculptureLoadPromise;
+  let rodinTriangles=0,rodinMeshes=0;
+  group.traverse(o=>{
+    if(!o.isMesh)return;
+    let node=o,rodin=false;
+    while(node&&node!==group){if(node.name.startsWith('imperial-sculpture-'))rodin=true;node=node.parent;}
+    if(rodin){rodinMeshes++;rodinTriangles+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3*(o.isInstancedMesh?o.count:1);}
+  });
+  ready=true;
+  show({revision:group.userData.imperial.visualRevision,triangles,meshes,lights:group.userData.lights.length,
+    initialization:group.userData.reflectionCapture,sculptures,rodinTriangles,rodinMeshes,
+    cards:card.pois.map(p=>({id:p.id,anchor:!!group.getObjectByName('poi_'+p.id),label:p.label,label_en:p.label_en})),
+    water:{roughness:group.getObjectByName('imperial-water-surfaces').material.roughness,envMap:!!group.getObjectByName('imperial-water-surfaces').material.envMap}});
+  status.textContent='主城 R7 已加载；知识卡仅验证文件与锚点，未改主城接线';
+  pointCamera(false);
+},500);
+frame.addEventListener('load',()=>{
+  frame.contentWindow.addEventListener('error',event=>{report.errors.push(String(event.message));show();});
+  frame.contentWindow.addEventListener('unhandledrejection',event=>{report.errors.push(String(event.reason));show();});
+});
+let lastSample=0;
+function tick(now) {
+  intervals.push(now-previous);previous=now;
+  if(intervals.length>180)intervals.shift();
+  if(ready && now-lastSample>2000){
+    lastSample=now;
+    report.samples.push({mode:isolated?(night?'isolated-night':'isolated-day'):'main-scene',
+      draws:api.renderer.info.render.calls,renderedTriangles:api.renderer.info.render.triangles,
+      fps:1000/(intervals.reduce((a,b)=>a+b,0)/intervals.length),width:frame.clientWidth,height:frame.clientHeight});
+    if(report.samples.length>100)report.samples.shift();
+    show();
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+</script></html>

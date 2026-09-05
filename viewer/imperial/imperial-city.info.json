@@ -1,0 +1,67 @@
+{
+  "id": "imperial-city",
+  "name": "天宫城",
+  "name_en": "The Celestial Palace",
+  "pois": [
+    {
+      "id": "imperial-bridge",
+      "label": "金水河与白石桥",
+      "label_en": "Golden Water River and marble bridges",
+      "range": 65,
+      "detail": "三座白石桥跨过南端水带。中央桥衔接御道，桥头以细踏步过渡；水面使用真实屋顶几何生成的静态环境反射，具有近似视差，并非逐池平面镜像。",
+      "detail_en": "Three marble bridges span the southern waterway. Small approach steps connect the central bridge to the avenue. A static environment captured from actual roof geometry supplies approximate reflections, not per-pool planar mirrors.",
+      "specs": { "桥数": "3", "每桥券洞": "5", "水带宽": "42 m", "水面粗糙度": "0.15" },
+      "specs_en": { "Bridges": "3", "Arches per bridge": "5", "Waterway width": "42 m", "Water roughness": "0.15" },
+      "sim": "程序化幻想建筑；水面反射不是流体或光学精确仿真。",
+      "sim_en": "Procedural fantasy architecture; water reflections are not a validated fluid or optical simulation."
+    },
+    {
+      "id": "imperial-axis",
+      "label": "贯通御道",
+      "label_en": "Unbroken ceremonial avenue",
+      "range": 55,
+      "detail": "中轴线上不设置门楼、走廊或器物。五组仪门体量分列东西两侧，中央只保留桥面、铺地、平台与白石阶，直达主殿前台基。检查路径来自实际几何表面。",
+      "detail_en": "No gatehouse, corridor or ornament occupies the central axis. Five paired gateway volumes flank it; bridges, paving, landings and marble stairs lead to the summit podium. Inspection heights are derived from the emitted geometry.",
+      "specs": { "朝向": "正北（局部 -Z）", "检查路径": "约 778.41 m", "名义踏步高": "≤0.18 m", "主阶踏面": "0.54 m" },
+      "specs_en": { "Direction": "North (local -Z)", "Inspection route": "About 778.41 m", "Nominal riser": "≤0.18 m", "Main-flight tread": "0.54 m" },
+      "sim": "网格连续性验收不等同于主城第一人称碰撞控制器已完成接入。",
+      "sim_en": "Mesh continuity validation does not imply that the main viewer's first-person collision controller has been integrated."
+    },
+    {
+      "id": "imperial-terraces",
+      "label": "九层红墙台地",
+      "label_en": "Nine vermilion terraces",
+      "range": 70,
+      "detail": "九层逐级收分的台地构成向山顶聚拢的轮廓。朱红墙身、黄色压檐与白石栏杆形成分层，庭院留白，树木靠边成簇。台地是建筑构筑物，地形高度由主城采样提供。",
+      "detail_en": "Nine narrowing terraces converge toward the summit. Vermilion walls, golden caps and marble rails define the tiers, while open courts and edge-planted trees preserve negative space. Terraces are architectural structures; the host supplies terrain heights.",
+      "specs": { "台地": "9 层", "女儿墙": "5 m", "底部暗化": "墙高下部 15%，明度 ×0.75", "树冠": "十字面片，每树 4 面" },
+      "specs_en": { "Terraces": "9", "Parapets": "5 m", "Base shading": "Lower 15% of wall, brightness ×0.75", "Tree canopy": "Crossed planes, 4 triangles per tree" },
+      "sim": "保留史诗尺度和九层骨架，不代表故宫测绘复原。",
+      "sim_en": "Preserves the epic scale and nine-tier structure; not a surveyed reconstruction of the Forbidden City."
+    },
+    {
+      "id": "imperial-summit",
+      "label": "山顶三重檐大殿",
+      "label_en": "Triple-eaved summit hall",
+      "range": 80,
+      "detail": "主殿由同一 hall() 生成器构建，采用十一开间、三重檐与三层加高白石台基。南侧栏杆留出完整入口，最后一段白石阶接实体抵达平台；主殿仍是唯一最高建筑。",
+      "detail_en": "The shared hall() generator builds an eleven-bay summit hall with three eaves and three raised marble podium courses. South-side rail openings and a solid arrival court connect the final stairs. The hall remains the tallest building.",
+      "specs": { "屋身平面": "212 ×92 m", "开间": "11", "重檐": "3", "台基": "3 ×2.5 m", "南侧栏杆开口": "96 m" },
+      "specs_en": { "Body footprint": "212 ×92 m", "Bays": "11", "Eaves": "3", "Podium": "3 ×2.5 m", "South rail opening": "96 m" },
+      "sim": "建筑程序参数；比例为场景设计，不作真实工程结构承载结论。",
+      "sim_en": "Procedural scene parameters, not a structural engineering assessment."
+    },
+    {
+      "id": "imperial-bell-drum",
+      "label": "钟鼓楼与塔楼族",
+      "label_en": "Bell, drum and corner towers",
+      "range": 75,
+      "detail": "钟鼓楼分列中段台地两侧。外城四角的十字脊角楼、南端双阙、上段八角楼阁与小角亭作为竖向标点，不侵入中轴，也不争夺主殿的最高点。",
+      "detail_en": "Bell and drum towers flank a middle terrace. Four cross-ridged corner towers, paired southern watchtowers, upper octagonal pavilions and small corner pavilions punctuate the skyline without blocking the axis or overtaking the summit.",
+      "specs": { "大角楼": "4", "双阙": "2", "钟鼓楼": "2", "上层楼阁": "2", "小角亭": "12", "点光源总预算": "≤8" },
+      "specs_en": { "Major corner towers": "4", "Southern watchtowers": "2", "Bell and drum towers": "2", "Upper pavilions": "2", "Small corner pavilions": "12", "Total point-light budget": "≤8" },
+      "sim": "夜景由引擎日照、nightMats 与注册点光源驱动；模块不添加环境光或平行光。",
+      "sim_en": "Night lighting uses the host sun, nightMats and registered point lights; the module adds no ambient or directional lights."
+    }
+  ]
+}

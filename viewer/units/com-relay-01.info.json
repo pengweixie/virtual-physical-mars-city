@@ -6,8 +6,8 @@
       "label": "中继母舱",
       "label_en": "Relay bus",
       "range": 30,
-      "detail": "1.8×1.8×2.6 m 三轴稳定母舱，金/银多层隔热(MLI)包覆，棱边加强筋。定点火星静止轨道(半径 20,428 km / 赤道面上空 17,032 km)，对火星天底(+Z)保持指向，轨道周期 = 火星恒星日 24h37m，相对地面静止。3 主 + 1 热备份星，星座对赤道 ±71° 纬度带 10° 最低仰角连续覆盖，极区为盲区。",
-      "detail_en": "A 1.8 x 1.8 x 2.6 m three-axis-stabilized bus wrapped in gold/silver multi-layer insulation with reinforced edges. It holds an areostationary slot (orbit radius 20,428 km, 17,032 km above the equator), keeps its +Z face on the Mars nadir, and circles once per Martian sidereal day (24h 37m), so it hangs still over the ground. Three active satellites plus one hot spare cover the +/-71 deg latitude band continuously down to 10 deg elevation; the poles are blind.",
+      "detail": "1.8×1.8×2.6 m 三轴稳定母舱，金/银多层隔热(MLI)包覆，棱边加强筋。定点火星静止轨道(半径 20,428 km / 赤道面上空 17,032 km)，对火星天底(+Z)保持指向，轨道周期 = 火星恒星日 24h37m，相对地面静止。3 主 + 1 热备份星，星座对赤道 ±71° 纬度带 10° 最低仰角连续覆盖，极区为盲区。±71°@10° 在各星星下点经度严格成立；两星接缝经度上 10° 仰角覆盖边在纬度 48°，71° 处为 0° 仰角口径(com-gap s02 复核)。极区盲区已由 com-polar-01 三星圆极轨环闭合(双帽 100%，切换边界 ±71°，重叠带 45°–71°)。",
+      "detail_en": "A 1.8 x 1.8 x 2.6 m three-axis-stabilized bus wrapped in gold/silver multi-layer insulation with reinforced edges. It holds an areostationary slot (orbit radius 20,428 km, 17,032 km above the equator), keeps its +Z face on the Mars nadir, and circles once per Martian sidereal day (24h 37m), so it hangs still over the ground. Three active satellites plus one hot spare cover the +/-71 deg latitude band continuously down to 10 deg elevation; the poles are blind. The +/-71 deg at 10 deg figure holds strictly at each sub-satellite longitude; on the seam longitudes between satellites the 10 deg coverage edge sits at latitude 48 deg, with 71 deg being the 0 deg elevation bound (com-gap s02 recheck). The polar blind zone itself is now closed by the com-polar-01 three-satellite circular polar ring (both caps 100%, handover boundary +/-71 deg, overlap band 45-71 deg).",
       "specs": {
         "构型": "三轴稳定 · 天底指向",
         "母舱": "1.8 × 1.8 × 2.6 m",
@@ -92,8 +92,8 @@
       "label": "对地天线(X 波段)",
       "label_en": "Earth-facing antenna (X band)",
       "range": 30,
-      "detail": "1 副 Ø2.5 m 金色网面抛物面，双轴万向架可指向地球，承担深空回传(DTE)。地火距离 0.5–2.67 AU 随会合变化，速率据距离自适应；会合期(2.67 AU)为最恶劣链路。母舱汇聚火星侧全部用户数据后经此下行至 DSN/深空站。",
-      "detail_en": "A dia. 2.5 m gold-mesh parabola on a two-axis gimbal, pointed at Earth for the direct-to-Earth downlink. Earth-Mars range swings between 0.5 and 2.67 AU over the synodic cycle and the data rate adapts to it; conjunction, at 2.67 AU, is the worst case. Every byte the Mars side collects funnels through the bus and leaves the system here, bound for the deep-space network.",
+      "detail": "1 副 Ø2.5 m 金色网面抛物面，双轴万向架可指向地球，承担深空回传(DTE)。地火距离 0.5–2.67 AU 随会合变化，速率据距离自适应；会合期(2.67 AU)为最恶劣链路。母舱汇聚火星侧全部用户数据后经此下行至 DSN/深空站。合日期由 com-l4-01 经日火 L4 中继兜底：全断 0 天，回程 ~1.4 Mbps 窄带应急信道；本星 2.5 m 对地碟合日期可改指 L4 作为 ~0.3 kbps 应急备份路径。",
+      "detail_en": "A dia. 2.5 m gold-mesh parabola on a two-axis gimbal, pointed at Earth for the direct-to-Earth downlink. Earth-Mars range swings between 0.5 and 2.67 AU over the synodic cycle and the data rate adapts to it; conjunction, at 2.67 AU, is the worst case. Every byte the Mars side collects funnels through the bus and leaves the system here, bound for the deep-space network. During solar conjunction the outage is backstopped by com-l4-01 relaying via Sun-Mars L4: zero blackout days, with a ~1.4 Mbps narrowband emergency return channel; this satellite's own 2.5 m Earth dish can repoint to L4 in conjunction season as a ~0.3 kbps emergency backup path.",
       "specs": {
         "口径": "Ø2.5 m 金网",
         "波段": "X 8.4 GHz 下行 / 7.2 GHz 上行",
@@ -102,7 +102,8 @@
         "回传速率": "≈0.2 Mbps @2.67 AU ~ 5 Mbps @0.5 AU(自适应)",
         "地火距离": "0.5–2.67 AU",
         "会合周期": "≈779 d",
-        "日凌全断": "SEP<2° · ~2 周"
+        "日凌全断": "SEP<2° · ~2 周",
+        "掩星副产品": "切点 = 槽位 ±80.4° · 172 sols/火星年"
       },
       "specs_en": {
         "Aperture": "dia. 2.5 m gold mesh",
@@ -112,7 +113,8 @@
         "Return rate": "~0.2 Mbps at 2.67 AU to ~5 Mbps at 0.5 AU (adaptive)",
         "Earth-Mars range": "0.5-2.67 AU",
         "Synodic period": "~779 d",
-        "Conjunction outage": "SEP < 2 deg, ~2 weeks"
+        "Conjunction outage": "SEP < 2 deg, ~2 weeks",
+        "Occultation by-product": "tangent at slot +/-80.4 deg, 172 sols/Mars-yr"
       },
       "physics": [
         "逆平方不是'损耗':点源辐射进 4πr² 球面,功率密度 ∝1/r²,是几何稀释、能量守恒——没有能量被吸收。接收端只截到 Aₑ𝒻𝒻/(4πr²) 一小片,这才是 283 dB 的来历。",
@@ -128,13 +130,15 @@
         "链路闭合(评审修正,原写 ~2 Mbps 高了 ~10 dB):C/N₀ = EIRP(13 dBW+45 dBi) − 283 dB + G/T 50 + 228.6 = 53.6 dB-Hz → 会合期(2.67 AU)编码后净速率 ~0.2 Mbps;0.5 AU 近距改善 14.5 dB → ~5 Mbps。参照:MRO(100 W X + 3 m HGA,比本星强 8.6 dB)最远也仅 0.5–1 Mbps 级。要会合期 2 Mbps 须 70 m 站/组阵或 Ka-DTE 加码",
         "日凌(上合):~779 天会合周期一次,日-地-探(SEP)角<~2° 时日冕等离子体压垮链路 → 全断 ~2 周、SEP<5° 降级数周;此间对地不可下行但对火仍在收数 → 星上数百 Gb 存储缓冲关键流 + 地面同步限收削峰,凌后回灌",
         "任务级数据流仿真(逐时推进一个 780 天会合周期,真实地球/火星几何 → 距离/SEP → 变速率):全周期可交付 65 Tb(均值 0.965 Mbps);日凌全断 14.4 天由几何自然涌现(与'~2 周'声明吻合 ✓)。缓存尺寸规则被仿真闭环:全断期收 0.35 Mbps 关键流 → 峰值 434.7 Gb,恰卡进 500 Gb 存储(13% 裕度);因日凌紧邻最远距,积压要 ~70 天才排完——排空慢不是故障,是几何",
-        "反面教材(旧卡片的 2 Mbps 恒定采集假设):缓存第 ~70 天即钉死顶格,全周期丢 84.8 Tb——比可交付总量 65 Tb 还多。评审修正的那 10 dB,在任务级等价于'整个任务的科学产出'"
+        "反面教材(旧卡片的 2 Mbps 恒定采集假设):缓存第 ~70 天即钉死顶格,全周期丢 84.8 Tb——比可交付总量 65 Tb 还多。评审修正的那 10 dB,在任务级等价于'整个任务的科学产出'",
+        "掩星副产品的落点几何(数值解与解析式逐位互验):静止星在火星固连系不动,但在惯性系每个火星日绕火一周,故当地球赤纬 |δ|<9.64° 时每 sol 被火星遮挡一次,进/出各得一次临边探测——对地链路的射电科学副产品。切点经度恒为槽位 ±80.4°(δ=0)至 ±79.8°(δ=3.07°),几乎只由槽位决定;切点纬度只由 δ 决定,按 arcsin[(r/R)·c·sinδ] 在一个蚀季内从赤道扫到 78°N。结论:77.4°E 的星自己采样 157.8°E 与 357.0°E 的空气,采不到脚下的城市;要采城市必须另有一星坐在 77.4±79.8° 上。157.2°E 那颗的东支切点轨迹沿城市子午线爬升(δ=0 → 0.0°N/76.84°E;δ=3.07° → 18.40°N/77.37°E 精确命中 Jezero;δ=9° → 67.1°N/92.7°E),蚀季占火星年 25.7%(≈172 sols),每 sol 一次城市子午线临边廓线。模型口径:直线掠射几何(火星表面折射率 ~3.6 N,弯曲角 ~0.009°,对槽位选取可忽略),中性大气参考高度 25 km,未含电离层"
       ],
       "sim_en": [
         "Link closure (review correction; the earlier ~2 Mbps was ~10 dB optimistic): C/N0 = EIRP (13 dBW + 45 dBi) - 283 dB + G/T 50 + 228.6 = 53.6 dB-Hz, which after coding gives ~0.2 Mbps net at conjunction (2.67 AU); at 0.5 AU the 14.5 dB improvement takes it to ~5 Mbps. For scale, MRO (100 W X band on a 3 m high-gain antenna, 8.6 dB stronger than this satellite) manages only 0.5-1 Mbps at its worst. Getting 2 Mbps at conjunction would need a 70 m station, arraying, or a Ka upgrade on the DTE.",
         "Conjunction: once per ~779-day synodic cycle, when the Sun-Earth-probe angle falls below ~2 deg, coronal plasma crushes the link - a full outage of ~2 weeks with degraded service for several weeks below 5 deg. Through it the satellite cannot downlink but keeps collecting from Mars, so several hundred Gb of on-board storage buffers the critical streams while the ground throttles intake, and everything drains afterwards.",
         "Mission-level data-flow simulation (a full 780-day synodic cycle advanced hour by hour, real Earth and Mars geometry driving range, SEP angle and rate): 65 Tb delivered per cycle, mean 0.965 Mbps. The 14.4-day full outage emerges from the geometry on its own and matches the '~2 weeks' claim. Buffer sizing closed the same loop: carrying 0.35 Mbps of critical traffic through the outage peaks at 434.7 Gb, which fits the 500 Gb store with 13% margin. Because conjunction sits right next to maximum range, the backlog then takes ~70 days to clear - slow drainage is geometry, not a fault.",
-        "The counter-example (the old card's assumption of a constant 2 Mbps intake): the buffer pins at capacity around day 70 and 84.8 Tb is lost over the cycle - more than the 65 Tb the link can deliver in the first place. At mission level, the 10 dB the review caught is worth the entire science return."
+        "The counter-example (the old card's assumption of a constant 2 Mbps intake): the buffer pins at capacity around day 70 and 84.8 Tb is lost over the cycle - more than the 65 Tb the link can deliver in the first place. At mission level, the 10 dB the review caught is worth the entire science return.",
+        "Where the occultation by-product actually lands (numeric solver and closed form agree digit for digit). An areostationary satellite is fixed in the Mars-fixed frame but circles Mars once per sol in inertial space, so whenever Earth areocentric declination |dec| < 9.64 deg it is occulted once per sol, and ingress and egress each yield a limb sounding - the radio-science by-product of the DTE link. Tangent longitude is pinned at the slot +/-80.4 deg (dec = 0) narrowing to +/-79.8 deg (dec = 3.07), i.e. set almost entirely by the slot; tangent latitude depends only on dec, as arcsin[(r/R)*c*sin dec], sweeping from the equator to 78N over one season. Consequence: the satellite at 77.4E samples air at 157.8E and 357.0E - never the city beneath it. Sampling the city requires a second satellite sitting at 77.4 +/- 79.8 deg. The eastern branch of the 157.2E slot tracks up the city meridian (dec 0 -> 0.0N/76.84E; dec 3.07 -> 18.40N/77.37E, an exact hit on Jezero; dec 9 -> 67.1N/92.7E), and the season covers 25.7% of the Mars year (~172 sols), one city-meridian profile per sol. Model scope: straight-line grazing geometry (Mars surface refractivity ~3.6 N-units bends the ray ~0.009 deg, negligible for slot selection), neutral-atmosphere reference altitude 25 km, no ionosphere."
       ]
     },
     {
@@ -332,7 +336,10 @@
         "推进": "化学/电推 · 兼动量卸载",
         "设计寿命": "≥15 年(ΔV 预算约束)",
         "东西位保(数值积分)": "5.1 m/s/yr @77.4°E · 最坏 33 m/s/yr",
-        "南北位保": "2.1 m/s/yr(日摄动)"
+        "南北位保": "2.1 m/s/yr(日摄动)",
+        "槽位经度(设计杠杆)": "77.4°E(城市)· 157.2°E(掩星)· 297.3°E(补覆盖)",
+        "覆盖余量(槽间隔 140.1°)": "10° 门限:0.55°(接缝仰角 10.29°)· 8° 门限:4.4°",
+        "余量裁决(2026-09-05)": "采纳;8° 门限为泄压阀入册;不为余量动槽位;前提=槽 3 保持箱 ±0.25°"
       },
       "specs_en": {
         "Slots": "radius 20,428 km, three equatorial slots 120 deg apart",
@@ -342,7 +349,10 @@
         "Propulsion": "chemical or electric, doubles as momentum unloading",
         "Design life": ">=15 years (delta-V budget limited)",
         "East-west keeping (numerical)": "5.1 m/s/yr at 77.4E, 33 m/s/yr worst case",
-        "North-south keeping (numerical)": "2.1 m/s/yr (solar perturbation)"
+        "North-south keeping (numerical)": "2.1 m/s/yr (solar perturbation)",
+        "Slot longitudes (design lever)": "77.4E (city), 157.2E (occultation), 297.3E (coverage fill)",
+        "Coverage margin (largest gap 140.1 deg)": "10 deg mask: 0.55 deg (seam elevation 10.29) / 8 deg mask: 4.4 deg",
+        "Margin ruling (2026-09-05)": "Accepted; 8 deg mask on record as relief valve; slots stay; premise = slot-3 box +/-0.25 deg"
       },
       "physics": "引力势的物理:火星非点质量,其引力势按球谐展开——J2(扁率)+ tesseral 项 C₂₂/S₂₂(赤道椭率,源于 Tharsis 隆起)。经度相关的 tesseral 势像单摆一样对静止槽位产生回复/失稳力矩 → 存在稳定与不稳定平衡经度(类比地球 GEO 的 75°E/105°W 势阱)。日引力梯度使轨道面进动 → 倾角漂移。位保本质就是持续对抗这套'地势起伏 + 三体摄动'。",
       "physics_en": "The gravitational potential in detail: Mars is not a point mass, and its potential expands in spherical harmonics - J2 for oblateness plus the tesseral C22/S22 terms for equatorial ellipticity, which come from the Tharsis bulge. The longitude-dependent tesseral potential acts on a stationary slot like a pendulum, restoring or destabilizing, so stable and unstable equilibrium longitudes exist - the analogue of the 75E and 105W wells at Earth GEO. Solar gravity gradient precesses the orbit plane and drifts inclination. Station keeping is nothing more than fighting that landscape and the third-body pull, continuously.",
@@ -350,13 +360,15 @@
         "数值积分实解(scipy DOP853,J2+C22/S22 旋转引力场传播;方法先在地球 GEO 验证:算出最坏东西 ΔV=1.76 m/s/yr,与教科书 ~1.7–2 吻合 ✓):火星平衡经度四点——74.1°E/254.1°E 不稳定(Tharsis 轴)、164.1°E/344.1°E 稳定;最坏经度东西位保 33 m/s/yr,约地球 GEO 的 19×(C22 强 ~40× 的直接后果)",
         "Jezero 槽位的运气:77.4°E 距不稳定平衡点 74.1°E 仅 3.3° → 漂移力接近零,东西位保仅 5.1 m/s/yr(最坏经度的 1/6.5)。代价:不稳定平衡=山顶,漂移指数增长,必须主动控制——但『需要持续控制』与『便宜』并不矛盾",
         "南北:日第三体传播一火星年得 di/dt=0.083°/yr → 2.1 m/s/yr——仅地球 GEO(~50 m/s/yr)的 1/24,双重原因:无大质量卫星(月球贡献地球 2/3)+ 远日照(日摄动 ∝ n_s²,弱 3.5×)。火卫一/二质量可忽略",
-        "15 年总账:Jezero 槽位 (5.1+2.1)×15 ≈ 109 m/s vs 最坏经度 529 m/s——槽位选择本身就是 ~5× 推进剂预算;联氨(Isp 220 s)下 109 m/s 仅占干重 ~5%,电推则可忽略。ΔV × 比冲定推进剂质量,卡死在轨寿命"
+        "15 年总账:Jezero 槽位 (5.1+2.1)×15 ≈ 109 m/s vs 最坏经度 529 m/s——槽位选择本身就是 ~5× 推进剂预算;联氨(Isp 220 s)下 109 m/s 仅占干重 ~5%,电推则可忽略。ΔV × 比冲定推进剂质量,卡死在轨寿命",
+        "槽位经度选取(三槽全部立据,此前只有 77.4°E 有记录):槽位同时是三件事的杠杆——覆盖连续性、位保 ΔV、以及掩星切点落点。等分 120°(197.4/317.4)在前两项上并非最优,且掩星切点全部错开城市。改选 157.2°E + 297.3°E:①157.2°E 距稳定平衡 164.1°E 仅 6.9°,ΔV 从 26.0 降到 5.9 m/s/yr;②整星座东西位保 52.8 → 43.3 m/s/yr(净省 9.5,因为 297.3°E 被覆盖约束逼到漂移极大区 32.3,仍抵不过 157.2°E 的节省);③157.2°E 的掩星切点正落城市子午线(见 dte 卡)。代价:最大槽间隔 140.1°,10° 仰角门限上限 141.15°,计 ±0.25° 保持死区后余量仅 0.55°——这是拿覆盖裕度换科学,若门限放到 8°(上限 145.05°)余量回到 4.4°"
       ],
       "sim_en": [
         "Numerical integration (scipy DOP853 propagating a rotating gravity field with J2 and C22/S22; the method was validated on Earth GEO first, returning a worst-case east-west 1.76 m/s/yr against the textbook 1.7-2): Mars has four equilibrium longitudes - 74.1E and 254.1E unstable (the Tharsis axis), 164.1E and 344.1E stable. Worst-case east-west keeping is 33 m/s/yr, some 19x Earth GEO, the direct consequence of a C22 about 40x stronger.",
         "The luck of the Jezero slot: 77.4E sits only 3.3 deg from the unstable equilibrium at 74.1E, so the drift force is nearly zero and east-west keeping costs just 5.1 m/s/yr, a sixth of the worst longitude. The price is that an unstable equilibrium is a hilltop - drift grows exponentially and active control is mandatory. 'Needs constant control' and 'cheap' are not contradictory.",
         "North-south: propagating the solar third body over one Martian year gives di/dt = 0.083 deg/yr, or 2.1 m/s/yr - a twenty-fourth of Earth GEO's ~50 m/s/yr, for two reasons: no massive moon (the Moon supplies two thirds of Earth's) and weaker solar geometry (the perturbation scales as n_s^2, 3.5x weaker). Phobos and Deimos are negligible.",
-        "The 15-year ledger: (5.1 + 2.1) x 15 ~ 109 m/s at the Jezero slot against 529 m/s at the worst longitude - slot choice alone is a ~5x propellant budget. On hydrazine (Isp 220 s) 109 m/s is only ~5% of dry mass; with electric propulsion it is negligible. Delta-V times specific impulse fixes propellant mass, and propellant mass fixes orbital life."
+        "The 15-year ledger: (5.1 + 2.1) x 15 ~ 109 m/s at the Jezero slot against 529 m/s at the worst longitude - slot choice alone is a ~5x propellant budget. On hydrazine (Isp 220 s) 109 m/s is only ~5% of dry mass; with electric propulsion it is negligible. Delta-V times specific impulse fixes propellant mass, and propellant mass fixes orbital life.",
+        "Slot-longitude selection (all three slots now justified; only 77.4E had a record before). Slot longitude is simultaneously a lever on three things: coverage continuity, station-keeping dV, and where the occultation tangent points land. Equal 120-degree spacing (197.4/317.4) is optimal for none of them, and its tangent points all miss the city. Choosing 157.2E + 297.3E instead: (1) 157.2E sits only 6.9 deg from the stable equilibrium at 164.1E, cutting that slot from 26.0 to 5.9 m/s/yr; (2) fleet east-west keeping drops 52.8 -> 43.3 m/s/yr (net 9.5 saved, since the coverage constraint forces 297.3E into a drift maximum at 32.3 m/s/yr, which the 157.2E saving still outweighs); (3) the 157.2E tangent point lands on the city meridian (see the dte card). The price is coverage margin: the largest slot gap becomes 140.1 deg against a 141.15 deg limit at a 10-degree elevation mask, leaving only 0.55 deg once a +/-0.25 deg station-keeping deadband is counted. Relaxing the mask to 8 deg (limit 145.05) restores 4.4 deg of margin."
       ]
     }
   ]

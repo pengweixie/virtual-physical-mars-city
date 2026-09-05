@@ -1,167 +1,205 @@
 {
-  "id": "hab-village-01",
-  "pois": [
-    {
-      "id": "berm",
-      "label": "2 m 覆土脊（330 g/cm²）",
-      "label_en": "2 m regolith berm (330 g/cm2)",
-      "range": 26,
-      "detail": "三排舱的覆土坡相接成连续土脊——每舱头顶 2 m 压实 regolith,面密度 330 g/cm²。裸露地表年剂量 234 mSv,覆到 0.5 m 剩 58,1 m 剩 21,2 m 只剩 6.2 mSv/yr——38 倍削减,初级荷电粒子已压到 0.2 以下,剩的主要是次级中子。",
-      "detail_en": "The berms of all three rows merge into one continuous soil ridge - 2 m of compacted regolith over every cabin, 330 g/cm2 areal density. Bare surface takes 234 mSv/yr; 0.5 m leaves 58, 1 m leaves 21, and 2 m leaves just 6.2 mSv/yr - a 38x cut, with primary charged particles below 0.2 and secondary neutrons dominating what remains.",
-      "specs": {
-        "覆土": "2 m 压实 regolith（330 g/cm²）",
-        "剂量": "234 → 6.2 mSv/yr（38×）",
-        "残余": "以次级中子为主"
-      },
-      "specs_en": {
-        "Cover": "2 m compacted regolith (330 g/cm2)",
-        "Dose": "234 down to 6.2 mSv/yr (38x)",
-        "Residual": "mostly secondary neutrons"
-      },
-      "sim": "屏蔽账:剂量-深度四档 234/58.2/20.9/6.2 mSv/yr(0/0.5/1/2 m)。曲线前段陡后段缓——头一米最值钱,第二米买的是「把荷电粒子项彻底清零」。",
-      "sim_en": "Shielding ledger: dose vs depth reads 234 / 58.2 / 20.9 / 6.2 mSv/yr at 0 / 0.5 / 1 / 2 m. Steep then flat - the first metre is the bargain; the second buys the complete removal of the charged-particle term.",
-      "physics": "覆土的另一半功劳是热:昼夜温波在 regolith 里 3.6 cm 就 e 折,2 m = 55 个皮肤深度——舱壳根本看不见昼夜,只贴着 ~215 K 的恒温土,散热负荷从裸壳夜间 325 W/m² 跌到 2 W/m²。",
-      "physics_en": "The berm's other job is thermal: the diurnal wave e-folds every 3.6 cm in regolith, so 2 m is 55 skin depths - the hull never sees day or night, only ~215 K constant soil, and heat loss drops from 325 W/m2 on a bare shell at night to 2 W/m2."
-    },
-    {
-      "id": "hull",
-      "label": "半圆柱压力壳（膜应力 0.7 mm）",
-      "label_en": "Semi-cylindrical pressure hull (0.7 mm membrane)",
-      "range": 18,
-      "detail": "标准舱是 ⌀4 m 半圆柱壳,内压 70 kPa。半圆柱让壳体均匀受拉:膜应力最小厚度只要 0.7 mm,工程取 3 mm;同尺寸的方盒平板靠弯曲抗压得 53 mm——厚 76 倍。这就是全村没有一间「方房子」的原因。",
-      "detail_en": "A standard cabin is a 4 m semi-cylinder holding 70 kPa. The half-cylinder puts the shell in pure tension: membrane stress needs only 0.7 mm of wall (3 mm as built), while a flat-sided box of the same size, resisting by bending, would need 53 mm - 76x thicker. That is why not one building in this village is square.",
-      "specs": {
-        "内压": "70 kPa",
-        "壳厚": "3 mm（膜应力最小 0.7 mm）",
-        "对照": "方盒平板需 53 mm（76×）"
-      },
-      "specs_en": {
-        "Pressure": "70 kPa",
-        "Wall": "3 mm as built (0.7 mm membrane minimum)",
-        "Contrast": "flat plate would need 53 mm (76x)"
-      },
-      "sim": "结构账:覆土压重在 0.38 g 下只有 12.2 kPa,抵消内压的 17%——覆土是屏蔽和保温,不是配重,壳自己必须扛住几乎全部 70 kPa。",
-      "sim_en": "Structural ledger: at 0.38 g the 2 m of soil presses down only 12.2 kPa - 17% of the internal pressure. The berm is shielding and insulation, not ballast; the hull carries essentially the full 70 kPa itself.",
-      "physics": "膜应力定律 σ=pR/t:曲面把压力变成均匀拉伸,平板把压力变成弯矩。加压建筑的形状不是审美选择,是材料账——曲率就是免费的强度。",
-      "physics_en": "Membrane law sigma = pR/t: curvature turns pressure into uniform tension, flat walls turn it into bending moment. The shape of pressurized architecture is not an aesthetic choice but a materials ledger - curvature is free strength."
-    },
-    {
-      "id": "corridor",
-      "label": "脊廊网（一个气压域）",
-      "label_en": "Ridge corridors (one pressure domain)",
-      "range": 16,
-      "detail": "2×2 m 方管从土脊里穿过,把全村舱体并成一个 78 m³ 走廊连通的常压域。没有它,14 座独立舱要 14 套气闸,邻居串个门 = 两次气闸循环加全程 EVA 服;有了它,是 30 秒常压步行。每 ~6 m 一道分段密封环,破口时可以逐段隔离。",
-      "detail_en": "2 x 2 m tube corridors thread through the soil ridge, merging every cabin into one pressure domain linked by 78 m3 of walkway. Without them, 14 standalone cabins would need 14 airlocks, and visiting a neighbor would cost two lock cycles in a full EVA suit; with them it is a 30-second shirt-sleeve walk. Seal rings every ~6 m let any segment be isolated after a breach.",
-      "specs": {
-        "断面": "2×2 m 方管",
-        "容积": "78 m³",
-        "密封": "每 ~6 m 分段密封环"
-      },
-      "specs_en": {
-        "Section": "2 x 2 m tube",
-        "Volume": "78 m3",
-        "Sealing": "isolation rings every ~6 m"
-      },
-      "sim": "气闸经济学:单次循环 0.2 kWh + 3 分钟。独立舱模式下一次室内拜访 = 2 次循环(0.4 kWh/6 min)加穿脱 EVA 服;并域后 = 0。乘上每天几十次人员流动,短廊是全村回收期最短的一笔投资。",
-      "sim_en": "Airlock economics: one cycle costs 0.2 kWh and 3 minutes. Standalone, an indoor visit means 2 cycles (0.4 kWh, 6 min) plus suit donning; merged, it costs zero. Multiplied by dozens of daily trips, the corridors are the fastest-payback structure in the village.",
-      "physics": "把 N 个加压体并成一个,气闸数从 N 降到 2——但代价是共享失效域。分段密封环就是这笔交换的对价:平时一个大气压域,事故时秒变 N 个小的。",
-      "physics_en": "Merging N pressure vessels into one cuts airlocks from N to 2 - at the price of a shared failure domain. The seal rings are the counterparty of that trade: one big domain in peacetime, N small ones the moment something breaks."
-    },
-    {
-      "id": "airlock",
-      "label": "端头气闸（全村仅两座）",
-      "label_en": "End-cabin airlock (one of only two)",
-      "range": 12,
-      "detail": "全村 16 舱只在两个端头舱设气闸——这是并域的红利。两座互为备份,分设村的对角,满足「任何加压体两条独立出口」规则(与地下城 tunnel 闸门同一条规范)。门口踏板、状态灯、应急气瓶架齐备。",
-      "detail_en": "Sixteen cabins, only two airlocks, at the two end cabins - the dividend of the merged domain. They back each other up from opposite corners of the village, satisfying the two-independent-egress rule for any pressurized volume (the same code as the undercity tunnel gate). Doorstep plate, status light, and emergency gas rack all present.",
-      "specs": {
-        "数量": "2（对角互备）",
-        "循环": "0.2 kWh / 3 min",
-        "规范": "加压体双出口规则"
-      },
-      "specs_en": {
-        "Count": "2, diagonal backup pair",
-        "Cycle": "0.2 kWh / 3 min",
-        "Code": "two-egress rule for pressurized volumes"
-      },
-      "sim": "对照账:同样 16 舱按独立模式要 14+ 套气闸,每套都是泄漏点、维护项和质量项。气闸数 14→2,泄漏点与检修工时同步砍到 1/7。",
-      "sim_en": "Comparison ledger: the same 16 cabins standalone would carry 14+ airlocks, each one a leak path, a maintenance item, and launch mass. Cutting 14 to 2 cuts leak paths and inspection hours to a seventh.",
-      "physics": "冗余的位置和数量一样重要:两座气闸放对角,任何单点事故(火、破口、卡门)最多废掉一座,村子永远留着一条穿压服之外的活路。",
-      "physics_en": "Where redundancy sits matters as much as how much: with the two locks on opposite corners, any single event - fire, breach, jammed door - can kill at most one, and the village always keeps an exit that does not require a suit."
-    },
-    {
-      "id": "commons",
-      "label": "公共舱（⌀6 m 大端窗）",
-      "label_en": "Commons cabin (6 m bay, big window)",
-      "range": 16,
-      "detail": "B 排中段放大一号的公共舱:⌀6 m 壳,端窗 ⌀3.1 m 夜里全村最亮。餐桌、任务简报、检疫期的公共起居都在这——过渡居住区的社交心脏。屋顶通风扇常转(全村唯一的动件),门口一条长凳朝着广场。",
-      "detail_en": "Mid-row B holds the one oversized cabin: a 6 m shell whose 3.1 m end window is the brightest thing in the village at night. Meals, mission briefings, and quarantine-period common life all happen here - the social heart of a transitional settlement. The roof vent fan is the village's only moving part; a bench by the door faces the plaza.",
-      "specs": {
-        "壳径": "⌀6 m（标准舱 ⌀4 m）",
-        "端窗": "⌀3.1 m",
-        "动件": "屋顶通风扇（常转）"
-      },
-      "specs_en": {
-        "Shell": "6 m dia (standard is 4 m)",
-        "Window": "3.1 m",
-        "Moving part": "roof vent fan, always on"
-      },
-      "sim": "通风账:并域后 78 m³ 廊道 + 16 舱共享一套大气,CO₂ 与湿度管理集中在公共舱机组——一台大机器代替 16 台小机器,维护面同样砍到零头。",
-      "sim_en": "Ventilation ledger: one merged atmosphere - 78 m3 of corridor plus 16 cabins - lets CO2 and humidity control concentrate in the commons plant room: one large machine instead of sixteen small ones, and a fraction of the maintenance surface.",
-      "physics": "居住区的心理学也是工程量:检疫/适应期的人需要一个「不是自己舱」的去处。公共舱大端窗刻意朝广场——光学上让室内生活对村子可见,这是聚落感的来源,不是装饰。",
-      "physics_en": "Settlement psychology is an engineering quantity too: people in quarantine or adaptation need somewhere that is not their own cabin. The big window deliberately faces the plaza - making indoor life visible to the village. That is where the sense of settlement comes from; it is not decoration."
-    },
-    {
-      "id": "plaza",
-      "label": "村心广场（28~32 床位的村）",
-      "label_en": "Village plaza (a 28-32 berth settlement)",
-      "range": 24,
-      "detail": "三排舱围出的 ⌀16 m 夯土广场:旗杆、公告屏、长椅、空投物资堆。这是 28~32 床位的地面过渡居住区——新移民着陆后的检疫适应期、短周期地面任务组都住这里,西侧不设廊,村口敞向枢纽来向。",
-      "detail_en": "Three cabin rows enclose a 16 m rammed-soil plaza: flagpole, notice screen, benches, a pile of airdropped supplies. This is the 28-32 berth surface transition quarter - landing quarantine and adaptation for new arrivals, and short-rotation surface crews. The west side has no corridor: the village mouth opens toward the hub.",
-      "specs": {
-        "床位": "28~32（16 舱）",
-        "定位": "着陆检疫 / 适应期 / 短周期任务组",
-        "布局": "三排围合,西村口敞开",
-        "生保接入": "水/中水接 res-recycle-01，氧与缓冲气接 res-eclss-01（全城 115 人总账内）"
-      },
-      "specs_en": {
-        "Berths": "28-32 in 16 cabins",
-        "Role": "landing quarantine, adaptation, short rotations",
-        "Layout": "three rows enclosing, west mouth open",
-        "Life support": "water and reclaim via res-recycle-01; oxygen and buffer gas via res-eclss-01 (inside the 115-person city ledger)"
-      },
-      "sim": [
-        "剂量预算账:舱内 6.2 mSv/yr,而每天 8 小时 EVA 折合 143 mSv/yr——所以「住得安全」只解决一半,另一半靠排班控制 EVA 时长。两项合计,一个火星年停留可以压在 50 mSv 以内。",
-        "这 30 人此前是生保账上的黑户：不在 hab-quarter-01 的代谢账里，也不在 Rodwell 那个按 4 人算的 380 L/sol 里。res-eclss-01 的全城总账（115 人 = 地下城 85 + 本村 30）把他们并了进来——村子的两座端头气闸每 sol 放掉 12.4 kg 舱气，也第一次上了账。"
-      ],
-      "sim_en": [
-        "Dose-budget ledger: 6.2 mSv/yr indoors, but 8 hours of EVA per sol would add 143 mSv/yr - safe housing solves only half the problem; the other half is rostering EVA time. Together they hold a full Mars-year stay under 50 mSv.",
-        "These thirty people used to be off the books: absent from the hab-quarter-01 metabolic ledger and from the Rodwell 4-crew 380 L/sol. The res-eclss-01 city ledger (115 = 85 undercity + 30 village) finally counts them - including the 12.4 kg of cabin gas the two end airlocks vent per sol, on the record for the first time."
-      ],
-      "physics": "掩土村是「剂量预算」的建筑表达:屏蔽降低底数,围合缩短户外通勤,广场把必要的户外时间集中在舱影之间——每一米布局都在替排班表省毫希。",
-      "physics_en": "The village is dose budgeting expressed as architecture: shielding lowers the baseline, the enclosed plan shortens outdoor commutes, and the plaza concentrates necessary outdoor time between cabin shadows - every metre of layout saves the roster millisieverts."
-    },
-    {
-      "id": "bike",
-      "label": "火星自行车架（31 W 巡航）",
-      "label_en": "Mars bike rack (31 W cruising)",
-      "range": 10,
-      "detail": "村里的短途交通工具。0.38 g 加 0.6% 大气密度是骑行天堂:30 km/h 巡航只要 31 W(地球同速 249 W)——滚阻随重力缩 0.38 倍,气动阻力随密度缩 70 倍,几乎蹬着玩。压力服里骑车是真的日常。",
-      "detail_en": "The village's short-haul transport. 0.38 g plus 0.6% atmospheric density makes cycling paradise: 30 km/h cruise takes 31 W against 249 W on Earth - rolling resistance scales down 0.38x with gravity and aero drag 70x with density. Riding in a pressure suit is genuinely routine here.",
-      "specs": {
-        "巡航功率": "31 W @ 30 km/h（地球 249 W）",
-        "气动占比": "8%",
-        "刹车距离": "地球的 2.64×"
-      },
-      "specs_en": {
-        "Cruise power": "31 W at 30 km/h (Earth: 249 W)",
-        "Aero share": "8%",
-        "Braking": "2.64x Earth distance"
-      },
-      "sim": "动力学账:省力 8 倍是重力和大气送的,但附着力同样随 mg 缩 0.38 倍——刹车距离 2.64 倍,12 m 半径弯道要压 57° 倾角(地球同弯 30°)。村道限速不是规定出来的,是摩擦系数算出来的。",
-      "sim_en": "Dynamics ledger: the 8x power saving is a gift of gravity and thin air, but tire grip also scales with mg, down 0.38x - braking distance is 2.64x, and a 12 m turn demands a 57-degree lean where Earth asks 30. The village speed limit was not legislated; it was computed from the friction coefficient.",
-      "physics": "低重力的交通悖论:推进变便宜的同时,刹车和转向变贵——因为两者都花同一种货币(轮胎与地面的摩擦力),而摩擦力 ∝ mg。",
-      "physics_en": "The low-gravity transport paradox: propulsion gets cheap while braking and cornering get expensive - both spend the same currency, tire-to-ground friction, and friction scales with mg."
-    }
-  ]
+ "id": "hab-village-01",
+ "pois": [
+  {
+   "id": "berm",
+   "label": "2 m 覆土脊（330 g/cm²）",
+   "label_en": "2 m regolith berm (330 g/cm2)",
+   "range": 26,
+   "detail": "三排舱的覆土坡相接成连续土脊——每舱头顶 2 m 压实 regolith,面密度 330 g/cm²。裸露地表年剂量 234 mSv,覆到 0.5 m 剩 88,1 m 剩 34,2 m 只剩 7.6 mSv/yr——31 倍削减,残余约八成是次级中子、两成是穿透的初级质子。",
+   "detail_en": "The berms of all three rows merge into one continuous soil ridge - 2 m of compacted regolith over every cabin, 330 g/cm2 areal density. Bare surface takes 234 mSv/yr; 0.5 m leaves 88, 1 m leaves 34, and 2 m leaves just 7.6 mSv/yr - a 31x cut, with roughly 80% of the residual in secondary neutrons and 20% in penetrating primary protons.",
+   "specs": {
+    "覆土": "2 m 压实 regolith（330 g/cm²）",
+    "剂量": "234 → 7.6 mSv/yr（31×）",
+    "残余": "次级中子 ~80% + 初级质子 ~20%",
+    "含水率": "未决(无带出处声明;不估)",
+    "深度模型": "2 m 外推无支撑(FLATTENING 判词证伪指数形式;仅地表锚 234 存活)",
+    "厚度依据": "屏蔽已移出本清单(基础已撤,09-02)。现存:热惯性(单调有利、无声明的验收阈值→钉不住 2 m);结构与运土反向(覆土是载荷 12.2 kPa,非配重);并脊形态是该厚度的结果非独立理由。⇒ 第二米当前无声明依据——**声明为开放**,不改厚度;FLATTENING 后复核可能要求更厚而非更薄",
+    "当量口径下界": "≥30.1 mSv/yr @320 g/cm²(玻璃厂账 22 H_low:Q(L) ICRP60 逐步长,p/He/Fe 直报,干土 ρ1.60,冠部均匀+端埋+无窗 ⇒ 只对应本村床位类 1.97–2.08 m;标 unaudited——影响高出多少不影响哪一侧);20 mSv/yr 配额**不达**;上界 51.2 不定任何事;4 m 仍 23.1 ⇒ 厚度不是杠杆"
+   },
+   "specs_en": {
+    "Cover": "2 m compacted regolith (330 g/cm2)",
+    "Dose": "234 down to 7.6 mSv/yr (31x)",
+    "Residual": "~80% secondary neutrons, ~20% primary protons",
+    "Water content": "undetermined (no sourced declaration; not estimated)",
+    "Depth model": "depth-extrapolation unsupported (FLATTENING verdict falsifies exponential; only surface anchor 234 survives)",
+    "Thickness basis": "Shielding REMOVED from this list (basis withdrawn, 09-02). Remaining: thermal inertia (monotone benefit, no declared acceptance threshold -> cannot pin 2 m); structure and haul argue against (cover is a 12.2 kPa load, not ballast); the merged-ridge form is a consequence of this thickness, not an independent reason. => the second metre currently has no stated basis - **declared open**, thickness unchanged; post-FLATTENING review may require MORE, not less.",
+    "Dose-equivalent floor": ">=30.1 mSv/yr at 320 g/cm2 (glass account 22 H_low: Q(L) ICRP 60 step-wise, p/He/Fe direct, dry regolith rho 1.60, crown-uniform + buried ends + no windows => maps only onto this village's bunk class 1.97-2.08 m; flagged unaudited - bears on how far above, not on which side); the 20 mSv/yr allocation is NOT met; the 51.2 upper bound settles nothing; 4 m is still 23.1 => thickness is not the lever"
+   },
+   "sim": [
+    "屏蔽账:剂量-深度四档 234/87.5/34.0/7.6 mSv/yr(0/0.5/1/2 m)。曲线前段陡后段缓——头一米最值钱;2 m 处质子支还剩 1.5、中子支 6.0 mSv/yr。",
+    "数字谱系(08-06 总控查证后补,同日随 mars_rad 账 1 修正更新):ρ=1.65 g/cm³ 为取值假设(tunnel 卡 1.5 + 自设 +10%,无压实实测依据)——330 g/cm² 是它的算术结果,与哨兵网同源取值,不构成交叉校验;中子项参数 f_n=0.10/B=1.8(30 g/cm² 内线性增生)/λ_n=170 g/cm² 为文献量级、未经输运码背书;D0=234 与 λ_p=67.1 g/cm² 有 mars_rad 账 1 锚(RAD 盖尔柱 24.4 g/cm² 闭合;08-06 前曾用 λ=44——误用 MOLA 基准面大气柱,已随被引方撤回修正,本卡 6.2→7.6/份额 98%→80% 即此修正);7.6 的自估不确定度 ×2~3——「残余以次级中子为主」定性稳健,80% 份额与 7.6 绝对值不可作定量承重支点;曲线深处的 μ 地板 0.3 mSv/yr 为自设量级值(无实测,与 sci-rad-01 的同值地板同源不互证;330 g/cm² 处远未触地板,不参与本卡四档数字)。",
+    "v3 账实一致(2026-09-01,几何修复):v2 模型冠部覆土仅 0.62–0.71 m(比例妥协),与本卡 2 m 口径差 8.6×——已重建土脊:冠部实测 2.01 m(床位段 1.97/公共舱 1.95/角舱 2.20),节距 7 m 并脊(舱间脊面 3.36 m);端窗经深嵌门斗保留。**覆土各向异性如实入卡**:床位段 ≥2 m、起居段向端面 2.0→0 锥减、端面为设计开口——补偿=全部床位后置于屏蔽最厚端(受体真源 berths.json:30 sleep + 16 living 锚点)。逐项实测见册内 v3_reconciliation.md;几何兑现不解除 ρ=1.65 的未验证标注。",
+    "「中子主导」的对 f_n 免疫支点(引 sci-rad-01):交叉深度 x* = λ_eff·ln((1−f_n)/f_n),λ_eff = 1/(1/67.1 − 1/170) = 110.9 g/cm²——两个 λ 之差带来 19.6× 输运增益,x* 对 f_n 只是对数依赖:任何 f_n ≳ 0.05 在 330 g/cm² 处都给出中子主导(f_n=0.05 时 x*=326,下界贴实)。注:该式未含增生因子 B,含 B(≥1)时交叉更早、结论只会更稳——故此支点在保守方向成立,与本卡 f_n=0.10 的取值解耦。",
+    "含水率(质量分数)= 未决(09-02 总控问,明写「未决」,不估):本册任何账——覆土账/热账/design_accounts——均未声明村址风化层含水率。覆土工艺只声明「压实」(定 ρ=1.65 密度假设,非含水)与「regolith 覆土」;**来源亦未带出处**——本卡与 DESIGN.md 均未声明取自哪个单位/哪个深度(矿场供料只是城内叙事推断,非本册声明),无烘干/脱水步骤声明。**防回读**:热账用 k=0.05 W/mK(干-松散 regolith 属性取值,为昼夜温波皮肤深度计算所选),这是属性取值不是含水测量,**不得回读为含水=0.00 档**喂堆泄漏反照矩阵(该矩阵按 0.00/0.03/0.08/0.15 四档,份额 0.679→0.453)。村址含水率若要定值,需岩土采样带深度与出处,本 session 无此数据。",
+    "参数出处答复(09-02 总控/sci-rad-01 FLATTENING 终判后):四个覆土参数没有一个是实测或在一致口径下推导的——①f_n=0.10:选取值(记忆「RAD 中子占比~10%」,无文献号);且无口径纪律——直接乘在当量剂量 D0=234 上,未区分吸收/当量,是残差桶不是物理量。②B=1.8:选取值,文献量级,无具体几何(非平板非点源)。③λ_n=170 g/cm²:选取值,文献量级,未声明针对哪个谱。④t=0 偏移:我发布公式的建成因子在 30 g/cm² 内线性从 1 增生(卡内已声明),实跑 t=0=234.0(已验证);总控引的 252.7 来自常数 B=1.8 重构,那丢掉了我声明的 ramp——但 ramp 形状(30 g/cm² 线性)本身也是选取,无推导。⑤λ_p=67.1:**范畴错误,认**——67.1 是 mars-rad-8d 由盖尔柱闭合推出的 λ_H(全分量 H 权重 e 折长度),我把它当单分量(质子支)吸收衰减长度用;质子支 λ=67.1 无独立依据,是把「整体」用作「部分」。**综合**:FLATTENING 判词(λ 1022,实测 4 m=38.0——次级建成使深处变平)证伪指数模型形式;我的曲线 4 m 给 0.9(比总控引的 18.7 更乐观、更错),深处严重低估。⇒ 唯一存活的锚是地表 D0=234(RAD 背书);2 m 的 7.6 未被村子几何直接实测推翻(边界:判词未测 2 m),但其深度支撑(两分量指数+四选取参数+λ_p 范畴错误)已失——7.6 应读作「仅地表锚有效、2 m 外推无支撑」,而非一个可承重的深度剂量。当量口径之争(7.6 vs 41)是建模缺口非统计缺口,仍归总控与用户。",
+    "逐条基础状态(09-02 DISPATCH §1;**形式(5) 证伪保留**——数一律不删、基础标已撤、无替代值。**为何不用形式(1)更正**:更正预设有替代数,此处没有,且 DISPATCH 禁令明禁为填空新估替代参数——「今天正因选取值无出处被问住,新造一个只是把同一个洞挪个位置」):【存活】D0=234 地表锚(RAD 背书,不经 λ_p);330 g/cm² 面密度(2 m×ρ1.65 的算术,但 ρ 仍是取值假设);热惯性账全部(α/皮肤深度/采暖 2 vs 325 W/m²——与 λ_p 无关);耐压壳账、气闸账、骑行账(不涉剂量)。【基础已撤,数保留】87.5(0.5 m,其中 70.4% 来自 λ_p 项)· 34.0(1 m,53.0%)· 7.6(2 m,20.3%,余下压在 f_n/B/λ_n 三个无出处选取值上)· 31× 削减(由 7.6 导出)· 「残余 ~80% 中子/20% 质子」(该份额整个是 λ_p 与 λ_n 之比的函数)· 「中子主导的 f_n 免疫支点」(λ_eff=1/(1/67.1−1/170)=110.9,显式含 67.1)· 2 m 以深任何外推含 μ 地板钳位(本式 4 m 给 0.9 对实测 38.0,约 43× 严重低估)· plaza 卡「舱内 7.6 + 受控 EVA → 一个火星年 <50 mSv」的舱内项。【口径】「2 米覆土够不够」现在是**无依据**,不是**错**——两者在册上记法不同;判词未在村子几何测过 2 m。",
+    "依据状态变更(09-05,DISPATCH 复核开工):**从「已撤」变为「有下界」**,两者册上分别记。玻璃厂账 22(anchor 56ba5ad,unaudited)六点 H_low(g/cm²→mSv/yr):160→38.0 / 240→39.0 / 320→**30.1** / 400→27.2 / 480→24.6 / 640→23.1;上界 H_pin 320→51.2。总控裁定(55e2ad8):**2 m 在当量口径下不达 20 mSv/yr,作为下界成立**——每个未决项(Z=3–25 未算、模型 ⟨Q⟩ 低于 RAD、本村锥减与门斗)只会抬高它。本卡四档对账(只在几何对应处,不内插):①地表:本卡 234=RAD 实测,存活;玻璃厂模型地表 H=0.59×RAD 为其弱点(⟨Q⟩ 落低区),不改 RAD 锚。②0.5 m(82.5):玻璃厂无 ≤160 档,**缺口,不补**。③1 m(165):最近档 160→H_low 38.0,本卡 34.0 数值相近纯属被证伪形式的巧合,不作印证。④2 m(330):床位类 325–343 g/cm² 落在 320(30.1)与 400(27.2)两档之间,**读作 ≥27.2、最近档 30.1**;本卡 7.6 低 4×,方向为严重低估。**几何对应边界**:玻璃厂几何=冠部均匀+端盖埋 2 m+无窗,只对应本村床位类;起居段(std 1.57 m=259 g/cm²,向端面 1.1→0 锥减)、门斗(设计开口,双门 2×18.9)、后端盖 z=−4 处 1.78 m(294 g/cm²,以前未单列)——**均声明为缺口,等 Run B(村子几何),不内插、不按账 16 窗井 1.49× 套数**。本卡下方所有「×设计假设」与 7.6 系列数字继续按形式(5)保留,现在多一条读法:它们与 30.1 之间的差(4×)是被证伪模型的低估量级,不是不确定度。"
+   ],
+   "sim_en": [
+    "Shielding ledger: dose vs depth reads 234 / 87.5 / 34.0 / 7.6 mSv/yr at 0 / 0.5 / 1 / 2 m. Steep then flat - the first metre is the bargain; at 2 m the proton branch still carries 1.5 and the neutron branch 6.0 mSv/yr.",
+    "Provenance (added after the 08-06 audit; updated same day with the mars_rad ledger-1 correction): rho = 1.65 g/cm3 is an assumed value (tunnel card's 1.5 plus a self-assigned +10%, no compaction measurement) - 330 g/cm2 is its arithmetic product, shares its origin with the sentinel network's figure, and is NOT a cross-check; the neutron-term parameters f_n = 0.10 / B = 1.8 (linear build-up over the first 30 g/cm2) / lambda_n = 170 g/cm2 are literature-order values not backed by a transport code; D0 = 234 and lambda_p = 67.1 g/cm2 ARE anchored to the mars_rad ledger (Gale-column 24.4 g/cm2 closure; before 08-06 this card used lambda = 44, which mistakenly took the MOLA-datum atmospheric column - retracted by its owner, hence this card's 6.2 -> 7.6 and 98% -> 80%); self-estimated uncertainty on 7.6 is x2-3. 'Residual dominated by secondary neutrons' is qualitatively robust, but the 80% share and the 7.6 absolute value must not carry quantitative load. The deep-cover mu floor of 0.3 mSv/yr is a self-set order-of-magnitude value (unmeasured; sci-rad-01 carries the same figure from the same argument - shared origin, not mutual confirmation; at 330 g/cm2 the curve sits far above the floor, so it plays no part in this card's four published tiers).",
+    "v3 as-built reconciliation (2026-09-01 geometry fix): the v2 model built only 0.62-0.71 m of crown cover (a proportion compromise), 8.6x short of this card's 2 m - the ridge has been rebuilt: measured crown 2.01 m (bed zone 1.97 / commons 1.95 / corner 2.20), ridges merge across the 7 m pitch (3.36 m saddle). End windows survive via deep-recessed portals. Cover anisotropy is now stated, not hidden: >=2 m over the bed zone, tapering 2.0 -> 0 toward the face, the face itself a designed opening - compensated by placing every berth at the deep-shielded end (receptor source of truth: berths.json, 30 sleep + 16 living anchors). Item-by-item measurements in v3_reconciliation.md; the geometry fix does NOT clear the unverified rho = 1.65 label.",
+    "An f_n-immune anchor for 'neutron-dominated' (per sci-rad-01): crossover depth x* = lambda_eff * ln((1-f_n)/f_n) with lambda_eff = 1/(1/67.1 - 1/170) = 110.9 g/cm2 - the gap between the two lambdas provides a 19.6x transport gain, and x* depends on f_n only logarithmically: any f_n >~ 0.05 gives neutron dominance at 330 g/cm2 (f_n = 0.05 puts x* = 326, so the bound is tight). Note this expression omits the build-up factor B; including B (>= 1) moves the crossover shallower, so the anchor holds in the conservative direction and is decoupled from this card's f_n = 0.10 assumption.",
+    "Water content (mass fraction) = UNDETERMINED (asked by control 09-02; stated as undetermined, not estimated): no account in this dossier — berm, thermal, or design_accounts — declares the site regolith water content. The cover process declares only 'compacted' (which sets the rho=1.65 density assumption, not moisture) and 'regolith cover'; **the source is also undeclared** — neither this card nor DESIGN.md states which unit or depth it comes from (a mine origin is a city-context inference, not a declaration in this dossier); no drying/dewatering step is declared. **Guard against back-reading**: the thermal account used k=0.05 W/mK (a dry-loose-regolith property pick for the diurnal-wave skin-depth calc) — that is a property choice, NOT a moisture measurement, and must NOT be back-read as water=0.00 into the reactor-leakage albedo matrix (which bins 0.00/0.03/0.08/0.15, dose share 0.679->0.453). Fixing the site water content needs geotechnical sampling with depth and provenance, which this session does not have.",
+    "Parameter provenance (answer after the 09-02 FLATTENING verdict): none of the four cover parameters is measured or derived in a consistent dosimetric basis. (1) f_n=0.10: a SELECTED value (memory of 'RAD neutron fraction ~10%', no citation), applied directly to the equivalent-dose D0=234 with no absorbed-vs-equivalent discipline — a residual bucket, not a physical quantity. (2) B=1.8: SELECTED, literature-order, no specific geometry (neither slab nor point-source). (3) lambda_n=170 g/cm2: SELECTED, literature-order, no declared spectrum. (4) t=0 offset: my published formula ramps the build-up factor linearly from 1 over the first 30 g/cm2 (declared in-card); it gives 234.0 at t=0 (verified). The 252.7 the integrator cites comes from a constant-B=1.8 reconstruction that drops my declared ramp — but the ramp shape itself is selected, not derived. (5) lambda_p=67.1: **CATEGORY ERROR, conceded** — 67.1 is mars-rad-8d's lambda_H (full-component H-weighted e-fold length from the Gale-column closure); I used it as a single-component (proton-branch) absorption length. There is no independent basis for a proton-branch lambda of 67.1; I applied a 'whole' as a 'part'. **Net**: the FLATTENING verdict (lambda 1022, measured 4 m = 38.0 as secondaries build up) falsifies the exponential model form; my curve gives 0.9 at 4 m (more optimistic and more wrong than the 18.7 cited), badly under-predicting at depth. The only surviving anchor is the surface D0=234 (RAD-backed); the 2 m value 7.6 was not directly measured-and-overturned in village geometry (boundary: the verdict did not test 2 m), but its depth support (two-component exponential + four selected params + the lambda_p category error) is gone — 7.6 must be read as 'surface-anchor only, depth-extrapolation unsupported', not as a load-bearing depth dose. The equivalent-dose dispute (7.6 vs 41) is a modelling gap, not a statistical one, and remains with control and the user.",
+    "Per-item basis status (09-02 DISPATCH item 1; **form (5) falsified-but-kept** — no number deleted, basis marked withdrawn, no replacement value. **Why not form (1) 更正**: correction presupposes a replacement number; there is none here, and the DISPATCH explicitly prohibits estimating a replacement parameter to fill the gap — 'you were stopped precisely because chosen values carried no source; adding a new chosen value moves the same hole rather than closing it'.) [SURVIVING] D0=234 surface anchor (RAD-backed, does not pass through lambda_p); 330 g/cm2 areal density (arithmetic of 2 m x rho 1.65, though rho remains an assumed value); the entire thermal-inertia account (alpha / skin depths / 2 vs 325 W/m2 — independent of lambda_p); hull, airlock and cycling accounts (no dose). [BASIS WITHDRAWN, NUMBERS KEPT] 87.5 (0.5 m; 70.4% of it from the lambda_p term) - 34.0 (1 m; 53.0%) - 7.6 (2 m; 20.3%, the remainder resting on the three unsourced selected values f_n/B/lambda_n) - the 31x reduction (derived from 7.6) - 'residual ~80% neutron / 20% proton' (that split is entirely a function of lambda_p vs lambda_n) - the 'f_n-immune anchor for neutron dominance' (lambda_eff = 1/(1/67.1 - 1/170) = 110.9, explicitly containing 67.1) - any extrapolation beyond 2 m including the mu-floor clamp (this formula gives 0.9 at 4 m against a measured 38.0, ~43x, a severe under-prediction) - the indoor term of the plaza card's 'indoor 7.6 + controlled EVA -> under 50 mSv per Mars year'. [STANDING] 'Is 2 m of cover enough' now has **no usable basis** — it is an absence of basis, not an error; the two are recorded differently, and the verdict never tested 2 m in village geometry.",
+    "Basis state change (09-05, review opened): **from 'withdrawn' to 'bounded from below'** - recorded as distinct states. Glass account 22 (anchor 56ba5ad, unaudited) six-point H_low (g/cm2 -> mSv/yr): 160->38.0 / 240->39.0 / 320->**30.1** / 400->27.2 / 480->24.6 / 640->23.1; upper bound H_pin at 320 -> 51.2. Integrator's ruling (55e2ad8): **2 m does not meet 20 mSv/yr on the dose-equivalent caliber, established as a lower bound** - every open item (Z=3-25 unsimulated, model <Q> below RAD, this village's taper and vestibule) can only raise it. Rebase of this card's four tiers, only where geometry corresponds, no interpolation: (1) surface: this card's 234 is RAD-measured and survives; glass's model surface H = 0.59x RAD is its weak point (<Q> in the low zone) and does not move the RAD anchor. (2) 0.5 m (82.5): no glass bin at or below 160 - **gap, not filled**. (3) 1 m (165): nearest bin 160 -> 38.0; this card's 34.0 being numerically close is a coincidence of a falsified form, not a confirmation. (4) 2 m (330): the bunk class at 325-343 g/cm2 sits between the 320 (30.1) and 400 (27.2) bins - **read as >=27.2, nearest bin 30.1**; this card's 7.6 is 4x low, direction severe under-prediction. **Geometry boundary**: glass's geometry = crown-uniform + ends buried 2 m + no windows, mapping only onto this village's bunk class; the living segment (std 1.57 m = 259 g/cm2, tapering 1.1 -> 0 toward the face), the vestibule (a designed opening, two doors at 18.9 each) and the back cap at z = -4 (1.78 m = 294 g/cm2, never listed before) are **all declared gaps awaiting Run B (village geometry), not interpolated, and not filled with account-16's 1.49x window-well analogue**. Every 'x design assumption' multiple and the 7.6 series below stay under form (5); they gain one reading: the gap to 30.1 (4x) is the under-prediction of a falsified model, not an uncertainty."
+   ],
+   "physics": "覆土的另一半功劳是热:昼夜温波在 regolith 里 3.6 cm 就 e 折,2 m = 55 个皮肤深度——舱壳根本看不见昼夜,只贴着 ~215 K 的恒温土,散热负荷从裸壳夜间 325 W/m² 跌到 2 W/m²。",
+   "physics_en": "The berm's other job is thermal: the diurnal wave e-folds every 3.6 cm in regolith, so 2 m is 55 skin depths - the hull never sees day or night, only ~215 K constant soil, and heat loss drops from 325 W/m2 on a bare shell at night to 2 W/m2."
+  },
+  {
+   "id": "hull",
+   "label": "半圆柱压力壳（膜应力 0.7 mm）",
+   "label_en": "Semi-cylindrical pressure hull (0.7 mm membrane)",
+   "range": 18,
+   "detail": "标准舱是 ⌀4 m 半圆柱壳,内压 70 kPa。半圆柱让壳体均匀受拉:膜应力最小厚度只要 0.7 mm,工程取 3 mm;同尺寸的方盒平板靠弯曲抗压得 53 mm——厚 76 倍。这就是全村没有一间「方房子」的原因。",
+   "detail_en": "A standard cabin is a 4 m semi-cylinder holding 70 kPa. The half-cylinder puts the shell in pure tension: membrane stress needs only 0.7 mm of wall (3 mm as built), while a flat-sided box of the same size, resisting by bending, would need 53 mm - 76x thicker. That is why not one building in this village is square.",
+   "specs": {
+    "内压": "70 kPa",
+    "壳厚": "3 mm（膜应力最小 0.7 mm）",
+    "对照": "方盒平板需 53 mm（76×）"
+   },
+   "specs_en": {
+    "Pressure": "70 kPa",
+    "Wall": "3 mm as built (0.7 mm membrane minimum)",
+    "Contrast": "flat plate would need 53 mm (76x)"
+   },
+   "sim": "结构账:覆土压重在 0.38 g 下只有 12.2 kPa,抵消内压的 17%——覆土是屏蔽和保温,不是配重,壳自己必须扛住几乎全部 70 kPa。",
+   "sim_en": "Structural ledger: at 0.38 g the 2 m of soil presses down only 12.2 kPa - 17% of the internal pressure. The berm is shielding and insulation, not ballast; the hull carries essentially the full 70 kPa itself.",
+   "physics": "膜应力定律 σ=pR/t:曲面把压力变成均匀拉伸,平板把压力变成弯矩。加压建筑的形状不是审美选择,是材料账——曲率就是免费的强度。",
+   "physics_en": "Membrane law sigma = pR/t: curvature turns pressure into uniform tension, flat walls turn it into bending moment. The shape of pressurized architecture is not an aesthetic choice but a materials ledger - curvature is free strength."
+  },
+  {
+   "id": "corridor",
+   "label": "脊廊网（一个气压域）",
+   "label_en": "Ridge corridors (one pressure domain)",
+   "range": 16,
+   "detail": "2×2 m 方管从土脊里穿过,把全村舱体并成一个 78 m³ 走廊连通的常压域。没有它,14 座独立舱要 14 套气闸,邻居串个门 = 两次气闸循环加全程 EVA 服;有了它,是 30 秒常压步行。每 ~6 m 一道分段密封环,破口时可以逐段隔离。",
+   "detail_en": "2 x 2 m tube corridors thread through the soil ridge, merging every cabin into one pressure domain linked by 78 m3 of walkway. Without them, 14 standalone cabins would need 14 airlocks, and visiting a neighbor would cost two lock cycles in a full EVA suit; with them it is a 30-second shirt-sleeve walk. Seal rings every ~6 m let any segment be isolated after a breach.",
+   "specs": {
+    "断面": "2×2 m 方管",
+    "容积": "78 m³",
+    "密封": "每 ~6 m 分段密封环",
+    "迷宫段": "每短廊 3 道交错墙,之字缝 0.6 m"
+   },
+   "specs_en": {
+    "Section": "2 x 2 m tube",
+    "Volume": "78 m3",
+    "Sealing": "isolation rings every ~6 m",
+    "Labyrinth": "3 staggered baffles per stub, 0.6 m zigzag"
+   },
+   "sim": [
+    "气闸经济学:单次循环 0.2 kWh + 3 分钟。独立舱模式下一次室内拜访 = 2 次循环(0.4 kWh/6 min)加穿脱 EVA 服;并域后 = 0。乘上每天几十次人员流动,短廊是全村回收期最短的一笔投资。",
+    "v4 孔道流闭合(09-01,sci-rad-01 判定开口以 ~1 g/cm² 主导 43/46 床位、验收线因此挂起后的拓扑修复):①每根短廊内 3 道交错半幅迷宫墙(左-右-左,直线视线必断,人行 0.6 m 之字缝——加速器门迷宫拓扑)②三条脊廊+肘管整段覆土枕掩埋(r 2.7 m 半圆,横穿与后向近地路径全部入土)③每门斗前遮蔽墙+斜雨棚+侧缝/裸角封堵(端窗经洞口带斜视仍可见)。闭合证明:path_table.mjs 46 受体×120 方位×扰动鲁棒判据复算,开口通道(总实体≤0.3 m 且无气闸门)46→0;C 排朝堆直射土弦 0→3.2~6.8 m。厚度无效、拓扑有效——孔道流的教科书性质。"
+   ],
+   "sim_en": [
+    "Airlock economics: one cycle costs 0.2 kWh and 3 minutes. Standalone, an indoor visit means 2 cycles (0.4 kWh, 6 min) plus suit donning; merged, it costs zero. Multiplied by dozens of daily trips, the corridors are the fastest-payback structure in the village.",
+    "v4 duct-streaming closure (09-01, after sci-rad-01 found openings at ~1 g/cm2 dominating 43/46 berths and suspended the acceptance line - a topology fix, not thickness): (1) three staggered half-baffles inside every stub corridor (left-right-left, no straight line survives; people zigzag a 0.6 m gap - accelerator-door labyrinth topology); (2) all three spine corridors plus the elbow buried under r 2.7 m half-round soil bunds (transverse and low rear paths now cross soil); (3) a shadow wall + sloped canopy + slit/corner seals at every portal (end windows remain visible obliquely through the aperture band). Closure proof: path_table.mjs re-scan, 46 receptors x 120 azimuths with perturbation-robust criteria - open channels (total matter <= 0.3 m, no airlock door) went 46 -> 0; C-row direct-to-reactor soil chords rose from 0 to 3.2-6.8 m. Thickness does not fix streaming, topology does - the textbook property of ducts."
+   ],
+   "physics": "把 N 个加压体并成一个,气闸数从 N 降到 2——但代价是共享失效域。分段密封环就是这笔交换的对价:平时一个大气压域,事故时秒变 N 个小的。",
+   "physics_en": "Merging N pressure vessels into one cuts airlocks from N to 2 - at the price of a shared failure domain. The seal rings are the counterparty of that trade: one big domain in peacetime, N small ones the moment something breaks."
+  },
+  {
+   "id": "airlock",
+   "label": "端头气闸（全村仅两座）",
+   "label_en": "End-cabin airlock (one of only two)",
+   "range": 12,
+   "detail": "全村 16 舱只在两个端头舱设气闸——这是并域的红利。两座互为备份,分设村的对角,满足「任何加压体两条独立出口」规则(与地下城 tunnel 闸门同一条规范)。门口踏板、状态灯、应急气瓶架齐备。",
+   "detail_en": "Sixteen cabins, only two airlocks, at the two end cabins - the dividend of the merged domain. They back each other up from opposite corners of the village, satisfying the two-independent-egress rule for any pressurized volume (the same code as the undercity tunnel gate). Doorstep plate, status light, and emergency gas rack all present.",
+   "specs": {
+    "数量": "2（对角互备）",
+    "循环": "0.2 kWh / 3 min",
+    "规范": "加压体双出口规则"
+   },
+   "specs_en": {
+    "Count": "2, diagonal backup pair",
+    "Cycle": "0.2 kWh / 3 min",
+    "Code": "two-egress rule for pressurized volumes"
+   },
+   "sim": "对照账:同样 16 舱按独立模式要 14+ 套气闸,每套都是泄漏点、维护项和质量项。气闸数 14→2,泄漏点与检修工时同步砍到 1/7。",
+   "sim_en": "Comparison ledger: the same 16 cabins standalone would carry 14+ airlocks, each one a leak path, a maintenance item, and launch mass. Cutting 14 to 2 cuts leak paths and inspection hours to a seventh.",
+   "physics": "冗余的位置和数量一样重要:两座气闸放对角,任何单点事故(火、破口、卡门)最多废掉一座,村子永远留着一条穿压服之外的活路。",
+   "physics_en": "Where redundancy sits matters as much as how much: with the two locks on opposite corners, any single event - fire, breach, jammed door - can kill at most one, and the village always keeps an exit that does not require a suit."
+  },
+  {
+   "id": "commons",
+   "label": "公共舱（⌀6 m 大端窗）",
+   "label_en": "Commons cabin (6 m bay, big window)",
+   "range": 16,
+   "detail": "B 排中段放大一号的公共舱:⌀6 m 壳,端窗 ⌀3.1 m 夜里全村最亮。餐桌、任务简报、检疫期的公共起居都在这——过渡居住区的社交心脏。屋顶通风扇常转(全村唯一的动件),门口一条长凳朝着广场。",
+   "detail_en": "Mid-row B holds the one oversized cabin: a 6 m shell whose 3.1 m end window is the brightest thing in the village at night. Meals, mission briefings, and quarantine-period common life all happen here - the social heart of a transitional settlement. The roof vent fan is the village's only moving part; a bench by the door faces the plaza.",
+   "specs": {
+    "壳径": "⌀6 m（标准舱 ⌀4 m）",
+    "端窗": "⌀3.1 m",
+    "动件": "屋顶通风扇（常转）"
+   },
+   "specs_en": {
+    "Shell": "6 m dia (standard is 4 m)",
+    "Window": "3.1 m",
+    "Moving part": "roof vent fan, always on"
+   },
+   "sim": "通风账:并域后 78 m³ 廊道 + 16 舱共享一套大气,CO₂ 与湿度管理集中在公共舱机组——一台大机器代替 16 台小机器,维护面同样砍到零头。",
+   "sim_en": "Ventilation ledger: one merged atmosphere - 78 m3 of corridor plus 16 cabins - lets CO2 and humidity control concentrate in the commons plant room: one large machine instead of sixteen small ones, and a fraction of the maintenance surface.",
+   "physics": "居住区的心理学也是工程量:检疫/适应期的人需要一个「不是自己舱」的去处。公共舱大端窗刻意朝广场——光学上让室内生活对村子可见,这是聚落感的来源,不是装饰。",
+   "physics_en": "Settlement psychology is an engineering quantity too: people in quarantine or adaptation need somewhere that is not their own cabin. The big window deliberately faces the plaza - making indoor life visible to the village. That is where the sense of settlement comes from; it is not decoration."
+  },
+  {
+   "id": "plaza",
+   "label": "村心广场（30 床位的村）",
+   "label_en": "Village plaza (a 30-berth settlement)",
+   "range": 24,
+   "detail": "三排舱围出的 ⌀16 m 夯土广场:旗杆、公告屏、长椅、空投物资堆。这是 30 床位的地面过渡居住区(床位真源 berths.json:全部后置于屏蔽最厚端)——新移民着陆后的检疫适应期、短周期地面任务组都住这里,西侧不设廊,村口敞向枢纽来向。",
+   "detail_en": "Three cabin rows enclose a 16 m rammed-soil plaza: flagpole, notice screen, benches, a pile of airdropped supplies. This is the 30-berth surface transition quarter (berth source of truth: berths.json, all placed at the deep-shielded end) - landing quarantine and adaptation for new arrivals, and short-rotation surface crews. The west side has no corridor: the village mouth opens toward the hub.",
+   "specs": {
+    "床位": "30 基线 + 2 临时（16 舱,berth_* 锚点 30 sleep/16 living）",
+    "定位": "着陆检疫 / 适应期 / 短周期任务组",
+    "布局": "三排围合,西村口敞开",
+    "生保接入": "水/中水接 res-recycle-01，氧与缓冲气接 res-eclss-01（全城 115 人总账内）",
+    "剂量预算(09-05 重基线)": "舱内项无数、有下界:床位类 ≥30.1 mSv/yr(玻璃厂 H_low,unaudited);一个火星年(1.881 地球年)**零 EVA 已 ≥56.6 mSv**——「<50 mSv/火星年」在本口径下**任何排班都达不到**;起居/门斗更高(Run B 出数前不写)"
+   },
+   "specs_en": {
+    "Berths": "30 baseline + 2 temporary (16 cabins; 30 sleep / 16 living anchors)",
+    "Role": "landing quarantine, adaptation, short rotations",
+    "Layout": "three rows enclosing, west mouth open",
+    "Life support": "water and reclaim via res-recycle-01; oxygen and buffer gas via res-eclss-01 (inside the 115-person city ledger)",
+    "Dose budget (rebased 09-05)": "in-cabin term has no number, only a floor: bunk class >=30.1 mSv/yr (glass H_low, unaudited); one Mars year (1.881 Earth years) **with zero EVA is already >=56.6 mSv** - the \"<50 mSv per Mars year\" line cannot be met on this caliber by any roster; living/vestibule are higher (no number until Run B)"
+   },
+   "sim": [
+    "剂量预算账:舱内 7.6 mSv/yr(λ_p=67.1 修正后口径,见 berm 卡谱系),而每天 8 小时 EVA 折合 143 mSv/yr——所以「住得安全」只解决一半,另一半靠排班控制 EVA 时长。两项合计,一个火星年停留仍可压在 50 mSv 以内。",
+    "这 30 人此前是生保账上的黑户：不在 hab-quarter-01 的代谢账里，也不在 Rodwell 那个按 4 人算的 380 L/sol 里。res-eclss-01 的全城总账（115 人 = 地下城 85 + 本村 30）把他们并了进来——村子的两座端头气闸每 sol 放掉 12.4 kg 舱气，也第一次上了账。",
+    "剂量预算账重基线(09-05,按 DISPATCH 复核 §2 写成界):「舱内 7.6 + 受控 EVA → 火星年 <50 mSv」的舱内项**没有数了,只有下界**——床位类 ≥30.1 mSv/(地球年)(玻璃厂账 22 H_low @320 g/cm²,干土,p/He/Fe,unaudited;起居与门斗更高,Run B 前不写数)。换算(1 火星年 = 668.6 sol × 88775 s = 687.0 d = **1.881 地球年**):**零 EVA 一个火星年 ≥ 30.1×1.881 = 56.6 mSv**,已越 50;每 sol 1 h EVA 再加 ~17.9 mSv/(地球年)(按本卡 8 h=143 的全暴露口径,RAD 实测 H,不经玻璃厂模型)⇒ ≥87.9/火星年。**两条线并印,不为凑数移动任何一条**:①城用配额 20 mSv/yr 舱内——下界 30.1 不达(≥1.5×);②本卡自设「<50 mSv/火星年」总预算,折合 26.6 mSv/(地球年)总量,零 EVA 时可吸收的舱内值上限 26.6、每 sol 0.5 h EVA 时 18.0、1 h 时 9.1——**比 20 更严**,同样不达。存活的半句:「另一半靠排班控制 EVA」仍成立(EVA 项 143 mSv/yr @8 h 建在 RAD 实测上);死掉的半句:「一个火星年可压在 50 以内」——撤回。三十人过渡居住的定位(检疫/适应期,停留短于一个火星年)由此变成**必要条件而非便利**:停留时长上限 = 用户定的个人配额 ÷ (≥30.1 + EVA 项),Run B 出起居/门斗数前只能写成不等式。"
+   ],
+   "sim_en": [
+    "Dose-budget ledger: 7.6 mSv/yr indoors (post lambda_p = 67.1 correction, see the berm card's provenance), but 8 hours of EVA per sol would add 143 mSv/yr - safe housing solves only half the problem; the other half is rostering EVA time. Together they still hold a full Mars-year stay under 50 mSv.",
+    "These thirty people used to be off the books: absent from the hab-quarter-01 metabolic ledger and from the Rodwell 4-crew 380 L/sol. The res-eclss-01 city ledger (115 = 85 undercity + 30 village) finally counts them - including the 12.4 kg of cabin gas the two end airlocks vent per sol, on the record for the first time.",
+    "Dose-budget rebase (09-05, written as bounds per review item 2): the in-cabin term of '7.6 indoors + controlled EVA -> under 50 mSv per Mars year' **has no number any more, only a floor** - bunk class >=30.1 mSv per Earth year (glass account 22 H_low at 320 g/cm2, dry regolith, p/He/Fe, unaudited; living and vestibule are higher, no number before Run B). Conversion (1 Mars year = 668.6 sol x 88775 s = 687.0 d = **1.881 Earth years**): **zero EVA for one Mars year is >= 30.1 x 1.881 = 56.6 mSv**, already over 50; each hour of EVA per sol adds ~17.9 mSv per Earth year (this card's 8 h = 143 full-exposure figure, RAD-measured H, not through glass's model) => >=87.9 per Mars year. **Both lines printed, neither moved to fit**: (1) the city's 20 mSv/yr in-cabin allocation - floor 30.1 fails it (>=1.5x); (2) this card's own '<50 mSv per Mars year' total, i.e. 26.6 mSv per Earth year all-in, which can absorb an in-cabin value of at most 26.6 at zero EVA, 18.0 at 0.5 h/sol, 9.1 at 1 h/sol - **stricter than 20**, and equally unmet. The half-sentence that survives: 'the other half is rostering EVA' (the EVA term 143 mSv/yr at 8 h rests on RAD measurement); the half that dies: 'a full Mars-year stay under 50' - withdrawn. The village's role as transitional housing (quarantine / adaptation, stays shorter than a Mars year) thereby becomes **a necessary condition rather than a convenience**: maximum stay = the user's personal allocation / (>=30.1 + EVA term), writable only as an inequality until Run B delivers living/vestibule numbers."
+   ],
+   "physics": "掩土村是「剂量预算」的建筑表达:屏蔽降低底数,围合缩短户外通勤,广场把必要的户外时间集中在舱影之间——每一米布局都在替排班表省毫希。",
+   "physics_en": "The village is dose budgeting expressed as architecture: shielding lowers the baseline, the enclosed plan shortens outdoor commutes, and the plaza concentrates necessary outdoor time between cabin shadows - every metre of layout saves the roster millisieverts."
+  },
+  {
+   "id": "bike",
+   "label": "火星自行车架（31 W 巡航）",
+   "label_en": "Mars bike rack (31 W cruising)",
+   "range": 10,
+   "detail": "村里的短途交通工具。0.38 g 加 0.6% 大气密度是骑行天堂:30 km/h 巡航只要 31 W(地球同速 249 W)——滚阻随重力缩 0.38 倍,气动阻力随密度缩 70 倍,几乎蹬着玩。压力服里骑车是真的日常。",
+   "detail_en": "The village's short-haul transport. 0.38 g plus 0.6% atmospheric density makes cycling paradise: 30 km/h cruise takes 31 W against 249 W on Earth - rolling resistance scales down 0.38x with gravity and aero drag 70x with density. Riding in a pressure suit is genuinely routine here.",
+   "specs": {
+    "巡航功率": "31 W @ 30 km/h（地球 249 W）",
+    "气动占比": "8%",
+    "刹车距离": "地球的 2.64×"
+   },
+   "specs_en": {
+    "Cruise power": "31 W at 30 km/h (Earth: 249 W)",
+    "Aero share": "8%",
+    "Braking": "2.64x Earth distance"
+   },
+   "sim": "动力学账:省力 8 倍是重力和大气送的,但附着力同样随 mg 缩 0.38 倍——刹车距离 2.64 倍,12 m 半径弯道要压 57° 倾角(地球同弯 30°)。村道限速不是规定出来的,是摩擦系数算出来的。",
+   "sim_en": "Dynamics ledger: the 8x power saving is a gift of gravity and thin air, but tire grip also scales with mg, down 0.38x - braking distance is 2.64x, and a 12 m turn demands a 57-degree lean where Earth asks 30. The village speed limit was not legislated; it was computed from the friction coefficient.",
+   "physics": "低重力的交通悖论:推进变便宜的同时,刹车和转向变贵——因为两者都花同一种货币(轮胎与地面的摩擦力),而摩擦力 ∝ mg。",
+   "physics_en": "The low-gravity transport paradox: propulsion gets cheap while braking and cornering get expensive - both spend the same currency, tire-to-ground friction, and friction scales with mg."
+  }
+ ]
 }

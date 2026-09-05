@@ -6,8 +6,8 @@
       "label": "主天线 · 12 m 抛物面",
       "label_en": "Main antenna - 12 m reflector",
       "range": 30,
-      "detail": "地平式卡塞格林天线:白色主反射面 f/D≈0.4,三脚馈源支架 + 副反射器,背面桁架肋,朝天面覆铁锈色火星尘膜。指向偏天顶 30° 对头顶静止轨道中继星,方位/俯仰极缓慢扫动为跟踪/切换中继星。",
-      "detail_en": "An az-el mounted Cassegrain: 12 m white primary at f/D ~0.4, tripod feed legs carrying the subreflector, truss ribs across the back, and a rust-coloured film of Martian dust on every sky-facing surface. It sits 30 deg off zenith on the areostationary relay overhead; the slow azimuth and elevation drift you see is tracking, and occasionally handing over to another relay.",
+      "detail": "地平式卡塞格林天线:白色主反射面 f/D≈0.4,三脚馈源支架 + 副反射器,背面桁架肋,朝天面覆铁锈色火星尘膜。指向偏天顶 30° 对头顶静止轨道中继星,方位/俯仰极缓慢扫动为跟踪/切换中继星。合日期本站 12 m Ka(EIRP 98 dBW)改指日火 L4,是 com-l4-01 火星侧跳的地面端(1.38–1.67 AU,2.5–3.6 Mbps),黑障期间全城对地流量由此出入。",
+      "detail_en": "An az-el mounted Cassegrain: 12 m white primary at f/D ~0.4, tripod feed legs carrying the subreflector, truss ribs across the back, and a rust-coloured film of Martian dust on every sky-facing surface. It sits 30 deg off zenith on the areostationary relay overhead; the slow azimuth and elevation drift you see is tracking, and occasionally handing over to another relay. In conjunction season this 12 m Ka dish (EIRP 98 dBW) repoints to Sun-Mars L4 as the ground end of com-l4-01's Mars-side hop (1.38-1.67 AU, 2.5-3.6 Mbps) - during the blackout every byte between the city and Earth passes through here.",
       "specs": {
         "口径": "12 m",
         "波段": "Ka 32/34 GHz + X 8.4 GHz",

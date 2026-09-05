@@ -3,7 +3,7 @@
 // 使命:密度资产 —— 一个母体 ×16 变体实例(标准/端头气闸/L 角舱/公共舱),
 //   三排联排覆土舱 + 短廊网 + 村心广场,读作"一片聚落"不是拼色积木。
 // 设计输入(E:\Claude\mars-village design_accounts.json 五本账):
-//   2 m 覆土 GCR 234→6.2 mSv/yr(38×) · 昼夜温波 2 m=55 皮肤深度全灭 ·
+//   2 m 覆土 GCR 234→7.6 mSv/yr(31×,λ_p=67.1 修正口径) · 昼夜温波 2 m=55 皮肤深度全灭 ·
 //   半圆柱膜应力 0.7 mm vs 方盒平板 53 mm(76×) · 覆土压重仅内压 17% ·
 //   短廊并 16 舱为一个气压域(全村 2 气闸,互引 hab-tunnel gate 卡) ·
 //   0.38 g 骑行 30 km/h 仅 31 W 但刹车距离 2.64×。
@@ -14,7 +14,7 @@ export const meta = {
   id: 'hab-village-01',
   name: '掩土居住舱村',
   name_en: 'Earth-Sheltered Hab Village',
-  size_m: 71.5,            // validate 实测包围盒(x 71.53)
+  size_m: 74.8,            // validate 实测包围盒(x 74.75,v3 土脊加宽)
   size_axis: 'width',
   effects: ['glow_windows', 'blink'],
 };
@@ -118,9 +118,14 @@ export function build(THREE) {
   const geoWinC  = new THREE.CircleGeometry(1.55, 16);
   const geoWinCF = new THREE.CircleGeometry(1.7, 16);
   const rockGeo  = new THREE.DodecahedronGeometry(1, 0);
+  const skirtMat = new THREE.MeshLambertMaterial({ color: 0x9a6a4d });   // v5c 角舱土垄
+  skirtMat.color.lerp(new THREE.Color(0x9e5b3d), 0.05);
 
-  // 覆土坡:单位半球 + 值噪声粗糙 + 双色顶点斑驳,两个噪声变体防复读
-  const mkBerm = (seed) => {
+  // 覆土坡:单位半球 + 值噪声粗糙 + 双色顶点斑驳。
+  // v3(账实一致修复):尺寸放大到"冠部竖直覆土 ≥2 m"的账面口径,
+  // 门廊处在单位空间烘一个矩形凹口(notch)= 深嵌门斗的挡土立面。
+  // notch = { z0(立面 u_z 位置), hw(半宽), h(高), x0(中心偏移) },均单位空间。
+  const mkBerm = (seed, notch) => {
     const g = new THREE.SphereGeometry(1, 18, 9, 0, Math.PI * 2, 0, Math.PI / 2);
     const pos = g.attributes.position;
     const col = new Float32Array(pos.count * 3);
@@ -130,8 +135,10 @@ export function build(THREE) {
       if (py < 0.92) {                               // 保土脊顶,只糙坡面
         const k = 1 + (vnoise(px * 2.3 + seed, py * 2.3, pz * 2.3 + seed * 2) - 0.5) * 0.22;
         px *= k; pz *= k;
-        pos.setX(i, px); pos.setZ(i, pz);
       }
+      if (notch && pz > notch.z0 && py < notch.h && Math.abs(px - notch.x0) < notch.hw)
+        pz = notch.z0;                               // 门廊凹口:垂直挡土立面
+      pos.setX(i, px); pos.setZ(i, pz);
       const n = 0.55 * vnoise(px * 2.6 + seed, py * 2.6, pz * 2.6) +
                 0.45 * vnoise(px * 7.3, py * 7.3 + seed, pz * 7.3);
       tmp.copy(cA).lerp(cB, Math.min(1, Math.max(0, n * 1.1 + 0.15 * (1 - py))));
@@ -141,14 +148,25 @@ export function build(THREE) {
     g.computeVertexNormals();
     return g;
   };
-  const geoBermA = mkBerm(3.7), geoBermB = mkBerm(9.2);
+  // v3 覆土参数(对照表真源,见 v3_reconciliation.md):
+  //   std: scale(6.4,4.35,7.2) pos(0,-0.25,-1.4) → 冠 2.0 m/床位段 ≥1.99 m
+  //   commons: scale(7.6,5.3,8.6) pos(0,-0.25,-1.6) → 冠 ~1.96 m
+  //   notch 立面在壳端面外 ~0.07 m,门斗墙挡土
+  // notch 立面藏在壳端面后 0.1 m(端盖遮住土面切口,窗完整可见——首版放在
+  // 端面前 0.05 曾把窗埋进土里,夜景只剩一道月牙)
+  const NOTCH_STD = { z0: 0.735, hw: 0.25, h: 0.60, x0: 0 };   // v4 收窄:土面贴住门斗外壁
+  const NOTCH_COM = { z0: 0.756, hw: 0.286, h: 0.708, x0: 0 };
+  const NOTCH_COR = { z0: 0.872, hw: 0.199, h: 0.554, x0: -0.216 };  // v4 随角坡加大重算
+  const geoBermA = mkBerm(3.7, NOTCH_STD), geoBermB = mkBerm(9.2, NOTCH_STD);
+  const geoBermCom = mkBerm(5.1, NOTCH_COM);
+  const geoBermCor = mkBerm(7.3, NOTCH_COR);
 
   /* ==========================================================
    * 母体舱构建器:kind = 'std' | 'end' | 'commons'
    * 局部:原点=壳中心地面点,正面(端窗)朝 +Z,后端 -Z 接短廊。
    * stubLen = 后短廊长度(自壳后端 z=-L/2 起)。
    * ========================================================== */
-  function buildCabin(kind, tint, seed, stubLen, lit) {
+  function buildCabin(kind, tint, seed, stubLen, lit, cid) {
     const c = new THREE.Group();
     const big = kind === 'commons';
     const R = big ? 3 : 2, L = big ? 10 : 8;
@@ -162,13 +180,12 @@ export function build(THREE) {
     const capB = new THREE.Mesh(big ? geoCapC : geoCap, hullMat);
     capB.position.z = -L / 2; capB.rotation.y = Math.PI; c.add(capB);
 
-    // 覆土坡(压在壳上,前端面从土里探出)
-    const berm = new THREE.Mesh(seed % 2 ? geoBermA : geoBermB, M.berm);
-    if (big) berm.scale.set(5.3, R + 0.95, L * 0.66);
-    else berm.scale.set(3.8, R + 0.9, L * 0.7);
-    berm.position.set(0, -0.18, -1.45);              // 后撤留一圈裸壳;多沉 0.18 吃地形起伏
-    berm.rotation.y = (hash(seed * 7.7) - 0.5) * 0.24;
-    c.add(berm);
+    // 覆土坡(v3:冠部竖直覆土做实 2 m,端窗经深嵌门斗可见)
+    const berm = new THREE.Mesh(big ? geoBermCom : (seed % 2 ? geoBermA : geoBermB), M.berm);
+    if (big) berm.scale.set(7.6, 5.3, 8.6);
+    else berm.scale.set(6.4, 4.35, 7.2);
+    berm.position.set(0, -0.25, big ? -1.6 : -1.4);
+    c.add(berm);                                     // v3 取消土坡独立 jitter(凹口须对准门斗)
 
     // 端窗(圆窗+深色框) —— 公共舱大端窗夜里最亮
     const wy = big ? 1.7 : 1.15;
@@ -176,30 +193,54 @@ export function build(THREE) {
     frm.position.set(0, wy, L / 2 + 0.02); c.add(frm);
     const win = new THREE.Mesh(big ? geoWinC : geoWin, big ? winBig : (lit ? winLit : winDim));
     win.position.set(0, wy, L / 2 + 0.04); c.add(win);
-    // 门廊套环(挡土立面):两立柱 + 门楣
-    const pw = big ? 3.3 : 2.3;
-    box(c, 0.24, big ? 3.1 : 2.15, 0.3, M.concrete, -pw / 2, (big ? 3.1 : 2.15) / 2, L / 2 + 0.05);
-    box(c, 0.24, big ? 3.1 : 2.15, 0.3, M.concrete, pw / 2, (big ? 3.1 : 2.15) / 2, L / 2 + 0.05);
-    box(c, pw + 0.24, 0.24, 0.3, M.concrete, 0, big ? 3.15 : 2.2, L / 2 + 0.05);
+    // v3 深嵌门斗:端窗仍可见,但要穿过土脊趾部的挡土隧道(墙+顶板)
+    if (kind !== 'end') {
+      const pw2 = big ? 2.05 : 1.45, ph = big ? 3.6 : 2.4, pd = big ? 2.4 : 2.2;
+      const pz = L / 2 + pd / 2 - 0.05;
+      box(c, 0.3, ph, pd, M.concrete, -pw2, ph / 2, pz);
+      box(c, 0.3, ph, pd, M.concrete, pw2, ph / 2, pz);
+      box(c, pw2 * 2 + 0.3, big ? 0.3 : 0.25, pd, M.concrete, 0, ph + 0.13, pz);
+      box(c, pw2 * 2 - 0.3, 0.09, pd + 0.5, M.plazaA, 0, 0.045, pz + 0.2);   // 门斗地坪
+      box(c, pw2 * 2 + 0.5, 0.22, 0.24, M.trim, 0, ph + 0.32, pz + pd / 2);  // 洞口压条
+      // v4 遮蔽墙:门斗前 ~1.4 m,高及受体视线(床0.45/起居1.0),端窗上弧露出墙顶
+      const bw = big ? 5.8 : 5.0, bh = big ? 2.2 : 1.7;
+      box(c, bw, bh + 0.35, 0.35, M.concrete, 0, (bh + 0.35) / 2 - 0.3, L / 2 + pd + 1.45);
+      box(c, bw + 0.2, 0.14, 0.45, M.trim, 0, bh + 0.1, L / 2 + pd + 1.45);  // 压顶条
+      // 斜雨棚:门楣→墙顶,罩住墙后地条(否则该条仍是见天反照源直通门洞)
+      const lin = ph + 0.2, span = 1.75;
+      const cano = new THREE.Mesh(new THREE.BoxGeometry(bw, 0.24, Math.hypot(span, lin - bh) + 0.2), M.concrete);
+      cano.position.set(0, (lin + bh) / 2 + 0.05, L / 2 + pd + 0.55);
+      cano.rotation.x = Math.atan2(lin - bh, span);
+      c.add(cano);
+      // 门牌灯移到遮蔽墙外立面(闭合后夜里仍是"每户一点暖光")
+      box(c, 0.2, 0.07, 0.06, M.trim, 0, bh - 0.25, L / 2 + pd + 1.66);
+      box(c, 0.16, 0.05, 0.04, porchMat, 0, bh - 0.25, L / 2 + pd + 1.69);
+    }
     // 外走线 + 接线箱(工业细节语法)
-    cyl(c, 0.025, wy + 0.5, M.dark, pw / 2 - 0.35, (wy + 0.5) / 2, L / 2 + 0.12, 6);
-    box(c, 0.18, 0.24, 0.12, M.steel, pw / 2 - 0.35, 0.42, L / 2 + 0.16);
+    const cx0 = (big ? 1.65 : 0.8);                  // 外走线贴门斗内壁
+    cyl(c, 0.025, wy + 0.5, M.dark, cx0, (wy + 0.5) / 2, L / 2 + 0.12, 6);
+    box(c, 0.18, 0.24, 0.12, M.steel, cx0, 0.42, L / 2 + 0.16);
     // 门廊小灯(共享 porchMat 进 nightMats:夜里每户门前一点暖光)
     box(c, 0.18, 0.06, 0.08, M.trim, 0, (big ? 3.02 : 2.07), L / 2 + 0.16);
     box(c, 0.14, 0.045, 0.05, porchMat, 0, (big ? 2.99 : 2.04), L / 2 + 0.19);
-    // 通风竖管(掩土舱的呼吸口——覆土顶探出,打破土脊轮廓)
+    // 通风竖管(掩土舱的呼吸口——v3 随土脊抬高)
     if (!big) {
       const vx = 0.7, vz = -2.6;
-      cyl(c, 0.11, 0.95, M.steel, vx, 2.72, vz, 10);
-      box(c, 0.34, 0.1, 0.34, M.trim, vx, 3.26, vz);           // 防尘帽
-      box(c, 0.26, 0.07, 0.26, M.dark, vx, 3.18, vz);          // 百叶缝
+      cyl(c, 0.11, 1.2, M.steel, vx, 3.8, vz, 10);
+      box(c, 0.34, 0.1, 0.34, M.trim, vx, 4.47, vz);           // 防尘帽
+      box(c, 0.26, 0.07, 0.26, M.dark, vx, 4.39, vz);          // 百叶缝
     }
-    // 门前碎石垫(重复出现的"用过的场地")
-    if (kind === 'std') box(c, 1.9, 0.09, 1.15, M.plazaA, 0.1, 0.045, L / 2 + 0.85);
+    // 门前碎石垫(门斗洞口外)
+    if (kind === 'std') box(c, 2.2, 0.09, 1.1, M.plazaA, 0.1, 0.045, L / 2 + 2.9);
 
     // 后短廊(2×2 方管钻出土坡接脊廊)
-    if (stubLen > 0)
+    if (stubLen > 0) {
       box(c, 1.5, 2, stubLen + 0.3, M.corridor, 0, 1.0, -L / 2 - stubLen / 2 + 0.15);
+      // v4 孔道流闭合:廊内 3 道交错半幅迷宫墙(左-右-左,直线视线必断;
+      //   人行之字缝 0.6 m——加速器门迷宫同款拓扑)
+      for (const [off, sx] of [[0.9, -1], [2.15, 1], [3.4, -1]])
+        box(c, 0.9, 2.05, 0.12, M.concrete, sx * 0.3, 1.02, -L / 2 - off);
+    }
 
     if (kind === 'end') {
       // 端头舱:前门斗气闸(全村仅两座 —— 气闸经济学的几何表达)
@@ -216,27 +257,52 @@ export function build(THREE) {
       box(c, 1.6, 0.12, 0.9, M.concrete, 0, 0.06, L / 2 + 2.45); // 门口踏板
       // 门口储物箱
       box(c, 0.7, 0.55, 0.5, M.steel, 1.7, 0.275, L / 2 + 1.6, 0.2);
+      // v4 门斗侧缝封堵(气闸箱与凹口立面间,整块与门框/覆土双向搭接)
+      for (const sx of [-1, 1])
+        box(c, 0.8, 2.5, 2.28, M.concrete, sx * 1.5, 1.25, L / 2 + 1.16);
+      // v5 舱内遮蔽墙(09-02 判据改形后:双门 ~38 g/cm² 仍是薄屏蔽点——
+      //   0.35 m 风化层混凝土内墙把前轴叠到 ~120 g/cm²;+x 侧留 0.8 m 走道)
+      box(c, 1.9, 2.0, 0.35, M.concrete, -0.55, 1.0, 1.0);
+      box(c, 1.9, 0.1, 0.45, M.trim, -0.55, 2.05, 1.0);
+      // 第二道错位墙(z=0,走道换边成 S——单墙的走道恰好服务 +x 侧受体)
+      box(c, 1.9, 2.0, 0.35, M.concrete, 0.55, 1.0, 0.0);
+      box(c, 1.9, 0.1, 0.45, M.trim, 0.55, 2.05, 0.0);
+    }
+    // 受体锚点(v3,零三角形;berth_*=睡眠位/living_*=起居位,坐标即 berths.json 真源)
+    // 床在后半段:睡眠 8h/sol 权重最大,放屏蔽最厚端;起居在前段(端向弱屏蔽段)
+    const mkAnchor = (name, ax, ay, az) => {
+      const a = new THREE.Object3D();
+      a.name = name; a.position.set(ax, ay, az); c.add(a);
+    };
+    if (cid) {
+      if (kind === 'commons') mkAnchor('living_' + cid, 0, 1.0, 2.0);
+      else {
+        mkAnchor('berth_' + cid + '_1', -1.1, 0.45, -2.3);
+        mkAnchor('berth_' + cid + '_2', 1.1, 0.45, -2.3);
+        // 端头舱起居位在内遮蔽墙后(前区=换服区,常驻受体不设在薄屏蔽轴上)
+        mkAnchor('living_' + cid, 0.6, 1.0, kind === 'end' ? -0.1 : 2.2);
+      }
     }
     if (kind === 'commons') {
-      // 公共舱:通风扇(spinner) + 屋顶排风帽
-      cyl(c, 0.34, 0.5, M.steel, 1.8, R + 0.78, -2.2, 10);
+      // 公共舱:通风扇(spinner) + 屋顶排风帽(v3 随土脊抬高,脊面 ~4.9)
+      cyl(c, 0.34, 0.7, M.steel, 1.8, 5.0, -2.2, 10);
       const fan = new THREE.Group();
       fan.name = 'fan_commons';
-      fan.position.set(1.8, R + 1.08, -2.2);
+      fan.position.set(1.8, 5.5, -2.2);
       for (let i = 0; i < 3; i++)
         box(fan, 0.56, 0.04, 0.13, M.dark, 0, 0, 0, i * Math.PI / 3);
       c.add(fan);
-      cyl(c, 0.06, 0.5, M.steel, 1.8, R + 1.16, -2.2, 6);
-      box(c, 0.9, 0.06, 0.9, M.steel, 1.8, R + 1.4, -2.2);      // 雨帽(防尘帽)
+      cyl(c, 0.06, 0.5, M.steel, 1.8, 5.6, -2.2, 6);
+      box(c, 0.9, 0.06, 0.9, M.steel, 1.8, 5.85, -2.2);         // 雨帽(防尘帽)
       // 通信桅(UHF 上行 com-station,村对外的天线)
-      cyl(c, 0.04, 2.0, M.steel, -1.8, R + 1.7, -3.0, 8);
-      box(c, 0.5, 0.05, 0.05, M.dark, -1.8, R + 2.55, -3.0);    // 横臂
-      box(c, 0.3, 0.3, 0.07, M.steel, -1.65, R + 2.4, -3.0, 0.5); // 小碟
-      cyl(c, 0.02, 2.4, M.dark, -1.72, R + 0.7, -2.95, 5);      // 馈线下行
-      // 门口长凳
-      box(c, 1.6, 0.12, 0.42, M.steel, -2.3, 0.36, L / 2 + 0.7);
-      box(c, 0.12, 0.3, 0.36, M.trim, -2.9, 0.15, L / 2 + 0.7);
-      box(c, 0.12, 0.3, 0.36, M.trim, -1.7, 0.15, L / 2 + 0.7);
+      cyl(c, 0.04, 2.2, M.steel, -1.8, 5.9, -3.0, 8);
+      box(c, 0.5, 0.05, 0.05, M.dark, -1.8, 6.85, -3.0);        // 横臂
+      box(c, 0.3, 0.3, 0.07, M.steel, -1.65, 6.7, -3.0, 0.5);   // 小碟
+      cyl(c, 0.02, 2.6, M.dark, -1.72, 4.6, -2.95, 5);          // 馈线下行
+      // 门口长凳(v3 移到门斗洞口外,免遭土脊吞没)
+      box(c, 1.6, 0.12, 0.42, M.steel, -2.8, 0.36, L / 2 + 2.5);
+      box(c, 0.12, 0.3, 0.36, M.trim, -3.4, 0.15, L / 2 + 2.5);
+      box(c, 0.12, 0.3, 0.36, M.trim, -2.2, 0.15, L / 2 + 2.5);
     }
     return c;
   }
@@ -256,30 +322,54 @@ export function build(THREE) {
     const cap2 = new THREE.Mesh(geoCap, hullMats[(tint + 2) % 5]);
     cap2.rotation.y = Math.PI / 2;
     cap2.position.set(6.5, 0, -1.0); c.add(cap2);
-    // 角部大土坡盖住双壳后身
-    const berm = new THREE.Mesh(geoBermB, M.berm);
-    berm.scale.set(6.4, 3.05, 5.6);
-    berm.position.set(-0.6, -0.06, -1.2);
+    // 角部大土坡盖住双壳(v3:双壳冠部均 ≥2 m,凹口对准臂 1 端面)
+    const berm = new THREE.Mesh(geoBermCor, M.berm);
+    berm.scale.set(8.8, 4.6, 7.8);                   // v4 加大:盖住臂1端角裸壳条
+    berm.position.set(-0.6, -0.25, -1.4);
     c.add(berm);
-    // 臂 1 前端面:窗+套环(朝广场);臂 2 东端面只出廊管(不开窗)
+    // 臂 1 前端面:窗 + v4 全套闭合(门斗墙/遮蔽墙/雨棚——A7 此前漏配,凹口敞着)
     {
       const fw = new THREE.Group();
       fw.position.set(-2.5, 0, 5.5);
       const frm = new THREE.Mesh(geoWinFrm, M.trim); frm.position.set(0, 1.15, 0.02); fw.add(frm);
       const win = new THREE.Mesh(geoWin, winDim); win.position.set(0, 1.15, 0.04); fw.add(win);
-      box(fw, 0.24, 2.15, 0.3, M.concrete, -1.15, 1.075, 0.05);
-      box(fw, 0.24, 2.15, 0.3, M.concrete, 1.15, 1.075, 0.05);
-      box(fw, 2.54, 0.24, 0.3, M.concrete, 0, 2.2, 0.05);
+      box(fw, 0.3, 2.4, 1.7, M.concrete, -1.45, 1.2, 0.8);
+      box(fw, 0.3, 2.4, 1.7, M.concrete, 1.45, 1.2, 0.8);
+      box(fw, 3.2, 0.25, 1.7, M.concrete, 0, 2.5, 0.8);
+      box(fw, 0.55, 2.3, 0.4, M.concrete, -1.88, 1.15, 0.15);    // 端面翼墙(封裸帽角)
+      box(fw, 0.55, 2.3, 0.4, M.concrete, 1.88, 1.15, 0.15);
+      box(fw, 5.6, 2.05, 0.35, M.concrete, 0, 0.72, 2.65);       // 遮蔽墙(加宽)
+      box(fw, 5.8, 0.14, 0.45, M.trim, 0, 1.8, 2.65);
+      const cano = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.24, 1.95), M.concrete);
+      cano.position.set(0, 2.2, 1.9);
+      cano.rotation.x = Math.atan2(0.9, 1.7);
+      fw.add(cano);
+      for (const sxx of [-1, 1]) {
+        // v5c(裁决:仅角舱)对角缝土垄:az~309 低矮趾缘 → ≥0.72 m 土当量(目标写死;r1.0 土垄实测 x_solid 489≫118.8,超出不认收益)
+        const sk = new THREE.Mesh(mkHalfShell(1.0, 6, 10), skirtMat);
+        sk.position.set(sxx * 3.05, -0.15, 1.2);
+        fw.add(sk);
+      }
       c.add(fw);
     }
     box(c, 0.3, 2.3, 1.9, M.concrete, 6.6, 1.15, -1.0);  // 臂 2 端墙压条(廊管从中穿出)
-    // 角坡通风竖管
-    cyl(c, 0.11, 0.95, M.steel, 0.4, 2.95, -2.4, 10);
-    box(c, 0.34, 0.1, 0.34, M.trim, 0.4, 3.49, -2.4);
-    box(c, 0.26, 0.07, 0.26, M.dark, 0.4, 3.41, -2.4);
+    // 角坡通风竖管(v3 抬高)
+    cyl(c, 0.11, 1.2, M.steel, 0.4, 4.05, -2.4, 10);
+    box(c, 0.34, 0.1, 0.34, M.trim, 0.4, 4.72, -2.4);
+    box(c, 0.26, 0.07, 0.26, M.dark, 0.4, 4.64, -2.4);
+    // 受体锚点(臂 1 后段 2 床 + 前段起居)
+    for (const [nm, ax, ay, az] of [
+      ['berth_A7_1', -3.4, 0.45, -1.2], ['berth_A7_2', -1.6, 0.45, -1.2],
+      ['living_A7', -2.5, 1.0, 3.6],
+    ]) { const a = new THREE.Object3D(); a.name = nm; a.position.set(ax, ay, az); c.add(a); }
     // 臂 2 后端(西)钻进土里,臂 1 后端接 A 脊廊短管
     box(c, 1.5, 2, 3.2, M.corridor, -2.5, 1.0, -4.4);
     box(c, 1.5, 2, 4.4, M.corridor, 9.2, 1.0, -1.0, Math.PI / 2);  // 东臂接 C 脊
+    // v4 迷宫墙(两臂各 3 道,同 std 拓扑)
+    for (const [off, sx] of [[0.6, -1], [1.6, 1], [2.6, -1]])
+      box(c, 0.9, 2.05, 0.12, M.concrete, -2.5 + sx * 0.3, 1.02, -3.2 - off);
+    for (const [off, sz] of [[0.4, -1], [1.6, 1], [2.8, -1]])
+      box(c, 0.12, 2.05, 0.9, M.concrete, 7.2 + off, 1.02, -1.0 + sz * 0.3);
     return c;
   }
 
@@ -289,24 +379,24 @@ export function build(THREE) {
   const cabins = [];   // {kind,x,z,ry,tint,lit}
   const P = 7;         // 节距:覆土坡相接成连续土脊
   // A 排(北,面朝广场 +Z→局部 ry=0),脊廊 z=-22
-  cabins.push({ kind: 'end', x: -24.5, z: -14, ry: 0, tint: 1, lit: false, stub: 4 });
+  cabins.push({ kind: 'end', cid: 'A1', x: -24.5, z: -14, ry: 0, tint: 1, lit: false, stub: 4 });
   [-17.5, -10.5, -3.5, 3.5, 10.5].forEach((x, i) =>
-    cabins.push({ kind: 'std', x, z: -14, ry: 0, tint: (i * 2 + 1) % 5, lit: i === 1 || i === 4, stub: 4 }));
+    cabins.push({ kind: 'std', cid: 'A' + (i + 2), x, z: -14, ry: 0, tint: (i * 2 + 1) % 5, lit: i === 1 || i === 4, stub: 4 }));
   // B 排(南,面朝广场 -Z→ry=π),错半节距,脊廊 z=+22
-  cabins.push({ kind: 'end', x: -28, z: 14, ry: Math.PI, tint: 3, lit: false, stub: 4 });
+  cabins.push({ kind: 'end', cid: 'B1', x: -28, z: 14, ry: Math.PI, tint: 3, lit: false, stub: 4 });
   [-21, -14, -7].forEach((x, i) =>
-    cabins.push({ kind: 'std', x, z: 14, ry: Math.PI, tint: (i * 3 + 2) % 5, lit: i === 1, stub: 4 }));
-  cabins.push({ kind: 'commons', x: 1.5, z: 14, ry: Math.PI, tint: 2, lit: true, stub: 4 });
-  cabins.push({ kind: 'std', x: 9.5, z: 14, ry: Math.PI, tint: 0, lit: false, stub: 4 });
+    cabins.push({ kind: 'std', cid: 'B' + (i + 2), x, z: 14, ry: Math.PI, tint: (i * 3 + 2) % 5, lit: i === 1, stub: 4 }));
+  cabins.push({ kind: 'commons', cid: 'B5', x: 1.5, z: 14, ry: Math.PI, tint: 2, lit: true, stub: 4 });
+  cabins.push({ kind: 'std', cid: 'B6', x: 9.5, z: 14, ry: Math.PI, tint: 0, lit: false, stub: 4 });
   // C 排(东,面朝广场 -X→ry=-π/2),脊廊 x=+32.5
   [-4, 3, 10].forEach((z, i) =>
-    cabins.push({ kind: 'std', x: 24.5, z, ry: -Math.PI / 2, tint: (i * 2 + 3) % 5, lit: i === 0, stub: 4 }));
+    cabins.push({ kind: 'std', cid: 'C' + (i + 1), x: 24.5, z, ry: -Math.PI / 2, tint: (i * 2 + 3) % 5, lit: i === 0, stub: 4 }));
 
   let poiHullRef = null, poiEndRef = null, poiCommonsRef = null;
   cabins.forEach((cb, i) => {
     const jit = (hash(i * 17.3) - 0.5) * 1.6;          // 轴向 ±0.8
     const jry = (hash(i * 31.7) - 0.5) * 0.1;          // 偏航 ±3°
-    const c = buildCabin(cb.kind, cb.tint, i + 1, cb.stub, cb.lit);
+    const c = buildCabin(cb.kind, cb.tint, i + 1, cb.stub, cb.lit, cb.cid);
     const alongZ = Math.abs(Math.sin(cb.ry)) < 0.5;    // ry≈0/π→轴沿 z
     // jitter 主沿舱轴 ±0.8(错落),排向 ±0.32(节距基本守住)
     c.position.set(alongZ ? cb.x + jit * 0.4 : cb.x + jit, 0,
@@ -341,6 +431,23 @@ export function build(THREE) {
   tube(-30, 22, 13, 22);          // B 脊
   tube(32.5, -16.5, 32.5, 21.5);  // C 脊
   tube(13, 22, 31.5, 22);         // 东南肘管(B 脊 ↔ C 脊)
+  // v4 脊廊覆土枕(r2.7 半圆土枕整段掩埋:断横穿廊带与后向近地薄路径;
+  //   廊网从"贴脊明管"变"埋管",辐射上廊带不再是通道)
+  {
+    const bundMat = new THREE.MeshLambertMaterial({ color: 0x99694c });
+    bundMat.color.lerp(new THREE.Color(0x9e5b3d), 0.05);
+    const bund = (x1, z1, x2, z2) => {
+      const len = Math.hypot(x2 - x1, z2 - z1) + 3;
+      const m = new THREE.Mesh(mkHalfShell(2.7, len, 12), bundMat);
+      m.position.set((x1 + x2) / 2, -0.1, (z1 + z2) / 2);
+      m.rotation.y = Math.atan2(x2 - x1, z2 - z1);
+      group.add(m);
+    };
+    bund(-26, -22, 19, -22);
+    bund(-30, 22, 13, 22);
+    bund(32.5, -16.5, 32.5, 21.5);
+    bund(13, 22, 31.5, 22);
+  }
   // 端头堵板 + 廊窗点缀
   for (const [x, z, ry] of [[-26, -22, Math.PI / 2], [-30, 22, Math.PI / 2], [32.5, -17.2, 0]])
     box(group, 2.1, 2.1, 0.2, M.trim, x, 1.0, z, ry);
@@ -394,7 +501,7 @@ export function build(THREE) {
   }
   // 公告屏(blinkMats 缓闪,朝南广场面)
   {
-    const g2 = new THREE.Group(); g2.position.set(-2.2, PY, -7.4);
+    const g2 = new THREE.Group(); g2.position.set(-0.1, PY, -7.4);  // v4 让开 A4 遮蔽墙
     box(g2, 0.14, 2.3, 0.14, M.steel, -0.75, 1.15, 0);
     box(g2, 0.14, 2.3, 0.14, M.steel, 0.75, 1.15, 0);
     box(g2, 1.9, 1.15, 0.1, M.trim, 0, 1.75, 0.02);
@@ -445,7 +552,7 @@ export function build(THREE) {
     group.add(rack);
   }
   // 菜箱 ×3(A3/A4 前檐下 + 公共舱旁;火星第一茬绿色)
-  for (const [vx, vz, vry] of [[-11.6, -8.6, 0.15], [-4.4, -8.4, -0.1], [4.4, 8.6, 0.2]]) {
+  for (const [vx, vz, vry] of [[-11.6, -8.9, 0.15], [-4.4, -8.8, -0.1], [4.4, 8.9, 0.2]]) {
     const vb = new THREE.Group(); vb.position.set(vx, 0, vz); vb.rotation.y = vry;
     box(vb, 1.5, 0.4, 0.6, M.soilBox, 0, 0.26, 0);
     box(vb, 1.4, 0.06, 0.5, M.track, 0, 0.48, 0);
@@ -494,7 +601,7 @@ export function build(THREE) {
   {
     const fb = mkBike(M.bike2);
     fb.scale.setScalar(0.8);
-    fb.position.set(4.7, 0.13, -8.0);
+    fb.position.set(4.9, 0.13, -8.9);
     fb.rotation.set(1.15, -0.7, 0);
     group.add(fb);
   }
@@ -528,7 +635,7 @@ export function build(THREE) {
     group.add(db);
   }
   // 舱门口储物箱(散布在几个前檐)
-  for (const [sx, sz, sry] of [[-18.9, -8.9, 0.3], [2.2, -8.7, -0.2], [-15.4, 8.8, 0.1], [22.3, 4.2, 1.4]])
+  for (const [sx, sz, sry] of [[-18.9, -8.9, 0.3], [2.2, -8.7, -0.2], [-15.4, 8.8, 0.1], [17.8, 4.6, 1.4]])
     box(group, 0.64, 0.5, 0.44, M.steel, sx, 0.25, sz, sry);
 
   /* ==========================================================
@@ -544,7 +651,7 @@ export function build(THREE) {
     group.add(sign);
   }
   {
-    const ws = new THREE.Group(); ws.position.set(8.2, 0, 8.8); ws.rotation.y = 2.6;
+    const ws = new THREE.Group(); ws.position.set(8.4, 0, 7.6); ws.rotation.y = 2.6;
     for (let i = 0; i < 3; i++)
       box(ws, 0.6, 0.75, 0.55, [M.binGrn, M.binBlue, M.orange][i], -0.7 + i * 0.7, 0.375, 0);
     box(ws, 2.4, 0.08, 0.8, M.steel, 0, 1.15, -0.05);
@@ -564,7 +671,7 @@ export function build(THREE) {
   }
   {
     // 应急 PV 桌 + 配电箱(村口动力角:市电断供时给气闸/门灯兜底)
-    const pv = new THREE.Group(); pv.position.set(-31.6, 0.35, -13.2); pv.rotation.y = 0.55;
+    const pv = new THREE.Group(); pv.position.set(-32.5, 0.35, -15.5); pv.rotation.y = 0.55;
     for (const sx of [-1.05, 1.05]) {
       const leg = new THREE.Mesh(new THREE.BoxGeometry(0.07, 1.15, 0.07), M.steel);
       leg.position.set(sx, 0.55, 0.25); leg.rotation.x = 0.35; pv.add(leg);
@@ -580,7 +687,7 @@ export function build(THREE) {
   }
   {
     // 防尘矮墙(西北来风侧,护村口)
-    const dw = new THREE.Group(); dw.position.set(-27, 0.35, -20.5); dw.rotation.y = 0.7;
+    const dw = new THREE.Group(); dw.position.set(-33, 0.35, -10.5); dw.rotation.y = 0.55;  // v3:原位会被土脊吞没,移西护村口
     box(dw, 9.5, 1.25, 0.5, M.concrete, 0, 0.625, 0);
     box(dw, 9.7, 0.18, 0.62, M.trim, 0, 1.32, 0);
     for (let i = 0; i < 4; i++) box(dw, 0.3, 1.45, 0.62, M.concrete, -4.2 + i * 2.8, 0.725, 0);
@@ -611,7 +718,7 @@ export function build(THREE) {
     a.position.set(x, y, z);
     group.add(a);
   };
-  poi('berm', -3.5, 2.8, -15);        // 覆土坡(A4)
+  poi('berm', -3.5, 4.35, -15);       // 覆土脊(A4,v3 冠高 ~4.1)
   poi('hull', -10.5, 1.2, -9.6);      // 标准舱端面(A3)
   poi('corridor', -3, 1.6, -22);      // A 脊廊
   poi('airlock', -24.5, 1.4, -7.6);   // A1 端头气闸

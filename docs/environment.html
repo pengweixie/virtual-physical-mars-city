@@ -227,10 +227,11 @@
         <img src="assets/environment/tier-perimeter.jpg" alt="SiC neutron sentinel standing on the fusion plant perimeter" loading="lazy">
         <div class="tier__body">
           <div class="tier__k">Surface · fusion fence</div>
-          <div class="tier__v">0.21 <span style="font-size:.8rem;font-weight:500;">counts/s</span></div>
-          <p class="tier__d">A blip about every 5 s — roughly 130× the ambient GCR neutron floor.
-            This one is not listening for space weather at all; it watches 14 MeV leakage through
-            the tokamak's breeding blanket.</p>
+          <div class="tier__v">2.32 <span style="font-size:.8rem;font-weight:500;">counts/s</span></div>
+          <p class="tier__d">A blip about every 0.43 s — roughly 1400× the ambient GCR neutron floor
+            (re-anchored 2026-09-02 to the declared 0.30 m bio-shield; the earlier 0.21 → 0.08 counts/s
+            and 12 s cadence sat behind a self-assumed 2 m shield). This one is not listening for space
+            weather at all; it watches 14 MeV leakage through the tokamak's breeding blanket.</p>
         </div>
       </div>
       <div class="tier">
@@ -334,7 +335,7 @@
       sensitivity.</p>
       <p>Neutrons have no charge and leave no track, so the tower carries converters: a bare
       reference layer, 1 mm of HDPE for fast neutrons by n–p recoil, and 2 µm of ⁶LiF for thermal
-      capture. The efficiencies are small and honest — 0.02→0.39% across 1→14 MeV, 1.14% thermal —
+      capture. The efficiencies are small and honest — 0.02→0.39% across 1→14 MeV, 1.13% thermal —
       which against the Martian albedo band of 0.05 n·cm⁻²·s⁻¹ works out to <strong>2.2 fast counts
       per hour</strong> and 86 thermal. Neutron spectra here are an hour-scale product, and the
       knowledge card says so.</p>
@@ -350,10 +351,15 @@
       more neutrons but re-absorbs its own reaction products (alpha range 5.9 µm, triton 33 µm), so
       efficiency peaks at <span class="hl">4.72% at 29.9 µm</span> and falls back to 4.0% by 60 µm.
       The design sits at 30 µm, on the flat.</p>
-      <p>The fence rate is not a guess either: it inherits the tokamak's own neutronics. A 3.01×10²⁰
-      n/s source at 14.06 MeV, attenuated by the breeding blanket and shield to 1.9×10¹⁴ n/m²/s at
-      the exit, then by 2 m of borated concrete (eight decades) and 1/r² over 55 m, arrives as
-      5.8 n·cm⁻²·s⁻¹ — the 0.21 counts/s the perimeter display actually shows.</p>
+      <p>The fence rate is not a guess either: it inherits the tokamak's own neutronics. A 2.271×10²⁰
+      n/s source at 640 MW fusion power, carried by the segmented Geant4 chain through blanket, shield,
+      vacuum vessel, TF coils and cryostat to the cryostat exterior (r = 4.235 m), then through the
+      declared 0.30 m of borated concrete to a cumulative escape of 1.164×10⁻¹⁰ per source neutron
+      (registered target 1.92×10⁻¹⁰), and 1/r² over 58 m, arrives as 62.5 n·cm⁻²·s⁻¹ — the 2.32 counts/s
+      the perimeter display actually shows. The earlier 2.15 n·cm⁻²·s⁻¹ → 0.08 counts/s sat behind a
+      self-assumed 2 m shield and a 3.01×10²⁰ n/s source, both retired 2026-09-02; the chain's own
+      qualifiers (per-join bias unapplied, chain reached 0.50 m at two records, resolved by a single-join
+      probe) travel with the number.</p>
     </div>
     <div class="fig2">
       <figure class="figure">
@@ -366,7 +372,7 @@
       </figure>
       <figure class="figure">
         <img src="assets/environment/acct-neutron.png" alt="Converter efficiency against the Martian albedo-neutron window" loading="lazy">
-        <figcaption>CONVERTER WINDOW — 1 MM HDPE FAST CHANNEL, 2 µM ⁶LIF THERMAL CHANNEL (1.14%)</figcaption>
+        <figcaption>CONVERTER WINDOW — 1 MM HDPE FAST CHANNEL, 2 µM ⁶LIF THERMAL CHANNEL (1.13%)</figcaption>
       </figure>
       <figure class="figure">
         <img src="assets/environment/acct-sep.png" alt="SEP dynamic range against the Timepix4 readout ceiling" loading="lazy">
@@ -401,20 +407,20 @@
         <tr><td>Storm E-field ceiling (Paschen, CO₂ 610 Pa)</td><td class="num">28 kV/m</td><td class="src">mars-weather/sim_efield_probe.py</td></tr>
         <tr><td>Dust grain counting SNR / storm current mode</td><td class="num">625 · 41.7 nA</td><td class="src">mars-weather/sim_dust_flux.py</td></tr>
         <tr><td>Front vector from remote poles / warning lead</td><td class="num">σ_v 4–5%, σ_az 2.2–2.8° · 1.2–3.7 min</td><td class="src">mars-weather/sim_network_triangulation.py</td></tr>
-        <tr class="grp"><td colspan="3">Surface radiation station — mars_rad, 4 accounts</td></tr>
+        <tr class="grp"><td colspan="3">Surface radiation station — mars_rad, 6 accounts</td></tr>
         <tr><td>Surface GCR dose equivalent</td><td class="num">0.66 mSv/sol · 234 mSv/yr</td><td class="src">mars_rad/sim/01_dose_ledger.py</td></tr>
-        <tr><td>Dose e-folding depth (three-point closure)</td><td class="num">λ_H 44 g/cm²</td><td class="src">mars_rad/sim/01_dose_ledger.py</td></tr>
+        <tr><td>Dose e-folding depth (three-point closure)</td><td class="num">λ_H 67 g/cm²</td><td class="src">mars_rad/sim/01_dose_ledger.py</td></tr>
         <tr><td>Residual dose under 10 m of regolith</td><td class="num">0.3 mSv/yr</td><td class="src">mars_rad/sim/01_dose_ledger.py</td></tr>
         <tr><td>MIP deposit vs digitiser threshold</td><td class="num">22.8 ke = 46× (11× worst)</td><td class="src">mars_rad/sim/02_track_classification.py</td></tr>
         <tr><td>LET ladder: electron → MIP p → 10 MeV p → Fe</td><td class="num">0.24 / 0.42 / 8.1 / 286 keV/µm</td><td class="src">mars_rad/sim/02_track_classification.py</td></tr>
-        <tr><td>Converter efficiency: HDPE fast / ⁶LiF thermal</td><td class="num">0.02–0.39% · 1.14%</td><td class="src">mars_rad/sim/03_neutron_response.py</td></tr>
-        <tr><td>Neutron channel rates vs albedo band</td><td class="num">2.2 / 86 counts·hr⁻¹</td><td class="src">mars_rad/sim/03_neutron_response.py</td></tr>
+        <tr><td>Converter efficiency: HDPE fast / ⁶LiF thermal</td><td class="num">0.02–0.39% · 1.13%</td><td class="src">mars_rad/sim/03_neutron_response.py</td></tr>
+        <tr><td>Neutron channel rates vs albedo band</td><td class="num">2.2 / 85 counts·hr⁻¹</td><td class="src">mars_rad/sim/03_neutron_response.py</td></tr>
         <tr><td>Worst-case SEP as fraction of readout ceiling</td><td class="num">1.7×10⁻⁴</td><td class="src">mars_rad/sim/04_sep_dynamic_range.py</td></tr>
         <tr><td>Alarm thresholds on 1-min sliding count</td><td class="num">green &lt;3× · red &gt;30×</td><td class="src">mars_rad/sim/04_sep_dynamic_range.py</td></tr>
         <tr><td>Frozen device point (bias / threshold / ENC)</td><td class="num">150 V · 500 e · 52.7 e</td><td class="src">timepix4_allpix campaign (frozen checkpoint)</td></tr>
-        <tr class="grp"><td colspan="3">SiC sentinel net — mars_rad_sic, 4 accounts</td></tr>
+        <tr class="grp"><td colspan="3">SiC sentinel net — mars_rad_sic, 5 accounts</td></tr>
         <tr><td>⁶LiF converter efficiency peak</td><td class="num">4.72% @ 29.9 µm</td><td class="src">mars_rad_sic/design_rounds.py</td></tr>
-        <tr><td>Fusion-perimeter flux → count rate</td><td class="num">5.8 n·cm⁻²·s⁻¹ → 0.21 cps</td><td class="src">mars_rad_sic/design_rounds.py (18 Geant4 transports, tokamak ledger)</td></tr>
+        <tr><td>Fusion-perimeter flux → count rate</td><td class="num">62.5 n·cm⁻²·s⁻¹ ±3.3% → 2.32 cps ±3.3% (at 58 m, build thickness t = 0.30 m); 103.1 n·cm⁻²·s⁻¹ → 3.82 cps at the interpolated minimum t = 0.282 m (comparison, not the build thickness)</td><td class="src">mars_rad_sic/PREREG_perimeter_recompute_20260902.md — S_n = 2.271e20 n/s @ 640 MW × cumulative escape T = 1.164e-10 (0.30 m borated concrete, single-join probe from the chain's own source; registered target 1.92e-10; per-join bias b = +4.91% unapplied; the chain itself did not reach that thickness) / 4πr². The 62.5 is the chain's own escape number propagated to 58 m (sci-rad-01 reproduces it to 0.05%), not an independent check, and it inherits every qualifier of that escape value. Count rate computed by the sentinel response chain (A_pad / eff_fast / f_moderated / EFF_TH, intact; the 08-08 damage to design_rounds.py lost account-2 outputs and prose, since rebuilt as RESOLVED_* keys) and cross-checked by the linear rescale of the old 0.08 cps @ 2.15 point (2.33). Standing qualifier: the chain's two spectral parameters (f_moderated = 0.35, eff_fast = 0.002) were calibrated on the spectrum behind the self-assumed 2 m ordinary concrete; the spectrum behind 0.30 m borated concrete differs and the SiC response is energy-dependent, so those two parameters await re-calibration. Void and recompute if the build thickness departs from 0.30 m or the escape value is revised. The earlier 2.15 → 0.08 cps was a self-assumed 2 m / TVL 0.25 m shield, never a bound. Build thickness declared by the tokamak 2026-09-02: 0.30 m = the measured face, not the 0.282 m interpolated minimum (margin 1.65×; z-end leakage, duct streaming and groundshine are not covered by any thickness and sit in other ledgers); leakage chain: dev/PREREG_fusion_leakage_reading_rule.md</td></tr>
         <tr><td>Foyer tier: 30 m rock, muon residual</td><td class="num">52 e-foldings · 83 s/count</td><td class="src">mars_rad_sic/design_rounds.py</td></tr>
         <tr><td>Deep tier: muons ×10⁻⁶, radiogenic floor</td><td class="num">~26 days/count</td><td class="src">mars_rad_sic/design_rounds.py</td></tr>
         <tr><td>SiC vs Si generation current at 300 K</td><td class="num">9×10¹⁷ ratio · &lt;10⁻²⁰ A at 450 K</td><td class="src">mars_rad_sic/design_rounds.py (LGAD L2a TCAD anchor)</td></tr>
@@ -537,7 +543,7 @@
     <div class="label" style="margin-bottom:10px;">Sources</div>
     <p style="margin:0 0 8px;">Design ledgers: <span class="src">mars-weather/README.md</span> (14 accounts) ·
       <span class="src">mars_rad/README.md</span> (4 accounts) ·
-      <span class="src">mars_rad_sic/README.md</span> (4 accounts) ·
+      <span class="src">mars_rad_sic/README.md</span> (5 accounts) ·
       supply package <span class="src">docs/assets/detectors/dev-notes-rad.md</span> and
       <span class="src">docs/assets/science/dev-notes.md</span> (SITE.md §7).</p>
     <p style="margin:0;">City assets: <span class="src">viewer/units/sci-weather-01.js</span> ·

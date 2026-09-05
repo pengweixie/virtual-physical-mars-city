@@ -1,0 +1,339 @@
+{
+  "id": "sci-orbiter-01",
+  "pois": [
+    {
+      "id": "bus",
+      "label": "平台母舱(三载荷总线)",
+      "label_en": "Platform bus (three-payload deck)",
+      "range": 30,
+      "detail": "1.2×1.2×1.6 m 三轴稳定母舱,把 400 km 圈上那颗『代传地面数据』的占位星升级为真正的科学平台:穿冰雷达(主载荷)+ SWIR 高光谱成像仪 + 无线电掩星,三台载荷共享一副总线。城里三批人等它的数:res-rodwell-01 下一口井的冰图、res-mine-01/res-glass-01 的矿藏图、sci-weather-01/sci-thz-01 的天基温压廓线。",
+      "detail_en": "A 1.2 x 1.2 x 1.6 m three-axis bus that turns the 400 km ring's 'relays ground data' placeholder into a real science platform: ice-penetrating radar (prime), a SWIR hyperspectral imager and radio occultation share one bus. Three groups in the city are waiting on its data: ice maps for res-rodwell-01's next well, mineral maps for res-mine-01 / res-glass-01, and space-based temperature-pressure profiles for sci-weather-01 / sci-thz-01.",
+      "specs": {
+        "构型": "三轴稳定 · 天底指向(+Z)",
+        "母舱": "1.2 × 1.2 × 1.6 m",
+        "干重": "170 kg(+20% 裕度 = 204 kg)",
+        "湿重": "211 kg · 推进剂 6.8 kg(按含裕度干重与实建弹道系数定容)",
+        "载荷占干重": "19%(雷达 16 + SWIR 15 + USO 2 kg)",
+        "功率": "均值 190 W · 峰值 260 W",
+        "ΔV 预算": "71 m/s / 15 yr(阻力 11 + 动量卸载 30 + 离轨 20 + 裕量 10)",
+        "设计寿命": "15 年"
+      },
+      "specs_en": {
+        "Configuration": "three-axis stabilized, nadir (+Z) pointing",
+        "Bus envelope": "1.2 x 1.2 x 1.6 m",
+        "Dry mass": "170 kg (+20% margin = 204 kg)",
+        "Wet mass": "211 kg, 6.8 kg propellant (sized on margined dry mass and as-built ballistic coefficient)",
+        "Payload fraction": "19% of dry (radar 16 + SWIR 15 + USO 2 kg)",
+        "Power": "190 W average, 260 W peak",
+        "Delta-V budget": "71 m/s / 15 yr (drag 11 + momentum dumps 30 + disposal 20 + margin 10)",
+        "Design life": "15 years"
+      },
+      "physics": "低轨与静止轨道是两套工程纪律:com-relay-01 在静止轨道每年只进 ~90 次星蚀,锂电可以放到 80% DoD、寿命由日历老化主导;本星每圈进一次影,12.5 次/sol × 15 年 = 12.5 万次循环——锂电循环寿命随放电深度指数衰减,LEO 规则是压到 ~20% DoD,电池按循环寿命定容(609 Wh),不是按能量定容(152 Wh)。同一条物理(循环疲劳)也统治热控:每轨 ±几十 K 的温度摆幅 12.5 万次,CTE 失配疲劳的鉴定基准比 GEO 严两个数量级。",
+      "physics_en": "Low orbit and stationary orbit are two different engineering disciplines. com-relay-01 sees ~90 eclipses a year at areostationary altitude, so its battery can discharge to 80% DoD and calendar ageing sets its life. This satellite enters shadow every orbit: 12.5 per sol x 15 years = 125,000 cycles. Li-ion cycle life falls exponentially with depth of discharge, so the LEO rule caps DoD near 20% and the battery is cycle-life-sized (609 Wh), not energy-sized (152 Wh). The same physics — cycle fatigue — governs thermal control: tens-of-kelvin swings repeated 125,000 times set a qualification baseline two orders of magnitude harsher than GEO's.",
+      "sim": [
+        "质量预算(每行从自家账反推):雷达 16 kg(SHARAD 实物 17.7 kg 锚)、SWIR 15 kg(CRISM 32.9 kg 为带万向架版,本星固定推扫更轻)、太阳翼 9 kg(3.5 kg/m² × 2.6 m²)、电池 4 kg(循环寿命定容)、结构 18% + 线缆 7%(com-relay 规则)→ 干重 170 kg,加 20% 裕度 204 kg;推进剂由 ΔV 71 m/s 火箭方程按含裕度干重反推 6.8 kg(两轮修正入册:初稿按未含裕度干重算 5.2 kg——推进剂成了唯一不带裕度的行;v3 闭环再抓一处:阻力项原按 600 kg 假想星的弹道系数算,实建 210 kg 星付 0.73 m/s/yr 而非 0.39,ΔV 66→71)——400 km 火星轨道的阻力红利仍然成立(见 orbit 卡)",
+        "ADCS 账(v3,sim/adcs.py):惯量 {Ix 101, Iy 86, Iz 127} kg·m²(10 m 偶极沿 Y、翼沿 X,天底轴恰为最大惯量轴——重力梯度不稳构型,飞轮持姿是对地观测星标准做法);1° 死区下重力梯度力矩仅 1.1 µNm、飞轮存储需求 13 mNms(小卫星轮 10× 裕量)、动量卸载 0.38 m/s/yr vs 预算 2(5× 裕量);SWIR 拖影限速 2.25 mrad/s vs 天底跟踪标称 0.885(2.5× 裕量),几何定位 25 µrad 需求 vs 星敏 5(5×);10 m 杆一阶弯曲 ~0.5–1.5 Hz(SHARAD 飞行经验)与 ADCS 带宽 0.05 Hz 隔两个十倍程,无需陷波——对比 com-relay 的 30 m 翼 0.1 Hz 压带宽,本星的挠性问题天生温和",
+        "功率账:雷达 35 W 只在夜半轨开(占空 40% → 均值 14 W)、SWIR 均值 11 W(45 W 成像仅 ~12 min/sol,其余是待机与 FPA TEC 微调)、Ka 终端均值 24 W(发射只占 10.4 min/sol ≈ 0.7%,大头是待机/万向架/加热——行标签以均值记账,别拿峰值×占空去复算)、姿控 45 + 数管 35 + 热控 40 → 轨道均值 190 W;星蚀负载 174 W × 0.7 h 由电池 20% DoD 供给",
+        "三载荷一副总线的合理性由数据流闭环:三台载荷 93.7 Gb/sol 全部走一副 0.5 m Ka 终端(见 link 卡),既不抢波束也不抢存储——瓶颈全在设计裕量之内"
+      ],
+      "sim_en": [
+        "Mass budget (every line back-derived from this project's own accounts): radar 16 kg (anchored on SHARAD's real 17.7 kg), SWIR 15 kg (CRISM's 32.9 kg was the gimbaled version; this fixed pushbroom is lighter), solar wings 9 kg (3.5 kg/m2 x 2.6 m2), battery 4 kg (cycle-life-sized), structure 18% + harness 7% (the com-relay rules) -> 170 kg dry, 204 kg with 20% margin. Propellant from the 71 m/s delta-V via the rocket equation on the margined dry mass: 6.8 kg (two corrections on record: the first draft sized it on the unmargined 170 kg — propellant was the only line carrying no margin; the v3 closure pass then caught the drag term computed for a 600 kg strawman's ballistic coefficient, where the as-built 210 kg satellite pays 0.73 m/s/yr rather than 0.39, delta-V 66 -> 71) — the drag dividend of a 400 km Mars orbit still stands (see the orbit card).",
+        "ADCS ledger (v3, sim/adcs.py): inertia {Ix 101, Iy 86, Iz 127} kg m2 (10 m dipole along Y, wings along X — the nadir axis is the maximum-inertia axis, a gravity-gradient-unstable configuration held by wheels, standard for Earth observers too); at a 1-deg deadband the gravity-gradient torque is just 1.1 uNm, wheel storage demand 13 mNms (small-sat wheels carry 10x), momentum dumping 0.38 m/s/yr against the 2 allocated (5x); the SWIR smear limit is 2.25 mrad/s against the 0.885 nadir-tracking rate (2.5x), geolocation needs 25 urad against a 5 urad star tracker (5x); the 10 m booms' first bending mode at ~0.5-1.5 Hz (SHARAD flight experience) sits two decades above the 0.05 Hz control bandwidth — no notch filter, in pointed contrast to com-relay's 30 m wing at ~0.1 Hz throttling its bandwidth. This bus's flexibility problem is born mild.",
+        "Power ledger: radar 35 W only on the night half-orbit (40% duty -> 14 W average), SWIR 11 W average (45 W imaging for only ~12 min/sol, the rest standby and FPA TEC trim), Ka terminal 24 W average (transmit is just 10.4 min/sol ~ 0.7%; standby, gimbal and heaters carry the rest — the line items book averages, so do not re-derive them as peak x duty), ADCS 45 + C&DH 35 + thermal 40 -> 190 W orbit average; the 174 W eclipse load rides the battery at 20% DoD.",
+        "Three payloads on one bus closes because the data flow closes: 93.7 Gb/sol from all three rides a single 0.5 m Ka terminal (see the link card) with no contention for beam or storage — every bottleneck sits inside design margin."
+      ]
+    },
+    {
+      "id": "radar",
+      "label": "穿冰雷达(主载荷,SHARAD 血统)",
+      "label_en": "Ice-penetrating radar (prime payload, SHARAD lineage)",
+      "range": 30,
+      "detail": "10 m 展开式管状偶极天线 + 15–35 MHz 啁啾,天底探深。选带卡在两个真实锚点之间:SHARAD(20 MHz 中心/10 MHz 带宽,自由空间分辨率 15 m,极地冰穿透 1–2 km)与 MARSIS(1.8–5 MHz,更深但 150 m 粗)。本星把带宽加倍到 20 MHz——冰内垂直分辨率 4.2 m,最小可测冰层 ~4 m,专为中纬埋藏冰的『冰顶埋深 × 冰层厚度』测绘定制。第一任务:替 res-rodwell-01 把设备册里那句『~30 m 冰层(Jezero 区域假定)』变成测量值,并给 WELL-3 选址。",
+      "detail_en": "A 10 m deployable tube dipole with a 15-35 MHz chirp, sounding the nadir. The band sits deliberately between the two real anchors: SHARAD (20 MHz center / 10 MHz bandwidth, 15 m free-space resolution, 1-2 km penetration in polar ice) and MARSIS (1.8-5 MHz, deeper but 150 m coarse). Doubling the bandwidth to 20 MHz buys 4.2 m vertical resolution in ice and a ~4 m minimum detectable layer — built for mapping burial depth x thickness of mid-latitude excess ice. First task: turn the equipment ledger's '~30 m ice layer (assumed for the Jezero region)' under res-rodwell-01 into a measurement, and site WELL-3.",
+      "specs": {
+        "频段": "15–35 MHz 啁啾(中心 25 MHz · 带宽 20 MHz)",
+        "天线": "10 m 尖-尖 展开式管状偶极",
+        "垂直分辨率": "自由空间 7.5 m · 冰内 4.2 m",
+        "最小可测冰层": "~4 m(1 个距离元)",
+        "穿透(含尘冰)": "~1.8 km · 干风化层 ~400 m",
+        "发射": "10 W 峰值 · 85 µs 脉冲 · 压缩增益 32 dB",
+        "地表回波 SNR": "54 dB(银河噪声地板)",
+        "沿轨分辨率": "~1.5 km(未聚焦孔径上限;精聚焦可入 0.3–1 km)"
+      },
+      "specs_en": {
+        "Band": "15-35 MHz chirp (center 25 MHz, bandwidth 20 MHz)",
+        "Antenna": "10 m tip-to-tip deployable tube dipole",
+        "Vertical resolution": "7.5 m free-space, 4.2 m in ice",
+        "Min detectable ice layer": "~4 m (one range cell)",
+        "Penetration (dusty ice)": "~1.8 km; dry regolith ~400 m",
+        "Transmit": "10 W peak, 85 us pulse, 32 dB compression gain",
+        "Surface SNR": "54 dB (galactic noise floor)",
+        "Along-track res": "~1.5 km (unfocused-aperture bound; full focusing reaches 0.3-1 km)"
+      },
+      "physics": [
+        "分辨率是带宽的物理:距离分辨率 = c/(2B√ε)。SHARAD 的 15 m 不是技术不行,是 10 MHz 分配的直接后果;本星 20 MHz 带宽把它对折。频率越低穿得越深(损耗 ∝ f·tanδ),但偶极天线电尺寸越小、电离层越挡(火星电离层等离子体频率白天 ~3 MHz,MARSIS 夜测的原因)——15 MHz 下沿是电离层与穿透的折中。",
+        "HF 波段的噪声地板是银河系,不是接收机:天空亮温 T_gal ≈ 9×10⁷·f_MHz^−2.5 ≈ 2.9×10⁴ K @25 MHz,比 290 K 接收机高 20 dB——雷达灵敏度账用接收机噪声算就错 20 dB,这也是 HF 探深雷达不追求低噪放的原因。",
+        "含尘才是火星冰的真实损耗:纯净实验室冰 tanδ≈0.0009 会给出 7.7 km 穿透的漂亮错误;SHARAD 实测极层沉积 10–20 dB/km(双程)对应 tanδ≈0.003。第一轮账用了纯冰、被 SHARAD 闸门打回——锚点的价值就是抓这种错。"
+      ],
+      "physics_en": [
+        "Resolution is bandwidth physics: range resolution = c/(2B sqrt(eps)). SHARAD's 15 m is not a technology limit but the direct consequence of its 10 MHz allocation; 20 MHz halves it. Lower frequency penetrates deeper (loss scales as f tan-delta) but shrinks the dipole electrically and runs into the ionosphere (Mars's daytime plasma frequency ~3 MHz — why MARSIS sounds at night). The 15 MHz band edge is the ionosphere-vs-penetration compromise.",
+        "The HF noise floor is the galaxy, not the receiver: sky temperature T_gal ~ 9e7 f_MHz^-2.5 ~ 2.9e4 K at 25 MHz, 20 dB above a 290 K receiver. Budgeting with receiver noise would flatter sensitivity by 20 dB — and it is why HF sounders never chase low-noise amplifiers.",
+        "Dust is the real loss in Martian ice: clean laboratory ice (tan-delta 0.0009) yields a beautiful wrong answer of 7.7 km penetration; SHARAD measures 10-20 dB/km two-way in the polar layered deposits, i.e. tan-delta ~0.003. The first pass of this ledger used clean ice and the SHARAD gate threw it out — catching exactly that is what anchors are for."
+      ],
+      "sim": [
+        "已知答案闸(先过才许发言):同一套公式复现 SHARAD 15 m 分辨率 ✓、复现其含尘冰 19.4 dB/km 双程损耗与 2.3 km 实用穿透 ✓、复现 MARSIS 150 m ✓——然后才输出本星的 4.2 m/1.8 km",
+        "HFSS 全波(10 m 管状偶极,ANSYS 2026R1,10–40 MHz 离散扫频 121 点):半波谐振 14.0 MHz(细线理论 0.95·c/2L≈14.2,粗管件略低 ✓)、谐振阻抗 65.4 Ω(教科书 60–73 ✓)、宽边增益 3.4 dBi @25 MHz(带中心电长 0.83λ,高于半波偶极的 2.15 是电长度加长的正确方向;轴向零深 −55 dB,甜甜圈方向图 ✓)。最贵的发现:带中心 25 MHz 恰逢反谐振,Re Z 冲到 1286 Ω、全带电抗从 −712 摆到 +520 Ω——跨倍频程匹配网络是设计件不是余量,SHARAD 同款难题;探测预算里保守用的 1.6 dBi 被全波修正为 3.4,白赚 3.6 dB 双程余量",
+        "匹配网络账(v2,发现问题就得给解):Bode-Fano 界用天线自身 RC 拟合(36.6 Ω/82 pF)算出——倍频程带宽下该界近乎不设限(理论平坦 |Γ|→0),说明差距是拓扑简单性不是物理;串 L 5.3 µH + 并 C 6 pF + 29:1 阻抗变换器对 HFSS 实测 Z(f) 差分进化优化:带内均值失配 1.23 dB、最差 5.11 dB(反谐振区);双程 2.5 dB 记入探测预算,恰被 3.4 dBi 全波增益红利(+3.6 dB)盖住——预算净变化 +1.1 dB",
+        "电离层定量账(v2,把『夜测优先』从偏好变成数字):火星日侧峰值等离子体频率 4.0 MHz(已知答案闸:8980√Ne 复现地球 F2 ~9 MHz ✓),15 MHz 下沿高 3.7×——永不截止,伤害在色散:日侧 TEC ~0.5 TECU 使 15–35 MHz 啁啾差分群延迟 4.9 µs = 压缩脉冲的 97 倍,不校正时日侧分辨率退化到 ~730 m(地面处理可自聚焦回收,SHARAD 先例,残差仍占主导);夜侧 TEC 低 500×,弥散仅脉冲的 19%(分辨率展宽 <2%,免费)——雷达战役排夜半轨不是偏好是 100× 的账",
+        "杂波账(v3,sim/clutter.py,还掉 v2 列的债;顺带 v3 闸门抓出 v2 的几何错:冰内慢行使等效路径是 2dn 不是 2d/n,同延迟杂波实际在旁侧 6.5 km 而非 3.7——方向良性,更远更弱):面元法杂波仿真,ψ₀ 由 DEM 自身 RMS 坡度内生(平坦镜面闸:平地形旁瓣必须 <−120 dB ✓;Fresnel 闸:R 表面 −9.5 dB/界面 −24.5 dB 教科书值 ✓);30 m 埋深冰界面回波相对地表 −17.1 dB(界面反射比 + 双程透射 + 10 m 风化层衰减);判决分地形:平原(2 m RMS 分形)杂波 −22.8 dB → 余量 +5.8 dB『边缘可测』——多次过境叠栈补足;三角洲崖壁区(80 m 台地合成 DEM)杂波 −12.7 dB → 余量 −4.4 dB『杂波掩埋』——单次天底测不出,需 DEM 驱动杂波模型扣除或交叉轨过境。对罗德威尔选址是好消息:井本来就打在平原,平原恰是可测区;三角洲找矿层位归 SWIR 管。DEM 为合成(Jezero 台地量级),真 MOLA/HRSC 数据到位脚本原样重跑",
+        "探测预算:表面回波 54 dB(镜面项 1/R²、银河地板、32 dB 压缩 + 26 dB 相干积累)− 10 dB 检测门限 = 44 dB 双程余量 → 含尘冰 1.8 km / 干风化层 400 m;罗德威尔情形(10 m 风化层覆盖 + 下伏冰)穿风化层只花 1.1 dB,冰内仍余 ~1.75 km 量程——中纬 10–100 m 级埋藏冰整层在量程内",
+        "冰图接口(给 res-rodwell-01 WELL-3 选址,判据落成可执行格式):100 m 格网,每格 {冰顶埋深 d, 冰层厚度 h, 距城 s};硬闸 h ≥ 30 m(TS-01 移动边界账:15 kW 井要活满一火星年需的量)且 d ≤ 10 m(井架套管作业深度,现井 3.4 m 套管先例);评分 = h · exp(−d/10 m) / s——厚给寿命、浅给工期、近给管线。雷达置信度:d 与 h 均为 ~4 m 距离元测量,埋深 3.4 m 的现井情形处在最小可测边缘,报告需标注『浅于 4 m 的冰顶按 ≤4 m 上限交付』",
+        "重访:天底剖面线,相邻轨道地面轨迹在 Jezero 纬度间隔 1620 km(12.5 圈/sol 的半圈交错让 sol 间图案再错 ~810 km),直接过顶 ~13 sol 一次;全城 20 km 圈按 5 km 线距 ≈ 8 条线 × 13 sol ≈ 百 sol 量级(估算,未逐圈仿真)——冰图是战役产品,不是实时产品"
+      ],
+      "sim_en": [
+        "Known-answer gates (passed before this ledger may speak): the same formulas reproduce SHARAD's 15 m resolution, its 19.4 dB/km two-way dusty-ice loss and 2.3 km practical penetration, and MARSIS's 150 m — only then does the 4.2 m / 1.8 km row get believed.",
+        "HFSS full wave (10 m tube dipole, ANSYS 2026R1, 121-point discrete sweep 10-40 MHz): half-wave resonance at 14.0 MHz (thin-wire theory 0.95 c/2L ~ 14.2; fat tubes sit slightly lower — pass), resonant resistance 65.4 ohm (textbook 60-73 — pass), broadside gain 3.4 dBi at 25 MHz (0.83 wavelengths at band center; above the half-wave dipole's 2.15 in the direction longer electrical length should go; axis null -55 dB, the donut pattern — pass). The most valuable find: band center lands on the anti-resonance — Re Z spikes to 1286 ohm and the reactance swings -712 to +520 ohm across the band. The octave matching network is a design element, not slack (SHARAD's identical headache); and the budget's conservative 1.6 dBi becomes a solved 3.4, a free 3.6 dB of two-way margin.",
+        "Matching-network account (v2 — having found the problem, supply the solution): the Bode-Fano bound, computed from the antenna's own fitted RC (36.6 ohm / 82 pF), is essentially unconstraining over this octave (theoretical flat |Gamma| -> 0) — so the gap is topology simplicity, not physics. A series-L 5.3 uH + shunt-C 6 pF + 29:1 transformer, differential-evolution-optimized against the measured HFSS Z(f): 1.23 dB mean in-band mismatch, 5.11 dB worst (the anti-resonance region); 2.5 dB two-way booked against the detection budget, just covered by the +3.6 dB full-wave gain bonus — net budget change +1.1 dB.",
+        "Ionosphere quantified (v2 — 'night passes first' becomes a number): Mars's dayside peak plasma frequency is 4.0 MHz (gate: 8980 sqrt(Ne) reproduces Earth's F2 ~9 MHz), so the 15 MHz band edge sits 3.7x above it — never cut off; the damage is dispersion. Dayside TEC ~0.5 TECU smears the 15-35 MHz chirp by 4.9 us of differential group delay = 97x the compressed pulse, degrading uncorrected dayside resolution to ~730 m (ground autofocus recovers much of it, SHARAD precedent, but residuals dominate); nightside TEC is 500x lower — 19% of the pulse, <2% resolution broadening, free. Scheduling radar campaigns on night half-orbits is a 100x ledger entry, not a preference.",
+        "Clutter account (v3, sim/clutter.py — the debt v2 booked, now paid; its gate also caught v2's geometry error: the slower ice leg makes the equivalent path 2dn, not 2d/n, so same-delay clutter sits 6.5 km off-track, not 3.7 — benign direction, farther and weaker): a facet clutter simulation with psi0 derived from the DEM's own RMS slope (flat-mirror gate: off-nadir must fall below -120 dB — passes; Fresnel gates: surface R -9.5 dB, interface -24.5 dB, textbook — pass). The 30 m ice interface returns -17.1 dB relative to the surface (reflectivity ratio + two-way transmission + 10 m regolith loss). Verdict splits by terrain: plains (2 m RMS fractal) put clutter at -22.8 dB, margin +5.8 dB — 'marginal', closed by multi-pass stacking; delta scarps (80 m synthetic butte) put clutter at -12.7 dB, margin -4.4 dB — 'clutter-buried', a single nadir pass cannot see it; needs DEM-driven clutter subtraction or crossing tracks. Good news for rodwell siting: wells go on plains, and plains is exactly the detectable regime; the delta's mineral horizons belong to SWIR anyway. The DEM is synthetic (Jezero-class relief); with real MOLA/HRSC data the script re-runs unchanged.",
+        "Detection budget: 54 dB surface SNR (specular 1/R^2 term, galactic floor, 32 dB compression + 26 dB coherent integration) minus a 10 dB detection threshold leaves 44 dB two-way — 1.8 km in dusty ice, 400 m in dry regolith. The rodwell case (10 m regolith over ice) spends only 1.1 dB crossing the regolith, leaving ~1.75 km of range in the ice below: the whole 10-100 m class of mid-latitude excess ice is within reach.",
+        "Ice-map interface (WELL-3 siting for res-rodwell-01, criteria made executable): 100 m grid, each cell {ice-top depth d, ice thickness h, distance to city s}; hard gates h >= 30 m (the TS-01 moving-boundary account: what a 15 kW well needs to survive one Mars year) and d <= 10 m (derrick casing reach; current well cased 3.4 m); score = h exp(-d/10 m)/s — thickness buys life, shallowness buys schedule, proximity buys pipeline. Honesty note: d and h are ~4 m range-cell measurements, so an ice top shallower than 4 m is delivered as '<= 4 m upper bound' — the current well's 3.4 m sits at the edge of detectability.",
+        "Revisit: adjacent ground tracks are 1,620 km apart at Jezero's latitude (the 12.5-orbit/sol half-track interleave staggers successive sols by ~810 km); direct overflights every ~13 sols; the 20 km city circle at 5 km line spacing is ~8 lines x 13 sols ~ a hundred sols (an estimate, not an orbit-by-orbit simulation) — the ice map is a campaign product, not a live feed."
+      ]
+    },
+    {
+      "id": "swir",
+      "label": "SWIR 高光谱成像仪(CRISM 血统)",
+      "label_en": "SWIR hyperspectral imager (CRISM lineage)",
+      "range": 30,
+      "detail": "1.0–2.6 µm 推扫式成像光谱仪:12 cm f/2.5 望远镜 + 160 谱段 × 10 nm 采样,400 km 高度下 20 m 像元、12.8 km 幅宽。探测器直接沿用城里 sci-swir-01 相机站的 InGaAs 谱系——ROIC、混成、数采链、暗电流方法学照搬,吸收层换延展波长 InGaAs 上探 2.6 µm。交付物是给 res-mine-01 与 res-glass-01 的『找矿优先级格网』:含水硅质沉积(玻璃厂透明产线的原料层位)、硫酸盐、粘土,逐格出分。",
+      "detail_en": "A 1.0-2.6 um pushbroom imaging spectrometer: 12 cm f/2.5 telescope, 160 bands at 10 nm sampling, 20 m pixels and a 12.8 km swath from 400 km. The detector rides the city's own sci-swir-01 InGaAs lineage — ROIC, hybridization, data chain and dark-current methodology carried over; the absorber swaps to extended-wavelength InGaAs to reach 2.6 um. The product is a prospecting-priority grid for res-mine-01 and res-glass-01: hydrated silica (the clear glass line's feedstock horizon), sulfates and clays, scored cell by cell.",
+      "specs": {
+        "谱段": "1.0–2.6 µm · 160 段 × 10 nm",
+        "空间": "GSD 20 m(IFOV 50 µrad)· 幅宽 12.8 km",
+        "光学": "Ø12 cm f/2.5 · 焦距 0.30 m · 衍射极限 10.6 m@2.6 µm",
+        "FPA": "640×512 / 15 µm 延展 InGaAs(截止 2.7 µm)",
+        "FPA 温度": "冷板被动 152 K(FEM)+ TEC 微调;需求温度待器件方在新材料重立(阶梯容错 2 个量级)",
+        "SNR(行周期 6.7 ms)": "278 @1.3 µm · 177 @2.0 · 134 @2.5",
+        "原始数据率": "246 Mb/s(150 行/s)",
+        "复用(归属经 sci-swir-01 审计校正)": "真源 InGaAs 册 4 项 + sci-swir-01 方法学 1 项",
+        "辐射(15 yr EOL)": "TID 5.1 krad@4 mm · 位移损伤增暗流 0.01% 预算"
+      },
+      "specs_en": {
+        "Spectral": "1.0-2.6 um, 160 bands x 10 nm",
+        "Spatial": "20 m GSD (50 urad IFOV), 12.8 km swath",
+        "Optics": "12 cm f/2.5, 0.30 m focal, diffraction 10.6 m at 2.6 um",
+        "FPA": "640x512 / 15 um extended InGaAs (2.7 um cutoff)",
+        "FPA temperature": "152 K passive plate (FEM) + TEC trim; requirement re-set by device side on the new material (ladder tolerates 2 orders)",
+        "SNR (6.7 ms line)": "278 at 1.3 um, 177 at 2.0, 134 at 2.5",
+        "Raw data rate": "246 Mb/s (150 lines/s)",
+        "Reuse (attribution corrected by sci-swir-01 audit)": "4 items from the InGaAs true-source ledger + 1 methodology item from sci-swir-01",
+        "Radiation (15 yr EOL)": "TID 5.1 krad behind 4 mm; displacement dark growth 0.01% of budget"
+      },
+      "physics": [
+        "为什么必须上到 2.6 µm:矿物诊断吸收都在长端——含水硅质(蛋白石)1.41/1.91/2.21 µm、硫酸盐 1.9/2.4、粘土 2.2–2.3、碳酸盐 2.3–2.5;sci-swir-01 的标准 InGaAs 截止 1.68 µm 只够找冰,找矿必须延展——这条分工已被其账 14 用真实 CRISM 数据反核确认:碳酸盐 2.30/2.51 µm 与 Fe/Mg 粘土 2.21/2.31 µm 全在 1.7 µm 之外,它做冰丰度制图、本星做矿物种属鉴定,增量为真(接收方核定)。而延展是要付暗电流的:E_g 从 0.75 降到 0.46 eV,GR 主导暗流 ∝ exp(−E_a/kT)、E_a≈0.72·E_g(地面册 TCAD 拟合的比例),室温罚 ~4000×。",
+        "轨道版反而比地面站好过——按电荷记账(基准归属经 sci-swir-01 审计厘清:下述对比用它的真实预算 600 e⁻/60 s,不再用我此前自设的 90.5 s 等效基准):暗电荷 = 暗流 × 积分时间,延展罚 ~4000× 对上曝光缩短 8955×(60 s → 6.7 ms),净 **0.45×**——即使背着材料罚,推扫暗电荷预算位仍比地面站宽。它核定『对账形式成立』;净结果方向不变:被动辐射板可达的温区就够,无需制冷机(CRISM 的 HgCdTe 要 110 K)。工作温度的具体数字待器件方在新材料上重立(见闸门条)。",
+        "找矿优先级的物理仍是带深:BD = 1 − R_band/R_continuum(sci-swir-01 滤光轮同款算法),但 160 段连续谱破了它的 f–D 简并——粒径与丰度在多吸收带联立下可分,不再需要外部粒径先验。"
+      ],
+      "physics_en": [
+        "Why 2.6 um is mandatory: the diagnostic absorptions all sit at the long end — opaline silica 1.41/1.91/2.21 um, sulfates 1.9/2.4, clays 2.2-2.3, carbonates 2.3-2.5. sci-swir-01's standard InGaAs cuts off at 1.68 um: enough to find ice, not ore — a division of labor its own ledger 14 counter-checked against real CRISM data: carbonates at 2.30/2.51 um and Fe/Mg clays at 2.21/2.31 um all lie beyond 1.7 um, so it maps ice abundance while this bus does mineral speciation; the increment is real (receiver-vetted). Extension costs dark current: Eg drops 0.75 to 0.46 eV, GR-dominated dark current scales as exp(-Ea/kT) with Ea ~ 0.72 Eg (the ratio the ground ledger's TCAD fits established), a ~4000x penalty at room temperature.",
+        "The orbital version actually has it easier — booked in CHARGE terms (baseline attribution cleaned up by the sci-swir-01 audit: the comparison below uses its real budget of 600 e-/60 s, no longer my earlier self-set 90.5 s-equivalent baseline): dark charge = dark current x integration; the ~4000x extension penalty meets an 8955x exposure shrink (60 s -> 6.7 ms), net 0.45x — even carrying the material penalty, the pushbroom's dark-charge position is slightly better than the ground station's. The audit rates the comparison 'valid in form'. The net direction stands: a passively reachable radiator temperature suffices, no cryocooler (CRISM's HgCdTe needed 110 K); the specific operating temperature awaits re-derivation on the new material by the device side (see the gate entry).",
+        "Prospecting priority is still band-depth physics: BD = 1 - R_band/R_continuum (the same algorithm as sci-swir-01's filter wheel), but 160 contiguous bands break its f-D degeneracy — grain size and abundance separate under joint multi-band fitting, no external grain-size prior needed."
+      ],
+      "sim": [
+        "已知答案闸 ×2:①光学——同一公式复现 CRISM 的 61 µrad IFOV 与 300 km 下 18.4 m 像元 ✓;②器件——GR 暗流减半间隔公式 kT²ln2/E_a 复现 sci-swir-01 TCAD 册的 5.95 K@233 K ✓。**器件方审计判决(sci-swir-01 审计,DESIGN.md §35–38 + sim/15_extrapolation_audit.py 可复跑;时序:我先自降假设档,它随后判死)**:减半间隔外推到 182 K **不成立**,四层理由——①ΔT½=ln2·kT²/E_a ∝ T²,5.95 K 只是 233 K 局部值,同 E_a 下 182 K 应为 3.66 K,当常数搬用低估降温收益 39% ②表观 E_a 自身随温漂(182 K 处 ~0.523 eV)③其扫描止于 199 K,TAT 占比随降温单调升(7.1%→17.3%)且 E_a 仅 ~0.1 eV,隧穿接管点在实测范围外,182 K 越界 17 K ④决定性:延展 InGaAs 是**另一种材料**——E_g 0.477 eV、GR 核心活化能 0.412→0.238 eV、n_i 高 900×(233 K)/6000×(182 K)、失配位错既压 SRH 寿命又是隧穿中心,其 TCAD 参数文件是手写晶格匹配 In₀.₅₃Ga₀.₄₇As,对本星完全不适用——减半间隔/深冷倍数/三指纹全部要在新材料上重跑(我先前『位错主导可能不走同一 GR 谱系』的预警与其第 ④ 条同向)。**敏感度阶梯照旧是闭合机制**:器件方在新材料上核出罚值后查表——罚 ≤4×10⁴ → 需求 163 K,FEM 冷板 152.4 K 被动闭合;≤4×10⁵ → 需求 143 K,冷板+TEC 微调(可达 132 K)闭合——两个数量级容错,卡结构不随其重跑结果改动",
+        "辐射度闭环:586 W/m² 火星常数(com-relay 册锚)× 0.25 反照率过 12 cm 口径、6.66 ms 驻留 → 信号 7.9万~2.0万 e⁻,SNR 134–278(散粒 + 30 e⁻ 读出[复用 CTIA 链] + 900 e⁻ 暗电荷预算)——CRISM 同类工况 SNR ~100–400 区间内,自洽",
+        "共构件账(归属经 sci-swir-01 审计校正——『要复用应引真源,不是引蒸馏方』):复用自**真源 E:\\Codex\\2026-07-04\\InGaAs 冻结设计** 4 项 = CTIA ROIC(三档增益/<20 fF 节点/读出噪声链)、640×512/15 µm 格式与铟柱混成流程、密封冷腔机械、AD7626 数采链(330 Mb/s 恰好盖住 246 Mb/s 原始率);复用自 **sci-swir-01 原创** 1 项 = TCAD 暗流方法学(账 13:结构建法/三指纹判据/周长-面积矩阵/『暗电流必须与收集场成对判读』——连同其外推边界一起引,方法学可迁移、拟合数不可迁移);带深反演算法两处同源共用(其账 1/8 谱系)。更换 = 吸收层(晶格匹配→变质延展)、光学(C 口镜头→推扫光谱仪)、制冷(两级 TEC→被动辐射板)、环境(6 mbar 对流→真空+轨道循环)。噪声预算不搬运:其『读噪接管』是 60 s 微光长曝结论,本星 6.7 ms 推扫工作点自算——信号 2.0–7.9万 e⁻ → 散粒 140–280 e⁻ ≫ 读噪 30 ≈ 暗散粒 30,**散粒主导**(见辐射度条)",
+        "找矿优先级格网接口(给 res-mine-01 / res-glass-01;v4 按 res-glass-01 回请扩列——其账 20:铝黏土混入酸耗 +17%、5% 进料残余 Al₂O₃ 7 wt% 抬作业温度 +49 °C,蛋白石与铝黏土对它不等价):200 m 格,每格 {BD₁.₄₁, BD₁.₉₁, BD₂.₂₁(硅质三联),BD₁.₉+BD₂.₄(硫酸盐),BD₂.₂₁/₂.₂₉(粘土),τ_d 尘盖,**D₂.₁₆(高岭石双峰肩深),ASYM₂.₂₁=BD₂.₂₆/BD₂.₂₁(蛋白石宽右肩 vs 蒙脱石窄对称带),相标志 phase∈{蛋白石,高岭石,蒙脱石,混合/存疑}+置信度**}。扩列零硬件代价:仪器本就是 160 段 × 10 nm 连续谱,2.16/2.21/2.26 µm 通道一直在采,『三个波长』只是首版产品格式;判别物理:高岭石 2.16/2.21 双峰间距 50 nm = 5 个采样通道、蛋白石 Si–OH 宽右不对称 vs 蒙脱石 Al–OH 窄对称(FWHM ~60–80 vs ~30 nm),形状量按 200 m 格内 ~100 像素叠栈(SNR ×10)后出。诚实条款:光谱相判别是**初筛**——『存疑』格保留其自设退路(采样后 sci-lab-01 XRD 复核相态再定采位),格网定候选、XRD 定采,两级各司其职;玻璃厂透明线评分 = 硅质三联几何平均 × (1−τ_d) × 相罚(高岭石/存疑降权),把『Jezero 有蛋白石探测记录』这句文献引用换成本地带相态的 20 m 图;矿场硫层选采(10 wt% vs 2.4 wt% 本底)同格网出分",
+        "重访:±30° 侧摆下 Jezero 每 sol 3.7 次可及;三角洲区 20×20 km 两次侧摆过境覆盖(幅宽 12.8 km),找矿战役 ~10 sol 出首版格网",
+        "辐射环境账(v2,任务书点名的另一半:『轨道版只改光学与辐射环境』):400 km 处火星挡掉 28% 天空(闸门:遮挡因子 h→0 时须为 0.5、h→∞ 时须为 1 ✓),com-relay Geant4 实解的 TID 阶梯乘 0.72 → 4 mm 铝后 5.1 krad/15 yr、×2 裕度需求 10.3 krad,耐辐射级(30 krad)器件足够——与中继星同判;探测器真正要紧的是位移损伤:等效注量 1.45×10¹⁰ p/cm² 过 InGaAs 损伤系数 → 300 K 下增暗流 6.1×10⁴ e⁻/s/px,按 GR 减半定律降到冷板温区只剩 ~15 e⁻/s/px = 预算的 0.01%(注:此缩放沿用与 swir 卡同一条已被器件方判死的外推,同判假设档——但结论有 4 个量级冗余:即使完全不降温缩放,300 K 原值也只占预算 45%,判决不翻);救延展 InGaAs 的毫秒驻留松弛把 15 年质子也一并吸收;瞬态项:GCR 静期每行 0.02 次击中(化妆品级),大 SPE 期间(通量 ×100–1000)成像暂停,雷达与掩星不受影响(HF 与相位测量,不是像素探测器)"
+      ],
+      "sim_en": [
+        "Two known-answer gates: (1) optics — the same formula reproduces CRISM's 61 urad IFOV and 18.4 m pixel from 300 km; (2) device — the GR halving-interval law kT^2 ln2/Ea reproduces the sci-swir-01 TCAD ledger's 5.95 K at 233 K. DEVICE-SIDE AUDIT VERDICT (sci-swir-01 audit, DESIGN.md sections 35-38 + sim/15_extrapolation_audit.py, re-runnable; sequence: I self-demoted to assumption tier first, the audit then killed it): the halving-interval extrapolation to 182 K DOES NOT HOLD, on four independent grounds — (1) dT-half = ln2 kT^2/Ea scales as T^2: 5.95 K is a local value at 233 K, the same Ea gives 3.66 K at 182 K, and carrying it as a constant understates the cooling dividend by 39%; (2) the apparent Ea itself drifts with temperature (~0.523 eV at 182 K); (3) their scan stopped at 199 K with the TAT share rising monotonically (7.1% -> 17.3%) at ~0.1 eV activation — tunneling takes over somewhere beyond the measured range, and 182 K sits 17 K outside it; (4) decisively: extended InGaAs is a DIFFERENT MATERIAL — Eg 0.477 eV, GR core activation 0.412 -> 0.238 eV, n_i 900x higher at 233 K / 6000x at 182 K, misfit dislocations both crushing SRH lifetime and acting as tunneling centers; their TCAD parameter file is hand-written lattice-matched In0.53Ga0.47As and simply does not apply — halving interval, deep-cool factors and the three-fingerprint criteria must all be re-run on the new material (my earlier 'may be dislocation-dominated' warning points the same way as their ground 4). THE SENSITIVITY LADDER REMAINS THE CLOSURE MECHANISM: once the device side derives the penalty on the new material, read the table — penalty <= 4e4 -> requirement 163 K, the 152.4 K FEM cold plate closes passively; <= 4e5 -> 143 K, plate + TEC trim (132 K reach) closes. Two orders of magnitude of tolerance; the card's structure does not move with their re-run.",
+        "Radiometric closure: the 586 W/m2 Mars constant (com-relay ledger anchor) x 0.25 albedo through a 12 cm aperture at 6.66 ms dwell -> 20k-79k signal electrons, SNR 134-278 (shot + 30 e- read [reused CTIA chain] + 900 e- dark-charge budget) — inside CRISM's ~100-400 class for like conditions.",
+        "Reuse ledger (attribution corrected by the sci-swir-01 audit — 'reuse cites the true source, not the distiller'): 4 items from the TRUE-SOURCE frozen InGaAs design (E:\\Codex\\2026-07-04\\InGaAs) = CTIA ROIC (3 gains, <20 fF node, read-noise chain), 640x512/15 um format + indium-bump hybridization flow, sealed cold-chamber mechanics, AD7626 data chain (330 Mb/s just covers the 246 Mb/s raw rate); 1 item original to sci-swir-01 = the TCAD dark-current METHODOLOGY (its ledger 13: structure recipe, three-fingerprint criteria, perimeter-area matrix, 'dark current must be judged paired with a collecting field' — cited together with its extrapolation boundary: the methodology travels, the fitted numbers do not); the band-depth retrieval is shared lineage (its ledgers 1/8). Changed = absorber (lattice-matched -> metamorphic extended), optics (C-mount lens -> pushbroom spectrometer), cooling (2-stage TEC -> passive radiator), environment (6 mbar convection -> vacuum + orbital cycling). Noise budgets do not carry over: their 'read-noise takeover' is a 60 s low-light conclusion; this bus's own 6.7 ms working point computes shot-dominated — signal 20k-79k e- -> shot 140-280 e- >> read 30 ~ dark-shot 30 (see the radiometry entry).",
+        "Prospecting-priority grid interface (for res-mine-01 / res-glass-01; v4 extended on res-glass-01's request — its ledger 20: aluminous clay contamination costs +17% acid, 5% in the feed leaves 7 wt% residual Al2O3 and +49 C of working temperature, so opal and Al-clay are NOT equivalent to it): 200 m cells, each {BD1.41, BD1.91, BD2.21 (silica triplet), BD1.9+BD2.4 (sulfates), BD2.21/2.29 (clays), tau_d dust cover, D2.16 (kaolinite doublet shoulder depth), ASYM2.21 = BD2.26/BD2.21 (opal's broad right shoulder vs smectite's narrow symmetric band), and a phase flag in {opal, kaolinite, smectite, mixed/uncertain} with confidence}. The extension costs zero hardware: the instrument is a 160-band x 10 nm contiguous spectrometer — the 2.16/2.21/2.26 um channels were always being sampled; 'three wavelengths' was only the first product format. Discrimination physics: the kaolinite 2.16/2.21 doublet spans 50 nm = 5 sampling channels; opal's Si-OH band is broad and right-asymmetric vs smectite's narrow symmetric Al-OH (FWHM ~60-80 vs ~30 nm); shape quantities are computed after stacking the ~100 pixels in a 200 m cell (10x SNR). Honesty clause: spectral phase discrimination is a SCREEN — 'uncertain' cells keep the glassworks' own fallback (sample, then XRD phase check at sci-lab-01 before committing a mining spot); the grid nominates candidates, XRD decides — two tiers, each in its place. Clear-glass score = geometric mean of the silica triplet x (1 - tau_d) x a phase penalty (kaolinite/uncertain down-weighted), replacing the literature citation ('Jezero carries opaline-silica detections') with a local, phase-tagged 20 m map. The mine's sulfur-bench selection (10 wt% vs 2.4 wt% background) scores off the same grid.",
+        "Revisit: with +/-30 deg cross-track roll Jezero is accessible 3.7 times per sol; two rolled passes cover the 20x20 km delta area (12.8 km swath) — the prospecting campaign yields its first grid in ~10 sols.",
+        "Radiation-environment account (v2 — the other half of the task line 'the orbital version changes optics AND radiation environment'): at 400 km Mars blocks 28% of the sky (gate: the shadow factor must go to 0.5 as h->0 and 1 as h->infinity — passes), so com-relay's solved Geant4 TID ladder x 0.72 gives 5.1 krad/15 yr behind 4 mm Al, 10.3 krad with x2 margin — rad-tolerant 30 krad parts suffice, same verdict as the relay. What actually matters for a detector is displacement damage: an effective fluence of 1.45e10 p/cm2 through the InGaAs damage coefficient adds 6.1e4 e-/s/px of dark current at 300 K, which the GR halving law shrinks to ~15 e-/s/px at the cold-plate temperature = 0.01% of budget (note: this scaling rides the same extrapolation the device side has since struck down — assumption tier likewise; but the conclusion carries 4 orders of redundancy: even with NO cooling scaling at all, the raw 300 K value is only 45% of budget, so the verdict stands) — the millisecond-dwell relaxation that saved extended InGaAs absorbs fifteen years of protons too. Transients: 0.02 GCR hits per line in quiet times (cosmetic); during a large SPE (rates x100-1000) imaging pauses while radar and occultation carry on untouched (HF and phase measurements, not pixel detectors)."
+      ]
+    },
+    {
+      "id": "ro",
+      "label": "无线电掩星(零新硬件)",
+      "label_en": "Radio occultation (zero new hardware)",
+      "range": 30,
+      "detail": "第三台『载荷』没有自己的箱子:借整星与中继环之间的 Ka 星间链路,在链路擦过大气边缘时测载波相位的多余延迟——大气折射率把温压廓线写进相位里,Abel 反演解出来。硬件清单只有一条:交联收发机的频率基准升级为超稳振荡器(USO,阿伦方差 10⁻¹³)。每 sol 63 条廓线,0–60 km 天基温压测量——供 sci-weather-01(桅杆只到 1.75 m)与 sci-thz-01(其卡自述反演需 ±5 K 外部 T(z))各自按前向模型核定采用;sci-thz-01 核定已落卡:第二 T(z) 源,联合后尘暴柱项从不变差、增益 5–12%(见 sim 接口段)。",
+      "detail_en": "The third 'payload' has no box of its own: it borrows the Ka crosslink between this bus and the relay ring, measuring the excess carrier phase delay as the link grazes the atmospheric limb — refractivity writes the temperature-pressure profile into the phase, and an Abel inversion reads it back. The hardware list is one line: the crosslink transceiver's frequency reference upgrades to an ultra-stable oscillator (Allan deviation 1e-13). 63 profiles per sol of 0-60 km space-based temperature and pressure — offered to sci-weather-01 (whose mast ends at 1.75 m) and sci-thz-01 (whose own card states its retrieval needs external T(z) to +/-5 K), each to vet against its own forward model; sci-thz-01's verdict is on its card: second T(z) source; joint with the met station its dust column term never worsens, gaining 5-12% (see the interface entry).",
+      "specs": {
+        "廓线产量": "63 条/sol(几何计数,非拍脑袋)",
+        "切点纬度": "±80°(全球)· 其中 23% 在 ±30°",
+        "高度范围": "0–60 km · 垂直分辨率 ~1 km",
+        "温度精度": "~1.1 K@<40 km 静稳(推导:硬件 0.02–0.6 K + 球对称项 ~1 K;尘暴 ~4 K)",
+        "新增硬件": "USO(2 kg / 3 W)——其余全部借用",
+        "反演链": "相位 → 弯曲角 → 折射率 → T/p(Abel)",
+        "已知答案锚": "MGS 对地掩星 1–10 条/sol · GNSS-RO <1 K"
+      },
+      "specs_en": {
+        "Profile yield": "63 per sol (counted from geometry, not asserted)",
+        "Tangent latitudes": "+/-80 deg (global); 23% within +/-30",
+        "Altitude range": "0-60 km, ~1 km vertical resolution",
+        "Temperature precision": "~1.1 K below 40 km calm (derived: instrument 0.02-0.6 K + spherical-symmetry ~1 K; ~4 K in storms)",
+        "New hardware": "the USO (2 kg / 3 W) — everything else borrowed",
+        "Retrieval chain": "phase -> bending angle -> refractivity -> T/p (Abel)",
+        "Anchors": "MGS Earth-occultation 1-10/sol; GNSS-RO <1 K"
+      },
+      "physics": [
+        "掩星是把大气当透镜的干涉测量:载波穿过大气,折射率 N=(n−1)×10⁶ ∝ p/T(CO₂ 大气常数已知),路径相位比真空多出可测的延迟;链路下沉/上升扫过高度,每个切点高度一个弯曲角,Abel 积分反演出 N(z),静力平衡 + 状态方程解出 T(z) 与 p(z)。自校准:测的是相位差的时间导数,不依赖辐射定标——这是它能当『独立验证源』的物理资格。",
+        "误差预算被 v2 推导后归位(两轮自我修正入册:折射率常数第一稿用错形式,已知答案闸抓住——火星地表 N₀ 必须 ~3.9,地球空气必须 ~273;纯硬件预算给出 0.0002 K,与 GNSS-RO 已知 0.5–1 K 差三个量级,暴露真正的地板不是硬件):USO 1×10⁻¹³ 贡献 0.02 K(地表)→ 0.6 K(40 km),热噪声再小 100×;地板是 Abel 反演的球对称假设——沿视线 ~0.5% 的水平折射率不均匀 = ~1 K(静稳),尘暴梯度期 ~4 K。所以 2 kg 的 USO 恰好够,更好的钟买不来任何东西。Ka 的隐性红利:32 GHz 下电离层折射率仅中性大气的 1/500,单频即免疫——地球 L 波段 GNSS-RO 必须双频才能做到的事。",
+        "产量是几何不是愿望:MGS 掩星只能在对地链路擦限时发生(每圈最多 2 条,还要地球在合适方位);本星对 3 颗常可见的静止中继掩星,每圈稳定 4–6 条——掩星产量从『地球给不给』变成『自家星座几何』,这是把中继环建在火星的隐性红利。"
+      ],
+      "physics_en": [
+        "Occultation treats the atmosphere as a lens in an interferometer: as the carrier crosses it, refractivity N = (n-1)x10^6 ~ p/T (constant known for a CO2 atmosphere) adds measurable excess phase; the link's descent/rise sweeps altitude, each tangent height yields a bending angle, an Abel integral inverts to N(z), and hydrostatic balance plus the equation of state give T(z) and p(z). Self-calibrating: the observable is the time derivative of a phase difference, independent of radiometric calibration — the physical credential that makes it a valid independent validator.",
+        "The error budget was earned in v2, with two self-corrections on record: the refractivity constant was first written in the wrong form (the known-answer gate caught it — Mars surface N0 must be ~3.9 and Earth air ~273), and a hardware-only budget returned 0.0002 K, three orders cleaner than published GNSS-RO's 0.5-1 K — exposing that the real floor is not hardware. Derived: the 1e-13 USO contributes 0.02 K at the surface rising to 0.6 K at 40 km (thermal noise 100x smaller still); the floor is the Abel inversion's spherical-symmetry assumption — ~0.5% horizontal refractivity structure along the ray = ~1 K calm, ~4 K in dust-storm gradients. So the 2 kg USO is exactly enough and a better clock buys nothing. Ka's hidden dividend: at 32 GHz the ionospheric refractivity is 1/500th of the neutral term, so a single frequency is immune — what L-band GNSS-RO needs two frequencies to achieve.",
+        "Yield is geometry, not hope: MGS could only occult when its Earth link grazed the limb (at most 2 per orbit, Earth permitting); this bus occults against three always-visible stationary relays, a steady 4-6 per orbit. Yield stops depending on where Earth is and becomes your own constellation's geometry — a hidden dividend of building the relay ring at Mars."
+      ],
+      "sim": [
+        "几何计数(2 s 步长传播一整 sol,轨道器 92.91° 圆轨 × 3 颗静止中继随火星自转):切线高度扫过 0–60 km 感知带的完整入/出各计 1 条 → 63 条/sol(上限 2×12.5 圈×3 星=75 的 84%,损失来自中继在轨道面法向附近时链路不掩);逐星 22/20/21 均衡",
+        "覆盖:切点纬度 ±80.4° 全球扫描,23% 落在 ±30° 低纬带(城区所在)——每 sol ~14 条低纬廓线,远超 sci-thz-01 反演所需的『±5 K 温度廓线』输入精度更新节奏",
+        "廓线接口(产品声明,不替接收方推演——接收方拿自己的前向模型核出品方声明,是城里的规矩):每条 {sol, LTST, 纬经度, z[0–60 km], T(z)±σ, p(z), N(z)};承重档:σ_T ~1.1 K@<40 km 静稳/~4 K 尘暴、垂直分辨率 ~1 km、**水平足印(沿视线加权,口径声明 09-02 补:权重近高斯 ∝exp(−x²/2aH),σ=√(aH)≈194 km@H=11.1 km;分位半宽 50/80/95% = ±131/±249/±381 km,与 com-gap 分位半宽制同口径可并排;1/e 全宽 2√(2aH)=549 km 含 84% 权重——此前笼统写的『~300–550 km』未声明口径,现以此为准;足印 ∝√H,尘暴升 H 加宽)**——这是掩星的结构性局限,近地面边界层的局地结构会被沿线平均抹掉;来源:sim/ro_budget.py(硬件与球对称两项分账);可独立验证:与 sci-weather-01 的**相对变化**比对(热潮汐相位/尘暴气压演变时间序列)。接收方核定记录(sci-thz-01 前向模型核定,冻结值落其 link 卡;核实脚本 mars-thz/review/verify_orbiter_ro.py 不 import 本册代码、可复跑):角色按其核定措辞引用(数值经其一次自我更正,更正后为冻结口径)——**『20 km 以下第二等价 T(z) 源 + 20–40 km 交叉验证(此角因果后撤销,本产品交叉验证带待 thz 按 σ_T 另判,见细账②)；与站址气象站联合后其尘暴柱项从不变差,增益 5–12%(09-02 足印重折后;区间仍取决于尘暴期代表性因子,尚未定论)』,非 GCM 替代、非 OEM 先验主源**(其温度雅可比核定:足印使后者做不到)。更正记录(接收方自纠,值得留):其初版『改善约 30%(+3.89%→+2.74%)』被撤回——两个数来自两把不同的尺(累计闭环偏差 vs 单项线性),同尺重算增益仅 2–11%(该值后随 09-02 足印口径重折更新为 5–12%,见①);抓出这处错的正是本册的 1.1/4.2 K 分账——而本册的尘暴项 2% 水平不均匀性也是假设档类值,双方谁都定不了那个因子,交由在轨同位对比数据裁决。细账:①20 km 以下,主导误差不是本卡 σ_T 1.1 K 而是拿沿线平均当局地柱的代表性误差 **1.9–3.3 K**(thz 09-02 按本卡足印口径重折并落其 link 卡[锚:thz 卡 ddea7f1]:初版 4.1–7.3 K 把未声明口径的『300–550』猜作沿轨跨度均值 425 km,而高斯加权的均方根位移就是 σ=194 km——位移用大 2.2×,代表性与位移线性;比值随之 3.7–6.6×→**1.7–3.0×**,其『那个优秀的 σ 花不到最想花的地方』一句收回:1.7–3.0× 下 σ 是被削弱不是被浪费。其波束足印 0.013 km 的悬殊不变——我的 σ 是平均场产品精度,它的数是该用法的价格);K 尺度反方差合并**从不变差**(算术性质,不随重折变)——不排名,合并;更正后联合尘暴增益 **5–12%** ②登记变更记录(09-02,两轮更正后终版):原『20–40 km 交叉验证』的**因果撤销**——该角色曾以 0.43 弱平均核为由,而那是其**水汽**核、本卡供**温度**,T 在其前向模型里是固定输入,弱水汽核不构成温度约束入口(串量,thz 自查;其注入 σ_T 实测柱项变化 ≤0.001 pp,低于蒙卡噪声);**事实保留**:20–40 km 为其平均核最弱层(0.43 单次抽样;系综 0.52±0.08 宁静/0.82±0.03 尘暴抬升)——只是不再作为本卡交叉验证的理由;**本产品的交叉验证带由 sci-thz-01 按本卡 σ_T(z) 另判,待其判定**(初版误写的『改登 0–20 km 待代表性』是 com-polar-01 星间掩星的登记变更,与本卡无涉,已剔)。sci-weather-01 支(按其回执与总控裁定改写):比对限于**相对变化**(热潮汐/尘暴演变),不作绝对锚——其 0.1 Pa 是分辨率/重复性而非绝对准确度(该站无绝对准确度账),且本卡足印内高程起伏 0.3/1.0/2.0 km 折合地表气压跨度 16.4/53.0/101.4 Pa(其精度的 164–1014×),高程归算才是真瓶颈;绝对锚的成立条件同句印(两账连判:weather 账 #18 判『不成立』——出厂 U=0.39 Pa 合格但真空参考漂移 1.19 Pa/火星年致 ~243 sol 越线、站上无一级基准不可复溯;账 #19[cc59ba6]更新其中一半:**(a) 站侧可满足**——方案 A 城内力平衡活塞基准 u=0.030 Pa(k=1)+ 便携石英谐振表异体制传递,传递链 U=0.11 Pa(k=2)、复标周期 100 sol,站上复标后 0.27、周期末 0.47 Pa(k=2),过其预注册阈 1.0 Pa;前提是基准处用绝对重力仪实测局地 g 一次(用全球均值差 ±0.7% = 4.3 Pa 系统差);建不建基准归用户。**(b) 足印归算到共同位势面仍是唯一瓶颈**——足印内高程起伏折合 16.4/53.0/101.4 Pa,为站侧新预算的 35–217×,掩星自身 6.4 Pa 亦远大于站侧——**绝对锚整体仍不成立,主口径『相对变化比对』不动**);z≳10 km 真互补、z≲10 km 是区域平均 vs 单点——其 ats 卡已印同款口径,并独立复现本卡足印(546 km——与本卡 1/e 全宽 549 km 一致,口径吻合)",
+        "诚实条款:掩星切点是视线几何决定的,不能指哪打哪——给定点(如城区正上方)的廓线是统计供给(每 sol ~14 条低纬随机分布),不是定点定时服务;要定点探空仍需 sci-weather-net-01 的就地手段"
+      ],
+      "sim_en": [
+        "Geometric count (one full sol propagated at 2 s steps, the 92.91 deg circular orbit against 3 stationary relays co-rotating with Mars): each complete ingress/egress sweep of the 0-60 km sensing band counts one profile -> 63 per sol (84% of the 2 x 12.5 orbits x 3 relays = 75 ceiling; the loss is relays near the orbit normal, where the link never grazes). Per relay 22/20/21 — balanced.",
+        "Coverage: tangent latitudes sweep +/-80.4 deg globally, 23% within the +/-30 deg band where the city sits — ~14 low-latitude profiles per sol, comfortably above the update cadence sci-thz-01's +/-5 K requirement implies.",
+        "Profile interface (a product declaration, not the receiver's inference — city rule: receivers check a producer's claims against their own forward models): each profile {sol, LTST, lat/lon, z[0-60 km], T(z)+/-sigma, p(z), N(z)}. Load-bearing figures: sigma_T ~1.1 K below 40 km calm / ~4 K in storms, ~1 km vertical resolution, and a HORIZONTAL footprint (along-ray weighting; definition declared 09-02: the weight is near-Gaussian, exp(-x^2/2aH), sigma = sqrt(aH) ~ 194 km at H = 11.1 km; percentile half-widths 50/80/95% = +/-131/249/381 km, same convention as com-gap's for side-by-side use; 1/e full width 2 sqrt(2aH) = 549 km holding 84% of the weight — the earlier loose '~300-550 km' carried no definition; this one governs; footprint scales as sqrt(H), so storm-raised H widens it) — occultation's structural limit: local boundary-layer structure is averaged away along the ray. Source: sim/ro_budget.py (instrument and spherical-symmetry terms booked separately). Independently checkable against sci-weather-01 in RELATIVE terms (thermal-tide phase, storm pressure evolution time series). Receiver verdict on record (sci-thz-01 forward-model check, frozen onto its link card; verification script mars-thz/review/verify_orbiter_ro.py imports none of this ledger's code and re-runs independently). Role quoted in the receiver's own approved wording (value once self-corrected by the receiver; the corrected form is frozen): 'second co-equal T(z) source below 20 km + 20-40 km cross-validation (causal basis later withdrawn; this product's cross-validation band awaits thz's fresh judgment per sigma_T — see fine-ledger item 2); joint with the site met station its dust column term never worsens, gaining 5-12% (post-refold 09-02; the range still hinges on the storm-period representativeness factor — unresolved)' — NOT a GCM replacement, NOT a primary OEM prior (its temperature-Jacobian check: the footprint forbids that use). Correction on record (receiver self-caught, worth keeping): its initial '~30% (+3.89% -> +2.74%)' was retracted — the two numbers came from two different rulers (cumulative closed-loop bias vs a single linear term); re-run on one ruler the gain is 2-11% (later updated to 5-12% by the 09-02 footprint refold, see item 1). What exposed it was this ledger's own 1.1/4.2 K split — while this ledger's 2% storm inhomogeneity is itself an assumption-tier class value, so neither side can pin the factor; in-flight collocated comparisons will. The fine ledger: (1) below 20 km the dominant error is not this card's 1.1 K sigma_T but the representativeness error of using the along-ray average as a local column — **1.9-3.3 K** (thz refolded 09-02 against this card's declared footprint, landed on its link card [anchor: thz card, commit ddea7f1]: the initial 4.1-7.3 K had guessed the undeclared '300-550' as a 425 km along-track span mean, where the Gaussian-weighted rms displacement is simply sigma = 194 km — displacement 2.2x too large, and representativeness is linear in it; the ratio moves 3.7-6.6x -> **1.7-3.0x**, and its line 'that excellent sigma cannot be spent where it matters most' is withdrawn: at 1.7-3.0x the sigma is diluted, not wasted. The 0.013 km beam-footprint mismatch stands — my sigma prices the averaged-field product, their number prices that use). On the kelvin scale the inverse-variance merge NEVER WORSENS (an arithmetic property, refold-invariant) — no ranking, a merger; corrected joint storm gain **5-12%**. (2) Registration change record (09-02, final after two rounds of correction): the CAUSAL BASIS of the '20-40 km cross-validation' role is withdrawn — that role rested on the weak 0.43 averaging kernel, which is its WATER-VAPOR kernel while this card supplies TEMPERATURE; T is a fixed input in its forward model, so a weak vapor kernel is not an entry point for a temperature constraint (crossed quantity, thz self-caught; injecting our sigma_T moves its measured column by <=0.001 pp, below its Monte-Carlo noise). THE FACT STAYS: 20-40 km is its weakest averaging-kernel layer (0.43 a single draw; ensemble 0.52+/-0.08 calm / 0.82+/-0.03 storm uplift) — it just no longer justifies this card's cross-validation. THIS PRODUCT's cross-validation band is for sci-thz-01 to judge afresh against this card's sigma_T(z) — pending its determination (the earlier 're-registered at 0-20 km pending representativeness' belonged to com-polar-01's crosslink occultation, not this card; struck). The sci-weather-01 branch (rewritten per its reply and the overseer ruling): comparison is limited to RELATIVE changes (thermal tides, storm evolution), no absolute anchor — its 0.1 Pa is resolution/repeatability, not absolute accuracy (the station carries no absolute-accuracy ledger), and within this card's footprint the real bottleneck is elevation reduction: 0.3/1.0/2.0 km of relief maps to 16.4/53.0/101.4 Pa of surface-pressure spread (164-1014x its precision). The conditions for an absolute anchor are printed in the same sentence (two ledgers rule in sequence: weather's #18 said 'not viable' — factory U = 0.39 Pa compliant but 1.19 Pa/Mars-year vacuum-reference drift crosses the line ~243 sols after calibration, no on-site primary standard, not re-traceable; #19 [cc59ba6] then overturns HALF of it: (a) IS satisfiable station-side — plan A, a city force-balance piston primary at u = 0.030 Pa (k=1) plus a portable quartz-resonator transfer of a different principle, chain U = 0.11 Pa (k=2), 100-sol recalibration period, station absolute 0.27 Pa after recal / 0.47 Pa at period end (k=2), passing its pre-registered 1.0 Pa threshold; prerequisite: one absolute-gravimeter measurement of local g at the primary (the global-mean shortcut costs +/-0.7% = 4.3 Pa systematic); whether to build it is the user's call. (b) footprint reduction to a common geopotential surface REMAINS THE SOLE BOTTLENECK — terrain relief inside the footprint maps to 16.4/53.0/101.4 Pa, 35-217x the new station-side budget, and occultation's own 6.4 Pa also dwarfs it — the absolute anchor as a whole is STILL not viable, and the 'relative changes' main stance stands). Above ~10 km the two are genuinely complementary; below ~10 km it is areal average vs point — the same wording now on its ats card, which also independently reproduced this card's footprint (546 km — matching this card's 1/e full width of 549 km, conventions aligned).",
+        "Honesty clause: tangent points fall where line-of-sight geometry puts them — profiles over a named point (e.g. straight above the city) are a statistical supply (~14 low-latitude profiles/sol, randomly placed), not an on-demand service; targeted soundings still belong to sci-weather-net-01's in-situ means."
+      ]
+    },
+    {
+      "id": "link",
+      "label": "Ka 交联终端与数据账",
+      "label_en": "Ka crosslink terminal and the data ledger",
+      "range": 25,
+      "detail": "0.5 m 万向金网碟,指向头顶的静止中继环——三台载荷全部数据由此回城。裁决题『只有 UHF 还是加 Ka』被两个数字终结:UHF Proximity-1 按 1/R² 缩放到 21,600 km 斜距只剩 17 kbps(运走一 sol 的数据要 68 sol),且中继环根本没有 UHF 服务;Ka 用户终端骑现成的 150 Mbps 单址服务类,每 sol 10 分钟链路时间清空全部积压。掩星载荷共用此链(见 ro 卡)。",
+      "detail_en": "A 0.5 m gimbaled gold-mesh dish aimed at the stationary ring overhead — every byte from all three payloads leaves through it. The 'UHF-only or add Ka' question dies to two numbers: Proximity-1 UHF scaled by 1/R^2 to the 21,600 km slant leaves 17 kbps (68 sols to ship one sol of data), and the relay ring carries no UHF service anyway; a Ka user terminal rides the ring's existing 150 Mbps single-access class and clears the backlog in ten minutes per sol. The occultation payload shares this link (see the ro card).",
+      "specs": {
+        "终端": "Ø0.5 m 双轴万向 · 42.3 dBi @32 GHz",
+        "EIRP": "55.3 dBW(20 W TWTA)",
+        "C/N₀": "105.8 dB-Hz @最远斜距 21,600 km",
+        "服务速率": "150 Mbps(中继环单址服务类封顶)",
+        "数据量": "93.7 Gb/sol(SWIR 88.6 + 雷达 5 + 掩星 0.1)",
+        "所需链路时间": "10.4 min/sol",
+        "中继可见性": "100%(3 星几何,计算值)",
+        "星上存储": "512 Gb(≈5 sol 断链缓冲)"
+      },
+      "specs_en": {
+        "Terminal": "0.5 m two-axis gimbal, 42.3 dBi at 32 GHz",
+        "EIRP": "55.3 dBW (20 W TWTA)",
+        "C/N0": "105.8 dB-Hz at the 21,600 km max slant",
+        "Service rate": "150 Mbps (capped by the ring's single-access class)",
+        "Data volume": "93.7 Gb/sol (SWIR 88.6 + radar 5 + RO 0.1)",
+        "Link time needed": "10.4 min/sol",
+        "Relay visibility": "100% (3-satellite geometry, computed)",
+        "Onboard storage": "512 Gb (~5 sols of outage buffer)"
+      },
+      "physics": "同一条 Friis,两个方向的杠杆:UHF 的 2 Mbps 是按 ~2,000 km 近距链路定的,距离拉到 21,600 km,1/R² 吃掉 20.7 dB——速率跌两个数量级;Ka 侧则是固定口径增益 ∝ f² 的红利,0.5 m 小碟在 32 GHz 就有 42 dBi。链路闭合后瓶颈移到体制:中继环单址波束一次跟一个用户,150 Mbps 是服务类不是物理极限(其自家卡:功率受限,频谱余量 ~1 Gbps)——本星要的 10 min/sol 只占其碟时 ~0.7%,调度上是零负担用户。",
+      "physics_en": "One Friis equation, two levers: Proximity-1's 2 Mbps was scoped for ~2,000 km links, and stretching to 21,600 km costs 20.7 dB of 1/R^2 — two orders of magnitude of rate. On the Ka side, fixed-aperture gain grows as f^2: a 0.5 m dish is already 42 dBi at 32 GHz. Once the link closes the bottleneck moves to the system: the ring's single-access beam tracks one user at a time, and 150 Mbps is a service class, not a physical limit (its own card: power-limited, ~1 Gbps of spectral headroom). This bus's 10 min/sol is ~0.7% of one dish's time — a zero-burden user in the schedule.",
+      "sim": [
+        "链路预算(照 com-relay 主方程):EIRP 55.3 − FSPL 209.2 + 中继 G/T 31.2 + 228.6 = C/N₀ 105.8 dB-Hz → 物理可承载 ~19 Gbps,实际由服务类封顶 150 Mbps——裕量大到链路永远不是瓶颈,这正是选 Ka 的全部理由",
+        "可见性计算(一 sol 传播):400 km 极轨对 3 颗 120° 间隔静止星,任意时刻 ≥1 星清晰视线,可见性 100%——连极点上空也不遮(几何:极点处到静止环的视线切高 336 km > 大气);断链风险只剩中继侧维护,512 Gb 存储给 5 sol 裕量",
+        "UHF 反面账(裁决的另一半):17 kbps@最远斜距 × 90% 占空 = 每 sol 运力 1.4 Gb,不到 SWIR 一次侧摆过境的产量;结论不是『UHF 不好』而是『UHF 的设计域(近距全向鲁棒)与本星的需求域(远距大流量)不相交』——着陆器应急信道另议,不在本星贸易空间内",
+        "回传路径全链:本星 Ka → 中继环(120° 相位 3+1)→ 对地 X 波段干线 0.2–5 Mbps(com-relay dte 卡)——城内用户(rodwell/矿场/气象网)拿数据走中继环下行,不等地球;对地科学回传按中继环 65 Tb/会合周期的既有预算排队"
+      ],
+      "sim_en": [
+        "Link budget (the com-relay master equation): EIRP 55.3 - FSPL 209.2 + relay G/T 31.2 + 228.6 = C/N0 105.8 dB-Hz -> physically ~19 Gbps, capped in practice by the 150 Mbps service class. Margin so deep the link is never the bottleneck — which is the entire case for Ka.",
+        "Visibility computed (one sol propagated): the 400 km polar orbit always has >=1 of the three 120-deg-spaced stationary relays in clear line of sight — 100%, even over the poles (the sightline to the ring grazes no lower than 336 km). Outage risk reduces to relay-side maintenance; 512 Gb of storage covers 5 sols.",
+        "The UHF counter-ledger (the other half of the verdict): 17 kbps at max slant x 90% duty = 1.4 Gb/sol of carriage — less than one rolled SWIR pass produces. The conclusion is not 'UHF is bad' but 'UHF's design domain (short-range, omni, robust) does not intersect this bus's need (long-range, high-volume)'; a lander emergency channel is a separate question outside this trade space.",
+        "The full return path: this bus's Ka -> the relay ring (3+1 at 120 deg) -> the X-band Earth trunk at 0.2-5 Mbps (com-relay dte card). City users (rodwell, mine, weather net) take their data off the ring's downlink without waiting on Earth; science bound for Earth queues inside the ring's existing 65 Tb-per-synodic-cycle budget."
+      ]
+    },
+    {
+      "id": "orbit",
+      "label": "轨道裁决:400 km 保留,倾角改判",
+      "label_en": "Orbit verdict: keep 400 km, change the inclination",
+      "range": 25,
+      "detail": "400 km 是从占位星继承的高度——复核结论:高度保留,倾角从示意性的 ~37° 改判为 92.91° 太阳同步。裁决账:火星 400 km 大气密度比地球同高度低 61 倍,阻力补偿仅 0.39 m/s/yr、无维护自然寿命 ~35 年——继承值在物理上站得住;而太阳同步把光照角锁定(SWIR 定标要它)、近极倾角把三台载荷的覆盖从 ±37° 纬带解放到全球(掩星切点 ±80°)。轨道视图的圈要重画:总控请把倾角改为近极。",
+      "detail_en": "The 400 km altitude is inherited from the placeholder — review verdict: keep the altitude, change the inclination from the schematic ~37 deg to 92.91 deg sun-synchronous. The altitude account: Mars at 400 km is 61x thinner than Earth at the same height, drag make-up is 0.39 m/s/yr and unmaintained life ~35 years — the inherited number stands on physics. Sun-synchrony locks the illumination angle (SWIR calibration wants it) and the near-polar plane frees all three payloads from a +/-37 deg band to global coverage (occultation tangents reach +/-80 deg). The orbit-view ring needs redrawing: near-polar, please.",
+      "specs": {
+        "高度": "400 km 圆轨(保留,复核通过)",
+        "倾角": "92.91° 太阳同步(改判,原 ~37° 示意)",
+        "周期": "118.4 min · 12.5 圈/sol",
+        "降交点地方时": "15:00(SWIR 光照 / 雷达夜测两全)",
+        "大气密度@400 km": "4.9×10⁻¹⁴ kg/m³(地球同高度 1/61)",
+        "阻力补偿": "0.73 m/s/yr(实建 210 kg/8 m²)→ 15 年 11 m/s",
+        "无维护寿命": "~18 年量级(静态大气模型;热层随太阳活动/尘暴波动 ~1 个量级)",
+        "星蚀": "最长 41.7 min/圈(35%)"
+      },
+      "specs_en": {
+        "Altitude": "400 km circular (kept; review passed)",
+        "Inclination": "92.91 deg sun-synchronous (changed from schematic ~37)",
+        "Period": "118.4 min, 12.5 orbits/sol",
+        "LTDN": "15:00 (SWIR illumination and radar night passes both served)",
+        "Density at 400 km": "4.9e-14 kg/m3 (1/61 of Earth at 400 km)",
+        "Drag make-up": "0.73 m/s/yr (as-built 210 kg / 8 m2) -> 11 m/s over 15 years",
+        "Unmaintained life": "~18 yr class (static atmosphere; thermosphere varies ~1 order with solar cycle/dust)",
+        "Eclipse": "up to 41.7 min per orbit (35%)"
+      },
+      "physics": [
+        "太阳同步不是地球专利,是 J2 的通用礼物:扁球引力使轨道面进动 Ω̇ ∝ −J₂cos(i)/a^3.5,火星 J₂=1.96×10⁻³(比地球还大),选 92.91° 恰好让轨道面跟着火星公转每火星年转一圈——降交点地方时全任务恒定。已知答案闸:同一公式先算地球 400 km 得 97.03°(教科书值)才许对火星发言。",
+        "『火星 400 km 为什么不掉』:大气密度在 125 km 以上按 ~13.5 km、200 km 以上按 ~30 km 标高指数衰减,到 400 km 只剩 5×10⁻¹⁴ kg/m³;同一套衰降积分先过地球闸——ISS 级弹道系数在地球 400 km 算出 1.42 年(教科书 1–4 年 ✓),然后同法对火星实建弹道系数(210 kg/8 m²,v3 闭环修正:首轮误用 600 kg 假想星,寿命虚标 35 年):~18 年。若这颗星算出要频繁提轨,错的一定是账不是星——0.73 m/s/yr 的补偿意味着每两年一次几分钟的点火。",
+        "12.5 圈/sol 的半圈交错:非整数圈意味着地面轨迹隔 sol 半间距穿插,2 sol 准重复——测绘型载荷白拿一倍等效线密度。"
+      ],
+      "physics_en": [
+        "Sun-synchrony is not an Earth exclusive — it is J2's universal gift: the oblate field precesses the orbit plane at a rate ~ -J2 cos(i)/a^3.5, and Mars's J2 = 1.96e-3 (larger than Earth's). At 92.91 deg the plane tracks Mars's motion around the Sun exactly once per Martian year — the descending-node local time holds for the whole mission. Known-answer gate: the same formula returns 97.03 deg for Earth at 400 km (the textbook value) before it may speak about Mars.",
+        "Why a 400 km Mars orbit does not fall: density decays exponentially at ~13.5 km scale height above 125 km and ~30 km above 200 km, down to 5e-14 kg/m3 at 400 km. The same decay integrator passes the Earth gate first — an ISS-class ballistic coefficient at Earth 400 km returns 1.42 years (textbook 1-4) — then, on the AS-BUILT coefficient (210 kg / 8 m2; the v3 closure pass caught the first round's 600 kg strawman, which had inflated life to 35 yr), says ~18 years for Mars. If this ledger had demanded frequent reboosts the error would be in the ledger, not the satellite — 0.73 m/s/yr means a few minutes of thrusting every couple of years.",
+        "The half-track interleave of 12.5 orbits/sol: a non-integer orbit count staggers successive sols' ground tracks by half a spacing, giving a 2-sol near-repeat — mapping payloads get double the effective line density for free."
+      ],
+      "sim": [
+        "两道已知答案闸(方法先验证再外推):地球 400 km 太阳同步 97.03°(教科书 ✓)、ISS 级弹道系数地球 400 km 寿命 1.42 yr(教科书 1–4 ✓)——同一套代码随后输出火星行",
+        "倾角改判的量化代价与收益:保留 37° 则掩星切点被锁死在 ±40° 内、SWIR 光照角每 sol 漂移、极区冰(资源册最富目标)永不入雷达视场;改 92.91° 全部解决,代价是发射方位与轨道面维持——后者经传播验证在 J2 主导下自稳,无额外 ΔV 项",
+        "本星带的一处诚实降级:降交点 15:00 的 SSO 使雷达半数过境在日侧,日侧电离层(峰值等离子体频率 4.0 MHz)对啁啾引入 97× 压缩脉冲的色散弥散(不校正日侧分辨率退化到 ~730 m,夜侧仅 19% 免费——定量账见 radar 卡 v2),雷达战役排程优先用夜半轨;这是 LTDN 选 15:00(而非雷达最优的 06:00 晨昏)付出的载荷间折中,SWIR 的光照需求赢了排序,因为雷达可以挑轨、成像不能挑光",
+        "给总控的重画参数:轨道圈倾角 92.91°(视图上近极、微逆行),高度不变;占位星的 0.65 rad 倾斜圈按此替换"
+      ],
+      "sim_en": [
+        "Two known-answer gates (method validated before extrapolation): Earth 400 km sun-synchronous = 97.03 deg (textbook), ISS-class ballistic coefficient at Earth 400 km = 1.42 yr (textbook 1-4) — only then does the same code emit the Mars rows.",
+        "The inclination verdict, costed both ways: keeping 37 deg locks occultation tangents inside +/-40 deg, lets the SWIR illumination angle drift sol by sol, and keeps polar ice — the resource ledger's richest target — permanently out of the radar's reach. 92.91 deg fixes all three; the price is launch azimuth and plane maintenance, and propagation shows the latter is J2-self-stable with no extra delta-V line.",
+        "One honest degradation this bus carries: a 15:00-LTDN SSO puts half the radar passes on the dayside, where the ionosphere (peak plasma frequency 4.0 MHz) smears the chirp by 97x the compressed pulse — uncorrected dayside resolution degrades to ~730 m while night costs 19%, free (the quantified account is on the radar card, v2). Radar campaigns schedule the night half-orbits first. This is the inter-payload compromise of choosing 15:00 over the radar-optimal 06:00 dawn-dusk: SWIR's illumination need wins the ordering, because radar can pick its orbits while imaging cannot pick its light.",
+        "Redraw parameters for the integrator: orbit-ring inclination 92.91 deg (near-polar, slightly retrograde in the view), altitude unchanged; replaces the placeholder's 0.65 rad tilted ring."
+      ]
+    },
+    {
+      "id": "solar",
+      "label": "电源与热控(LEO 循环纪律)",
+      "label_en": "Power and thermal (the LEO cycling discipline)",
+      "range": 25,
+      "detail": "两翼 4 板 2.6 m² 三结砷化镓,SADA 对日跟踪;母舱 OSR 辐射面 0.85 m²,SWIR 焦平面另有一块反日深空辐射板(被动 152 K,FEM 签核,见 swir 卡)。这颗星的电源热控难点不在功率(190 W 很小),在循环数:每圈 41.7 min 星蚀 × 12.5 圈/sol × 15 年 = 12.5 万次進出影——电池、互连、辐射板涂层全部按 LEO 循环疲劳鉴定,不是 com-relay-01 的 GEO 纪律。",
+      "detail_en": "Two wings, four panels, 2.6 m2 of triple-junction GaAs on sun-tracking SADAs; 0.85 m2 of OSR radiator on the bus, plus a separate anti-sun deep-space plate for the SWIR focal plane (passive 152 K, FEM-signed, see the swir card). The hard part is not power (190 W is small) but the cycle count: 41.7 min of eclipse x 12.5 orbits/sol x 15 years = 125,000 shadow crossings — battery, interconnects and radiator coatings all qualify to LEO cycling fatigue, not com-relay-01's GEO discipline.",
+      "specs": {
+        "太阳翼": "2 翼 × 2 板 · 2.6 m² · 三结 GaAs η≈30%",
+        "功率": "BOL 378 W · EOL 325 W(15 yr 退化 0.86)",
+        "电池": "609 Wh 锂离子 @ 20% DoD(循环寿命定容)",
+        "星蚀负载": "174 W × 0.7 h",
+        "辐射器": "母舱 OSR 0.85 m² + SWIR 焦平面独立冷板",
+        "热循环": "125,000 次/15 yr 上限(β 角高的季节有免蚀弧段;GEO 中继星的 93 倍)"
+      },
+      "specs_en": {
+        "Solar wings": "2 x 2 panels, 2.6 m2, triple-junction GaAs ~30%",
+        "Power": "378 W BOL, 325 W EOL (0.86 over 15 yr)",
+        "Battery": "609 Wh Li-ion at 20% DoD (cycle-life-sized)",
+        "Eclipse load": "174 W x 0.7 h",
+        "Radiators": "0.85 m2 bus OSR + a dedicated SWIR focal-plane plate",
+        "Thermal cycles": "125,000 over 15 yr, an upper bound (high-beta seasons have eclipse-free arcs; 93x the GEO relay's)"
+      },
+      "physics": "锂电循环寿命 ∝ exp(−k·DoD):80% DoD 下千次量级、20% DoD 下几十万次——12.5 万次循环把工作点钉死在浅放电区,电池容量 = 星蚀能量 ÷ 0.2,四倍于能量法定容。这条物理在 com-relay-01 上是反的(90 次/年,日历老化主导),同一座城的两颗星、两套正确答案——纪律跟着轨道走,不跟着习惯走。退化账引用同源:三结 GaAs 15 年位移损伤 0.86(com-relay Geant4 输运,火星轨道无俘获带、仅 SPE+GCR)。",
+      "physics_en": "Li-ion cycle life scales as exp(-k DoD): thousands of cycles at 80% DoD, hundreds of thousands at 20%. 125,000 cycles pins the operating point in the shallow-discharge regime, so battery capacity = eclipse energy / 0.2 — four times the energy-method size. On com-relay-01 the same physics runs the other way (90 cycles/yr, calendar ageing dominates): two satellites in one city, two correct answers — the discipline follows the orbit, not the habit. The degradation figure shares its source: 0.86 over 15 years for triple-junction GaAs (the com-relay Geant4 transport; no trapped belts at Mars, SPE+GCR only).",
+      "sim": [
+        "阵面定容:需求 = 均值负载 190 W ÷(0.65 日照占比 × 0.9 充放效率)= 325 W;面积由需求反解 325 ÷ 0.86 ÷(490 × 0.30)= 2.57 m²,取整 2.6 m² 实供 329 W——『恰好闭合』是构造出来的定容不是巧合,富余仅 4 W,系统级松弛全在 20% 裕度里(评审修正:初稿把按需反解写成了神奇等式)",
+        "SWIR 冷板与母舱热控解耦:焦平面 0.9 W 寄生热走独立冷指-冷板路径(sci-swir-01 密封冷腔机械同款),母舱 186 W 耗散走 OSR;两条路径不共面、不共 MLI——地面册『TEC 热端 43 °C』的经验在这里变成『冷板永不见阳』的布局约束",
+        "闸门回收:0.85 m² 辐射器按 280 K 反日面净排 219 W/m² 定容,盖住 186 W 耗散 + 尘暴季裕量;com-relay 的教训(孤立板结论 ≠ 整星结论)在此先行规避——本账直接用整星功率一致性(电功率 190 W ≈ 热耗散 186 W + 射频离星 4 We)闭合",
+        "COMSOL FEM 签核(v3,orbiter_thermal.java 双工况;能量闭合闸先抓出两次坏解才许信数——手工拼装求解序列给出 T=NaN、Box 选择集 'inside' 条件静默选空使 186 W 根本没进模型):①总舱板:均温 278.6 K 与解析等温值 280 K 吻合、辐射 236.5 W 对输入 237 W 闭合 0.2%;但 FEM 给出解析看不见的结论——186 W 集中在 0.3×0.3 m 补丁上时 3 mm 裸铝热点冲到 324.7 K(梯度 61 K),TWTA 基板下必须嵌热管或加厚扩散板,『板够大』与『板够摊』是两个判据 ②SWIR 冷板:152.4 K、面内梯度仅 0.7 K、闭合精确(3.90 W)——低于初版需求估计 182 K 达 30 K;需求本身现由器件方在新材料上重立(swir 卡阶梯),冷板量程连罚值差一个量级的情形都盖住;被动辐射方案 FEM 坐实,精确温度点由微调加热器定(冷侧永不见阳的布局约束不变)"
+      ],
+      "sim_en": [
+        "Array sizing: requirement = 190 W average / (0.65 sunlit x 0.9 round-trip) = 325 W; area solved from the requirement, 325 / 0.86 / (490 x 0.30) = 2.57 m2, rounded to 2.6 m2 delivering 329 W. The 'exact closure' is sizing-by-construction, not a coincidence — only 4 W of headroom on the panel itself, with all system slack living in the 20% margin (review fix: the first draft dressed a solved-for area up as a remarkable identity).",
+        "SWIR cold plate decoupled from bus thermal: the focal plane's 0.9 W parasitic load runs its own cold-finger-to-plate path (the sci-swir-01 sealed-chamber mechanics), the bus's 186 W runs to the OSR; the two paths share no face and no blanket — the ground ledger's 'TEC hot side at 43 C' experience becomes a layout constraint here: the cold plate never sees the Sun.",
+        "Gate recovered: the 0.85 m2 radiator is sized at 219 W/m2 net rejection on a 280 K anti-sun face, covering 186 W of dissipation plus dust-season margin. com-relay's lesson (an isolated-panel conclusion is not a spacecraft conclusion) is pre-empted here — this account closes on whole-vehicle power consistency: 190 W electrical ~ 186 W heat + 4 W RF leaving the ship.",
+        "COMSOL FEM sign-off (v3, orbiter_thermal.java, both plates; the energy-closure gate rejected two broken solves before any number was believed — a hand-assembled solver sequence returning T = NaN, then a Box selection whose 'inside' condition silently selected nothing so the 186 W never entered the model): (1) bus plate: 278.6 K mean against the 280 K isothermal hand value, 236.5 W radiated against 237 W in — 0.2% closure; but the FEM delivers what the analytic view cannot see: with 186 W concentrated on a 0.3 x 0.3 m patch, bare 3 mm aluminium spikes to 324.7 K at the hotspot (61 K gradient) — the TWTA baseplate needs embedded heat pipes or a thicker spreader. 'Big enough' and 'spread enough' are two different criteria. (2) SWIR cold plate: 152.4 K with only 0.7 K in-plane gradient, exact closure (3.90 W) — 30 K below the initial 182 K requirement estimate; the requirement itself is now being re-derived by the device side on the new material (swir-card ladder), and the plate's reach covers even a penalty one order worse; the passive-radiator scheme is FEM-signed, exact setpoint left to the trim heater (cold-side-never-sees-sun layout constraint unchanged)."
+      ]
+    }
+  ]
+}

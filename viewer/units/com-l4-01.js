@@ -185,12 +185,13 @@ export function build(THREE) {
   // channels glowing ion-blue at night.
   (function sep() {
     const bayY = -(HY + 0.55);
-    // truss cage: 4 corner rails + rings
+    // truss cage: 4 corner rails + rings. Rails stop AT the bus face — a first
+    // version ran them 0.55 m into the bus (hidden geometry; review catch).
     for (const sx of [-0.55, 0.55]) for (const sz of [-0.55, 0.55]) {
-      const rail = cyl(0.06, 0.06, 1.1, C.truss, sx, bayY + 0.55, sz, 8);
+      const rail = cyl(0.06, 0.06, 0.56, C.truss, sx, bayY + 0.275, sz, 8);
       rail.rotation.x = 0;                       // native Y — vertical rails
     }
-    for (const yy of [bayY + 0.1, bayY + 1.0]) {
+    for (const yy of [bayY + 0.1, bayY + 0.52]) {
       box(1.25, 0.1, 0.1, C.truss, 0, yy, -0.55);
       box(1.25, 0.1, 0.1, C.truss, 0, yy, 0.55);
       box(0.1, 0.1, 1.2, C.truss, -0.55, yy, 0);

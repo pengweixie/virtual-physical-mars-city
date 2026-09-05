@@ -1,0 +1,1806 @@
+{
+  "timestamp": "2026-09-05T06:23:09.500Z",
+  "url": "http://127.0.0.1:8127/viewer/index.html?imperial=1&debug=1",
+  "samples": [
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 32.196969696969695,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 84.66603951081844,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 126.05924784648788,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 97.24473257698541,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 104.2934121328003,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 86.54262224145393,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 102.33668770254138,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 103.3354383144841,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 113.06532663316582,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 120.96774193548386,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 125.0347318699637,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 114.8618467232466,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 84.69791078486728,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 120.96774193548386,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 118,
+      "renderedTriangles": 2453160,
+      "fps": 119.03974604854159,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 77.825103854446,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 119.03974604854159,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 118.47561376949945,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 90.26628554234999,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 111.53107379639371,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 117.27912431587154,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 107.5268817204301,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 118.44442982167556,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 113.62919007638364,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 105.26315789473684,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 80.47210300429174,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 90.36144578313254,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 90.9918107370338,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "main-scene",
+      "draws": 160,
+      "renderedTriangles": 2453954,
+      "fps": 93.02806346581211,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 4.553734061930738,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 94.11764705882354,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 106.74257249599742,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 120.7648440120765,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 131.51165339373156,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 131.17621337997267,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 119.99999999999999,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 100.39600646996519,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 100.28972587474911,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 97.9858464888405,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 101.75240248728095,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 98.96635144051086,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 98.09264305177112,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 101.07249143691342,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 119.76047904191617,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 111.39303174701445,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 121.12240091514654,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 108.31628354796081,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 96.95141656791954,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 101.52856901122487,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 97.11356892365794,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 100.34004125090617,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 92.1517432038088,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 100.18924635422432,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-day",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 92.3076923076923,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 115.81834806461754,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 126.600084400056,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 122.37405669998007,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 128.17773979918795,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 129.87012987012986,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 126.7873494400228,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 127.67768477798242,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 124.62784740012565,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 129.5803037938228,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 123.54152367879203,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 130.38754074610648,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 125.14774386428397,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 127.12762200720442,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 127.96815014929565,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 126.92144972500249,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 127.3434736469756,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 125.0173635227125,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 126.68027306636691,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 125.707102451289,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 124.23217613361912,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 126.0151218146157,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 128.0591918042112,
+      "width": 1265,
+      "height": 675
+    },
+    {
+      "mode": "isolated-night",
+      "draws": 113,
+      "renderedTriangles": 359206,
+      "fps": 127.36149437486839,
+      "width": 1265,
+      "height": 675
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "Actual main viewer import/context and actual processed terrain; main.js is not modified.",
+    "Isolated pass temporarily shows only this layer with diagnostic lighting; it is not the total host-scene budget.",
+    "FPS is browser rAF throughput for this viewport, not a hardware-wide 60 FPS guarantee."
+  ],
+  "revision": "7",
+  "triangles": 169640,
+  "meshes": 107,
+  "lights": 8,
+  "initialization": {
+    "type": "static local roof cubemap",
+    "draws": 25,
+    "captureDraws": 6,
+    "prefilterDraws": 19,
+    "resolution": 128,
+    "positionWorld": [
+      1100,
+      58.58283452616453,
+      -658
+    ]
+  },
+  "sculptures": {
+    "loaded": [
+      "crane",
+      "huabiao",
+      "turtle",
+      "censer",
+      "lion"
+    ],
+    "skipped": []
+  },
+  "rodinTriangles": 192000,
+  "rodinMeshes": 10,
+  "cards": [
+    {
+      "id": "imperial-bridge",
+      "anchor": true,
+      "label": "金水河与白石桥",
+      "label_en": "Golden Water River and marble bridges"
+    },
+    {
+      "id": "imperial-axis",
+      "anchor": true,
+      "label": "贯通御道",
+      "label_en": "Unbroken ceremonial avenue"
+    },
+    {
+      "id": "imperial-terraces",
+      "anchor": true,
+      "label": "九层红墙台地",
+      "label_en": "Nine vermilion terraces"
+    },
+    {
+      "id": "imperial-summit",
+      "anchor": true,
+      "label": "山顶三重檐大殿",
+      "label_en": "Triple-eaved summit hall"
+    },
+    {
+      "id": "imperial-bell-drum",
+      "anchor": true,
+      "label": "钟鼓楼与塔楼族",
+      "label_en": "Bell, drum and corner towers"
+    }
+  ],
+  "water": {
+    "roughness": 0.15,
+    "envMap": true
+  },
+  "collision": {
+    "tested": 157,
+    "mismatches": 157,
+    "blocked": 0,
+    "details": [
+      {
+        "z": 410,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 405,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 400,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 395,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 390,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 385,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 380,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 375,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 370,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 365,
+        "geometryY": 43.51894012466073,
+        "engineFloor": 42.98894165218489,
+        "error": -0.5299984724758389,
+        "blocked": false
+      },
+      {
+        "z": 360,
+        "geometryY": 42.31658950820565,
+        "engineFloor": 31.440914828054183,
+        "error": -10.87567468015147,
+        "blocked": false
+      },
+      {
+        "z": 355,
+        "geometryY": 40.94247070327401,
+        "engineFloor": 31.793567973417726,
+        "error": -9.148902729856285,
+        "blocked": false
+      },
+      {
+        "z": 350,
+        "geometryY": 40.59894195571542,
+        "engineFloor": 32.08411070284811,
+        "error": -8.51483125286731,
+        "blocked": false
+      },
+      {
+        "z": 345,
+        "geometryY": 40.59894195571542,
+        "engineFloor": 32.385028456584934,
+        "error": -8.213913499130484,
+        "blocked": false
+      },
+      {
+        "z": 340,
+        "geometryY": 40.59894195571542,
+        "engineFloor": 32.85719695325391,
+        "error": -7.741745002461506,
+        "blocked": false
+      },
+      {
+        "z": 335,
+        "geometryY": 40.59894195571542,
+        "engineFloor": 33.20928990591257,
+        "error": -7.389652049802848,
+        "blocked": false
+      },
+      {
+        "z": 330,
+        "geometryY": 40.59894195571542,
+        "engineFloor": 33.418528527830574,
+        "error": -7.180413427884844,
+        "blocked": false
+      },
+      {
+        "z": 325,
+        "geometryY": 40.59894195571542,
+        "engineFloor": 33.54707657543684,
+        "error": -7.051865380278578,
+        "blocked": false
+      },
+      {
+        "z": 320,
+        "geometryY": 40.59894195571542,
+        "engineFloor": 33.79296086887504,
+        "error": -6.805981086840376,
+        "blocked": false
+      },
+      {
+        "z": 315,
+        "geometryY": 40.59894195571542,
+        "engineFloor": 33.91317885859945,
+        "error": -6.6857630971159665,
+        "blocked": false
+      },
+      {
+        "z": 310,
+        "geometryY": 40.59894195571542,
+        "engineFloor": 33.988837929868254,
+        "error": -6.610104025847164,
+        "blocked": false
+      },
+      {
+        "z": 305,
+        "geometryY": 41.82877960242331,
+        "engineFloor": 34.10957797202945,
+        "error": -7.7192016303938615,
+        "blocked": false
+      },
+      {
+        "z": 300,
+        "geometryY": 43.43571319617331,
+        "engineFloor": 34.31402707568897,
+        "error": -9.121686120484341,
+        "blocked": false
+      },
+      {
+        "z": 295,
+        "geometryY": 45.042642975226045,
+        "engineFloor": 34.378169046941466,
+        "error": -10.664473928284579,
+        "blocked": false
+      },
+      {
+        "z": 290,
+        "geometryY": 46.82812728919089,
+        "engineFloor": 34.41836311913636,
+        "error": -12.40976417005453,
+        "blocked": false
+      },
+      {
+        "z": 285,
+        "geometryY": 48.5636080801487,
+        "engineFloor": 34.57613990425913,
+        "error": -13.987468175889568,
+        "blocked": false
+      },
+      {
+        "z": 280,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 34.600431826886314,
+        "error": -14.033174282881838,
+        "blocked": false
+      },
+      {
+        "z": 275,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 34.64912003226007,
+        "error": -13.98448607750808,
+        "blocked": false
+      },
+      {
+        "z": 270,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 34.67989802532728,
+        "error": -13.95370808444087,
+        "blocked": false
+      },
+      {
+        "z": 265,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 34.80156677857259,
+        "error": -13.83203933119556,
+        "blocked": false
+      },
+      {
+        "z": 260,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 34.99016311771982,
+        "error": -13.643442992048335,
+        "blocked": false
+      },
+      {
+        "z": 255,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 35.127426401725224,
+        "error": -13.506179708042929,
+        "blocked": false
+      },
+      {
+        "z": 250,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 35.1428752871182,
+        "error": -13.490730822649951,
+        "blocked": false
+      },
+      {
+        "z": 245,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 35.23402059437224,
+        "error": -13.399585515395913,
+        "blocked": false
+      },
+      {
+        "z": 240,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 35.43059821499965,
+        "error": -13.203007894768504,
+        "blocked": false
+      },
+      {
+        "z": 235,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 35.61743913387525,
+        "error": -13.0161669758929,
+        "blocked": false
+      },
+      {
+        "z": 230,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 35.788080280166604,
+        "error": -12.845525829601549,
+        "blocked": false
+      },
+      {
+        "z": 225,
+        "geometryY": 48.63360610976815,
+        "engineFloor": 35.993129162287346,
+        "error": -12.640476947480806,
+        "blocked": false
+      },
+      {
+        "z": 220,
+        "geometryY": 48.96797790564597,
+        "engineFloor": 36.194235332091836,
+        "error": -12.77374257355413,
+        "blocked": false
+      },
+      {
+        "z": 215,
+        "geometryY": 50.739820862188935,
+        "engineFloor": 36.35837158474088,
+        "error": -14.381449277448056,
+        "blocked": false
+      },
+      {
+        "z": 210,
+        "geometryY": 52.33448257483542,
+        "engineFloor": 36.707124750709795,
+        "error": -15.627357824125625,
+        "blocked": false
+      },
+      {
+        "z": 205,
+        "geometryY": 53.929144287481904,
+        "engineFloor": 37.09594181484886,
+        "error": -16.833202472633047,
+        "blocked": false
+      },
+      {
+        "z": 200,
+        "geometryY": 55.70098724402487,
+        "engineFloor": 37.6566115093495,
+        "error": -18.04437573467537,
+        "blocked": false
+      },
+      {
+        "z": 195,
+        "geometryY": 57.42283430695534,
+        "engineFloor": 38.05839538750499,
+        "error": -19.36443891945035,
+        "blocked": false
+      },
+      {
+        "z": 190,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 38.38090049786961,
+        "error": -19.111935653402448,
+        "blocked": false
+      },
+      {
+        "z": 185,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 38.21777641065361,
+        "error": -19.275059740618445,
+        "blocked": false
+      },
+      {
+        "z": 180,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 38.068540550071276,
+        "error": -19.424295601200782,
+        "blocked": false
+      },
+      {
+        "z": 175,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 38.30753961837112,
+        "error": -19.185296532900935,
+        "blocked": false
+      },
+      {
+        "z": 170,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 38.22739386728014,
+        "error": -19.265442283991916,
+        "blocked": false
+      },
+      {
+        "z": 165,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 37.939905620659864,
+        "error": -19.552930530612194,
+        "blocked": false
+      },
+      {
+        "z": 160,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 37.81811792326299,
+        "error": -19.67471822800907,
+        "blocked": false
+      },
+      {
+        "z": 155,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 37.698530108824116,
+        "error": -19.794306042447943,
+        "blocked": false
+      },
+      {
+        "z": 150,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 37.55459995476345,
+        "error": -19.938236196508612,
+        "blocked": false
+      },
+      {
+        "z": 145,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 37.532546857644476,
+        "error": -19.960289293627582,
+        "blocked": false
+      },
+      {
+        "z": 140,
+        "geometryY": 57.49283615127206,
+        "engineFloor": 37.611113395379725,
+        "error": -19.881722755892334,
+        "blocked": false
+      },
+      {
+        "z": 135,
+        "geometryY": 58.365919495001435,
+        "engineFloor": 37.61627351911082,
+        "error": -20.749645975890616,
+        "blocked": false
+      },
+      {
+        "z": 130,
+        "geometryY": 59.97347106970847,
+        "engineFloor": 37.86369511961244,
+        "error": -22.10977595009603,
+        "blocked": false
+      },
+      {
+        "z": 125,
+        "geometryY": 61.75963821448386,
+        "engineFloor": 38.11390242201993,
+        "error": -23.645735792463924,
+        "blocked": false
+      },
+      {
+        "z": 120,
+        "geometryY": 63.36718978919089,
+        "engineFloor": 38.09472272613793,
+        "error": -25.272467063052957,
+        "blocked": false
+      },
+      {
+        "z": 115,
+        "geometryY": 64.97473754920065,
+        "engineFloor": 38.1530441103464,
+        "error": -26.821693438854254,
+        "blocked": false
+      },
+      {
+        "z": 110,
+        "geometryY": 66.76090850867331,
+        "engineFloor": 38.35308553216808,
+        "error": -28.40782297650523,
+        "blocked": false
+      },
+      {
+        "z": 105,
+        "geometryY": 68.4970797598362,
+        "engineFloor": 38.6053694168037,
+        "error": -29.8917103430325,
+        "blocked": false
+      },
+      {
+        "z": 100,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 38.79870598046749,
+        "error": -29.768367994290898,
+        "blocked": false
+      },
+      {
+        "z": 95,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 38.999382957595245,
+        "error": -29.567691017163142,
+        "blocked": false
+      },
+      {
+        "z": 90,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 39.20513073036198,
+        "error": -29.361943244396407,
+        "blocked": false
+      },
+      {
+        "z": 85,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 39.822793398306835,
+        "error": -28.74428057645155,
+        "blocked": false
+      },
+      {
+        "z": 80,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 40.506226386171036,
+        "error": -28.06084758858735,
+        "blocked": false
+      },
+      {
+        "z": 75,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 40.81464353896827,
+        "error": -27.752430435790117,
+        "blocked": false
+      },
+      {
+        "z": 70,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 40.89702929510855,
+        "error": -27.670044679649834,
+        "blocked": false
+      },
+      {
+        "z": 65,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 40.78633987240734,
+        "error": -27.780734102351047,
+        "blocked": false
+      },
+      {
+        "z": 60,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 40.589716128949746,
+        "error": -27.97735784580864,
+        "blocked": false
+      },
+      {
+        "z": 55,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 40.56401946344779,
+        "error": -28.003054511310594,
+        "blocked": false
+      },
+      {
+        "z": 50,
+        "geometryY": 68.56707397475839,
+        "engineFloor": 40.7039858835777,
+        "error": -27.863088091180686,
+        "blocked": false
+      },
+      {
+        "z": 45,
+        "geometryY": 69.4373229984194,
+        "engineFloor": 40.84985364372498,
+        "error": -28.587469354694427,
+        "blocked": false
+      },
+      {
+        "z": 40,
+        "geometryY": 71.03977050818503,
+        "engineFloor": 41.061604040648845,
+        "error": -29.978166467536184,
+        "blocked": false
+      },
+      {
+        "z": 35,
+        "geometryY": 72.8202575687319,
+        "engineFloor": 41.15843014821026,
+        "error": -31.661827420521647,
+        "blocked": false
+      },
+      {
+        "z": 30,
+        "geometryY": 74.42270507849753,
+        "engineFloor": 41.38099739157931,
+        "error": -33.04170768691822,
+        "blocked": false
+      },
+      {
+        "z": 25,
+        "geometryY": 76.02514495886862,
+        "engineFloor": 41.66546844919645,
+        "error": -34.35967650967217,
+        "blocked": false
+      },
+      {
+        "z": 20,
+        "geometryY": 77.80563964881003,
+        "engineFloor": 41.67899345352417,
+        "error": -36.12664619528586,
+        "blocked": false
+      },
+      {
+        "z": 15,
+        "geometryY": 79.53613463044167,
+        "engineFloor": 41.630164464992845,
+        "error": -37.90597016544882,
+        "blocked": false
+      },
+      {
+        "z": 10,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 41.69871981952858,
+        "error": -37.90740902583528,
+        "blocked": false
+      },
+      {
+        "z": 5,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 41.681764380691554,
+        "error": -37.9243644646723,
+        "blocked": false
+      },
+      {
+        "z": 0,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 41.718254169774376,
+        "error": -37.88787467558948,
+        "blocked": false
+      },
+      {
+        "z": -5,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 41.61434432210949,
+        "error": -37.99178452325437,
+        "blocked": false
+      },
+      {
+        "z": -10,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 41.60462973408515,
+        "error": -38.001499111278704,
+        "blocked": false
+      },
+      {
+        "z": -15,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 41.675263541515704,
+        "error": -37.93086530384815,
+        "blocked": false
+      },
+      {
+        "z": -20,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 42.03725150376474,
+        "error": -37.56887734159911,
+        "blocked": false
+      },
+      {
+        "z": -25,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 42.328973319628275,
+        "error": -37.27715552573558,
+        "blocked": false
+      },
+      {
+        "z": -30,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 42.501935426691574,
+        "error": -37.10419341867228,
+        "blocked": false
+      },
+      {
+        "z": -35,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 42.69457113367117,
+        "error": -36.91155771169269,
+        "blocked": false
+      },
+      {
+        "z": -40,
+        "geometryY": 79.60612884536386,
+        "engineFloor": 42.696998948805266,
+        "error": -36.90912989655859,
+        "blocked": false
+      },
+      {
+        "z": -45,
+        "geometryY": 80.482023620978,
+        "engineFloor": 42.93753782480135,
+        "error": -37.544485796176644,
+        "blocked": false
+      },
+      {
+        "z": -50,
+        "geometryY": 82.09462585486472,
+        "engineFloor": 43.23830452252267,
+        "error": -38.85632133234205,
+        "blocked": false
+      },
+      {
+        "z": -55,
+        "geometryY": 83.88641204871237,
+        "engineFloor": 43.19519119364248,
+        "error": -40.69122085506989,
+        "blocked": false
+      },
+      {
+        "z": -60,
+        "geometryY": 85.49902191199362,
+        "engineFloor": 43.312161252502655,
+        "error": -42.18686065949097,
+        "blocked": false
+      },
+      {
+        "z": -65,
+        "geometryY": 87.11162414588034,
+        "engineFloor": 43.202046285754065,
+        "error": -43.90957786012628,
+        "blocked": false
+      },
+      {
+        "z": -70,
+        "geometryY": 88.903410339728,
+        "engineFloor": 43.16141620795189,
+        "error": -45.74199413177611,
+        "blocked": false
+      },
+      {
+        "z": -75,
+        "geometryY": 90.64519682526588,
+        "engineFloor": 43.2191678792982,
+        "error": -47.42602894596769,
+        "blocked": false
+      },
+      {
+        "z": -80,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.38988539446926,
+        "error": -47.325305645718814,
+        "blocked": false
+      },
+      {
+        "z": -85,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.4356503281755,
+        "error": -47.279540712012576,
+        "blocked": false
+      },
+      {
+        "z": -90,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.518852612426144,
+        "error": -47.19633842776193,
+        "blocked": false
+      },
+      {
+        "z": -95,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.50519632717589,
+        "error": -47.209994713012186,
+        "blocked": false
+      },
+      {
+        "z": -100,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.54159250435756,
+        "error": -47.173598535830514,
+        "blocked": false
+      },
+      {
+        "z": -105,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.62492418204103,
+        "error": -47.09026685814705,
+        "blocked": false
+      },
+      {
+        "z": -110,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.59173386752247,
+        "error": -47.1234571726656,
+        "blocked": false
+      },
+      {
+        "z": -115,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.58239939928282,
+        "error": -47.13279164090525,
+        "blocked": false
+      },
+      {
+        "z": -120,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.638318780185266,
+        "error": -47.07687226000281,
+        "blocked": false
+      },
+      {
+        "z": -125,
+        "geometryY": 90.71519104018807,
+        "engineFloor": 43.682449375341726,
+        "error": -47.03274166484635,
+        "blocked": false
+      },
+      {
+        "z": -130,
+        "geometryY": 91.77174987830222,
+        "engineFloor": 43.89091883938925,
+        "error": -47.880831038912966,
+        "blocked": false
+      },
+      {
+        "z": -135,
+        "geometryY": 93.38658752478659,
+        "engineFloor": 44.00930407702536,
+        "error": -49.37728344776123,
+        "blocked": false
+      },
+      {
+        "z": -140,
+        "geometryY": 95.00142517127097,
+        "engineFloor": 44.09412632434978,
+        "error": -50.90729884692119,
+        "blocked": false
+      },
+      {
+        "z": -145,
+        "geometryY": 96.79568328894675,
+        "engineFloor": 44.21624371010004,
+        "error": -52.57943957884671,
+        "blocked": false
+      },
+      {
+        "z": -150,
+        "geometryY": 98.41052093543112,
+        "engineFloor": 44.356783078901515,
+        "error": -54.05373785652961,
+        "blocked": false
+      },
+      {
+        "z": -155,
+        "geometryY": 100.0253585819155,
+        "engineFloor": 44.4528072265457,
+        "error": -55.5725513553698,
+        "blocked": false
+      },
+      {
+        "z": -160,
+        "geometryY": 101.81961669959128,
+        "engineFloor": 44.492055166888846,
+        "error": -57.32756153270243,
+        "blocked": false
+      },
+      {
+        "z": -165,
+        "geometryY": 103.56388273835182,
+        "engineFloor": 44.62363585692887,
+        "error": -58.94024688142295,
+        "blocked": false
+      },
+      {
+        "z": -170,
+        "geometryY": 103.63387695327401,
+        "engineFloor": 44.94380811064076,
+        "error": -58.69006884263325,
+        "blocked": false
+      },
+      {
+        "z": -175,
+        "geometryY": 103.63387695327401,
+        "engineFloor": 45.068830705675495,
+        "error": -58.56504624759852,
+        "blocked": false
+      },
+      {
+        "z": -180,
+        "geometryY": 103.63387695327401,
+        "engineFloor": 44.861950850167666,
+        "error": -58.771926103106345,
+        "blocked": false
+      },
+      {
+        "z": -185,
+        "geometryY": 103.63387695327401,
+        "engineFloor": 44.77009323173531,
+        "error": -58.8637837215387,
+        "blocked": false
+      },
+      {
+        "z": -190,
+        "geometryY": 103.63387695327401,
+        "engineFloor": 44.701845452911755,
+        "error": -58.93203150036226,
+        "blocked": false
+      },
+      {
+        "z": -195,
+        "geometryY": 103.63387695327401,
+        "engineFloor": 44.65468138239624,
+        "error": -58.97919557087777,
+        "blocked": false
+      },
+      {
+        "z": -200,
+        "geometryY": 103.63387695327401,
+        "engineFloor": 44.59813898586819,
+        "error": -59.03573796740582,
+        "blocked": false
+      },
+      {
+        "z": -205,
+        "geometryY": 103.63387695327401,
+        "engineFloor": 44.629414406278144,
+        "error": -59.00446254699587,
+        "blocked": false
+      },
+      {
+        "z": -210,
+        "geometryY": 103.63387695327401,
+        "engineFloor": 44.653919541380795,
+        "error": -58.97995741189322,
+        "blocked": false
+      },
+      {
+        "z": -215,
+        "geometryY": 103.96946563757956,
+        "engineFloor": 44.67062805161616,
+        "error": -59.2988375859634,
+        "blocked": false
+      },
+      {
+        "z": -220,
+        "geometryY": 105.74739685095847,
+        "engineFloor": 44.74717869700963,
+        "error": -61.000218153948836,
+        "blocked": false
+      },
+      {
+        "z": -225,
+        "geometryY": 107.34753265418112,
+        "engineFloor": 44.83922524674156,
+        "error": -62.50830740743956,
+        "blocked": false
+      },
+      {
+        "z": -230,
+        "geometryY": 108.94766845740378,
+        "engineFloor": 44.903131135572174,
+        "error": -64.0445373218316,
+        "blocked": false
+      },
+      {
+        "z": -235,
+        "geometryY": 110.54781189002097,
+        "engineFloor": 44.76971048472547,
+        "error": -65.7781014052955,
+        "blocked": false
+      },
+      {
+        "z": -240,
+        "geometryY": 112.32574310339987,
+        "engineFloor": 44.5813206542311,
+        "error": -67.74442244916878,
+        "blocked": false
+      },
+      {
+        "z": -245,
+        "geometryY": 113.92587890662253,
+        "engineFloor": 44.54998592825665,
+        "error": -69.37589297836587,
+        "blocked": false
+      },
+      {
+        "z": -250,
+        "geometryY": 115.52601470984519,
+        "engineFloor": 44.50484584816539,
+        "error": -71.0211688616798,
+        "blocked": false
+      },
+      {
+        "z": -255,
+        "geometryY": 116.79056945815682,
+        "engineFloor": 44.47429612396636,
+        "error": -72.31627333419047,
+        "blocked": false
+      },
+      {
+        "z": -260,
+        "geometryY": 116.79056945815682,
+        "engineFloor": 44.40108357046023,
+        "error": -72.3894858876966,
+        "blocked": false
+      },
+      {
+        "z": -265,
+        "geometryY": 116.79056945815682,
+        "engineFloor": 44.36089007073073,
+        "error": -72.42967938742609,
+        "blocked": false
+      },
+      {
+        "z": -270,
+        "geometryY": 116.79056945815682,
+        "engineFloor": 44.36155566288808,
+        "error": -72.42901379526874,
+        "blocked": false
+      },
+      {
+        "z": -275,
+        "geometryY": 117.84362640418112,
+        "engineFloor": 44.29917500750493,
+        "error": -73.5444513966762,
+        "blocked": false
+      },
+      {
+        "z": -280,
+        "geometryY": 119.45322265662253,
+        "engineFloor": 44.10029950605466,
+        "error": -75.35292315056788,
+        "blocked": false
+      },
+      {
+        "z": -285,
+        "geometryY": 121.24165954627097,
+        "engineFloor": 43.92866635374801,
+        "error": -77.31299319252295,
+        "blocked": false
+      },
+      {
+        "z": -290,
+        "geometryY": 122.85124816931784,
+        "engineFloor": 43.88122820576366,
+        "error": -78.97001996355418,
+        "blocked": false
+      },
+      {
+        "z": -295,
+        "geometryY": 124.46084442175925,
+        "engineFloor": 43.89353838753317,
+        "error": -80.56730603422608,
+        "blocked": false
+      },
+      {
+        "z": -300,
+        "geometryY": 126.07043304480612,
+        "engineFloor": 43.88056768633256,
+        "error": -82.18986535847355,
+        "blocked": false
+      },
+      {
+        "z": -305,
+        "geometryY": 127.85886993445456,
+        "engineFloor": 43.74782157356334,
+        "error": -84.11104836089122,
+        "blocked": false
+      },
+      {
+        "z": -310,
+        "geometryY": 129.46846618689597,
+        "engineFloor": 43.708490623850416,
+        "error": -85.75997556304554,
+        "blocked": false
+      },
+      {
+        "z": -315,
+        "geometryY": 131.07805480994284,
+        "engineFloor": 43.66805037442403,
+        "error": -87.41000443551881,
+        "blocked": false
+      },
+      {
+        "z": -320,
+        "geometryY": 132.68764343298972,
+        "engineFloor": 43.57130050855925,
+        "error": -89.11634292443047,
+        "blocked": false
+      },
+      {
+        "z": -325,
+        "geometryY": 134.31724182143807,
+        "engineFloor": 43.66303667993501,
+        "error": -90.65420514150307,
+        "blocked": false
+      },
+      {
+        "z": -330,
+        "geometryY": 134.31724182143807,
+        "engineFloor": 43.73428229672804,
+        "error": -90.58295952471003,
+        "blocked": false
+      },
+      {
+        "z": -335,
+        "geometryY": 134.31724182143807,
+        "engineFloor": 43.733368582312295,
+        "error": -90.58387323912578,
+        "blocked": false
+      },
+      {
+        "z": -340,
+        "geometryY": 134.31724182143807,
+        "engineFloor": 43.72304257979706,
+        "error": -90.59419924164101,
+        "blocked": false
+      },
+      {
+        "z": -345,
+        "geometryY": 134.54652465879917,
+        "engineFloor": 43.57193240189576,
+        "error": -90.9745922569034,
+        "blocked": false
+      },
+      {
+        "z": -350,
+        "geometryY": 136.33224548399448,
+        "engineFloor": 43.51576098369456,
+        "error": -92.81648450029992,
+        "blocked": false
+      },
+      {
+        "z": -355,
+        "geometryY": 137.9393774420023,
+        "engineFloor": 43.55294810599312,
+        "error": -94.38642933600917,
+        "blocked": false
+      },
+      {
+        "z": -360,
+        "geometryY": 139.54652465879917,
+        "engineFloor": 43.61819098558225,
+        "error": -95.92833367321691,
+        "blocked": false
+      },
+      {
+        "z": -365,
+        "geometryY": 141.15367187559605,
+        "engineFloor": 43.6451282053211,
+        "error": -97.50854367027495,
+        "blocked": false
+      },
+      {
+        "z": -368.41,
+        "geometryY": 141.81724548339844,
+        "engineFloor": 43.5809489677035,
+        "error": -98.23629651569493,
+        "blocked": false
+      }
+    ]
+  },
+  "consoleLogs": [
+    {
+      "level": "error",
+      "message": "Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'.",
+      "timestamp": "2026-09-05T06:23:09.525Z"
+    }
+  ]
+}

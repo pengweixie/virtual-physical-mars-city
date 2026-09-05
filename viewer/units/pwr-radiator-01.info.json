@@ -31,13 +31,15 @@
         "辐射平衡校验：双面辐射 2×46,800 m² × ε0.9 × σ × (600⁴−210⁴) K⁴ ≈ 610 MW ≥ 585 MW，设计闭合（火星天空有效温度 ~210 K，背景回辐射仅 ~1.9%）",
         "为什么敢用 600 K 高温回路：辐射功率 ∝ T⁴，若降到 300 K 排同样的热需 16 倍板面（~75 万 m²）——高温回路是火星大功率排热唯一现实解",
         "火星特有：大气 0.6 kPa，对流散热占比 <2%，辐射独挑大梁；无雨无氧，裸板免蚀，尘降靠 35° 倾角自清",
-        "跨资产订正（pwr-grid-01 台账）：610 MW ≥ 585 MW 的校核未计板面太阳吸收——计入后晴天洁净 606 MW、积尘 597 MW（余量 2%）。反直觉：积尘在晴天咬人、尘暴期反而缓解（日照塌了）。散热板清洗因此是一项电网可用性事项，不只是保养。"
+        "跨资产订正（pwr-grid-01 台账）：610 MW ≥ 585 MW 的校核未计板面太阳吸收——计入后晴天洁净 606 MW、积尘 597 MW（余量 2%）。反直觉：积尘在晴天咬人、尘暴期反而缓解（日照塌了）。散热板清洗因此是一项电网可用性事项，不只是保养。",
+        "v5 运行点更新（2026-08）：聚变功率 848→640 MW 后，本阵实际热负荷由 585 MW 降为 502 MW（×0.86）。板阵硬件不变，610 MW 辐射能力对新负荷的裕量由 ×1.04 放宽到 ×1.21——本阵从刚好够用变为留有余量，不缩容。原数保留作设计记录。出处 tokamak/sysdesign/v5_operating_point.json"
       ],
       "sim_en": [
         "Radiative balance check: two-sided radiation, 2 x 46,800 m2 x epsilon 0.9 x sigma x (600^4 - 210^4) K^4 ~ 610 MW >= 585 MW, so the design closes (Martian sky effective temperature ~210 K, background back-radiation only ~1.9%).",
         "Why dare a 600 K loop: radiated power scales as T^4, so dropping to 300 K would need 16x the panel area (~7.5e5 m2) to reject the same heat - a high-temperature loop is the only realistic answer for high-power heat rejection on Mars.",
         "Mars-specific: at 0.6 kPa convection carries under 2% of the load, so radiation does all the work; with no rain and no oxygen the bare panels do not corrode, and the 35 deg tilt sheds settling dust on its own.",
-        "Cross-asset correction (pwr-grid-01 ledger): the 610 vs 585 MW check omitted solar absorptance - with it, a clean field rejects 606 MW on a clear day and a dusty one 597 MW (2% margin). Counterintuitively dust bites on clear days and relents in storms, when insolation collapses. Radiator cleaning is therefore a grid-availability item, not mere housekeeping."
+        "Cross-asset correction (pwr-grid-01 ledger): the 610 vs 585 MW check omitted solar absorptance - with it, a clean field rejects 606 MW on a clear day and a dusty one 597 MW (2% margin). Counterintuitively dust bites on clear days and relents in storms, when insolation collapses. Radiator cleaning is therefore a grid-availability item, not mere housekeeping.",
+        "v5 operating-point update (2026-08): with fusion power moving 848 -> 640 MW, the heat this field actually carries falls from 585 MW to 502 MW (x0.86). The array itself is unchanged, so the 610 MW radiating capability now covers the load with 1.21x margin instead of 1.04x - the field goes from just-enough to comfortable, and is not downsized. Original figures kept as the design record. Source: tokamak/sysdesign/v5_operating_point.json"
       ]
     },
     {

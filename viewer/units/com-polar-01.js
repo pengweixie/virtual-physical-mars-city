@@ -186,14 +186,17 @@ export function build(THREE) {
   // are small science stations and ice-prospecting rovers with palm-size
   // radios; they talk UHF up, and this bird trunks it on Ka. Coarse helix:
   // a tapered tube + 3 canted rib hoops (readable at orbit-view scale).
+  // (kept short: the 3 m dish bowl above reaches z=1.83 at this radius — a
+  // first version ran the helices to z=2.0 and their tips pierced the
+  // reflector from behind; review catch, geometry re-derived)
   for (const sx of [-0.55, 0.55]) {
     const h = new THREE.Group();
     h.position.set(sx, -0.55, HZ + 0.1);
     root.add(h);
-    cyl(0.16, 0.1, 0.8, C.dark, 0, 0, 0.4, 10, h).rotation.x = Math.PI / 2;
+    cyl(0.16, 0.1, 0.45, C.dark, 0, 0, 0.225, 10, h).rotation.x = Math.PI / 2;
     for (let k = 0; k < 3; k++) {
       const hoop = new THREE.Mesh(new THREE.TorusGeometry(0.17 - k * 0.025, 0.02, 6, 14), C.trim);
-      hoop.position.z = 0.2 + k * 0.25;
+      hoop.position.z = 0.12 + k * 0.18;
       hoop.rotation.x = 0.35;
       h.add(hoop);
     }
@@ -238,7 +241,7 @@ export function build(THREE) {
   (function swx() {
     const ang = 0.7;                               // boom elevation from +Y
     const boomLen = 1.8;
-    const base = new THREE.Vector3(-0.55, HY - 0.35, HZ - 0.2);
+    const base = new THREE.Vector3(-0.55, HY - 0.35, HZ + 0.02);
     const boom = cyl(0.075, 0.075, boomLen, C.steel,
       base.x, base.y + Math.cos(ang)*boomLen/2, base.z + Math.sin(ang)*boomLen/2, 10);
     boom.rotation.x = ang;

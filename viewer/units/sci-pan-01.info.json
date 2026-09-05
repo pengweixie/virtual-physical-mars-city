@@ -109,19 +109,21 @@
       "id": "pan_sep",
       "label": "SEP 观测模式",
       "label_en": "SEP observing mode",
-      "detail": "平静期它记录银河宇宙线(GCR)谱——计数以分钟计;太阳质子事件(SEP)爆发时,10–100 MeV 质子通量在数十分钟内跃升 2–4 个量级,轨道层最先看见,是全城辐射预警链的第一响。火星没有全球磁场,SEP 质子直灌大气顶;本机在静止轨道全天候盯着两端对天的孔径。",
-      "detail_en": "In quiet time it logs the galactic cosmic-ray (GCR) spectrum — counts by the minute. When a solar energetic particle (SEP) event erupts, the 10–100 MeV proton flux jumps 2–4 orders of magnitude within tens of minutes — the orbital tier sees it first and rings first in the city's radiation-warning chain. Mars has no global magnetic field, so SEP protons pour straight onto the atmosphere; this instrument watches around the clock through its two sky-facing apertures.",
+      "detail": "平静期它记录银河宇宙线(GCR)谱——计数以分钟计;太阳质子事件(SEP)爆发时,10–100 MeV 质子通量在数十分钟内跃升 2–4 个量级,轨道层最先看见,是全城辐射预警链的第一响。火星没有全球磁场,SEP 质子直灌大气顶;本机在静止轨道全天候盯着两端对天的孔径。与极轨三星搭载的 EPS 按产品分工、不重叠:EPS 是大几何因子的快节奏通量监视器,出低能段的通量与时序(报警产品);本机是磁谱仪,出成分与能谱(科学产品)。轨道面也互补——本机在赤道面随火星自转、每火星日扫遍全部地方时,极轨三星扫子午面且恒有 ≥2 颗处在弓激波上游,事件期间四点合成赤道/极区 × 上游/下游的采样。首报有一个下游消费者:聚变围界的中子哨兵柱据此把中子道预置为「SEP 嫌疑」态,以便把 SEP 引起的中子抬升与真实泄漏分开。该预置只改归因标签、带有效期,链路中断或报文过期即退回无预置(中子道抬升一律按真泄漏处理);它买的是归因速度而不是安全——地面两道的门控次序经哨兵网实算自身即安全,移除该预置不影响门控正确性,它也不对堆事件构成任何提前预警。",
+      "detail_en": "In quiet time it logs the galactic cosmic-ray (GCR) spectrum — counts by the minute. When a solar energetic particle (SEP) event erupts, the 10–100 MeV proton flux jumps 2–4 orders of magnitude within tens of minutes — the orbital tier sees it first and rings first in the city's radiation-warning chain. Mars has no global magnetic field, so SEP protons pour straight onto the atmosphere; this instrument watches around the clock through its two sky-facing apertures. It divides the work with the EPS packages on the three polar-orbit satellites by product, not by overlap: EPS is a large-geometric-factor fast flux monitor delivering low-energy flux and timing (the alert product), while this instrument is a spectrometer delivering composition and energy spectra (the science product). The orbit planes are complementary too — this one rides the equatorial ring at fixed longitude and therefore sweeps every local time once per sol, while the three polar satellites scan the meridian plane with at least two always upstream of the bow shock; during an event the four together sample equator/pole against upstream/downstream. That first report has a downstream consumer: the neutron sentinel posts around the fusion perimeter use it to pre-tag their neutron channel as SEP-suspect, so an SEP-driven neutron rise can be told apart from a real leak. The pre-tag only changes the attribution label and it expires — if the link drops or the message goes stale it reverts to no pre-tag and any neutron rise is handled as a real leak. It buys attribution speed, not safety: the sentinel net has shown by calculation that the ground gating order is self-safe, so removing this pre-tag does not affect gating correctness, and it gives no advance warning whatsoever of a reactor event.",
       "specs": {
         "平静期": "GCR 质子 ~4 cm⁻²s⁻¹(近火空间量级)",
         "SEP 事件": "计数率跃升 10²–10⁴ 倍",
         "预警窗口": "相对论前锋先到,10–100 MeV 主体晚数十分钟",
-        "观测姿态": "双孔径沿甲板切向对天,平台静止轨道全天时"
+        "观测姿态": "双孔径沿甲板切向对天,平台静止轨道全天时",
+        "与极轨 EPS 分工": "EPS 出通量与时序(报警);本机出成分与能谱(科学)——按产品分工,不按能段划界"
       },
       "specs_en": {
         "Quiet time": "GCR protons ~4 cm⁻²s⁻¹ (near-Mars space, order of magnitude)",
         "SEP event": "count rate jumps 10²–10⁴×",
         "Warning window": "relativistic vanguard arrives first; the 10–100 MeV bulk lags by tens of minutes",
-        "Attitude": "both apertures sky-facing along the deck; areostationary, full-time"
+        "Attitude": "both apertures sky-facing along the deck; areostationary, full-time",
+        "Split with polar EPS": "EPS: flux and timing (alert); this: composition and spectra (science) — split by product, not by an energy boundary"
       },
       "physics": "SEP 到达时序按 1/β 展开:先到的高能质子是闪电,主通量是雷声——能谱-时序反演磁力线路径长度,为地表争取防护提前量。",
       "physics_en": "SEP arrivals disperse as 1/β: the energetic vanguard is the lightning, the bulk flux the thunder — inverting spectrum vs. arrival time yields the field-line path length and buys the surface its warning lead.",

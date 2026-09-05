@@ -219,6 +219,25 @@
         point and costs only <strong>5.1 m/s/yr</strong>. Fifteen years of station-keeping:
         109 m/s — versus 529 at the worst slot. <span class="hl">Choosing the longitude was worth
         5× the propellant.</span></p>
+      <p><strong>And the slot chooses the science.</strong> Occultation is the free radio-science
+        by-product of the Earth link: an areostationary relay is motionless over Mars but circles
+        it once per sol in inertial space, so whenever Earth's areocentric declination falls below
+        9.64° it slips behind the planet once a sol, and ingress and egress each cut a limb
+        profile. Where? The tangent point is pinned at <strong>the slot longitude ±80.4°</strong> —
+        its latitude set by Earth's declination alone, sweeping equator-to-pole across a season.
+        Which means the satellite parked over the city <em>never samples the city's own air</em>:
+        from 77.4°E it sounds 157.8°E and 357.0°E. Sampling Jezero needs a second satellite at
+        77.4 ± 79.8°. Only 77.4°E had a recorded rationale; the other two slots were just "120°
+        apart". Re-cutting them to <strong>157.2°E and 297.3°E</strong> puts the eastern tangent
+        branch of the second satellite straight up the city meridian — an exact hit on Jezero
+        (18.40°N, 77.37°E) whenever Earth's declination passes +3.07° — for
+        <strong>172 sols per Mars year</strong>, one profile a sol. It is also
+        <em>cheaper</em>: 157.2°E sits 6.9° from the stable equilibrium at 164.1°E, and fleet
+        east-west keeping falls from 52.8 to <strong>43.3 m/s/yr</strong>. The bill is coverage
+        margin — the largest slot gap grows to 140.1° against a 141.15° limit, leaving 0.55° once
+        the station-keeping deadband is counted. Accepted as designed: the seam sits at 227°E on
+        the equator with nothing under it, an 8° mask is on record as the relief valve (4.4°), and the
+        slots stay — the margin's real guarantor is slot 3's ±0.25° station-keeping box.</p>
     </div>
     <div class="fig2">
       <figure class="figure">
@@ -230,6 +249,12 @@
         <figcaption>DRIFT ΔV VS LONGITUDE — EQUILIBRIA AT 74°/164°/254°/344°E; JEZERO SLOT: 5.1 M/S/YR</figcaption>
       </figure>
     </div>
+    <figure class="figure">
+      <img src="assets/comms/slot_tradeoff.png" alt="Slot longitude versus station-keeping cost and occultation tangent meridians" loading="lazy">
+      <figcaption>THE LEVER — TOP: DRIFT COST VS LONGITUDE. BOTTOM: SLOTS (CIRCLES) AND THE TANGENT
+        MERIDIANS THEY PRODUCE (TRIANGLES). IN THE AS-BUILT ROW A SATELLITE SITS ON THE CITY
+        MERIDIAN BUT NO TANGENT DOES.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -355,6 +380,9 @@
         <tr><td>15-yr dose behind 4 mm Al</td><td class="num">7.1 krad</td><td class="src">spe_dose.mac (Geant4/GATE 9.4, 2×10⁵ p)</td></tr>
         <tr><td>EOL array power</td><td class="num">5.4 kW</td><td class="src">Geant4 fluence + displacement-damage factor</td></tr>
         <tr><td>EW station-keeping @ 77.4°E / worst slot</td><td class="num">5.1 / 33 m/s·yr</td><td class="src">stationkeep.py (method validated on Earth GEO)</td></tr>
+        <tr><td>Occultation tangent offset from slot meridian</td><td class="num">±80.4°</td><td class="src">occultation_slots.py (numeric = closed form)</td></tr>
+        <tr><td>Slot re-cut: fleet EW keeping, city-meridian sampling</td><td class="num">52.8 → 43.3 m/s·yr</td><td class="src">slot_tradeoff.py</td></tr>
+        <tr><td>City-meridian soundings per Mars year</td><td class="num">172 sols</td><td class="src">occultation_slots.py (season |dec| &lt; 9.64°)</td></tr>
         <tr><td>15-yr ΔV budget → propellant fraction</td><td class="num">109 m/s → 7.1%</td><td class="src">stationkeep.py + mass_budget.py</td></tr>
         <tr><td>Wet mass / 4-sat constellation</td><td class="num">1,362 kg / 5.4 t</td><td class="src">mass_budget.py (each line traced to a sim)</td></tr>
         <tr><td>Science per synodic cycle · blackout length</td><td class="num">65 Tb · 14.4 d</td><td class="src">network_des.py (hourly, 780 d)</td></tr>

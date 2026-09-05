@@ -30,26 +30,26 @@
       "label": "选址与覆土(要人流,不要振动)",
       "label_en": "Siting & the berm (footfall, not vibration)",
       "range": 30,
-      "detail": "半埋覆土主体的辐射防护语言与掩土村 hab-village-01 完全一致:2 m 压实风化层把年剂量打到三十八分之一。选址原想贴村心广场,但道路/管廊审计否了门口方案(氧气管廊与电缆沟正穿那片)——博物馆最终报的两个候选都在村北的走廊空带里,大门朝村,步行两分钟。博物馆要人流,不要振动与工业噪声:两候选距发射区 >1.1 km、矿场 >440 m,最近的工业邻居是 190 m 外的静设备变电站。",
-      "detail_en": "The buried, earth-sheltered body speaks the same radiation language as hab-village-01: two meters of compacted regolith cut the annual dose thirty-eight-fold. The first siting instinct was the village doorstep, but the road-and-corridor audit vetoed it - the oxygen pipe rack and grid trenches run right through that ground. Both final candidates sit in the corridor-free belt just north of the village, door facing home, a two-minute walk away. A museum wants footfall, not vibration: both keep the launch complex beyond 1.1 km, the mine beyond 440 m, and the nearest industrial neighbor is a quiet substation 190 m out.",
+      "detail": "半埋覆土主体的辐射防护语言与掩土村 hab-village-01 完全一致:2 m 压实风化层把年剂量打到约三十一分之一。选址原想贴村心广场,但道路/管廊审计否了门口方案(氧气管廊与电缆沟正穿那片)——博物馆最终报的两个候选都在村北的走廊空带里,大门朝村,步行两分钟。博物馆要人流,不要振动与工业噪声:两候选距发射区 >1.1 km、矿场 >440 m,最近的工业邻居是 190 m 外的静设备变电站。",
+      "detail_en": "The buried, earth-sheltered body speaks the same radiation language as hab-village-01: two meters of compacted regolith cut the annual dose roughly thirty-one-fold. The first siting instinct was the village doorstep, but the road-and-corridor audit vetoed it - the oxygen pipe rack and grid trenches run right through that ground. Both final candidates sit in the corridor-free belt just north of the village, door facing home, a two-minute walk away. A museum wants footfall, not vibration: both keep the launch complex beyond 1.1 km, the mine beyond 440 m, and the nearest industrial neighbor is a quiet substation 190 m out.",
       "specs": {
         "覆土": "2 m 压实风化层(与村同规)",
-        "屏蔽账": "234 → 6.2 mSv/yr(38×)",
+        "屏蔽账": "234 → 7.6 mSv/yr(31×)",
         "候选 A(推荐)": "(-262, -170) 村北空带,门朝村",
         "候选 B": "(-285, -160) 同带偏玄关侧",
         "前厅玻璃": "产自本城(res-glass-01 玻璃厂)"
       },
       "specs_en": {
         "Berm": "2 m compacted regolith (village spec)",
-        "Shielding ledger": "234 to 6.2 mSv/yr (38x)",
+        "Shielding ledger": "234 to 7.6 mSv/yr (31x)",
         "Candidate A (rec.)": "(-262, -170), door facing the village",
         "Candidate B": "(-285, -160), same belt, gate side",
         "Foyer glass": "made in this city (res-glass-01)"
       },
       "sim": "选址账(audit_layout 实跑):门口方案 (-205,-95) 压 pipe-o2-city-2 氧气管廊与 G-R2 电缆沟双线,否。候选 A (-262,-170):距村心广场 ~124 m、地下城入口 ~156 m、变电站 ~189 m、矿场 ~444 m,四向走廊净距 ≥52 m,审计全绿;候选 B (-285,-160):距村 ~119 m、玄关侧更近,同样全绿。40 m 足迹在这片路网密区里,这两块是仅有的贴村空地。",
       "sim_en": "Siting ledger (audit_layout actually run): the doorstep option (-205,-95) crosses both the pipe-o2-city-2 oxygen rack and the G-R2 cable trench - vetoed. Candidate A (-262,-170): ~124 m to the village plaza, ~156 m to the undercity gate, ~189 m to the substation, ~444 m to the mine, with >=52 m clearance to every corridor - audit green. Candidate B (-285,-160): ~119 m to the village, closer to the gate side, also green. For a 40 m footprint in this dense road network, these two are the only village-adjacent clearings.",
-      "physics": "覆土屏蔽与村同一条物理:GCR 在土中的衰减长度 ~20 cm 量级,2 m ≈ 10 个衰减长度。玻璃前厅是唯一不覆土的体量——它里面只放灯箱复制品,原件手稿在覆土主体深处的恒湿柜里。前厅展签注明:本厅玻璃产自本城——res-glass-01 玻璃厂的浮法线,与博物馆同日交付。",
-      "physics_en": "The berm shares the village's physics: GCR attenuates in regolith on a ~20 cm length scale, so 2 m is ~10 attenuation lengths. The glass foyer is the only unshielded volume - it holds backlit reproductions only; the original manuscript sits in the climate case deep inside the sheltered body. A foyer label notes: the glass of this hall was made in this city - on the float line of res-glass-01, delivered the same day as the museum."
+      "physics": "覆土屏蔽与村同一条物理(2026-08 级联更正后的口径):质子衰减长度 λ_p = 67.1 g/cm²,按取值密度 1.65 约 41 cm,2 m ≈ 5 个衰减长度;残余剂量约八成来自次级中子。诚实账:7.6 这个绝对值持 ×2~3 不确定度(f_n/B/λ_n 为文献量级,未经输运码背书),「残余以次级中子为主」定性稳健、定量不可承重;覆土面密度 330 g/cm² 出自密度取值假设,非压实实测。玻璃前厅是唯一不覆土的体量——它里面只放灯箱复制品,原件手稿在覆土主体深处的恒湿柜里。前厅展签注明:本厅玻璃产自本城——res-glass-01 玻璃厂的浮法线,与博物馆同日交付。",
+      "physics_en": "The berm shares the village's physics (post-correction 2026-08 anchor): a proton attenuation length of 67.1 g/cm2 - about 41 cm at the assumed 1.65 density - makes 2 m roughly 5 attenuation lengths, with ~80% of the residual dose carried by secondary neutrons. Honest-ledger notes: the absolute 7.6 carries a x2-3 uncertainty (f_n, B and lambda_n are literature-order values without transport-code backing), so 'residual dominated by secondary neutrons' is robust qualitatively but not quantitatively; and the 330 g/cm2 areal density rests on an assumed, not measured, compaction. The glass foyer is the only unshielded volume - it holds backlit reproductions only; the original manuscript sits in the climate case deep inside the sheltered body. A foyer label notes: the glass of this hall was made in this city - on the float line of res-glass-01, delivered the same day as the museum."
     }
   ]
 }

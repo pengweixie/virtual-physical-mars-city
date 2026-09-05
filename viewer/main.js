@@ -6,6 +6,7 @@ import { build as buildComRelay, meta as comRelayMeta }
 import { build as buildPan, meta as panMeta } from './units/sci-pan-01.js';
 import { build as buildComPolar, meta as comPolarMeta } from './units/com-polar-01.js';
 import { build as buildComL4, meta as comL4Meta } from './units/com-l4-01.js';
+import { build as buildSciOrbiter, meta as sciOrbiterMeta } from './units/sci-orbiter-01.js';
 import { build as buildMagicCity } from './magic/magic-city.js';
 
 // ---------------------------------------------------------------- data
@@ -43,7 +44,7 @@ const T = LANG === 'en' ? {
     l4: 'L4 conjunction relay · Sun-Mars L4 · blackout 14 d -> 0 (scale break, 1.52 AU)',
     earth: '→ Earth',
     relay: 'Relay constellation: 3 primary + 1 spare · areostationary, 17,032 km',
-    lowOrbiter: 'Science orbiter · 400 km · relays ground data',
+    lowOrbiter: 'Science orbiter · 400 km SSO · ice radar + SWIR imager + radio occultation',
     cmb: 'CMB polarization survey station · Sun-Mars L2',
     cmbDist: '1.08 million km from Mars · schematic, not to scale',
     phobos: 'Phobos · 9,376 km · 7.65 h - crosses the sky twice a sol, west to east',
@@ -80,7 +81,7 @@ const T = LANG === 'en' ? {
     l4: 'L4 合日中继 · 日火 L4 · 黑障 14 天 → 0(比例断裂,1.52 AU)',
     earth: '→ 地球',
     relay: '中继星 ×3 主 + 1 备份 · 火星静止轨道 17,032 km',
-    lowOrbiter: '科学轨道器 · 400 km · 代传地面数据',
+    lowOrbiter: '科学轨道器 · 400 km 太阳同步 · 穿冰雷达+SWIR 高光谱+无线电掩星',
     cmb: 'CMB 偏振巡天站 · 日-火 L2',
     cmbDist: '距火星 108万 km · 示意未按比例',
     phobos: '火卫一 · 9,376 km · 7.65 h——每 sol 过境两次,西升东落',
@@ -1288,6 +1289,12 @@ function loadImperial() {
     imperialGroup.position.y = 0;   // module anchors to sampled terrain height
     unitNightMats.push(...(imperialGroup.userData.nightMats || []));
     collectColliders(imperialGroup, 2);   // terraces/stairs become walkable
+    // knowledge cards: the layer names its own card (userData.infoUrl) and its poi_ anchors;
+    // POIs are gated by the layer's visibility so they vanish with the toggle
+    const u = imperialGroup.userData;
+    if (u.infoUrl) loadPois(imperialGroup,
+      { id: 'imperial-city', type: 'code', name: u.name || '天宫城', name_en: u.name_en || 'The Celestial Palace' },
+      { url: u.infoUrl, layer: imperialGroup, parent: surfaceGroup });
   }).catch((e) => { console.warn('[imperial] load failed', e); });
   return imperialLoadP;
 }
@@ -1504,9 +1511,12 @@ function collectDeviceExtras(g, range, owner) {
   }
 }
 
-async function loadPois(g, a) {
-  const url = a.type === 'code'
-    ? `units/${a.id}.info.json` : `../models/${a.id}/info.json`;
+// opts.url: card location when it is not under units/ (a world layer carries its own);
+// opts.layer: a group whose visibility gates these POIs (the layer's toggle hides them);
+// opts.parent: where the dot/tag sprites live (default colonyGroup, which is the colony gate)
+async function loadPois(g, a, opts = {}) {
+  const url = opts.url ?? (a.type === 'code'
+    ? `units/${a.id}.info.json` : `../models/${a.id}/info.json`);
   let info;
   try {
     const r = await fetch(url);
@@ -1525,13 +1535,13 @@ async function loadPois(g, a) {
     dot.position.copy(wp);
     dot.visible = false;
     dot.raycast = () => {};
-    colonyGroup.add(dot);
+    (opts.parent ?? colonyGroup).add(dot);
     const tag = textSprite(pick(p, 'label'), 40, '#dff2ff');
     tag.scale.set(10, 1.25, 1);
     tag.position.copy(wp).add(new THREE.Vector3(0, 0.9, 0));
     tag.visible = false;
-    colonyGroup.add(tag);
-    pois.push({ wp, dot, tag, g, range: p.range ?? 25, label: pick(p, 'label'),
+    (opts.parent ?? colonyGroup).add(tag);
+    pois.push({ wp, dot, tag, g, layer: opts.layer ?? null, range: p.range ?? 25, label: pick(p, 'label'),
       detail: pick(p, 'detail') || '', specs: (LANG === 'en' && p.specs_en) || p.specs,
       physics: pick(p, 'physics'), sim: pick(p, 'sim'),
       unit: pick(a, 'name') });
@@ -2175,19 +2185,27 @@ function collectColliders(root, tag) {
   root.updateMatrixWorld(true);
   const va = new THREE.Vector3(), vb = new THREE.Vector3(), vc = new THREE.Vector3();
   const ab = new THREE.Vector3(), ac = new THREE.Vector3(), n = new THREE.Vector3();
+  const im = new THREE.Matrix4(), wm = new THREE.Matrix4();   // per-instance world matrix
   root.traverse((o) => {
-    if (!o.isMesh || o.isInstancedMesh || o.isSprite) return;
+    if (!o.isMesh || o.isSprite || o.userData.noCollide) return;
+    // instanced meshes: every instance below, except animated ones (smoke, particles) - a
+    // collider is a snapshot, and a DynamicDrawUsage instanceMatrix says the snapshot is wrong
+    if (o.isInstancedMesh && o.instanceMatrix.usage === THREE.DynamicDrawUsage) return;
     const g = o.geometry, pos = g.getAttribute('position');
     if (!pos) return;
     const idx = g.getIndex();
     const triN = (idx ? idx.count : pos.count) / 3;
+    const nInst = o.isInstancedMesh ? o.count : 1;
+    for (let inst = 0; inst < nInst; inst++) {
+    if (o.isInstancedMesh) { o.getMatrixAt(inst, im); wm.multiplyMatrices(o.matrixWorld, im); }
+    else wm.copy(o.matrixWorld);
     for (let i = 0; i < triN; i++) {
       const a = idx ? idx.getX(i * 3) : i * 3;
       const b = idx ? idx.getX(i * 3 + 1) : i * 3 + 1;
       const c = idx ? idx.getX(i * 3 + 2) : i * 3 + 2;
-      va.fromBufferAttribute(pos, a).applyMatrix4(o.matrixWorld);
-      vb.fromBufferAttribute(pos, b).applyMatrix4(o.matrixWorld);
-      vc.fromBufferAttribute(pos, c).applyMatrix4(o.matrixWorld);
+      va.fromBufferAttribute(pos, a).applyMatrix4(wm);
+      vb.fromBufferAttribute(pos, b).applyMatrix4(wm);
+      vc.fromBufferAttribute(pos, c).applyMatrix4(wm);
       n.crossVectors(ab.subVectors(vb, va), ac.subVectors(vc, va));
       const len = n.length();
       if (len < 1e-8) continue;
@@ -2219,6 +2237,7 @@ function collectColliders(root, tag) {
             if (!merged && w.length < 16) w.push(minY, maxY);
           }
         }
+    }
     }
   });
   console.info('[collide]', colTris, 'tris ->', colFloor.size, 'floor cells,',
@@ -2264,13 +2283,13 @@ function collideWalk(dt, px0, pz0) {
 const _cp = new THREE.Vector3();
 function updatePois() {
   if (!pois.length) return;
-  const show = !orbitMode && colonyGroup.visible;
+  const show = !orbitMode;                    // per-POI: its layer (colony by default) must be visible
   camera.getWorldPosition(_cp);
   const vis = [];
   for (const p of pois) {
     p.d = _cp.distanceTo(p.wp);
     p.ins = inspectUnit && p.g === inspectUnit.group;
-    if (!show || (!p.ins && p.d > p.range * 1.5)) {
+    if (!show || !(p.layer ?? colonyGroup).visible || (!p.ins && p.d > p.range * 1.5)) {
       p.dot.visible = p.tag.visible = false;
       continue;
     }
@@ -2514,33 +2533,15 @@ let relayAnchor = null, relayCardHTML = '';   // orbit-view knowledge card state
 const relayPoiAnchors = [];                   // poi_* nodes of the Jezero primary
 const relayPoiCards = {};                     // poi id -> full card HTML
 const _relayTmp = new THREE.Vector3();
-function buildSat(scale = 1) {                // still used by the low orbiter
-  const g = new THREE.Group();
-  g.add(new THREE.Mesh(new THREE.BoxGeometry(70, 70, 110),
-    new THREE.MeshLambertMaterial({ color: 0xd8d8e0 })));
-  const wingMat = new THREE.MeshLambertMaterial(
-    { color: 0x2c4a8a, side: THREE.DoubleSide });
-  for (const s of [-1, 1]) {
-    const wing = new THREE.Mesh(new THREE.BoxGeometry(300, 6, 90), wingMat);
-    wing.position.x = s * 210;
-    g.add(wing);
-  }
-  const dishS = new THREE.Mesh(
-    new THREE.SphereGeometry(55, 12, 6, 0, Math.PI * 2, 0, 0.5),
-    new THREE.MeshLambertMaterial({ color: 0xf0f0f0, side: THREE.DoubleSide }));
-  dishS.position.z = 80;
-  dishS.rotation.x = -Math.PI / 2;
-  g.add(dishS);
-  g.scale.setScalar(scale);
-  return g;
-}
+// (the generic placeholder bus that once stood in for the low orbiter is gone:
+//  every orbital asset now comes from its own module under viewer/units/)
 {
   const ringPts = [];
   for (let i = 0; i <= 128; i++) ringPts.push(latLon(0, i / 128 * 360, AREO));
   orbitGroup.add(new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(ringPts),
     new THREE.LineBasicMaterial({ color: 0x88bbee, transparent: true, opacity: 0.3 })));
-  for (const off of [0, 120, 240]) {         // 3 primary, one above Jezero
+  for (const off of [0, 79.8, 219.9]) {      // 3 primary: Jezero 77.4E, occultation 157.2E, coverage 297.3E - see skeep card, commit 27bb17d
     const sat = relaySat();
     sat.position.copy(latLon(0, 77.4 + off, AREO));
     sat.lookAt(0, 0, 0);                     // aims -Z at Mars...
@@ -2590,7 +2591,8 @@ function buildSat(scale = 1) {                // still used by the low orbiter
   orbitGroup.add(spLbl);
 
   // areostationary coverage limit: ±71° latitude at 10° min elevation — the
-  // caps beyond are the polar blind zone the calc flagged (need polar sats)
+  // caps beyond are closed by the com-polar-01 ring; ±71° is now the handover
+  // boundary (overlap band 45°-71°), not a blind zone (com-gap s02)
   for (const lat of [71, -71]) {
     const ring = [];
     for (let i = 0; i <= 96; i++) ring.push(latLon(lat, i / 96 * 360, ORBIT_R + 20));
@@ -2606,18 +2608,22 @@ function buildSat(scale = 1) {                // still used by the low orbiter
   covLbl.position.copy(latLon(80, 77.4, ORBIT_R + 900));
   orbitGroup.add(covLbl);
 
-  // ---- polar-cap ring (com-polar-01 x3): circular polar orbit at the same
-  // radius as the areostationary ring, plane through the rotation axis on the
-  // city meridian (display choice; coverage is longitude-blind per its s02).
-  // Unlike the stationary ring these three MOVE - one lap per sidereal sol,
-  // driven from the same ltst clock as the moons.
+  // ---- polar-cap ring (com-polar-01 x3): circular polar orbit 100 km ABOVE
+  // the areostationary ring (20,528 km - the s17 crossing-isolation ruling:
+  // two same-radius circles in intersecting planes meet at two points, and
+  // uncontrolled phase sweeps through them ~8x/yr; 100 km = 8x the combined
+  // radial wander, so the orbits share no point in 3D). Plane through the
+  // rotation axis on the city meridian (display choice; coverage is
+  // longitude-blind per its s02). Unlike the stationary ring these three
+  // MOVE - one lap per 24h48m, driven from the same ltst clock as the moons.
+  const POLAR_R = AREO + 100;                  // do NOT collapse back to AREO
   {
     const eEq = latLon(0, 77.4, 1).normalize();
     const jAx = new THREE.Vector3(0, 1, 0);
     const polarPos = (uDeg) => {
       const u = uDeg * Math.PI / 180;
-      return eEq.clone().multiplyScalar(Math.cos(u) * AREO)
-        .addScaledVector(jAx, Math.sin(u) * AREO);
+      return eEq.clone().multiplyScalar(Math.cos(u) * POLAR_R)
+        .addScaledVector(jAx, Math.sin(u) * POLAR_R);
     };
     const ring = [];
     for (let i = 0; i <= 128; i++) ring.push(polarPos(i / 128 * 360));
@@ -2772,8 +2778,9 @@ function buildSat(scale = 1) {                // still used by the low orbiter
     deimos.body.position.set(Math.cos(dm) * deimos.rKm, 0, -Math.sin(dm) * deimos.rKm);
     deimos.body.rotation.y = dm;
     if (polarPosFn) for (let k = 0; k < polarSats.length; k++) {
-      // one lap per sidereal sol in the fixed meridian plane
-      polarSats[k].position.copy(polarPosFn(120 * k + 360 * ltst / 24.62));
+      // one lap per 24h48m in the meridian plane (s17: 10.8 min longer than
+      // a sidereal sol, so the plane drifts 2.65°/sol west - not drawn)
+      polarSats[k].position.copy(polarPosFn(120 * k + 360 * ltst / 24.80));
       polarSats[k].lookAt(0, 0, 0);
       polarSats[k].rotateY(Math.PI);
     }
@@ -2938,8 +2945,13 @@ fetch('units/sci-pan-01.info.json').then((r) => r.json()).then((info) => {
   }
 }).catch(() => {});
 // polar ring + L4 relay cards (com-gap delivery): same per-POI pipeline
+// Cards are stored under a namespaced key (asset:poi) as well as the bare poi
+// id: bus/link exist on several orbital assets, and the bare key would let
+// whichever file loaded last win. Anchors carrying userData.cardKey resolve
+// through the namespaced entry; older anchors fall back to the bare id.
 for (const [file, m] of [['units/com-polar-01.info.json', comPolarMeta],
-                         ['units/com-l4-01.info.json', comL4Meta]]) {
+                         ['units/com-l4-01.info.json', comL4Meta],
+                         ['units/sci-orbiter-01.info.json', sciOrbiterMeta]]) {
   fetch(file).then((r) => r.json()).then((info) => {
     const lines = (icon, val, cls) => (Array.isArray(val) ? val : [val])
       .map((s) => `<p class="${cls}">${icon} ${s}</p>`).join('');
@@ -2951,19 +2963,35 @@ for (const [file, m] of [['units/com-polar-01.info.json', comPolarMeta],
         ([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') + '</table>';
       if (p.physics) h += lines('🔬', pick(p, 'physics'), 'phys');
       if (p.sim) h += lines('📐', pick(p, 'sim'), 'sim');
-      relayPoiCards[p.id] = h;
+      relayPoiCards[info.id + ':' + p.id] = h;
+      if (!relayPoiCards[p.id]) relayPoiCards[p.id] = h;   // first writer keeps the bare id
     }
   }).catch(() => {});
 }
 const loSpin = new THREE.Group();            // low orbiter, animated
 {
+  // sci-orbiter-01 (mars-orbiter delivery): 400 km near-polar sun-synchronous
+  // orbit, i = 92.91 deg - the ring plane stands almost on the rotation axis
+  // (slightly retrograde), not the old 37-deg placeholder tilt. The real
+  // module replaces the generic bus; x150 keeps its 10 m radar dipole at the
+  // same apparent size as the x60 relays ("true distance, exaggerated hardware").
   const loTilt = new THREE.Group();
-  loTilt.rotation.x = 0.65;
+  loTilt.rotation.z = 92.91 * Math.PI / 180;
   orbitGroup.add(loTilt);
   loTilt.add(loSpin);
   const LO_R = ORBIT_R + 400;
-  const lo = buildSat(1.9);                  // low orbiter, matched to the relays
+  const lo = buildSciOrbiter(THREE);
+  lo.scale.setScalar(150);
   lo.position.set(LO_R, 0, 0);
+  lo.lookAt(0, 0, 0);                        // model +Z = Mars nadir (relay convention)
+  lo.rotateY(Math.PI);
+  registerMotion(lo, orbitAnims);            // SADA wings x2 + Ka gimbal osc x2
+  lo.traverse((o) => {
+    if (o.name?.startsWith('poi_')) {
+      o.userData.cardKey = sciOrbiterMeta.id + ':' + o.name.slice(4);
+      relayPoiAnchors.push(o);
+    }
+  });
   loSpin.add(lo);
   const pts = [];
   for (let i = 0; i <= 128; i++) {
@@ -3428,8 +3456,10 @@ renderer.setAnimationLoop(() => {
     if (magicGroup.visible) {
       const t = clock.elapsedTime;
       for (const f of magicAnims) f(t, dt);
-  if (imperialGroup.visible) for (const f of imperialAnims) f(t, dt);
     }
+    // the palace animates on its own toggle (it had sat inside the magic-city block, so its
+    // smoke and water only moved while the magic city was also on)
+    if (imperialGroup.visible) for (const f of imperialAnims) f(clock.elapsedTime, dt);
     if (colonyGroup.visible) {
       if (!renderer.xr.isPresenting) driveSensors(clock.elapsedTime);
       for (const f of unitAnims) f(clock.elapsedTime, dt, lastNight);
@@ -3470,7 +3500,7 @@ function updateRelayCards() {
         a.getWorldPosition(_relayTmp));
       if (d < bd) { bd = d; best = a; }
     }
-    const pid = best.name.slice(4);
+    const pid = best.userData.cardKey || best.name.slice(4);
     if (relayPoiCards[pid]) { id = 'relay:' + pid; html = relayPoiCards[pid]; }
   } else if (dRel < 8000) {
     id = 'relay'; html = relayCardHTML;       // summary tier
@@ -3489,7 +3519,7 @@ function updateRelayCards() {
 if (q.has('debug')) {
   window.__mars = { units, unitSensors, unitAnims, orbitAnims, colonyGroup, scene,
     renderer, camera, rig, driveSensors, clock, sampleHeight, updateRelayCards,
-    updateSun, orbitControls, get inInterior() { return inInterior; } };
+    updateSun, orbitControls, updatePois, pois, get inInterior() { return inInterior; } };
   // turntable helper for headless capture: park the flying rig on a circle
   // around (cx,cz) at angDeg, aim at the centre, and render synchronously so
   // the very next CDP screenshot sees this exact frame (headless background

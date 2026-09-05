@@ -24,8 +24,8 @@
         "Forfeited": "L5's 4.4-day CIR preview (booked honestly)",
         "Mission": "conjunction relay - closing the comm chain's last single point"
       },
-      "physics": "L4/L5 的存在:圆型限制性三体问题中,与两主天体成等边三角形的两点上,引力合力恰好提供随系统共转所需的向心力;当 27μ(1−μ)<1(日火系 μ=3.2×10⁻⁷,判据值 8.7×10⁻⁶)时线性稳定——科氏力把偏离的航天器卷回蝌蚪形回路,不是引力井是引力舞步。CIR 预警的 4.4 天 = 60°÷(太阳会合自转 14.2°/天 − 火星公转 0.5°/天)。",
-      "physics_en": "Why L4/L5 exist: in the circular restricted three-body problem, at the two points forming equilateral triangles with the primaries, net gravity supplies exactly the centripetal force to corotate with the system; linear stability holds when 27 mu(1-mu) < 1 (Sun-Mars mu = 3.2e-7, criterion value 8.7e-6). The Coriolis force sweeps a displaced spacecraft into tadpole loops - not a gravity well but a gravity dance. The 4.4-day CIR preview = 60 deg / (14.2 deg/day synodic solar rotation - 0.5 deg/day Mars orbital motion).",
+      "physics": "L4/L5 的存在:圆型限制性三体问题中,与两主天体成等边三角形的两点上,引力合力恰好提供随系统共转所需的向心力;当 27μ(1−μ)<1(日火系 μ=3.2×10⁻⁷,判据值 8.7×10⁻⁶)时线性稳定——科氏力把偏离的航天器卷回蝌蚪形回路,不是引力井是引力舞步。CIR 预警的 4.4 天 = 60°÷(太阳恒星自转 14.2°/天 − 火星公转 0.5°/天,即相对火星的会合角速率 13.7°/天)。",
+      "physics_en": "Why L4/L5 exist: in the circular restricted three-body problem, at the two points forming equilateral triangles with the primaries, net gravity supplies exactly the centripetal force to corotate with the system; linear stability holds when 27 mu(1-mu) < 1 (Sun-Mars mu = 3.2e-7, criterion value 8.7e-6). The Coriolis force sweeps a displaced spacecraft into tadpole loops - not a gravity well but a gravity dance. The 4.4-day CIR preview = 60 deg / (14.2 deg/day SIDEREAL solar rotation - 0.5 deg/day Mars orbital motion = 13.7 deg/day Mars-synodic rate).",
       "sim": [
         "s03(开普勒真偏心双行星 + 60° 旋转 L4/L5,40 年 0.25 d 步长):19 次合日,L4 案与 L5 案残余全断天数均为 0.0——对称性被逐日验证而非假设",
         "s05 已知答案闸:L4 处旋转系加速度 3.6×10⁻¹⁶(平衡点成立);27μ 判据 8.7×10⁻⁶ ≪ 1(稳定)"
@@ -40,33 +40,43 @@
       "label": "黑障压缩账(对地链路)",
       "label_en": "Blackout compression (Earth leg)",
       "range": 30,
-      "detail": "Ø3 m X/Ka 双频对地天线——整个任务浓缩在这一面碗里。直连黑障的真实账:40 年 19 次合日,SEP<2° 全断 12.0–18.8 天/次(均值 14.0,闸门对上城册的 14.4)。中继为什么能把它压到零:L4 恒离火星 60°,火星→L4 跳永不贴日;而地球看 L4 的合日与看火星的合日错开 60° 相位 = 130 天,两个黑障在时间轴上永不见面。L4 自己也有每会合周期 ~19–21 天的对地合日——但那时火星直连畅通,没人需要它。压缩比的诚实写法:全断 14 天 → 全断 0 天;代价是那两周里全城对地只剩本星的窄带信道(1.5 Mbps 级,见火星侧卡),科学数据流照常积压。",
-      "detail_en": "The 3 m dual X/Ka Earth dish - the whole mission condensed into one aperture. The honest direct-blackout ledger: 19 conjunctions over 40 years, total outage at SEP<2 deg of 12.0-18.8 days each (mean 14.0; gate matches the city ledger's 14.4). Why the relay compresses it to zero: L4 stands a constant 60 deg from Mars, so the Mars-to-L4 hop never grazes the Sun; and Earth's conjunction with L4 is offset from its conjunction with Mars by 60 deg of synodic phase = 130 days - the two blackouts never meet on the timeline. L4 has its own ~19-21 d Earth conjunction each cycle - but Mars's direct link is wide open then, and nobody needs the relay. The honest form of the compression ratio: 14 days of total outage -> 0 days; the price is that for those two weeks the city's entire Earth service is this bird's narrowband channel (~1.5 Mbps class, see the Mars-leg card) and the science stream keeps queueing.",
+      "detail": "Ø3 m X/Ka 双频对地天线——整个任务浓缩在这一面碗里。直连黑障的真实账:40 年 19 次合日,SEP<2° 全断 12.0–18.8 天/次(均值 14.0,闸门对上城册的 14.4)。中继为什么能把它压到零:L4 恒离火星 60°,火星→L4 跳永不贴日;而地球看 L4 的合日与看火星的合日错开 60° 相位 = 130 天,两个黑障在时间轴上永不见面。L4 自己也有每会合周期 18.8–28.2 天(均值 21.5,40 年 18 次)的对地合日——但那时火星直连畅通,没人需要它。压缩比的诚实写法:全断 14 天 → 全断 0 天;代价是那两周里全城对地只剩本星的窄带信道(1.4 Mbps 级,见火星侧卡),科学数据流照常积压。",
+      "detail_en": "The 3 m dual X/Ka Earth dish - the whole mission condensed into one aperture. The honest direct-blackout ledger: 19 conjunctions over 40 years, total outage at SEP<2 deg of 12.0-18.8 days each (mean 14.0; gate matches the city ledger's 14.4). Why the relay compresses it to zero: L4 stands a constant 60 deg from Mars, so the Mars-to-L4 hop never grazes the Sun; and Earth's conjunction with L4 is offset from its conjunction with Mars by 60 deg of synodic phase = 130 days - the two blackouts never meet on the timeline. L4 has its own Earth conjunction each cycle, 18.8-28.2 d (mean 21.5, 18 of them over 40 yr) - but Mars's direct link is wide open then, and nobody needs the relay. The honest form of the compression ratio: 14 days of total outage -> 0 days; the price is that for those two weeks the city's entire Earth service is this bird's narrowband channel (~1.4 Mbps class, see the Mars-leg card) and the science stream keeps queueing.",
       "specs": {
         "口径": "Ø3 m X/Ka 双频 · 双轴万向",
         "直连黑障(40 年账)": "19 次 × 12.0–18.8 天(均值 14.0)",
-        "经 L4 残余全断": "0 天",
+        "经 L4 残余全断": "0 天(含 ±0.27 AU 天平动全带与 2× 护带,s11)",
         "错相机制": "L4 对地合日与火星合日错开 130 天",
-        "对地速率": "1.5 Mbps @2.2 AU(合日期)· 1.16 Mbps @2.52 AU(极限)",
-        "对地指向": "合日期地球距角 37.6°,不贴日"
+        "对地速率": "1.4 Mbps @2.2 AU(合日期;HFSS 真馈源 + PO 实解,s08/s14)· 1.0 Mbps @2.52 AU(极限)",
+        "对地指向": "合日期地球距角 37.6°,不贴日",
+        "馈源匹配(s15 实测)": "S11 −26.5 dB @8.4 GHz(先例 Ka 喇叭 −26.6),失配损耗 0.010 dB → 100 W 只反射 0.22%",
+        "模型简化(此前卡面未交代,补)": "共面近似:忽略地-火 1.85° 轨道倾角差。量级不可忽略——火星离面位移 0.049 AU 在合日距上张 1.1–1.3°,**超过 2° 判据的一半**。方向对本结论有利但要说全:真实黑障更短、远离交点的合日可能根本不发生 ⇒ **14.0 天是上界,中继的价值集中在近交点的那些合日**;两跳同时获得更多余量,残余 0 天因此被加强而非威胁"
       },
       "specs_en": {
         "Aperture": "3 m dual X/Ka, two-axis gimbal",
         "Direct blackout (40-yr ledger)": "19 x 12.0-18.8 days (mean 14.0)",
-        "Residual via L4": "0 days",
+        "Residual via L4": "0 days (incl. the full ±0.27 AU libration band and a 2x guard, s11)",
         "Phase-offset mechanism": "L4's own Earth conjunction sits 130 days from Mars's",
-        "Earth-leg rate": "1.5 Mbps @2.2 AU (during Mars conjunction), 1.16 Mbps @2.52 AU worst",
-        "Pointing": "Earth elongation 37.6 deg at conjunction - never near the Sun"
+        "Earth-leg rate": "1.4 Mbps @2.2 AU (during Mars conjunction; HFSS-feed PO-backed, s08/s14), 1.0 Mbps @2.52 AU worst",
+        "Pointing": "Earth elongation 37.6 deg at conjunction - never near the Sun",
+        "Feed match (s15, solved)": "S11 -26.5 dB @8.4 GHz (precedent Ka horn -26.6); 0.010 dB mismatch loss - 0.22% of the 100 W reflected",
+        "Model simplification (previously unstated on this card)": "Coplanar: the 1.85 deg Earth-Mars mutual inclination is ignored. Not negligible - Mars's out-of-plane displacement of 0.049 AU subtends 1.1-1.3 deg at conjunction range, MORE THAN HALF the 2 deg criterion. The direction favours this conclusion but must be stated in full: real blackouts are shorter and conjunctions far from a node may not black out at all, so the 14.0 d mean is an UPPER BOUND and the relay value concentrates in near-node conjunctions; both relay hops gain clearance too, so the 0-residual result is strengthened rather than threatened"
       },
       "physics": "黑障的物理不是遮挡是日冕:SEP<2° 时视线穿过太阳附近稠密湍动的日冕等离子体,射频闪烁把相干解调撕碎,光链路则直接被 2° 内的太阳辐照淹没(com-optical-01 的合日光断 33 天与此同源)——所以 L4 同时是射频与光两条链的共同备份。黑障时长 ∝ 阈值角/(相对角速率):火星近日点附近合日时火星角速率快(账里 18.8 天那几次)……方向相反:角速率差小则黑障长,12–18.8 天的散布全部来自两行星真偏心率。",
       "physics_en": "The physics of blackout is not occultation but corona: at SEP<2 deg the line of sight threads the dense turbulent coronal plasma near the Sun - RF scintillation shreds coherent demodulation, and the optical link is drowned outright by solar irradiance within 2 deg (com-optical-01's 33-day optical conjunction outage shares this origin) - which is why L4 backs up BOTH the RF and the optical chains at once. Outage length scales as threshold angle / relative angular rate; the 12-to-18.8-day spread in the ledger comes entirely from the two planets' true eccentricities modulating that rate.",
       "sim": [
         "s03 已知答案闸 3 道:火星–L4 距离 1.381–1.666 AU(等边);单跳光时 12.73 min;合日全断均值 14.0 天对城册 14.4",
-        "s04 对地链路:100 W TWTA + 3 m → DSN 34 m(G/T 55.3),LDPC 门限 2 dB + 裕度 3 dB;1/d² 闸 +6.02 dB/倍距"
+        "s11 天平动稳健闸(评审后补):把 s05 的 ±0.27 AU(±10.2°)天平动乃至 2× 护带代回 40 年黑障账——残余仍 0 天,黑障期对地距角最低 27.3°、离日角最低 54.9°,均远离 2° 截止",
+        "s04 对地链路:100 W TWTA + 3 m → DSN 34 m(G/T 55.3),LDPC 门限 2 dB + 裕度 3 dB;1/d² 闸 +6.02 dB/倍距",
+        "s15 馈源 S11 扫频(挖掘轮,同工程续算 7.0–9.5 GHz):8.4 GHz 处 −26.5 dB,对先例 Ka 喇叭 −26.6 差 0.1 dB——电尺寸相同的频标设计复现同一匹配,这道闸同时验证了频标方法本身;失配损耗 0.010 dB,「TWTA 功率全部辐射」从假设变成实测,已记的 1 dB 实现借项覆盖它 100×",
+        "s03/s11 共面近似的量级(本轮\"漏写只产生沉默\"自查后补算):地-火倾角差 1.85° → 火星离面 0.049 AU → 合日距上 1.1–1.3°,占 2° 判据的 53–64%。此前只在脚本 docstring 里写过一句\"忽略,它只会有帮助\",卡面从未交代,而卡面才是城内读者看到的东西"
       ],
       "sim_en": [
         "s03 known-answer gates x3: Mars-L4 distance 1.381-1.666 AU (equilateral); one-hop light time 12.73 min; mean total blackout 14.0 d vs the city ledger's 14.4",
-        "s04 Earth leg: 100 W TWTA + 3 m -> DSN 34 m (G/T 55.3), LDPC threshold 2 dB + 3 dB margin; the 1/d^2 gate at +6.02 dB per doubled distance"
+        "s11 libration-robustness gate (post-review): feeding the ±0.27 AU (±10.2 deg) libration and even a 2x guard band back into the 40-yr blackout ledger - residual still 0 days; during blackouts the Earth elongation never drops below 27.3 deg nor the Sun angle from Mars below 54.9 deg, both far from the 2 deg cut",
+        "s04 Earth leg: 100 W TWTA + 3 m -> DSN 34 m (G/T 55.3), LDPC threshold 2 dB + 3 dB margin; the 1/d^2 gate at +6.02 dB per doubled distance",
+        "s15 feed S11 sweep (deep-dive, 7.0-9.5 GHz on the same solved project): -26.5 dB at 8.4 GHz against the precedent Ka horn's -26.6 - 0.1 dB apart, which also validates the frequency-scaling method itself since the design is electrically identical; 0.010 dB of mismatch loss turns 'all TWTA power radiates' from an assumption into a measurement, and the booked 1 dB implementation debit covers it 100x over",
+        "s03/s11 coplanar-approximation magnitude (computed after a 'silent omission' audit): the 1.85 deg mutual inclination puts Mars 0.049 AU out of plane, subtending 1.1-1.3 deg at conjunction range, i.e. 53-64% of the 2 deg criterion. This had been noted once in a script docstring as 'ignored, it only helps' and never on the card - and the card is what city readers see"
       ]
     },
     {
@@ -74,33 +84,35 @@
       "label": "火星侧链路与时延实话",
       "label_en": "Mars leg & the latency truth",
       "range": 30,
-      "detail": "Ø2.5 m 金网天线回望火星——1.5 AU 外,行星只是一颗亮星,这面碗对准的是 Jezero 的 12 m 地面站(com-station-01,Ka EIRP 98 dBW)。火星侧 Ka 跳 2.5–3.6 Mbps,瓶颈在对地腿,端到端回程 ~1.5 Mbps;前向(地球→城)84 kbps,足够指令、软件上注与新闻文本。备份路径走静止环中继星的 2.5 m 对地碟改指 L4:只有 ~0.3 kbps——真应急底线。时延卡必须写实:合日期直连光程 22 分钟,经 L4 两跳 33 分钟——中继比直连慢 11 分钟。这颗星不卖速度,卖的是「链路存在」本身;14 天里它是两颗行星之间唯一还亮着的线。",
-      "detail_en": "The 2.5 m gold-mesh dish looks back at Mars - from 1.5 AU the planet is just a bright star, and this bowl points at Jezero's 12 m ground station (com-station-01, Ka EIRP 98 dBW). The Mars-side Ka hop runs 2.5-3.6 Mbps; the bottleneck is the Earth leg, so the end-to-end return is ~1.5 Mbps. Forward (Earth to city) is 84 kbps - enough for commands, software uplinks and the news in text. The backup path uses the areo relay's 2.5 m Earth dish repointed at L4: ~0.3 kbps - a true last-ditch floor. The latency card must tell the truth: at conjunction the direct light path is 22 minutes, the two-hop relay path 33 minutes - the relay is 11 minutes SLOWER than the link it replaces. This bird does not sell speed; it sells the existence of a link. For those 14 days it is the only lit line between two planets.",
+      "detail": "Ø2.5 m 金网天线回望火星——1.5 AU 外,行星只是一颗亮星,这面碗对准的是 Jezero 的 12 m 地面站(com-station-01,Ka EIRP 98 dBW)。火星侧 Ka 跳 2.5–3.6 Mbps,瓶颈在对地腿,端到端回程 ~1.4 Mbps(HFSS 真馈源 + PO 实解背书,s08/s14);前向(地球→城)84 kbps,足够指令、软件上注与新闻文本。备份路径走静止环中继星的 2.5 m 对地碟改指 L4:只有 ~0.3 kbps——真应急底线。时延卡必须写实:合日期直连光程 22 分钟,经 L4 两跳 33 分钟——中继比直连慢 11 分钟。这颗星不卖速度,卖的是「链路存在」本身;14 天里它是两颗行星之间唯一还亮着的线。",
+      "detail_en": "The 2.5 m gold-mesh dish looks back at Mars - from 1.5 AU the planet is just a bright star, and this bowl points at Jezero's 12 m ground station (com-station-01, Ka EIRP 98 dBW). The Mars-side Ka hop runs 2.5-3.6 Mbps; the bottleneck is the Earth leg, so the end-to-end return is ~1.4 Mbps (HFSS-feed PO-backed, s08/s14). Forward (Earth to city) is 84 kbps - enough for commands, software uplinks and the news in text. The backup path uses the areo relay's 2.5 m Earth dish repointed at L4: ~0.3 kbps - a true last-ditch floor. The latency card must tell the truth: at conjunction the direct light path is 22 minutes, the two-hop relay path 33 minutes - the relay is 11 minutes SLOWER than the link it replaces. This bird does not sell speed; it sells the existence of a link. For those 14 days it is the only lit line between two planets.",
       "specs": {
         "口径": "Ø2.5 m 金网(com-relay-01 对地碟同件)",
-        "火星侧 Ka 跳": "2.5–3.6 Mbps(12 m 站 ↔ 3 m,1.38–1.67 AU)",
-        "端到端回程": "~1.5 Mbps(瓶颈在对地腿)",
+        "火星侧 Ka 跳": "2.5–3.6 Mbps(12 m 站 ↔ 3 m,1.38–1.67 AU;天平动最远 1.92 AU 时仍 1.8 Mbps,s11/s14)",
+        "端到端回程": "~1.4 Mbps(瓶颈在对地腿;HFSS 馈源 PO 对手算链 −0.46 dB,s08/s14)",
         "前向(地→城)": "84 kbps · DSN→L4 上行 22 Mbps 富余",
         "应急备份路径": "静止环 2.5 m 碟 → L4:~0.3 kbps",
         "时延(合日期)": "直连 22 min · 经 L4 33 min——中继更慢"
       },
       "specs_en": {
         "Aperture": "2.5 m gold mesh (same part as com-relay-01's Earth dish)",
-        "Mars-side Ka hop": "2.5-3.6 Mbps (12 m station <-> 3 m, 1.38-1.67 AU)",
-        "End-to-end return": "~1.5 Mbps (bottleneck is the Earth leg)",
+        "Mars-side Ka hop": "2.5-3.6 Mbps (12 m station <-> 3 m, 1.38-1.67 AU; still 1.8 Mbps at the 1.92 AU libration maximum, s11/s14)",
+        "End-to-end return": "~1.4 Mbps (bottleneck is the Earth leg; HFSS-feed PO -0.46 dB vs the hand chain, s08/s14)",
         "Forward (Earth->city)": "84 kbps; DSN->L4 uplink has 22 Mbps to spare",
         "Emergency backup path": "areo relay's 2.5 m dish -> L4: ~0.3 kbps",
         "Latency at conjunction": "direct 22 min, via L4 33 min - the relay is slower"
       },
-      "physics": "「窄带应急信道,不是宽带镜像」的定量版:回程 1.5 Mbps 是光学干线(1.5 AU 处 22.6 Mbps)的 6.7%、地面站吞吐(600 Mbps)的 0.25%。它保的是遥测、指令、语音文本与压缩后的关键数据,科学数据流等黑障结束再排空——这与 com-relay 数据流账里「日凌积压 70 天排空」是同一本运营账的两页。时延变长的几何必然:任何绕开太阳的折线都比穿过太阳邻域的直线长,三角不等式没有例外。",
-      "physics_en": "The quantitative form of 'narrowband lifeline, not broadband mirror': the 1.5 Mbps return is 6.7% of the optical trunk (22.6 Mbps at 1.5 AU) and 0.25% of the ground station's 600 Mbps throughput. It preserves telemetry, command, voice/text and compressed critical data; the science stream waits out the blackout and drains afterward - the same operational ledger as com-relay's 70-day post-conjunction backlog drain, one page apart. The longer latency is geometric necessity: any dogleg around the Sun is longer than the straight line through its neighborhood; the triangle inequality grants no exceptions.",
+      "physics": "「窄带应急信道,不是宽带镜像」的定量版:回程 1.4 Mbps 是光学干线(1.5 AU 处 22.6 Mbps)的 6.1%、地面站吞吐(600 Mbps)的 0.25%。它保的是遥测、指令、语音文本与压缩后的关键数据,科学数据流等黑障结束再排空——这与 com-relay 数据流账里「日凌积压 70 天排空」是同一本运营账的两页。时延变长的几何必然:任何绕开太阳的折线都比穿过太阳邻域的直线长,三角不等式没有例外。",
+      "physics_en": "The quantitative form of 'narrowband lifeline, not broadband mirror': the 1.4 Mbps return is 6.1% of the optical trunk (22.6 Mbps at 1.5 AU) and 0.25% of the ground station's 600 Mbps throughput. It preserves telemetry, command, voice/text and compressed critical data; the science stream waits out the blackout and drains afterward - the same operational ledger as com-relay's 70-day post-conjunction backlog drain, one page apart. The longer latency is geometric necessity: any dogleg around the Sun is longer than the straight line through its neighborhood; the triangle inequality grants no exceptions.",
       "sim": [
         "s04 已知答案闸:com-relay 对地卡复现(2.5 m/20 W @2.67 AU → 144 kbps,卡值 0.2 Mbps 同量级);MRO 锚 100 W+3 m 最远 → 1.03 Mbps 落在 0.5–1 Mbps 带内",
-        "s04 修正留痕:首版曾拿 com-station「3 m 应急 500 bps」当闸,发现该卡未标发射功率与地面段——不构成已知答案,换 MRO 锚而非放宽判据"
+        "s04 修正留痕:首版曾拿 com-station「3 m 应急 500 bps」当闸,发现该卡未标发射功率与地面段——不构成已知答案,换 MRO 锚而非放宽判据",
+        "s14 馈源级 HFSS 全波(挖掘轮,先例 ka_horn 设计频标 ×3.81):真馈源 PO 46.76 dBi,比手算 η0.6 高 +0.54 dB——与先例 Ka 案 +0.56 严丝合缝;此前 cos^q 解析馈源乐观 0.8 dB,回程据此从 1.6 改口 1.4 Mbps(修正留痕)"
       ],
       "sim_en": [
         "s04 known-answer gates: com-relay's Earth-leg card reproduced (2.5 m / 20 W @2.67 AU -> 144 kbps vs the card's 0.2 Mbps, same decade); the MRO anchor 100 W + 3 m at max range -> 1.03 Mbps, inside the 0.5-1 Mbps band",
-        "s04 correction on record: a first draft used com-station's '3 m emergency 500 bps' as a gate, then found that card states no TX power or ground segment - not a known answer, so the gate was replaced with the MRO anchor rather than loosened"
+        "s04 correction on record: a first draft used com-station's '3 m emergency 500 bps' as a gate, then found that card states no TX power or ground segment - not a known answer, so the gate was replaced with the MRO anchor rather than loosened",
+        "s14 feed-level HFSS full-wave (deep-dive round; the proven ka_horn design frequency-scaled x3.81): real-feed PO 46.76 dBi, +0.54 dB over the hand eta-0.6 chain - matching the precedent Ka case (+0.56) exactly; the earlier cos^q analytic feed was 0.8 dB optimistic, and the return is re-stated 1.6 -> 1.4 Mbps (correction on record)"
       ]
     },
     {
@@ -108,10 +120,10 @@
       "label": "转移与站位保持",
       "label_en": "Transfer & stationkeeping",
       "range": 25,
-      "detail": "开放桁架舱里的两只氙罐就是转移账本身:461 kg 氙 = 从火星轨道爬到 60° 相位差的 5 km/s(霍尔推力器,Isp 1800 s)。到站之后账反转成全城最便宜的轨道:L4 是稳定平衡点,不站坑也不漂走。但停车有走廊:半长轴偏差 |Δa| 必须小于 21 万 km,否则蝌蚪回路撑破界线退化成马蹄轨道——绕到太阳对面再回来,一圈上百年(仿真里 0.005 AU 的粗放注入正是这样逃逸的,这个负结果定义了注入精度需求)。走廊内 6.8 万 km 偏差对应 ±0.27 AU 的天平动幅度,60 年不散。站位保持 ≤1 m/s/yr:太阳光压全抵消上界才 1.9 m/s/yr,而稳定点其实连全抵消都不需要。",
-      "detail_en": "The two xenon tanks in the open truss bay ARE the transfer ledger: 461 kg of xenon = the 5 km/s climb from Mars orbit to a 60-deg phase offset (Hall thrusters, Isp 1800 s). Once on station the ledger inverts into the city's cheapest orbit: L4 is a STABLE equilibrium - no slot to hold, no drifting away. But the parking has a corridor: the semi-major-axis error |da| must stay under 210,000 km, or the tadpole loop bursts its separatrix and degenerates into a horseshoe orbit - swinging around the far side of the Sun and back, a century per lap (a sloppy 0.005 AU insertion in the sim escaped exactly this way; that negative result defines the insertion-accuracy requirement). Inside the corridor, a 68,000 km offset librates at +/-0.27 AU for 60 years without dispersing. Stationkeeping <=1 m/s/yr: even the full-cancellation bound on solar radiation pressure is only 1.9 m/s/yr, and a stable point does not require full cancellation at all.",
+      "detail": "开放桁架舱里的两只氙罐就是转移账本身:467 kg 氙罐装 = 打靶积分解 4.43 km/s(s12:逃逸螺旋 104 天 1.22 km/s + K=1 相位轨道 694 天 3.21 km/s,全程 798 天,需氙 421 kg)+ 10% 装载裕度(霍尔推力器,Isp 1800 s;化学 SK 推进剂随行入账)。到站之后账反转成全城最便宜的轨道:L4 是稳定平衡点,不站坑也不漂走。但停车有走廊:半长轴偏差 |Δa| 必须小于 21 万 km,否则蝌蚪回路撑破界线退化成马蹄轨道——绕到太阳对面再回来,一圈上百年(仿真里 0.005 AU 的粗放注入正是这样逃逸的,这个负结果定义了注入精度需求)。走廊内 6.8 万 km 偏差对应 ±0.27 AU 的天平动幅度,60 年不散。站位保持 ≤1 m/s/yr:太阳光压全抵消上界才 1.9 m/s/yr,而稳定点其实连全抵消都不需要。",
+      "detail_en": "The two xenon tanks in the open truss bay ARE the transfer ledger: 467 kg of xenon loaded = the integrated targeted solution of 4.43 km/s (s12: 104-day escape spiral at 1.22 km/s + 694-day K=1 phasing orbit at 3.21 km/s, 798 days total, needing 421 kg) plus a 10% loading margin (Hall thrusters, Isp 1800 s; chemical SK propellant booked as riding along). Once on station the ledger inverts into the city's cheapest orbit: L4 is a STABLE equilibrium - no slot to hold, no drifting away. But the parking has a corridor: the semi-major-axis error |da| must stay under 210,000 km, or the tadpole loop bursts its separatrix and degenerates into a horseshoe orbit - swinging around the far side of the Sun and back, a century per lap (a sloppy 0.005 AU insertion in the sim escaped exactly this way; that negative result defines the insertion-accuracy requirement). Inside the corridor, a 68,000 km offset librates at +/-0.27 AU for 60 years without dispersing. Stationkeeping <=1 m/s/yr: even the full-cancellation bound on solar radiation pressure is only 1.9 m/s/yr, and a stable point does not require full cancellation at all.",
       "specs": {
-        "转移": "SEP 螺旋 + 日心相位段 ~5 km/s · 氙 461 kg",
+        "转移": "积分打靶解 798 天 · ΔV 4.43 km/s(s12)· 氙需 421 kg,装载 467 kg(裕 10%)",
         "推进": "霍尔 ×2(万向)· Isp 1800 s · 转移功率 4 kW",
         "蝌蚪走廊(注入需求)": "|Δa| < 21.1 万 km,越界 → 马蹄逃逸",
         "天平动": "6.8 万 km 偏差 → ±0.27 AU,60 年有界",
@@ -119,7 +131,7 @@
         "化学 RCS": "15 年 30 m/s(微调+动量卸载)"
       },
       "specs_en": {
-        "Transfer": "SEP spiral + heliocentric phasing, ~5 km/s; 461 kg xenon",
+        "Transfer": "integrated targeted solution, 798 d, 4.43 km/s (s12); 421 kg xenon needed, 467 loaded (10% margin)",
         "Propulsion": "2x gimbaled Hall, Isp 1800 s, 4 kW transit power",
         "Tadpole corridor (insertion req.)": "|da| < 211,000 km; beyond -> horseshoe escape",
         "Libration": "68,000 km offset -> +/-0.27 AU, bounded over 60 yr",
@@ -130,10 +142,12 @@
       "physics_en": "The tadpole/horseshoe boundary is an energy ledger: in the corotating frame the effective potential along the orbit dips into shallow bowls at L4/L5 with a saddle gap at L3; give the spacecraft more relative energy (via da) than the saddle height (~sqrt(mu)) and it spills over into a horseshoe. The corridor width sqrt(8mu/3)a is therefore proportional to sqrt(mu) - and the Sun-Mars mu is small enough that the corridor must be written into the insertion spec. Why the areo relay pays 33 m/s/yr while this bird pays <=1: that one actively holds ground near an unstable equilibrium; this one settles where gravity already wants it. Stationkeeping cost was never a property of orbits - it is the price difference between where you insist on being and where gravity insists you be.",
       "sim": [
         "s05 CR3BP(平面圆型限制三体,μ=3.227×10⁻⁷):60 年积分,走廊内注入天平动有界 0.27 AU;首跑 0.005 AU 注入马蹄逃逸至 1.5 AU——负结果入账为注入精度需求",
+        "s12 转移轨迹积分(挖掘轮):逃逸螺旋 + bang-coast-bang 相位段三参数打靶,闸 3 道全绿(功-能闭合 8×10⁻¹⁰、滑行段轨道能量守恒 1×10⁻¹⁰、打靶闭合 60.16°/Δa 1×10⁻⁶/e 0.0013);留痕:绝热恒等式闸首版误设——有限推力逃逸本就低于 v_circ 极限(F/10 单调逼近 1.32→1.45 验证),闸改为功-能恒等式而非放宽",
         "s05 闸:L4 点加速度 3.6×10⁻¹⁶(平衡)、27μ=8.7×10⁻⁶<1(稳定);地球 L4/L5 任务提案 m/s 级/年同带对标"
       ],
       "sim_en": [
         "s05 CR3BP (planar circular restricted three-body, mu = 3.227e-7): 60-yr integration; in-corridor insertion librates bounded at 0.27 AU; the first run's 0.005 AU insertion escaped horseshoe-wise to 1.5 AU - the negative result booked as the insertion-accuracy requirement",
+        "s12 transfer-trajectory integration (deep-dive round): escape spiral + bang-coast-bang phasing, 3-parameter targeting, 3 gates green (work-energy closure 8e-10, coast orbit-energy conservation 1e-10, targeting 60.16 deg / da 1e-6 / e 0.0013); on record: the first gate demanded the adiabatic dV=v_circ identity at design thrust - wrongly, since ANY finite thrust escapes below the limit (F/10 monotone approach 1.32 to 1.45 verified); the gate was replaced by the work-energy identity, not loosened",
         "s05 gates: acceleration at L4 3.6e-16 (equilibrium), 27mu = 8.7e-6 < 1 (stable); anchored in-decade against Earth-L4/L5 mission proposals' ~m/s per year"
       ]
     },
@@ -174,11 +188,11 @@
       "label": "平台共构与深空改装账",
       "label_en": "Platform commonality & deep-space kit",
       "range": 35,
-      "detail": "同一个中继星平台,65.7% 逐行同件——但这次共构最漂亮的一笔是被物理送来的:太阳翼按 SEP 转移在 1.52 AU 处出 4 kW 定尺寸,算出来正好还是那副 36 m² 翼。深空改装四件套:3 m 双频 HGA、100 W 行波管链(含冷备)、SEP 模块、日冕仪——四个新备件族,是 26 个月备件账里本星与静止环家族真正的分账线。反向的红利在热与电:L4 永无星蚀(不绕任何行星),5 kWh 电池缩到安全模式级 15 kg,热环境恒定如钟——航天器最怕的循环疲劳在这里不存在。湿重 1889 kg,其中 461 kg 是氙:质量账的 1/4 花在「到那儿去」。",
-      "detail_en": "The same relay platform, 65.7% identical line-by-line - and this time the prettiest entry is a gift from physics: the solar wing, sized by the SEP transit's 4 kW demand at 1.52 AU, comes out to exactly the same 36 m2 wing. The deep-space kit is four items: the 3 m dual-band HGA, the 100 W TWTA chain (with cold spare), the SEP module, and the coronagraph - four new spares families, the true dividing line between this bird and the areo family in the 26-month spares ledger. The reverse dividend is thermal and electrical: L4 never sees an eclipse (it orbits no planet), the 5 kWh battery shrinks to a 15 kg safe-mode unit, and the thermal environment is clock-steady - the cyclic fatigue spacecraft fear most simply does not exist here. Wet mass 1889 kg, of which 461 kg is xenon: a quarter of the mass budget spent on 'getting there'.",
+      "detail": "同一个中继星平台,65.7% 逐行同件——但这次共构最漂亮的一笔是被物理送来的:太阳翼按 SEP 转移在 1.52 AU 处出 4 kW 定尺寸,算出来正好还是那副 36 m² 翼。深空改装四件套:3 m 双频 HGA、100 W 行波管链(含冷备)、SEP 模块、日冕仪——四个新备件族,是 26 个月备件账里本星与静止环家族真正的分账线。反向的红利在热与电:L4 永无星蚀(不绕任何行星),5 kWh 电池缩到安全模式级 15 kg,热环境恒定如钟——航天器最怕的循环疲劳在这里不存在。湿重 1895 kg,其中 467 kg 是氙:质量账的 1/4 花在「到那儿去」。",
+      "detail_en": "The same relay platform, 65.7% identical line-by-line - and this time the prettiest entry is a gift from physics: the solar wing, sized by the SEP transit's 4 kW demand at 1.52 AU, comes out to exactly the same 36 m2 wing. The deep-space kit is four items: the 3 m dual-band HGA, the 100 W TWTA chain (with cold spare), the SEP module, and the coronagraph - four new spares families, the true dividing line between this bird and the areo family in the 26-month spares ledger. The reverse dividend is thermal and electrical: L4 never sees an eclipse (it orbits no planet), the 5 kWh battery shrinks to a 15 kg safe-mode unit, and the thermal environment is clock-steady - the cyclic fatigue spacecraft fear most simply does not exist here. Wet mass 1895 kg, of which 467 kg is xenon: a quarter of the mass budget spent on 'getting there'.",
       "specs": {
         "共构件率(逐行质量加权)": "65.7%",
-        "质量": "干重(含 20% 裕度)1409 kg · 湿重 1889 kg(氙 461)",
+        "质量": "干重(含 20% 裕度)1409 kg · 湿重 1895 kg(氙 467)",
         "新备件族": "HGA / 100 W TWTA / SEP / 日冕仪(4 族)",
         "功率": "翼由 SEP 转移定尺寸(4 kW @1.52 AU)= 同款 36 m² · 通信期负载 1.25 kW 富余",
         "星蚀": "永无 · 电池 33→15 kg · 热环境恒定",
@@ -186,7 +200,7 @@
       },
       "specs_en": {
         "Commonality (mass-weighted, line-by-line)": "65.7%",
-        "Mass": "1409 kg dry (20% margin incl.), 1889 kg wet (461 kg xenon)",
+        "Mass": "1409 kg dry (20% margin incl.), 1895 kg wet (467 kg xenon)",
         "New spares families": "HGA / 100 W TWTA / SEP / coronagraph (4 families)",
         "Power": "wing sized by SEP transit (4 kW @1.52 AU) = the same 36 m2 wing; 1.25 kW comm-phase load, power-rich",
         "Eclipses": "never; battery 33 -> 15 kg; clock-steady thermal",
@@ -195,12 +209,14 @@
       "physics": "「同平台改型还是新平台」的判据不是外形是环境:辐射(1.52 AU 深空 SPE+GCR ≈ 火星静止轨道同量级,无俘获带的红利两边通用)、热(更稳)、力学(发射载荷同族)——平台三大定尺寸环境全部落在先例包线内,所以是改型。改不动的地方全是任务本身:天线口径由 2.2 AU 对地距离定,SEP 由 60° 相位差定,日冕仪由黑障几何定。平台适配环境,载荷适配任务——这条分界本身就是共构率 65.7% 的物理内容。",
       "physics_en": "The 'variant or new platform' criterion is environment, not silhouette: radiation (deep-space SPE+GCR at 1.52 AU lands in the same decade as areostationary Mars - the no-trapped-belt dividend applies to both), thermal (steadier), structural (same launch-load family) - all three platform-sizing environments fall inside the precedent envelope, hence a variant. Everything that could NOT stay common is the mission itself: aperture set by the 2.2 AU Earth range, SEP set by the 60-deg phase offset, coronagraph set by blackout geometry. Platform fits environment, payload fits mission - that dividing line IS the physical content of the 65.7%.",
       "sim": [
-        "s06(逐行缩放,记账闸:中继星重建 1265.3/1361.9 kg 后再动):共构率 = 与先例完全同值行的质量占比;氙 461 kg 由火箭方程(5 km/s,Isp 1800)闭合",
-        "功率交叉账:SEP 4 kW @1.52 AU 需求 → 36 m² 翼(与中继星星蚀热容账定出的同款);通信期 1.25 kW 负载富余 3×"
+        "s06(逐行缩放,记账闸:中继星重建 1265.3/1361.9 kg 后再动):共构率 = 与先例完全同值行的质量占比;氙 467 kg 由火箭方程(5 km/s,Isp 1800,化学 SK 推进剂随行)闭合",
+        "功率交叉账:SEP 4 kW @1.52 AU 需求 → 36 m² 翼(与中继星星蚀热容账定出的同款);通信期 1.25 kW 负载富余 3×",
+        "s13 辐射器 COMSOL FEM(挖掘轮,承先例 radiator_thermal 管线):通信工况 TWTA 底板 −12°C、SEP 转移工况 PPU 底板 +16°C(能量闭合 0.999998/1.000016,等温解析 ±0.3 K 括住)——交付几何的 2.43 m² OSR 双工况全裕度,无需改动"
       ],
       "sim_en": [
-        "s06 (line-by-line scaling; bookkeeping gate: the relay rebuilds to 1265.3/1361.9 kg before edits): commonality = mass share of lines identical to the precedent; the 461 kg xenon closes via the rocket equation (5 km/s, Isp 1800)",
-        "Power cross-ledger: the SEP demand of 4 kW at 1.52 AU sizes the wing to 36 m2 - the same wing the relay's eclipse heat-capacity ledger produced; the 1.25 kW comm-phase load leaves 3x headroom"
+        "s06 (line-by-line scaling; bookkeeping gate: the relay rebuilds to 1265.3/1361.9 kg before edits): commonality = mass share of lines identical to the precedent; the 467 kg xenon closes via the rocket equation (5 km/s, Isp 1800, chemical SK propellant riding along)",
+        "Power cross-ledger: the SEP demand of 4 kW at 1.52 AU sizes the wing to 36 m2 - the same wing the relay's eclipse heat-capacity ledger produced; the 1.25 kW comm-phase load leaves 3x headroom",
+        "s13 radiator COMSOL FEM (deep-dive round, precedent radiator_thermal pipeline): comm-phase TWTA baseplate -12 C, SEP-transit PPU baseplate +16 C (energy closure 0.999998/1.000016, isothermal analytic brackets the FEM mean to 0.3 K) - the delivered 2.43 m2 OSR pair carries both duties with margin, no geometry change"
       ]
     }
   ]

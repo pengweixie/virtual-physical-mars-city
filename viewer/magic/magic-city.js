@@ -29,7 +29,7 @@
 //    精灵点)、王城⇄法师塔之间的能量束脉冲。
 // 4. 地形融合:魔幻区外围的发光苔藓斑 + 渐密水晶碎屑(都是 InstancedMesh)
 //    + 地面光晕环 + 低矮雾罩,把"科学半球→魔法半球"摊成梯度。
-// 5. 确定性:本文件不使用 Math.random —— 统一走 mulberry32 确定性流 rnd()。
+// 5. 确定性:本文件不使用 Math.random —— 按功能分流的 mulberry32 子流 R.<feature>()。
 //
 // 性能:新增几何 ~8.3k 三角形(见 dev/dev-preview-magic.html 的 HUD 实测),
 // 粒子全部是 Points / InstancedMesh,ShaderMaterial 共 9 个(4 水晶 + 3 精灵
@@ -41,6 +41,12 @@ export function build(ctx) {
           sampleHeight, renderer, T, sunDirUniform, crystalTime, crystalDay,
           cryGlowMats, cityPbrMats } = ctx;
   const MX = -150, MZ = -520;                // second flat site, south of spawn
+  // ?mlite=1 : quality tier for weak GPUs. Drops the full-screen additive
+  // sheets (ground halo, mist curtain, aurora) and the flock at the end of
+  // build(); nothing else changes, determinism included. Read here, not in
+  // the engine, so it needs no contract change.
+  const LITE = typeof location !== 'undefined'
+    && new URLSearchParams(location.search).get('mlite') === '1';
   const CX = MX - 20, CZ = MZ - 210;         // crystal palace (lazy GLB) centre
   const gY = (x, z) => sampleHeight(x, z);
   magicGroup.name = 'magicCity';             // handle for ?debug=1 / capture
@@ -48,15 +54,23 @@ export function build(ctx) {
   // deterministic stand-in for Math.random (MODELS.md: no bare rng in assets).
   // one stream, fixed seed, fixed call order -> the city is byte-identical
   // every load, so screenshots and captures are comparable across sessions.
-  const rnd = (() => {
-    let a = 0x9a61c1;
+  const mulberry = (a0) => {
+    let a = a0 | 0;
     return () => {
       a = a + 0x6d2b79f5 | 0;
       let t = Math.imul(a ^ a >>> 15, 1 | a);
       t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
       return ((t ^ t >>> 14) >>> 0) / 4294967296;
     };
-  })();
+  };
+  const rnd = mulberry(0x9a61c1);               // legacy default stream (unused)
+  // One stream per feature. A single shared stream meant that inserting one
+  // rnd() call anywhere reshuffled every jitter downstream of it in the file;
+  // with a stream per feature, the crystal shapes, the debris scatter and the
+  // wisps are independent of each other and of whatever gets added next.
+  const R = Object.fromEntries(['crag', 'crystal', 'spark', 'mesa', 'vein', 'fly',
+    'skirt', 'burst', 'band', 'districts', 'wisps']
+    .map((k, i) => [k, mulberry(0x9a61c1 ^ Math.imul(i + 1, 0x9e3779b1))]));
 
   // masonry carries a faint violet self-glow at night (driven below): with only
   // point lights the tower and the capital fall to flat black silhouettes after
@@ -76,6 +90,8 @@ export function build(ctx) {
 
   // ---- shared crystal uniforms (all four materials + the instanced debris) --
   const uGrow = { value: 0 };                          // 0→1 emergence wave
+  const contacts = [];                                 // footprints -> contact shadows
+  const contact = (x, z, r) => contacts.push([x, z, r]); // (declared early: the tower calls it)
   const uHit = { value: new THREE.Vector4(0, -999, 0, -1000) };  // xyz + t fired
 
   // jittered icosahedron: craggy rock, no two alike
@@ -83,9 +99,9 @@ export function build(ctx) {
     const g = new THREE.IcosahedronGeometry(radius, detail);
     const p = g.attributes.position;
     for (let i = 0; i < p.count; i++) {
-      const s = 1 + (rnd() - 0.5) * rough;
+      const s = 1 + (R.crag() - 0.5) * rough;
       p.setXYZ(i, p.getX(i) * s,
-               p.getY(i) * s * (0.9 + rnd() * 0.2), p.getZ(i) * s);
+               p.getY(i) * s * (0.9 + R.crag() * 0.2), p.getZ(i) * s);
     }
     g.computeVertexNormals();
     return g;
@@ -97,29 +113,50 @@ export function build(ctx) {
   // depths, one per channel = dispersion) + growth + strike ripple.
   const cryVert = /* glsl */`
     attribute float aH;
+    #ifdef MERGED
+      attribute vec3 aOrg, aUp;                 // per-vertex: this crystal's world
+    #endif                                      // origin and up axis (see cryMerge)
     uniform vec3 uColor;
     uniform float uGrow;
     varying vec3 vWorldPos, vRel, vTint;
     varying float vH, vG;
     float h11(float n) { n = fract(n * 0.1031); n *= n + 33.33; n *= n + n; return fract(n); }
     void main() {
-      mat4 m = modelMatrix;
-      #ifdef USE_INSTANCING
-        m = modelMatrix * instanceMatrix;
-      #endif
       vTint = uColor;
-      #ifdef USE_INSTANCING_COLOR
-        vTint = instanceColor;
+      #ifdef MERGED
+        // hundreds of static crystals live in one mesh at the world origin:
+        // the growth stagger and the vein field need each crystal's own frame,
+        // so it is baked into the vertices and the scaling happens along aUp
+        // about aOrg - exactly what local-space p.y / p.xz scaling did before
+        vec3 org = aOrg;
+        vec3 up = aUp;
+        vec3 d = position - org;
+        float along = dot(d, up);
+        vec3 perp = d - up * along;
+      #else
+        mat4 m = modelMatrix;
+        #ifdef USE_INSTANCING
+          m = modelMatrix * instanceMatrix;
+        #endif
+        #ifdef USE_INSTANCING_COLOR
+          vTint = instanceColor;
+        #endif
+        vec3 org = m[3].xyz;                      // this crystal's world origin
       #endif
-      vec3 org = m[3].xyz;                        // this crystal's world origin
       float seed = h11(org.x * 0.317 + org.z * 1.131 + org.y * 0.071);
       float g = clamp((uGrow - seed * 0.45) / 0.55, 0.0, 1.0);
       g = g * g * (3.0 - 2.0 * g);                // smoothstep ease
       vG = g;
-      vec3 p = position;
-      p.y *= g * (1.0 + 0.14 * sin(g * 3.14159)); // slight overshoot on break-out
-      p.xz *= mix(0.22, 1.0, g);
-      vec4 wp = m * vec4(p, 1.0);
+      float gy = g * (1.0 + 0.14 * sin(g * 3.14159));   // overshoot on break-out
+      float gxz = mix(0.22, 1.0, g);
+      #ifdef MERGED
+        vec4 wp = vec4(org + up * (along * gy) + perp * gxz, 1.0);
+      #else
+        vec3 p = position;
+        p.y *= gy;
+        p.xz *= gxz;
+        vec4 wp = m * vec4(p, 1.0);
+      #endif
       vWorldPos = wp.xyz;
       vRel = wp.xyz - org;                        // vein field rides the crystal
       vH = aH;
@@ -199,21 +236,21 @@ export function build(ctx) {
       const u = t / tiers;
       const rr = r * (1 - 0.22 * u);
       if (t > 0) {
-        ox += (rnd() - 0.5) * r * 0.34;
-        oz += (rnd() - 0.5) * r * 0.34;
+        ox += (R.crystal() - 0.5) * r * 0.34;
+        oz += (R.crystal() - 0.5) * r * 0.34;
       }
       const ring = [];
       for (let i = 0; i < sides; i++) {
         const a = i / sides * Math.PI * 2;
-        const j = 1 + (rnd() - 0.5) * (t === 0 ? 0.25 : 0.35);
+        const j = 1 + (R.crystal() - 0.5) * (t === 0 ? 0.25 : 0.35);
         ring.push([ox + Math.cos(a) * rr * j,
-          t === 0 ? 0 : h * u * (1 + (rnd() - 0.5) * 0.12),
+          t === 0 ? 0 : h * u * (1 + (R.crystal() - 0.5) * 0.12),
           oz + Math.sin(a) * rr * j]);
       }
       rings.push(ring);
     }
-    const apex = [ox + (rnd() - 0.5) * r * 0.5, h + tip,
-                  oz + (rnd() - 0.5) * r * 0.5];
+    const apex = [ox + (R.crystal() - 0.5) * r * 0.5, h + tip,
+                  oz + (R.crystal() - 0.5) * r * 0.5];
     const H = h + tip;
     const pos = [], aH = [];
     const tri = (...ps) => ps.forEach((p) => {
@@ -294,7 +331,7 @@ export function build(ctx) {
     g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pts), 3));
     const n = pts.length / 3;
     const ph = new Float32Array(n);
-    for (let i = 0; i < n; i++) ph[i] = rnd();
+    for (let i = 0; i < n; i++) ph[i] = R.spark();
     g.setAttribute('aPhase', new THREE.BufferAttribute(ph, 1));
     g.setAttribute('aDir', new THREE.BufferAttribute(
       new Float32Array(dirs || new Float32Array(n * 3)), 3));
@@ -365,6 +402,7 @@ export function build(ctx) {
   const plinth = new THREE.Mesh(cragGeometry(11, 1, 0.4), stoneDark);
   plinth.scale.y = 0.38;
   plinth.position.set(MX, ty + 1.2, MZ);
+  contact(MX, MZ, 15);
   magicGroup.add(plinth);
   {
     const pts = [];
@@ -433,6 +471,7 @@ export function build(ctx) {
 
   // ring of floating stones orbiting the tower
   const stoneRing = new THREE.Group();
+  stoneRing.userData.moving = true;             // (no crystals, but be explicit)
   stoneRing.position.set(MX, ty + 33, MZ);
   for (let i = 0; i < 9; i++) {
     const a = i / 9 * Math.PI * 2;
@@ -531,13 +570,25 @@ export function build(ctx) {
   const woodMat = new THREE.MeshLambertMaterial({ color: 0x54412e,
     flatShading: true, emissive: 0x1d160e });
   nightStone.push(roofMat, trimMat, woodMat);
+  // the wards get their own, duller stone and grey-plum roofs: the eye needs
+  // somewhere to rest in a city that is otherwise all saturated pastel
+  const wardWallMat = new THREE.MeshLambertMaterial({ color: 0xb4aabf,
+    flatShading: true, emissive: 0x352f45 });
+  const wardRoofMat = new THREE.MeshLambertMaterial({ color: 0x4a4554,
+    flatShading: true, emissive: 0x17151c });
+  nightStone.push(wardWallMat, wardRoofMat);
   // batching is keyed on material identity; only static parts use these mats.
   // Crystals never batch — their shader reads each object's own origin for
   // the growth stagger and the vein field, and merging would fuse them.
   // runeMat batches safely: merging shares the material, and its colour anim
   // (portal flash) applies to the merged mesh exactly as to the parts
   const BATCHABLE = new Set([stonePale, stoneDark, rock, roofMat, trimMat,
-    slitMat, woodMat, pathMat, runeMat, winMats[0], winMats[1], winMats[2]]);
+    slitMat, woodMat, pathMat, runeMat, wardWallMat, wardRoofMat,
+    winMats[0], winMats[1], winMats[2]]);
+  // contact shadows: the engine has no shadow maps, so by day every mass sat
+  // on the dirt like a sticker. Every building registers a footprint here and
+  // the end of build() turns them into ONE InstancedMesh of soft dark discs
+  // (RGBA vertex colour, normal blending) - the cheapest AO there is.
   const ARCH_HEAD = new THREE.TorusGeometry(1, 0.085, 3, 7, Math.PI);
   const JAMB = new THREE.BoxGeometry(1, 1, 1);
   const UNIT = new THREE.BoxGeometry(1, 1, 1);
@@ -783,6 +834,7 @@ export function build(ctx) {
     }
     baseY -= 1.5;
     palace.position.set(CX, baseY, CZ);         // everything below is local
+    contact(CX, CZ, 140);
 
     const { put, flush, arch, window, spireTop, banner } = makeBuilder(palace);
 
@@ -822,13 +874,13 @@ export function build(ctx) {
       for (let i = 0; n < RB && i < RB * 4; i++) {
         const a = i * 2.39996 + 0.4;
         const band = i % 3;
-        const rr = [88, 108, 128][band] + (rnd() - 0.5) * 13;
+        const rr = [88, 108, 128][band] + (R.mesa() - 0.5) * 13;
         const x = Math.cos(a) * rr, z = Math.sin(a) * rr;
         if (Math.abs(x) < 24 && z > 60) continue;      // the road stays clear
-        const s = 1.1 + rnd() * 3.4;
-        mq.setFromEuler(new THREE.Euler(rnd() * 3, rnd() * 6.28, rnd() * 3));
-        ms.set(s, s * (0.5 + rnd() * 0.5), s);
-        mv.set(x, [16, 12, 7][band] - 5 + rnd() * 2.5, z);
+        const s = 1.1 + R.mesa() * 3.4;
+        mq.setFromEuler(new THREE.Euler(R.mesa() * 3, R.mesa() * 6.28, R.mesa() * 3));
+        ms.set(s, s * (0.5 + R.mesa() * 0.5), s);
+        mv.set(x, [16, 12, 7][band] - 5 + R.mesa() * 2.5, z);
         mm.compose(mv, mq, ms);
         rub.setMatrixAt(n++, mm);
       }
@@ -1407,10 +1459,10 @@ export function build(ctx) {
       c.rotation.set(Math.sin(a) * tilt, i * 1.3, -Math.cos(a) * tilt);
       palace.add(c);
       for (let k = 0; k < 3; k++) {              // satellites at its foot
-        const ka = a + (k - 1) * 1.1 + rnd() * 0.5;
-        const kd = vr * (2.2 + rnd() * 1.6);
+        const ka = a + (k - 1) * 1.1 + R.vein() * 0.5;
+        const kd = vr * (2.2 + R.vein() * 1.6);
         const kid = new THREE.Mesh(
-          crystalGeometry(vr * 0.36, vh * (0.18 + rnd() * 0.2), vh * 0.1),
+          crystalGeometry(vr * 0.36, vh * (0.18 + R.vein() * 0.2), vh * 0.1),
           cryShaderMats[(i + k) % 4]);
         kid.position.set(vx + Math.cos(ka) * kd, WARD + 5, vz + Math.sin(ka) * kd);
         kid.rotation.set(Math.cos(ka) * 0.4, ka, -Math.sin(ka) * 0.4);
@@ -1421,6 +1473,7 @@ export function build(ctx) {
     // -- L8 a ring of stones adrift over the keep (the tower has one too —
     //    the capital's is wider, slower, and made of broken crystal)
     const crownRing = new THREE.Group();
+    crownRing.userData.moving = true;            // rotates: its crystals stay live
     crownRing.position.set(0, WARD + KEEP_H + 26, 0);
     for (let i = 0; i < 11; i++) {
       const a = i / 11 * Math.PI * 2;
@@ -1470,7 +1523,7 @@ export function build(ctx) {
     magicGroup.add(fly);
     const flyAttr = fly.geometry.attributes.position;
     const flySpeed = [];
-    for (let i = 0; i < NFLY; i++) flySpeed.push(0.006 + rnd() * 0.010);
+    for (let i = 0; i < NFLY; i++) flySpeed.push(0.006 + R.fly() * 0.010);
     magicAnims.push((t) => {
       for (let i = 0; i < NFLY; i++) {
         const u = (i / NFLY + t * flySpeed[i]) % 1;
@@ -1505,22 +1558,22 @@ export function build(ctx) {
       let n = 0;
       for (let c = 0; c < 14 && n < SK; c++) {
         const ca = c * 2.39996 + 0.7;
-        const cr = 112 + rnd() * 66;
+        const cr = 112 + R.skirt() * 66;
         const ccx = CX + Math.cos(ca) * cr, ccz = CZ + Math.sin(ca) * cr;
         if (Math.hypot(ccx - gate[0], ccz - gate[1]) < 34) continue;   // door stays clear
-        const big = 1.2 + rnd() * 3.6;           // this outcrop's headline size
-        const kids = 5 + Math.floor(rnd() * 6);
+        const big = 1.2 + R.skirt() * 3.6;           // this outcrop's headline size
+        const kids = 5 + Math.floor(R.skirt() * 6);
         for (let k = 0; k < kids && n < SK; k++) {
-          const ka = rnd() * 6.283, kd = Math.pow(rnd(), 0.7) * 19;
+          const ka = R.skirt() * 6.283, kd = Math.pow(R.skirt(), 0.7) * 19;
           const x = ccx + Math.cos(ka) * kd, z = ccz + Math.sin(ka) * kd;
           // keep the whole approach corridor clear, not just a disc round the
           // gate — a clump centre 40 m away still throws a 15 m shaft into it
           if (Math.abs(x - CX) < 25 && z > CZ + 70 && z < CZ + 205) continue;
-          const s = big * (k === 0 ? 1 : 0.25 + Math.pow(rnd(), 1.8) * 0.8);
-          const lean = 0.10 + rnd() * 0.26;      // splayed away from the walls
-          mq.setFromEuler(new THREE.Euler(Math.sin(ca) * lean, rnd() * 6.283,
+          const s = big * (k === 0 ? 1 : 0.25 + Math.pow(R.skirt(), 1.8) * 0.8);
+          const lean = 0.10 + R.skirt() * 0.26;      // splayed away from the walls
+          mq.setFromEuler(new THREE.Euler(Math.sin(ca) * lean, R.skirt() * 6.283,
             -Math.cos(ca) * lean));
-          ms.set(s * 0.6, s * (1.7 + rnd() * 1.7), s * 0.6);
+          ms.set(s * 0.6, s * (1.7 + R.skirt() * 1.7), s * 0.6);
           mv.set(x, gY(x, z) - 0.9, z);
           mm.compose(mv, mq, ms);
           skirt.setMatrixAt(n, mm);
@@ -1538,8 +1591,9 @@ export function build(ctx) {
     l.position.set(CX, groundY + 120, CZ);
     magicGroup.add(l);
     magicLights.push(l);
-    for (const [c, dx, dz] of [[0x8fe8ff, -58, 74], [0xff9fe0, 58, 74]]) {
-      const gl2 = new THREE.PointLight(c, 0, 300, 2);   // colour on the walls
+    for (const [c, dx, dz] of [[0x8fe8ff, -58, 74]]) {   // one gate lamp: every
+      const gl2 = new THREE.PointLight(c, 0, 300, 2);   // lit material in the WHOLE
+      // scene loops all point lights per fragment, so this layer's budget is 5
       gl2.position.set(CX + dx, groundY + 26, CZ + dz);
       magicGroup.add(gl2);
       magicLights.push(gl2);
@@ -1603,6 +1657,7 @@ export function build(ctx) {
     const iz = MZ + Math.sin(a) * (72 + i * 14);
     const base = gY(ix, iz) + 32 + i * 10;
     const isl = new THREE.Group();
+    isl.userData.moving = true;                  // bobs + rotates
     const chunk = new THREE.Mesh(cragGeometry(7 + i * 1.4, 1, 0.5), rock);
     chunk.scale.y = 0.62;
     isl.add(chunk);
@@ -1696,10 +1751,10 @@ export function build(ctx) {
   const burstPts = new Float32Array(BURST_N * 3);
   const burstDir = new Float32Array(BURST_N * 3);
   for (let i = 0; i < BURST_N; i++) {
-    const u = rnd() * Math.PI * 2, w = rnd();
+    const u = R.burst() * Math.PI * 2, w = R.burst();
     const rr = Math.sqrt(w) * 5.6;                    // spawn across the film
     burstPts.set([Math.cos(u) * rr, 7.2 + Math.sin(u) * rr, 0], i * 3);
-    const th = rnd() * Math.PI * 2, ph = Math.acos(2 * rnd() - 1);
+    const th = R.burst() * Math.PI * 2, ph = Math.acos(2 * R.burst() - 1);
     burstDir.set([Math.sin(ph) * Math.cos(th) * 0.55,
                   Math.abs(Math.cos(ph)) * 0.7 + 0.25,
                   Math.sin(ph) * Math.sin(th) * 1.6], i * 3);   // mostly forward
@@ -1936,8 +1991,8 @@ export function build(ctx) {
       const r = R0 * 0.6 + Math.sqrt((i % 137) / 137) * (R1 - R0 * 0.6);
       const x = BX + Math.cos(a) * r, z = BZ + Math.sin(a) * r;
       const w = nearness(x, z);
-      if (rnd() > 0.15 + w * 0.85) continue;
-      const s = 1.4 + w * 3.4 + rnd() * 1.8;
+      if (R.band() > 0.15 + w * 0.85) continue;
+      const s = 1.4 + w * 3.4 + R.band() * 1.8;
       mm.makeScale(s, 1, s);
       mm.setPosition(x, gY(x, z) + 0.12, z);
       moss.setMatrixAt(placed, mm);
@@ -1965,11 +2020,11 @@ export function build(ctx) {
       const r = R0 * 0.75 + Math.sqrt((i % 211) / 211) * (R1 - R0 * 0.75);
       const x = BX + Math.cos(a) * r, z = BZ + Math.sin(a) * r;
       const w = nearness(x, z);
-      if (rnd() > 0.08 + w * 0.92) continue;
-      const s = 0.18 + w * 0.55 + rnd() * 0.3;
-      mq.setFromEuler(new THREE.Euler((rnd() - 0.5) * 0.7, rnd() * 6.28,
-        (rnd() - 0.5) * 0.7));
-      ms.set(s, s * (0.8 + rnd() * 1.4), s);
+      if (R.band() > 0.08 + w * 0.92) continue;
+      const s = 0.18 + w * 0.55 + R.band() * 0.3;
+      mq.setFromEuler(new THREE.Euler((R.band() - 0.5) * 0.7, R.band() * 6.28,
+        (R.band() - 0.5) * 0.7));
+      ms.set(s, s * (0.8 + R.band() * 1.4), s);
       mv.set(x, gY(x, z) - 0.15, z);
       mm.compose(mv, mq, ms);
       deb.setMatrixAt(placed, mm);
@@ -1985,7 +2040,6 @@ export function build(ctx) {
   // colored night lights
   for (const [c, lx2, lz2, ly2] of [
     [0x9fe8ff, MX, MZ, ty + TH + 10],
-    [0xff9fe0, MX + 42, MZ + 30, gY(MX + 42, MZ + 30) + 8],
     [0x7fffd4, px2, pz2, py2 + 9],
   ]) {
     const l = new THREE.PointLight(c, 0, 130, 2);
@@ -2010,6 +2064,7 @@ export function build(ctx) {
     g.name = 'magicAcademy';
     const ay = gY(AX, AZ) - 0.5;
     g.position.set(AX, ay, AZ);
+    contact(AX, AZ, 36);
     magicGroup.add(g);
     const { put, flush, arch, window, spireTop, banner } = makeBuilder(g);
     // court platform with a lipped edge
@@ -2081,11 +2136,7 @@ export function build(ctx) {
       c.rotation.set(Math.cos(a) * 0.3, a, -Math.sin(a) * 0.3);
       g.add(c);
     }
-    flush();
-    const l = new THREE.PointLight(0xbfa8ff, 0, 120, 2);
-    l.position.set(AX, ay + 22, AZ);
-    magicGroup.add(l);
-    magicLights.push(l);
+    flush();                                     // no lamp: emissive carries it
   }
   glowPath(MX, MZ, -76, -551, 2.6);              // tower -> academy court rim
 
@@ -2102,12 +2153,13 @@ export function build(ctx) {
     BATCHABLE.add(gillMats[0]).add(gillMats[1]).add(gillMats[2]);
     const { put, flush, window } = makeBuilder(g);
     for (let i = 0; i < 6; i++) {
-      const a = i / 6 * Math.PI * 2 + 0.5 + (rnd() - 0.5) * 0.5;
-      const r = 9 + (i % 3) * 5 + rnd() * 3;
+      const a = i / 6 * Math.PI * 2 + 0.5 + (R.districts() - 0.5) * 0.5;
+      const r = 9 + (i % 3) * 5 + R.districts() * 3;
       const lx = Math.cos(a) * r, lz = Math.sin(a) * r;
       const hy = gY(HX + lx, HZ + lz);
       const s = 0.85 + (i % 3) * 0.2;
       const bodyR = 2.7 * s, bodyH = 3.4 * s;
+      contact(HX + lx, HZ + lz, bodyR * 2.1);
       put(new THREE.Mesh(new THREE.CylinderGeometry(bodyR * 0.86, bodyR, bodyH, 9),
         stonePale), lx, hy + bodyH / 2, lz);
       put(new THREE.Mesh(new THREE.CylinderGeometry(bodyR * 0.92, bodyR * 0.92, 0.5, 9),
@@ -2148,10 +2200,6 @@ export function build(ctx) {
     put(new THREE.Mesh(new THREE.CircleGeometry(1.35, 8).rotateX(-Math.PI / 2),
       gillMats[2]), 4.2, gY(HX + 4.2, HZ) + 1.35, 1.5);  // water glows faintly
     flush();
-    const l = new THREE.PointLight(0xff9fe0, 0, 70, 2);
-    l.position.set(HX, gY(HX, HZ) + 8, HZ);
-    magicGroup.add(l);
-    magicLights.push(l);
   }
   glowPath(-215, -545, -213, -502, 1.4);         // lane to the portal walkway
 
@@ -2164,6 +2212,7 @@ export function build(ctx) {
     g.name = 'magicQuarry';
     const qy = gY(QX, QZ);
     g.position.set(QX, qy, QZ);
+    contact(QX, QZ, 34);
     magicGroup.add(g);
     const { put, flush } = makeBuilder(g);
     for (let i = 0; i < 14; i++) {               // spoil rim
@@ -2197,12 +2246,12 @@ export function build(ctx) {
       const mv = new THREE.Vector3(), ms = new THREE.Vector3(), mc = new THREE.Color();
       const COL = [0x8fe8ff, 0xff9fe0, 0xbfa8ff, 0xffd98f];
       for (let i = 0; i < NV; i++) {
-        const a = rnd() * Math.PI * 2;
+        const a = R.districts() * Math.PI * 2;
         const [wr, fy] = [[22, 3.2], [15.5, 1.9], [9.5, 0.8]][i % 3];
         mq.setFromEuler(new THREE.Euler(
-          Math.sin(a) * (0.9 + rnd() * 0.5), rnd() * 6.28,
-          -Math.cos(a) * (0.9 + rnd() * 0.5)));  // leaning out of the wall
-        const s = 0.5 + rnd() * 0.9;
+          Math.sin(a) * (0.9 + R.districts() * 0.5), R.districts() * 6.28,
+          -Math.cos(a) * (0.9 + R.districts() * 0.5)));  // leaning out of the wall
+        const s = 0.5 + R.districts() * 0.9;
         ms.set(s * 0.5, s * 1.6, s * 0.5);
         mv.set(Math.cos(a) * (wr - 0.5), fy + 0.6, Math.sin(a) * (wr - 0.5));
         mm.compose(mv, mq, ms);
@@ -2242,6 +2291,7 @@ export function build(ctx) {
     const hx3 = px3 - ux * 11.6, hz3 = pz3 - uz * 11.6; // hoist line, r=6.4: in the pit
     const rope = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 1, 4), woodMat);
     const hoist = new THREE.Mesh(crystalGeometry(0.9, 3.2, 1.5, 7, 2), cryShaderMats[0]);
+    hoist.userData.moving = true;
     g.add(rope, hoist);                          // animated: never batched
     magicAnims.push((t) => {
       const y2 = 6.5 + Math.sin(t * 0.32) * 4.9; // slow round trips out of the pit
@@ -2290,6 +2340,7 @@ export function build(ctx) {
     const SX = -10, SZ = -640;                   // open sky on the east flank
     const g = new THREE.Group();
     g.name = 'magicSanctuary';
+    g.userData.moving = true;                    // patrols a circle
     const base = gY(SX, SZ) + 62;
     g.position.set(SX, base, SZ);
     magicGroup.add(g);
@@ -2337,6 +2388,7 @@ export function build(ctx) {
     g.name = 'magicMill';
     const my = gY(LX2, LZ2);
     g.position.set(LX2, my, LZ2);
+    contact(LX2, LZ2, 8);
     magicGroup.add(g);
     const { put, flush, arch, window } = makeBuilder(g);
     const pts = [];
@@ -2361,6 +2413,7 @@ export function build(ctx) {
     g.add(collector);
     for (const [ry, rr, dir, n] of [[9.6, 6.4, 1, 6], [13.2, 4.8, -1, 5]]) {
       const ring = new THREE.Group();
+      ring.userData.moving = true;
       ring.position.y = ry;
       ring.add(new THREE.Mesh(
         new THREE.TorusGeometry(rr, 0.16, 5, 24).rotateX(Math.PI / 2), pathMat));
@@ -2489,6 +2542,7 @@ export function build(ctx) {
     g.name = 'magicWheel';
     g.position.set(WX, gY(WX, WZ), WZ);
     g.rotation.y = Math.atan2(-150 - WX, -520 - WZ);   // plane faces the tower
+    contact(WX, WZ, 14);
     magicGroup.add(g);
 
     // static frame: A-frame pylons, axle, boarding deck
@@ -2535,6 +2589,7 @@ export function build(ctx) {
 
     // the wheel itself: rim, spokes and hub batch INTO the rotating group
     const w = new THREE.Group();
+    w.userData.moving = true;                    // the wheel and everything on it
     w.position.set(0, H0, 0);
     g.add(w);
     {
@@ -2590,10 +2645,6 @@ export function build(ctx) {
       w.rotation.z += dt * 0.055;                // one lap ≈ two minutes
       for (const p of gondolas) p.rotation.z = -w.rotation.z;
     });
-    const l = new THREE.PointLight(0xffd98f, 0, 140, 2);
-    l.position.set(WX, gY(WX, WZ) + H0, WZ);
-    magicGroup.add(l);
-    magicLights.push(l);
   }
   glowPath(-55, -560, -24, -556, 2.2);           // academy -> the Wheel
 
@@ -2621,6 +2672,7 @@ export function build(ctx) {
       [-155, -462, 5, 6.0, -171, -511],          // north gate pocket
     ];
     glowPath(-215, -545, -290, -640, 2.2);       // west trunk: hamlet -> quarry
+    const stonePale = wardWallMat, roofMat = wardRoofMat;   // the wards' palette
     for (let wi = 0; wi < WARDS.length; wi++) {
       const [cx, cz, N, plazaR, lx2, lz2] = WARDS[wi];
       const g = new THREE.Group();
@@ -2649,6 +2701,7 @@ export function build(ctx) {
         const hy = gY(cx + hx, cz + hz);
         const kind = (wi * 2 + i) % 4;
         const s = 0.85 + h1(seed + 2) * 0.4;
+        contact(cx + hx, cz + hz, 5.2 * s);
         const face = a + Math.PI;                // door faces the plaza
         if (kind === 0) {                        // gabled row house
           const w = 7 * s, d = 5.4 * s, hh = 4.6 * s;
@@ -2789,13 +2842,13 @@ export function build(ctx) {
     magicGroup.add(wisps);
     const asg = [];
     for (let i = 0; i < NW2; i++) {              // longer roads get more wisps
-      let pick = rnd() * totalLen, k = 0;
+      let pick = R.wisps() * totalLen, k = 0;
       while (pick > pathSegs[k][4] && k < pathSegs.length - 1) {
         pick -= pathSegs[k][4];
         k++;
       }
-      asg.push([k, rnd(), (0.014 + rnd() * 0.022) * 60 / pathSegs[k][4],
-        rnd() * 6.28]);
+      asg.push([k, R.wisps(), (0.014 + R.wisps() * 0.022) * 60 / pathSegs[k][4],
+        R.wisps() * 6.28]);
     }
     const attr = wisps.geometry.attributes.position;
     magicAnims.push((t) => {
@@ -2864,6 +2917,7 @@ export function build(ctx) {
       const [cx, cz, w2, d2, yaw] = PLOTS[pi];
       const c = Math.cos(yaw), s0 = Math.sin(yaw);
       const py3 = gY(cx, cz);
+      contact(cx, cz, Math.max(w2, d2) * 0.72);
       for (const [ex, ez, el, across] of [      // low field walls, w x d ring
         [0, d2 / 2, w2, true], [0, -d2 / 2, w2, true],
         [w2 / 2, 0, d2, false], [-w2 / 2, 0, d2, false]]) {
@@ -2927,6 +2981,7 @@ export function build(ctx) {
     const NB = 26;
     const flock = new THREE.Points(sparkGeometry(new Float32Array(NB * 3)),
       sparkMaterial(0xffeacc, 5.2, { nightOnly: false }));
+    flock.name = 'magicFlock';
     flock.frustumCulled = false;
     magicGroup.add(flock);
     const fAttr = flock.geometry.attributes.position;
@@ -2976,6 +3031,7 @@ export function build(ctx) {
     });
     for (const [alt, ry2, len, wid] of [[238, 0.55, 720, 95], [268, 0.9, 640, 72]]) {
       const rib = new THREE.Mesh(new THREE.PlaneGeometry(len, wid, 80, 1), auroraMat);
+      rib.name = 'magicAurora';
       rib.position.set(-130, alt, -590);
       rib.rotation.set(-Math.PI / 2 + 0.38, ry2, 0);
       rib.frustumCulled = false;
@@ -2991,6 +3047,100 @@ export function build(ctx) {
       sparkMaterial(0xffd58a, 6.2));
     winFire.frustumCulled = false;
     magicGroup.add(winFire);
+  }
+
+  // ---- contact shadows -----------------------------------------------------
+  {
+    const disc = new THREE.CircleGeometry(1, 16).rotateX(-Math.PI / 2);
+    const dp = disc.attributes.position;
+    const dc = new Float32Array(dp.count * 4);
+    for (let i = 0; i < dp.count; i++) dc.set([0, 0, 0, i === 0 ? 0.42 : 0], i * 4);
+    disc.setAttribute('color', new THREE.BufferAttribute(dc, 4));
+    const m = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true,
+      depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
+    const im = new THREE.InstancedMesh(disc, m, contacts.length);
+    im.name = 'magicContacts';
+    im.frustumCulled = false;
+    const mm = new THREE.Matrix4();
+    contacts.forEach(([x, z, r], i) => {
+      mm.makeScale(r, 1, r);
+      mm.setPosition(x, gY(x, z) + 0.16, z);
+      im.setMatrixAt(i, mm);
+    });
+    im.instanceMatrix.needsUpdate = true;
+    magicGroup.add(im);
+  }
+
+  // ---- crystal merge -------------------------------------------------------
+  // The layer's draw calls were 81% crystals: every static shaft was its own
+  // mesh because the shader read the object origin off modelMatrix. This pass
+  // bakes that origin (and the up axis) into the vertices instead and merges
+  // every static crystal of a material into ONE mesh at the world origin. Only
+  // crystals under a group marked userData.moving (islands, the wheel, mill
+  // rings, the crown ring, the hoist, the sanctuary) stay live.
+  {
+    magicGroup.updateMatrixWorld(true);
+    const buckets = cryShaderMats.map(() => []);
+    const isMoving = (o) => {
+      for (let n = o; n && n !== magicGroup; n = n.parent) if (n.userData.moving) return true;
+      return false;
+    };
+    magicGroup.traverse((o) => {
+      if (!o.isMesh || o.isInstancedMesh) return;
+      const mi = cryShaderMats.indexOf(o.material);
+      if (mi < 0 || isMoving(o)) return;
+      buckets[mi].push(o);
+    });
+    const _p = new THREE.Vector3(), _up = new THREE.Vector3(), _org = new THREE.Vector3();
+    let merged = 0, kept = 0;
+    buckets.forEach((list, mi) => {
+      if (!list.length) return;
+      let n = 0;
+      for (const o of list) n += o.geometry.attributes.position.count;
+      const pos = new Float32Array(n * 3), org = new Float32Array(n * 3);
+      const up = new Float32Array(n * 3), aH = new Float32Array(n);
+      let k = 0;
+      for (const o of list) {
+        const pa = o.geometry.attributes.position, ha = o.geometry.attributes.aH;
+        _org.setFromMatrixPosition(o.matrixWorld);
+        _up.set(0, 1, 0).transformDirection(o.matrixWorld);   // local +y in world
+        for (let i = 0; i < pa.count; i++, k++) {
+          _p.fromBufferAttribute(pa, i).applyMatrix4(o.matrixWorld);
+          pos.set([_p.x, _p.y, _p.z], k * 3);
+          org.set([_org.x, _org.y, _org.z], k * 3);
+          up.set([_up.x, _up.y, _up.z], k * 3);
+          aH[k] = ha.getX(i);
+        }
+        o.parent.remove(o);
+        o.geometry.dispose();
+        merged++;
+      }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      g.setAttribute('aOrg', new THREE.BufferAttribute(org, 3));
+      g.setAttribute('aUp', new THREE.BufferAttribute(up, 3));
+      g.setAttribute('aH', new THREE.BufferAttribute(aH, 1));
+      const mat = new THREE.ShaderMaterial({
+        transparent: true, side: THREE.DoubleSide, defines: { MERGED: 1 },
+        uniforms: cryUniforms(cryShaderMats[mi].uniforms.uColor.value.getHex()),
+        vertexShader: cryVert, fragmentShader: cryFrag,
+      });
+      const m = new THREE.Mesh(g, mat);
+      m.name = 'magicCrystals' + mi;
+      m.frustumCulled = false;                    // spans the whole city
+      magicGroup.add(m);
+    });
+    magicGroup.traverse((o) => {
+      if (o.isMesh && !o.isInstancedMesh && cryShaderMats.includes(o.material)) kept++;
+    });
+    magicGroup.userData.cryMerge = { merged, kept };   // for the regression
+  }
+
+  if (LITE) {                                  // see LITE at the top of build()
+    const drop = ['magicHalo', 'magicMist', 'magicAurora', 'magicFlock'];
+    for (let i = magicGroup.children.length - 1; i >= 0; i--) {
+      if (drop.includes(magicGroup.children[i].name)) magicGroup.children[i].removeFromParent();
+    }
   }
 
   // ---- layer API ----------------------------------------------------------

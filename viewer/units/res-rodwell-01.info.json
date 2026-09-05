@@ -156,8 +156,14 @@
         "Relocation work": "about 2 sol",
         "Start-up water": "2 m3"
       },
-      "sim": "TS-02：井距按防腔体贯通与地表塌陷设计；单台 10 kWe 独立部署时井寿命仅 241 sol，需再预留井-3",
-      "sim_en": "TS-02: spacing is set against cavity breakthrough and surface collapse. A standalone 10 kWe deployment would give only 241 sol of well life and would need a third site reserved as well."
+      "sim": [
+        "TS-02：井距按防腔体贯通与地表塌陷设计；单台 10 kWe 独立部署时井寿命仅 241 sol，需再预留井-3",
+        "选址接口（采纳 sci-orbiter-01 穿冰雷达产品，闸值按本册账自定）：WELL-3 起按 100 m 格网 {d, h, s} 选址，弃用「~30 m 区域假定」。硬闸：测厚 h ≥ 20 m（需求 15 m = 1.3 m 顶板 + Ø8.5 m 终期腔 + ~5 m 底部余量，另加 4.2 m 分辨率一格）；冰顶 d ≤ 10 m（EOL 扬程随 d 增至 ~20 m / 74 kPa，泵升 100 kPa 级即可，水力功率仍 ~1 W）。雷达「≤4 m 上限」档自动过 d 闸——现井 3.4 m 为钻探真值，不受最小可测限制。同闸内偏好小 d、小 s：每 +100 m 管线即 +1 kW 伴热装机。"
+      ],
+      "sim_en": [
+        "TS-02: spacing is set against cavity breakthrough and surface collapse. A standalone 10 kWe deployment would give only 241 sol of well life and would need a third site reserved as well.",
+        "Siting interface (adopting the sci-orbiter-01 ice-radar product; gates re-derived from this asset's own ledgers): from WELL-3 on, sites come off the radar's 100 m grid of {d, h, s}, retiring the '~30 m regional assumption'. Hard gates: measured thickness h >= 20 m (the need is 15 m = 1.3 m roof plug + 8.5 m end-of-life cavity + ~5 m floor margin, plus one 4.2 m resolution cell); ice-top depth d <= 10 m (end-of-life lift grows with d to ~20 m / 74 kPa - step up to a 100 kPa-class pump, hydraulic power still ~1 W). The radar's '<= 4 m ceiling' bin passes the d gate automatically; the current well's 3.4 m is drilled ground truth, unaffected by the minimum-detectable limit. Within gates prefer small d and small s: every +100 m of line is +1 kW of heat-trace install."
+      ]
     }
   ]
 }

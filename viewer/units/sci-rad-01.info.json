@@ -22,11 +22,11 @@
       },
       "sim": [
         "器件冻结检查点(自有 Timepix4 战役,Sentaurus 2D 场 + Allpix + Spectre AFE):p-spray d03 隔离、150 V/500 e 工作点全图均匀性 std 0.0017、最差点收集 0.492;中心/边/角 1/2/4 像素分摊拓扑逐点验证;stack-3 CSA ENC 52.7 e,30/30 端到端事件 ToT-电荷相关 0.9923",
-        "中子账(账3):1 mm HDPE n-p 反冲效率 0.02%→0.39%(1→14 MeV,含反冲逃逸 MC);⁶LiF 2 µm 热俘获 1.14%;对表 RAD 快段通量 0.05 n/cm²/s → 快道 2.2 计数/时、热道 ~86 计数/时——中子道就是慢,小时级出谱"
+        "中子账(账3):1 mm HDPE n-p 反冲效率 0.02%→0.39%(1→14 MeV,含反冲逃逸 MC);⁶LiF 2 µm 热俘获 1.13%(含 95% ⁶Li 富集假设);对表 RAD 快段通量 0.05 n/cm²/s → 快道 2.2 计数/时、热道 ~85 计数/时——中子道就是慢,小时级出谱"
       ],
       "sim_en": [
         "Frozen device checkpoint (own Timepix4 campaign: Sentaurus 2D field + Allpix + Spectre AFE): p-spray d03 isolation, 150 V/500 e operating point, full-map uniformity std 0.0017, worst-point collection 0.492; 1/2/4 pixel-sharing topology verified at center/edge/corner; stack-3 CSA ENC 52.7 e, ToT-charge correlation 0.9923 over 30/30 end-to-end events",
-        "Neutron ledger (#3): 1 mm HDPE n-p recoil efficiency 0.02%→0.39% (1→14 MeV, recoil-escape MC included); 6LiF 2 µm thermal capture 1.14%; against the RAD fast-band flux 0.05 n/cm²/s → 2.2 counts/hr fast, ~86 counts/hr thermal — the neutron channel is honestly slow, spectra on the hour scale"
+        "Neutron ledger (#3): 1 mm HDPE n-p recoil efficiency 0.02%→0.39% (1→14 MeV, recoil-escape MC included); 6LiF 2 µm thermal capture 1.13% (assuming 95% 6Li enrichment); against the RAD fast-band flux 0.05 n/cm²/s → 2.2 counts/hr fast, ~85 counts/hr thermal — the neutron channel is honestly slow, spectra on the hour scale"
       ],
       "physics": "中子不带电,硅直接看不见——必须先在转换层里变成带电粒子:快中子打氢核最有效(n-p 弹性,质量相同能量转移最大),热中子靠 ⁶Li(n,α)t 的 940 b 大截面。裸层同时在场,把带电粒子本底当场扣掉。",
       "physics_en": "Neutrons carry no charge — silicon alone is blind. A converter must first turn them into charged particles: fast neutrons scatter best off hydrogen (equal masses, maximum energy transfer), thermal neutrons use the 940 b 6Li(n,α)t capture. The bare layer runs alongside to subtract the charged background on the spot."
@@ -60,46 +60,68 @@
       "label": "SEP 警报塔",
       "label_en": "SEP Alert Tower",
       "range": 30,
-      "detail": "三色灯柱吃的是 1 分钟滑动计数:绿=平静 GCR 本底;黄=计数爬升(>3× 平静);红+警铃=太阳质子事件到达(>30× 平静)。红警三动作:EVA 立即回舱、veh-heli-01 停飞(与气象站 τ>2 停飞并列同一块牌)、发射窗口冻结。计数率警报比剂量累积快得多——这是全城最快的 SEP 前哨。",
-      "detail_en": "The three-colour stack reads a 1-minute sliding count: green = quiet GCR background; yellow = counts climbing (>3× quiet); red + siren = solar proton event arrival (>30× quiet). Red-alert actions: EVA crews return immediately, veh-heli-01 grounded (sharing one sign with the weather station's τ>2 no-fly), launch windows frozen. A count-rate alarm beats any dose accumulation for speed — this is the city's fastest SEP sentinel.",
+      "detail": "三色灯柱吃的是 1 分钟滑动计数:绿=平静 GCR 本底;黄=计数爬升(>3× 平静);红+警铃=太阳质子事件到达(>30× 平静)。红警三动作:EVA 立即回舱、veh-heli-01 停飞(与气象站 τ>2 停飞并列同一块牌)、发射窗口冻结。计数率比剂量累积快得多,但**本站自己的提前量结构性为零**:触发警铃的就是开始记剂量的那批粒子——硬能带首批 17 min 就到、到 32 min 补齐,警报与剂量自始至终同步。全城的提前量来自轨道两级链——com-l4-01 日冕仪看 CME 起飞(1–3 天结构预报)→ com-polar-01 极轨 EPS 在大气层顶之上看全谱粒子前锋(~77 min 可动作窗口——是对预报可动作,不是地面余量)→ 城内警报。本站是这条链的**剂量峰实测端**,并在链路中断时充当自主兜底警铃。这里的 3×/30× 同时是**全城地表 SEP 事件的单一判据源**,由本站芯片评估一次、以事件态发布,免得同一场耀斑出现「这边判 SEP、那边判堆泄漏」的矛盾处置。聚变围界的中子哨兵柱据此给中子道开门——但两个「先」必须分清:**门控的先**是哨兵柱同一台仪器内带电道先于中子道、秒级,这才是判据本身;**天地的先**其实**不存在时间意义上的先**:同一能段,轨道比地表只早一个光程差 **0.07 s**——多 GeV 质子轻松穿透大气,两层同一刻看见。轨道真正独有的是**次截止 10–166 MeV 那群**永不落地的粒子,它给出的是**事件大小的预报**,是谱的优势不是时间的优势;77 min 也只是自由空间的弥散间隔。**真实泄漏在天上没有任何前兆**:先验只能把一次已经发生的中子抬升归类为 SEP 所致,不构成、也不得被读成对堆事件的提前预警。所以归类只做标记、不做扣除——事件期间泄漏判据仍然在岗,并按最小可信 SEP 贡献评估,否则一场耀斑正好把一次真泄漏藏起来。**现状要说清**:运行方册里目前**没有泄漏探测链、没有事故响应逻辑、零辐射监测触发源**——所以这道门今天没有消费者,既不存在 SEP 误触发风险,**保障也同样为零**;上述判据已被运行方记为建链时的设计前置约束。",
+      "detail_en": "The three-colour stack reads a 1-minute sliding count: green = quiet GCR background; yellow = counts climbing (>3× quiet); red + siren = solar proton event arrival (>30× quiet). Red-alert actions: EVA crews return immediately, veh-heli-01 grounded (sharing one sign with the weather station's τ>2 no-fly), launch windows frozen. Count rate beats dose accumulation for speed, but **this station's own lead time is structurally zero**: the particles that trip the siren are the particles that start the dose — the hard band opens at 17 min and fills in by 32 min, and alarm and dose track each other throughout. The city's lead time comes from the two-tier orbital chain — com-l4-01's coronagraph watches the CME depart (1–3 day structural forecast) → com-polar-01's polar EPS reads the full-spectrum particle front from above the atmosphere (~77 min actionable window — actionable on the forecast, not ground margin) → city alert. This station is that chain's **dose-peak ground truth**, and its autonomous backstop siren when the downlink is out. Its 3×/30× thresholds are also the **city's single source of truth for a surface SEP event**, evaluated once on this chip and published as an event state so that one flare can never produce 'SEP alert here, reactor leak there'. The neutron sentinel columns at the fusion perimeter gate their neutron channel on it — but two different precedences must not be confused: the **gate's precedence** is the sentinel's own charged channel leading its own neutron channel, inside one instrument, on a scale of seconds — that is the criterion itself; the **sky-to-ground precedence** does not exist in any temporal sense: at equal energy the orbiter leads the ground by one light-path difference, **0.07 s** — multi-GeV protons clear the atmosphere easily and both tiers see them in the same instant. What the orbital tier uniquely holds is the sub-cutoff 10–166 MeV population that never lands, and that buys a forecast of event **size** — a spectral advantage, not a temporal one. The 77 min, likewise, is only a free-space dispersion interval. **A real leak has no precursor in the sky**: the prior can classify a neutron rise that has *already begun* as SEP-driven; it does not constitute, and must never be read as, advance warning of a reactor event. So the classification only flags, it never subtracts — the leak criterion stays armed throughout an event and is evaluated against the smallest credible SEP contribution, or a flare becomes the perfect place to hide a real leak. **State it plainly**: the operator’s ledger today has no leak-detection chain, no accident-response logic and no radiation-monitoring trigger at all — so this gate has no consumer yet. There is no SEP false-trigger risk, and equally **no protection**; the criteria above are recorded as design preconditions for whenever such a chain is built.",
       "specs": {
         "绿": "< 3× 平静(~3.7 k 计数/分)",
         "红": "> 30× 平静(~37 k 计数/分)",
         "误报": "平静泊松涨落 σ≈1.6%/分 → 3× 阈距 >20σ",
-        "红警动作": "EVA 回舱 · 直升机停飞 · 发射冻结"
+        "红警动作": "EVA 回舱 · 直升机停飞 · 发射冻结",
+        "预警链": "L4 日冕仪 1–3 天 → 极轨 EPS ~77 min(规划上界,对预报可动作)→ 本站实测剂量峰",
+        "本站硬能带": ">166 MeV(垂直)· 首批 17 min 到、32 min 补齐",
+        "判据下游": "围界中子哨兵门控(3× 开门时中子道仅动 0.9%;在当前屏蔽假设下不可被绕过,临界=GCR 占比 45%)",
+        "两个「先」": "门控=同仪器内带电道先于中子道(秒级);天地=EPS 先于地表(77 min,仅空间天气)",
+        "红线": "真实泄漏在天上无前兆;先验只归类不预警,只标记不扣除",
+        "轨道对地表的时间领先": "0.07 s(光程差)——轨道的优势在谱不在时"
       },
       "specs_en": {
         "Green": "< 3× quiet (~3.7 k counts/min)",
         "Red": "> 30× quiet (~37 k counts/min)",
         "False alarm": "quiet Poisson σ≈1.6%/min → 3× threshold is >20σ away",
-        "Red actions": "EVA recall · helicopter grounded · launches frozen"
+        "Red actions": "EVA recall · helicopter grounded · launches frozen",
+        "Warning chain": "L4 coronagraph 1–3 d → polar EPS ~77 min (planning upper bound, actionable on the forecast) → this station measures the peak",
+        "Penetrating band": ">166 MeV (vertical) · opens at 17 min, complete by 32 min",
+        "Downstream of the criterion": "fence neutron-sentinel gate (neutron channel has moved 0.9% when 3× opens; cannot be outrun under the present shielding assumption, break-even at a 45% GCR share)",
+        "Two precedences": "gate = charged before neutron inside one instrument (seconds); sky-to-ground = EPS before the surface (77 min, space weather only)",
+        "Red line": "a real leak has no precursor in the sky; the prior classifies, never forewarns, and flags, never subtracts",
+        "Orbital timing lead over ground": "0.07 s (light path) — the orbital advantage is spectral, not temporal"
       },
-      "sim": "SEP 动态范围账(账4):平静 GCR 62 hit/s/片 → 1972 级最坏硬谱 SEP ~6.2×10⁵ hit/s,仅为 Timepix4 读出上限 3.58 Ghit/s 的 1.7×10⁻⁴,像素死时间占比 3×10⁻⁹——相机在火星地表永不饱和,动态范围瓶颈在遥测带宽不在芯片",
-      "sim_en": "SEP dynamic-range ledger (#4): quiet GCR 62 hit/s/chip → a worst-case 1972-class hard-spectrum SEP gives ~6.2×10⁵ hit/s, just 1.7×10⁻⁴ of the Timepix4 readout ceiling of 3.58 Ghit/s, with a pixel dead-time fraction of 3×10⁻⁹ — the camera never saturates on the Martian surface; the dynamic-range bottleneck is telemetry, not the chip",
-      "physics": "16 g/cm² 的 CO₂ 大气柱相当于 150 MeV 质子的射程——只有 SEP 的硬谱尾够得着地面,所以地表增幅(10³–10⁴×)远小于自由空间;也正因为只剩硬尾,计数一跳就是真事件,阈值可以放得很干净。",
-      "physics_en": "The 16 g/cm² CO₂ column equals the range of a 150 MeV proton — only the hard tail of an SEP reaches the ground, so surface enhancement (10³–10⁴×) is far below free space; and because only the hard tail survives, any count jump is a real event and the thresholds stay clean."
+      "sim": [
+        "SEP 动态范围账(账4):平静 GCR 62 hit/s/片 → 1972 级最坏硬谱 SEP ~6.2×10⁵ hit/s,仅为 Timepix4 读出上限 3.58 Ghit/s 的 1.7×10⁻⁴,像素死时间占比 3×10⁻⁹——相机在火星地表永不饱和,动态范围瓶颈在遥测带宽不在芯片",
+        "预警链接口账(账5,应 com-gap 交接复核):独立复现其 ~77 min 窗口(2.04 AU 帕克线上 100 MeV 39.6 min / 10 MeV 117.1 min,差 77.5 min)PASS;本站硬能带首批 17.0 min(相对论下限)到、166 MeV 截止能量 32.2 min 补齐,自身弥散展宽 15.2 min——但**自主提前量仍为 0**:触发警报的就是开始记剂量的那批粒子。(**撤回**:本账初版把这 15.2 min 命名为「轨道对地表剂量起始的领先」,经 com-gap 定义质询确认是**误命名**——GeV 质子远在大气截止之上、地表同刻可见,这段展宽两层共享;同能段轨道只早一个光程差 0.07 s);地面自主报警随事件硬度生死:S3 硬谱(γ=1.5)31× 平静直接红警,S3 软谱(γ=3.5)仅 0.11× 平静连黄警都不到——所以兜底可以有、预报必须来自轨道",
+        "次级中子源账(账6,应 SiC 哨兵网请求复核其门控假设):地表 SEP 中子预算里 19%(硬谱)–93%(软谱)来自 10–166 MeV 次截止质子——它们到不了地面、对带电道零贡献,所以两道不同源;>166 MeV 质子在风化层射程仅 21 g/cm² 对作用长度 100 g/cm²,五次里四次纯电离停下不产中子。门控次序可证明安全:中子道仅 0.07% 由 GCR 喂(该道组成是哨兵网的仪器参数,规范值在其卡,此处只为让导出结论可读),分数响应比带电道弱 645–2630×,带电道爬到 3× 开门时中子道才动 0.08%——**在已建屏蔽 0.30 m 下(不再是假设)**任何硬度的 SEP 都无法「中子道先跳」绕过门控。**这条证明有前提,必须写出来**:余量来自中子道只有 0.07% 由 GCR 喂,而该占比 = GCR份额/(泄漏底座+GCR份额)——**屏蔽越厚泄漏底座越小,余量反而越薄**。本账算出的临界是 GCR 占比 45%(等效屏蔽再厚 0.5 m),当前 0.07% 对应 645 倍裕度——**但这个倍数已不可单值引用**:运行方回执带来两个方向相反的修正。①运行点由 848 改为 640 MW(S_n ×0.755),泄漏底座同比下调,若 2 m 成立则裕度收到约 40×;②**运行方册里根本没有生物屏蔽设计**(其几何止于 TF 线圈,恒温器外一层未建模)——那 2 m 混凝土是哨兵网**完全自设**,不是\"待确认\"而是**不存在对应设计**;若实际屏障仅为恒温器壁,底座会高得多、裕度反而更厚。厚度进指数(1 TVL=0.25 m=一个数量级),恒温器外源项尚未计算之前两个方向都开着。**所以请引判据不要引倍数**:次序成立 ⟺ 泄漏底座 > GCR份额 × (最大标度 − 1)。越界只在软谱,而软谱绝对增幅可忽略,故处置不变——变的是这句话的条件性"
+      ],
+      "sim_en": [
+        "SEP dynamic-range ledger (#4): quiet GCR 62 hit/s/chip → a worst-case 1972-class hard-spectrum SEP gives ~6.2×10⁵ hit/s, just 1.7×10⁻⁴ of the Timepix4 readout ceiling of 3.58 Ghit/s, with a pixel dead-time fraction of 3×10⁻⁹ — the camera never saturates on the Martian surface; the dynamic-range bottleneck is telemetry, not the chip",
+        "Warning-chain interface ledger (#5, cross-checking the com-gap handoff): their ~77 min window reproduces independently (100 MeV at 39.6 min, 10 MeV at 117.1 min over the 2.04 AU Parker path, difference 77.5 min) — PASS; this station's penetrating band opens at the relativistic floor of 17.0 min and is complete by 32.2 min at the 166 MeV cutoff — a dispersion spread of 15.2 min — yet its autonomous lead time is still 0, because the particles that trip the alarm are the ones that start the dose. (**Retracted**: this ledger's first version named that 15.2 min 'the orbital lead over the onset of surface dose'; com-gap's definitional challenge showed it was a misnaming — GeV protons sit far above the atmospheric cutoff and the ground sees them in the same instant, so the spread belongs to both tiers, and at equal energy the orbiter leads by one light path, 0.07 s); and a ground-only alarm lives or dies on event hardness: a hard S3 (γ=1.5) reaches 31× quiet and trips red, while a soft S3 (γ=3.5) reaches 0.11× quiet and never even trips yellow — a backstop is worth having, the forecast must come from orbit",
+        "Secondary-neutron source ledger (#6, cross-checking the SiC sentinel net's gate assumption): 19% (hard spectrum) to 93% (soft) of the surface SEP neutron budget comes from sub-cutoff 10–166 MeV protons that never reach the ground and contribute nothing to the charged channel — the two channels are not the same source; and a 166 MeV proton has only 21 g/cm² of range in regolith against a 100 g/cm² interaction length, so four times in five it simply stops without making a neutron. The gate's ordering is provably safe: the neutron channel is only 0.07% GCR-fed (that channel composition is the sentinel net’s own instrument parameter, normative in its card and quoted here only to make the derived result readable), its fractional response is 645–2630× weaker than the charged channel's, and when the charged channel reaches the 3× gate the neutron channel has moved 0.08% — **under the BUILT 0.30 m shield (no longer an assumption)** no SEP of any hardness can arrive 'neutron-first' and outrun the gate. **That proof has a premise and the premise must be stated**: the margin comes from the neutron channel being only 0.07% GCR-fed, and that share is GCR/(leakage baseline + GCR) — **so thicker shielding, by shrinking the leakage baseline, erodes the very margin**. This ledger puts the break-even at a 45% GCR share, i.e. 0.5 m more shielding; today's 0.07% corresponds to a factor of 645 — **but that factor can no longer be quoted as a single number**: the operator's reply brings two corrections pointing opposite ways. (i) the plant moved from 848 to 640 MW (S_n x0.755), scaling the leakage baseline down and, if the 2 m held, tightening the margin to about 40x; (ii) **the operator's ledger contains no biological shielding design at all** — its geometry stops at the TF coils — so the 2 m of concrete is entirely the sentinel session's own construct, not 'pending confirmation' but absent, and if the real barrier is only the cryostat wall the baseline is far higher and the margin far larger. Thickness enters exponentially (1 TVL = 0.25 m = one decade), and until the cryostat-external source term is computed both directions stay open. **So quote the criterion, not the factor**: ordering holds iff leakage baseline > GCR share x (max scaling - 1). Crossing the line affects soft spectra only, whose absolute enhancement is negligible, so handling is unchanged — what changes is that the statement is conditional"
+      ],
+      "physics": "Jezero 在基准面下 2.6 km,CO₂ 大气柱 20.7 g/cm² = 166 MeV 质子的射程(斜程通量加权约 245 MeV)——只有 SEP 的硬谱尾够得着地面,地表增幅因此远小于自由空间,也因为只剩硬尾,计数一跳就是真事件。反直觉的一环在时序:速度弥散让**高能最先到**,而大气恰恰只放行高能,所以地面看到的是最早的那批粒子、比 100 MeV「前锋」还早 7 min——地面不是迟到,而是**对自己的剂量没有提前量**:触发警报的就是开始记剂量的那批粒子。硬能带确实会弥散展开 15.2 min(相对论下限 17.0 min 到截止能量 32.2 min),但那段\"首批到主体\"的间隔也不可用于排班——它有多大取决于谱硬度(首批 >1 GeV 只占穿透通量的 6.5%〔硬谱〕到 0.2%〔软谱〕),而警报响的时候谱硬度还不知道,且这段时间剂量一直在累积。而且这不是某种谱型下的巧合——到达时间随能量严格单调递减,大气又恰是高通滤波器,两者相乘就是**恒等式**:无论事件谱硬谱软,地表都最先看见、且都没有余量。",
+      "physics_en": "Jezero sits 2.6 km below datum, so its CO₂ column is 20.7 g/cm² — the range of a 166 MeV proton (about 245 MeV once slant paths are flux-weighted). Only the hard tail of an SEP reaches the ground, which is why surface enhancement stays far below free space, and why any count jump here is a real event. The counter-intuitive part is the timing: velocity dispersion puts the **highest energies first**, and the atmosphere passes precisely those — so the ground sees the earliest particles of all, some 7 min ahead of the 100 MeV 'front'. The ground is not late; it simply has no lead over its own dose — the particles that trip the alarm are the ones that start the dose. The hard band does disperse over 15.2 min (relativistic floor 17.0 min to cutoff arrival 32.2 min), but that onset-to-bulk interval is not schedulable either: its size depends on spectral hardness (the first-arriving >1 GeV fraction is 6.5% of the penetrating flux for a hard spectrum but 0.2% for a soft one), hardness is unknown when the alarm sounds, and dose accrues throughout."
     },
     {
       "id": "rack",
       "label": "EVA 个人剂量牌充电架",
       "label_en": "EVA Dosimeter Charging Rack",
       "range": 20,
-      "detail": "八个卡槽,出舱前取牌、回舱后归位充电回读。牌上积的是 Q 加权剂量当量——与主相机同一套刻度。绿灯=充满且已回读。",
-      "detail_en": "Eight slots: take a badge before EVA, dock it after for charging and readout. Badges integrate Q-weighted dose equivalent on the same calibration as the main camera. Green light = charged and read out.",
+      "detail": "八个卡槽,出舱前取牌、回舱后归位充电回读。牌上积的是 Q 加权剂量当量——与主相机同一套刻度。绿灯=充满且已回读。SEP 红警时这排空槽就是撤收清单——但**别拿 77 min 当排班余量**。那是自由空间的弥散间隔——而且是\"无散射光滑螺旋 + 良好磁连接\"下的**上界**、不是保证下限(限定由 com-gap 随该数给出);而撤收是**剂量累积**问题:真正的余量随事件大小走,F=10³ 时约 4.5 小时,F=10⁴ 时只剩 **~27 min**(到 ICRP 职业年限),**比 77 还短**。而且轨道 EPS **对地表没有任何时间领先**:同一能段只早一个光程差 0.07 s。EPS 买的是**事件大小的预报**,不是撤收时间。所以规程按最坏情形写:**红警即回舱,不按窗口算**;清点在这里完成。",
+      "detail_en": "Eight slots: take a badge before EVA, dock it after for charging and readout. Badges integrate Q-weighted dose equivalent on the same calibration as the main camera. Green light = charged and read out. During an SEP red alert the empty slots are the recall checklist — but **do not schedule against the 77 min**. That figure is a dispersion interval in free space — and an **upper bound** assuming a smooth Parker spiral with no scattering and good magnetic connection, not a guaranteed floor (the qualification travels with the number, per com-gap) — while a recall is a **dose-accumulation** problem: the real margin tracks event size, about 4.5 hours at F=10³ and only **~27 min** at F=10⁴ (to the ICRP occupational annual limit) — **shorter than 77**. And the orbital EPS holds **no timing lead over the surface at all**: at equal energy it leads by one light-path difference, 0.07 s. What the EPS buys is a forecast of event **size**, not recall time. So the procedure is written for the worst case: **red alert means return now, not return within a window** — and the roll-call happens here.",
       "specs": {
         "地表全日": "0.66 mSv/sol",
         "8 小时 EVA": "~0.22 mSv",
         "ICRP 职业年限": "20 mSv → ~90 个全日地表额度",
-        "槽位": "8(5 在充,3 出勤中)"
+        "槽位": "8(5 在充,3 出勤中)",
+        "红警撤收余量": "非固定值,随事件大小:F=10³ ~4.5 h · F=10⁴ ~27 min(账5)"
       },
       "specs_en": {
         "Full surface sol": "0.66 mSv/sol",
         "8-hour EVA": "~0.22 mSv",
         "ICRP occupational": "20 mSv/yr → ~90 full surface sols",
-        "Slots": "8 (5 docked, 3 out on shift)"
+        "Slots": "8 (5 docked, 3 out on shift)",
+        "Red-alert recall margin": "not a fixed number — tracks event size: ~4.5 h at F=10³, ~27 min at F=10⁴ (ledger #5)"
       },
-      "sim": "剂量账(账1,RAD 锚点):0.21 mGy/day 吸收 · <Q>=3.05 · 0.64 mSv/day → 0.66 mSv/sol、234 mSv/yr,与居住区覆土卡「~230 mSv/yr(无屏蔽)」闭合;巡航 1.84 mSv/day ÷ 行星阴影 2× ÷ 大气 16 g/cm² 三点闭合反演 λ_H=44 g/cm²",
-      "sim_en": "Dose ledger (#1, RAD anchors): 0.21 mGy/day absorbed · <Q>=3.05 · 0.64 mSv/day → 0.66 mSv/sol, 234 mSv/yr — closing with the hab mound card's '~230 mSv/yr (unshielded)'; cruise 1.84 mSv/day ÷ 2× planetary shadow ÷ 16 g/cm² atmosphere closes to λ_H = 44 g/cm²",
+      "sim": "剂量账(账1,RAD 锚点):0.21 mGy/day 吸收 · <Q>=3.05 · 0.64 mSv/day → 0.66 mSv/sol、234 mSv/yr,与居住区覆土卡「~230 mSv/yr(无屏蔽)」闭合;巡航 1.84 mSv/day ÷ 行星阴影 2×(假设,非实测)÷ 大气 24.4 g/cm²(Gale 实地柱,RAD 测点)三点闭合反演 λ_H=67 g/cm²",
+      "sim_en": "Dose ledger (#1, RAD anchors): 0.21 mGy/day absorbed · <Q>=3.05 · 0.64 mSv/day → 0.66 mSv/sol, 234 mSv/yr — closing with the hab mound card's '~230 mSv/yr (unshielded)'; cruise 1.84 mSv/day ÷ 2× planetary shadow (an assumption, not a measurement) ÷ Gale’s own 24.4 g/cm² column (RAD measured there) closes to λ_H = 67 g/cm²",
       "physics": "剂量当量 = 吸收剂量 × 品质因子 Q(LET);火星地表 <Q>≈3,因为 GCR 里的重离子虽少,单条径迹的生物破坏力却按 LET 加权——正是大屏上那几颗红斑贡献了不成比例的 mSv。",
       "physics_en": "Dose equivalent = absorbed dose × quality factor Q(LET); on Mars <Q>≈3 because GCR heavy ions are rare but each track's biological damage is LET-weighted — the few red blobs on the screen carry a disproportionate share of the mSv."
     },
@@ -169,15 +191,15 @@
         "Deep lab (3000 m)": "µ ×10⁻⁶, blips monthly"
       },
       "sim": [
-        "地表半张对表:SEP 地表增幅可达 10³–10⁴×(账4),而玄关 7800 g/cm² = 52 个强子 e 折长度——大气只放行 >150 MeV,岩层再杀 e⁻⁵²,地下层对 SEP 结构性免疫(对表 mars_rad_sic 账3)",
+        "地表半张对表:SEP 地表增幅可达 10³–10⁴×(账4),而玄关 7800 g/cm² = 52 个强子 e 折长度——大气只放行 >166 MeV(账5 按 Jezero 真实柱重算),岩层再杀 e⁻⁵²,地下层对 SEP 结构性免疫(对表 mars_rad_sic 账3)",
         "剂量互证闭环:本站实测 234 mSv/yr ↔ 居住区覆土卡 ~230 mSv/yr ↔ 覆土 10 m 后落到 μ 子地板 ~0.3 mSv/yr(=地球海平面宇宙线,账1)"
       ],
       "sim_en": [
-        "Surface half of the cross-table: SEP surface enhancement reaches 10³–10⁴× (ledger #4), while the foyer sits under 7800 g/cm² = 52 hadronic e-folds — the atmosphere admits only >150 MeV and the rock kills another e⁻⁵², making the underground tier structurally SEP-blind (cross-checked with mars_rad_sic ledger #3)",
+        "Surface half of the cross-table: SEP surface enhancement reaches 10³–10⁴× (ledger #4), while the foyer sits under 7800 g/cm² = 52 hadronic e-folds — the atmosphere admits only >166 MeV (recomputed from Jezero's true column in ledger #5) and the rock kills another e⁻⁵², making the underground tier structurally SEP-blind (cross-checked with mars_rad_sic ledger #3)",
         "Dose closure loop: this station's 234 mSv/yr ↔ the hab mound card's ~230 mSv/yr ↔ ~0.3 mSv/yr muon floor under 10 m of regolith (= Earth sea-level cosmic, ledger #1)"
       ],
-      "physics": "三层看的是同一束 GCR/SEP 在不同屏蔽深度下的截面:自由空间的能谱、16 g/cm² 大气后的径迹、7800 g/cm² 岩石后的寂静。把三块屏并排读,衰减长度本身就显形了。",
-      "physics_en": "The three tiers are cross-sections of the same GCR/SEP beam at different shielding depths: the spectrum in free space, the tracks behind 16 g/cm² of atmosphere, the silence behind 7800 g/cm² of rock. Read the three screens side by side and the attenuation length itself becomes visible."
+      "physics": "三层看的是同一束 GCR/SEP 在不同屏蔽深度下的截面:自由空间的能谱、20.7 g/cm² 大气后的径迹(Jezero 本地柱)、7800 g/cm² 岩石后的寂静。把三块屏并排读,衰减长度本身就显形了。",
+      "physics_en": "The three tiers are cross-sections of the same GCR/SEP beam at different shielding depths: the spectrum in free space, the tracks behind Jezero’s own 20.7 g/cm² of atmosphere, the silence behind 7800 g/cm² of rock. Read the three screens side by side and the attenuation length itself becomes visible."
     }
   ]
 }

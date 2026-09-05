@@ -1,0 +1,682 @@
+
+=== pwr-fusion-01  "托卡马克聚变电站" ===
+  size 62.0 x 18.4 x 46.0 m  |  215 meshes, 12,108 tris  |  nightMats 2, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (12,108)
+  OK  bbox width 62.0m vs size_m 62
+  OK  minY 0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== pwr-radiator-01  "废热散热阵" ===
+  size 429.4 x 19.3 x 124.0 m  |  25 meshes, 832 tris  |  nightMats 1, lights 0, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (832)
+  OK  bbox width 429.4m vs size_m 429
+  OK  minY -0.40 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== pwr-storage-01  "储能场" ===
+  size 58.3 x 4.4 x 58.3 m  |  399 meshes, 7,684 tris  |  nightMats 4, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (7,684)
+  OK  bbox undefined 58.3m vs size_m 60
+  OK  minY 0.20 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-rodwell-01  "Rodwell 水冰取水井架" ===
+  size 31.4 x 12.2 x 10.8 m  |  164 meshes, 7,016 tris  |  nightMats 2, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (7,016)
+  OK  bbox height 12.2m vs size_m 12
+  OK  minY -0.19 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-tank-02  "备用储水罐（尘暴水银行）" ===
+  size 4.7 x 2.5 x 2.7 m  |  15 meshes, 2,436 tris  |  nightMats 1, lights 0, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (2,436)
+  OK  bbox width 4.7m vs size_m 4.7
+  OK  minY 0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-lidar-01  "大气激光雷达站" ===
+  size 3.6 x 3.5 x 1.4 m  |  72 meshes, 3,076 tris  |  nightMats 2, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (3,076)
+  OK  bbox height 3.5m vs size_m 3.47
+  OK  minY 0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== ops-spaceport-01  "火箭发射回收站" ===
+  size 135.5 x 60.9 x 138.1 m  |  270 meshes, 16,788 tris  |  nightMats 3, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (16,788)
+  OK  bbox width 138.1m vs size_m 120
+  OK  minY -1.32 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== veh-rocket-01  "星舰(着陆状态)" ===
+  size 15.5 x 50.0 x 12.0 m  |  376 meshes, 31,804 tris  |  nightMats 3, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (31,804)
+  OK  bbox height 50.0m vs size_m 50
+  OK  minY 0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== veh-raptor-01  "猛禽发动机(检修展示台)" ===
+  size 2.5 x 2.8 x 2.8 m  |  148 meshes, 11,408 tris  |  nightMats 1, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (11,408)
+  OK  bbox height 2.8m vs size_m 3
+  OK  minY 0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== ops-compute-01 ===
+  SKIP: DOM-dependent (canvas screen etc.) — validate in browser
+
+=== hab-tunnel-01  "地下城入口" ===
+  size 59.7 x 20.0 x 51.7 m  |  169 meshes, 13,902 tris  |  nightMats 6, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (13,902)
+  OK  bbox width 59.7m vs size_m 60
+  OK  minY 0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== ops-spaceport-02  "长十乙发射工位" ===
+  size 148.0 x 109.3 x 104.9 m  |  727 meshes, 14,268 tris  |  nightMats 3, lights 3, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (14,268)
+  OK  bbox width 148.0m vs size_m 148
+  OK  minY -0.69 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== veh-rocket-02 ===
+  SKIP: DOM-dependent (canvas screen etc.) — validate in browser
+
+=== res-mine-01  "土壤矿场" ===
+  size 79.0 x 8.1 x 70.3 m  |  597 meshes, 26,448 tris  |  nightMats 6, lights 1, sensors 1
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (26,448)
+  OK  bbox undefined 79.0m vs size_m 90
+  OK  minY 0.20 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-cryo-01  "低温推进剂罐区与转运站" ===
+  size 84.5 x 16.6 x 72.9 m  |  475 meshes, 11,914 tris  |  nightMats 20, lights 4, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (11,914)
+  OK  bbox undefined 84.5m vs size_m 84.5
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== hab-lift-01  "地下城人员电梯站" ===
+  size 8.0 x 7.9 x 8.0 m  |  58 meshes, 1,444 tris  |  nightMats 6, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (1,444)
+  OK  bbox width 8.0m vs size_m 8
+  OK  minY 0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-dome-01  "农业温室穹顶" ===
+  size 31.1 x 14.3 x 32.3 m  |  126 meshes, 6,728 tris  |  nightMats 3, lights 0, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (6,728)
+  OK  bbox width 32.3m vs size_m 32.3
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== hab-bot-01  "室内服务机器人" ===
+  size 6.1 x 1.7 x 0.7 m  |  105 meshes, 1,932 tris  |  nightMats 3, lights 0, sensors 1
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (1,932)
+  OK  bbox height 1.7m vs size_m 1.65
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-weather-01  "气象监控站" ===
+  size 11.4 x 10.9 x 10.9 m  |  353 meshes, 10,488 tris  |  nightMats 2, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (10,488)
+  OK  bbox width 11.4m vs size_m 11.4
+  OK  minY -0.03 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== veh-heli-01  "侦察直升机与停机坪" ===
+  size 18.4 x 3.5 x 14.2 m  |  237 meshes, 4,308 tris  |  nightMats 5, lights 1, sensors 1
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (4,308)
+  OK  bbox undefined 18.4m vs size_m 18.4
+  OK  minY -0.05 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== veh-uav-01  "复合翼无人机与起降坪" ===
+  size 7.7 x 1.6 x 8.2 m  |  183 meshes, 4,984 tris  |  nightMats 7, lights 0, sensors 1
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (4,984)
+  OK  bbox undefined 8.2m vs size_m 8.23
+  OK  minY -0.01 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-rad-02  "聚变围界中子哨兵组(4H-SiC ×3)" ===
+  size 51.1 x 3.2 x 14.6 m  |  184 meshes, 2,760 tris  |  nightMats 22, lights 0, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (2,760)
+  OK  bbox width 51.1m vs size_m 51.1
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-rad-03  "玄关辐射哨兵柱(4H-SiC)" ===
+  size 0.4 x 1.9 x 0.5 m  |  39 meshes, 468 tris  |  nightMats 3, lights 0, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (468)
+  OK  bbox height 1.9m vs size_m 1.93
+  OK  minY 0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-rad-04  "深地辐射哨兵柱(4H-SiC)" ===
+  size 2.5 x 2.2 x 2.6 m  |  48 meshes, 576 tris  |  nightMats 2, lights 0, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (576)
+  OK  bbox height 2.2m vs size_m 2.24
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== com-station-01  "通讯基站" ===
+  size 15.3 x 10.5 x 17.7 m  |  169 meshes, 14,154 tris  |  nightMats 2, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (14,154)
+  OK  bbox width 17.7m vs size_m 17.7
+  OK  minY -0.03 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== com-optical-01  "深空光通信终端" ===
+  size 15.1 x 11.3 x 17.2 m  |  158 meshes, 10,056 tris  |  nightMats 3, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (10,056)
+  OK  bbox width 17.2m vs size_m 17.15
+  OK  minY -0.02 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-rad-01  "地表辐射监测站" ===
+  size 9.2 x 4.9 x 7.2 m  |  273 meshes, 2,582 tris  |  nightMats 10, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (2,582)
+  OK  bbox undefined 9.2m vs size_m 9.2
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-uv-01  "紫外监测站" ===
+  size 6.4 x 3.4 x 5.5 m  |  137 meshes, 3,434 tris  |  nightMats 1, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (3,434)
+  OK  bbox undefined 6.4m vs size_m 6.37
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== hab-village-01  "掩土居住舱村" ===
+  size 74.8 x 8.3 x 51.7 m  |  722 meshes, 15,996 tris  |  nightMats 6, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (15,996)
+  OK  bbox width 74.8m vs size_m 74.8
+  OK  minY -0.75 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== ops-depot-01  "物流场站" ===
+  size 44.0 x 10.5 x 29.7 m  |  81 meshes, 1,472 tris  |  nightMats 2, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (1,472)
+  OK  bbox width 44.0m vs size_m 46
+  OK  minY -0.20 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-greenrow-01  "温室生产排" ===
+  size 38.4 x 3.2 x 30.5 m  |  228 meshes, 7,704 tris  |  nightMats 2, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (7,704)
+  OK  bbox width 38.4m vs size_m 34
+  OK  minY -0.08 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-grain-01  "主粮种植舱" ===
+  size 30.4 x 7.0 x 18.3 m  |  1153 meshes, 14,876 tris  |  nightMats 4, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (14,876)
+  OK  bbox width 30.4m vs size_m 30
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-radio-01  "低频射电天文阵" ===
+  size 167.0 x 9.0 x 166.9 m  |  604 meshes, 8,784 tris  |  nightMats 3, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (8,784)
+  OK  bbox undefined 167.0m vs size_m 166.95
+  XX  minY -2.80 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== tt1-formation-01  "TT-1 三星编队(烘焙动力学)" ===
+  size 19.1 x 3.2 x 16.6 m  |  55 meshes, 2,472 tris  |  nightMats 0, lights 0, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (2,472)
+  OK  bbox width 19.1m vs size_m 19.05
+  OK  minY -0.03 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== tt1-sat-01  "TT-1「听涛」引力波探测星" ===
+  size 3.1 x 2.7 x 3.7 m  |  149 meshes, 4,584 tris  |  nightMats 1, lights 0, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (4,584)
+  OK  bbox width 3.7m vs size_m 3.74
+  OK  minY 0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-ir-01  "热红外成像站" ===
+  size 5.2 x 7.4 x 6.4 m  |  168 meshes, 4,996 tris  |  nightMats 2, lights 1, sensors 1
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (4,996)
+  OK  bbox height 7.4m vs size_m 7.39
+  OK  minY -0.60 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-thz-01  "太赫兹水汽廓线辐射计" ===
+  size 3.3 x 3.1 x 3.3 m  |  128 meshes, 2,404 tris  |  nightMats 4, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (2,404)
+  OK  bbox undefined 3.3m vs size_m 3.34
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-seis-01  "火震监测站" ===
+  size 13.2 x 3.8 x 13.2 m  |  473 meshes, 12,920 tris  |  nightMats 1, lights 0, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (12,920)
+  OK  bbox undefined 13.2m vs size_m 13.2
+  OK  minY -0.03 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-swir-01  "短波红外勘探/气辉相机站" ===
+  size 5.0 x 2.9 x 4.3 m  |  115 meshes, 3,316 tris  |  nightMats 2, lights 1, sensors 1
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (3,316)
+  OK  bbox width 5.0m vs size_m 5.01
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-sulfur-01  "硫提取厂（硫酸盐焙烧·Claus 回收）" ===
+  size 43.2 x 10.0 x 24.7 m  |  289 meshes, 9,820 tris  |  nightMats 5, lights 3, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (9,820)
+  OK  bbox undefined 43.2m vs size_m 43
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-eclss-01  "制氧与气体储配站" ===
+  size 48.2 x 12.7 x 30.0 m  |  568 meshes, 11,790 tris  |  nightMats 4, lights 3, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (11,790)
+  OK  bbox undefined 48.2m vs size_m 48
+  OK  minY -0.05 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-recycle-01  "水与固废回收厂" ===
+  size 44.0 x 9.1 x 30.6 m  |  349 meshes, 6,846 tris  |  nightMats 3, lights 3, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (6,846)
+  OK  bbox undefined 44.0m vs size_m 44
+  OK  minY -0.05 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== pwr-grid-01  "主变电站与配电枢纽" ===
+  size 46.8 x 11.1 x 34.3 m  |  577 meshes, 10,554 tris  |  nightMats 29, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (10,554)
+  OK  bbox width 46.8m vs size_m 46.8
+  OK  minY -0.75 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== pwr-fission-01  "应急裂变电源站" ===
+  size 79.6 x 11.1 x 68.0 m  |  851 meshes, 18,628 tris  |  nightMats 2, lights 3, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (18,628)
+  OK  bbox undefined 79.6m vs size_m 79.6
+  OK  minY -0.20 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-cray-01  "高能宇宙线测量站" ===
+  size 318.9 x 13.8 x 318.8 m  |  684 meshes, 10,338 tris  |  nightMats 3, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (10,338)
+  OK  bbox undefined 318.9m vs size_m 318.88
+  XX  minY -2.20 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== ops-dog-01  "地表巡检四足机器人" ===
+  size 0.6 x 1.0 x 1.1 m  |  126 meshes, 3,292 tris  |  nightMats 3, lights 0, sensors 1
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (3,292)
+  OK  bbox length 1.1m vs size_m 1.07
+  OK  minY -0.01 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== ops-garage-01  "巡检狗母港车库" ===
+  size 5.6 x 4.0 x 6.2 m  |  121 meshes, 3,366 tris  |  nightMats 3, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (3,366)
+  OK  bbox undefined 6.2m vs size_m 6.19
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== ops-vab-01  "卧式总装测试厂房" ===
+  size 78.7 x 15.1 x 93.7 m  |  196 meshes, 8,504 tris  |  nightMats 2, lights 3, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (8,504)
+  OK  bbox width 93.7m vs size_m 94
+  OK  minY -0.18 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== ops-payload-01  "载荷处理厂房" ===
+  size 72.0 x 13.2 x 68.0 m  |  172 meshes, 5,832 tris  |  nightMats 3, lights 4, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (5,832)
+  OK  bbox width 72.0m vs size_m 72
+  OK  minY -0.18 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-foundry-01  "冶金与机加工车间" ===
+  size 56.5 x 11.8 x 38.8 m  |  409 meshes, 9,904 tris  |  nightMats 1, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (9,904)
+  OK  bbox undefined 56.5m vs size_m 56.5
+  OK  minY -0.07 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== veh-ground-01  "地面车辆队与保障场" ===
+  size 51.1 x 7.8 x 44.5 m  |  187 meshes, 5,192 tris  |  nightMats 3, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (5,192)
+  OK  bbox width 51.1m vs size_m 51
+  OK  minY -0.20 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-astro-01  "天体生物学实验室" ===
+  size 32.8 x 17.6 x 39.1 m  |  631 meshes, 13,440 tris  |  nightMats 9, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (13,440)
+  OK  bbox undefined 39.1m vs size_m 39.1
+  XX  minY -2.21 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== ops-fire-01  "应急消防站" ===
+  size 24.8 x 13.0 x 15.2 m  |  188 meshes, 4,024 tris  |  nightMats 3, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (4,024)
+  OK  bbox undefined 24.8m vs size_m 24.8
+  OK  minY -0.05 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== hab-museum-01  "火星城博物馆" ===
+  size 39.4 x 7.4 x 40.7 m  |  139 meshes, 4,704 tris  |  nightMats 7, lights 3, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (4,704)
+  OK  bbox depth 40.7m vs size_m 40.5
+  OK  minY -0.03 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== res-glass-01  "玻璃厂(玄武岩纤维·铸石·浮法)" ===
+  size 48.0 x 9.1 x 27.0 m  |  565 meshes, 11,332 tris  |  nightMats 7, lights 2, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (11,332)
+  OK  bbox undefined 48.0m vs size_m 48
+  OK  minY -0.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== com-polar-01  "极区补盲中继星" ===
+  size 30.0 x 4.2 x 4.6 m  |  82 meshes, 4,784 tris  |  nightMats 1, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (4,784)
+  OK  bbox width 30.0m vs size_m 30
+  OK  minY -1.58 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== com-l4-01  "日火 L4 合日中继星" ===
+  size 30.0 x 4.1 x 6.1 m  |  94 meshes, 5,468 tris  |  nightMats 2, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (5,468)
+  OK  bbox width 30.0m vs size_m 30
+  XX  minY -1.88 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+
+=== sci-orbiter-01  "400 km 科学轨道器" ===
+  size 7.3 x 10.0 x 3.1 m  |  41 meshes, 1,420 tris  |  nightMats 1, lights 1, sensors 0
+  OK  returns Group
+  OK  meta.id matches
+  OK  tris <= 50k (1,420)
+  OK  bbox height 10.0m vs size_m 10
+  XX  minY -5.00 ~ ground
+  OK  nightMats absent-or-array
+  OK  lights absent-or-array
+  OK  beams absent-or-array
+  OK  sensors absent-or-array
+(node:29424) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///E:/Claude/mars/viewer/units/pwr-fusion-01.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\E:\Claude\mars\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

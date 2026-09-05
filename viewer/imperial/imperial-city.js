@@ -28,10 +28,6 @@ export function build(ctx) {
     sunDirUniform,
   } = ctx;
 
-  void renderer;
-  void T;
-  void sunDirUniform;
-
   group.name = 'imperialCity';
   group.userData.name = '天宫城';
   group.userData.name_en = 'The Celestial Palace';
@@ -167,17 +163,6 @@ export function build(ctx) {
       depthWrite: false,
       side: THREE.DoubleSide,
     }),
-    waterReflection: new THREE.MeshStandardMaterial({
-      color: 0xd9a72e,
-      emissive: 0x4a2d08,
-      emissiveIntensity: 0.34,
-      roughness: 0.15,
-      metalness: 0.18,
-      transparent: true,
-      opacity: 0.34,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-    }),
     archVoid: new THREE.MeshLambertMaterial({
       color: 0x18343b,
       side: THREE.DoubleSide,
@@ -223,10 +208,14 @@ export function build(ctx) {
   // in per-material InstancedMesh batches gives one draw call per material,
   // even after later stages add hundreds of rail posts, walls and stair blocks.
   const UNIT_BOX = new THREE.BoxGeometry(1, 1, 1);
+  const UNIT_PAVING = new THREE.PlaneGeometry(1, 1);
+  UNIT_PAVING.rotateX(-Math.PI / 2);
+  UNIT_PAVING.translate(0, 0.5, 0);
   // Column ends are always buried in podiums/beams, so open caps halve their
   // triangle cost without changing any visible surface.
   const UNIT_COLUMN = new THREE.CylinderGeometry(0.5, 0.56, 1, 8, 1, true);
   const boxBatches = new Map();
+  const axisSolids = [];
   const columnBatches = new Map();
   const matrixObject = new THREE.Object3D();
 
@@ -235,6 +224,12 @@ export function build(ctx) {
   }
 
   function box(material, x, y, z, sx, sy, sz, ry = 0, name = '') {
+    // Store actual horizontal faces, before instancing, for traversal. Roofs,
+    // rails and facade details above the pedestrian envelope are excluded.
+    if (Math.abs(ry) < 1e-8 && Math.abs(x) < sx * 0.5
+      && [mats.marble, mats.marbleShade, mats.stairShade, mats.roadDark, mats.pavingLine, mats.earth].includes(material)) {
+      axisSolids.push({ south: z + sz / 2, north: z - sz / 2, top: y + sy / 2, name });
+    }
     const key = batchKey(material);
     if (!boxBatches.has(key)) {
       boxBatches.set(key, { material, entries: [] });
@@ -254,7 +249,7 @@ export function build(ctx) {
   function flushBoxes() {
     for (const { material, entries } of boxBatches.values()) {
       const mesh = new THREE.InstancedMesh(
-        UNIT_BOX,
+        material === mats.roadDark || material === mats.pavingLine ? UNIT_PAVING : UNIT_BOX,
         material,
         entries.length,
       );
@@ -463,7 +458,7 @@ export function build(ctx) {
   const roofRibEntries = [];
   const roofRibPositions = [];
   const roofRibIndices = [];
-  const roofRibRows = 6;
+  const roofRibRows = 3;
   for (let row = 0; row <= roofRibRows; row++) {
     const t = row / roofRibRows;
     const y = 0.16 * t + 0.84 * Math.pow(t, 1.65);
@@ -527,7 +522,7 @@ export function build(ctx) {
     group.add(mesh);
   }
 
-  function perimeterPosts({ x, y, z, w, d, rotationY = 0, spacing = 8 }) {
+  function perimeterPosts({ x, y, z, w, d, rotationY = 0, spacing = 8, southOpening = 0 }) {
     const countX = Math.max(2, Math.round(w / spacing));
     const countZ = Math.max(2, Math.round(d / spacing));
     const c = Math.cos(rotationY);
@@ -538,6 +533,7 @@ export function build(ctx) {
     });
     const seen = new Set();
     const add = (lx, lz) => {
+      if (southOpening > 0 && Math.abs(lz - d * 0.5) < 0.01 && Math.abs(lx) < southOpening * 0.5) return;
       const key = `${lx.toFixed(2)}:${lz.toFixed(2)}`;
       if (seen.has(key)) return;
       seen.add(key);
@@ -555,13 +551,21 @@ export function build(ctx) {
       add(w * 0.5, lz);
     }
     box(mats.marble, x, y + 1.55, z - d * 0.5, w, 0.22, 0.24, rotationY);
-    box(mats.marble, x, y + 1.55, z + d * 0.5, w, 0.22, 0.24, rotationY);
+    const southRail = (material, height, thickness, depth) => {
+      if (!southOpening) box(material, x, height, z + d * 0.5, w, thickness, depth, rotationY);
+      else for (const sign of [-1, 1]) {
+        const span = (w - southOpening) * 0.5;
+        const p = world(sign * (southOpening + span) * 0.5, d * 0.5);
+        box(material, p.x, height, p.z, span, thickness, depth, rotationY);
+      }
+    };
+    southRail(mats.marble, y + 1.55, 0.22, 0.24);
     box(mats.marble, x - w * 0.5, y + 1.55, z, 0.24, 0.22, d, rotationY);
     box(mats.marble, x + w * 0.5, y + 1.55, z, 0.24, 0.22, d, rotationY);
     // Low solid rails turn the post-and-cap outline into a legible white-stone
     // balustrade, especially on the enlarged multi-course gate podiums.
     box(mats.marbleShade, x, y + 0.56, z - d * 0.5, w, 0.52, 0.2, rotationY);
-    box(mats.marbleShade, x, y + 0.56, z + d * 0.5, w, 0.52, 0.2, rotationY);
+    southRail(mats.marbleShade, y + 0.56, 0.52, 0.2);
     box(mats.marbleShade, x - w * 0.5, y + 0.56, z, 0.2, 0.52, d, rotationY);
     box(mats.marbleShade, x + w * 0.5, y + 0.56, z, 0.2, 0.52, d, rotationY);
   }
@@ -649,6 +653,7 @@ export function build(ctx) {
           d: layerD - railInset * 2,
           rotationY,
           spacing: podiumRailSpacing ?? Math.max(7, layerW / (bays * 2)),
+          southOpening: buildingType === 'summitHall' ? 96 : 0,
         });
       }
     }
@@ -664,6 +669,14 @@ export function build(ctx) {
     const stairWidth = buildingType === 'summitHall'
       ? Math.min(w * 0.5, 96)
       : Math.min(w * 0.34, 38);
+    if (buildingType === 'summitHall') {
+      // A real stone arrival court connects the final tread to the podium.
+      const stairEnd = z + d * 0.5 + stairFrontOffset - (stairCount - 0.5) * stairDepth;
+      const courtNorth = z + d * 0.25;
+      box(mats.marble, x, y + podiumRise * 0.5,
+        (stairEnd + courtNorth) * 0.5, stairWidth, podiumRise,
+        stairEnd - courtNorth + 0.35, 0, `${name}-arrival-court`);
+    }
     if (stairEnabled) {
       const totalPodiumH = cursorY - y;
       const singleStepH = totalPodiumH / stairCount;
@@ -1483,6 +1496,7 @@ export function build(ctx) {
     const bay = available / 5;
     const radius = bay * 0.38;
     const springY = height * 0.44;
+    const archHeight = Math.min(radius, height * 0.46);
     for (let arch = 0; arch < 5; arch++) {
       const cx = -width * 0.5 + margin + bay * (arch + 0.5);
       const hole = new THREE.Path();
@@ -1493,7 +1507,7 @@ export function build(ctx) {
         const angle = Math.PI - Math.PI * i / segments;
         hole.lineTo(
           cx + Math.cos(angle) * radius,
-          springY + Math.sin(angle) * radius,
+          springY + Math.sin(angle) * archHeight,
         );
       }
       hole.lineTo(cx + radius, 0.08);
@@ -1514,12 +1528,15 @@ export function build(ctx) {
 
   function goldenWaterBridge({ x, z, width, length, topY, archRise = 3.2, name }) {
     const deckY = topY + archRise;
-    const height = deckY - TERRAIN_Y - 0.45;
+    // The main site slopes: use the river sample, not the city-centre datum.
+    // Keep every arch inside the masonry body even on a shallow local footing.
+    const footingY = Math.min(sampleHeight(x, z) + 0.35, deckY - 1);
+    const height = deckY - footingY - 0.1;
     const bridge = new THREE.Mesh(
       fiveArchBridgeGeometry(width, length, height),
       mats.marble,
     );
-    bridge.position.set(x, TERRAIN_Y + 0.35, z);
+    bridge.position.set(x, footingY, z);
     bridge.castShadow = true;
     bridge.receiveShadow = true;
     bridge.name = name;
@@ -1529,13 +1546,13 @@ export function build(ctx) {
     const available = width - margin * 2;
     const bay = available / 5;
     const radius = bay * 0.38;
-    const openingHeight = height * 0.44 + radius - 0.08;
+    const openingHeight = height * 0.44 + Math.min(radius, height * 0.46) - 0.08;
     for (let arch = 0; arch < 5; arch++) {
       const localX = -width * 0.5 + margin + bay * (arch + 0.5);
       for (const face of [-1, 1]) {
         archFaceEntries.push({
           x: x + localX,
-          y: TERRAIN_Y + 0.43,
+          y: footingY + 0.08,
           z: z + face * (length * 0.5 + 0.025),
           radius,
           height: openingHeight,
@@ -1558,10 +1575,11 @@ export function build(ctx) {
         box(mats.marble, edgeX, deckY + 0.8, pz, 0.48, 1.6, 0.48);
       }
     }
-    const stepCount = 6;
+    const approachRise = archRise + 0.36 - 0.64;
+    const stepCount = Math.ceil(approachRise / 0.18);
     const approachLength = 10.8;
     const stepDepth = approachLength / stepCount;
-    const stepH = archRise / stepCount;
+    const stepH = approachRise / stepCount;
     const approachWidth = Math.max(12, width * 0.28);
     for (const direction of [-1, 1]) {
       for (let step = 0; step < stepCount; step++) {
@@ -1572,7 +1590,7 @@ export function build(ctx) {
         box(
           mats.marble,
           x,
-          topY + blockH * 0.5,
+          topY + 0.64 + blockH * 0.5,
           pz,
           approachWidth,
           blockH,
@@ -1582,7 +1600,7 @@ export function build(ctx) {
           box(
             mats.roadDark,
             x,
-            topY + blockH + 0.035,
+            topY + 0.64 + blockH + 0.035,
             pz,
             8,
             0.07,
@@ -1751,7 +1769,7 @@ export function build(ctx) {
     { stage: 6, z: -128, width: 720, depth: 112, top: 46 },
     { stage: 7, z: -218, width: 625, depth: 112, top: 58 },
     { stage: 8, z: -300, width: 525, depth: 100, top: 72 },
-    { stage: 9, z: -362, width: 430, depth: 82, top: 90 },
+    { stage: 9, z: -401, width: 430, depth: 160, top: 90 },
   ];
   const ROAD_W = 48;
   const roadWidthAt = (terraceIndex) => (
@@ -1999,8 +2017,8 @@ export function build(ctx) {
   // Continuous imperial avenue. There is no gate, roof, arch or prop on the
   // centre line. A walk from the south bridge position to the summit requires
   // only flat paving, landings and stairs.
-  const AXIS_RISER_TARGET = 0.6;
-  const AXIS_TREAD = 1.8;
+  const AXIS_RISER_TARGET = 0.18;
+  const AXIS_TREAD = 0.54;
   const axisStairFlights = [];
   for (let i = 0; i < terraces.length; i++) {
     const terrace = terraces[i];
@@ -2086,7 +2104,7 @@ export function build(ctx) {
         y - rise / steps * 0.5,
         SITE_Z + z,
         transitionRoadW,
-        Math.max(0.34, riser),
+        riser,
         AXIS_TREAD + 0.12,
       );
       box(
@@ -2100,7 +2118,7 @@ export function build(ctx) {
       );
       for (const side of [-1, 1]) {
         const railX = side * (transitionRoadW * 0.5 + 2.0);
-        if (step % 4 === 0 || step === steps - 1) {
+        if (step % 12 === 0 || step === steps - 1) {
           terraceRailPosts.push({
             x: railX,
             y: y + 1.02,
@@ -2108,14 +2126,14 @@ export function build(ctx) {
             rotationY: Math.PI * 0.5,
           });
         }
-        box(
+        if (step % 3 === 0) box(
           mats.marble,
           railX,
           y + 0.65,
           SITE_Z + z,
           0.28,
           0.98,
-          AXIS_TREAD + 0.22,
+          AXIS_TREAD * Math.min(3, steps - step) + 0.22,
         );
       }
     }
@@ -2188,14 +2206,13 @@ export function build(ctx) {
   const buildingBlueprints = {
     summitHall: {
       bays: 11, eaves: 3, podium: 3, w: 212, d: 92,
-      heightScale: 1.12, roofSegments: 12, roofPitch: 0.285,
-      cornerScale: 0.1, stackCompression: 0.56,
+      heightScale: 0.82, roofSegments: 10, roofPitch: 0.285,
+      cornerScale: 0.1, stackCompression: 0.38,
       facadeDetail: true, ornaments: true,
       podiumCourseHeight: 2.5, podiumRailSpacing: 5, stairRails: true,
-      stairRiserTarget: 0.6, stairTread: 1.8,
-      // The 13-step flight terminates on a 25 m arrival court south of the
-      // facade instead of running beneath the hall body.
-      stairFrontOffset: 47.5,
+      stairRiserTarget: 0.18, stairTread: 0.54,
+      // Forty-two human-scale treads lead onto the built arrival court.
+      stairFrontOffset: 30,
     },
     ceremonialSideHall: {
       bays: 7, eaves: 1, podium: 1, w: 82, d: 31,
@@ -2304,7 +2321,7 @@ export function build(ctx) {
   const hallRegistry = [];
   hallRegistry.push(assembleBuilding('summitHall', {
     x: 0,
-    y: terraces[8].y + 0.3,
+    y: terraces[8].y + 0.91,
     z: terraces[8].z - 20,
     name: 'summit-triple-eave-hall',
   }));
@@ -2569,12 +2586,8 @@ export function build(ctx) {
     }
   }
 
-  // R6 first-person inspection path. Dense 5 m samples drive the preview;
+  // First-person inspection path. Dense 5 m samples drive the preview;
   // 50 m checkpoints are exported for deterministic screenshot acceptance.
-  const bridgeDeckFloorY = first.y + 0.2 + 3.2 + 0.43;
-  const bridgeNorthEdge = bridgeZ - 27;
-  const bridgeNorthApproach = bridgeNorthEdge - 10.8;
-  const summitPodiumRise = summitSpec.bodyBase - 0.35 - summitSpec.y;
   const summitStairSteps = summitSpec.stairCount;
   const summitStairTread = summitSpec.stairTread;
   const summitStairLowerZ = summitSpec.z + summitSpec.d * 0.5
@@ -2583,42 +2596,13 @@ export function build(ctx) {
   const summitStairRiser = summitSpec.stairRiser;
 
   function axisSurfaceFloorY(z) {
-    if (z >= bridgeNorthEdge && z <= bridgeZ + 27) return bridgeDeckFloorY;
-    if (z >= bridgeNorthApproach && z < bridgeNorthEdge) {
-      const t = (z - bridgeNorthApproach) / (bridgeNorthEdge - bridgeNorthApproach);
-      return THREE.MathUtils.lerp(first.y + 0.82, bridgeDeckFloorY, t);
-    }
-    if (z <= summitStairLowerZ && z >= summitStairUpperZ) {
-      const distance = summitStairLowerZ - z;
-      const step = THREE.MathUtils.clamp(
-        Math.ceil(distance / summitStairTread),
-        0,
-        summitStairSteps,
-      );
-      return summitSpec.y + summitStairRiser * step;
-    }
-    for (const flight of axisStairFlights) {
-      if (z <= flight.lowerZ && z >= flight.upperZ) {
-        const distance = flight.lowerZ - z;
-        const step = THREE.MathUtils.clamp(
-          Math.ceil(distance / flight.tread),
-          0,
-          flight.steps,
-        );
-        return flight.lowerY + flight.riser * step;
-      }
-    }
-    let floorY = first.y + 0.84;
-    for (const terrace of terraces) {
-      const south = terrace.z + terrace.depth * 0.5 - 3;
-      const north = terrace.z - terrace.depth * 0.5 + 3;
-      if (z <= south && z >= north) floorY = Math.max(floorY, terrace.y + 0.84);
-    }
-    return floorY;
+    const tops = axisSolids.filter(face => z >= face.north && z <= face.south);
+    if (!tops.length) throw new Error(`No constructed axis surface at z=${z}`);
+    return Math.max(...tops.map(face => face.top));
   }
 
   const axisInspectionStartZ = bridgeZ + 18;
-  const axisInspectionEndZ = summitStairUpperZ;
+  const axisInspectionEndZ = summitStairUpperZ - 1;
   function makeInspectionPoint(z, distance) {
     return {
       distance,
@@ -2659,7 +2643,7 @@ export function build(ctx) {
     return Math.max(max, Math.abs(point.y - axisInspectionPoints[index - 1].y));
   }, 0);
   const axisMaximumRiser = Math.max(
-    3.2 / 6,
+    (3.2 + 0.36 - 0.64) / Math.ceil((3.2 + 0.36 - 0.64) / 0.18),
     summitStairRiser,
     ...axisStairFlights.map((flight) => flight.riser),
   );
@@ -2680,7 +2664,7 @@ export function build(ctx) {
   // viewer's lightweight translucent-water practice and needs no external
   // normal map or shader import.
   const waterRects = [
-    { x: 0, y: TERRAIN_Y + 0.28, z: bridgeZ, w: 760, d: 42, name: 'golden-water-river' },
+    { x: 0, y: sampleHeight(0, bridgeZ) + 0.28, z: bridgeZ, w: 760, d: 42, name: 'golden-water-river' },
     { x: -292, y: terraces[1].y + 0.38, z: terraces[1].z + 4, w: 182, d: 28, name: 'west-lower-water-court' },
     { x: 292, y: terraces[1].y + 0.38, z: terraces[1].z + 4, w: 182, d: 28, name: 'east-lower-water-court' },
     { x: -248, y: terraces[2].y + 0.38, z: terraces[2].z + 6, w: 158, d: 28, name: 'west-middle-water-court' },
@@ -2763,39 +2747,17 @@ export function build(ctx) {
   waterMesh.instanceMatrix.needsUpdate = true;
   group.add(waterMesh);
 
-  // Restrained golden roof reflections: two low-opacity tier bands per court
-  // sit just above the water and shimmer with the same slow phase as the pool.
+  // Reserved for compatibility: the former painted golden rectangles are gone.
+  // An actual roof-geometry cubemap is captured after geometry assembly below.
   const reflectionEntries = [];
-  for (const rect of waterRects.filter((entry) => entry.name !== 'golden-water-river')) {
-    for (const tier of [-1, 1]) {
-      reflectionEntries.push({
-        x: rect.x,
-        y: rect.y + 0.025,
-        z: rect.z + tier * rect.d * 0.13,
-        w: rect.w * (tier < 0 ? 0.24 : 0.16),
-        d: rect.d * 0.2,
-      });
-    }
-  }
-  const reflectionMesh = new THREE.InstancedMesh(
-    unitWater,
-    mats.waterReflection,
-    reflectionEntries.length,
-  );
-  reflectionMesh.name = 'imperial-golden-roof-water-reflections';
-  reflectionMesh.renderOrder = 2;
-  reflectionEntries.forEach((entry, index) => {
-    matrixObject.position.set(entry.x, entry.y, entry.z);
-    matrixObject.rotation.set(0, 0, 0);
-    matrixObject.scale.set(entry.w, 1, entry.d);
-    matrixObject.updateMatrix();
-    reflectionMesh.setMatrixAt(index, matrixObject.matrix);
-  });
-  reflectionMesh.instanceMatrix.needsUpdate = true;
-  group.add(reflectionMesh);
   anims.push((t) => {
     mats.water.opacity = 0.84 + Math.sin(t * 0.32) * 0.025;
-    mats.waterReflection.opacity = 0.32 + Math.sin(t * 0.32 + 0.8) * 0.04;
+    // The host owns the sun. Fade the static daylight probe with its elevation.
+    if (mats.water.envMap && sunDirUniform?.value) {
+      const elevation = Math.asin(THREE.MathUtils.clamp(sunDirUniform.value.y, -1, 1)) * 180 / Math.PI;
+      const night = THREE.MathUtils.smoothstep(-elevation, 2, 12);
+      mats.water.envMapIntensity = THREE.MathUtils.lerp(1.4, 0.035, night);
+    }
   });
 
   function pointInsideWater(x, z) {
@@ -3026,7 +2988,7 @@ export function build(ctx) {
 
     await Promise.all(sculptureTypes.map(async (type) => {
       try {
-        const gltf = await loader.loadAsync(sculptureFiles[type]);
+        const gltf = await loader.loadAsync(new URL(`../../models/imperial/${type}.glb`, import.meta.url).href);
         const source = gltf.scene;
         source.updateMatrixWorld(true);
         const bounds = new THREE.Box3().setFromObject(source);
@@ -3280,16 +3242,87 @@ export function build(ctx) {
   flushRoofRibs();
   flushArchFaces();
 
+  // Derive checkpoint elevations from the emitted triangles as well as the
+  // construction faces. Float32 boundary rounding must not put a camera inside
+  // a tread. Ray origins stay in the pedestrian envelope, below any roofs.
+  group.updateWorldMatrix(true, true);
+  const floorRay = new THREE.Raycaster();
+  const localFromWorld = group.matrixWorld.clone().invert();
+  const downWorld = new THREE.Vector3(0, -1, 0).transformDirection(group.matrixWorld);
+  for (const point of [...axisInspectionPoints, ...axisInspectionCheckpoints]) {
+    const originWorld = new THREE.Vector3(point.x, point.y + 0.4, point.z).applyMatrix4(group.matrixWorld);
+    floorRay.set(originWorld, downWorld);
+    const hit = floorRay.intersectObject(group, true).find(h => h.face?.normal.y > 0.5);
+    if (hit) point.y = hit.point.clone().applyMatrix4(localFromWorld).y;
+  }
+
+  // One local static environment probe, built from the city's real gold roof
+  // triangles. This is environment reflection, not per-pool planar reflection:
+  // silhouettes move with the viewing ray, but local parallax is approximate.
+  // Capture occurs once, so there are no recurring offscreen render passes.
+  if (renderer?.isWebGLRenderer) {
+    const roofParts = [];
+    group.traverse(object => {
+      if (!object.isMesh || object.material !== mats.roofGold) return;
+      if (object.isInstancedMesh) {
+        const instance = new THREE.Matrix4();
+        for (let i = 0; i < object.count; i++) {
+          object.getMatrixAt(i, instance);
+          roofParts.push(object.geometry.clone().applyMatrix4(instance).applyMatrix4(object.matrixWorld));
+        }
+      } else roofParts.push(object.geometry.clone().applyMatrix4(object.matrixWorld));
+    });
+    const probeScene = new THREE.Scene();
+    probeScene.background = new THREE.Color(0x82959d);
+    const probeGeometry = mergeParts(roofParts.map(geometry => ({ geometry, matrix: new THREE.Matrix4() })));
+    roofParts.forEach(geometry => geometry.dispose());
+    const probeMaterial = new THREE.MeshStandardMaterial({
+      color: 0x000000, emissive: 0xb58a37, emissiveIntensity: 0.85, side: THREE.DoubleSide,
+    });
+    probeScene.add(new THREE.Mesh(probeGeometry, probeMaterial));
+    const target = new THREE.WebGLCubeRenderTarget(128, { generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter });
+    const probe = new THREE.CubeCamera(0.5, 2400, target);
+    probe.position.set(0, terraces[2].y + 2, terraces[2].z).applyMatrix4(group.matrixWorld);
+    const before = renderer.info.render.calls;
+    const previousAutoReset = renderer.info.autoReset;
+    renderer.info.autoReset = false;
+    probe.update(renderer, probeScene);
+    const captureDraws = renderer.info.render.calls - before;
+    // Pre-filter here, within the explicitly measured initialization phase.
+    // Otherwise Three lazily spends these passes on the first visible frame.
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const filteredEnvironment = pmrem.fromCubemap(target.texture);
+    group.userData.reflectionCapture = {
+      type: 'static local roof cubemap',
+      draws: renderer.info.render.calls - before,
+      captureDraws,
+      prefilterDraws: renderer.info.render.calls - before - captureDraws,
+      resolution: 128,
+      positionWorld: probe.position.toArray(),
+    };
+    pmrem.dispose();
+    target.dispose();
+    renderer.info.autoReset = previousAutoReset;
+    if (T?.previewRoofShadow) group.userData.previewRoofShadowGeometry = probeGeometry;
+    else probeGeometry.dispose();
+    probeMaterial.dispose();
+    mats.water.envMap = filteredEnvironment.texture;
+    mats.water.envMapIntensity = 1.4;
+    mats.water.metalness = 0.62;
+    mats.water.color.set(0x486c78);
+    mats.water.needsUpdate = true;
+  }
+
   // Contract arrays are consumed directly by the viewer.
   group.userData.imperial = {
     stage: 6,
-    visualRevision: '6',
+    visualRevision: '7',
     north: NORTH.toArray(),
     bounds: {
       width: 1200,
-      depth: 800,
+      depth: 900,
       south: 400,
-      north: -400,
+      north: -481,
       baseY: TERRAIN_Y,
     },
     terraces: terraces.map((t) => ({
@@ -3379,6 +3412,7 @@ export function build(ctx) {
       waterRoughness: 0.15,
       mergedWaterFrameTriangles: waterFrameIndices.length / 3,
       goldenReflectionBands: reflectionEntries.length,
+      waterReflectionMode: 'one static local roof-geometry cubemap; approximate parallax, no planar reflection',
     },
     corridors: corridorRegistry,
     buildingAssembly: {
@@ -3437,7 +3471,23 @@ export function build(ctx) {
     statsHint: 'Use dev preview HUD for measured triangles and draw calls.',
   };
 
+  // Sidecar anchors cost no triangles or draws; host card wiring is separate.
+  const cardAnchors = [
+    ['imperial-bridge', 0, axisInspectionPoints[0].y + 2, bridgeZ],
+    ['imperial-axis', 0, axisSurfaceFloorY(100) + 2, 100],
+    ['imperial-terraces', 35, terraces[4].y + 2, terraces[4].z],
+    ['imperial-summit', 0, axisInspectionPoints.at(-1).y + 2, axisInspectionEndZ],
+    ['imperial-bell-drum', -142, terraces[3].y + 8, terraces[3].z + 5],
+  ];
+  for (const [id, x, y, z] of cardAnchors) {
+    const node = new THREE.Object3D();
+    node.name = `poi_${id}`;
+    node.position.set(x, y, z);
+    group.add(node);
+  }
+  group.userData.infoUrl = new URL('./imperial-city.info.json', import.meta.url).href;
+  group.userData.imperial.deliveryRevision = 'r7-main';
   group.userData.anims = anims;
   group.userData.lights = lights;
-  console.info('[imperial-city] stage 6 visual revision 6 closure pass built', group.userData.imperial);
+  console.info('[imperial-city] stage 6 visual revision 7 built', group.userData.imperial);
 }

@@ -1,0 +1,65 @@
+{
+  "revision": "r7-main",
+  "files": [
+    {
+      "path": "viewer/imperial/imperial-city.js",
+      "bytes": 119211,
+      "sha256": "855d2e9bbbd76bce3f99671fee3ab350d5d4081de5ab17f6a99cd859af3cdc57"
+    },
+    {
+      "path": "viewer/imperial/imperial-city.info.json",
+      "bytes": 5808,
+      "sha256": "200ea4205a1431e0f2aff56a8089555e785d4d68d1a3e5ba74019401ac2ca0ab"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/_r7.md",
+      "bytes": 10897,
+      "sha256": "1c0721b4b072d0ff0429a66ab3dd072360f80718a1092e79bb3e1e44af01bdd9"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/browser-smoke-r7.json",
+      "bytes": 43646,
+      "sha256": "7a3b8ab2d0c20ce74f5d00c28cd34b2b319df85a647cbf18289266d85abb459d"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/layer-day.png",
+      "bytes": 102003,
+      "sha256": "83013026c95663a122a863ed880e507023502c8d14d86e9ef1d6213b007e9bad"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/layer-night.png",
+      "bytes": 94755,
+      "sha256": "89945787e5c7b9fe6accbdb3ff2a53705895cfea94434ea1710c27f7c2d67141"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/main-day-axis.png",
+      "bytes": 156134,
+      "sha256": "15bcf13129366bb620ee760c24354a93b39278634da58d664c6853b5d6ee9eb9"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/main-day-oblique.png",
+      "bytes": 162241,
+      "sha256": "fffef6db776b642aa3c8143bbb4cb433981912974dcf17fc69b774557d4cf346"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/smoke-r7.html",
+      "bytes": 7703,
+      "sha256": "075df8cb17580037d8250460c7e0c34a708c39d84280e4a3e1e54c4f069a7219"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/validate-r7.json",
+      "bytes": 10236,
+      "sha256": "81b3f5e6310ce1c446778127e2cd4cdf07b7df29dfe035acd78b38decb456fe5"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/validate-r7.mjs",
+      "bytes": 8860,
+      "sha256": "b3a0705bbbe59692caff4ab46d4e7e552dbb438625a245d2aae0db512c4234ab"
+    },
+    {
+      "path": "dev/DELIVERY/_imperial/validate-units.log",
+      "bytes": 22570,
+      "sha256": "26f1dd416d6cd9a6804342149cf579c84ff7d3d0a29e802ab159c02998360308"
+    }
+  ]
+}
