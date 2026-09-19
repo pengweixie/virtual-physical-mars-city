@@ -147,6 +147,41 @@ export function build(THREE) {
   });
   poi('poi_screen', SX, TOP + 2.0, SZ + 0.2);
 
+  // ---- LET-spectrum side panel (added 2026-09-09, ledgers 14-17): a narrow
+  // second display on the screen's right post. The bars are a GLYPH of the
+  // product's shape (a falling log-log histogram with the iron bump), not data:
+  // the station holds no measured spectrum, and the card says so.
+  const LX2 = SX + 2.25, LZ2 = SZ;
+  box(0.16, 1.1, 0.16, M.steel, 1.5 + 0.75, TOP + 0.55, 0, scr);           // extra post
+  box(1.15, 1.35, 0.12, M.dark, 2.25, TOP + 1.95, -0.01, scr);              // housing
+  const letBg = new THREE.MeshLambertMaterial({ color: 0x06121c, emissive: 0x0a2233, emissiveIntensity: 0.85 });
+  box(1.0, 1.2, 0.03, letBg, 2.25, TOP + 1.95, 0.05, scr);                  // phosphor
+  nightMats.push(letBg);
+  const barMat = new THREE.MeshLambertMaterial({ color: 0x0a0a0a, emissive: 0xf2b04a, emissiveIntensity: 0.95 });
+  const feMat  = new THREE.MeshLambertMaterial({ color: 0x0a0a0a, emissive: 0xe8524a, emissiveIntensity: 1.2 });
+  // 12 log bins: MIP peak, power-law fall, the Fe bump near the high end (shape only)
+  const bars = [0.30, 0.95, 0.62, 0.40, 0.27, 0.19, 0.13, 0.09, 0.06, 0.10, 0.05, 0.03];
+  bars.forEach((h, i) => {
+    const y = TOP + 1.42 + h * 0.5;
+    box(0.06, h * 1.0, 0.02, i === 9 ? feMat : barMat, 1.80 + i * 0.082, y, 0.07, scr);
+  });
+  box(0.98, 0.012, 0.02, M.shell, 2.25, TOP + 1.41, 0.07, scr);             // axis
+  poi('poi_let', LX2, TOP + 2.0, LZ2 + 0.2);
+
+  // ---- proton-family classifier plaque (added 2026-09-09, ledger 15): on the
+  // kiosk's screen-facing wall, three chips = the three classes a single layer
+  // can actually tell apart (stopping / light through-going / heavy through-going).
+  const plq = new THREE.Group(); plq.position.set(KX + 1.16, TOP + 1.25, KZ + 0.35); group.add(plq);
+  box(0.06, 0.52, 0.82, M.white, 0, 0, 0, plq);
+  const chipCols = [0xf2b04a, 0x59d97b, 0xe8524a];
+  chipCols.forEach((c, i) => {
+    const cm = new THREE.MeshLambertMaterial({ color: 0x0a0a0a, emissive: c, emissiveIntensity: 0.8 });
+    nightMats.push(cm);
+    box(0.02, 0.14, 0.14, cm, 0.04, 0.12, -0.26 + i * 0.26, plq);
+  });
+  box(0.02, 0.08, 0.7, M.dark, 0.04, -0.14, 0, plq);                        // caption strip
+  poi('poi_family', KX + 1.3, TOP + 1.25, KZ + 0.35);
+
   // glyph factory — each glyph: one Group + its own transparent materials
   const glyphs = [];                       // {g, mats, period, phase, storm, kind}
   const field = new THREE.Group();         // glyph plane, sits on phosphor field

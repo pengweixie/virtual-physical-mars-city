@@ -220,6 +220,25 @@ export function build(THREE) {
 "出口需先离开一次才触发"的保护，但正确的门位体验才对。
 `?interior=<id>` URL 可直达（测试/分享）。
 
+**乘梯（ride）**：地表触发口（PORTALS）或室内门（INTERIOR_DOORS）可带
+`ride: { from_m, to_m, seconds, cutscene? }`。按 E 后玩家先进电梯轿厢室内单元
+`hab-lift-cab-01`（门关→按额定 12 m/s 的加减速曲线跑深度/速度/舱压差/避难龛→门开），
+再切到目的地；`seconds` 是压缩后的时长，压缩倍数由轿厢指示屏印出，不冒充实时。
+`cutscene: true` 时到站后把相机交给目的地模块的 `userData.playEntryCutscene(camera)`
+（持续 `userData.entryCutsceneDuration` 秒，模块驱动相机、引擎按住操作；深地实验室的
+竖井下降过场即此接口）。乘梯与过场期间 E/Esc 被按住。引擎侧实现：main.js `rideLift`。
+
+## 4d. 告警钩子（userData.alarm）与演习、人员图层
+
+规格全文:`dev/HOOK_SPEC_alarm.md`(ops-drill-01)。单位在 `group.userData.alarm` 上声明对 green / yellow / red 的反应
+(`set(level, frame, ctx)`,须幂等、可回退;或只给 `lights` / `doors` 声明表,引擎代改材质并在 1 s 内插值门位)。引擎侧
+(main.js):`setAlarm(level, source)` 遍历地表单位、已加载的室内单元与天宫城图层;演习播放器 `__mars.drill`
+读 `viewer/units/drill.json`,按关键帧逐单位调钩子,并在**每个演习分钟**把全城人流计数(`frame.flow`)再发给所有有钩子的单位;
+`animate` 的 ctx 带 `alarm` 与 `drill`(演习中非空,自演的单位据此让位)。**在 drill.json 里点了名而自己还没有钩子的单位**,
+引擎在其上方放一盏自有的告警信标——各单位的钩子落地后自动取代信标。人员图层(`👥` 按钮 / `?people=1`):drill.json 的 21 个地表岗位
+也是平日的地表人口,花名册 `roster.json` 提供全城总数(多数人在地下,看不见);演习(`🚨` 按钮 / `?drill=1&colony=1`)按 `paths[].legs`
+驱动同一批人形。人形是动态实例化网格,不进碰撞体。
+
 ## 4c. 感知资产（传感器通道，sensors）
 
 需要"看着世界行动"的资产（自主机器人、跟踪相机等）声明感知相机，引擎按预算

@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Home — Virtual-Physical Mars City</title>
+<meta name="description" content="Eight appliance ledgers for a 70 kPa Mars cabin - boiling point, fridge, laundry, toilet, dust, DC sockets, noise, make-or-import - and the walk-in show home built from them.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--amber);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .pipe{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;max-width:var(--textw);}
+  .pipe span{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.04em;padding:7px 12px;
+    border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-dim);}
+  .pipe span b{color:var(--accent);font-weight:600;}
+  .broke{max-width:var(--textw);margin-top:26px;display:grid;gap:18px;}
+  .broke .item{border-left:2px solid var(--accent);padding:2px 0 2px 18px;}
+  .broke .item h3{font-size:1.02rem;font-weight:600;}
+  .broke .item p{margin:.4rem 0 0;color:var(--ink-dim);font-size:.98rem;}
+  .try{max-width:var(--textw);margin-top:22px;}
+  .try li{margin:.5rem 0;color:var(--ink-dim);}
+  .try code,.prose code{font-family:var(--f-mono);font-size:.85em;background:var(--bg-3);
+    border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink);}
+  .acct{max-width:var(--textw);margin-top:22px;display:grid;gap:14px;}
+  .acct .row{display:grid;grid-template-columns:8.5rem 1fr;gap:14px;border-top:1px solid var(--line);padding-top:12px;}
+  .acct .row .k{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding-top:4px;}
+  .acct .row p{margin:0;color:var(--ink-dim);font-size:.98rem;}
+  .acct .row p strong{color:var(--ink);}
+  @media(max-width:560px){.acct .row{grid-template-columns:1fr;gap:4px;}}
+  td.state{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.06em;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="undercity.html">← Prev</a>
+    <a href="people.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">hab-home-01 · appliance ledgers · round 1</div>
+    <h1>The Home</h1>
+    <p class="phead__sub">Until this round the city had not one appliance. People lived in the undercity quarter and the berm
+      village, the galley was a drawing, and no fridge, washer, toilet, hob or water heater had ever been calculated for a
+      70 kPa cabin of 26.5% oxygen and a 58/42 nitrogen-argon buffer. This page is two things: eight ledgers that work out
+      the physics of each appliance under those conditions - every number traced to a script, every expectation written
+      down before the script ran - and a walk-in show home built from what the ledgers said, not the other way round.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Water boils at</div><div class="spec__v">89.99<small>°C · pressure cooker mandatory</small></div></div>
+    <div class="spec"><div class="spec__k">Laundry + dishes</div><div class="spec__v">1.45×<small>the recycle plant's whole intake</small></div></div>
+    <div class="spec"><div class="spec__k">Toilet flush</div><div class="spec__v">86<small>mL · back-calculated, not chosen</small></div></div>
+    <div class="spec"><div class="spec__k">Pre-registered gates</div><div class="spec__v">34 / 35<small>green · 1 red on a cited card</small></div></div>
+  </div>
+</div>
+
+<!-- 01 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">A 12 × 9 m room off the foyer's right wall with a kitchen, a bathroom, a laundry corner, a bed and one
+      small screen. Thirteen appliances, each built to the size and power its ledger gave it, each wired to the voltage its
+      ledger allowed, each draining or venting to the line the recycle and life-support cards actually have.</p>
+    <div class="prose">
+      <p>The cabin conditions are not this dossier's to set. They are cited: <strong>70 kPa, 26.5% O₂, N₂ 58 / Ar 42</strong>
+        from the life-support tank farm card; <strong>400 V DC utilisation, 48 V DC instrument</strong> from the grid card;
+        the <strong>98.2% water-loop closure</strong> and the urine pre-treatment constraint from the recycle plant; the
+        <strong>1.63× flame-spread</strong> figure from the fire station's ledger. The dossier's own rule, written into its
+        first commit before any script ran, is that every expectation is pre-registered with a band, every gate must be
+        able to go red, and a number that cannot be closed is written as <em>not closable, missing X</em> rather than filled in.</p>
+      <p>Two things the ledgers found were not about appliances at all. The recycle plant's intake table has no line for
+        laundry or dishwashing - the grey-water line is 1.23 litres per person-day, enough to wash hands. And the tank-farm
+        card's sentence that the argon-rich mix carries sound about 20% faster is wrong in sign: argon is a heavy gas, and
+        sound in this cabin is 4.3% <em>slower</em>. Both went back to their owners as replies, not edits.</p>
+    </div>
+    <div class="pipe">
+      <span><b>8</b> ledgers</span><span><b>35</b> gates</span><span><b>57</b> pre-registered expectations</span>
+      <span><b>34</b> hit · <b>17</b> miss · <b>6</b> undecidable</span><span><b>13</b> reusable parts</span><span><b>12</b> knowledge cards</span>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/home/r1-kitchen.jpg" alt="The show home's kitchen: cast-stone counter with induction hob, oven, dishwasher, microwave shelf, range hood, fridge, and the scorecard screen and return-air fan on the back wall" loading="lazy">
+        <figcaption>Kitchen wall: hob and pressure cooker on cast stone, oven and dishwasher in open bays, fridge with its oversized condenser to the wall, return-air unit and scorecard screen behind.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/home/r1-overview.jpg" alt="Overview from the bed corner: kitchen to the left, bathroom cubicle in the middle, washer and dryer against the far wall, entry door group at right" loading="lazy">
+        <figcaption>From the bed corner. The cabin corner holds nothing with a motor in it; everything that hums is at the far end.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">Eight ledgers, in the order in which a wrong answer would change the geometry.</p>
+    <div class="acct">
+      <div class="row"><div class="k">1 · cooking</div><p><strong>Water boils at 89.99 °C.</strong> Two routes (Antoine, Clausius-Clapeyron) agree to 0.2 K. Starch, egg white and pasteurisation are fine; kidney-bean lectin and soybean trypsin inhibitor need 100 °C, and a quarter of the staple diet is soybean, so the <strong>pressure cooker is a mandatory part of the food system</strong> (+100 kPa gauge → 115 °C). Oven convection is 0.60× natural, 0.69× forced - the fan is not optional. A 1 kW methane burner would emit 4.7 people's CO₂ and draw 8.2 people's O₂ into a loop with no chimney, on top of the fire ledger's 1.63× spread; induction puts 84% into the pot and pays none of it.</p></div>
+      <div class="row"><div class="k">2 · refrigeration</div><p>With Earth-sized condenser area the condensing temperature climbs from 40 to <strong>52 °C</strong> in the thin argon-rich air and COP falls 17%; the fix is 1.67× condenser area or a fan. Every watt ends up as cabin heat. Whether that heat is a debit or a credit depends on the cavern's heat balance, which no card holds - under declared assumptions the undercity loses 37-58 kW against 19 kW of gains for its first decade. The counter-case, cold piped in from outside for the village, <strong>holds both fridge and freezer</strong> (surface day maximum −37.5 °C) at the cost of hull penetrations and a punctured vapour barrier; the undercity has no outside. Both printed, neither chosen.</p></div>
+      <div class="row"><div class="k">3 · laundry</div><p>115 people wash 92 kg of clothes per sol in <strong>782 L</strong>, plus 172 L of dishes: 955 L/sol against a recycle intake of 659 that never had a line for either. At the plant's own 98.2% closure the net loss is 17 L/sol, lifting city make-up water from 30.3 to 47.5 L/sol. Drying releases 46 kg of water a sol into the air loop (+17% on the condensate line); a heat pump does it for 32 kWh. The 'free' vacuum dryer outside is rejected: venting at 0.6 kPa throws away 1.5× the city's net make-up every sol, and a sealed chamber with a cold trap recovers 99.8% but sublimation costs a quarter more heat than evaporation.</p></div>
+      <div class="row"><div class="k">4 · sanitation</div><p>The toilet's flush is not designed but back-calculated from the recycle card's 59 kg/sol flush line: <strong>86 mL per event</strong>, one fifty-sixth of an Earth toilet - a vacuum, urine-diverting commode. Pre-treatment acid is dosed at the bowl (the VCD's hard constraint); the dose has no card and is marked not closable. Hygiene water after drinking and flushing is 0.99 L per person-day, so the shower is a 10 L recirculating loop with a 1 L top-up. Shower, dryer and cooking together add <strong>92 kg/sol of moisture, +34%</strong> on the condensate line.</p></div>
+      <div class="row"><div class="k">5 · dust</div><p>Martian dust's 1.5 µm median sits above HEPA's most-penetrating size, so H13 is enough and grade is not the constraint; electrostatic adhesion and 0.5 wt% perchlorate are. Loaded cartridges go to the <strong>green (filter-media) stream</strong> and the berm, never the purple textile stream that ends in compost and greenhouse soil. How much dust the airlocks bring in per cycle has no card - a 100× scan is printed and three measurements are dispatched to the door-holders.</p></div>
+      <div class="row"><div class="k">6 · electricity</div><p>400 V is 3.3× the safety-extra-low-voltage DC limit, so the home has two tiers: <strong>48 V sockets for anything under 1.5 kW, 400 V hard-wiring</strong> for hob, oven, washer, dryer and water heater. At 48 V a 3 kW hob is 62.5 A and needs 34 mm² of aluminium for 2% loss, 69× the conductor mass of 400 V. DC has no zero crossing: a 48 V plug pulled under load draws a 14 mm arc, 400 V 155 mm - sockets handshake before they energise. The mixed-gas breakdown curve (Townsend, mole-weighted, a declared approximation) puts 1 mm at 2.3 kV, 38% below air at the same pressure; the grid's CO₂ coefficients were used only as a known-answer gate.</p></div>
+      <div class="row"><div class="k">7 · acoustics</div><p>A 25.9 m³ hard-walled cabin reverberates for 1.6 s; 18 m² of panels bring it to 0.3 s. The WHO night limit is 30 dB(A) and a 42 dB fridge still makes 36 dB in the softened cabin, so <strong>not one of eleven appliances may live in a cabin</strong>; the commons-to-cabin partition needs 42-49 dB. A fan moving the same mass flow in 0.79× density is 3.2 dB louder. And the cited '+20% sound speed' is −4.3%.</p></div>
+      <div class="row"><div class="k">8 · make or import</div><p>Thirteen items decomposed part by part. Shells, insulation, cast-stone tops, printed liners and CO₂ refrigerant are local; compressors, windings, bearings, seals, electronics, heating elements, magnetrons and stainless drums are imported - the foundry's own '0% local' line. Ninety-one units city-wide: <strong>2.80 t, 1.06 t imported</strong>, 4% of one resupply window, once. No 'local manufacturing rate' is given: by mass it flatters, by function it does not.</p></div>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/home/r1-laundry.jpg" alt="Laundry corner: washer and heat-pump dryer under a cast-stone top against the right wall, vacuum cleaner beside them, bathroom doorway to the left, exit niche at right" loading="lazy">
+        <figcaption>Laundry corner: washer and heat-pump dryer hard-wired at 400 V (orange), the 48 V socket panel (blue) above, the vacuum on its hook.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/home/r1-bath_laundry.jpg" alt="The bathroom cubicle with its open doorway showing the recirculating shower stall lit inside; the scorecard screen and return-air fan on the wall behind" loading="lazy">
+        <figcaption>Bathroom cubicle: vacuum toilet with its orange pre-treatment tank, recirculating shower with the UV lamp glowing, all draining to lines the recycle card actually has.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number on this page, the state it is in, and the script that produced it. Scripts live in
+      the dossier <span class="src">mars-home/ledger/</span> and write <span class="src">mars-home/out/</span>; the pre-registration is the
+      dossier's first commit.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Claim</th><th class="num">Value</th><th>State</th><th>Produced by</th></tr></thead>
+        <tbody>
+          <tr><td>Boiling point at 70 kPa</td><td class="num">89.99 °C</td><td class="state">account · 2 routes, 0.2 K</td><td class="src">mars-home/ledger/01_cooking.py</td></tr>
+          <tr><td>Pressure cooker at +100 kPa gauge</td><td class="num">115.2 °C</td><td class="state">account</td><td class="src">01_cooking.py</td></tr>
+          <tr><td>Foods needing a pressure cooker</td><td class="num">3 of 9</td><td class="state">account · temperature criterion</td><td class="src">01_cooking.py · res-grain-01 diet</td></tr>
+          <tr><td>Natural / forced convection factor</td><td class="num">0.60 / 0.69</td><td class="state">account · shared cabin.py</td><td class="src">ledger/cabin.py · 01_cooking.py</td></tr>
+          <tr><td>Undercity cooking energy, dinner peak</td><td class="num">21-51 kWh/sol · 15.5 kW</td><td class="state">estimate · declared per-person band</td><td class="src">01_cooking.py</td></tr>
+          <tr><td>1 kW methane burner, CO₂ / O₂ person-equivalents</td><td class="num">4.7 / 8.2</td><td class="state">account · stoichiometry gate</td><td class="src">01_cooking.py · ops-fire-01 f01</td></tr>
+          <tr><td>Fridge condensing temperature, same area</td><td class="num">40 → 52 °C</td><td class="state">account · COP −17%</td><td class="src">02_refrigeration.py</td></tr>
+          <tr><td>Fridge electric power, cabin</td><td class="num">53.8 W</td><td class="state">account · η_II 0.35 declared</td><td class="src">02_refrigeration.py</td></tr>
+          <tr><td>Cavern heat loss vs gains (first decade)</td><td class="num">37-58 vs 19 kW</td><td class="state">conditional · no heat-balance card</td><td class="src">02_refrigeration.py</td></tr>
+          <tr><td>Surface day maximum for the external-cold case</td><td class="num">−37.5 °C</td><td class="state">account · trench-card swing</td><td class="src">02_refrigeration.py · pwr-grid-01 trench</td></tr>
+          <tr><td>Hull penetration thermal bridge</td><td class="num">0.06 W/pipe</td><td class="state">account · degenerate gates</td><td class="src">02_refrigeration.py</td></tr>
+          <tr><td>Laundry + dishwashing water, 115 people</td><td class="num">955 L/sol · 1.45×</td><td class="state">estimate · declared bands</td><td class="src">03_laundry.py · res-recycle-01 water</td></tr>
+          <tr><td>Net loss at 98.2% closure; city make-up</td><td class="num">17 L/sol · 30.3 → 47.5</td><td class="state">account · plant's own closure</td><td class="src">03_laundry.py</td></tr>
+          <tr><td>Dryer moisture into the air loop</td><td class="num">46 kg/sol · +17%</td><td class="state">account · 0.5 kg/kg declared</td><td class="src">03_laundry.py</td></tr>
+          <tr><td>Heat-pump / resistive drying energy</td><td class="num">32 / 48 kWh/sol</td><td class="state">account</td><td class="src">03_laundry.py</td></tr>
+          <tr><td>Vented sublimation dryer, water lost</td><td class="num">46 kg/sol = 1.52× make-up</td><td class="state">account · rejected</td><td class="src">03_laundry.py</td></tr>
+          <tr><td>Cold-trap recovery at −60 °C</td><td class="num">99.8%</td><td class="state">account · 611.7 Pa triple-point gate</td><td class="src">03_laundry.py</td></tr>
+          <tr><td>Toilet flush per event</td><td class="num">86 mL · 56× less than Earth</td><td class="state">account · identity gate</td><td class="src">04_sanitation.py · res-recycle-01 urine</td></tr>
+          <tr><td>Urine pre-treatment dose</td><td class="num">1.9-9.5 kg/sol scan</td><td class="state">not closable · no dose on any card</td><td class="src">04_sanitation.py</td></tr>
+          <tr><td>Hygiene water after drinking and flushing</td><td class="num">0.99 L/person-day</td><td class="state">account · ECLSS 3.5 L</td><td class="src">04_sanitation.py</td></tr>
+          <tr><td>Shower heat per use</td><td class="num">0.055 kWh</td><td class="state">account · 10 L loop</td><td class="src">04_sanitation.py</td></tr>
+          <tr><td>Extra moisture on the condensate line</td><td class="num">92 kg/sol · +34%</td><td class="state">account · three ledgers summed</td><td class="src">04_sanitation.py</td></tr>
+          <tr><td>HEPA most-penetrating size; 1.5 µm penetration</td><td class="num">0.3 µm · 2.5e-5</td><td class="state">account · mechanism gate</td><td class="src">05_dust.py</td></tr>
+          <tr><td>Airlock dust ingress</td><td class="num">0.1-9.6 kg/sol scan</td><td class="state">not closable · measurement dispatched</td><td class="src">05_dust.py</td></tr>
+          <tr><td>Cabin gas density</td><td class="num">0.941 kg/m³</td><td class="state">account · reproduces fire ledger 0.9415</td><td class="src">ledger/cabin.py</td></tr>
+          <tr><td>Vacuum suction at the same rpm</td><td class="num">0.78×</td><td class="state">account</td><td class="src">05_dust.py</td></tr>
+          <tr><td>48 V hob current; cable for 2% loss</td><td class="num">62.5 A · 34 mm² Al</td><td class="state">account</td><td class="src">06_electrical.py</td></tr>
+          <tr><td>Conductor mass ratio 48 V vs 400 V</td><td class="num">69×</td><td class="state">account · identity gate</td><td class="src">06_electrical.py · pwr-grid-01 1/V²</td></tr>
+          <tr><td>DC arc length, 48 V / 400 V</td><td class="num">14 / 155 mm</td><td class="state">estimate · 2.5 V/mm declared</td><td class="src">06_electrical.py</td></tr>
+          <tr><td>Mixed-gas breakdown, 1 mm at 70 kPa</td><td class="num">2.3 kV · 0.62× air</td><td class="state">approximation · mole-weighted Townsend, not closed</td><td class="src">06_electrical.py</td></tr>
+          <tr><td>Grid CO₂ Paschen point reproduced</td><td class="num">249.0 V @ 1.17 mm</td><td class="state">known-answer gate</td><td class="src">06_electrical.py · pwr-grid-01 busduct</td></tr>
+          <tr><td>Cabin RT60 hard / with panels</td><td class="num">1.58 / 0.29 s</td><td class="state">account · Sabine</td><td class="src">07_acoustics.py</td></tr>
+          <tr><td>Fridge level in a softened cabin vs sleep limit</td><td class="num">36.4 vs 30 dB(A)</td><td class="state">account · Earth label bands</td><td class="src">07_acoustics.py</td></tr>
+          <tr><td>Sound speed, cabin vs air</td><td class="num">329 vs 344 m/s</td><td class="state">account · pure-gas known answers 1%</td><td class="src">07_acoustics.py</td></tr>
+          <tr><td>Fan noise at equal mass flow</td><td class="num">+3.2 dB</td><td class="state">account · fan law</td><td class="src">07_acoustics.py</td></tr>
+          <tr><td>City appliance fleet mass; imported</td><td class="num">2.80 t · 1.06 t</td><td class="state">estimate · typical masses declared</td><td class="src">08_make_or_import.py</td></tr>
+          <tr><td>Share of one resupply window</td><td class="num">3.5-4.7%</td><td class="state">estimate · 60-80 t window</td><td class="src">08_make_or_import.py</td></tr>
+          <tr><td>Show-home geometry</td><td class="num">5,948 tris · 13.41 m · minY 0</td><td class="state">measured · validate_unit</td><td class="src">viewer/units/hab-home-01.js</td></tr>
+          <tr><td>In-city smoke test</td><td class="num">scale 1 · 0 console errors · fan 10 turns / 10 s</td><td class="state">measured · ?interior=hab-home-01</td><td class="src">viewer/index.html</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">Fifty-seven expectations were written before the scripts ran. Seventeen missed. These are the ones that
+      changed something.</p>
+    <div class="broke">
+      <div class="item"><h3>The external-cold counter-case was half wrong - my half.</h3><p>The pre-registration said a −60 °C mean is not a stable cold source and a 4 °C fridge could not be held at midday. With the trench card's 45 K peak-to-peak swing the day maximum is −37.5 °C: fridge and freezer both hold. What the ledger overturned was my intuition, not the case; what remains against it is penetrations, the vapour barrier and 40-85 K of overcooling to regulate.</p></div>
+      <div class="item"><h3>I copied another card's error into my own expectation.</h3><p>Expectation E7.4 took the tank-farm card's '+20% sound speed' at face value. Computed, the mix is 4.3% slower - argon is heavy, and sound speed depends on γ/M, not pressure. The follow-on expectation of ρc ≈ 0.95 was wrong for the same reason (it is 0.75). The gate that caught it stays red in the output by name; a pure-air / pure-argon known answer proves the formula. A citation is not a check.</p></div>
+      <div class="item"><h3>Gate G6.2 went red on argon, first version.</h3><p>With one generic secondary-emission coefficient for all gases the argon Paschen minimum came out 160 V against 137 in the literature, 17% off. γ is the one free parameter of the two-constant Townsend model and is legitimately per-gas, so it is now calibrated on each gas's minimum voltage, with the minimum pd held out as the check (N₂ +3%, Ar −15%, air +44% - the model's known weakness, printed). The band was not moved; the first-version 2388 V is kept on file beside the current 2305 V.</p></div>
+      <div class="item"><h3>The fridge was 20% hungrier than its Earth label.</h3><p>20-45 W was an Earth expectation. Natural convection at 0.60× drives a same-area condenser to 52 °C and COP down 17%: 54 W. The geometry answers with a condenser 1.67× larger and a fan - which then owes ledger 7 its noise.</p></div>
+      <div class="item"><h3>Two expectations forgot to multiply by the city.</h3><p>Dryer energy was pre-registered at 10-20 kWh/sol for a heat pump; that was one household's number. For 115 people it is 32. Laundry water was expected at 700-1000 L/sol for 85 people; the declared 0.8 kg/person-day gives 578. Both misses are printed; the plant-throughput conclusion (1.45×) held.</p></div>
+      <div class="item"><h3>The first render hid half the appliances.</h3><p>The kitchen cabinet was one 4.6 m box with the oven and dishwasher placed inside it, and the bathroom's front partition had a drawn door frame but no opening. Both were caught on the first in-engine screenshot, not by the validator - a validator counts triangles and checks the bounding box, it does not know that a box is in the way.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
+    <ul class="try">
+      <li>Open the viewer with <code>?interior=hab-home-01</code> to enter the show home directly; from the foyer, the door is on the right wall once the integrator wires it.</li>
+      <li>Walk to the kitchen wall: the fridge's fan spins at 60 rpm behind the oversized condenser; the oven's convection fan runs; the scorecard screen shows eight rows of cyan (hit) and red (miss) bars.</li>
+      <li>Approach any appliance for its card - the bilingual cards carry the ledger number, the gate, and the miss where there was one.</li>
+      <li>The bed corner is deliberately empty of machines: stand there and read the acoustics card for why.</li>
+      <li>Re-run everything: <code>python ledger/run_all.py</code> in the dossier; a red gate exits non-zero.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0 0 10px;"><strong>Sources.</strong> Design ledgers: <span class="src">mars-home/ledger/01_cooking.py … 08_make_or_import.py</span>, shared gas module <span class="src">mars-home/ledger/cabin.py</span>, outputs <span class="src">mars-home/out/*.json</span>, pre-registration <span class="src">mars-home/dev/PREREG_hab-home-01.md</span> (first commit). Cited city cards: <span class="src">viewer/units/res-eclss-01.info.json · pwr-grid-01 · res-recycle-01 · res-grain-01 · hab-village-01 · hab-quarter-01 · ops-fire-01 · res-foundry-01 · res-glass-01 · ops-payload-01 · res-dome-hall-01</span>. Geometry and cards: <span class="src">viewer/units/hab-home-01.js · home-parts.js · hab-home-01.info.json</span>.</p>
+    <p style="margin:0;">Sound-power levels are Earth product-label bands, appliance masses are typical household values, and the mixed-gas breakdown curve is a declared approximation - all three are labelled as such in the table above.</p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+</body>
+</html>

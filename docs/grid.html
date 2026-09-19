@@ -104,14 +104,14 @@
     <p class="phead__sub">Mars City ran an 848 MW fusion reactor and did not own a single
       cable. Fourteen roads and seven pipe racks were modelled; the electrical network was
       absent, and five knowledge cards cited &ldquo;the grid&rdquo; as if it were a thing that
-      existed. This is the substation that closes it &mdash; and the ten ledgers that found out
+      existed. This is the substation that closes it &mdash; and the sixteen ledgers that found out
       what a grid on Mars is actually allowed to be.</p>
   </div>
 </header>
 
 <div class="specs">
   <div class="specs__grid wrap" style="padding:0;">
-    <div class="spec"><div class="spec__k">City load</div><div class="spec__v">707<small>kW mean</small></div></div>
+    <div class="spec"><div class="spec__k">City load</div><div class="spec__v">679<small>kW mean, priced &mdash; 916 with assumptions</small></div></div>
     <div class="spec"><div class="spec__k">Trunk</div><div class="spec__v">&plusmn;10<small>kV DC</small></div></div>
     <div class="spec"><div class="spec__k">Buried corridors</div><div class="spec__v">7,058<small>m</small></div></div>
     <div class="spec"><div class="spec__k">Overhead line</div><div class="spec__v">0<small>m &mdash; and that is the design</small></div></div>
@@ -167,10 +167,16 @@
       generator terminals; <strong>208&nbsp;MWe walks straight back</strong> into the klystrons
       that keep the plasma current alive; 6.5&nbsp;MWe more goes to the cryoplant. What crosses
       the fence is 176. Recirculating fraction 54.9%, engineering Q<sub>e</sub> 1.82.</p>
-      <p>Totalled item by item across fifty assets, the city draws <strong>707&nbsp;kW mean and
-      1,075&nbsp;kW at coincident peak</strong>. Where a card stated no power, the load was
-      closed against the asset's own heat-rejection geometry &mdash; on Mars there is no
-      convection, so <strong>radiator area is the power meter</strong>.</p>
+      <p>Totalled item by item across fifty assets, the first round drew 707&nbsp;kW mean and
+      1,075&nbsp;kW at coincident peak &mdash; figures the second round retired (2026-09-13, ledger 12).
+      Read card by card, the <strong>priced total is 679&nbsp;kW mean and
+      885&nbsp;kW coincident</strong>, 916 / 1,405&nbsp;kW with this
+      dossier's own assumptions added &mdash; and the largest single load in the city, the
+      staple-crop hall at 260&nbsp;kW, had never been in the table. Where a card
+      stated no power, r1 closed the load against the asset's heat-rejection geometry &mdash; on Mars
+      there is no convection, so <strong>radiator area is the power meter</strong>. The method
+      stands; its showcase did not: the compute centre's two &ldquo;independent&rdquo; routes read the
+      same drawing (section 07).</p>
       <p>Which produces the line that matters most to every future asset: <strong>the city
       consumes 0.40% of its reactor.</strong> The other 99.6%, converted at 5.45&nbsp;kWh/kg, is
       roughly 618 kilotonnes of methalox per synod &mdash; about 515 Starship loads.
@@ -309,14 +315,22 @@
       <p>The storage field's 2&nbsp;MW inverter covers the entire unshed city with 3.3&times;
       margin, so islanding is never a power problem. It is an energy problem: 20&nbsp;MWh divided
       by the load is 1.3 sols. The four-tier shedding ladder &mdash; ranked by <em>what an
-      interruption costs</em>, not by importance &mdash; winds that out to 10.3 sols.</p>
+      interruption costs</em>, not by importance &mdash; winds that out. (r1 said &ldquo;to 10.3 sols
+      on a 78&nbsp;kW survival tier&rdquo;; that figure was retired 2026-09-13, ledger 16 &mdash; next
+      paragraph.)</p>
       <p>Which produced a closure nobody had written down. pwr-storage-01 verified that its field
       carries <strong>145&nbsp;kW for 30 sols at 15% residual sun</strong>. This dossier
       independently computes the city's survival tier &mdash; emergency life support, habitat
-      thermal, comms, the lift, the airlocks, the seismic station &mdash; at <strong>78&nbsp;kW</strong>.
-      Two sessions, two purposes, neither aware of the other, and the numbers close at 1.85&times;.
+      thermal, comms, the lift, the airlocks, the seismic station &mdash; at <strong>78&nbsp;kW</strong>,
+      a figure this dossier has since retired (next sentences).
+      Two sessions, two purposes, neither aware of the other, and the numbers closed at 1.85&times; &mdash;
+      a ratio also retired below.
       That renames the asset: it is not &ldquo;the other grid&rdquo;. It is <strong>the survival
-      grid</strong>.</p>
+      grid</strong>. <strong>Retired 2026-09-13 (ledger 16):</strong> the 78&nbsp;kW was this dossier's own
+      per-crew factor on a crew of 30 &mdash; the city has 115 &mdash; so what closed was two ledgers'
+      assumptions. On the units' own bases the survival tier is <strong>8.7&nbsp;kW plus five
+      unpriced life-support gaps</strong>; 145 / 8.7 is 16.63&times;. The field is still the
+      survival grid. The closure was never the evidence for it.</p>
       <p>A dust storm, meanwhile, moves the city <em>up</em> &mdash; to about 1.6&nbsp;MW, because
       the greenhouse lamps go to full artificial photoperiod and the battery must be charged from
       the trunk instead of the sun. That is under 1% of supply. For Mars City a global dust storm
@@ -378,13 +392,94 @@
 
 <section class="band">
   <div class="wrap">
-    <div class="sec-head"><span class="num">07</span><h2>The ledger</h2></div>
-    <p class="lead">Ten analytic books, 71 gates, all green. Every headline number and the script
-      that produced it.</p>
+    <div class="sec-head"><span class="num">07</span><h2>From the trunk to the socket</h2></div>
+    <p class="lead">Two other dossiers found the holes. The appliance dossier computed the cabin
+      electrics because nobody had; the compute centre showed that my row for it was a drawing read
+      as a meter. Five more ledgers, pre-registered before any of them ran.</p>
+    <div class="prose">
+      <p><strong>The load table, re-audited card by card (ledger 12).</strong> The script reads the
+      seventy-seven knowledge cards, not my memory, and every quoted number has to be found verbatim
+      in its card or the gate goes red. Of the twenty-six r1 rows, seven were judgement values and two
+      were mixed. Five card-backed loads had never been booked &mdash; the staple-crop hall at
+      260&nbsp;kW, the glass works, the foundry, the cryo-EM, the optical terminal,
+      the cryogenic tank farm. The 117&nbsp;kW habitation lump rested on a crew of thirty; the ECLSS
+      card counts 115. Split into what the cards actually state, it is a gas plant at 32&nbsp;kW,
+      appliances at 4, village heating at 2 &mdash; and cabin services, undercity heating and the
+      CO&#8322; and water loops are <em>gaps</em>: listed, not estimated. Two totals are now printed
+      and never blended: priced 679&nbsp;kW, with assumptions 916.</p>
+      <p><strong>The socket tier (ledger 13).</strong> The boundary between 48&nbsp;V sockets and
+      400&nbsp;V hard-wiring is not a borrowed 1.5&nbsp;kW: it is <strong>1.54&nbsp;kW</strong>, set
+      by the 32&nbsp;A plug family, with the largest practical branch cable binding only above it.
+      48&nbsp;V is the only pluggable class &mdash; below the 60&nbsp;V SELV limit and below the
+      249&nbsp;V Paschen floor. In an 85-person commons the sockets carry 27% of the power and 87% of
+      the cabin conductor mass: the price of a pluggable voltage is paid in aluminium, one floor down
+      from the trunks and by the same law.</p>
+      <p><strong>Arcs and protection (ledger 14).</strong> A DC arc has no current zero. At 400&nbsp;V
+      and 40&nbsp;A it stretches to 0.87&ndash;1.01&nbsp;m in every model, so no
+      mechanical contact may open a 400&nbsp;V circuit under load: solid-state block in microseconds,
+      isolate after. At 48&nbsp;V two published-form models disagree five-fold
+      (12&ndash;75&nbsp;mm) and straddle a plug's 10&ndash;20&nbsp;mm parting stroke, which is
+      why the pre-registered gate went red and the conclusion is now conditional: handshake before
+      power is adopted as the conservative rule, and the arc's V&ndash;I&ndash;L in this gas is a
+      declared measurement. Fault current is the converter's limit, 1.5&ndash;2&times; rated &mdash; a
+      thermal-magnetic breaker never trips here &mdash; except for the bus capacitor, which gives
+      47&ndash;104&times; for under a millisecond: enough to weld a contact, not enough to trip a
+      breaker. There is still no earth: the hull is a bonded reference, the IT system runs to the
+      socket, and the whole cabin network is tens of nanofarads to it.</p>
+      <p><strong>The cabin gas (ledger 15).</strong> hab-home-01 was right that 610&nbsp;Pa CO&#8322;
+      coefficients cannot be copied indoors. Two cases, printed side by side. Additive Townsend, per
+      gas: 1&nbsp;mm at 70&nbsp;kPa breaks at 2.33&nbsp;kV, the minimum is
+      218&nbsp;V at a 15&nbsp;&micro;m gap &mdash; indoors the worst gap is a
+      size hardware does not have, and 48&nbsp;V breaks none. The Boltzmann case &mdash; the electron
+      energy distribution solved in the actual mixture with IST-Lisbon cross sections &mdash; ran,
+      and failed its registered known-answer gate, because I had registered a comparison against a
+      two-constant fit outside the fit's own validity. By the pre-registration it therefore
+      <strong>publishes no value</strong>; its appendix says the additive model is within 6%, and in
+      the opposite direction from the one I had registered. What is not closable is creepage under
+      perchlorate dust, and that is a measurement.</p>
+      <p><strong>The ladder, by basis (ledger 16).</strong> Every unit's island share now carries its
+      source: the unit's own card, a priced mean with no emergency mode, or this ledger's factor. The
+      compute centre's 4.8&nbsp;kW goes to zero on its own ledger. The survival tier on the units'
+      own bases is <strong>8.7&nbsp;kW plus five unpriced gaps</strong> (11.7 with my factors); the
+      &ldquo;quench plus black storm&rdquo; case closes on card bases at 1.53&times; and fails
+      only when my assumed quantum-centre and deep-lab loads are put back (0.68&times;) &mdash;
+      the fission dossier's 63.7&nbsp;kW gap is made of two loads no card prices. What the city needs
+      next is three numbers from three cards, not another factor from this one.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/grid/12_reaudit.png" alt="Load table re-audited, coloured by source" loading="lazy">
+        <figcaption>THE TABLE BY SOURCE &mdash; GREEN CARD, BLUE DERIVED, RED STILL ASSUMED</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/grid/16_ladder.png" alt="Shedding ladder by basis" loading="lazy">
+        <figcaption>THE LADDER BY BASIS &mdash; T1 IS 9 KW OWNED, NOT 78 KW GUESSED</figcaption>
+      </figure>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/grid/14_arc.png" alt="DC arc length vs load current, two models" loading="lazy">
+        <figcaption>NO PLUG PARTS FAST ENOUGH &mdash; AND THE TWO MODELS DISAGREE FIVE-FOLD</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/grid/15_paschen_cabin.png" alt="Cabin gas Paschen curve by composition" loading="lazy">
+        <figcaption>CABIN GAS BY COMPOSITION &mdash; THE BOLTZMANN CURVE IS AN APPENDIX, NOT A RESULT</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">08</span><h2>The ledger</h2></div>
+    <p class="lead">Sixteen analytic books, 104 gates: 102 green, two red kept on the record by
+      name. Every headline number and the script that produced it.</p>
     <div class="tablewrap"><table>
       <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
       <tbody>
-        <tr><td>City load, mean / coincident peak</td><td class="num">707 / 1,075 kW</td><td class="src">grid_01_load_ledger.py</td></tr>
+        <tr><td>City load, priced (card + derived), mean / coincident peak</td><td class="num">679 / 885 kW</td><td class="src">grid_12_load_reaudit.py</td></tr>
+        <tr><td>&hellip; with this dossier's assumptions added</td><td class="num">916 / 1,405 kW</td><td class="src">grid_12_load_reaudit.py</td></tr>
+        <tr><td>r1 city load (retired 2026-09-13: 30-crew guess, capacity read as meter)</td><td class="num">707 / 1,075 kW</td><td class="src">grid_01_load_ledger.py</td></tr>
         <tr><td>Gross-to-net reconciliation</td><td class="num">390 &minus; 208 &minus; 6.5 = 176 MWe</td><td class="src">grid_01_load_ledger.py</td></tr>
         <tr><td>City share of its own reactor</td><td class="num">0.40%</td><td class="src">grid_01_load_ledger.py</td></tr>
         <tr><td>Paschen minimum, CO&#8322; at 610 Pa</td><td class="num">249 V @ 1.17 mm</td><td class="src">grid_02_paschen.py</td></tr>
@@ -392,8 +487,17 @@
         <tr><td>Electrode radius for 5 &Omega;</td><td class="num">5,000 km</td><td class="src">grid_02_paschen.py</td></tr>
         <tr><td>Conductor mass law</td><td class="num">&prop; V&#8315;&sup2;, exact</td><td class="src">grid_03_transmission.py</td></tr>
         <tr><td>Bipolar DC vs 3-phase, equal loss</td><td class="num">0.50&times; conductor</td><td class="src">grid_03_transmission.py</td></tr>
-        <tr><td>Islanded endurance, T1 survival</td><td class="num">10.3 sol</td><td class="src">grid_04_islanding.py</td></tr>
-        <tr><td>Storage capability vs survival tier</td><td class="num">145 / 78 kW = 1.85&times;</td><td class="src">grid_04_islanding.py</td></tr>
+        <tr><td>T1 survival tier on the units' own bases</td><td class="num">8.7 kW + 5 unpriced gaps</td><td class="src">grid_16_island_reprint.py</td></tr>
+        <tr><td>Storage 145 kW vs T1 (own basis)</td><td class="num">16.63&times;</td><td class="src">grid_16_island_reprint.py</td></tr>
+        <tr><td>Quench + black storm, 153 kW vs T1+T2+T2c: card bases / with my assumptions</td><td class="num">1.53&times; / 0.68&times;</td><td class="src">grid_16_island_reprint.py</td></tr>
+        <tr><td>r1 T1 survival, endurance, closure (retired 2026-09-13: own per-crew factor on 30 crew)</td><td class="num">78 kW &middot; 10.3 sol &middot; 1.85&times;</td><td class="src">grid_04_islanding.py</td></tr>
+        <tr><td>Socket tier boundary (32 A plug family)</td><td class="num">1.54 kW at 48 V</td><td class="src">grid_13_cabin_distribution.py</td></tr>
+        <tr><td>48 V share of commons conductor mass / power</td><td class="num">87% / 27%</td><td class="src">grid_13_cabin_distribution.py</td></tr>
+        <tr><td>400 V / 40 A arc length, every model and exponent</td><td class="num">0.87&ndash;1.01 m &rarr; no air-break</td><td class="src">grid_14_dc_arc_protection.py</td></tr>
+        <tr><td>48 V / 10 A arc length, two models (conditional; G14.5 red kept)</td><td class="num">12&ndash;75 mm</td><td class="src">grid_14_dc_arc_protection.py</td></tr>
+        <tr><td>Cabin fault current: steady / capacitor peak (&lt;1 ms)</td><td class="num">1.5&ndash;2&times; / 47&ndash;104&times; rated</td><td class="src">grid_14_dc_arc_protection.py</td></tr>
+        <tr><td>Cabin gas Paschen (additive Townsend): 1 mm at 70 kPa; minimum</td><td class="num">2.33 kV; 218 V at 15 &micro;m</td><td class="src">grid_15_mixed_gas_paschen.py</td></tr>
+        <tr><td>Cabin gas Paschen (Boltzmann in the mixture)</td><td class="num">ran; G15.5 red; unpublished (appendix B/A 1.06)</td><td class="src">grid_15_mixed_gas_paschen.py</td></tr>
         <tr><td>Seismic feeder red-line clearance</td><td class="num">30.2&deg; (direct route 5.2&deg;)</td><td class="src">grid_05_seis_feeder.py</td></tr>
         <tr><td>Corridor clash screen and reroute</td><td class="num">17 routes, 4 m detour</td><td class="src">grid_06_corridor_audit.py</td></tr>
         <tr><td>Converter efficiency at the city mean</td><td class="num">96.6% (98.0% at rating)</td><td class="src">grid_07_converter_protection.py</td></tr>
@@ -409,9 +513,10 @@
 
 <section class="band band--alt">
   <div class="wrap">
-    <div class="sec-head"><span class="num">08</span><h2>What broke</h2></div>
-    <p class="lead">Six of the ten books exist because an earlier book was wrong. The gates caught
-      every one, and most of them were mine.</p>
+    <div class="sec-head"><span class="num">09</span><h2>What broke</h2></div>
+    <p class="lead">Six of the first ten books exist because an earlier book was wrong, and the r2
+      five retired four of the headline numbers above. The gates caught every one, and most of them
+      were mine.</p>
     <div class="prose">
       <p><strong>48 V cannot travel.</strong> The environmental spur was drafted at 48&nbsp;V for
       234&nbsp;m &mdash; a 28.7% voltage drop. 48&nbsp;V is a utilisation voltage, not a
@@ -450,13 +555,34 @@
       drew it on a solid slab, so the trench floor and every cable sat <em>inside</em> the
       platform box and rendered completely invisible &mdash; while the contract checker reported
       all green. Passing validation is not the same as being readable.</p>
+      <p><strong>r2 &middot; The city load ledger was missing the city's largest load.</strong>
+      &ldquo;Totalled item by item across fifty assets&rdquo; had no row for the staple-crop hall
+      (260&nbsp;kW mean by its card), booked a 117&nbsp;kW habitation lump on a crew of
+      thirty, read the compute centre's drawn racks as a meter, and counted two self-powered
+      stations as grid loads. Ledger 12 reads the cards, not me; seven of the twenty-six rows were
+      mine, and every one of them now says so.</p>
+      <p><strong>r2 &middot; &ldquo;The closure nobody wrote down&rdquo; was two guesses agreeing.</strong>
+      145 / 78 = 1.85&times; compared the storage field's verified envelope with this dossier's own
+      per-crew factor; on the units' own bases the survival tier is 8.7&nbsp;kW plus five gaps no card
+      prices. The renaming of pwr-storage-01 survives; the argument for it does not, and the card
+      that quoted it has been sent the receipt.</p>
+      <p><strong>r2 &middot; A conclusion did not survive its own ablation.</strong> &ldquo;No plug parts
+      fast enough to quench a 48&nbsp;V arc&rdquo; was pre-registered to hold for every pressure
+      exponent in two models. It holds in one. The gate stays red, the conclusion became
+      conditional, and the arc's V&ndash;I&ndash;L in cabin gas became a measurement to ask for.</p>
+      <p><strong>r2 &middot; A solver failed the wrong known answer.</strong> The Boltzmann case was
+      registered against two-constant Townsend fits at fields where those fits are not valid, and
+      against an air minimum at fields where a two-term solver is weak. The reference was tested
+      where it is wrong and the solver where it is weak; a post-hoc gate inside the fits' validity
+      is green. By the pre-registration the case publishes no value this round. The rule cost a
+      number and bought the right to re-register it.</p>
     </div>
   </div>
 </section>
 
 <section class="band">
   <div class="wrap">
-    <div class="sec-head"><span class="num">09</span><h2>Try it in the city</h2></div>
+    <div class="sec-head"><span class="num">10</span><h2>Try it in the city</h2></div>
     <div class="prose">
       <p>Open the main viewer, press <strong>C</strong> to raise the tech city, and add
       <span class="src">?inspect=pwr-grid-01</span> to frame the substation. It sits between the
@@ -472,6 +598,11 @@
       48&nbsp;V &mdash; and the chevron points the way the cable goes. That is the answer to the
       hardest visual problem in this design: <strong>the entire grid is buried, and it still has
       to be readable from the surface.</strong></p>
+      <p>On the south apron, west of the bonding-mesh sign, a display stand carries the sample
+      two-tier cabin board: orange 400&nbsp;V column with the solid-state breakers and the
+      insulation monitor, blue 48&nbsp;V column with the converter and twenty socket circuits, the
+      green-and-yellow hull bond along the bottom. That board is the ninth card. The same parts
+      are offered to the habitat dossiers as <span class="src">viewer/units/grid-parts.js</span>.</p>
       <p>After dusk the SCADA window glows with the live power-flow bars, the valve-position
       strips light the open bay, and the marker-post reflectors pick out the corridors.</p>
     </div>
@@ -485,8 +616,8 @@
 <footer>
   <div class="wrap">
     <div class="label" style="margin-bottom:10px;">Sources</div>
-    <p style="margin:0;">Design ledger: <span class="src">mars-grid/DESIGN.md</span> (10 books,
-      71 gates) &middot; Scripts: <span class="src">mars-grid/scripts/grid_01&ndash;10</span>
+    <p style="margin:0;">Design ledger: <span class="src">mars-grid/DESIGN.md</span> (16 books,
+      104 gates: 102 green, 2 red kept by name) &middot; Scripts: <span class="src">mars-grid/scripts/grid_01&ndash;16</span>
       &middot; City assets: <span class="src">viewer/units/pwr-grid-01.js</span> ·
       <span class="src">viewer/units/pwr-grid-net-01.js</span> &middot; Corridor table:
       <span class="src">mars-grid/out/06_corridors_audited.json</span> &middot;

@@ -1,0 +1,347 @@
+{
+  "id": "hab-home-01",
+  "pois": [
+    {
+      "id": "hob",
+      "label": "电磁灶与压力锅（90 °C 的厨房）",
+      "label_en": "Induction hob and pressure cooker (a 90 °C kitchen)",
+      "range": 7,
+      "detail": "面板是玻璃厂的铸石，下面两圈铝线圈。70 kPa 舱压下水在 89.99 °C 就开了：淀粉糊化、蛋白凝固、巴氏杀菌都够，但菜豆的凝集素和大豆的胰蛋白酶抑制剂要 100 °C——而这座城的主粮四分之一是大豆。旁边那只压力锅不是厨具，是主粮系统的必需件：+100 kPa 表压给 115 °C。灶是 400 V 固定接线（橙盒），没有插头。",
+      "detail_en": "The top is cast stone from the glass works, two aluminium coils beneath it. At 70 kPa water boils at 89.99 °C: fine for starch, egg white and pasteurisation, but kidney-bean lectin and soybean trypsin inhibitor need 100 °C - and a quarter of this city's staple diet is soybean. The pressure cooker beside it is not cookware but a mandatory part of the staple-food system: +100 kPa gauge gives 115 °C. The hob is hard-wired at 400 V (orange box); there is no plug.",
+      "specs": {
+        "沸点": "89.99 °C @ 70 kPa（Antoine；Clausius–Clapeyron 89.8）",
+        "压力锅": "+100 kPa 表压 → 115.2 °C；+150 → 123 °C",
+        "必须压力锅": "干豆 / 大豆 / 罐藏（3 项）；米饭薯类 90 °C 可做，时间 ×1.4–2",
+        "效率": "电磁 80–90%（DOE 测试 84%）",
+        "供电": "400 V 直流固定接线，3 kW ×2 眼"
+      },
+      "specs_en": {
+        "Boiling point": "89.99 °C at 70 kPa (Antoine; Clausius-Clapeyron 89.8)",
+        "Pressure cooker": "+100 kPa gauge → 115.2 °C; +150 → 123 °C",
+        "Needs pressure": "dry beans / soy / canning (3 items); rice and tubers cook at 90 °C in 1.4-2× the time",
+        "Efficiency": "induction 80-90% (DOE test 84%)",
+        "Supply": "400 V DC hard-wired, 3 kW × 2 zones"
+      },
+      "sim": [
+        "账 1（mars-home ledger/01_cooking.py，036a7e8）：沸点两条路径差 0.2 K，闸 G1.1 在 1 atm 给 100.0 °C。煮不熟清单按「目标温度 > 沸点」判：9 项里 3 项必须压力锅，全部与豆类和罐藏有关——res-grain-01（39497c2）薯/豆/麦 60/25/15 的膳食把压力锅从可选变成必需。",
+        "明火按 ops-fire-01 账 1（2d8fc57）处置，不写「禁止」：薄燃料蔓延 1.63×（Ar 当量 O₂ 30.1%）、火焰温度比地球高 640 K；本账加一条气路代价——1 kW 甲烷灶每小时排 0.198 kg CO₂ = 4.7 人份呼出、抽 0.288 kg O₂ = 8.2 人份吸入，全进舱内空气回路（无烟囱）。电磁灶 84% 到锅对甲烷 ~40%，且一条都不付。预注册写的是 2–4 人份，算得 4.7，偏出照记。"
+      ],
+      "sim_en": [
+        "Ledger 1 (mars-home ledger/01_cooking.py, 036a7e8): the two boiling-point routes differ by 0.2 K; gate G1.1 returns 100.0 °C at 1 atm. The cannot-cook list is judged by 'target temperature above boiling point': 3 of 9 items need a pressure cooker, all of them beans or canning - the res-grain-01 (39497c2) 60/25/15 potato/soy/wheat diet turns the pressure cooker from optional into mandatory.",
+        "Open flame is handled by the ops-fire-01 ledger 1 (2d8fc57), not by the word 'forbidden': thin-fuel spread 1.63× (argon-equivalent O₂ 30.1%), flame 640 K hotter than on Earth; this ledger adds the gas-loop cost - a 1 kW methane burner emits 0.198 kg CO₂ per hour, 4.7 people's exhalation, and draws 0.288 kg O₂, 8.2 people's intake, all into the cabin air loop (no chimney). Induction puts 84% into the pot against ~40% for methane, and pays none of that. Pre-registered as 2-4 persons; came out 4.7; recorded as a miss."
+      ],
+      "physics": "沸点由蒸气压等于外压决定，与火力无关：再大的灶也只能把 70 kPa 的水烧到 90 °C，多出的能量全变成蒸汽。压力锅做的事是把「外压」抬回去——这是这座城唯一一件靠改变压力而不是改变温度来工作的厨具。",
+      "physics_en": "Boiling happens where vapour pressure equals ambient pressure, regardless of burner power: no hob can take 70 kPa water past 90 °C, the surplus just becomes steam. A pressure cooker simply raises the 'ambient' back - the one kitchen tool here that works by changing pressure rather than temperature."
+    },
+    {
+      "id": "oven",
+      "label": "烤箱（稀薄气里的对流打六折）",
+      "label_en": "Oven (convection at 0.6 in thin gas)",
+      "range": 6,
+      "detail": "铸铁壳、岩棉 50 mm、黑玻璃门，都是本地件；发热丝是进口的。它的问题不在沸点，在换热：70 kPa 的 N₂/Ar/O₂ 混合气里，自然对流换热系数只有地球的 0.60，强制对流 0.69。后壁那只风机不是选配——不装它，烤同一只面包要多等三分之一。",
+      "detail_en": "Cast-iron shell, 50 mm rock wool, black-glass door - all local; the heating element is imported. Its problem is not the boiling point but heat transfer: in the 70 kPa N₂/Ar/O₂ mix, natural convection is 0.60 of Earth's, forced convection 0.69. The fan at the back is not an option - without it the same loaf waits a third longer.",
+      "specs": {
+        "自然对流": "h 0.60×（标度项 (g·ρ²)^{1/4} = 0.69，Ar 把 k 压低 10% 再打一折）",
+        "强制对流": "h 0.69×（ρ^0.8 标度 0.82 × 物性）",
+        "辐射": "不变",
+        "地球锚": "竖板 ΔT 100 K 自然对流 6.3 W/m²K（闸 5–10）",
+        "功率": "2.5 kW，400 V 固定接线；风机 spinner"
+      },
+      "specs_en": {
+        "Natural convection": "h 0.60× (scaling term (g·ρ²)^{1/4} = 0.69, argon's lower k takes another 10%)",
+        "Forced convection": "h 0.69× (ρ^0.8 scaling 0.82 × property change)",
+        "Radiation": "unchanged",
+        "Earth anchor": "vertical plate ΔT 100 K natural h 6.3 W/m²K (gate 5-10)",
+        "Power": "2.5 kW, 400 V hard-wired; fan is a spinner"
+      },
+      "sim": "账 1 换热标度（ledger/01_cooking.py）：自然对流 h ∝ k·(g·β·ΔT·L³/να)^{1/4}/L → (g·ρ²)^{1/4}·k^{3/4}·(cp/μ)^{1/4}；强制 h ∝ ρ^{0.8}。用同一份 cabin.py 的混合气物性（摩尔加权，声明近似）算得 0.596 / 0.687；预注册强制对流带 0.70–0.85，算得 0.687，偏出 —— 因为预期时只记了 ρ^0.8 的标度项，漏了 Ar 把导热系数拉低的物性项。闸 G1.3：同参数回 1.000。",
+      "sim_en": "Ledger 1 heat-transfer scaling (ledger/01_cooking.py): natural h ∝ k·(g·β·ΔT·L³/να)^{1/4}/L → (g·ρ²)^{1/4}·k^{3/4}·(cp/μ)^{1/4}; forced h ∝ ρ^{0.8}. With the shared cabin.py mixture properties (mole-weighted, a declared approximation) this gives 0.596 / 0.687; the pre-registered forced band was 0.70-0.85, result 0.687, a miss - the expectation counted only the ρ^0.8 scaling and forgot argon pulling the conductivity down. Gate G1.3: same inputs return exactly 1.000.",
+      "physics": "对流换热带走热量的能力正比于气体的密度、比热和导热系数的组合。火星舱把三样都削了一点：压力少 30%、氩的比热只有氮的三分之二、导热差 10%。没有一样是灾难，乘起来就是六折。",
+      "physics_en": "Convective cooling scales with a combination of gas density, heat capacity and conductivity. The Mars cabin trims all three a little: 30% less pressure, argon's heat capacity two-thirds of nitrogen's, conductivity 10% lower. None is a disaster; multiplied, it is 0.6."
+    },
+    {
+      "id": "fridge",
+      "label": "冰箱（背上那块冷凝器比地球大 1.67 倍）",
+      "label_en": "Fridge-freezer (a condenser 1.67× larger than Earth's)",
+      "range": 6,
+      "detail": "200 L 冷藏 + 60 L 冷冻，铸铁搪瓷壳、打印内胆、岩棉 50 mm，制冷剂是从火星大气冻出来的 CO₂——它在 26.5% O₂ 的舱里不可燃，异丁烷则是燃料。压缩机是进口件。背后那块蛇管冷凝器故意画得很大：舱内气体的自然对流只有地球六成，同样大小的冷凝器会热到 52 °C，COP 掉 17%。它的全部电功最后都变成舱内空气的热。",
+      "detail_en": "200 L fresh plus 60 L frozen, enamelled cast-iron shell, printed liner, 50 mm rock wool, and CO₂ refrigerant frozen out of the Martian air - non-flammable in a 26.5% O₂ cabin, where isobutane would be fuel. The compressor is imported. The serpentine condenser on the back is deliberately oversized: cabin-gas natural convection is 0.6 of Earth's, so an Earth-sized condenser would run at 52 °C and lose 17% of COP. Every watt it draws ends up as heat in the cabin air.",
+      "specs": {
+        "电功": "地球 44.6 W → 舱内 53.8 W（同面积冷凝器）；面积 ×1.67 回到 44.6",
+        "COP": "地球冷冻 1.54（η_II 0.35 × 卡诺）；舱内同面积 −17%",
+        "进舱热": "= 电功（箱内热本就来自舱内）；全城 7 台 376 W",
+        "对代谢显热": "地下城 5 台 3.2%（85 人 × 100 W）",
+        "制冷剂 / 绝热": "CO₂ R744（本地）/ 岩棉 50 mm = PU 31 mm"
+      },
+      "specs_en": {
+        "Electric power": "Earth 44.6 W → cabin 53.8 W (same condenser); ×1.67 area restores 44.6",
+        "COP": "Earth freezer 1.54 (η_II 0.35 × Carnot); cabin same area −17%",
+        "Heat to cabin": "= electric input (the box's heat came from the cabin); 7 units city-wide 376 W",
+        "vs metabolic sensible": "5 undercity units 3.2% (85 × 100 W)",
+        "Refrigerant / insulation": "CO₂ R744 (local) / 50 mm rock wool = 31 mm PU"
+      },
+      "sim": [
+        "账 2（ledger/02_refrigeration.py）：预注册电功 20–45 W 是地球标签，算得 53.8 W，偏出；原因是冷凝温度从 40 升到 52 °C。修法是冷凝器面积 ×1/0.60 或加风扇（风扇噪声交账 7）。符号有条件：声明假设下洞室前十年散热 37–58 kW 对内部得热 19 kW，采暖主导，冰箱排热是抵扣——但 hab-quarter-01 无热平衡卡，符号不由本册定。",
+        "对照案「穿壳向外取冷」（掩土村）：两根 DN10 钢管的热桥只有 0.06 W/管，对村账每舱 0.13 kW 是零头；地表日最高 −37.5 °C（年均 −60，trench 卡 45 K 峰峰）对 4 °C 冷藏与 −18 °C 冷冻都守得住——我预注册写的「日中守不住」被自己的账推翻。剩下的代价：每台 2 个穿壳件（泄漏点，单件贡献无卡，不能闭合）、(a) 冰-土路的防汽层被穿透（REPLY_village_lever1_hydrogen §3(ii)）、40–85 K 过冷要调节阀。地下城 30 m 岩层没有「外」。两案并印，不替用户选。"
+      ],
+      "sim_en": [
+        "Ledger 2 (ledger/02_refrigeration.py): the pre-registered 20-45 W was an Earth label; result 53.8 W, a miss, because the condensing temperature climbs from 40 to 52 °C. Fix: condenser area ×1/0.60 or a fan (fan noise goes to ledger 7). The sign is conditional: under declared assumptions the cavern loses 37-58 kW against 19 kW of internal gains in its first decade, so it is heating-dominated and fridge heat is a credit - but hab-quarter-01 has no heat-balance card, so this ledger does not fix the sign.",
+        "Counter-case 'cold through the hull' (berm village): two DN10 steel pipes bridge only 0.06 W each, nothing against the village's 0.13 kW per cabin; the surface day maximum of −37.5 °C (mean −60, trench card 45 K peak-to-peak) holds both a 4 °C fridge and a −18 °C freezer - my pre-registered 'cannot hold at midday' was overturned by my own ledger. What remains: 2 hull penetrations per unit (leak points; per-item contribution has no card, not closable), a punctured vapour barrier on the ice-soil path (REPLY_village_lever1_hydrogen §3(ii)), and 40-85 K of overcooling that needs a control valve. Thirty metres of rock over the undercity has no 'outside'. Both cases printed; the choice is the user's."
+      ],
+      "physics": "冰箱不是把热消灭，是把热搬到舱内空气里，并且搬运本身还要付电。在一个每一瓦最终都得辐射到火星天空的城里，冰箱的账不在箱内，在箱外那块冷凝器和它背后的空气回路上。",
+      "physics_en": "A fridge does not destroy heat; it moves it into the cabin air and pays electricity for the move. In a city where every watt must eventually be radiated to the Martian sky, the fridge's ledger is not inside the box but on the condenser behind it and the air loop behind that."
+    },
+    {
+      "id": "dishwasher",
+      "label": "洗碗机（回收厂表上没有的第二行）",
+      "label_en": "Dishwasher (the second missing line in the recycle ledger)",
+      "range": 5,
+      "detail": "铸铁壳、岩棉隔声、打印喷臂，内胆是进口不锈钢——城里没有一种不锈钢。它每 sol 为 115 人用掉 172 L 水，走灰水线回 res-recycle-01 的膜撬；而那张水卡的进料表里没有它，也没有洗衣机。",
+      "detail_en": "Cast-iron shell, rock-wool sound damping, printed spray arm, and an imported stainless tub - this city has no stainless steel. It uses 172 L per sol for 115 people, draining to the grey-water line and res-recycle-01's membrane skids; that water card's intake table lists neither it nor the washing machine.",
+      "specs": {
+        "用水": "1.2–2.0 L/人天 → 115 人 138–230 L/sol（中值 172）",
+        "去向": "灰水线 → MF/RO 膜撬（res-recycle-01 water 卡）",
+        "与洗衣合计": "955 L/sol = 回收厂进料 659 的 1.45×",
+        "噪声": "44–50 dB(A)，软舱 44 → 出舱室",
+        "供电": "400 V 固定接线"
+      },
+      "specs_en": {
+        "Water": "1.2-2.0 L per person-day → 138-230 L/sol for 115 (mid 172)",
+        "Route": "grey-water line → MF/RO membrane skids (res-recycle-01 water card)",
+        "With laundry": "955 L/sol = 1.45× the plant's 659 intake",
+        "Noise": "44-50 dB(A), 44 in a soft cabin → out of the cabin",
+        "Supply": "400 V hard-wired"
+      },
+      "sim": "账 3（ledger/03_laundry.py）：闸 G3.1 把回收卡三项相加回 659（残差 0），然后把表外的洗衣 782 与洗碗 172 加上去，按它自己的 98.2% 闭合率外推净损 17 L/sol（11–25），全城净补水 30.3 → 47.5 L/sol，占 res-rodwell-01 产能 8% → 12.5%。这两行已派发 res-recycle-01（DISPATCH_hab-home-01_recycle_lines.md），以它落库为准。",
+      "sim_en": "Ledger 3 (ledger/03_laundry.py): gate G3.1 sums the recycle card's three lines back to 659 (residual 0), then adds the off-table laundry 782 and dishes 172 and extrapolates with the plant's own 98.2% closure: net loss 17 L/sol (11-25), city make-up 30.3 → 47.5 L/sol, 8% → 12.5% of res-rodwell-01's capacity. Both lines are dispatched to res-recycle-01 (DISPATCH_hab-home-01_recycle_lines.md); its ledger governs.",
+      "physics": "闭合率 98.2% 不是一个和通量无关的常数——它是膜撬对某个进料量的表现。进料翻倍，膜面积、残渣和净损都跟着翻倍。所以「多洗一次碗」在这座城里的单位不是升，是井寿命。",
+      "physics_en": "A 98.2% closure is not a constant independent of throughput - it is a membrane skid's performance at a given intake. Double the intake and membrane area, residue and net loss double with it. So the unit of 'one more dishwasher load' in this city is not litres but well life."
+    },
+    {
+      "id": "toilet",
+      "label": "真空马桶（86 mL 一次，橙罐是预处理）",
+      "label_en": "Vacuum toilet (86 mL a flush; the orange tank is pre-treatment)",
+      "range": 5,
+      "detail": "便器是铸石和打印件，真空泵和阀是进口的。冲水量不是设计出来的，是从 res-recycle-01 尿卡的冲洗线 59 kg/sol 反推的：115 人、每天 6 次，一次 86 mL——地球马桶的五十六分之一。尿粪在便器里分开：粪去堆肥，尿经后面那只橙罐加酸再进管，因为脲酶生氨会腐蚀铝件、钙磷会在蒸发器里结垢，VCD 前预处理是硬约束。橙罐里装多少，回收卡没说。",
+      "detail_en": "Bowl in cast stone and printed parts; the vacuum pump and valves are imported. The flush volume was not designed, it was back-calculated from res-recycle-01's urine-card flush line of 59 kg/sol: 115 people, 6 events a day, 86 mL each - one fifty-sixth of an Earth toilet. Urine and faeces separate in the bowl: solids to compost, urine dosed with acid from the orange tank before the pipe, because urease makes ammonia that corrodes aluminium and calcium phosphate scales the evaporator - pre-treatment before the VCD is a hard constraint. How much goes in the orange tank, the recycle card does not say.",
+      "specs": {
+        "冲洗": "59 kg/sol ÷ 115 ÷ 6 = 86 mL/次（闸 G4.1 恒等）",
+        "尿": "189 kg/sol → 274 mL/次 → VCD 85% + 卤水处理器 → 98.5%",
+        "地球对比": "4.8 L 双档均值 = 56×（闸 G4.2 带 30–100×）",
+        "预处理": "酸化 + 氧化剂，投加点在冲洗线；投加量 NOT CLOSABLE（1–5% v/v 扫描 = 1.9–9.5 kg/sol）",
+        "固体": "干粪 3.8 kg/sol → 堆肥反应器"
+      },
+      "specs_en": {
+        "Flush": "59 kg/sol ÷ 115 ÷ 6 = 86 mL per event (gate G4.1 identity)",
+        "Urine": "189 kg/sol → 274 mL per event → VCD 85% + brine processor → 98.5%",
+        "Earth comparison": "4.8 L dual-flush mean = 56× (gate G4.2 band 30-100×)",
+        "Pre-treatment": "acid + oxidant, dosed at the flush line; dose NOT CLOSABLE (1-5% v/v scan = 1.9-9.5 kg/sol)",
+        "Solids": "dry faeces 3.8 kg/sol → compost reactor"
+      },
+      "sim": "账 4（ledger/04_sanitation.py）：马桶形态是那张卡的算术，不是选择。预处理接口照 ISS 先例放便器端随冲洗计量；投加量与试剂来源（硫厂 H₂SO₄？磷酸？进口？）没有卡，本册不估，标 NOT CLOSABLE 并派发 res-recycle-01。",
+      "sim_en": "Ledger 4 (ledger/04_sanitation.py): the toilet's form is that card's arithmetic, not a choice. The pre-treatment interface follows ISS practice - dosed at the commode with each flush; dose and reagent source (sulfur-works H₂SO₄? phosphoric? imported?) have no card, this ledger does not guess, marks NOT CLOSABLE and dispatches to res-recycle-01.",
+      "physics": "蒸汽压缩蒸馏怕两样东西：氨和垢。两样都是尿放着不管会自己长出来的。酸把氨锁成铵盐、把磷酸钙压回溶液——预处理花的不是水账，是化学账，而且必须在管子的最上游花。",
+      "physics_en": "Vapour-compression distillation fears two things: ammonia and scale. Both grow on their own if urine is left alone. Acid locks ammonia into ammonium and keeps calcium phosphate in solution - pre-treatment is a chemistry bill, not a water bill, and it must be paid at the very top of the pipe."
+    },
+    {
+      "id": "shower",
+      "label": "再循环淋浴（一个人一天只有一升卫生水）",
+      "label_en": "Recirculating shower (one litre of hygiene water per person-day)",
+      "range": 5,
+      "detail": "打印板隔间、铸石底盘、玻璃门。res-eclss-01 给每人每天 3.5 L 饮用+卫生水，扣掉喝的 2 L 和冲厕的 0.5 L，剩 0.99 L——地球淋浴 5 分钟要 40 L。所以它不是省着用的淋浴，是另一种机器：底下 10 L 水在泵、微滤、紫外灯管之间转，每人洗一次只补 1 L，排到灰水线。",
+      "detail_en": "Printed-panel stall, cast-stone tray, glass door. res-eclss-01 allots 3.5 L of drinking-plus-hygiene water per person-day; take away 2 L drunk and 0.5 L flushed and 0.99 L remains - an Earth shower is 40 L in five minutes. So this is not a frugal shower but a different machine: 10 L circulate through pump, microfilter and UV lamp underneath, each use tops up 1 L, drained to the grey-water line.",
+      "specs": {
+        "卫生水": "3.5 − 2.0 饮用 − 0.51 冲洗 = 0.99 L/人天（预期 1.2–1.5，偏出）",
+        "回路": "10 L，MF + UV，补水 ≤1 L/人次",
+        "加热": "0.055 kWh/人次（补水 18 K + 回路散热 3 K；首充 0.21）",
+        "湿气": "0.3 kg/人次（声明值，5 分钟 40 L 喷淋的 0.75%）→ 115 人 34.5 kg/sol",
+        "泵": "spinner，45–55 dB(A) → 出舱室"
+      },
+      "specs_en": {
+        "Hygiene water": "3.5 − 2.0 drunk − 0.51 flush = 0.99 L per person-day (expected 1.2-1.5, miss)",
+        "Loop": "10 L, MF + UV, make-up ≤1 L per use",
+        "Heating": "0.055 kWh per use (make-up 18 K + loop loss 3 K; first fill 0.21)",
+        "Moisture": "0.3 kg per use (declared, 0.75% of 40 L sprayed over 5 min) → 34.5 kg/sol for 115",
+        "Pump": "spinner, 45-55 dB(A) → out of the cabin"
+      },
+      "sim": "账 4：湿气总账把淋浴 34.5 + 烘干 46 + 炊事 11.5 = 92 kg/sol 加在 ECLSS 冷凝线 269 kg/sol 上，+34%（预注册 20–40%，命中）。水不丢——冷凝机收回——但冷凝机与湿度回路的定容要按 +34% 复核，已报 res-eclss-01。闸 G4.4：蒸发分数 0–100% 扫描线性，结论不依赖 0.75% 这个取值在 5–10% 内怎么取。",
+      "sim_en": "Ledger 4: the moisture total adds shower 34.5 + dryer 46 + cooking 11.5 = 92 kg/sol onto the ECLSS condensate line of 269 kg/sol, +34% (pre-registered 20-40%, hit). No water is lost - the condenser takes it back - but the condenser and humidity loop must be re-sized for +34%, reported to res-eclss-01. Gate G4.4: the evaporation-fraction scan is linear from 0 to 100%, so the conclusion does not hinge on where in 5-10% the 0.75% sits.",
+      "physics": "水在这座城里没有「用掉」这回事，只有「换了地方」：喷在身上、蒸进空气、凝在冷凝机、回到罐里。设计淋浴其实是在设计水停留在每个地方多久——回路让它在管子里多转几圈，才轮到从井里来的那一升。",
+      "physics_en": "Water is never 'used up' in this city, only relocated: sprayed on skin, evaporated into air, condensed at the condenser, back into a tank. Designing a shower is really designing how long water dwells in each place - the loop makes it circle the pipes a few more times before the well's litre is called on."
+    },
+    {
+      "id": "laundry",
+      "label": "洗衣与热泵烘干（把回收厂通量抬了一倍的机器）",
+      "label_en": "Washer and heat-pump dryer (the machines that double the recycle plant's throughput)",
+      "range": 6,
+      "detail": "两台并排，铸铁配重和壳体是冶金车间的，滚筒和电机是进口的，400 V 固定接线。城里 115 人每 sol 洗 92 kg 衣服，用水 782 L——回收厂整张进料表才 659。烘干走热泵：脱水后每公斤衣服还带半公斤水，46 kg 水/sol 从滚筒进空气、在 ECLSS 冷凝机收回，热泵把电耗压到电阻烘干的三分之二并把冷凝水直接落进桶里。舱外 0.6 kPa 的「免费」升华干燥被账否了：直排等于每 sol 扔掉 46 kg 水，是全城净补水的 1.5 倍。",
+      "detail_en": "Side by side: cast-iron counterweights and shells from the foundry, drums and motors imported, 400 V hard-wired. The city's 115 people wash 92 kg of clothes per sol using 782 L - the recycle plant's whole intake table is 659. Drying is by heat pump: after spinning each kilogram of laundry still carries half a kilogram of water, 46 kg/sol goes from drum to air and back at the ECLSS condenser; the heat pump cuts the electricity to two-thirds of resistive drying and drops its condensate straight into a bucket. The 'free' 0.6 kPa sublimation dryer outside was rejected by the ledger: venting throws away 46 kg of water per sol, 1.5× the city's net make-up.",
+      "specs": {
+        "洗衣用水": "0.6–1.0 kg 衣/人天 × 7–10 L/kg → 115 人 483–1150 L/sol（中值 782）",
+        "烘干湿负荷": "46 kg 水/sol（残水 0.5 kg/kg）= 冷凝线 269 的 +17%",
+        "电耗": "热泵 32 kWh/sol（0.35 kWh/kg 衣）；电阻 48（预期 10–20 / 30–45，偏出：预期没乘 115 人）",
+        "升华干燥": "直排丢 46 kg/sol = 净补水 1.52×，否决；封闭腔 + −60 °C 冷阱回收 99.8%，升华热 2.83 MJ/kg 不省电",
+        "噪声": "脱水 78 dB(A) → 软舱 72 → 出舱室，隔墙 ≥42 dB"
+      },
+      "specs_en": {
+        "Wash water": "0.6-1.0 kg per person-day × 7-10 L/kg → 483-1150 L/sol for 115 (mid 782)",
+        "Dryer moisture": "46 kg water/sol (0.5 kg/kg residual) = +17% on the 269 condensate line",
+        "Electricity": "heat pump 32 kWh/sol (0.35 kWh/kg); resistive 48 (expected 10-20 / 30-45, miss: the expectation forgot ×115)",
+        "Sublimation drying": "venting loses 46 kg/sol = 1.52× net make-up, rejected; sealed chamber + −60 °C trap recovers 99.8%, sublimation 2.83 MJ/kg saves no power",
+        "Noise": "spin 78 dB(A) → 72 in a soft cabin → out of the cabin, partition ≥42 dB"
+      },
+      "sim": [
+        "账 3（ledger/03_laundry.py）：头条是「进料表没有洗衣行」——灰水 142 kg/sol = 1.23 L/人天只够洗手。洗衣+洗碗 955 L/sol = 进料 1.45×（带 0.94–2.1×，预注册 1.1–1.6 命中）；净损按 98.2% 外推 17 L/sol。冷阱模型闸 G3.2 在 273.16 K 给 611.7 Pa；G3.3 阱温等于衣温时回收率退化为 0。",
+        "腔内舱气的细节：0.5 m³ 腔每次放掉 0.47 kg 舱气 = 2.5 kWh 缓冲气重造（res-eclss-01 5.27 kWh/kg），泵回舱只要 0.12 kWh——若真做升华干燥，腔体必须泵回不许直排，这条比水那条小但同方向。"
+      ],
+      "sim_en": [
+        "Ledger 3 (ledger/03_laundry.py): the headline is 'no laundry line in the intake table' - grey water 142 kg/sol = 1.23 L per person-day covers hand-washing. Laundry + dishes 955 L/sol = 1.45× the intake (band 0.94-2.1×; pre-registered 1.1-1.6, hit); net loss extrapolated at 98.2% is 17 L/sol. The cold-trap model's gate G3.2 gives 611.7 Pa at 273.16 K; G3.3 degenerates to zero recovery when trap and cloth are at the same temperature.",
+        "The chamber gas detail: a 0.5 m³ chamber vents 0.47 kg of cabin gas per cycle = 2.5 kWh of buffer gas to remake (res-eclss-01 5.27 kWh/kg); pumping it back to the cabin costs 0.12 kWh - if sublimation drying were ever built, the chamber must pump back, never vent; smaller than the water term, same direction."
+      ],
+      "physics": "0.6 kPa 比水的三相点还低，火星地表的水只有冰和汽两种身份。湿衣服拿出去会先冻硬再慢慢变干——那不是免费的，升华热比蒸发还多四分之一，而且水汽一旦离开腔体就归了这颗行星。真空能省的只有舱里的湿气，省不了能量，更省不了水。",
+      "physics_en": "At 0.6 kPa, below water's triple point, surface water on Mars exists only as ice or vapour. Wet clothes taken outside freeze stiff and then slowly dry - not for free: sublimation costs a quarter more than evaporation, and vapour that leaves the chamber belongs to the planet. Vacuum saves cabin humidity, not energy, and certainly not water."
+    },
+    {
+      "id": "vacuum",
+      "label": "吸尘器（滤芯是含毒废物，走绿色不走紫色）",
+      "label_en": "Vacuum cleaner (the cartridge is toxic waste: green bin, never purple)",
+      "range": 4,
+      "detail": "48 V 插座件，打印壳、旋风筒、H13 滤芯，电机进口。火星尘中值 1.5 µm，在 HEPA 最易穿透粒径 0.3 µm 之上，等级不是问题；问题是它带静电贴在表面上，靠风量吹不动——所以刷头比风量重要；还有它含 0.5 wt% 高氯酸盐。装满的滤芯按 res-recycle-01 的四色走绿色（滤材）流去压块进覆土丘，绝不能进紫色织物流——那条流的终点是堆肥，堆肥的终点是温室的土。",
+      "detail_en": "A 48 V socket device: printed body, cyclone, H13 cartridge, imported motor. Martian dust has a 1.5 µm median, above HEPA's most-penetrating 0.3 µm, so grade is not the issue; the issue is that it clings electrostatically and airflow will not lift it - the brush head matters more than the fan - and that it carries 0.5 wt% perchlorate. A full cartridge follows res-recycle-01's colour code into the green (filter-media) stream to compaction and the berm, never the purple textile stream, whose end is compost, whose end is greenhouse soil.",
+      "specs": {
+        "HEPA": "模型 MPPS 0.3 µm；1.5 µm 穿透 2.5e-5 → H13 足够",
+        "气闸带入": "NOT CLOSABLE：无卡给 g/循环；扫描 1–100 g × (66 人员 + 3 车辆) 次/sol = 0.1–9.6 kg/sol，滤芯寿命 14 → 0.14 sol",
+        "去向": "滤芯 → 绿色流 → 压块 93.8 kg/sol → hab-tunnel-01 覆土丘；散尘（旋风 85%）→ res-eclss-01 高氯酸盐支线，3 g O₂/kg 尘",
+        "吸力": "同转速 0.78×（ρ 0.94 / 1.20 kg/m³）；同吸力转速 ×1.13，轴功 ×1.13",
+        "噪声": "75–85 dB(A) + 2.6 dB（转速）→ 公共区"
+      },
+      "specs_en": {
+        "HEPA": "model MPPS 0.3 µm; penetration at 1.5 µm 2.5e-5 → H13 suffices",
+        "Airlock ingress": "NOT CLOSABLE: no card gives g per cycle; scan 1-100 g × (66 personnel + 3 vehicle) cycles/sol = 0.1-9.6 kg/sol, cartridge life 14 → 0.14 sol",
+        "Routing": "cartridge → green stream → compaction 93.8 kg/sol → hab-tunnel-01 berm; bulk dust (cyclone 85%) → res-eclss-01 perchlorate branch, 3 g O₂ per kg dust",
+        "Suction": "0.78× at the same rpm (ρ 0.94 vs 1.20 kg/m³); ×1.13 rpm and ×1.13 shaft power for equal suction",
+        "Noise": "75-85 dB(A) + 2.6 dB (rpm) → commons"
+      },
+      "sim": "账 5（ledger/05_dust.py）：闸 G5.1 是机理闸——扩散+拦截+惯性三项之和必须在 0.1–0.4 µm 有极小；G5.3 ρ 由 P·M/RT 复现 ops-fire-01 的 0.9415；G5.4 复现 res-eclss-01 perc 卡 0.573 kg O₂/kg 盐。带入量的三种测量（门斗地垫称重 / 回风滤芯增重 / EVA 服刷尘）已派发门斗持有者（DISPATCH_hab-home-01_dust_ingress.md）；在此之前这张卡不写数。",
+      "sim_en": "Ledger 5 (ledger/05_dust.py): gate G5.1 is mechanistic - the sum of diffusion, interception and impaction must have its minimum in 0.1-0.4 µm; G5.3 reproduces ops-fire-01's 0.9415 kg/m³ from P·M/RT; G5.4 reproduces res-eclss-01's perchlorate card 0.573 kg O₂ per kg salt. Three measurements for the ingress (door-mat weighing / return-filter mass gain / EVA-suit brush-off) are dispatched to the door-holders (DISPATCH_hab-home-01_dust_ingress.md); until then this card prints no number.",
+      "physics": "过滤器抓 0.3 µm 最难，是因为那里扩散和拦截两种机制都最弱。火星尘比那粗五倍，抓它不难；难的是它先粘在墙上、地上、衣服上，等你把它扬起来才能抓——尘的账是运输账，不是过滤账。",
+      "physics_en": "Filters struggle most at 0.3 µm because both diffusion and interception are weakest there. Martian dust is five times coarser and easy to catch; the hard part is that it sticks to walls, floors and clothes first and can only be caught once lifted - the dust ledger is a transport ledger, not a filtration ledger."
+    },
+    {
+      "id": "power",
+      "label": "48 V 蓝插座与 400 V 橙盒（两级，不是一种）",
+      "label_en": "48 V blue sockets and 400 V orange boxes (two tiers, not one)",
+      "range": 5,
+      "detail": "pwr-grid-01 把全城用电定在 400 V 直流、仪表站 48 V。400 V 是安全特低压直流上限 120 V 的 3.3 倍，不能出现在任何人手能碰到的触点上。所以家里有两种电：蓝面板是 48 V 插座，给吸尘器、微波、屏幕这类不到 1.5 kW 的东西；橙盒是 400 V 固定接线，给灶、烤箱、洗衣、烘干、热水器——变流器先封锁，再冷分闸，人从不接触带电触点。直流没有过零点：48 V 的插头带载拔出会拉出 14 mm 的弧，400 V 是 155 mm。蓝插座下面那条绿灯是握手指示：先接触、后上电、断电后分离。",
+      "detail_en": "pwr-grid-01 fixed the city's utilisation voltage at 400 V DC with 48 V for instrument stations. 400 V is 3.3× the 120 V safety-extra-low-voltage DC limit and may not appear on any contact a hand can reach. So the home has two kinds of electricity: blue panels are 48 V sockets for the vacuum, microwave, screen - anything under 1.5 kW; orange boxes are 400 V hard-wiring for hob, oven, washer, dryer, water heater - converter blocks first, then a cold disconnect, no one ever touches a live contact. DC has no zero crossing: a 48 V plug pulled under load draws a 14 mm arc, 400 V draws 155 mm. The green strip under the blue socket is the handshake indicator: contact first, power second, power off before parting.",
+      "specs": {
+        "两级": "≤1.5 kW 移动电器 48 V（≤31 A）/ ≥1.5 kW 固定接线 400 V",
+        "48 V 的代价": "3 kW = 62.5 A，10 m 回路 2% 损耗要 34 mm² 铝（16 mm² 是 4.3%）；导体质量比 400 V 的 69×",
+        "厨房峰": "15.5 kW → 48 V 母线 323 A / 400 V 39 A",
+        "直流弧": "起弧 13 V / 0.43 A；弧长 48 V 14 mm、400 V 155 mm（70 kPa，梯度 2.5 V/mm 声明）",
+        "击穿": "混合气 1 mm @70 kPa 2.3 kV（纯 N₂ 3.4 / 纯 Ar 1.8 / 同压空气 3.7）；400 V 3× 安全气隙 0.42 mm ≪ IEC 3 mm；爬电按污染等级 3（高氯酸盐尘）"
+      },
+      "specs_en": {
+        "Two tiers": "≤1.5 kW portable 48 V (≤31 A) / ≥1.5 kW hard-wired 400 V",
+        "Cost of 48 V": "3 kW = 62.5 A; 2% loss over 10 m needs 34 mm² Al (16 mm² gives 4.3%); conductor mass 69× that of 400 V",
+        "Galley peak": "15.5 kW → 323 A on a 48 V bus / 39 A at 400 V",
+        "DC arc": "strikes at 13 V / 0.43 A; arc length 14 mm at 48 V, 155 mm at 400 V (70 kPa, 2.5 V/mm declared)",
+        "Breakdown": "mixture 1 mm at 70 kPa 2.3 kV (pure N₂ 3.4 / pure Ar 1.8 / air at 70 kPa 3.7); 400 V with 3× margin needs 0.42 mm ≪ IEC 3 mm; creepage at pollution degree 3 (perchlorate dust)"
+      },
+      "sim": [
+        "账 6（ledger/06_electrical.py）：pwr-grid-01 的 CO₂ Townsend 系数（610 Pa）只被用作已知答案闸——复现 249.0 V @1.17 mm（G6.1）——本城 70 kPa N₂/Ar/O₂ 的曲线是自己算的：α = Σ A_i p_i exp(−B_i p/E)，摩尔加权，声明的近似，无 Penning 项，不等于闭合（±30% 内不认）。夹逼闸 G6.4：混合气落在纯 N₂ 与纯 Ar 之间。",
+        "G6.2 首版红：三种纯气一律 γ=0.02，Ar 最低点 160 V 对文献 137 差 17%。γ 是二次电子发射系数、逐气逐表面不同，是两常数模型唯一的自由参数——改为逐气按 V_min 标定（N₂ 0.05 / Ar 0.035 / 空气 0.011），pd_min 留出作检验如实印（N₂ +3% / Ar −15% / 空气 +44%）。改的是模型，闸带没动；首版 2388 V 留档，现值 2305 V。"
+      ],
+      "sim_en": [
+        "Ledger 6 (ledger/06_electrical.py): pwr-grid-01's CO₂ Townsend coefficients (610 Pa) serve only as a known-answer gate - reproducing 249.0 V at 1.17 mm (G6.1) - while the 70 kPa N₂/Ar/O₂ curve is computed here: α = Σ A_i p_i exp(−B_i p/E), mole-weighted, a declared approximation with no Penning term, not a closure (±30% is not accepted). Sandwich gate G6.4: the mixture lies between pure N₂ and pure Ar.",
+        "G6.2 went red first: with γ=0.02 for all three pure gases the argon minimum came out 160 V against 137 in the literature, 17% off. γ is the secondary-emission coefficient, different for each gas and surface, the one free parameter of the two-constant model - so it is now calibrated per gas on V_min (N₂ 0.05 / Ar 0.035 / air 0.011) and pd_min is held out and printed honestly (N₂ +3% / Ar −15% / air +44%). The model changed, the gate band did not; the first-version 2388 V is kept on file, the current value is 2305 V."
+      ],
+      "physics": "交流电弧每 10 ms 自己熄一次，开关只需在过零时把气隙拉开；直流电弧永远不熄，气隙要长到弧柱的电压降吃掉整个电源电压才行。所以直流家电的插头不是机械问题，是通信问题：让电子在触点分开之前先把电流拿掉。",
+      "physics_en": "An AC arc extinguishes itself every 10 ms; a switch only needs to open the gap at a zero crossing. A DC arc never goes out on its own; the gap must grow until the arc column's voltage drop eats the whole supply. So a DC appliance plug is not a mechanical problem but a communications problem: have the electronics remove the current before the contacts part."
+    },
+    {
+      "id": "bed",
+      "label": "床位与隔音板（为什么舱室里一台电机都没有）",
+      "label_en": "Bed and acoustic panels (why there is not one motor in the cabin)",
+      "range": 6,
+      "detail": "这一角就是 hab-quarter-01 的样板舱：床、衣柜、盆栽，外加 18 m² 岩棉芯隔音板。25.9 m³ 的硬壁小舱混响 1.6 s，板子把它压到 0.3 s——但世卫组织的夜间睡眠阈是 30 dB(A)，一台 42 dB 的冰箱在软舱里也有 36 dB。账 7 算完，十一件家电没有一件能进舱室。所以这个样板间的舱室角落是空的，而厨房和洗衣角在另一头。",
+      "detail_en": "This corner is hab-quarter-01's show cabin: bed, wardrobe, plant, plus 18 m² of rock-wool-core acoustic panels. A hard-walled 25.9 m³ cabin reverberates for 1.6 s; the panels bring it to 0.3 s - yet the WHO night-time sleep limit is 30 dB(A), and a 42 dB fridge still makes 36 dB in the softened cabin. When ledger 7 was done, not one of eleven appliances could live in a cabin. So this show home's cabin corner is empty, and the kitchen and laundry are at the far end.",
+      "specs": {
+        "舱室": "3.2 × 3.0 × 2.7 = 25.9 m³，S 52.7 m²",
+        "RT60": "硬壁 1.58 s → 18 m² 隔音板 0.29 s（预期 0.3–0.6，偏出 0.01）",
+        "冰箱": "L_w 42 → 硬舱 43.8 / 软舱 36.4 dB(A) > 30 睡眠阈",
+        "隔墙": "公共区到舱室按最响的吸尘 79 / 脱水 72 dB → ≥42–49 dB",
+        "声速": "329 m/s（比空气低 4.3%，Ar 是重气体）；ρc 0.75"
+      },
+      "specs_en": {
+        "Cabin": "3.2 × 3.0 × 2.7 = 25.9 m³, S 52.7 m²",
+        "RT60": "hard 1.58 s → 0.29 s with 18 m² panels (expected 0.3-0.6, miss by 0.01)",
+        "Fridge": "L_w 42 → hard cabin 43.8 / soft 36.4 dB(A) > 30 sleep limit",
+        "Partition": "commons-to-cabin by the loudest item, vacuum 79 / spin 72 dB → ≥42-49 dB",
+        "Sound speed": "329 m/s (4.3% below air; argon is heavy); ρc 0.75"
+      },
+      "sim": [
+        "账 7（ledger/07_acoustics.py）：Sabine RT60 = 0.161 V/A，混响场 L_p = L_w + 10log(4/R + Q/4πr²)；闸 G7.1 α→1 退化、G7.2 r→∞ 极限。声功率是地球产品标签带，不是本城测量。同质量流风机在 0.79 倍密度里要转 1.27 倍转速，按 L_w = 10logQ + 20logP 的风机律 +3.2 dB。",
+        "预注册的 G7.3 红：res-eclss-01 tanks 卡 physics 写「Ar 混合气声速高约 20%，音色偏高」，我抄进预期没算。算出 c = √(γRT/M) = 329 vs 空气 344 m/s，低 4.3%——Ar 是重气体，声速只看 γ/M、与压力无关，音色应偏低。纯空气 343 / 纯 Ar 319 已知答案在 1% 内（G7.3b）证明公式对。这条报 res-eclss-01，不改他们的卡；也是本册 What broke 的第一条：引用不等于核对。"
+      ],
+      "sim_en": [
+        "Ledger 7 (ledger/07_acoustics.py): Sabine RT60 = 0.161 V/A; reverberant field L_p = L_w + 10log(4/R + Q/4πr²); gate G7.1 degenerates at α→1, G7.2 at r→∞. Sound-power levels are Earth product-label bands, not city measurements. A fan moving the same mass flow in 0.79× density spins 1.27× faster: +3.2 dB by the fan law L_w = 10logQ + 20logP.",
+        "The pre-registered gate G7.3 went red: res-eclss-01's tanks card says 'the argon mix carries sound about 20% faster, voices sit slightly high', and I copied that into my expectation without computing it. c = √(γRT/M) = 329 vs 344 m/s for air, 4.3% slower - argon is a heavy gas, sound speed depends only on γ/M and not on pressure, voices sit slightly low. The known answers for pure air 343 and pure argon 319 m/s agree within 1% (G7.3b), so the formula is right. Reported to res-eclss-01 without editing their card; also the first item of this dossier's What broke: a citation is not a check."
+      ],
+      "physics": "小房间里的声音几乎全是混响：声源离墙不到两米，听到的是几十次反射的叠加。吸声板降的是混响，降不了直达声——所以真正让人睡得着的措施不是吸声，是把响的东西搬到另一堵墙后面。",
+      "physics_en": "In a small room nearly everything you hear is reverberation: with the source under two metres from a wall, you hear dozens of reflections stacked. Absorbent panels cut the reverberation, not the direct sound - so what actually lets people sleep is not absorption but moving the loud things behind another wall."
+    },
+    {
+      "id": "eclss",
+      "label": "回风机组（家电的水和热最后都到这里）",
+      "label_en": "Return-air unit (where every appliance's water and heat ends up)",
+      "range": 6,
+      "detail": "后墙上那台风机接着抽油烟机的风管和烘干机的排气，这是样板间与 res-eclss-01 空气回路的接口。灶台蒸掉的水、淋浴喷出的水汽、滚筒里烘出的水，全从这里去冷凝机，一克不丢地回到水回路；灶、烤箱、冰箱的全部电功也在这里变成空气回路必须搬走的热。家电不排放，只把东西换一种身份交给生保。",
+      "detail_en": "The fan on the back wall takes the range-hood duct and the dryer exhaust: this is the show home's interface to res-eclss-01's air loop. Water boiled off the hob, vapour from the shower, water driven out of the drum - all of it goes through here to the condenser and back into the water loop without losing a gram; and every watt drawn by hob, oven and fridge becomes heat this air loop has to carry away. Appliances emit nothing; they hand things to life support in a different form.",
+      "specs": {
+        "湿气增量": "淋浴 34.5 + 烘干 46 + 炊事 11.5 = 92 kg/sol = 冷凝线 269 的 +34%",
+        "热": "炊事 21–51 kWh/sol（85 人）+ 冰箱 5 台 0.27 kW 常年 + 洗衣/烘干 32 kWh/sol，全进舱内空气",
+        "回收厂通量": "洗衣+洗碗 +955 L/sol（1.45×）",
+        "全城净补水": "30.3 → 47.5 L/sol（+57%），占井 8% → 12.5%",
+        "洞室热平衡": "声明假设下前十年散热 37–58 kW > 得热 19 kW；无卡，符号待 hab-quarter-01"
+      },
+      "specs_en": {
+        "Extra moisture": "shower 34.5 + dryer 46 + cooking 11.5 = 92 kg/sol = +34% on the 269 condensate line",
+        "Heat": "cooking 21-51 kWh/sol (85 people) + 5 fridges 0.27 kW continuous + washer/dryer 32 kWh/sol, all into cabin air",
+        "Recycle throughput": "laundry + dishes +955 L/sol (1.45×)",
+        "City net make-up": "30.3 → 47.5 L/sol (+57%), 8% → 12.5% of the well",
+        "Cavern heat balance": "declared assumptions: loss 37-58 kW > gains 19 kW for the first decade; no card, sign left to hab-quarter-01"
+      },
+      "sim": "交叉矩阵（预注册 §2）算完逐格对：ρ 与 h 折减四本账共用一份 cabin.py；湿负荷三项在账 4 汇总；水通量与 recycle 659 逐项相加；电峰值账 6 读账 1；声功率账 7 读账 5 的转速。三本账各自算对，乘起来才是这张卡——+34% 湿气、+57% 净补水、洞室符号未定，都是账与账之间的项，没有一本账单独持有。",
+      "sim_en": "The cross-ledger matrix (pre-registration §2) was checked cell by cell after the runs: ρ and the h factors come from one cabin.py shared by four ledgers; the three moisture terms are summed in ledger 4; water flows are added line by line to the recycle plant's 659; ledger 6 reads ledger 1's peak; ledger 7 reads ledger 5's rpm. Each ledger is right on its own; only multiplied together do they make this card - +34% moisture, +57% make-up, an undecided cavern sign - all of them terms between ledgers that no single ledger owns.",
+      "physics": "封闭系统没有「排放」这个动词。每一件家电做的事都是把水从液态推成气态、把电推成热，然后由生保系统把它们推回去。家电账的合计不是一张功率表，是生保系统多干了多少活。",
+      "physics_en": "A closed system has no verb 'to discharge'. Every appliance pushes water from liquid to vapour and electricity into heat, and life support pushes them back. The sum of the appliance ledgers is not a power table; it is how much more work life support has to do."
+    },
+    {
+      "id": "screen",
+      "label": "记分屏与「造还是运」",
+      "label_en": "The scorecard screen and make-or-import",
+      "range": 6,
+      "detail": "屏上八行是八本账的记分：青条是预注册命中的预期，红条是偏出的——一共 34 命中、17 偏出、6 不可判，偏出的不改、照印。屋里每一件东西都拆过质量：铸铁壳、岩棉、铸石台面、打印内胆是本地的；压缩机、电机绕组、轴承、密封、电子、发热丝、磁控管、不锈钢滚筒是进口的——和 res-foundry-01 备件卡上那行「0% 本地」一个字不差。全城 91 台 2.8 t，进口 1.06 t，是一个会合窗口吞吐的 4%，一次性。这里不写「本地制造率」。",
+      "detail_en": "Eight rows on the screen are the eight ledgers' scorecards: cyan bars for pre-registered expectations that hit, red for misses - 34 hits, 17 misses, 6 undecidable in all, and the misses are printed, not edited. Every object in this room has had its mass taken apart: cast-iron shells, rock wool, cast-stone tops and printed liners are local; compressors, motor windings, bearings, seals, electronics, heating elements, magnetrons and stainless drums are imported - word for word the '0% local' line on res-foundry-01's spares card. Ninety-one units city-wide weigh 2.8 t, 1.06 t of it imported, 4% of one resupply window, once. No 'local manufacturing rate' is written here.",
+      "specs": {
+        "记分": "35 闸：34 绿 + 1 预注册红（声速）；57 预期：34 命中 / 17 偏出 / 6 不可判",
+        "全城": "13 型 91 台 2.80 t（进口 1.06 t）= 一个窗口 60–80 t 的 3.5–4.7%（预期 3–8 t、4–13%，偏出）",
+        "本地件": "铸铁/球铁壳（res-foundry-01）· 岩棉与铸石与黑玻璃（res-glass-01）· 打印塑料（res-recycle-01 → ops-printer-01）· CO₂ 制冷剂 · Ti 压力锅",
+        "进口件": "压缩机 / 电机绕组 / 轴承 / 密封 / 电子 / NiCr 发热丝 / 磁控管 / 不锈钢滚筒与内胆 / 铁氧体",
+        "绝热": "岩棉 k 0.040 比 PU 0.025 厚 1.6×"
+      },
+      "specs_en": {
+        "Scorecard": "35 gates: 34 green + 1 pre-registered red (sound speed); 57 expectations: 34 hit / 17 miss / 6 undecidable",
+        "City fleet": "13 types, 91 units, 2.80 t (1.06 t imported) = 3.5-4.7% of a 60-80 t window (expected 3-8 t, 4-13%; miss)",
+        "Local parts": "cast/ductile iron shells (res-foundry-01) · rock wool, cast stone, black glass (res-glass-01) · printed plastic (res-recycle-01 → ops-printer-01) · CO₂ refrigerant · Ti pressure cooker",
+        "Imported parts": "compressors / motor windings / bearings / seals / electronics / NiCr elements / magnetrons / stainless drums and tubs / ferrite",
+        "Insulation": "rock wool k 0.040 is 1.6× thicker than PU 0.025"
+      },
+      "sim": "账 8（ledger/08_make_or_import.py）：13 件逐件分解，闸 G8.1 分解之和等于整机，G8.4 进口类逐项对上 foundry 卡的五类（轴承/电子/密封/电机绕组/滤芯）。台数按地下城公共区 + 掩土村公共舱 + 样板间取（马桶 1/6 人、淋浴 1/8 人，声明）。质量是家用产品典型值（声明），不是本城称重。",
+      "sim_en": "Ledger 8 (ledger/08_make_or_import.py): 13 items decomposed part by part; gate G8.1 requires the parts to sum to the whole, G8.4 matches the import classes one by one against the foundry card's five (bearings / electronics / seals / windings / filter cartridges). Unit counts cover the undercity commons, the berm-village common pod and this show home (toilets at 1 per 6, showers 1 per 8, declared). Masses are typical household values (declared), not city weighings.",
+      "physics": "一件家电的质量大头是壳、绝热和台面——这些恰好是火星能做的；它的功能大头是压缩机、绕组和电子——这些恰好是火星做不了的。「本地制造率」这个数按质量算好看、按功能算难看，所以这张卡两个都不给，只给每一件的清单。",
+      "physics_en": "Most of an appliance's mass is shell, insulation and worktop - exactly what Mars can make; most of its function is compressor, windings and electronics - exactly what Mars cannot. A 'local manufacturing rate' looks good by mass and bad by function, so this card gives neither, only the list for each item."
+    }
+  ]
+}

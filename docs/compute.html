@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Compute &amp; Silicon — Virtual-Physical Mars City</title>
-<meta name="description" content="The compute center where the loop closes: a bigram language model on the big screen, and the same algorithm as a real sky130 chip on a fabbed board in the rack.">
+<meta name="description" content="The compute center where the loop closes: the MB-1 bigram runs bit-exact on the big screen, the same algorithm was taken to a sky130 GDS, and the room itself is now sized by six accounts — load, power, heat, radiation, a truth audit and the data link.">
 <style>
   /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
   :root{
@@ -93,6 +93,13 @@
   .try li{margin:.5rem 0;color:var(--ink-dim);}
   .try code,.prose code{font-family:var(--f-mono);font-size:.85em;background:var(--bg-3);
     border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink);}
+  .acct{max-width:var(--textw);margin-top:22px;display:grid;gap:14px;}
+  .acct .row{display:grid;grid-template-columns:8.5rem 1fr;gap:14px;border-top:1px solid var(--line);padding-top:12px;}
+  .acct .row .k{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding-top:4px;}
+  .acct .row p{margin:0;color:var(--ink-dim);font-size:.98rem;}
+  .acct .row p strong{color:var(--ink);}
+  @media(max-width:560px){.acct .row{grid-template-columns:1fr;gap:4px;}}
+  td.state{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.06em;}
 </style>
 </head>
 <body>
@@ -109,22 +116,23 @@
 
 <header class="phead">
   <div class="wrap">
-    <div class="label">ops-compute-01 · MB-1</div>
+    <div class="label">ops-compute-01 · MB-1 · round 1</div>
     <h1>Compute &amp; Silicon</h1>
-    <p class="phead__sub">The compute center is where the whole city closes its loop. A character-level
-      bigram language model runs live on the big screen — and the <em>same</em> algorithm exists as a
-      real chip. MB-1 was taken from Verilog to a sky130 GDS with clean routing, and a fabbed eval board
-      now sits as a blade in the rack. Software twin on the screen, silicon body in the machine that
-      computes it.</p>
+    <p class="phead__sub">The compute center is where the whole city closes its loop. Since this round the big screen runs
+      the <em>MB-1 algorithm itself</em>, bit-exact — same LFSR, same clamped inverse-CDF walk, same 4096-word table — and
+      self-tests against the Python golden on boot. MB-1 was taken from Verilog to a sky130 GDS. No silicon exists and the
+      evaluation board was designed but never ordered; the page says so. And the room around them is now a room that can be
+      accounted for on Mars: six ledgers size its racks, its cooling loop, its radiator field, its feeder, its data link, and
+      say what they cannot close.</p>
   </div>
 </header>
 
 <div class="specs">
   <div class="specs__grid wrap" style="padding:0;">
-    <div class="spec"><div class="spec__k">MB-1 die</div><div class="spec__v">1.79<small>mm²</small></div></div>
-    <div class="spec"><div class="spec__k">Logic area</div><div class="spec__v">0.033<small>mm² · ~2100 cells</small></div></div>
-    <div class="spec"><div class="spec__k">FPGA Fmax</div><div class="spec__v">173<small>MHz · 0 latches</small></div></div>
-    <div class="spec"><div class="spec__k">Routing DRC</div><div class="spec__v">0<small>violations</small></div></div>
+    <div class="spec"><div class="spec__k">MB-1 die (design)</div><div class="spec__v">1.79<small>mm² · 4 SRAM macros = 63.5%</small></div></div>
+    <div class="spec"><div class="spec__k">Screen self-test</div><div class="spec__v">PASS<small>220 chars vs Python golden</small></div></div>
+    <div class="spec"><div class="spec__k">Radiator field</div><div class="spec__v">162<small>m² · 3 panels · 70° north</small></div></div>
+    <div class="spec"><div class="spec__k">Science data in</div><div class="spec__v">15.4<small>GB/sol · Earth link takes 10.7</small></div></div>
   </div>
 </div>
 
@@ -132,20 +140,38 @@
 <section class="band">
   <div class="wrap">
     <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
-    <p class="lead">A datacenter hall whose hero screen runs an AI — and the AI has a body one rack over.</p>
+    <p class="lead">A datacenter hall whose hero screen runs an AI — the AI's silicon body is designed one rack over — and every wall,
+      panel and pipe now has a number behind it.</p>
     <div class="prose">
-      <p>The big screen types Mars text character by character, driven by a bigram model — the starting
-      model from the nanoGPT tutorial, running live in the browser. That is the <strong>software twin</strong>.
-      The closed loop the whole city is built around ends here: real Mars → HiRISE digital twin → a compute
-      center in the city → running real AI code → generating text about Mars.</p>
-      <p>The last link is <strong>MB-1</strong>: that exact bigram algorithm, turned into a real digital ASIC.
-      An MB-1 evaluation board is slotted as a blade into rack&nbsp;2, a teal data cable running from it toward
-      the screen. The PCB copper you see is drawn from the board's actual layout — 467 routed segments — and the
-      gold-lidded ceramic sample in the DIP-24 socket is engraved <span class="hl">MB-1 · sky130</span>.</p>
+      <p>The big screen types Mars text character by character. In v0 it ran a bigram of the same <em>class</em> as the chip's,
+      counted live in the browser with <code>Math.random()</code>. That sentence on the old card — "the same algorithm as the wall
+      display" — did not survive this round's audit, so the screen was changed rather than the card: it now imports the chip's
+      own CDF table (<code>mb1-cdf-data.js</code>, generated from <code>build/mb1_cdf.mem</code>), runs the chip's arithmetic, and
+      prints <span class="hl">MB-1 bit-exact vs python golden: PASS</span> in its boot log. If that line ever reads FAIL it is red.
+      The table is trained on the city's own seven Mars sentences, which are now also MB-1's training corpus.</p>
+      <p><strong>MB-1</strong> is that algorithm as a digital ASIC design: RTL, two simulators in lock-step, Vivado synthesis, an Arty
+      bitstream, a Yosys sky130 netlist and an OpenROAD place-and-route to a 1.79 mm² GDS. The evaluation board on the rack-2 tray
+      is drawn from the board's real layout (467 routed segments) — a design with Gerber files, 57 clearance violations still open,
+      never ordered. The package in the socket is a prop. The earlier page header called the board "fabbed"; that word is retired.</p>
+      <p>The rest of the building is what changed most. The fin wall of v0 was a drawing; the radiator field is now sized by a
+      heat account with two independent view-factor methods and an ISS known-answer gate. The eight racks are booked by the grid
+      dossier at 40/55 kW — a capacity read off the drawing, which the load account could not match to any card-priced load. The
+      radiation account is declared <em>not closable</em> until sci-rad-01 hands over the surface spectrum. Every one of those
+      statements has a script, a JSON product and a pre-registered expectation behind it.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/compute/r1-day.jpg" alt="The refined compute center by day: hall with glass front, three tilted radiator panels to the west" loading="lazy">
+        <figcaption>ROUND 1 BY DAY — HALL, AIRLOCK, CDU LOOP THROUGH THE WEST WALL, THREE 12 × 4.5 m PANELS AT 70° FACING NORTH</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/compute/r1-night.jpg" alt="The compute center at night, screen light washing the hall" loading="lazy">
+        <figcaption>ROUND 1 AT NIGHT — SCREEN WASH, RACK LEDS, WARNING LAMP ON THE RADIATOR MAST</figcaption>
+      </figure>
     </div>
     <figure class="figure">
       <img src="assets/compute/board-in-rack.jpg" alt="MB-1 evaluation board as a blade in the compute-center rack" loading="lazy">
-      <figcaption>MB-1 EVAL BOARD SLOTTED INTO RACK 2 — REAL LAYOUT COPPER, DIP-24 CERAMIC SAMPLE, FEEDING nanogpt.py</figcaption>
+      <figcaption>MB-1 EVAL BOARD ON THE RACK-2 TRAY — REAL LAYOUT COPPER; A DESIGN, NOT A BUILT BOARD; THE PACKAGE IS A PROP</figcaption>
     </figure>
   </div>
 </section>
@@ -154,32 +180,51 @@
 <section class="band band--alt">
   <div class="wrap">
     <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
-    <p class="lead">Training stays off-chip; on-chip inference collapses to “one 16-bit random number × a run of compares.”</p>
+    <p class="lead">Training stays off-chip; on-chip inference collapses to “one 16-bit random number × a run of compares.” Around the chip, six accounts.</p>
     <div class="prose">
-      <p>The design insight that makes MB-1 buildable: keep the <strong>training off the chip</strong>. Count the
-      bigram transitions offline, turn each row into a cumulative distribution (CDF), normalize to 16-bit full
-      scale, and write it into on-chip SRAM. Sampling then degenerates into inverse-CDF: draw a 16-bit random
-      number and walk the row comparing until <code>CDF[i] ≥ r</code>. <strong>No multiply, no divide, no float</strong> —
-      just comparators, a counter, and a 32-bit LFSR. That is the standard quantized-inference recipe, in silicon.</p>
-      <p>It was carried through four independent back-ends, each verified before moving on:
-      <strong>RTL → FPGA → sky130 GDS → PCB</strong>. The 64-Kbit CDF table is a compiled SRAM macro (four
-      OpenRAM blocks) — never synthesized to flip-flops — so on the die it dominates the area exactly as the
-      design brief predicted.</p>
+      <p>Count the bigram transitions offline, turn each row into a cumulative distribution, normalize to 16-bit full scale, write
+      it into on-chip SRAM over SPI. Sampling is inverse-CDF: draw a 16-bit random number, clamp it to <code>[1, 0xFFFF]</code>, walk
+      the row until <code>CDF[i] ≥ r</code>. <strong>No multiply, no divide, no float</strong> — comparators, a counter and a 32-bit LFSR.
+      The 64-kbit table is four compiled OpenRAM macros, never flip-flops, and on the die they take 63.5% of the area.</p>
+      <p>The chip was carried through <strong>RTL → FPGA → sky130 GDS → PCB design</strong>. Three implementations agree bit for bit
+      by log (Python golden, iverilog, xsim); synthesis and place-and-route are report-level products. Post-silicon evidence does
+      not exist because there is no silicon.</p>
     </div>
     <div class="pipe">
       <span><b>RTL</b> · 7 modules, self-checking TB</span>
-      <span><b>FPGA</b> · Arty A7-35T bitstream</span>
+      <span><b>FPGA</b> · Arty A7-35T bitstream (rebuilt on the Mars table)</span>
       <span><b>sky130</b> · Yosys → OpenROAD GDS</span>
-      <span><b>PCB</b> · Gerber / BOM / CPL</span>
+      <span><b>PCB</b> · Gerber / BOM / CPL, unordered</span>
+    </div>
+    <div class="acct">
+      <div class="row"><div class="k">1 · Load</div><p><strong>What the city computes, by the units in it today.</strong> 35 rows, each with a card commit;
+        8 declared gaps. The largest compute item is the radio array's 605 GFLOP/s correlator, on site. What reaches this room is data:
+        15.4 GB/sol, 10.3 TB per Mars year. No card places a compute load here — the grid's 40/55 kW is a drawn capacity, and the card now says so.</p></div>
+      <div class="row"><div class="k">2 · Power</div><p><strong>IT + cooling + storage.</strong> No chiller: pumps 1.9 kW at 55 kW IT, conversion loss 1.9 kW at 96.6%,
+        PUE 1.08. The G-C north trunk (1200 kW) carries 70 kW of served peaks — no village-type spur defect. Island share: 0 kW mandatory; the grid's
+        4.8 kW "SCADA UPS inside" is not endorsed, because the SCADA is in the grid's own control room.</p></div>
+      <div class="row"><div class="k">3 · Heat</div><p><strong>Stefan-Boltzmann to a 210 K sky and a 260 K ground, dust at α 0.68.</strong> The v0 fin wall rejects
+        49–69 kW at 320 K (more than pre-registered), but any sky-facing surface loses half its rejection to the noon sun once dusted. The winning
+        family is near-vertical, north/south faces: 570 W per m² of panel at the worst noon, 889 at night. 59.4 kW needs 104 m²; 162 m² built.</p></div>
+      <div class="row"><div class="k">4 · Radiation</div><p><strong>Not closable, now confirmed by the holder.</strong> A surface room under 20.7 g/cm² of CO₂ and 234 mSv/yr, wall not folded in.
+        sci-rad-01 holds no measured spectrum; its charged-particle flux is 3 /cm²/s, a background-knowledge value. The earlier 8.9 /cm²/s on this page was a pixel-hit rate per area, retired 2026-09-13.
+        SEU is a sweep over the per-bit cross-section: in quiet time the SEC-DED verdict still flips inside the sweep; during a hard S5 event uncorrectables rise by 10⁷,
+        so the policy needs a second knob, an accelerated scrub on the SEP alert. SEL stays unknown: it "depends on a recoil population this station cannot count with a single layer" (sci-rad-01).</p></div>
+      <div class="row"><div class="k">5 · Audit</div><p><strong>23 claims of the old card and this page, each against a product.</strong> 11 supported,
+        5 with a stated limit, 3 partly, 2 designed-not-built, 1 with no product at all, 1 contradicted by its own report (267 LUT, retired → 212). Logs were
+        re-run and filed so that "two simulators tick-identical" is a file, not a sentence.</p></div>
+      <div class="row"><div class="k">6 · Data link</div><p><strong>In 15.4 GB/sol, out 10.7.</strong> The planet's Earth link averages 0.965 Mbps; the room is
+        where science data lands, is reduced and is kept. The teal cable from the blade to the screen stands for a 115.2 kbit/s UART carrying ~130 bit/s;
+        MB-1 at full speed would outrun it 200×.</p></div>
     </div>
     <div class="fig2">
       <figure class="figure">
         <img src="assets/compute/gds-die.jpg" alt="sky130 GDS layout of MB-1 showing four SRAM macros" loading="lazy">
-        <figcaption>MB-1 sky130 DIE 1660×1080 µm — FOUR SRAM MACROS (2×2) = ~64% OF AREA, LOGIC AT CENTER</figcaption>
+        <figcaption>MB-1 sky130 DIE 1660×1080 µm — FOUR SRAM MACROS (2×2) = 63.5% OF AREA, LOGIC AT CENTER. A GDS, NOT A PHOTOGRAPH</figcaption>
       </figure>
       <figure class="figure">
         <img src="assets/compute/pcb-layout.jpg" alt="MB-1 evaluation board PCB layout" loading="lazy">
-        <figcaption>MB1-DEMO revA — 2-LAYER EVAL BOARD, 467 ROUTED SEGMENTS, TEXTURE IS THE REAL LAYOUT</figcaption>
+        <figcaption>MB1-DEMO revA — 2-LAYER BOARD DESIGN, 467 ROUTED SEGMENTS; 57 CLEARANCE VIOLATIONS OPEN, NOT ORDERED</figcaption>
       </figure>
     </div>
     <figure class="figure">
@@ -193,22 +238,42 @@
 <section class="band">
   <div class="wrap">
     <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
-    <p class="lead">Every headline number, and which run produced it. Nothing on this page is a guess.</p>
+    <p class="lead">Every headline number, which script or report produced it, and whether it is a design figure or a measurement.</p>
     <div class="tablewrap"><table>
-      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>State</th><th>Produced by</th></tr></thead>
       <tbody>
-        <tr><td>Bit-exact across 4 tools</td><td class="num">Python ↔ iverilog ↔ xsim ↔ synth</td><td class="src">tools/mb1_model.py + tb/tb_mb1.sv</td></tr>
-        <tr><td>Two simulators tick-identical</td><td class="num">$finish 1,134,185 ns</td><td class="src">sim/run.ps1 + sim/run_xsim.ps1</td></tr>
-        <tr><td>FPGA OOC synth, latches</td><td class="num">0 · 267 LUT / 292 FF</td><td class="src">syn/synth_ooc.tcl (Artix-7 -1)</td></tr>
-        <tr><td>FPGA Fmax</td><td class="num">173 MHz</td><td class="src">syn/synth_ooc.tcl (OOC estimate)</td></tr>
-        <tr><td>Arty bitstream, timing</td><td class="num">MET · WNS +3.29 ns @100 MHz</td><td class="src">syn/impl_arty.tcl</td></tr>
-        <tr><td>sky130 logic area</td><td class="num">0.033 mm² · ~2100 cells</td><td class="src">asic/synth_sky130.ys (Yosys)</td></tr>
-        <tr><td>SRAM macro equivalence</td><td class="num">11,069 reads · 0 mismatch</td><td class="src">tb/tb_cdf_sram_equiv.sv</td></tr>
-        <tr><td>Full die, routing DRC</td><td class="num">1.79 mm² · 0 violations</td><td class="src">asic/pnr/mb1_pnr.tcl (OpenROAD)</td></tr>
-        <tr><td>Hold closure</td><td class="num">+0.14 ns MET</td><td class="src">OpenROAD repair_timing (groute RC)</td></tr>
-        <tr><td>Final GDS</td><td class="num">26.3 MB</td><td class="src">asic/pnr/merge_gds.ps1 (klayout)</td></tr>
-        <tr><td>PCB net truth-table</td><td class="num">129 pins · 0 mismatch</td><td class="src">pcb/verify_sch.py</td></tr>
-        <tr><td>Board routed</td><td class="num">0-fail A* → Gerber</td><td class="src">pcb/route_board.py</td></tr>
+        <tr><td>Screen sampler bit-exact vs Python golden</td><td class="num">PASS · 220 chars @ seed 0x12345678</td><td class="state">measured (node + browser)</td><td class="src">viewer/units/ops-compute-01.js + mb1-cdf-data.js; ledger/out/05_mb1_audit.json</td></tr>
+        <tr><td>Three implementations bit-exact</td><td class="num">Python ↔ iverilog ↔ xsim · 0 mismatch</td><td class="state">log</td><td class="src">ledger/logs/iverilog_tb_mb1.log, xsim_tb_mb1.log</td></tr>
+        <tr><td>Two simulators tick-identical</td><td class="num">$finish 1,131,905 ns both</td><td class="state">log</td><td class="src">same logs (Mars-corpus table; the old table's time retired with it)</td></tr>
+        <tr><td>FPGA OOC synth, latches</td><td class="num">0 · 212 LUT / 292 FF</td><td class="state">report</td><td class="src">syn/reports/utilization.rpt (212 formerly printed as 267 — retired)</td></tr>
+        <tr><td>FPGA Fmax</td><td class="num">173 MHz (WNS −0.781 ns @200 MHz)</td><td class="state">report</td><td class="src">syn/reports/timing_summary.rpt</td></tr>
+        <tr><td>Arty bitstream, timing</td><td class="num">MET · WNS +3.289 ns @100 MHz</td><td class="state">report (never loaded on a board)</td><td class="src">ledger/logs/vivado_impl_arty.log, fpga/arty_build/</td></tr>
+        <tr><td>sky130 logic area</td><td class="num">33,123 µm² · 2245 cells incl. 4 macros</td><td class="state">report</td><td class="src">asic/reports/sky130_stat.txt</td></tr>
+        <tr><td>SRAM macro equivalence</td><td class="num">11,069 reads · 0 mismatch</td><td class="state">log</td><td class="src">ledger/logs/iverilog_tb_cdf_sram_equiv.log</td></tr>
+        <tr><td>Full die, routing DRC</td><td class="num">1.79 mm² · DRC report empty</td><td class="state">report (empty file: limit stated)</td><td class="src">asic/pnr/mb1_pnr.tcl, asic/pnr/out/route_drc.rpt</td></tr>
+        <tr><td>Timing at 100 MHz</td><td class="num">hold +0.14 MET · setup −0.02 VIOLATED → clean ≤ 99.6 MHz</td><td class="state">report</td><td class="src">asic/pnr/out/final_timing.rpt</td></tr>
+        <tr><td>Core power</td><td class="num">29.6 mW @100 MHz</td><td class="state">estimate (no silicon)</td><td class="src">asic/pnr/out/final_power.rpt</td></tr>
+        <tr><td>Final GDS</td><td class="num">27,550,944 B</td><td class="state">file</td><td class="src">asic/pnr/merge_gds.ps1 (klayout)</td></tr>
+        <tr><td>PCB net truth-table</td><td class="num">129 pins · 0 mismatch</td><td class="state">file, no run log</td><td class="src">pcb_skill/scripts/verify_sch.py + pcb/mb1_truth.json</td></tr>
+        <tr><td>Board routed</td><td class="num">0 routing fails · 57 clearance DRC open</td><td class="state">log</td><td class="src">pcb/route13.log (pcb/mb1_route_board.py)</td></tr>
+        <tr><td>Science data ingest</td><td class="num">15.4 GB/sol · 10.3 TB / Mars year</td><td class="state">from cards</td><td class="src">ledger/01_load.py → out/01_load.json</td></tr>
+        <tr><td>Digital twin render load</td><td class="num">2.97 M tris · 7022 calls · 55.7 ms/frame</td><td class="state">measured</td><td class="src">ledger/inputs/twin_measurement_2026-09-06.json</td></tr>
+        <tr><td>IT load hosted here</td><td class="num">NOT CLOSABLE (grid books 40/55 kW capacity)</td><td class="state">declared gap</td><td class="src">ledger/out/01_load.json totals.hosted_here_note</td></tr>
+        <tr><td>PUE</td><td class="num">1.079 peak · pumps 3.5% of IT</td><td class="state">account</td><td class="src">ledger/02_power.py → out/02_power.json</td></tr>
+        <tr><td>Feeder served peaks</td><td class="num">70 kW of 1200 kW (5.8%)</td><td class="state">from grid json</td><td class="src">ledger/02_power.py; mars-grid out/03_transmission.json</td></tr>
+        <tr><td>v0 fin wall at 320 K</td><td class="num">69 night / 57 day / 49 day+sun kW</td><td class="state">account (retired geometry)</td><td class="src">ledger/03_thermal.py → out/03_thermal.json drawn_wall_320K</td></tr>
+        <tr><td>Panel design flux (dusted, 320 K)</td><td class="num">570 W/m² worst noon · 889 night</td><td class="state">account</td><td class="src">ledger/out/03_thermal.json two_sided_panel_table</td></tr>
+        <tr><td>ISS known-answer gate</td><td class="num">model 259 vs ISS 147 W/m² planform (×1.76)</td><td class="state">gate</td><td class="src">ledger/03_thermal.py G3.1</td></tr>
+        <tr><td>Radiator field</td><td class="num">3 × 12×4.5 m · 162 m² · 92–144 kW</td><td class="state">design from account</td><td class="src">ledger/out/03_thermal.json geometry_for_asset</td></tr>
+        <tr><td>Surface charged-particle flux</td><td class="num">3 /cm²/s (8.93 retired: a pixel-hit rate per area)</td><td class="state">holder's background-knowledge value</td><td class="src">ledger/04_radiation.py r1.1; sci-rad-01 replies e2ed278 / efa91c6</td></tr>
+        <tr><td>SEU / SEL rate</td><td class="num">NOT CLOSABLE (holder has no spectrum)</td><td class="state">declared gap</td><td class="src">dev/REPLY_sci-rad-01_to_ops-compute-01_spectrum.md + _products.md</td></tr>
+        <tr><td>LET unit conversion in Si</td><td class="num">1 keV/µm = 0.00429 MeV·cm²/mg (MIP check: 116.3 keV in 300 µm)</td><td class="state">known-answer gate</td><td class="src">ledger/04_radiation.py G4.5</td></tr>
+        <tr><td>φ(&gt;LET) table from the ΔE–E telescope</td><td class="num">registered, used in no rate</td><td class="state">design simulation, no data (sci-rad-05)</td><td class="src">ledger/out/04_radiation.json sci_rad_05_table_2b</td></tr>
+        <tr><td>Uncorrectables in a hard S5 SEP</td><td class="num">×9.6×10⁶ (flux ×3103, squared)</td><td class="state">account on an extrapolated flux</td><td class="src">ledger/out/04_radiation.json sep_S5_sweep_64GB</td></tr>
+        <tr><td>Earth link mean</td><td class="num">0.965 Mbps = 10.7 GB/sol</td><td class="state">from relay card</td><td class="src">ledger/06_datalink.py → out/06_datalink.json</td></tr>
+        <tr><td>Blade-to-screen cable</td><td class="num">UART 115.2 kbit/s · ~133 bit/s used</td><td class="state">account</td><td class="src">ledger/out/06_datalink.json cable</td></tr>
+        <tr><td>Roster and quota board</td><td class="num">5,136 tris · reads roster-data.js at build</td><td class="state">hosted part (ops-roster-01), data not transcribed</td><td class="src">viewer/units/roster-board.js + roster-data.js</td></tr>
+        <tr><td>In-city smoke test</td><td class="num">scale 1 · 57 assets · self-test PASS · 1 console 404 (sci-rad-05 card, not this unit)</td><td class="state">measured</td><td class="src">dev/DELIVERY_ops-compute-01_r1_1.md</td></tr>
       </tbody>
     </table></div>
   </div>
@@ -218,30 +283,51 @@
 <section class="band band--alt">
   <div class="wrap">
     <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
-    <p class="lead">The honest part. Two RTL bugs, a synthesis trap, six place-and-route rounds, thirteen routing rounds.</p>
+    <p class="lead">The honest part. Two RTL bugs and thirteen routing rounds from the first build — and, this round, what the accounts overturned in the page itself.</p>
     <div class="broke">
-      <div class="item"><h3>Sampling off-by-one (1/65536)</h3>
-        <p>With <code>cdf[i] ≥ r</code> and <code>r ∈ [0, 0xFFFF]</code>, <code>r=0</code> could select a
-        zero-probability symbol. Not an RTL-vs-model mismatch — a semantic defect both shared — caught by an
-        invariant assertion (“a zero-prob symbol must never appear”), not by cross-check. Fix: clamp r to
-        <code>[1, 0xFFFF]</code>, one comparator and a mux, RTL and model together.</p></div>
-      <div class="item"><h3>VALID/READY zero-width pulse</h3>
-        <p>When READY was held high, <code>valid&lt;=1</code> then <code>valid&lt;=0</code> in the same block
-        (last assignment wins) gave a zero-cycle pulse — the consumer never saw a valid beat. Only the
-        constant-ready path, <em>outside</em> the back-pressure test, exposed it. Fix: registered-valid handshake,
-        plus a clean flush to IDLE when run drops so stale data never leaks between runs.</p></div>
-      <div class="item"><h3>SRAM synthesized to 66,048 flip-flops</h3>
-        <p>The behavioral <code>reg mem[]</code> mapped to a phantom 2.33 mm² of DFFs until it was read as a
-        compiled macro (<code>read_verilog -lib</code>) instead. Real logic is 0.033 mm²; the SRAM is a hard macro.</p></div>
-      <div class="item"><h3>OpenROAD P&amp;R: six rounds, one physics fix each</h3>
-        <p>The failure point moved monotonically inward every round: old build has no <code>place_macro</code>
-        (place via odb) → PDN row slivers under macros (flush them to the edge) → pin-geography floorplan
-        (read the LEF first) → tie cells for constant nets → hold repair on global-route parasitics → antenna
-        repair wedged between global and detailed route. Result: routing DRC 0.</p></div>
-      <div class="item"><h3>PCB: the connector that deadlocked the router</h3>
-        <p>Thirteen routing rounds. A 16-pin USB-C fine row jammed the 5-mil grid router until it was swapped
-        for a Micro-USB — an architectural fix beats a patch-on-a-patch. 57 clearance violations remain, all
-        located with fixes listed; a ~1-hour hand-finish plus a fab DFM check are the honest boundary before ordering.</p></div>
+      <div class="item"><h3>The page said "fabbed"; the card said "engineering sample" — both withdrawn, neither exists.</h3>
+        <p>The truth audit found three sentences that read as built where only design files exist, all three now withdrawn: a "fabbed eval board", a
+        "gold-lidded ceramic engineering sample in the DIP-24 socket", and "MB1-DEMO revA" as if it were a board — retired on the card with the old wording kept in quotes and the date. The dossier ends
+        at GDS and Gerber.</p></div>
+      <div class="item"><h3>267 LUTs, retired: the report says 212</h3>
+        <p>The stored synthesis report says 212 (200 logic + 12 distributed RAM); 267 had been carried from an earlier run into the
+        README, the card and this page. The report wins. Same audit: "bit-exact across four tools" was three simulators plus a synthesis
+        report; and the page printed hold slack (+0.14 ns MET) while omitting the setup violation in the same file (−0.02 ns at 100 MHz).</p></div>
+      <div class="item"><h3>"Same algorithm as the wall display" was not true until this round</h3>
+        <p>The v0 screen program was a floating-point bigram counted in the browser with <code>Math.random()</code>. The chip's table and
+        arithmetic now run on the screen and self-test on boot; the corpus was switched to the city's own text and every build product,
+        both simulator logs, the twin page and the Arty bitstream were regenerated on the new table.</p></div>
+      <div class="item"><h3>Three of four thermal expectations missed</h3>
+        <p>Pre-registered before computing: the fin wall would reject 20–45 kW (it rejects 69 at night); day would fall 30–60% below night
+        (17%); a sky-facing tilted panel would net 250–400 W/m² (466 for the whole panel, and the best family is near-vertical). Wrong on the
+        inter-fin escape (31%, not ~10%), wrong on how much a dusted surface absorbs at noon, wrong on how cold the ground is. Expectations
+        were left as written; the conclusions changed.</p></div>
+      <div class="item"><h3>A pixel-hit rate read as a particle flux, and a gate that could not go red</h3>
+        <p>The radiation account divided the rad station's 62 hits per second by its chip area and printed a charged-particle flux of 8.9 /cm²/s, now retired.
+        The holder answered that 62 counts pixels, not particles (about three pixels per track, since revised by the holder to 9.5), and that its particle flux is 3 /cm²/s.
+        The 8.93 figure is retired.
+        The gate that "checked" it multiplied the same two numbers back together, an identity; it is replaced by a gate on the holder's own decomposition,
+        which closes at 197.8 against 198 hits per second.</p></div>
+      <div class="item"><h3>A unit column 100× off, copied once before it was caught</h3>
+        <p>The particle telescope sent a φ(&gt;LET) table whose MeV·cm²/mg column used 1/2.33 where 1/233 is right; the rad station's reply carried the same slip,
+        and this dossier had copied one such figure into a ledger file a week earlier. It is retired there. A minimum-ionising particle settles it:
+        116 keV in 300 µm of silicon with the right constant, 1.16 keV with the wrong one. Which LET range sets latch-up for the devices is now registered as open.</p></div>
+      <div class="item"><h3>A view-factor model 20% high, and a gate that asserted a wish</h3>
+        <p>The first analytic wall model used a cavity-aperture emissivity outside its small-aperture assumption and disagreed with the
+        ray-cast by 20%; the cross-check gate went red, the model was replaced by parallel-plate view factors with a reflection series, and
+        the two now agree within 1.3%. In the radiation account the first gate said "the ECC verdict does not flip across the sweep" — a wish,
+        not a mechanism — and went red because the verdict does flip. It was replaced by a gate on the formula's scaling; the flip is reported.</p></div>
+      <div class="item"><h3>The grid closed the room twice against the same drawing</h3>
+        <p>The grid dossier's "8 racks × 5 kW = 40 kW, agrees within 9%" with the grid's second-route figure of 43.6 kW for the v0 wall is two readings of the v0 drawing agreeing
+        with each other. The wall figure lies inside this account's 49–69 kW for that wall; the load side matches no card. Reported back as
+        "installed capacity, demand unpriced" rather than corrected in their file.</p></div>
+      <div class="item"><h3>The new footprint crossed a heat pipe</h3>
+        <p>Widening the unit from 26 to 42 m put its west edge over the pipe-heat-2 corridor; the layout audit said ROAD CLASH. The site moved
+        8 m east; audit clean, placements registry updated.</p></div>
+      <div class="item"><h3>From the first build, still true</h3>
+        <p>Sampling off-by-one (r = 0 could pick a zero-probability symbol; clamped), a zero-width VALID pulse when READY was held high
+        (registered valid), the SRAM that synthesized to 66,048 flip-flops until it was read as a macro, six place-and-route rounds, and the
+        USB-C connector that deadlocked the router until it became a Micro-USB.</p></div>
     </div>
   </div>
 </section>
@@ -250,19 +336,19 @@
 <section class="band">
   <div class="wrap">
     <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
-    <p class="lead">Walk into the compute center and find the chip that computes the screen.</p>
+    <p class="lead">Walk into the compute center and read the boot log.</p>
     <ul class="try">
-      <li>In the city viewer, press <code>C</code> for the tech city, walk to the compute center, and look at
-        rack&nbsp;2 — the green blade is the MB-1 eval board. Inspect it (<code>V</code>) for the
-        <span class="hl">mb1</span> knowledge card.</li>
-      <li>The big screen runs the bigram live: <code>MARS COMPUTE CENTER // nanogpt.py</code>, and its boot
-        log now probes <code>rack2/mb1-eval</code> before sampling.</li>
-      <li>The software twin runs the identical algorithm in the browser and self-tests bit-exact against the
-        chip's golden model on load — same LFSR, same clamped inverse-CDF sampling.</li>
+      <li>In the city viewer, press <code>C</code> for the tech city, walk to the compute center's south airlock and go in. The screen's boot log
+        prints <code>MB-1 bit-exact vs python golden: PASS (220 chars)</code> before it starts sampling — green is the gate holding, red is the gate failing.</li>
+      <li>Inspect (<code>V</code>) the ten knowledge cards: screen, MB-1, racks, CDU, radiator, power, data link, radiation, die plate, airlock.
+        Each carries its account's numbers, sources and the round's withdrawals.</li>
+      <li>The radiator field west of the hall is the one geometry that the accounts drew: three panels, 70°, faces north and south, rows 6.5 m apart.</li>
+      <li>Inside the airlock, the first thing facing you is the roster and quota board supplied by ops-roster-01. It has no text:
+        empty frames mean no dose number, never zero. Its data is theirs and changes with their <code>roster.json</code>.</li>
     </ul>
     <figure class="figure">
       <img src="assets/compute/board-night.jpg" alt="MB-1 board glowing in the compute center at night" loading="lazy">
-      <figcaption>NIGHT SHIFT — THE BLADE IN THE RACK, HEARTBEAT LED PULSING ONE FLIP PER EMITTED CHARACTER</figcaption>
+      <figcaption>NIGHT SHIFT — THE BLADE ON ITS TRAY, HEARTBEAT LED PULSING; THE BOARD IS A DESIGN, THE LED IS THE MODEL'S</figcaption>
     </figure>
   </div>
 </section>
@@ -270,9 +356,11 @@
 <footer>
   <div class="wrap">
     <div class="label" style="margin-bottom:10px;">Sources</div>
-    <p style="margin:0;">Design ledger: <span class="src">mars-bigram/README.md</span> ·
-      Digital flow: <span class="src">mars-bigram/{rtl,tb,sim,syn,fpga,asic}</span> ·
-      City assets: <span class="src">viewer/units/ops-compute-01.js + mb1-demo-board.js</span> ·
+    <p style="margin:0;">Design ledger: <span class="src">mars-bigram/ledger/{01_load,02_power,03_thermal,04_radiation,05_mb1_audit,06_datalink}.py → ledger/out/*.json</span> ·
+      Pre-registration: <span class="src">mars/dev/REPLY_ops-compute-01_prereg.md</span> ·
+      Digital flow: <span class="src">mars-bigram/{rtl,tb,sim,syn,fpga,asic,pcb}</span> ·
+      Logs: <span class="src">mars-bigram/ledger/logs/</span> ·
+      City assets: <span class="src">viewer/units/ops-compute-01.js + mb1-demo-board.js + mb1-cdf-data.js</span> ·
       <a href="index.html">Back to the city</a></p>
   </div>
 </footer>

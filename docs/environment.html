@@ -123,7 +123,7 @@
   <div class="nav__links">
     <a href="index.html#districts">All districts</a>
     <a href="gravity.html">← Prev</a>
-    <a href="flight.html">Next →</a>
+    <a href="radiation.html">Next →</a>
     <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
   </div>
 </nav>
@@ -145,7 +145,7 @@
   <div class="specs__grid wrap" style="padding:0;">
     <div class="spec"><div class="spec__k">Dust trip line</div><div class="spec__v">τ &gt; 3<small>LED + no-fly</small></div></div>
     <div class="spec"><div class="spec__k">Surface dose</div><div class="spec__v">234<small>mSv/yr</small></div></div>
-    <div class="spec"><div class="spec__k">Fusion fence</div><div class="spec__v">0.21<small>counts/s</small></div></div>
+    <div class="spec"><div class="spec__k">Fusion fence</div><div class="spec__v">0.63–0.87<small>counts/s · bias measured, not applied</small></div></div>
     <div class="spec"><div class="spec__k">Deep lab</div><div class="spec__v">26<small>days per count</small></div></div>
   </div>
 </div>
@@ -227,11 +227,40 @@
         <img src="assets/environment/tier-perimeter.jpg" alt="SiC neutron sentinel standing on the fusion plant perimeter" loading="lazy">
         <div class="tier__body">
           <div class="tier__k">Surface · fusion fence</div>
-          <div class="tier__v">2.32 <span style="font-size:.8rem;font-weight:500;">counts/s</span></div>
-          <p class="tier__d">A blip about every 0.43 s — roughly 1400× the ambient GCR neutron floor
+          <div class="tier__v">0.87 · 0.63 <span style="font-size:.8rem;font-weight:500;">counts/s · as printed · with the chain's own bias</span></div>
+          <p class="tier__d">The escape value behind this figure was re-derived for the machine's own geometry on 2026-09-13:
+            4.391×10⁻¹¹ through the 0.30 m bio-shield, 0.377 of the one-dimensional model's 1.164×10⁻¹⁰,
+            the inboard stack and the ring source halving the first crossing. Flux and count rate are linear
+            in it, so the earlier 62.5 n·cm⁻²·s⁻¹ and 2.32 counts/s (retired 2026-09-19) become about 23.6 and
+            0.87 — a blip every 1.1 s, roughly 540× the ambient GCR neutron floor (sentinel recompute,
+            2026-09-19: 0.874 counts/s, 23.6 n·cm⁻²·s⁻¹ ±10.6%). Later the same day the joint bias was measured
+            on the machine chain itself: +5.6 percentage points per joint, the chain over-reporting, the
+            hold released. For the shield the unapplied figure is the conservative one to quote; for this
+            fence it is the comfortable one, so two rows now stand side by side and are never merged —
+            0.87 counts/s as printed, and 0.63 (0.45–0.90) if the bias measured in borated concrete holds
+            on all six joints — with a labelled test load at 0.38. Ungated, a 10⁴-fold solar-proton
+            neutron burst reads as ×11 to ×15 on the two rows and at least ×10 across the interval, so
+            the gate stays a requirement. What follows is the state before that measurement, kept: it
+            was then a number without a verdict: the
+            joint-bias condition established on the model chain was never run on the machine chain, so the
+            same arithmetic gives 1.03 counts/s on the radiation station's shallow-probe reading and 2.0
+            if the joint bias sits at its registered limit with the sign unfavourable for the shield — a test
+            load, not a bound. Nothing bounds the low side, which is the side that hurts this network, and
+            the only bias ever measured (on the model chain) points that way. Five rows in all, none of them the value: 2.02, 1.03, 0.87, 0.66, 0.38 counts/s.
+            Ungated, a 10⁴-fold solar-proton neutron burst would read as a ×5–24 rise here (×31 on the lowest
+            row with the statistical 2σ) — the size of
+            the ten-fold leak the network uses as its reference, which is why the gate is a requirement and
+            the earlier wording “a visible spurious rise, not a catastrophic misreading” is withdrawn.
+            Previously: a blip about every
+            0.43 s — roughly 1400× the floor
             (re-anchored 2026-09-02 to the declared 0.30 m bio-shield; the earlier 0.21 → 0.08 counts/s
             and 12 s cadence sat behind a self-assumed 2 m shield). This one is not listening for space
-            weather at all; it watches 14 MeV leakage through the tokamak's breeding blanket.</p>
+            weather at all; it watches 14 MeV leakage through the tokamak's breeding blanket. Since 2026-09-12 the
+            tokamak has answered: its escape value was derived for the one-dimensional model's radii,
+            not the machine's, and is declared pending re-derivation — this figure stands as printed
+            until that lands, and inherits the declaration. The 58 m is measured from the machine axis
+            in the ledger, the module and the manifest, so that reading is settled — see
+            <a href="radiation.html">The Radiation Budget</a>.</p>
         </div>
       </div>
       <div class="tier">
@@ -355,7 +384,7 @@
       n/s source at 640 MW fusion power, carried by the segmented Geant4 chain through blanket, shield,
       vacuum vessel, TF coils and cryostat to the cryostat exterior (r = 4.235 m), then through the
       declared 0.30 m of borated concrete to a cumulative escape of 1.164×10⁻¹⁰ per source neutron
-      (registered target 1.92×10⁻¹⁰), and 1/r² over 58 m, arrives as 62.5 n·cm⁻²·s⁻¹ — the 2.32 counts/s
+      (registered target 1.92×10⁻¹⁰), and 1/r² over 58 m from the machine axis, arrives as 62.5 n·cm⁻²·s⁻¹ — the 2.32 counts/s
       the perimeter display actually shows. The earlier 2.15 n·cm⁻²·s⁻¹ → 0.08 counts/s sat behind a
       self-assumed 2 m shield and a 3.01×10²⁰ n/s source, both retired 2026-09-02; the chain's own
       qualifiers (per-join bias unapplied, chain reached 0.50 m at two records, resolved by a single-join
@@ -420,7 +449,7 @@
         <tr><td>Frozen device point (bias / threshold / ENC)</td><td class="num">150 V · 500 e · 52.7 e</td><td class="src">timepix4_allpix campaign (frozen checkpoint)</td></tr>
         <tr class="grp"><td colspan="3">SiC sentinel net — mars_rad_sic, 5 accounts</td></tr>
         <tr><td>⁶LiF converter efficiency peak</td><td class="num">4.72% @ 29.9 µm</td><td class="src">mars_rad_sic/design_rounds.py</td></tr>
-        <tr><td>Fusion-perimeter flux → count rate</td><td class="num">62.5 n·cm⁻²·s⁻¹ ±3.3% → 2.32 cps ±3.3% (at 58 m, build thickness t = 0.30 m); 103.1 n·cm⁻²·s⁻¹ → 3.82 cps at the interpolated minimum t = 0.282 m (comparison, not the build thickness)</td><td class="src">mars_rad_sic/PREREG_perimeter_recompute_20260902.md — S_n = 2.271e20 n/s @ 640 MW × cumulative escape T = 1.164e-10 (0.30 m borated concrete, single-join probe from the chain's own source; registered target 1.92e-10; per-join bias b = +4.91% unapplied; the chain itself did not reach that thickness) / 4πr². The 62.5 is the chain's own escape number propagated to 58 m (sci-rad-01 reproduces it to 0.05%), not an independent check, and it inherits every qualifier of that escape value. Count rate computed by the sentinel response chain (A_pad / eff_fast / f_moderated / EFF_TH, intact; the 08-08 damage to design_rounds.py lost account-2 outputs and prose, since rebuilt as RESOLVED_* keys) and cross-checked by the linear rescale of the old 0.08 cps @ 2.15 point (2.33). Standing qualifier: the chain's two spectral parameters (f_moderated = 0.35, eff_fast = 0.002) were calibrated on the spectrum behind the self-assumed 2 m ordinary concrete; the spectrum behind 0.30 m borated concrete differs and the SiC response is energy-dependent, so those two parameters await re-calibration. Void and recompute if the build thickness departs from 0.30 m or the escape value is revised. The earlier 2.15 → 0.08 cps was a self-assumed 2 m / TVL 0.25 m shield, never a bound. Build thickness declared by the tokamak 2026-09-02: 0.30 m = the measured face, not the 0.282 m interpolated minimum (margin 1.65×; z-end leakage, duct streaming and groundshine are not covered by any thickness and sit in other ledgers); leakage chain: dev/PREREG_fusion_leakage_reading_rule.md</td></tr>
+        <tr><td>Fusion-perimeter flux → count rate</td><td class="num">23.6 n·cm⁻²·s⁻¹ ±10.6% → 0.874 cps as printed by the delivery (T = 4.391e-11, machine geometry, tokamak a6cfb92 / corrections aeadc68; Kish N_eff 89 at the 0.30 m probe, used alone); 1.027 cps [row retired 2026-09-19] on sci-rad-01's shallow-probe reading (T = 5.157e-11 [row retired 2026-09-19] = 0.443 × the model value; a reading, not a finding — the probes share 644 parent histories; “conservative” for shield clearance, favourable for the fence); 2.02 cps [row retired 2026-09-19] if |b| sits at the registered limit of 15 pp/join with the sign unfavourable for the shield on all six joins (T × 2.31 — a test load, not a bound on T; b is unmeasured on this chain). Low side (T from sci-rad-01 mars_rad bb33e48; rates from the sentinel network mars_rad_sic 2296fc1, city 90c765b): 0.656 cps [row retired 2026-09-19] at T = 3.294e-11 [row retired 2026-09-19], if the model chain's measured b = +4.91 pp/join transferred (not established — that is the hold); 0.378 cps at T = 1.898e-11, the same limit-arithmetic with the other sign, conditional on |b| ≤ 15 pp/join exactly as the 2.02 row is. Across the five rows, high to low: F = 10⁴ reads as ×5.4 / ×9.6 / ×11.1 / ×14.4 / ×24.3 (×30.6 on the lowest with the statistical 2σ); F = 10³ as ×1.4 / ×1.9 / ×2.0 / ×2.3 / ×3.3; ordering margin 1022× / 519× / 442× / 331× / 190× (150× at 2σ); smallest leak at 5σ in 60 s ×1.75 / ×2.13 / ×2.24 / ×2.49 / ×3.13 — on the lowest row past the network's registered ‘> 3×: the integration window must be re-discussed’, recorded as open; the statistical ±10.6% (1σ) belongs to every row. Unrounded pedestal_total_cps and fusion_component_cps per row: mars_rad_sic/fence_bracket_under_hold.json. Ruled by the integrator 2026-09-19 (dev/RULING_fence_five_rows.md) and superseded the same day, when b was measured on chain3 (+5.57 pp/join, σ 3.01 as registered; condition (ii) SATISFIED, hold released, b not applied — sci-rad-01 mars_rad fc58520, reviewed dev/RULING_chain3_release_review.md): CURRENT TABLE (dev/RULING_fence_after_b.md; sentinel file sha256 e57a5968…88d7, city 41e9054) — row 1, as printed and quotable, 0.874 cps at T = 4.391e-11; row 2, chain3's own b over six joins, 0.632 cps at T = 3.172e-11, interval 0.453–0.898 cps (2.274e-11–4.512e-11), conditional on concrete's b holding on all six joins; the two are not merged, and the statistical ±10.6% is a separate column from the interval of b; row 3, 0.378 cps, a conditional test load and not a reading, not a requirement baseline. F = 10⁴ reads ×11.1 / ×14.9 (×10.8–×20.5 over the interval); ordering margin 442× / 319× (228× at the interval's low end); smallest leak at 5σ in 60 s ×2.24 / ×2.52. Red alarm 216 counts in any 60 s window; change alarm by sequential test, missing ×3-within-60-s at one corner (71 s on the binding baseline: every joint at its 2σ-high value, measured b + 2σ on the two concrete joints and the pass limit on the four unmeasured ones, T = 2.016e-11, 0.401 cps; dev/RULING_fence_after_b_addendum_mixed_load.md); the yield signal that would normalise it must then be stable to 3%; both design values — no fusion-yield signal exists to normalise by. The rows at 2.02, 1.03 and 0.66 cps are retired 2026-09-19. Before the measurement, none of these was the value: condition (ii) is not established on this chain, no RESOLVED verdict is printed, and the low side of T is unbounded (sentinel recompute mars_rad_sic a38ac7c, pre-registered 690be05, city 9ac7d92; sci-rad-01 mars_rad e1b4d40). Margin against the machine-radius target 1.8051e-10: 4.11× (3.39× at 2σ). Comparison at the interpolated minimum t = 0.253 m: 97.0 n·cm⁻²·s⁻¹ → 3.59 cps, by construction the target itself. Smallest leak resolved at 5σ in 60 s: ×2.24. Retired 2026-09-19: 62.5 n·cm⁻²·s⁻¹ ±3.3% → 2.32 cps ±3.3% (at 58 m from the machine axis, build thickness t = 0.30 m; escape value T declared pending re-derivation for the machine's radii, tokamak 15a89f01, 2026-09-12 — figure stands as printed until then); 103.1 n·cm⁻²·s⁻¹ → 3.82 cps at the interpolated minimum t = 0.282 m (comparison, not the build thickness)</td><td class="src">mars_rad_sic/PREREG_perimeter_recompute_20260902.md — S_n = 2.271e20 n/s @ 640 MW × cumulative escape T = 1.164e-10 (0.30 m borated concrete, single-join probe from the chain's own source; registered target 1.92e-10; per-join bias b = +4.91% unapplied; the chain itself did not reach that thickness) / 4πr². The 62.5 is the chain's own escape number propagated to 58 m (sci-rad-01 reproduces it to 0.05%), not an independent check, and it inherits every qualifier of that escape value. Count rate computed by the sentinel response chain (A_pad / eff_fast / f_moderated / EFF_TH, intact; the 08-08 damage to design_rounds.py lost account-2 outputs and prose, since rebuilt as RESOLVED_* keys) and cross-checked by the linear rescale of the old 0.08 cps @ 2.15 point (2.33). Standing qualifier: the chain's two spectral parameters (f_moderated = 0.35, eff_fast = 0.002) were calibrated on the spectrum behind the self-assumed 2 m ordinary concrete; the spectrum behind 0.30 m borated concrete differs and the SiC response is energy-dependent, so those two parameters await re-calibration. Void and recompute if the build thickness departs from 0.30 m or the escape value is revised. The earlier 2.15 → 0.08 cps was a self-assumed 2 m / TVL 0.25 m shield, never a bound. Build thickness declared by the tokamak 2026-09-02: 0.30 m = the measured face, not the 0.282 m interpolated minimum (margin 1.65×; z-end leakage, duct streaming and groundshine are not covered by any thickness and sit in other ledgers); leakage chain: dev/PREREG_fusion_leakage_reading_rule.md</td></tr>
         <tr><td>Foyer tier: 30 m rock, muon residual</td><td class="num">52 e-foldings · 83 s/count</td><td class="src">mars_rad_sic/design_rounds.py</td></tr>
         <tr><td>Deep tier: muons ×10⁻⁶, radiogenic floor</td><td class="num">~26 days/count</td><td class="src">mars_rad_sic/design_rounds.py</td></tr>
         <tr><td>SiC vs Si generation current at 300 K</td><td class="num">9×10¹⁷ ratio · &lt;10⁻²⁰ A at 450 K</td><td class="src">mars_rad_sic/design_rounds.py (LGAD L2a TCAD anchor)</td></tr>

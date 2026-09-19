@@ -3,75 +3,401 @@
   "pois": [
     {
       "id": "screen",
-      "label": "AI 大屏 · nano-GPT",
-      "label_en": "AI wall display - nano-GPT",
+      "label": "AI 大屏 · MB-1 位级同源 bigram",
+      "label_en": "AI wall display - the MB-1 bigram, bit-exact",
       "range": 22,
-      "detail": "屏上真实运行一个字符级 bigram 语言模型（nanoGPT 教程的起点模型），在浏览器里 live 生成火星文本。这是火星城 v0 的闭环：真实世界建模进虚拟世界，虚拟世界里的计算中心又真的在运行 AI 代码。",
-      "detail_en": "A character-level bigram language model (the starter model from the nanoGPT tutorial) really runs on this screen, generating Mars text live in the browser. This is the v0 loop of Mars City closing: the real world is modelled into a virtual one, and the compute centre inside that virtual world is genuinely running AI code.",
+      "detail": "屏上 live 跑的不再是一个「同类模型」,而是 MB-1 芯片的算法本身:同一个 32 位 Fibonacci LFSR、同一个钳位逆 CDF 逐项比较、同一张 4096×16 位转移表(mb1-cdf-data.js,由设计册的 build/mb1_cdf.mem 生成,表的 sha256 前 16 位 660ebf90b488bbbe)。开机先对拍:seed 0x12345678 生成 220 字符与 Python 金标准逐字比,PASS/FAIL 直接打在屏上,红字就是闸变红。表用城市自己的七句火星文训练——屏上打出的每个字,硅片在同一 seed 下会打出同一个。",
+      "detail_en": "What runs on the screen is no longer a model of the same class but the MB-1 chip's algorithm itself: the same 32-bit Fibonacci LFSR, the same clamped inverse-CDF walk, the same 4096 x 16-bit transition table (mb1-cdf-data.js, generated from the dossier's build/mb1_cdf.mem, table sha256 prefix 660ebf90b488bbbe). On boot it self-tests: 220 characters at seed 0x12345678 are compared character by character with the Python golden and PASS/FAIL is printed on the screen - red text is the gate going red. The table is trained on the city's own seven Mars sentences: every character the screen prints, the silicon would print at the same seed.",
       "specs": {
-        "模型": "字符级 bigram",
-        "语料": "火星主题种子文本",
-        "推理": "浏览器实时逐字采样",
-        "首程序": "hello_mars.py"
+        "算法": "MB-1 逐比特一致(LFSR 抽头 {32,22,2,1};r 钳到 [1,0xFFFF];首个 CDF[i] ≥ r)",
+        "表": "4096 × 16 位 CDF + 64 字码本,同 build/ 产物",
+        "自检": "220 字符 @ seed 0x12345678 对 Python 金标准,屏上 PASS/FAIL",
+        "打字节奏": "16.7 字符/s(step 0.06 s)≈ 133 bit/s 有效",
+        "语料": "火星城七句种子文本(2026-09-06 起同时是 MB-1 的训练语料)"
       },
       "specs_en": {
-        "Model": "character-level bigram",
-        "Corpus": "Mars-themed seed text",
-        "Inference": "live per-character sampling in the browser",
-        "First program": "hello_mars.py"
+        "Algorithm": "bit-exact MB-1 (LFSR taps {32,22,2,1}; r clamped to [1,0xFFFF]; first CDF[i] >= r)",
+        "Table": "4096 x 16-bit CDF + 64-entry codebook, the same build/ products",
+        "Self-test": "220 chars @ seed 0x12345678 vs the Python golden, PASS/FAIL on screen",
+        "Typing rate": "16.7 char/s (step 0.06 s) ~ 133 bit/s payload",
+        "Corpus": "the city's seven Mars seed sentences (since 2026-09-06 also MB-1's training corpus)"
       },
-      "sim": "闭环：真实火星 → 数字孪生建模 → 城内计算中心 → 运行真实 AI 代码 → 生成关于火星的文本，回指真实火星",
-      "sim_en": "The loop: real Mars -> digital-twin modelling -> compute centre inside the city -> running real AI code -> generating text about Mars, pointing back at the real planet."
-    },
-    {
-      "id": "racks",
-      "label": "服务器机架",
-      "label_en": "Server racks",
-      "range": 16,
-      "detail": "两排机架，前面板活动指示灯常闪。承担数字孪生渲染、任务数据处理、AI 推理。",
-      "detail_en": "Two rows of racks with activity LEDs blinking on the front panels. They carry the digital-twin rendering, mission-data processing and AI inference."
-    },
-    {
-      "id": "chip",
-      "label": "处理器芯片（展示）",
-      "label_en": "Processor package (display piece)",
-      "range": 12,
-      "detail": "展台上的处理器封装（金色 die + 引脚）——算力之源。火星本地造芯是自给自足城市的终极工业目标之一。",
-      "detail_en": "A processor package on its plinth - gold die, pins out - the source of the compute. Making silicon locally on Mars is one of the ultimate industrial goals of a self-sufficient city."
+      "sim": [
+        "【r1 2026-09-06】自检结果:Node 校验里 PASS;城内烟测(?inspect=ops-compute-01,54 资产,scale 1,console 零报错)里 g.userData.mb1SelfTest = PASS。出处 mars-bigram ledger/05_mb1_audit.json(claim「The wall screen runs the same algorithm」)。",
+        "【r1 2026-09-06】撤回一句:v0 卡写「与大屏同源」,而 v0 屏上程序是用 Math.random() 在浏览器里现数的浮点 bigram——同类模型,不是芯片的算术也不是芯片的表;位级孪生当时只在 web/mb1_twin.html。本轮把表和算术搬上屏,这句话才成立。",
+        "【r1 2026-09-06】账 6:屏与刀片之间那根「数据脉冲光缆」代表板上 UART 115200 8N1(上限 11.5 k 字符/s);演示节奏 133 bit/s;MB-1 满速 100 MHz/32 拍 ≈ 3.1 M 字符/s = 25 Mbit/s,UART 装不下 200 倍——是节流寄存器(WRITE_THROTTLE)让这根线够用,不是链路。出处 ledger/out/06_datalink.json cable。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] Self-test: PASS in the node validation; PASS in the in-city smoke test (?inspect=ops-compute-01, 54 assets, scale 1, zero console errors) as g.userData.mb1SelfTest. Source mars-bigram ledger/05_mb1_audit.json (claim 'The wall screen runs the same algorithm').",
+        "[r1 2026-09-06] One sentence withdrawn: the v0 card said 'same as the wall display', but the v0 wall program was a floating-point bigram counted live in the browser with Math.random() - the same class of model, not the chip's arithmetic and not its table; the bit-exact twin lived only in web/mb1_twin.html. Moving the table and the arithmetic onto the screen is what makes the sentence true.",
+        "[r1 2026-09-06] Account 6: the 'data pulse cable' between screen and blade stands for the board's UART at 115200 8N1 (ceiling 11.5 k char/s); the demo runs at 133 bit/s; MB-1 at full speed (100 MHz / 32 cycles ~ 3.1 M char/s = 25 Mbit/s) would outrun that UART 200x - the throttle register (WRITE_THROTTLE) is what makes the cable adequate, not the link. Source ledger/out/06_datalink.json cable."
+      ],
+      "physics": "同一张表 + 同一个 seed 决定同一串字符,这是 MB-1 的设计前提:片上没有浮点、乘法、除法,只有 16 位随机数与一串比较,所以软件复刻可以做到逐比特而不是「统计上相似」。屏上的自检就是把这个前提当闸门用。",
+      "physics_en": "One table plus one seed determines one character stream - that is MB-1's design premise: no float, no multiply, no divide on chip, only a 16-bit random number and a run of compares, so a software replica can be bit-exact rather than 'statistically similar'. The on-screen self-test uses that premise as a gate."
     },
     {
       "id": "mb1",
-      "label": "MB-1 评估板 · bigram 硅片",
-      "label_en": "MB-1 evaluation board - the bigram in silicon",
+      "label": "MB-1 评估板 · bigram 硅片(设计,无实物)",
+      "label_en": "MB-1 evaluation board - the bigram in silicon (design; no hardware exists)",
       "range": 14,
-      "detail": "插在 2 号机架上的评估板。板上的 MB-1 芯片是大屏那个 nano-GPT 起点模型（字符级 bigram）的硬件实现——同一个算法，屏上是软件孪生，架里是硅片本体。训练留在片外：离线数好转移分布做成 CDF 表写进片上 SRAM，片上推理退化成「一个 16 位随机数 × 一串比较」，无乘法/除法/浮点。DIP-24 座上插着金盖陶瓷工程样片。",
-      "detail_en": "The evaluation board slotted into rack 2. Its MB-1 chip is the hardware implementation of the nano-GPT starter model on the wall display: one algorithm, a software twin on the screen and the silicon itself in the rack. Training stays off-chip - transition counts are turned offline into a CDF table written into on-chip SRAM, so inference collapses to one 16-bit random number and a string of comparisons, with no multiply, divide or floating point anywhere. A gold-lidded ceramic engineering sample sits in the DIP-24 socket.",
+      "detail": "插在 2 号机架托盘上的评估板。板上 MB-1 是大屏那个 bigram 的硬件实现:训练留在片外,离线数好转移分布做成 CDF 表经 SPI 写进片上 SRAM,片上推理只剩「一个 16 位随机数 × 一串比较」。本轮真源审计(23 条主张逐条对仓里的产物)后如实写:RTL→双仿真器→Vivado 综合→Arty 比特流→Yosys sky130 网表→OpenROAD 布局布线到 GDS 全部有产物;PCB 有设计文件与 Gerber 但未下单;没有流片,不存在样片。「DIP-24 座上插着金盖陶瓷工程样片」已撤回(2026-09-06):设计存在,无实物;依据 mars-bigram 里没有任何流片产物。3D 里插座上那颗是道具。",
+      "detail_en": "The evaluation board on a tray in rack 2. Its MB-1 is the hardware implementation of the wall display's bigram: training stays off-chip, the transition distribution is counted offline into a CDF table written over SPI into on-chip SRAM, and inference collapses to one 16-bit random number and a run of compares. After this round's truth audit (23 claims, each checked against a product in the dossier) the honest state is: RTL, two simulators, Vivado synthesis, Arty bitstream, Yosys sky130 netlist and OpenROAD place-and-route to GDS all have products; the PCB has design files and Gerber but was never ordered; there was no tapeout and no sample exists. 'A gold-lidded ceramic engineering sample sits in the DIP-24 socket' is WITHDRAWN (2026-09-06): design exists, no hardware; basis: no tapeout product anywhere in mars-bigram. The package in the socket of the 3D model is a prop.",
       "specs": {
-        "算法": "字符级 bigram（与大屏同源）",
-        "工艺": "SkyWater sky130（开源 PDK）",
-        "版图": "RTL→FPGA→GDS 全流程,布线 DRC 0",
-        "面积": "0.033 mm² 逻辑 + 64 Kbit CDF SRAM 宏",
-        "接口": "SPI 装表 + UART 吐字",
-        "板卡": "MB1-DEMO revA · CH32V203 主机 + Micro-USB"
+        "算法": "字符级 bigram,与大屏逐比特一致(见 screen 卡)",
+        "工艺": "SkyWater sky130 HD(开源 PDK),设计",
+        "版图": "die 1660 × 1080 µm = 1.79 mm²;逻辑 33,123 µm²(0.033 mm²);2245 单元含 4 个 SRAM 宏;布线 DRC 报告为空(限:空报告等于零违例也可能等于没跑,P&R 日志在 VM 上未落仓)",
+        "时序": "hold +0.14 ns MET;setup −0.02 ns @100 MHz(SRAM 半周期路径)→ ≤ 99.6 MHz 干净【原页只写 hold,2026-09-06 补写】",
+        "功耗": "29.6 mW @100 MHz(OpenSTA 估计,非实测——无硅片)",
+        "FPGA": "OOC 综合 212 LUT / 292 FF / 0 锁存,Fmax 173 MHz【212(原写 267,2026-09-06 撤回:依据 syn/reports/utilization.rpt)】;Arty A7-35T 比特流 WNS +3.289 ns,2026-09-06 用火星语料表重建",
+        "接口": "SPI 装表;CHAR[7:0] + VALID/READY 并行吐字;UART 只在 FPGA 包装与板上 MCU【原写「UART 吐字」为芯片接口,2026-09-06 撤回:依据 pcb/README 引脚表】",
+        "板卡": "MB1-DEMO revA · CH32V203 主机 + Micro-USB:设计、Gerber/BOM/CPL 已出,Clearance DRC 剩 57,未下单、未打样"
       },
       "specs_en": {
-        "Algorithm": "character-level bigram (same as the wall display)",
-        "Process": "SkyWater sky130 (open-source PDK)",
-        "Layout": "RTL to FPGA to GDS, routing DRC 0",
-        "Area": "0.033 mm2 logic + 64 kbit CDF SRAM macro",
-        "Interfaces": "SPI table load + UART character out",
-        "Board": "MB1-DEMO revA - CH32V203 host + Micro-USB"
+        "Algorithm": "character-level bigram, bit-exact with the wall display (see the screen card)",
+        "Process": "SkyWater sky130 HD (open PDK), design",
+        "Layout": "die 1660 x 1080 um = 1.79 mm2; logic 33,123 um2 (0.033 mm2); 2245 cells incl. 4 SRAM macros; routing DRC report empty (limit: an empty report is consistent with zero violations and with a check that never ran - the P&R log lives on the VM, not in the dossier)",
+        "Timing": "hold +0.14 ns MET; setup -0.02 ns @100 MHz (SRAM half-cycle path) -> clean at <= 99.6 MHz [the page printed hold only; setup added 2026-09-06]",
+        "Power": "29.6 mW @100 MHz (OpenSTA estimate, not a measurement - no silicon)",
+        "FPGA": "OOC synthesis 212 LUT / 292 FF / 0 latches, Fmax 173 MHz [212 (formerly 267, retired 2026-09-06: basis syn/reports/utilization.rpt)]; Arty A7-35T bitstream WNS +3.289 ns, rebuilt 2026-09-06 on the Mars-corpus table",
+        "Interfaces": "SPI table load; 8-bit parallel CHAR + VALID/READY out; UART exists only in the FPGA wrapper and the board MCU [formerly 'UART character out' as a chip interface, retired 2026-09-06: basis the pcb/README pinout]",
+        "Board": "MB1-DEMO revA - CH32V203 host + Micro-USB: designed, Gerber/BOM/CPL exported, 57 clearance DRC open, never ordered, never fabricated"
       },
-      "sim": "闭环合拢：真实火星 → 数字孪生 → 城内计算中心跑 bigram AI → 而那 AI 的硅实现就插在算它的机架上。软件孪生在屏，硅片本体在架，同一算法两种实现。",
-      "sim_en": "The loop closes: real Mars -> digital twin -> the city's compute centre running a bigram AI -> and that AI's silicon implementation plugged into the very rack computing it. Software twin on the screen, physical die in the rack, one algorithm in two forms."
+      "sim": [
+        "【r1 2026-09-06】真源审计 ledger/05_mb1_audit.py(3 闸绿,记分 5/5):23 条主张 → 11 支撑、5 支撑带限、3 部分、2 设计非实物、1 无产物、1 与产物矛盾。产物路径与 SHA-256 全在 ledger/out/05_mb1_audit.json。",
+        "【r1 2026-09-06】重跑落仓的日志(此前这些主张只有 README 转述):ledger/logs/iverilog_tb_mb1.log 与 xsim_tb_mb1.log 两仿真器 ALL TESTS PASSED、$finish 同为 1131905 ns(换火星语料表后;旧表的旧值随旧表退役);iverilog_tb_cdf_sram_equiv.log 11069 次读 0 失配;vivado_impl_arty.log 比特流重建 WNS +3.289。",
+        "【r1 2026-09-06】撤回「四工具位级对拍」:Python ↔ iverilog ↔ xsim 三者有日志;第四个「Vivado 综合」是综合报告,仓里没有综合后功能仿真产物。改写为「三份实现位级一致 + 综合」。",
+        "【r1 2026-09-06】账 4:MB-1 在 sky130 上的抗辐射性未知——OpenRAM 宏与 sky130_fd_sc_hd 单元在本册没有任何辐照数据,也没做过 SEU/SEL 仿真。它是演示件:错一个字看得见、不危险;表可经 SPI 重灌,固定 seed 输出确定,重灌后对金标准复检是免费的自检。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] Truth audit ledger/05_mb1_audit.py (3 gates green, scorecard 5/5): 23 claims -> 11 supported, 5 supported with a limit, 3 partly, 2 designed-not-built, 1 no-product, 1 contradicted by its product. Product paths and SHA-256 in ledger/out/05_mb1_audit.json.",
+        "[r1 2026-09-06] Logs re-run and filed (before this round these claims rested on README prose): ledger/logs/iverilog_tb_mb1.log and xsim_tb_mb1.log both ALL TESTS PASSED with $finish at the same 1131905 ns (on the Mars-corpus table; the old table's old value retired with it); iverilog_tb_cdf_sram_equiv.log 11069 reads, 0 mismatches; vivado_impl_arty.log bitstream rebuilt, WNS +3.289.",
+        "[r1 2026-09-06] Withdrawn: 'bit-exact across four tools'. Python, iverilog and xsim agree by log; the fourth, 'Vivado synth', is a synthesis report - no post-synthesis functional simulation product exists. Reworded to 'three implementations bit-exact, plus synthesis'.",
+        "[r1 2026-09-06] Account 4: MB-1's radiation tolerance on sky130 is UNKNOWN - the OpenRAM macro and the sky130_fd_sc_hd cells carry no irradiation data in this dossier and no SEU/SEL simulation was run. It is a demo part: a wrong character is visible, not dangerous; the table can be reloaded over SPI and the output is deterministic for a fixed seed, so a golden re-check after reload is a free self-test."
+      ],
+      "physics": "「设计过」与「做出来了」是两种产物:前者是文件(RTL、网表、GDS、Gerber),后者是能通电的东西(硅片、焊好的板)。本册到 GDS 与 Gerber 为止;卡上每一句都标出它属于哪一类。",
+      "physics_en": "'Designed' and 'built' are two kinds of product: the first is files (RTL, netlist, GDS, Gerber), the second is something that takes power (a die, an assembled board). This dossier ends at GDS and Gerber; every sentence on the card says which kind it belongs to."
     },
     {
-      "id": "cooling",
-      "label": "辐射散热墙",
-      "label_en": "Radiative cooling wall",
+      "id": "racks",
+      "label": "机架 · 装机容量与这座城真在算什么",
+      "label_en": "Racks - installed capacity, and what the city actually computes",
+      "range": 16,
+      "detail": "两排 8 台 42U 级机架(0.8 × 1.2 × 2.2 m),后门液冷。电网册(mars-grid@8f74f29)把本站记为 mean 40 / peak 55 kW,来源 derived:「8 机架 × ~5 kW」——那是从 v0 画的 8 个盒子读出来的容量。本轮账 1 把全城已入城单位的知识卡逐张盘点:没有任何一张卡把算力负荷落在本站。城里最大的算力项在射电阵站内(605 GFLOP/s 相关器,60 W),四足犬的导航栈在犬身上(358 MOPS,SoC 3.2 W),宇宙线站 90 W 在站内。到本站来的是数据:每 sol 15.4 GB。所以这 8 台机架是「装机容量,负荷未定价」,卡上如实这么写。",
+      "detail_en": "Two rows of eight 42U-class racks (0.8 x 1.2 x 2.2 m) with rear-door liquid cooling. The grid dossier (mars-grid@8f74f29) books this site at 40 kW mean / 55 kW peak, source 'derived: 8 racks x ~5 kW' - a capacity read off the eight boxes drawn in v0. This round's account 1 went through every registered unit's card: none of them places a compute load here. The city's largest compute item sits inside the radio array's shelter (605 GFLOP/s correlator, 60 W), the quadruped's navigation stack rides on the dog (358 MOPS, 3.2 W SoC), the cosmic-ray station's 90 W stays on site. What reaches this site is data: 15.4 GB per sol. So the eight racks are 'installed capacity, demand unpriced', and the card says so.",
+      "specs": {
+        "装机": "8 机架;电网册登记 40 kW 均 / 55 kW 峰(容量,非负荷)",
+        "已识别落在本站的负荷": "不能闭合:孪生工作站功耗未测;科学数据处理无卡定价;有界部分(MB-1 + 演示)< 1 W",
+        "摄入": "15.4 GB/sol(轨道器 11.7 · 射电动态谱 3.6 · 火震 0.08 · 宇宙线 0.02 · 犬 ~0.02)",
+        "归档": "10.3 TB / 火星年(668.6 sol)",
+        "数字孪生实测": "54 资产 · 2.97 M 三角形 · 7022 draw calls · 55.7 ms/帧 @1280×720(RTX 3060)· JS 堆 212 MB · 资产 0.67 GB",
+        "缺口(不估)": "气象站与观测网回传率、火震远端节点、激光雷达数据率、医务室 PET-CT(无卡)、矿场机器人算力、轨道器地面处理算力、孪生工作站功耗"
+      },
+      "specs_en": {
+        "Installed": "8 racks; grid books 40 kW mean / 55 kW peak (capacity, not demand)",
+        "Identified load hosted here": "NOT CLOSABLE: twin workstation power unmeasured; science-data processing priced by no card; bounded part (MB-1 + demo) < 1 W",
+        "Ingest": "15.4 GB/sol (orbiter 11.7 - radio dynamic spectrum 3.6 - seismic 0.08 - cosmic-ray 0.02 - dog ~0.02)",
+        "Archive": "10.3 TB per Mars year (668.6 sol)",
+        "Digital twin, measured": "54 assets - 2.97 M triangles - 7022 draw calls - 55.7 ms/frame @1280x720 (RTX 3060) - JS heap 212 MB - assets 0.67 GB",
+        "Gaps (not estimated)": "weather station and net return rates, seismic remote nodes, lidar data rate, clinic PET-CT (no card), mining-robot compute, orbiter ground processing, twin workstation power"
+      },
+      "sim": [
+        "【r1 2026-09-06】账 1 ledger/01_load.py(4 闸绿;记分 4 命中 / 1 不可判):35 行,每行带卡提交号(ops-dog-01 e8119a2、res-mine-01 b9819d5、sci-radio-01 89bc7f8、sci-cray-01 130ee59、sci-orbiter-01 c8b8688、sci-seis-01 866c2fe、sci-rad-01 642da50 …);8 行缺口不估。预期 E1.1「已识别本站 IT 0.5–10 kW」判不可判——不是数小,是没有卡定价。",
+        "【r1 2026-09-06】对电网册的回执:「8 机架 × 5 kW = 40 kW ↔ 辐射墙的第二路线,差 9%,一致」是同一张图的两种读法互相同意,不是负荷测量;建议那行改写为「装机容量(按图),负荷未定价」。见 dev/DELIVERY_ops-compute-01_r1.md。",
+        "【r1 2026-09-06】消融:去掉数字孪生那几行,结论不变——有卡定价、落在本站的负荷仍只有 MB-1 的 29.6 mW。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] Account 1 ledger/01_load.py (4 gates green; scorecard 4 hits / 1 not judgeable): 35 rows, each with a card commit (ops-dog-01 e8119a2, res-mine-01 b9819d5, sci-radio-01 89bc7f8, sci-cray-01 130ee59, sci-orbiter-01 c8b8688, sci-seis-01 866c2fe, sci-rad-01 642da50 ...); 8 GAP rows left unestimated. Expectation E1.1 'identified IT here 0.5-10 kW' is not judgeable - not because the number is small but because no card prices it.",
+        "[r1 2026-09-06] Reply to the grid dossier: '8 racks x 5 kW = 40 kW vs the radiator wall's second route, 9% apart, agrees' is two readings of one drawing agreeing with each other, not a load measurement; the row should read 'installed capacity (from the drawing), demand unpriced'. See dev/DELIVERY_ops-compute-01_r1.md.",
+        "[r1 2026-09-06] Ablation: drop the twin rows and the headline stands - the only card-priced load hosted here is still MB-1's 29.6 mW."
+      ],
+      "physics": "负载表按「当前已入城的单位」写,它随城长大:新单位的卡若把处理落在本站,行就加进来;卡上没数的,行写「缺口」而不写一个看起来合理的数——一个没有出处的数进了台账,就会被下一本账当作测量引用。",
+      "physics_en": "The load table is written 'by the units in the city today' and grows with it: when a new unit's card places its processing here, a row is added; where a card has no number the row says GAP rather than a plausible figure - an unsourced number in a ledger gets cited by the next ledger as a measurement."
+    },
+    {
+      "id": "cdu",
+      "label": "液冷分配单元 CDU · 无冷水机的机房",
+      "label_en": "Coolant distribution unit - a machine room with no chiller",
+      "range": 12,
+      "detail": "火星 0.6 kPa CO₂ 里没有可用的空气冷却(对流系数只有地球的 5%,ops-dog-01 热账),所以机房里没有一台 CRAC:机架后门换热器把热交给二次回路,CDU(西墙内,两台泵 90 rpm)把它换到穿墙的一次回路,再送到户外辐射场。一次回路 330 K 供 / 310 K 回,板面均温 320 K——电子学接受 45–55 ℃ 的温水冷却,而 T⁴ 让 320 K 的板比 300 K 少用 30% 面积。整个链路里只有泵在耗电:PUE 1.08。",
+      "detail_en": "There is no usable air cooling in 0.6 kPa of CO2 (convection at 5% of Earth's, ops-dog-01 thermal ledger), so the room has no CRAC unit: rear-door heat exchangers hand the heat to a secondary loop, the CDU (inside the west wall, two pumps at 90 rpm) moves it into the primary loop through the wall and out to the radiator field. Primary loop 330 K supply / 310 K return, panel mean 320 K - electronics accept 45-55 C warm-water cooling, and T^4 lets a 320 K panel use 30% less area than a 300 K one. The only power spent in the whole chain is pumping: PUE 1.08.",
+      "specs": {
+        "回路": "机架后门 HX → 二次回路 → CDU → 一次回路(穿西墙)→ 辐射场",
+        "温度": "供 330 K / 回 310 K / 板 320 K",
+        "泵功": "1.9 kW @55 kW IT(Δp 250 kPa、η 0.5,一次 + 二次)= 3.5%;扫 Δp 100–500 kPa、η 0.4–0.7",
+        "变流损耗": "1.94 kW @55 kW(±10 kV DC → 机架,η 96.6%,引电网册账 7)",
+        "PUE": "1.079(峰)/ 1.082(均)",
+        "工质": "户外段夜间 200 K:水-乙二醇不可用;硅油类低倾点工质或伴热——本轮未定,列为待办"
+      },
+      "specs_en": {
+        "Loop": "rack rear-door HX -> secondary loop -> CDU -> primary loop (through the west wall) -> radiator field",
+        "Temperatures": "supply 330 K / return 310 K / panel 320 K",
+        "Pumping": "1.9 kW @55 kW IT (dp 250 kPa, eta 0.5, primary + secondary) = 3.5%; swept dp 100-500 kPa, eta 0.4-0.7",
+        "Conversion loss": "1.94 kW @55 kW (+/-10 kV DC -> rack, 96.6%, from the grid dossier's ledger 7)",
+        "PUE": "1.079 (peak) / 1.082 (mean)",
+        "Fluid": "the outdoor leg sees 200 K at night: water-glycol is out; a low-pour-point silicone-class fluid or heat tracing - not chosen this round, listed as open"
+      },
+      "sim": [
+        "【r1 2026-09-06】账 2 ledger/02_power.py(4 闸绿,记分 4/4):PUE 极限闸(泵功、变流损耗、控制→0 时 PUE→1)过;IT 与账 3 的排热同一字段(火星上进去的电 = 抵达天空的热)。cp 1.6 kJ/kg·K、ρ 900 kg/m³ 是硅油类物性,Δp 与 η 是设计假设,按扫描给。",
+        "【r1 2026-09-06】交叉项:账 3 定板温 320 K 才有账 2 的 PUE——若辐射场必须低于 300 K 排热,就要加冷水机,PUE 跳到 1.3 以上。两账用同一个温度。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] Account 2 ledger/02_power.py (4 gates green, scorecard 4/4): the PUE limit gate (pumps, conversion loss and controls -> 0 gives PUE -> 1) passes; IT and account 3's rejected heat are the same field (on Mars the electricity that goes in is the heat that must reach the sky). cp 1.6 kJ/kg K and rho 900 kg/m3 are silicone-class fluid properties; dp and eta are design assumptions, given as a sweep.",
+        "[r1 2026-09-06] Cross term: account 2's PUE exists only because account 3 rejects at a 320 K panel - if the field had to reject below 300 K a chiller would appear and PUE would jump above 1.3. Both accounts use one temperature."
+      ],
+      "physics": "PUE = (IT + 泵 + 变流损耗 + 控制) / IT。地球机房的 PUE 大头是冷水机与风机;这里没有空气可吹、也不需要制冷,剩下的是把 2 kg/s 工质推过 250 kPa 的功。散热面积是火星上的电表(电网册的话),而这台 CDU 是电表和天空之间的那根线。",
+      "physics_en": "PUE = (IT + pumps + conversion loss + controls) / IT. On Earth the PUE is dominated by chillers and fans; here there is no air to blow and no refrigeration needed, what remains is the work of pushing 2 kg/s of fluid through 250 kPa. Radiator area is the power meter on Mars (the grid dossier's phrase); this CDU is the wire between the meter and the sky."
+    },
+    {
+      "id": "radiator",
+      "label": "辐射散热场 · 尺寸由账给",
+      "label_en": "Radiator field - sized by the account",
+      "range": 40,
+      "detail": "三排 12 m × 4.5 m 双面黑板,倾 70°(离地面)、上面朝北,排距 6.5 m,合计 162 m² 板面。v0 那面 0.9 m 间距的东西向竖鳍墙是画的;本轮账 3 用两种视因子算法(平行板解析 + 蒙特卡洛射线,含 ε 0.9 的漫反射)重算:鳍间 60% 互视,但它在 320 K 仍能排 69 kW(夜)/ 57 kW(昼)/ 49 kW(昼含东西面上的太阳)——比预注册的 20–45 kW 高,预期打错方向,如实记。推翻它的不是排热量,是白天:积尘 α 0.68 让任何朝天的面在正午被太阳吃掉一半以上,而近竖直、南北朝向的板受太阳最少。最坏晴天正午(夏至 83° 高度角)每 m² 板面净排 570 W,夜里 889 W;55 kW 峰值 × PUE 1.08 = 59.4 kW 要 104 m²,建 162 m²:夜 144 kW、最坏昼 92 kW、地面 280 K 时 79 kW。",
+      "detail_en": "Three rows of 12 x 4.5 m two-sided black panels, tilted 70 degrees from horizontal with the top face north, rows 6.5 m apart, 162 m2 of panel in all. The v0 wall of east/west fins at 0.9 m pitch was a drawing; this round's account 3 recomputed it two ways (parallel-plate analytic + Monte-Carlo rays with eps 0.9 diffuse reflection): 60% of the inter-fin radiation is mutual, yet at 320 K it still rejects 69 kW (night) / 57 kW (day) / 49 kW (day with sun on the E/W faces) - more than the pre-registered 20-45 kW, a miss in direction, recorded as such. What overturns it is not the number but the daytime: with dust at alpha 0.68 any sky-facing surface loses more than half its rejection to the noon sun, while a near-vertical panel facing north/south takes the least sun. At the worst clear noon of the year (solstice, 83 degrees elevation) each m2 of panel rejects 570 W net, 889 W at night; 55 kW peak x PUE 1.08 = 59.4 kW needs 104 m2; 162 m2 built: 144 kW at night, 92 kW worst day, 79 kW with the ground at 280 K.",
+      "specs": {
+        "板": "3 × (12 m × 4.5 m),倾 70°,上面朝北,排距 6.5 m,板面 162 m²",
+        "设计通量": "570 W/m² 板面(最坏昼)/ 889(夜);积尘 α 0.68 · ε 0.90 · 板 320 K · 天空 210 K · 地面 260 K 昼 / 200 K 夜",
+        "需求": "55 kW × 1.08 = 59.4 kW → 104 m²;建 162 m²(裕度 1.33× 于地面 280 K 昼)",
+        "v0 鳍墙(已撤)": "320 K 下 69 夜 / 57 昼 / 49 昼含日 kW;鳍间互视 60%;电网册假设的 ~100 m² 有效面积对应本账 159 m²(天空 78 + 地面 78)",
+        "已知答案闸": "ISS EATCS 单片 HRS 辐射器 11.7 kW / (23.3 × 3.4 m):模型 259 W/m² 平面 vs 147,比 1.76(量级闸);pwr-radiator-01 的 610 MW 复现到 609.8",
+        "尘埃": "昼 −15%(70° 族)、夜 +2%(ε 0.88→0.90);尘暴天空 240 K 夜间 437→374 W/m²"
+      },
+      "specs_en": {
+        "Panels": "3 x (12 m x 4.5 m), tilt 70 deg, top face north, rows 6.5 m apart, 162 m2 of panel",
+        "Design flux": "570 W per m2 of panel (worst day) / 889 (night); dust alpha 0.68 - eps 0.90 - panel 320 K - sky 210 K - ground 260 K day / 200 K night",
+        "Requirement": "55 kW x 1.08 = 59.4 kW -> 104 m2; 162 m2 built (1.33x margin against a 280 K ground by day)",
+        "v0 fin wall (retired)": "at 320 K: 69 night / 57 day / 49 day-with-sun kW; 60% inter-fin mutual view; the grid's assumed ~100 m2 effective area corresponds to 159 m2 in this account (sky 78 + ground 78)",
+        "Known-answer gates": "ISS EATCS, one HRS radiator ORU 11.7 kW / (23.3 x 3.4 m): model 259 W/m2 planform vs 147, ratio 1.76 (magnitude gate); pwr-radiator-01's 610 MW reproduced at 609.8",
+        "Dust": "day -15% (70-deg family), night +2% (eps 0.88 -> 0.90); dust-storm sky 240 K takes the night flux from 437 to 374 W/m2"
+      },
+      "sim": [
+        "【r1 2026-09-06】账 3 ledger/03_thermal.py(5 闸绿;记分 1 命中 / 3 偏出):E3.1 偏出——鳍墙 69 kW 而非 20–45;E3.2 偏出——昼夜差 17% 而非 30–60%(320⁴ 对 260⁴ 与 200⁴ 的差没那么大);E3.3 偏出——35° 朝天板最坏昼只有 466 W/m² 板面,不在 250–400 W/m²(单面口径)的预期里,且最优族是 70° 近竖直;E3.4 命中。四条预期错了三条:错在低估鳍间逃逸、低估积尘下的太阳项、高估地面项。预期不改,结论改。",
+        "【r1 2026-09-06】闸 G3.4 第一次跑是红的:腔体孔径模型(ε_app = ε/(ε+(1−ε)A_open/A_wall))比射线模型高 20%,因为 A_open/A_wall = 0.37、且各开口互相可见,超出了那个公式的小孔假设。换成平行板视因子(Howell C-11,F = 0.71)+ 反射级数 (1−F)/(1−ρF) 后两法差 1.3%。改的是模型不是闸。",
+        "【r1 2026-09-06】天空 210 K 引 pwr-radiator-01(b48b7d8),尘暴 240 K 引 pwr-grid-01 scada 卡(1f439c4),ε/α 引 ops-dog-01 尘账(e8119a2);地面温度城内无锚,按 190–280 K 扫描给灵敏度、不定值;地表晴天辐照用 586 W/m² 大气顶 × exp(−0.5/sin h),τ 0.5 不是城卡的数——sci-weather-01 的 τ 记录到位后替换。",
+        "【r1 2026-09-06】给 pwr-grid-01 的话:你册里「辐射墙 ~100 m² 有效、320 K 对 210 K」那条第二路线落在本账对那面墙的昼夜区间内(49–69 kW),不算错;但它和「8 × 5 kW」互证的是同一张图,不是负荷。新几何的容量是 92–144 kW,而负荷仍未定价(racks 卡)。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] Account 3 ledger/03_thermal.py (5 gates green; scorecard 1 hit / 3 misses): E3.1 missed - the fin wall rejects 69 kW, not 20-45; E3.2 missed - day is 17% below night, not 30-60% (320^4 against 260^4 vs 200^4 is a smaller lever than assumed); E3.3 missed - a 35-deg sky-facing panel manages only 466 W per m2 of panel at the worst noon, outside the expected 250-400 W/m2 (single-face basis), and the best family is the near-vertical 70 deg; E3.4 hit. Three of four expectations wrong: inter-fin escape underestimated, the dusted solar term underestimated, the ground term overestimated. Expectations unchanged; conclusions changed.",
+        "[r1 2026-09-06] Gate G3.4 was red on the first run: the cavity-aperture model (eps_app = eps/(eps+(1-eps)A_open/A_wall)) came out 20% above the ray model because A_open/A_wall = 0.37 and the openings see each other, outside that formula's small-aperture assumption. Replaced by the parallel-plate view factor (Howell C-11, F = 0.71) with the reflection series (1-F)/(1-rho F); the two methods now agree within 1.3%. The model changed, not the gate.",
+        "[r1 2026-09-06] Sky 210 K from pwr-radiator-01 (b48b7d8), storm sky 240 K from the pwr-grid-01 scada card (1f439c4), eps/alpha from the ops-dog-01 dust ledger (e8119a2); ground temperature has no city anchor and is given as a 190-280 K sensitivity, not a value; clear-sky surface irradiance uses 586 W/m2 top-of-atmosphere x exp(-0.5/sin h) - tau 0.5 is not a city number and is replaced when sci-weather-01's tau record lands.",
+        "[r1 2026-09-06] To pwr-grid-01: your second route ('radiator wall ~100 m2 effective, 320 K to 210 K') lies inside this account's day/night range for that wall (49-69 kW) and is not wrong; but what it closed against ('8 x 5 kW') is the same drawing, not a load. The new geometry's capacity is 92-144 kW while the load remains unpriced (racks card)."
+      ],
+      "physics": "斯特藩–玻尔兹曼:q = εσ(T⁴ − F_sky·T_sky⁴ − F_gnd·T_gnd⁴) − α·G。火星没有对流,面元只和它看得见的东西换热:天空(210 K,冷汇)、地面(白天 260 K,几乎不冷)、和太阳(积尘后 α 0.68,正午 400 W/m² 的吸收与 320 K 板的 600 W/m² 发射同量级)。所以在积尘的火星上,「朝天」不是好方向,「少见太阳」才是;而 pwr-radiator-01 敢用朝天板,是因为 600 K 的 T⁴ 把太阳项压成了零头。",
+      "physics_en": "Stefan-Boltzmann: q = eps sigma (T^4 - F_sky T_sky^4 - F_gnd T_gnd^4) - alpha G. With no convection a surface element exchanges only with what it sees: the sky (210 K, the cold sink), the ground (260 K by day, barely cold) and the sun (dusted alpha 0.68: 400 W/m2 absorbed at noon is the same order as a 320 K panel's 600 W/m2 emission). On dusty Mars 'facing the sky' is therefore not the good direction, 'seeing little sun' is - and pwr-radiator-01 can afford sky-facing panels because at 600 K the T^4 term makes the solar term a rounding error."
+    },
+    {
+      "id": "power",
+      "label": "配电与 UPS · 支线核容与孤岛份额",
+      "label_en": "Switchboard and UPS - feeder check and island share",
+      "range": 12,
+      "detail": "东墙两台柜:±10 kV DC 进线变流柜与 UPS。本站挂在电网册的 G-C 北干线(±10 kV DC,设计 1200 kW,95 mm² Al),同线服务 res-rodwell-01、res-tank-02、sci-rad-02。上周村支线出过「按 90 kW 定、峰值早记了 158 kW」的缺陷,本轮按同样的法子核:四单位峰值之和 70 kW = 干线的 5.8%,没有那类缺陷(两单位不在电网负荷表里,列出不定价)。孤岛:电网册给本站 T3、4.8 kW,理由「SCADA 靠站内一台小 UPS」——本站没有 SCADA(电网册自己的 scada 卡把它放在控制间),这 4.8 kW 不由本站背书,本册登记 0 kW 强制份额。",
+      "detail_en": "Two cabinets on the east wall: the +/-10 kV DC incoming converter and the UPS. The site hangs on the grid dossier's G-C north trunk (+/-10 kV DC, designed for 1200 kW, 95 mm2 Al), shared with res-rodwell-01, res-tank-02 and sci-rad-02. Last week the village spur turned out to be rated at 90 kW against a 158 kW peak already booked; this feeder is checked the same way: the four served peaks sum to 70 kW = 5.8% of the trunk, no such defect (two of the units have no row in the grid's load table and are listed, not priced). Islanding: the grid dossier books this site as tier 3 at 4.8 kW because 'the SCADA function rides on a small UPS inside it' - there is no SCADA here (the grid's own scada card puts it in the control room), so the 4.8 kW is not endorsed and this ledger books a mandatory island share of 0 kW.",
+      "specs": {
+        "支线": "G-C 北干线 ±10 kV DC,1200 kW 设计;服务 4 单位峰值和 70 kW(5.8%)",
+        "孤岛份额": "本册 0 kW 强制;电网册 4.8 kW「SCADA UPS」不背书;可选「城市遥测归档」须先定价",
+        "生存电网覆盖": "pwr-storage-01 145 kW @15% 残余光伏 × 30 sol 对 T1 78 kW 余 66.6 kW ≥ 55 kW 峰;若全部峰值进岛,覆盖倍数 1.85→1.09",
+        "黑尘暴": "5% 残余光伏时场区 64 kW < T1 78 kW(电网册 switchgear 卡)→ 本站份额无论如何为 0",
+        "UPS 穿越": "聚变跳闸桥接时间常数 60 s、电池净零 t=359 s(储能卡 L4):55 kW 下 0.92 kWh / 5.5 kWh",
+        "变流": "±10 kV DC → 机架母线,η 96.6%(电网册账 7 的口径)"
+      },
+      "specs_en": {
+        "Feeder": "G-C north trunk +/-10 kV DC, 1200 kW design; four served peaks sum to 70 kW (5.8%)",
+        "Island share": "this ledger 0 kW mandatory; the grid's 4.8 kW 'SCADA UPS' not endorsed; an optional 'city telemetry archive' slice must be priced first",
+        "Survival-grid coverage": "pwr-storage-01 145 kW @15% residual PV x 30 sol against T1 78 kW leaves 66.6 kW >= the 55 kW peak; if the whole peak rode the island the coverage factor would fall 1.85 -> 1.09",
+        "Black storm": "at 5% residual PV the field gives 64 kW < T1 78 kW (grid switchgear card) -> this site's share is 0 regardless",
+        "UPS ride-through": "fusion-trip bridging time constant 60 s, battery net-zero at t = 359 s (storage card L4): 0.92 kWh / 5.5 kWh at 55 kW",
+        "Conversion": "+/-10 kV DC -> rack bus, 96.6% (the grid dossier's ledger-7 basis)"
+      },
+      "sim": [
+        "【r1 2026-09-06】账 2 ledger/02_power.py:支线求和从 mars-grid@8f74f29 out/03_transmission.json 与 01_load_ledger.json 读,不抄卡;消融 IT 5 kW ↔ 55 kW,支线与孤岛两个判决不翻转。出处 ledger/out/02_power.json feeder / island。",
+        "【r1 2026-09-06】145 kW/30 sol 引 pwr-storage-01(c06a50a)fuelcell 卡;T1 78 kW 引 pwr-grid-01(1f439c4)switchgear 卡;桥接瞬态引 pwr-storage-01 battery 卡 L4。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] Account 2 ledger/02_power.py: the feeder sum is read from mars-grid@8f74f29 out/03_transmission.json and 01_load_ledger.json, not copied from a card; ablation IT 5 kW vs 55 kW flips neither the feeder nor the island verdict. Source ledger/out/02_power.json feeder / island.",
+        "[r1 2026-09-06] 145 kW / 30 sol from pwr-storage-01 (c06a50a) fuelcell card; T1 78 kW from pwr-grid-01 (1f439c4) switchgear card; bridging transient from the pwr-storage-01 battery card, L4."
+      ],
+      "physics": "孤岛份额不是「重不重要」,是「断一次付什么代价」(电网册的分级判据)。计算中心断电丢的是渲染和归档的实时性,数据本身在盘上;而生存层每一瓦都在维持人活着。所以份额是 0——除非总控点名一项非它不可的功能并给它定价。",
+      "physics_en": "An island share is not about importance but about what a loss costs (the grid dossier's tier criterion). Cutting the compute centre loses the real-time part of rendering and archiving; the data stays on disk. Every watt of the survival tier keeps people alive. So the share is 0 - unless the integrator names a function only this site can carry and prices it."
+    },
+    {
+      "id": "datalink",
+      "label": "光纤入口 · 收 15 GB/sol,地球只装得下 11",
+      "label_en": "Fibre entry - 15 GB/sol in, Earth takes 11",
+      "range": 12,
+      "detail": "东墙南端的橙色柜是地面站光纤进本站的落点(com-station-01:中继→站下行 600 Mbps,站→中继上行 100 Mbps,埋沟光纤 + 电备份出站)。本站每 sol 收 15.4 GB 科学数据(轨道器 11.7、射电动态谱 3.6、火震 0.08、宇宙线 0.02、犬 ~0.02);而整个行星对地球的干线均值只有 0.965 Mbps = 10.7 GB/sol(中继卡:65 Tb/会合周期)。收比发多 1.44 倍——本站不是转发站,是科学数据落地、压缩、留存的地方,地球拿到的是一份选集。中继卡从它那边说的是同一句话:「科学产出的硬顶是对地干线」。",
+      "detail_en": "The orange cabinet at the south end of the east wall is where the ground station's fibre lands (com-station-01: relay-to-station downlink 600 Mbps, station-to-relay uplink 100 Mbps, buried fibre plus electrical backup out). The site takes in 15.4 GB of science data per sol (orbiter 11.7, radio dynamic spectrum 3.6, seismic 0.08, cosmic-ray 0.02, dog ~0.02); the whole planet's Earth link averages 0.965 Mbps = 10.7 GB/sol (relay card: 65 Tb per synodic period). In exceeds out by 1.44x - this site is not a relay, it is where science data lands, is reduced and is kept; Earth receives a selection. The relay card says the same from its side: 'the hard ceiling on science output is the Earth link'.",
+      "specs": {
+        "收": "15.4 GB/sol;占站下行容量 600 Mbps 的 0.2%",
+        "发(对地)": "均值 0.965 Mbps = 10.7 GB/sol;0.2 Mbps @2.67 AU … 5 Mbps @0.5 AU;站上行占空 1%",
+        "收/发": "1.44",
+        "上合": "全断 14.4 天 → 本地缓存 0.22 TB(不构成约束);DTE 备份 500 bps",
+        "轨道器链路": "93.7 Gb/sol @150 Mbps = 10.4 min/sol(复现轨道器卡)",
+        "缺口": "气象站/观测网/火震远端/激光雷达的回传率不在卡上"
+      },
+      "specs_en": {
+        "In": "15.4 GB/sol; 0.2% of the station's 600 Mbps downlink capacity",
+        "Out (to Earth)": "mean 0.965 Mbps = 10.7 GB/sol; 0.2 Mbps @2.67 AU ... 5 Mbps @0.5 AU; station uplink duty 1%",
+        "In / out": "1.44",
+        "Conjunction": "14.4-day outage -> 0.22 TB local buffer (not a constraint); DTE backup 500 bps",
+        "Orbiter link": "93.7 Gb/sol at 150 Mbps = 10.4 min/sol (reproduces the orbiter card)",
+        "Gaps": "return rates of the weather station, its net, the seismic remote nodes and the lidar are not on their cards"
+      },
+      "sim": [
+        "【r1 2026-09-06】账 6 ledger/06_datalink.py(4 闸绿,记分 4/4):65 Tb ÷ 780 d 复现 0.965 Mbps;93.7 Gb ÷ 150 Mbps 复现 10.4 min;1/0.06 s 复现 16.7 字符/s。引 com-station-01(832ee30)、com-relay-01(ed56496)、sci-orbiter-01(c8b8688)。",
+        "【r1 2026-09-06】那根光缆:见 screen 卡——UART 115.2 kbit/s,不是芯片吞吐。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] Account 6 ledger/06_datalink.py (4 gates green, scorecard 4/4): 65 Tb / 780 d reproduces 0.965 Mbps; 93.7 Gb / 150 Mbps reproduces 10.4 min; 1/0.06 s reproduces 16.7 char/s. Cites com-station-01 (832ee30), com-relay-01 (ed56496), sci-orbiter-01 (c8b8688).",
+        "[r1 2026-09-06] The cable: see the screen card - a 115.2 kbit/s UART, not the chip's throughput."
+      ],
+      "physics": "「快收慢送」是中继体系的本质(中继卡的话),星上存储是变速箱;到了地面,变速箱就是这间机房的盘。上合两周的缓存只有 0.22 TB,而归档一火星年 10 TB——约束从来不在链路,在选什么送。",
+      "physics_en": "'Receive fast, send slow' is the nature of a relay system (the relay card's words) and on-board storage is its gearbox; on the ground the gearbox is this room's disks. Two weeks of conjunction buffer is 0.22 TB while a Mars year of archive is 10 TB - the constraint was never the link, it is what to select for sending."
+    },
+    {
+      "id": "radiation",
+      "label": "屋顶剂量节点 · 地表机房的辐射账(不能闭合)",
+      "label_en": "Roof dosimeter node - radiation for a surface machine room (not closable)",
       "range": 14,
-      "detail": "黑色辐射散热鳍片。火星大气稀薄、对流几乎不可用，数据中心废热只能靠辐射排放。",
-      "detail_en": "Black radiator fins. The Martian atmosphere is too thin for convection to be of much use, so a data centre can only dump its waste heat by radiation."
+      "detail": "机房在地表建筑里,不在地下城:头顶只有 20.7 g/cm² 的 CO₂ 柱,地表剂量 234 mSv/yr(sci-rad-01 的口径,墙未折入)。屋顶这个节点是 sci-rad-01 三层辐射网地表层的一个分点。SEU/SEL 率仍不能闭合,而且现在是持有方亲口确认的不能闭合:sci-rad-01 两次回执(09-08、09-09)说明本站没有任何实测谱,只有背景知识量级,并定义了将来出谱后它能交付什么。本账据此重算:把 SEU 写成对器件截面的扫描而不选值,把平静与 SEP 两种工况分开,把未知写成未知。",
+      "detail_en": "The room is a surface building, not part of the undercity: overhead there is only the 20.7 g/cm2 CO2 column, and the surface dose is 234 mSv/yr on sci-rad-01's basis, wall not folded in. The node on the roof is a point of sci-rad-01's three-tier radiation net, surface tier. SEU/SEL rates are still not closable, and now the holder itself has confirmed it: sci-rad-01's two replies (09-08, 09-09) say the station holds no measured spectrum, only background-knowledge magnitudes, and define what its chain would deliver once data exist. This account was re-based on that: SEU as a sweep over the device cross-section with no value chosen, quiet and SEP conditions kept apart, unknowns written as unknown.",
+      "specs": {
+        "带电粒子通量": "3 /cm²/s(含次级,不分种类与能段;sci-rad-01 的背景知识采用值,非测量)= 2.7×10⁵ 个/sol/cm²【3(原写 8.93,2026-09-13 撤回:那是卡上 62 像素击中/s 除以芯片面积,是像素击中率不是粒子通量;依据 sci-rad-01 回执 e2ed278 / efa91c6)】",
+        "中子": "快 0.05 n/cm²/s(8–100 MeV,含反照,背景知识);热 + 超热 0.3(持有方自设模型量级,未分开);100 keV–8 MeV 持有方未定义",
+        "墙": "按地表层登记,墙未折入(持有方确认);10 g/cm² 墙 8–14% 仅量级参考,其中一个 λ 无出处,不采用",
+        "对照量级": "地球海平面 >10 MeV 中子 ~13 n/cm²/h(JESD89A 纽约基准):火星地表带电通量是它的 ~830 倍(异物种,只作量级闸)",
+        "SEU 扫描(不选值)": "σ_bit 1e-15…1e-13 cm²/bit:64 GB 每 sol 单粒子翻转上界 136 … 13,636",
+        "ECC(平静)": "SEC-DED + 后台刷新;σ 1e-15 时任何刷新周期都够;σ 1e-13、1 h 刷新时 64 GB 每火星年 0.71 次不可纠(原写 ~6,通量更正为 3 之前)、512 GB 5.7 次——判决随容量翻转,刷新周期要等 σ",
+        "ECC(SEP)": "S5 最硬谱(γ 1.5,地表 >166 MeV 通量为平静 3103 倍,幂律外推)下不可纠率 ×9.6×10⁶;64 GB 撑过一次 48 h 事件期望只错 1 次,刷新间隔需 18 s(σ 1e-14)/ 0.18 s(σ 1e-13);软谱 γ 3.5 为 1.4×10⁴ s——所以要第二个旋钮:接 SEP 警报加速刷新 / 存检查点(地表无自主提前量,提前量来自轨道链)",
+        "SEL": "未知。哪一段 LET 决定所购器件的 SEL:自 2026-09-18 起登记为未定——此前「≳30 keV/µm」那条线是靠一个错了 100 倍的单位换算与器件常用单位对上的(1 keV/µm 硅 = 0.00429 MeV·cm²/mg,不是 0.429)。持有方原话仍登记:「你的 SEL 率取决于一个本站单层数不到的反冲群体」(sci-rad-01 efa91c6)",
+        "MB-1 sky130": "未知(无辐照数据、未仿真)",
+        "谱到手后登记成": "φ(LET_Si) 24 对数箱 0.1–1000 keV/µm + φ(>L)(L = 1/3/10/30/100),带响应反卷积;持有方定级「设计仿真产品,无数据」",
+        "不能闭合,缺": "Jezero 地表实测谱(sci-rad-01 本站没有,e2ed278)、高 LET 反冲尾(单层链数不到)、器件 σ(LET) 与 SEL 阈(采购)",
+        "φ(>LET) 表(sci-rad-05)": "已登记,不参与任何率的计算:ΔE–E 望远镜的设计仿真(合成场,无数据),L = 1/3/10/30/100 keV/µm 硅 = 0.0043/0.013/0.043/0.13/0.43 MeV·cm²/mg;×30 暴风只抬 >1 keV/µm 一行(硬谱 ×5.2 / 软谱 ×13.4),3 keV/µm 以上各行变化在 15% 内"
+      },
+      "specs_en": {
+        "Charged-particle flux": "3 /cm2/s (incl. secondaries, no species or energy split; sci-rad-01 background-knowledge value, not a measurement) = 2.7e5 per sol per cm2 [3 (formerly 8.93, retired 2026-09-13: that was the card's 62 pixel hits/s divided by chip area - a pixel-hit rate, not a particle flux; basis sci-rad-01 replies e2ed278 / efa91c6)]",
+        "Neutrons": "fast 0.05 n/cm2/s (8-100 MeV, incl. albedo, background knowledge); thermal + epithermal 0.3 (model magnitude self-set by the holder, not separated); 100 keV - 8 MeV not defined by the holder",
+        "Wall": "booked on the unshielded surface tier, wall not folded in (holder confirms); a 10 g/cm2 wall is an 8-14% effect as a magnitude reference, one of its lambdas has no provenance - not applied",
+        "Magnitude reference": "Earth sea level >10 MeV neutrons ~13 n/cm2/h (JESD89A New York): the Mars surface charged flux is ~830x that (different species, magnitude gate only)",
+        "SEU sweep (no value chosen)": "sigma_bit 1e-15 ... 1e-13 cm2/bit: 64 GB upper bound of single upsets per sol 136 ... 13,636",
+        "ECC (quiet)": "SEC-DED + background scrub; at sigma 1e-15 any scrub interval suffices; at sigma 1e-13 with a 1 h scrub 64 GB gives 0.71 uncorrectable per Mars year (formerly ~6, before the flux was corrected to 3) and 512 GB gives 5.7 - the verdict flips with memory size, and the interval waits on sigma",
+        "ECC (SEP)": "hardest S5 spectrum (gamma 1.5, >166 MeV surface flux x3103 quiet, power-law extrapolation) multiplies uncorrectables by 9.6e6; one expected uncorrectable per 48 h event at 64 GB needs an 18 s scrub (sigma 1e-14) / 0.18 s (sigma 1e-13); soft gamma 3.5 needs 1.4e4 s - hence a second knob: accelerated scrub / checkpoint on the SEP alert (no surface lead time; the lead comes from the orbital chain)",
+        "SEL": "unknown. Which LET range sets SEL for the procured devices: registered as OPEN since 2026-09-18 - the earlier '>~30 keV/um' line had been tied to the unit device data come in by a conversion that was 100x off (1 keV/um in Si = 0.00429 MeV cm2/mg, not 0.429). The holder's sentence stays registered: 'your SEL rate depends on a recoil population this station cannot count with a single layer' (sci-rad-01 efa91c6)",
+        "MB-1 on sky130": "unknown (no irradiation data, not simulated)",
+        "Register as, once a spectrum exists": "phi(LET_Si) in 24 log bins 0.1-1000 keV/um + phi(>L) at L = 1/3/10/30/100, with response deconvolution; holder grade 'design-simulation product, no data'",
+        "NOT CLOSABLE, missing": "a measured Jezero surface spectrum (sci-rad-01 holds none, e2ed278), the high-LET recoil tail (not countable by a single-layer chain), device sigma(LET) and SEL threshold (procurement)",
+        "phi(>LET) table (sci-rad-05)": "registered, used in no rate: the dE-E telescope's design simulation (synthetic field, no data), L = 1/3/10/30/100 keV/um Si = 0.0043/0.013/0.043/0.13/0.43 MeV cm2/mg; a x30 storm lifts only the >1 keV/um row (hard x5.2 / soft x13.4), rows from 3 keV/um up move within 15%"
+      },
+      "sim": [
+        "【r1 2026-09-06】账 4 ledger/04_radiation.py(3 闸绿;记分 2 命中 / 1 偏出):E4.2「SEC-DED 在整个 σ 范围内都够」偏出——判决在扫描内翻转(σ 1e-13、刷新 ≤ 1 h 也不够)。闸 G4.3 第一版写成「判决不翻转」,是把希望的结果当闸,第一次跑就红;改为机理闸(不可纠率对刷新周期线性、对 σ 二次:×6.00 / ×100.0),翻转点如实进记分卡。",
+        "【r1 2026-09-06】全部输入引 sci-rad-01(642da50):62 hit/s/片(alert 卡)、6.94 cm²(head 卡)、0.05 n/cm²/s(head 卡)、234 mSv/yr(net 卡)、166 MeV / 20.7 g/cm²(alert 卡)。地球参考只作闸,不进设计。",
+        "【r1.1 2026-09-13】账 4 按 sci-rad-01 两份回执(e2ed278,城 21a136f;efa91c6)重算,4 闸全绿;记分 1 命中 / 2 偏出(r1 为 2 命中 / 1 偏出)。E4.1 在更正后的 3 /cm²/s 上偏出——预期带 5–15 本就是围着像素击中率写的,预期不改;E4.2 仍偏出。r1 的 G4.1(62/6.94×6.94 = 62)是恒等式,不可能变红,已换成持有方分解闸:3 × 6.94 × 9.5 像素 = 197.8 对 ~198、× 3 像素 = 62.5 对 62。新增 G4.4:SEP 期间不可纠率随通量比的平方(×3103² = 9.63×10⁶)。出处 mars-bigram c3dcdda ledger/out/04_radiation.json。",
+        "【r1.1 2026-09-13】SEP:持有方 S5 幂律表(J10 = 1e5 pfu,>166 MeV 地表,背景知识基准外推)γ 1.5 / 2.5 / 3.5 = 9309 / 561 / 34 /cm²/s;64 GB 在 48 h 事件内期望 1 次不可纠的刷新间隔:γ 1.5 为 18.1 s(σ 1e-14)/ 0.181 s(σ 1e-13),γ 3.5 为 1.36×10⁴ s(σ 1e-13)。事件时长「小时到一两天」是背景知识,1 h 与 48 h 两端都印,不选值。",
+        "【r1.1 2026-09-13】按持有方请求原样登记一句:「你的 SEL 率取决于一个本站单层数不到的反冲群体」。墙:按地表层登记、墙未折入,持有方确认;10 g/cm² 墙 8–14% 仅量级参考,不采用。回执 dev/REPLY_ops-compute-01_to_sci-rad-01_registered.md。",
+        "【r1.2 2026-09-18】登记 sci-rad-05 的 φ(>LET) 表(dev/DISPATCH_sci-rad-05_to_ops-compute-01.md 2b 节,其册 6bf25c4),等级「设计仿真产品,无数据」。核表时发现它的 MeV·cm²/mg 一列大了 100 倍:换算常数写成 1/2.33,应为 1/233;它的闸 G4.3 拿这个常数对自己比。本账新闸 G4.5 用两条独立路线钉住换算:量纲(1 keV/µm = 10 MeV/cm ÷ 2330 mg/cm³)与 PDG 最小电离(1.664 MeV·cm²/g → 300 µm 硅 116.3 keV,教科书 116);用错的常数同一个 MIP 只沉积 1.16 keV。sci-rad-01 回执里「30 keV/µm ≈ 13 MeV·cm²/mg」是同一个错;本账 r1.1 曾把这句抄进 JSON(卡与公开页未带),已撤回。6 闸全绿;本账自己的 G4.6 第一版把视锥立体角写成 2π(1−cos θ) 而变红,持有方用的平面投影 π sin²θ 是对的,改的是本账的闸。出处 mars-bigram 728f1b4 ledger/out/04_radiation.json let_units / sci_rad_05_table_2b。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] Account 4 ledger/04_radiation.py (3 gates green; scorecard 2 hits / 1 miss): E4.2 'SEC-DED suffices across the whole sigma range' missed - the verdict flips inside the sweep (sigma 1e-13: even a 1 h scrub is not enough). Gate G4.3 as first written ('the verdict does not flip') asserted the wished result and went red on the first run; replaced by a mechanism gate (uncorrectable rate linear in scrub interval, quadratic in sigma: x6.00 / x100.0) and the flip point goes into the scorecard as it is.",
+        "[r1 2026-09-06] All inputs from sci-rad-01 (642da50): 62 hit/s per chip (alert card), 6.94 cm2 (head card), 0.05 n/cm2/s (head card), 234 mSv/yr (net card), 166 MeV / 20.7 g/cm2 (alert card). The Earth reference is a gate only, never a design number.",
+        "[r1.1 2026-09-13] Account 4 re-based on sci-rad-01's two replies (e2ed278, city 21a136f; efa91c6), 4 gates green; scorecard 1 hit / 2 misses (r1: 2 hits / 1 miss). E4.1 misses on the corrected 3 /cm2/s - its 5-15 band was written around the pixel-hit reading and is left as written; E4.2 still misses. r1's G4.1 (62/6.94 x 6.94 = 62) was an identity that could not go red; replaced by the holder's decomposition gate: 3 x 6.94 x 9.5 px = 197.8 against ~198, x 3 px = 62.5 against 62. G4.4 added: during SEP the uncorrectable rate scales with the square of the flux ratio (x3103^2 = 9.63e6). Source mars-bigram c3dcdda ledger/out/04_radiation.json.",
+        "[r1.1 2026-09-13] SEP: the holder's S5 power-law table (J10 = 1e5 pfu, >166 MeV at the surface, extrapolated on a background-knowledge base) gamma 1.5 / 2.5 / 3.5 = 9309 / 561 / 34 /cm2/s; the scrub interval for one expected uncorrectable in a 48 h event at 64 GB: gamma 1.5 18.1 s (sigma 1e-14) / 0.181 s (sigma 1e-13), gamma 3.5 1.36e4 s (sigma 1e-13). The event duration 'hours to a day or two' is background knowledge; both the 1 h and 48 h ends are printed, none chosen.",
+        "[r1.1 2026-09-13] One sentence registered verbatim at the holder's request: 'your SEL rate depends on a recoil population this station cannot count with a single layer'. Wall: booked on the surface tier, wall not folded in, holder confirms; the 10 g/cm2 wall's 8-14% is a magnitude reference only, not applied. Reply dev/REPLY_ops-compute-01_to_sci-rad-01_registered.md.",
+        "[r1.2 2026-09-18] sci-rad-05's phi(>LET) table registered (dev/DISPATCH_sci-rad-05_to_ops-compute-01.md section 2b, its dossier 6bf25c4), grade 'design-simulation product, no data'. Checking it showed its MeV cm2/mg column is 100x too large: the constant is written 1/2.33 where 1/233 is right, and its gate G4.3 compares that constant with itself. This account's new gate G4.5 pins the conversion by two independent routes: dimensional (1 keV/um = 10 MeV/cm / 2330 mg/cm3) and the PDG minimum-ionising value (1.664 MeV cm2/g -> 116.3 keV in 300 um Si, textbook 116); with the wrong constant the same MIP would deposit 1.16 keV. sci-rad-01's '30 keV/um ~ 13 MeV cm2/mg' is the same slip; r1.1 of this account had copied it into its JSON (card and public page never carried it) - retired. 6 gates green; this account's own G4.6 went red in its first version because it used the true solid angle 2pi(1-cos theta) for the cone where the holder's plane-projected pi sin^2 theta is right - the gate was fixed, not the holder's number. Source mars-bigram 728f1b4 ledger/out/04_radiation.json let_units / sci_rad_05_table_2b."
+      ],
+      "physics": "翻转率 = 通量 × 截面 × 位数;不可纠率 ≈ 翻转率 × (每字翻转率 × 刷新间隔)。前者对通量和截面都线性,后者都是平方——截面差两个数量级,不可纠率差四个;硬 SEP 期间通量 ×3103,不可纠率 ×10⁷,平静时够用的刷新周期在事件里差七个数量级。所以刷新策略有两个旋钮:后台刷新周期(等 σ)和接 SEP 警报的加速刷新。3 /cm²/s 数的是每一条带电径迹(含次级),只有超过器件 LET 阈的那部分会翻转:它是上界,不是率。r1 把卡上 62 像素击中/s ÷ 片面积 = 8.93 当成粒子通量,2026-09-13 撤回(像素击中率不是粒子通量;持有方已把 62 本身更正为 ~198)。",
+      "physics_en": "Upset rate = flux x cross-section x bits; uncorrectable rate ~ upset rate x (per-word upset rate x scrub interval). The first is linear in flux and in cross-section, the second quadratic in both - two decades of sigma are four decades of uncorrectables, and a hard SEP (flux x3103) raises uncorrectables by 10^7, so a scrub interval that is ample in quiet time is seven decades short during the event. Hence two knobs: a background scrub interval (waiting on sigma) and an accelerated scrub triggered by the SEP alert. The 3 /cm2/s counts every charged track incl. secondaries; only the part above a device's LET threshold upsets it: it is a bound, not a rate. r1 read the card's 62 pixel hits/s divided by chip area = 8.93 as a particle flux; retired 2026-09-13 (a pixel-hit rate is not a particle flux; the holder has itself revised 62 to ~198)."
+    },
+    {
+      "id": "die",
+      "label": "版图铭板 · 从 GDS 画出来的 die",
+      "label_en": "Layout plate - the die drawn from the GDS",
+      "range": 10,
+      "detail": "工作站旁的展台上不再是一颗「处理器封装」(v0 那张卡是空壳,已撤),而是一块刻着 MB-1 版图的铭板:1660 × 1080 µm 的 die,四个 OpenRAM SRAM 宏 2×2 占 63.5%,0.033 mm² 的逻辑在中间。它是从 asic/pnr/out/mb1_top.gds(27,550,944 字节)的几何画出来的,不是从一颗芯片拍的——没有芯片。",
+      "detail_en": "On the plinth by the workstation there is no longer a 'processor package' (the v0 card was an empty shell, retired) but a plate engraved with the MB-1 layout: a 1660 x 1080 um die, four OpenRAM SRAM macros in a 2 x 2 array taking 63.5%, the 0.033 mm2 of logic in the middle. It is drawn from the geometry of asic/pnr/out/mb1_top.gds (27,550,944 bytes), not photographed from a chip - there is no chip.",
+      "specs": {
+        "die": "1660 × 1080 µm = 1.79 mm²(asic/pnr/mb1_pnr.tcl)",
+        "宏": "4 × sky130_sram_2kbyte_1rw1r_32x512_8,683.1 × 416.54 µm,合计 1.14 mm² = 63.5%",
+        "逻辑": "33,123 µm²,2245 单元(含 4 宏)",
+        "GDS": "27,550,944 字节(26.3 MiB),klayout 合流",
+        "状态": "设计;无流片、无硅片"
+      },
+      "specs_en": {
+        "Die": "1660 x 1080 um = 1.79 mm2 (asic/pnr/mb1_pnr.tcl)",
+        "Macros": "4 x sky130_sram_2kbyte_1rw1r_32x512_8, 683.1 x 416.54 um, 1.14 mm2 in all = 63.5%",
+        "Logic": "33,123 um2, 2245 cells (incl. the 4 macros)",
+        "GDS": "27,550,944 bytes (26.3 MiB), merged with klayout",
+        "State": "design; no tapeout, no silicon"
+      },
+      "sim": [
+        "【r1 2026-09-06】v0 卡「处理器芯片(展示)」是空壳(无 sim、无 specs),已撤回,由本卡取代;数字全部来自 ledger/out/05_mb1_audit.json 的产物行。README 里另一处「SRAM 占芯片 ~97%」是 P&R 前 宏/(宏+逻辑) 的分母,与 63.5% 不矛盾,两个分母都写明。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] The v0 card 'Processor package (display piece)' was an empty shell (no sim, no specs); retired and replaced by this card; every number comes from the product rows of ledger/out/05_mb1_audit.json. The README's other figure, 'SRAM ~97% of the chip', uses the pre-P&R denominator macro/(macro+logic) and does not contradict 63.5%; both denominators are stated."
+      ]
+    },
+    {
+      "id": "airlock",
+      "label": "气闸 · 可走入的地表机房",
+      "label_en": "Airlock - a walk-in surface machine room",
+      "range": 12,
+      "detail": "南面实体门洞(1.4 × 2.3 m)外接一段气闸廊,走进去就是机房:抬高地板、吊顶、西墙的 CDU、东墙的配电柜、两排机架和北墙的大屏。本轮没有把它做成独立的室内单元(interior),而是让地表建筑本身可进:只有一块屏、一份动画、且保留昼夜——夜里屏光洒满机房是 v0 的证据,独立室内场景没有昼夜。建在地表而不是地下的代价写在 radiation 卡上;建在地表的理由写在 radiator 卡上:辐射场要看得见天空,机房跟着它。",
+      "detail_en": "A solid doorway (1.4 x 2.3 m) on the south face with an airlock corridor outside; walk in and you are in the room: raised floor, ceiling, the CDU on the west wall, the switchboard on the east wall, two rows of racks and the big screen on the north wall. This round did not make it a separate interior unit: the surface building itself is enterable - one screen, one animation, and day and night kept (the screen light washing the room at night is v0's evidence; a separate interior scene has no day/night). The cost of building on the surface rather than underground is on the radiation card; the reason is on the radiator card: the field has to see the sky, and the room follows it.",
+      "specs": {
+        "门洞": "1.4 × 2.3 m,气闸廊 2.4 × 2.6 m",
+        "外界": "0.6 kPa CO₂;夜间 200 K 级",
+        "内部": "地板 / 吊顶 / 三面实墙 + 南面玻璃带,均有内表面",
+        "为何不做 interior 单元": "预算与证据:一块屏、一份 animate、保留昼夜;室内单元 8 万面上限用不到,本单元约 11.7 k 三角形(DOM 内;原写约 6.5 k,2026-09-13 收编看板部件 +5,136 后)"
+      },
+      "specs_en": {
+        "Doorway": "1.4 x 2.3 m, airlock corridor 2.4 x 2.6 m",
+        "Outside": "0.6 kPa CO2; ~200 K at night",
+        "Inside": "floor / ceiling / three solid walls + the south glass band, all with inner faces",
+        "Why not an interior unit": "budget and evidence: one screen, one animate, day/night kept; the 80k-triangle interior allowance is not needed - this unit uses about 11.7 k triangles in the DOM (formerly about 6.5 k, before the roster board part added 5,136 on 2026-09-13)"
+      },
+      "sim": [
+        "【r1 2026-09-06】城内烟测(mars@2129e35 + 本轮文件):落位 scale === 1、54 资产、console 零报错、屏自检 PASS、CDU 泵 spinner 600 帧转 15 圈;Node 校验约 5.9 k 三角形(DOM 内约 6.5 k,含刀片纹理板)、包围盒 42.4 × 20.9 m、10 个 poi_ 锚与本卡一一对应。落位由 (−90,120) 东移到 (−82,120):新包络 42 m 宽压到了 pipe-heat-2 传热管廊(x = −109 ± 4 m),审计 ROAD CLASH,东移 8 m 后 layout clean。",
+        "【r1.1 2026-09-13】城内烟测(mars c5510dc 工作树 + 本轮文件):scale === 1、57 资产、屏自检 PASS、roster 1.0.0 透传、CDU 泵转动;Node 11,048 面、包围盒 42.4 × 8.5 × 20.9 m 不变、minY 0、11 个 poi_ 锚与 11 张卡一一对应;console 一条 404 = viewer/units/sci-rad-05.info.json(sci-rad-05 有模块无卡,不属本单元),本单元请求的 7 个文件全部 200。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-06] In-city smoke test (mars@2129e35 + this round's files): placed at scale === 1, 54 assets, zero console errors, screen self-test PASS, CDU pump spinner 15 turns in 600 frames; node validation about 5.9 k triangles (about 6.5 k in the DOM with the blade texture board), bbox 42.4 x 20.9 m, 10 poi_ anchors matching this card one to one. Position moved from (-90,120) to (-82,120): the new 42 m envelope crossed the pipe-heat-2 heat-transfer corridor (x = -109 +/- 4 m), audit ROAD CLASH; 8 m east it is layout clean.",
+        "[r1.1 2026-09-13] In-city smoke test (mars c5510dc working tree + this round's files): scale === 1, 57 assets, screen self-test PASS, roster 1.0.0 passed through, CDU pumps turning; node 11,048 triangles, bbox 42.4 x 8.5 x 20.9 m unchanged, minY 0, 11 poi_ anchors matching 11 cards; one console 404 = viewer/units/sci-rad-05.info.json (sci-rad-05 has a module and no card; not this unit), all 7 files this unit requests return 200."
+      ]
+    },
+    {
+      "id": "roster",
+      "label": "花名册与配额看板(ops-roster-01 供稿,数据归它)",
+      "label_en": "Roster and quota board (a part by ops-roster-01; the data is theirs)",
+      "range": 12,
+      "detail": "机房东侧、正对气闸门的立式屏,是 ops-roster-01 的看板部件,本站 r1.1 收编。屏上没有文字,颜色就是图例:上带是居住与工作位置的年剂量地板条,空框表示没有依据;中带是全城每人一块牌,只有剂量列有数的人才填色,其余画空框——空框表示「不能闭合」,不是 0;下带是村子几种 EVA 作息下到 20 mSv 的 sol 数。数据由 roster-data.js 在建模时导入,归 ops-roster-01 生成与改版,本卡不转抄其中的数;屏上读数以对方 roster.json 的当前版本为准(构建时版本记在 userData.roster)。放在计算中心的理由:这间机房是城市科学数据落地、留存的地方(见 datalink 卡),而这块屏读出的正是城市关于自己的人知道什么、不知道什么。",
+      "detail_en": "A free-standing screen on the east side of the room, facing the airlock door: ops-roster-01's board part, hosted here since r1.1. It carries no text; colour is the legend. The top band is annual dose-floor bars for living and working locations, with an empty frame where there is no basis; the middle band is one tile per person in the city, filled only where the dose column has a number and otherwise an empty frame - an empty frame means 'cannot be closed', never zero; the bottom band is the sols to 20 mSv under several village EVA schedules. The data is imported from roster-data.js at build time; ops-roster-01 generates and versions it, and this card transcribes none of its numbers - the screen reads whatever version roster.json is at (the build-time version is recorded in userData.roster). Why here: this room is where the city's science data lands and is kept (see the datalink card), and this screen reads out what the city knows, and does not know, about its own people.",
+      "specs": {
+        "供稿": "ops-roster-01(册 mars-roster 21f4b73);部件 roster-board.js + 数据 roster-data.js(由 roster.json 生成)",
+        "构建时版本": "schema ops-roster-01/roster · 1.0.0 · occupancy v1(2026-09-13)",
+        "位置": "机房坐标 (17.0, 0, −2.0),前脸朝 +Z 正对气闸门;面板 2.4 × 1.4 m,底边离机房地面 0.95 m",
+        "面数": "5,136(本单元合计 11,048)",
+        "null 的画法": "空框,永远不画成 0",
+        "本站编制": "roster 1.0.0(2026-09-13)里有 3 个编制归到本站(p030–p032),occupancy v1 把他们的醒时记在地下城工作位;本站是地表建筑(见 radiation 卡),他们的剂量列是 null——本卡不补数,已回执对方",
+        "大屏": "不接 roster.json:大屏是 MB-1 位级采样器,开机自检是一道闸,不混第二个数据源"
+      },
+      "specs_en": {
+        "Supplied by": "ops-roster-01 (dossier mars-roster 21f4b73); part roster-board.js + data roster-data.js (generated from roster.json)",
+        "Version at build": "schema ops-roster-01/roster - 1.0.0 - occupancy v1 (2026-09-13)",
+        "Placement": "room coordinates (17.0, 0, -2.0), front facing +Z toward the airlock door; panel 2.4 x 1.4 m, bottom edge 0.95 m above the room floor",
+        "Triangles": "5,136 (unit total 11,048)",
+        "How null is drawn": "an empty frame, never zero",
+        "Billets at this site": "at roster 1.0.0 (2026-09-13) three billets are assigned to this site (p030-p032) and occupancy v1 books their waking hours at the undercity work location; this is a surface building (radiation card) and their dose column is null - this card fills nothing in; reported back to the owner",
+        "Big screen": "roster.json is not fed to the big screen: that screen is the MB-1 bit-exact sampler and its boot self-test is a gate; a second data source would blur it"
+      },
+      "sim": [
+        "【r1.1 2026-09-13】收编检查:部件合 MODELS.md §4(不 import three、全 MeshStandard、原点在底座地面点、+Z 正面);Node:5,136 面、包围盒 2.52 × 2.45 × 0.60 m、nightMats 6 并入本单元(合计 10);放置后与本单元其它构件在 0.5 m 以上零相交(配电柜背排 z ≤ −3.6、展台 z ≥ 2.4、机架 x ≤ 5.4);城内烟测 roster 1.0.0 透传、屏自检仍 PASS。部件文件头注释写「三角形 ≈ 2.4k、包围盒 2.6 × 2.45 × 0.6」,实测 5,136 与 2.52;对方交付文件里的数是对的,已回执,本站不改对方文件。",
+        "【r1.1 2026-09-13】给 ops-roster-01 的一条路由:它的账 ② 在等 hab-quarter-01 给地下城绝对地板;而 sci-rad-01 09-08 回本站时写明本站没有任何输运谱(其账 7 传输框架从未收到输入),所以这条链上目前没有人持有 γ/µ 地板的计算。详见 dev/REPLY_ops-compute-01_to_ops-roster-01_board.md。"
+      ],
+      "sim_en": [
+        "[r1.1 2026-09-13] Hosting check: the part meets MODELS.md section 4 (no three import, MeshStandard only, origin at the base on the ground, +Z front); node: 5,136 triangles, bbox 2.52 x 2.45 x 0.60 m, 6 nightMats merged into this unit (10 in all); once placed, zero intersections with any other part of this unit above 0.5 m (switchboard back row z <= -3.6, plinth z >= 2.4, racks x <= 5.4); in-city smoke test passes roster 1.0.0 through and the screen self-test is still PASS. The part's file-header comment says 'triangles ~2.4k, bbox 2.6 x 2.45 x 0.6'; measured 5,136 and 2.52; the owner's delivery file has the right numbers; reported back, the owner's file is not edited here.",
+        "[r1.1 2026-09-13] A routing note for ops-roster-01: its account 2 waits on hab-quarter-01 for an absolute undercity floor; sci-rad-01 wrote to this site on 09-08 that it holds no transport spectrum at all (its ledger-7 transport framework never received inputs), so nobody on that chain currently holds a gamma/muon floor calculation. See dev/REPLY_ops-compute-01_to_ops-roster-01_board.md."
+      ],
+      "physics": "看板是一张没有字的条形图:长度 ∝ 地板/234(无屏蔽地表满格),颜色是来源等级(琥珀 = 裁定下界、红 = 实测、空框 = 无依据)。把「不知道」画成空框而不是短条,是这块屏唯一的纪律——短条会被读成「剂量低」,空框只能被读成「没有数」。",
+      "physics_en": "The board is a bar chart with no words: length proportional to floor/234 (the unshielded surface fills the bar), colour is the grade of the source (amber = ruled lower bound, red = measured, empty frame = no basis). Drawing 'unknown' as an empty frame rather than a short bar is the one discipline of this screen - a short bar reads as 'low dose', an empty frame can only read as 'no number'."
     }
   ]
 }

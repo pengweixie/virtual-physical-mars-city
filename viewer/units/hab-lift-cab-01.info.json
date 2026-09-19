@@ -1,0 +1,49 @@
+{
+  "id": "hab-lift-cab-01",
+  "name": "电梯轿厢",
+  "name_en": "Lift cab",
+  "pois": [
+    {
+      "id": "panel",
+      "label": "轿内指示屏",
+      "label_en": "Cab indicator",
+      "range": 4,
+      "detail": "深度、速度、舱压差与下一处避难龛。井道全程加压,乘员不穿服;3000 m 气柱自重让井底比井口高约 13 kPa,12 m/s 下压变率 52 Pa/s——远低于 300 Pa/s 的舒适阈,所以限速的是耳朵不是电机。屏上印着时间压缩倍数:真实单程 4.2 分钟,城内按动画惯例压缩,不冒充实时。",
+      "detail_en": "Depth, speed, cabin pressure difference and the next refuge. The shaft is pressurised end to end - no suit. A 3000 m air column weighs about 13 kPa, so at 12 m/s the pressure changes at 52 Pa/s, well under the 300 Pa/s comfort limit: the speed limit is set by ears, not by the motor. The screen prints the time-compression ratio - a real trip is 4.2 minutes; the city compresses it by convention and does not pretend otherwise.",
+      "specs": { "额定速度": "12 m/s", "单程": "3000 m / 4.2 min", "气柱 Δp": "≈13 kPa 井底", "压变率": "52 Pa/s" },
+      "specs_en": { "Rated speed": "12 m/s", "Trip": "3000 m / 4.2 min", "Air column Δp": "≈13 kPa at the bottom", "Pressure rate": "52 Pa/s" },
+      "sim": ["耳压限速账(hab-lift-01 卡,解析):Δp≈ρgh≈1.2×3.71×3000≈13 kPa;12 m/s → 52 Pa/s < 300 Pa/s 舒适阈"],
+      "sim_en": ["Ear-pressure speed account (hab-lift-01 card, analytic): Δp ≈ ρgh ≈ 1.2 × 3.71 × 3000 ≈ 13 kPa; 12 m/s gives 52 Pa/s, under the 300 Pa/s comfort limit"]
+    },
+    {
+      "id": "doors",
+      "label": "对开门与避难龛",
+      "label_en": "Doors and refuge niches",
+      "range": 4,
+      "detail": "双扇不锈钢门只在层站开启;运行中门缝外每 500 m 掠过一处加压避难龛的琥珀灯——全井 6 处,矿井惯例。门楣红灯=运行,绿灯=可开门。",
+      "detail_en": "Twin stainless doors open only at a landing; in motion an amber refuge light passes the door gap every 500 m - six pressurised niches down the shaft, mining practice. Red above the door means moving, green means the doors may open.",
+      "specs": { "避难龛": "每 500 m × 6", "轿厢": "12 人 / 900 kg", "井内": "Ø2.6 m 双导轨" },
+      "specs_en": { "Refuge niches": "every 500 m × 6", "Cab": "12 persons / 900 kg", "Shaft": "Ø2.6 m, twin guide rails" }
+    },
+    {
+      "id": "plug",
+      "label": "轿顶屏蔽塞",
+      "label_en": "Roof shield plug",
+      "range": 4,
+      "detail": "轿顶载 0.2 m 含硼聚乙烯屏蔽塞:停靠地表时塞体恰好补上井口断面,直井这扇『天窗』就此关上。井深本身是最好的准直器——Ø2.6 m 井口对 3000 m 井底的张角约 7×10⁻⁷ sr,直灌剂量占比不到万分之一;真正要堵的只有井口停靠间隙。",
+      "detail_en": "The cab roof carries a 0.2 m borated-polyethylene shield plug: parked at the surface it fills the shaft mouth, closing the one skylight in the shield. Depth itself is the best collimator - a 2.6 m mouth subtends about 7e-7 sr from 3000 m down, under 0.01% of the dose - so the only thing to plug is the parking gap.",
+      "sim": ["漏射立体角(hab-lift-01 卡,解析):Ø2.6 m 井口对 3000 m 井底 ~7×10⁻⁷ sr,直灌占比 <0.01%"],
+      "sim_en": ["Leak solid angle (hab-lift-01 card, analytic): a 2.6 m mouth subtends ~7e-7 sr from 3000 m, <0.01% of dose"]
+    },
+    {
+      "id": "rail",
+      "label": "扶手与曳引带",
+      "label_en": "Handrail and hoist belt",
+      "range": 4,
+      "detail": "轿厢吊在一根聚酯-钢复合曳引带上,摩擦驱动,直达井底不换乘。火星低重力在这里是白捡的:绳索自重应力只有地球同深度的 38%,3000 m 的绳负荷相当于地球 1140 m;同样的井在地球必须分段。下行时曳引机再生制动,一趟约回收 7 kWh 送储能场。",
+      "detail_en": "The cab hangs on one polyester-steel composite belt, friction-driven, straight to the bottom with no transfer. Low gravity is a free gift here: rope self-weight stress is 38% of Earth's at the same depth, so 3000 m loads the belt like 1140 m on Earth, where such a shaft must be staged. On the way down the hoist regenerates about 7 kWh a trip into the storage farm.",
+      "sim": ["绳长账与功率账(hab-lift-01 卡,解析):自重极限深度 ∝ 1/g → 3000 m = 地球 1140 m 当量,裕量 2.4×;P = 900×3.71×12/0.85 ≈ 47 kW 峰值"],
+      "sim_en": ["Rope-length and power accounts (hab-lift-01 card, analytic): self-weight limit ∝ 1/g, 3000 m = 1140 m Earth-equivalent, margin 2.4×; P = 900 × 3.71 × 12 / 0.85 ≈ 47 kW peak"]
+    }
+  ]
+}

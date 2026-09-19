@@ -215,10 +215,10 @@
       "name_en": "Compute Center",
       "type": "code",
       "module": "units/ops-compute-01.js",
-      "size_m": 26,
+      "size_m": 42.4,
       "size_axis": "width",
       "pos": [
-        -90,
+        -82,
         120
       ],
       "rotation_deg": 0,
@@ -368,6 +368,20 @@
       "effects": [
         "glow_windows"
       ]
+    },
+    {
+      "id": "hab-lift-cab-01",
+      "name": "电梯轿厢",
+      "name_en": "Lift cab",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/hab-lift-cab-01.js",
+      "size_m": 2.6,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
     },
     {
       "id": "hab-clinic-01",
@@ -585,6 +599,20 @@
       "effects": []
     },
     {
+      "id": "hab-home-01",
+      "name": "家用电器样板间",
+      "name_en": "Appliance Show Home",
+      "type": "code",
+      "kind": "interior",
+      "module": "units/hab-home-01.js",
+      "size_m": 13.4,
+      "size_axis": "width",
+      "pos": null,
+      "rotation_deg": 0,
+      "sink_m": 0,
+      "effects": []
+    },
+    {
       "id": "hab-bot-01",
       "name": "室内服务机器人",
       "name_en": "Indoor Service Robot",
@@ -752,6 +780,19 @@
       "rotation_deg": 0,
       "sink_m": 0,
       "effects": []
+    },
+    {
+      "id": "sci-rad-05",
+      "name": "地表粒子望远镜(ΔE–E)",
+      "name_en": "Surface Particle Telescope (dE-E)",
+      "type": "code",
+      "module": "units/sci-rad-05.js",
+      "size_m": 8.26,
+      "size_axis": "width",
+      "pos": [304, -256],
+      "rotation_deg": 0,
+      "sink_m": 0.25,
+      "effects": ["glow_windows", "blink"]
     },
     {
       "id": "com-station-01",
@@ -1557,6 +1598,43 @@
       "rotation_deg": 0,
       "sink_m": 0,
       "effects": []
+    },
+    {
+      "id": "ops-drill-01",
+      "name": "SEP 演习控制台",
+      "name_en": "SEP Drill Console",
+      "type": "code",
+      "module": "units/ops-drill-01.js",
+      "size_m": 4.37,
+      "size_axis": "height",
+      "pos": [
+        327,
+        -268
+      ],
+      "rotation_deg": 0,
+      "sink_m": 0.15,
+      "effects": [
+        "glow_windows"
+      ]
+    },
+    {
+      "id": "ops-polymer-01",
+      "name": "聚合物线（CO₂+H₂ → 甲醇 → 烯烃 → HDPE）",
+      "name_en": "Polymer Line (CO2 + H2 -> methanol -> olefins -> HDPE)",
+      "type": "code",
+      "module": "units/ops-polymer-01.js",
+      "size_m": 58.3,
+      "size_axis": "width",
+      "pos": [
+      40,
+      130
+    ],
+      "rotation_deg": 0,
+      "sink_m": 1.1,
+      "effects": [
+        "glow_windows",
+        "blink"
+      ]
     }
   ]
 }

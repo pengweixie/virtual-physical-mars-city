@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Polymer Line — Virtual-Physical Mars City</title>
+<meta name="description" content="Five ledgers on turning Mars CO2 and well water into polyethylene - route, mass and energy, demand and nameplate, by-products and safety, make or import - and the plant built from them.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--rust);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .pipe{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;max-width:var(--textw);}
+  .pipe span{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.04em;padding:7px 12px;
+    border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-dim);}
+  .pipe span b{color:var(--accent);font-weight:600;}
+  .broke{max-width:var(--textw);margin-top:26px;display:grid;gap:18px;}
+  .broke .item{border-left:2px solid var(--accent);padding:2px 0 2px 18px;}
+  .broke .item h3{font-size:1.02rem;font-weight:600;}
+  .broke .item p{margin:.4rem 0 0;color:var(--ink-dim);font-size:.98rem;}
+  .try{max-width:var(--textw);margin-top:22px;}
+  .try li{margin:.5rem 0;color:var(--ink-dim);}
+  .try code,.prose code{font-family:var(--f-mono);font-size:.85em;background:var(--bg-3);
+    border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink);}
+  .acct{max-width:var(--textw);margin-top:22px;display:grid;gap:14px;}
+  .acct .row{display:grid;grid-template-columns:8.5rem 1fr;gap:14px;border-top:1px solid var(--line);padding-top:12px;}
+  .acct .row .k{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding-top:4px;}
+  .acct .row p{margin:0;color:var(--ink-dim);font-size:.98rem;}
+  .acct .row p strong{color:var(--ink);}
+  @media(max-width:560px){.acct .row{grid-template-columns:1fr;gap:4px;}}
+  td.state{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.06em;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="works.html">← Prev</a>
+    <a href="origin.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">ops-polymer-01 · polymer line · round 1</div>
+    <h1>The Polymer Line</h1>
+    <p class="phead__sub">This city had no plastic. The village's radiation liner was booked as 101 tonnes of imported polyethylene, the appliance
+      housings are printed from filament pyrolysed out of imported packaging, and every card that needed a polymer wrote "import". Five ledgers
+      ask whether carbon dioxide and hydrogen can become polyethylene here, and what it costs. The answer is yes, and the cost is not electricity.
+      It is water: the well caps the line at 50 kg a sol, and the choice of route was made by which chemistry does not throw hydrogen away.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Route</div><div class="spec__v">MTO<small>methanol → SAPO-34 → ethylene 42 %</small></div></div>
+    <div class="spec"><div class="spec__k">Water per kg PE</div><div class="spec__v">1.28<small>L net · 3.03 if propylene is vented</small></div></div>
+    <div class="spec"><div class="spec__k">Nameplate</div><div class="spec__v">50<small>kg PE/sol · held by the well</small></div></div>
+    <div class="spec"><div class="spec__k">Pre-registered gates</div><div class="spec__v">45 / 46<small>green · 1 red by its own rule</small></div></div>
+  </div>
+</div>
+
+<!-- 01 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">One line, outside, that turns the atmosphere and well water into pellets - and makes more oxygen than the sulfur plant.</p>
+    <div class="prose">
+      <p>The plant stands under an unpressurised dust shed north-east of the oxygen station, next to the well and the CO₂ intake tower it feeds
+        from. Along the shed, west to east: a solid-oxide electrolysis stack that splits CO₂ into CO and oxygen, a water electrolyser, a methanol
+        converter cast in ductile iron at 20 bar, a fluidised bed of SAPO-34 catalyst at 450 °C lined with cast stone, a cold box of three imported
+        steel columns at −100 °C, a gas-phase polymerisation reactor, a CO₂-purged degasser, an extruder, and two sulfur-concrete silos. Behind the
+        shed, 108 m² of radiators. In front, the only pressurised volume on the site: a printed-regolith control room, its air intake thirty metres
+        from anything carrying CO or methanol.</p>
+      <p>Every number on the plant traces to one of five ledgers in the dossier <span class="src">mars-polymer/ledger/</span>, and the expectations
+        for every ledger were written down and committed before the first script ran (<span class="src">mars-polymer 12d349b</span>). Eighty-two
+        of those expectations were scored afterwards: 63 hit, 19 missed. The misses are the interesting part; they are in section 04.</p>
+      <p>Two things the ledgers found were not about chemistry. The premise that the appliance line imports 1.06 t of plastic is not what the home
+        ledger says: its 1,064 kg of imports contain no plastic at all, and the 278 kg of plastic parts are booked to recycled filament - whose
+        feedstock is imported packaging. And the three cards that hold the well's water disagree by a factor of five on what the propellant plant
+        draws, which is the single number that decides whether this line makes 50 or 100 kg a sol.</p>
+    </div>
+    <figure style="margin:28px 0 0;">
+      <img src="assets/polymer/r1-day.jpg" alt="The polymer line under its dust shed, seen from the open south face" loading="lazy">
+      <figcaption style="color:var(--ink-dim);font-size:.85rem;margin-top:8px;">In-engine render, day, labels hidden. The shed's south face is open: methanol converter, MTO bed, cold box and polymerisation reactor cut away toward the viewer; radiators behind; control room, silos and the trailer ramp in front, on the graded platform.</figcaption>
+    </figure>
+    <figure style="margin:18px 0 0;">
+      <img src="assets/polymer/r1-core.jpg" alt="Inside the open shed: syngas skid, methanol converter, MTO bed and cold box" loading="lazy">
+      <figcaption style="color:var(--ink-dim);font-size:.85rem;margin-top:8px;">In-engine render, inside the shed line: SOXE hot box and electrolyser on the left, the 20 bar ductile-iron methanol converter, the cast-stone-lined MTO bed, the cold box, the polymerisation reactor.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">Five ledgers, in the order in which a wrong answer would change the geometry.</p>
+    <div class="acct">
+      <div class="row"><div class="k">1 · route</div><p><strong>Methanol-to-olefins, not Fischer-Tropsch, not oxidative coupling.</strong> All three routes share the same net reaction, CO₂ + H₂O → −CH₂− + 1.5 O₂ at 649 kJ/mol; they differ only in selectivity and recycle. Iron Fischer-Tropsch puts 9 % of the CO fed into ethylene (ASF α 0.5, C₂ olefinicity 0.6, 40 % of the CO lost to CO₂ by water-gas shift) and the other 91 % into a C₁–C₅₊ slate that needs a cracker's cold train and has no sink in the city. Oxidative coupling burns the MAV's methane at an 18 % per-pass C₂ yield and cycles its hydrogen through the electrolyser twice. MTO puts 42 % of the carbon into ethylene and 38 % into propylene with a two-step chain of mature reactors. With co-products credited at zero, a kilogram of ethylene costs 63 kWh by MTO, 292 by FT and 316 by OCM - the last two land on the foundry's 298 kWh/kg make-or-import line and the first does not. FT's catalyst, iron-sodium-sulfur on silica, is the only one that is entirely local; it is kept as the fallback if the MTO imports stop.</p></div>
+      <div class="row"><div class="k">2 · mass & energy</div><p><strong>Per tonne of PE at 100 % selectivity: 3.14 t CO₂, 1.28 t of well water, 143 kg of hydrogen, and 3.43 t of oxygen out.</strong> The whole MTO train, with propylene uncredited, draws 7.3 t of CO₂ and 3.0 t of water per tonne of PE and returns 8.0 t of oxygen. Electricity: the practical electrolysis floor is 23.1 kWh per kg of −CH₂− with PEM stacks and 18.3 with high-temperature SOEC on the fusion heat loop, against a thermodynamic floor of 12.9 (the heating value of polyethylene); the pre-registration had written 13–15 and forgot that the water recovered from methanol synthesis and MTO must be electrolysed again. With process adders the line costs 22–27 kWh per kg of olefin, 52–64 per kg of PE if the propylene pays nothing. Heat rejected at 50 kg/sol: 56 kW into 108 m² of radiator, since 600 Pa of CO₂ has no convection to offer.</p></div>
+      <div class="row"><div class="k">3 · demand & nameplate</div><p><strong>Fifty kilograms a sol, set by the well.</strong> The nameplate rule was registered before the numbers: the largest of 50, 100 or 200 kg/sol whose water fits the well's unallocated share and whose mean power stays under 10 % of the city peak. On the well card's own allocation (193 L/sol to the propellant plant) 157 L/sol is unallocated; 50 kg/sol of PE needs 151 with the propylene vented, 100 needs 303. The power convention happens to give the same answer, with 1 % to spare on SOEC and no candidate at all on PEM - and a ±30 % perturbation on energy removes the 50, which is exactly what the registered ablation gate was written to detect. The demand table: the village liner at 101 t (village area basis) or 177.7 t (Run D's as-built basis), conditional on a lever nobody has established; 278 kg of appliance plastic; 735–1,380 t if PE ever replaced Run C's water in the berm; 2–6 t of cable insulation nobody has registered. Steady demand is under 30 kg/sol, so this is a campaign line. At 50 kg/sol the 101 t liner takes 2,020 sol - 2.7 rendezvous windows - after commissioning.</p></div>
+      <div class="row"><div class="k">4 · by-products & safety</div><p><strong>No ethylene inside any pressurised volume; the plant lives outside.</strong> Ethylene's minimum ignition energy is 0.07 mJ, hydrogen's class; 1.74 kg fills one 78 m³ village corridor to its lower flammability limit; a deflagration in the city's 30.1 %-oxygen-equivalent cabin gas loads the 70 kPa hull eleven times over. Outside, in 600 Pa of CO₂, the oxygen is 62 times below ethylene's limiting concentration and the quenching distance is 21 cm: a leak cannot burn. PE powder is an St1 dust, so pelletising stays outside too, and the degasser purges with CO₂ at 0.15 kWh/kg rather than buffer gas at 5.27. By-products at 50 kg PE/sol: 45 kg of propylene with three sinks printed and none chosen, 2.7 kg of methane to the propellant tanks, coke burnt and returned as CO₂, 153 kg of water back to the electrolyser, and 400 kg of oxygen - twice the sulfur plant - to the cryogenic farm.</p></div>
+      <div class="row"><div class="k">5 · make or import</div><p><strong>24 items, 233 t, of which 10 t come from Earth.</strong> A single declared limit - ductile iron pressure parts to 24 bar and 343 °C, not below −20 °C - judges every vessel. The methanol converter passes at 20 bar because account 1 gives 22 % per-pass conversion there (the rule asked for 15 %); the MTO bed passes because a cast-stone lining keeps its iron shell under 300 °C, the glass plant's furnace-wall method; the polymerisation reactor passes at 20 bar and 90 °C. What is imported is the foundry's own "0 % local" list - compressors, bearings, seals, electronics, filters - plus three classes of this line's own: catalysts, cryogenic steel, electrolysis stacks. Under the foundry's rule, PE at 52 kWh/kg is a make with 5.7× to spare. Most of the local mass is not machinery: 96 t of printed silos, 77 t of sulfur-concrete footings, and a platform graded out of a site that falls 1.48 m across the footprint - 330 m³ cut and refilled on site, where an all-fill pad would have been 2.9 kt, 3,426 sol of the mine's spare haulage.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number on this page, the state it is in, and the script that produced it. Scripts live in the dossier
+      <span class="src">mars-polymer/ledger/</span> and write <span class="src">mars-polymer/out/</span>; the pre-registration is the dossier's
+      first commit; the five ledgers are commit <span class="src">358d389</span>.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Claim</th><th class="num">Value</th><th>State</th><th>Produced by</th></tr></thead>
+        <tbody>
+          <tr><td>Route chosen</td><td class="num">MTO, variant 2a (SOXE CO + 2 H₂)</td><td class="state">account · rule registered before data</td><td class="src">mars-polymer/ledger/01_routes.py</td></tr>
+          <tr><td>Electrolysis floor, practical / thermodynamic</td><td class="num">23.1 PEM · 18.3 SOEC / 12.9 kWh/kg −CH₂−</td><td class="state">account · miss vs 13–15 pre-registered</td><td class="src">01_routes.py</td></tr>
+          <tr><td>Per kg ethylene, co-products at zero / paying their own</td><td class="num">MTO 63 / 31 · FT 292 / 59 · OCM 316 / 55 kWh</td><td class="state">account · selectivities declared</td><td class="src">01_routes.py</td></tr>
+          <tr><td>Methanol equilibrium conversion at 250 °C</td><td class="num">53 % at 50 bar · 22 % at 20 bar</td><td class="state">account · K(500 K) in the JANAF band</td><td class="src">01_routes.py · thermo.py</td></tr>
+          <tr><td>FT ethylene as a share of CO fed</td><td class="num">9 %</td><td class="state">account · ASF α 0.5 declared</td><td class="src">01_routes.py</td></tr>
+          <tr><td>OCM per-pass C₂ yield</td><td class="num">18 %</td><td class="state">declared band · gate ≤ 30 %</td><td class="src">01_routes.py</td></tr>
+          <tr><td>MTO catalyst import at 100 kg PE/sol</td><td class="num">107 kg / window</td><td class="state">declared productivities and lifetimes</td><td class="src">01_routes.py</td></tr>
+          <tr><td>Per tonne PE, 100 % selectivity</td><td class="num">CO₂ 3.14 · H₂O 1.28 · H₂ 0.143 · O₂ 3.43 t</td><td class="state">account · identities</td><td class="src">02_mass_energy.py</td></tr>
+          <tr><td>Whole train per tonne PE, propylene uncredited</td><td class="num">CO₂ 7.32 · H₂O 3.03 · O₂ 8.01 t</td><td class="state">account · C/H/O balance 1e-9</td><td class="src">02_mass_energy.py</td></tr>
+          <tr><td>Electricity per kg PE, olefin / PE-only basis</td><td class="num">27.2 / 63.8 PEM · 22.4 / 52.5 SOEC kWh</td><td class="state">account · process adders declared</td><td class="src">02_mass_energy.py</td></tr>
+          <tr><td>Margin to the foundry's 298 kWh/kg</td><td class="num">5.7×</td><td class="state">cited threshold · res-foundry-01 account 14</td><td class="src">02_mass_energy.py</td></tr>
+          <tr><td>Well water unallocated, three readings</td><td class="num">157 / 310 / 310 L/sol</td><td class="state">declared gap · cards disagree 5×</td><td class="src">02_mass_energy.py · DISPATCH water_readings</td></tr>
+          <tr><td>ISRU water make-up by its own card</td><td class="num">39 kg/sol</td><td class="state">account · 2.9 kg/h × 45 % recovery</td><td class="src">02_mass_energy.py</td></tr>
+          <tr><td>Oxygen co-product at 50 kg PE/sol</td><td class="num">400 kg/sol</td><td class="state">account · two paths agree 0.1 %</td><td class="src">02_mass_energy.py</td></tr>
+          <tr><td>Heat rejection / radiator at 50 kg PE/sol</td><td class="num">56 kW / 108 m²</td><td class="state">account · miss vs 20–40 kW</td><td class="src">02_mass_energy.py</td></tr>
+          <tr><td>Appliance plastic in the 91-unit fleet</td><td class="num">278 kg, none imported</td><td class="state">account · reproduces home 2,803 / 1,064.4</td><td class="src">03_demand_nameplate.py</td></tr>
+          <tr><td>Village liner demand</td><td class="num">101 t / 177.7 t</td><td class="state">conditional · both bases printed</td><td class="src">03_demand_nameplate.py</td></tr>
+          <tr><td>Berm shielding at equal hydrogen to Run C water</td><td class="num">735 / 1,380 t</td><td class="state">conditional · no geometry run</td><td class="src">03_demand_nameplate.py</td></tr>
+          <tr><td>Nameplate</td><td class="num">50 kg PE/sol</td><td class="state">account · G3.3 red by its own registration</td><td class="src">03_demand_nameplate.py</td></tr>
+          <tr><td>Liner delivery at 50 kg/sol</td><td class="num">2,020 sol / 3,554 sol</td><td class="state">account · t₀ = import window + 100–200 sol</td><td class="src">03_demand_nameplate.py</td></tr>
+          <tr><td>Hydrogen per tonne, PE vs water</td><td class="num">14.4 vs 11.2 wt % (+28 %)</td><td class="state">identity · pre-registration had the sign wrong</td><td class="src">03_demand_nameplate.py</td></tr>
+          <tr><td>Ethylene LFL / UFL / MIE in cabin gas</td><td class="num">2.7 % / 41 % / 0.07 mJ</td><td class="state">declared constants · UFL interpolated</td><td class="src">04_safety_byproducts.py</td></tr>
+          <tr><td>Ethylene to fill one corridor to its LFL</td><td class="num">1.74 kg in 78 m³</td><td class="state">account · density reproduces mars-home 0.941</td><td class="src">04_safety_byproducts.py</td></tr>
+          <tr><td>Deflagration against the hull</td><td class="num">784 kPa abs · 11.2×</td><td class="state">account · fire-ledger flame-T proxy</td><td class="src">04_safety_byproducts.py</td></tr>
+          <tr><td>Outside: LOC margin · quench distance</td><td class="num">62× · 21 cm</td><td class="state">account · reproduces fire 34 cm for CH₄</td><td class="src">04_safety_byproducts.py</td></tr>
+          <tr><td>Purge gas, buffer N₂ over CO₂</td><td class="num">35×</td><td class="state">cited · res-eclss-01 5.27 / 0.15</td><td class="src">04_safety_byproducts.py</td></tr>
+          <tr><td>Propylene per kg ethylene</td><td class="num">0.9 kg</td><td class="state">account · sinks printed, not chosen</td><td class="src">04_safety_byproducts.py</td></tr>
+          <tr><td>Plant mass / imported</td><td class="num">233 t / 10.05 t (4.3 %)</td><td class="state">account · bulk items measured from the module · 24 items</td><td class="src">05_make_or_import.py · geom_export.mjs</td></tr>
+          <tr><td>Footings / silos</td><td class="num">77 t sulfur concrete / 96 t printed regolith</td><td class="state">measured · concrete density declared, print density from the printer card</td><td class="src">geom_export.mjs · 05_make_or_import.py</td></tr>
+          <tr><td>Site terrain variation · platform earthwork</td><td class="num">1.48 m · 330 m³ balanced / 2.9 kt all-fill</td><td class="state">measured in-engine · 1 m bilinear grid</td><td class="src">ledger/data/terrain_sites.json · 05_make_or_import.py</td></tr>
+          <tr><td>Methanol vessel</td><td class="num">20 bar ductile iron, local</td><td class="state">account · 22 % ≥ 15 % rule</td><td class="src">05_make_or_import.py · 01_routes.py</td></tr>
+          <tr><td>Catalyst make-up at 50 kg PE/sol</td><td class="num">54 kg / window</td><td class="state">declared</td><td class="src">05_make_or_import.py</td></tr>
+          <tr><td>Gates · scorecard</td><td class="num">45 / 46 green · 63 hit / 19 miss</td><td class="state">run · exit code gates the commit</td><td class="src">ledger/run_all.py · out/summary.json</td></tr>
+          <tr><td>Placement candidates (both pass the layout audit)</td><td class="num">(40, 130) registered · (−54, 70)</td><td class="state">audit · integrator's call</td><td class="src">scripts/audit_layout.mjs</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">Twelve things the ledgers and the geometry overturned, most of them written by the same hand a few hours earlier.</p>
+    <div class="broke">
+      <div class="item"><h3>The electrolysis floor was written as 13–15 kWh/kg. It is 23.</h3><p>The pre-registered band was the thermodynamic floor - the heating value of polyethylene, 12.9 kWh/kg. It forgot that in a steady-state loop every mole of water that methanol synthesis and MTO give back is electrolysed again, so the electrolyser pays for two H₂ per carbon while the well pays for one. Same hydrogen, two ledgers: 23.1 kWh and 1.28 litres. Every downstream figure moved; the expectation stayed where it was written.</p></div>
+      <div class="item"><h3>The MTO product slate could not close its oxygen balance.</h3><p>Two percent methane, six percent paraffins booked as ethane and two percent coke booked as pure carbon carry 2.06 hydrogens per carbon - but CH₃OH → "CH₂" + H₂O pins the hydrocarbon-plus-coke average at exactly 2.00, and 0.03 oxygens per carbon went missing. Gate G2.1c went red on the first run. The model changed, the band did not: the heavies-plus-coke H/C is now the closure variable and comes out at 1.07, between aromatics and coke, which is physical. The first version stays in the json under a retired key.</p></div>
+      <div class="item"><h3>Gate G1.1 could never have gone red.</h3><p>It asked each route's step enthalpies to sum to the net reaction - but every step is built from the same formation-enthalpy table, so the sum equals the net by algebra. A gate that cannot fail proves nothing. It was replaced by three external known answers: the Sabatier heat must reproduce the ISRU card's −165 kJ/mol, methanol synthesis −90.6, FT −165 ± 12. The Hess sum is still printed, labelled consistency, not evidence.</p></div>
+      <div class="item"><h3>The pre-registered sentence "PE carries 22 % less hydrogen per tonne than water" is retired: the sign was wrong.</h3><p>Polyethylene is 14.4 wt % hydrogen, water 11.2: PE carries 28 % more. The registered gate G3.5 asserted the wished sentence and was NOT EVALUABLE as written, which is not the same as passed; it was removed from the count by name, noted, and replaced by an identity gate that can go red.</p></div>
+      <div class="item"><h3>The nameplate was expected at 100 kg/sol. It is 50 - and its own ablation gate went red on purpose.</h3><p>Gate G3.3 was registered to fail if a ±30 % change in energy per kg changed the nameplate, with the instruction "if it changes, the rule depended on energy, not water, and says so". It changed: the 50 kg/sol cell passes the power convention with 1 % to spare and +30 % removes it. So the nameplate rests on the well - 151 of 157 unallocated litres a sol - and only coincidentally on the foundry's 10 %-of-peak convention, which on PEM stacks would allow nothing. The gate stays red, excluded by name, and the conclusion changed.</p></div>
+      <div class="item"><h3>The dispatch premise "1.06 t of appliance plastics, all imported" is not in the home ledger.</h3><p>Its 1,064 kg of imports are compressors, motor windings, bearings, seals, electronics, heating elements, magnetrons and stainless drums - no plastic. The 278 kg of plastic parts are booked to pyrolysis filament. The real dependency is upstream: the filament is 29.5 kg/sol of imported packaging times a 55 % recovery. Stop the packaging and the filament stops.</p></div>
+      <div class="item"><h3>Polymerisation enthalpy: −112 from the heating value, −93.6 from calorimetry.</h3><p>The −CH₂− formation enthalpy back-calculated from HDPE's 46.3 MJ/kg is −29.9 kJ/mol, inside its gate band; it gives −112 kJ/mol for the polymerisation, 20 % off the textbook −93.6. A small difference of two large numbers: one percent on the heating value moves it 15 kJ/mol. Both are printed; heat rejection uses the larger.</p></div>
+      <div class="item"><h3>All three route energy bands missed, because the pre-registration never said what a co-product is worth.</h3><p>With co-products at zero, FT ethylene costs 292 kWh/kg; with each co-product paying its own electrolysis, 59. A factor of five between two bookkeeping conventions that the expectation had not fixed. Every energy figure in the dossier now carries its basis.</p></div>
+      <div class="item"><h3>Heat and CO₂ were pre-registered on the wrong basis.</h3><p>20–40 kW and 314 kg/sol of CO₂ were 100 %-selectivity numbers; the whole train with propylene uncredited is 50 kW and 732 kg at 100 kg PE/sol. Booked as misses; the basis is now in the key names.</p></div>
+      <div class="item"><h3>The geometry pass retired the plant mass: the first version's 20 t floor was 6 mm of concrete.</h3><p>Account 5 had declared the dust shed with its floor at 20 t and the two pellet silos at 6 t, for a plant of 65.7 t. Drawn at their real size, 20 t over 46 × 30 m is 6 mm of sulfur concrete, and two 4 × 9 m silos with the printer's own 0.2 m wall weigh 96 t. The card had also transcribed the silos as 12 t. Bulk items are now measured from the module by a script the ledger calls, so the number and the drawing cannot drift apart: footings 77 t, silos 96 t, plant 233 t. The 10 t import did not move.</p></div>
+      <div class="item"><h3>The site is not flat, and my first terrain gate had the wrong band - twice.</h3><p>The registered position falls 1.48 m across the platform; the first platform was 1.35 m high and terrain came through the floor. The engine now exports its own terrain grid, with no hand-copied heights, the platform is 1.65 m on a 1.10 m sink, and the ledger books the earthwork. The gate comparing bilinear heights with the nearest vertex was set at 0.05 m before I knew the vertices are 3.70 m apart; it failed at 3 of 5 probes (0.082 m) because nearest-vertex error alone is that large on this slope. The band was wrong, not the sampler. Its replacement, a vertex-exact test, was first written at 1e-6 m - tighter than float32 world coordinates can resolve - and corrected to 1e-4 m, alongside a four-vertex bracket.</p></div>
+      <div class="item"><h3>Not delivered: the turntable gif.</h3><p>The capture tool depends on the browser pane's animation frames, which are suspended while the pane is hidden - the failure mode two other dossiers met this fortnight. No stale or empty file is shipped.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
+    <ul class="prose">
+      <li>Open the city with <code>?colony=1&amp;inspect=ops-polymer-01</code> and walk the open south face: every vessel is cut away toward you, and the colour of each pipe is a substance - teal CO₂, blue water, orange-red hydrogen, amber methanol, violet olefins, cream pellets, white oxygen leaving.</li>
+      <li>Approach any unit for its card - ten bilingual cards carry the ledger number, the gate, and the miss where there was one.</li>
+      <li>Read the three dispatches this line sent: to the village (can the liner be supplied, and when), to the appliance line (which parts HDPE can take, and the 30 % oxygen problem it cannot solve), and to the well's holders (which of three readings is the water).</li>
+      <li>Re-run everything: <code>python ledger/run_all.py</code> in the dossier; a red gate exits non-zero and the retirement scan runs last.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0 0 10px;"><strong>Sources.</strong> Design ledgers: <span class="src">mars-polymer/ledger/01_routes.py … 05_make_or_import.py</span>, shared constants <span class="src">mars-polymer/ledger/thermo.py · city.py</span>, outputs <span class="src">mars-polymer/out/*.json</span>, pre-registration <span class="src">mars-polymer/dev/PREREG_ops-polymer-01.md</span> (first commit 12d349b). Cited city cards: <span class="src">viewer/units/res-eclss-01.info.json · res-rodwell-01 · res-recycle-01 · ops-fire-01 · res-foundry-01 · res-glass-01 · res-sulfur-01 · res-cryo-01 · pwr-grid-01 · hab-village-01 · ops-depot-01 · models/res-isru-01/info.json · models/ops-printer-01/info.json</span>; home ledger product <span class="src">mars-home/out/08_make_or_import.json</span>; glass Run D and the village's hydrogen reply in <span class="src">dev/REPLY_glass_runD_liner.md · dev/REPLY_village_lever1_hydrogen.md</span>. Geometry and cards: <span class="src">viewer/units/ops-polymer-01.js · ops-polymer-01.info.json</span>.</p>
+    <p style="margin:0;">MTO carbon selectivities, catalyst productivities, process-energy adders, machinery masses, the sulfur-concrete density and the flammability constants are declared literature values, labelled as such in the table above; bulk masses are measured from the delivered module and the terrain is sampled in-engine; the well's unallocated water is a declared gap awaiting its holders.</p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+</body>
+</html>

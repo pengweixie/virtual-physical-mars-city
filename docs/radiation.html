@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Radiation Budget — Virtual-Physical Mars City</title>
+<meta name="description" content="How the city adjudicated its in-cabin dose, what the dose-equivalent floor turned out to be, and the three measurements it does not have.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    --accent:var(--violet);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  h3.sub{font-weight:700;font-size:1.12rem;margin:46px 0 0;color:var(--ink);}
+  h3.sub .n{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);
+    letter-spacing:.14em;display:block;margin-bottom:5px;}
+  .prose h3.sub:first-child{margin-top:0;}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px;}
+  @media(max-width:820px){.tiers{grid-template-columns:1fr;}}
+  .tier{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);
+    display:flex;flex-direction:column;}
+  .tier img{width:100%;height:auto;}
+  .tier__body{padding:16px 18px 20px;}
+  .tier__k{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--accent);}
+  .tier__v{font-weight:700;font-size:1.25rem;margin:6px 0 8px;font-variant-numeric:tabular-nums;}
+  .tier__d{font-size:.9rem;color:var(--ink-dim);margin:0;}
+  .callout{margin-top:30px;border-left:3px solid var(--accent);background:var(--bg-3);
+    border-radius:0 12px 12px 0;padding:18px 22px;max-width:var(--textw);}
+  .callout p{margin:0;color:var(--ink-dim);font-size:.96rem;}
+  .callout b{color:var(--ink);}
+  .broke{max-width:var(--textw);margin-top:26px;counter-reset:brk;}
+  .broke__item{border-top:1px solid var(--line);padding:22px 0 4px;}
+  .broke__item h3{font-size:1.05rem;font-weight:700;margin-bottom:6px;}
+  .broke__item h3::before{counter-increment:brk;content:counter(brk) " — ";
+    font-family:var(--f-mono);color:var(--accent);font-size:.85rem;}
+  .broke__item p{margin:0 0 4px;color:var(--ink-dim);font-size:.95rem;}
+  .broke__tag{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-dim);}
+  tbody tr.grp td{background:var(--bg-3);font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);font-weight:500;}
+  .keys{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px;}
+  @media(max-width:720px){.keys{grid-template-columns:1fr;}}
+  .key{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--bg-3);}
+  .key__k{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;}
+  .key__d{font-size:.92rem;color:var(--ink-dim);margin:6px 0 0;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="environment.html">← Prev</a>
+    <a href="drill.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">hab-village-01 · res-glass-01 · sci-rad-01 · res-mine-01 · pwr-grid-01 · res-eclss-01</div>
+    <h1>The Radiation Budget</h1>
+    <p class="phead__sub">The first number in this city to be settled by a judge frozen before the
+      data. A village of buried cabins claimed 7.6 mSv a year under two metres of regolith. A glass
+      works with a Geant4 licence disagreed by a factor of five. What follows is how the dispute was
+      adjudicated, what the answer turned out to be on the only caliber that matters for people, and
+      the three measurements the city discovered it does not have.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Surface, equivalent</div><div class="spec__v">138<small>mSv/yr · lower bound</small></div></div>
+    <div class="spec"><div class="spec__k">Under 2 m, bunk</div><div class="spec__v">≥ 27<small>mSv/yr · village geometry</small></div></div>
+    <div class="spec"><div class="spec__k">Inside the airlock</div><div class="spec__v">≥ 94<small>mSv/yr</small></div></div>
+    <div class="spec"><div class="spec__k">City allocation</div><div class="spec__v">20<small>mSv/yr in-cabin</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>The dispute</h2></div>
+    <p class="lead">Two ledgers, one cabin, one number that could not be both.</p>
+    <p>The village ledger modelled its cover as a two-branch exponential — protons decaying with one
+      length, neutrons with another — and read 7.6 mSv a year at the bunks under 2 m of regolith, a
+      31× reduction from the 234 mSv a year measured on the surface. The glass works, which had run
+      the same cabin in Geant4 to size its windows, read a reduction of 5.7× on absorbed dose. The
+      two numbers were not a disagreement about units. They were a disagreement about the shape of
+      the curve: whether dose keeps falling exponentially with depth, or flattens on a floor of
+      secondary particles made inside the shield itself.</p>
+    <p>Neither party was allowed to judge. The surface radiation station registered a discriminator
+      before any deep-bin data existed — a fit function, three tolerances, and a verdict table — and
+      froze it by digest. The glass works then ran a six-point cover scan from 1 m to 4 m. The judge
+      script was frozen too, after a pre-freeze read-through removed one dead constant that a later
+      reader could have mistaken for an interface. The verdict was issued with all three digests
+      printed beside it.</p>
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier__body">
+          <div class="tier__k">Verdict · absorbed dose, protons</div>
+          <div class="tier__v">FLATTENING</div>
+          <p class="tier__d">λ 1022 g/cm², largest residual −25.1% at 400 g/cm², tolerance flip point
+            0.30 — above every point's mean error. Two side tests registered before the runs that
+            decided them returned what was predicted for them. Thirty-seven sections of dispute, and
+            not one published number was altered.</p>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__body">
+          <div class="tier__k">The village model at 4 m</div>
+          <div class="tier__v">0.9 <span style="font-size:.8rem;font-weight:500;">vs 38.0 measured</span></div>
+          <p class="tier__d">Its own curve, from its own published parameters, gives 0.9 mSv a year at
+            four metres. Geant4 measured 38.0. The depth dependence beyond 2 m is falsified by a factor
+            of about forty; the model's authors conceded every parameter as chosen, not sourced, and
+            kept only the surface anchor. The four numbers printed on its card are not refuted — the
+            test never measured 2 m in its geometry — but the model under them is.</p>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__body">
+          <div class="tier__k">What the flattening means</div>
+          <div class="tier__v">no thickness reaches 20</div>
+          <p class="tier__d">On the dose-equivalent caliber the floor at 1 m is 38, at 2 m 30, at 4 m
+            still 23 mSv a year. The floor is made of secondaries produced inside the cover; adding cover
+            adds their source along with their shield. Thickness is not the lever.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>The number that matters</h2></div>
+    <p class="lead">Absorbed dose settles a shape. Dose equivalent settles a budget.</p>
+    <p>The shape verdict was issued on absorbed proton dose because that is what could be judged
+      cleanly. People are budgeted in sieverts, so the glass works scored the same cabin again with
+      an ICRP 60 quality factor applied step by step to every charged secondary, with helium and iron
+      primaries added and neutrons counted through the recoil protons they make. It registered a
+      three-case protocol three minutes before its first surface result landed. The surface quality
+      factor came out at 1.91 against the 3.05 that the Curiosity RAD instrument measured — inside the
+      registered band but in its low zone — so by its own rule the deep table ships marked
+      <em>unaudited</em>, and its diagnostic could find neither fingerprint of a misapplied Q.</p>
+    <p>The integrator ruled on the weight of that flag: the audit bears on how far above the line the
+      number is, not on which side. Every open item — the ions not simulated, the model's Q sitting
+      below RAD's, the village's tapered ends and its airlock — pushes the number up. The one item that
+      could pull it down, a helium flux above the glass works' own expectation, leaves it at about 27.
+      So: <strong>not established that 2 m suffices; established as a lower bound that it does not,
+      on this caliber.</strong> A second run in the village's own geometry then put the bunks near 27
+      with a heavy tail that leaves 20 within a sigma — unsettled in that geometry — the living
+      position at 53, and the inside of the airlock at 94.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Cover</th><th class="num">H, lower bound (mSv/yr)</th><th class="num">With C and O added</th><th class="num">Upper bound</th></tr></thead>
+      <tbody>
+        <tr><td>160 g/cm² · 1.0 m</td><td class="num">38.0</td><td class="num">39.8</td><td class="num">64.6</td></tr>
+        <tr><td>240 g/cm² · 1.5 m</td><td class="num">39.0</td><td class="num">40.3</td><td class="num">66.3</td></tr>
+        <tr><td>320 g/cm² · 2.0 m</td><td class="num"><strong>30.1</strong></td><td class="num">31.0</td><td class="num">51.2</td></tr>
+        <tr><td>400 g/cm² · 2.5 m</td><td class="num">27.2</td><td class="num">28.0</td><td class="num">46.2</td></tr>
+        <tr><td>480 g/cm² · 3.0 m</td><td class="num">24.6</td><td class="num">25.6</td><td class="num">41.8</td></tr>
+        <tr><td>640 g/cm² · 4.0 m</td><td class="num">23.1</td><td class="num">24.1</td><td class="num">39.3</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:14px;">Three-scorer means under crown-uniform cover, dry regolith at 1.60 g/cm³,
+      ICRP 60 Q(L), protons + He + Fe (+ C and O in the third column). The upper bound pins the surface
+      to RAD and carries the missing ions down at the simulated mixture's attenuation, which overstates
+      them at depth. The village's own line — under 50 mSv per Mars year including EVA — is the stricter
+      of the two and is crossed by the same floor: a zero-EVA Mars year at the bunks is already 56.6.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The levers, tested</h2></div>
+    <p class="lead">Hydrogen is the textbook answer to a secondary floor. The city tried to buy some.</p>
+    <p>A material scan put water into the cover at 3, 8 and 15% by mass with the density held fixed.
+      By a criterion fixed before the data — a paired difference of at least two sigma at both scanned
+      depths, same sign — hydrogen is a lever: about −25% at 2 m and −24 to −28% at 4 m for 8% water
+      and above. At 4 m with 8% water the floor falls to 17–18, below the line for the first time.
+      Then four other ledgers closed on how the water could get there.</p>
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier__body">
+          <div class="tier__k">Minerals · the mine</div>
+          <div class="tier__v">unreachable</div>
+          <p class="tier__d">No Perseverance instrument gives a bulk water mass fraction. The only citable
+            analogue is Rocknest at 1.5–3 wt%. Reaching 8% water in the cover would need 267–533% of the
+            cover to be hydrated material — a ratio above one, not a slow rate. Gypsum against the 295 K
+            shell dehydrates in days.</p>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__body">
+          <div class="tier__k">Ice · the grid and ECLSS</div>
+          <div class="tier__v">k ≥ 0.9–1.95 <span style="font-size:.8rem;font-weight:500;">W/mK trips a bound</span></div>
+          <p class="tier__d">A wet cover conducts one to two orders better than dry regolith. At k ≥ 1.95
+            the village's survival tier exceeds what the emergency island holds for 30 sols, and its cabin
+            cooldown clock drops from 12.5 h to 19 minutes; at k ≥ 0.9–1.8 the pressure hull's inner face
+            falls below the cabin dew point. Ice-cemented regolith sits at 1–2.5.</p>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__body">
+          <div class="tier__k">A polyethylene liner</div>
+          <div class="tier__v">−5% ± 9% <span style="font-size:.8rem;font-weight:500;">at 0.10 m</span></div>
+          <p class="tier__d">The one route left: 101 t of import against the hull. Run in the village's
+            geometry with the heavy-tail statistic registered first. Bunk-level paired differences about
+            −5%, z −0.55 and −1.31 — not established at this statistics, and not clearly better per tonne
+            of hydrogen than the uniform mix it was meant to beat.</p>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:18px;">What remains needs no further run: the airlock is where the dose is (94
+      against 27 at the bunks); moving the living function to the crown depth is worth about a factor of
+      two at no cost; and the stay limit can be written per cabin class as policy. The four-metre
+      configuration is 25 kt of cover — about 16,000 sols at the mine's committed feed rate — and is not
+      an option on any city timescale.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What the city does not have</h2></div>
+    <p class="lead">Three lines of work ended at the same wall: a measurement that does not exist here.</p>
+    <div class="broke">
+      <div class="broke__item">
+        <div class="broke__tag">sci-rad-01 · outcome 3, pre-registered</div>
+        <h3>No LET spectrum</h3>
+        <p>The RAD anchor the city holds is two integrals — absorbed dose and dose equivalent, hence
+        the aggregate Q of 3.05. Two integrals cannot separate a proton family from the rest of the
+        field: a proton-family Q of 1.44 and one of 2.0 are equally consistent with them. The glass
+        works' <em>unaudited</em> flag can be neither cleared nor condemned by anything in this city,
+        and stays as a declared limit. A second answer followed from the station's own LET round
+        (ledger 15, landing S3): one 300 µm silicon layer cannot separate that family either -
+        helium at the same LET, recoils and stopping protons in one pixel - so the flag is now
+        uncleared on two grounds. The nearest measurable quantity is the dose share above
+        10 keV/µm across all species, and that is what the station will produce.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">ops-compute-01 · account 4 · cannot close</div>
+        <h3>No surface spectrum for the machine room</h3>
+        <p>The compute centre's radiation account asked the RAD holder for a differential spectrum
+        rather than inventing one, and received an inventory with grades: no quiet-GCR spectrum at
+        Jezero, a neutron figure that is two magnitudes and not a spectrum, an SEP worst case that is
+        an extrapolation table. The account stays open with the missing measurement named.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">pwr-fusion-01 · the neutronics cylinder</div>
+        <h3>The fence figure was computed at half the machine's radius</h3>
+        <p>The tokamak's one-dimensional escape chain places its shield at 4.5 m from the axis; the
+        machine's shield face is at 8.6 m. The perimeter count rate on the environment page inherits
+        that qualifier, and the radiation station's independent reproduction of it turned out to be
+        the same division with the same two inputs — two copies of one geometry, carrying no weight
+        by its own rule. Both answers are now on file. The tokamak: the escape value was derived for the model's
+        radii (first wall at 1.33 m, not 5.37 m); two opposing geometric effects each worth ×1.7–2.0
+        leave the net sign undecidable, so it does not stand for the machine to a citable degree and
+        is declared pending re-derivation — a re-derivation that needs the inboard layer stack the
+        design does not yet hold. The sentinel network: the 58 m is measured from the machine axis in
+        the ledger, the module and the manifest, and the far-field 1/r² is source-centred, so the
+        reading does not move with the face; the ±40% spread was a misreading of column-to-face
+        distances as radii. What can move the fence is T alone — and it has moved: re-derived for the machine's geometry
+        on 2026-09-13, T is 4.391×10⁻¹¹, 0.377 of the model value, so the fence falls to about 23.6
+        n·cm⁻²·s⁻¹ and 0.87 counts/s (sentinel recompute, 2026-09-19: 0.874). The registered target moved
+        with the geometry too — 1.92×10⁻¹⁰ was the formula at the model's radii, 1.8051×10⁻¹⁰ at the
+        machine's — so the 0.30 m build declaration stands with a margin of 4.11× (3.39× at 2σ), not the
+        4.4× printed here on 2026-09-19. The bias condition that was established on the model chain was
+        never run on this one and does not transfer: “0.30 m meets the target” survives that hold, but the
+        interpolated minimum thickness (0.253 m) and T as an absolute value do not. The fence is therefore
+        a number without a verdict: 0.87 counts/s as delivered, 1.03 on the radiation station's
+        shallow-probe reading, 2.0 if the joint bias sits at its registered limit with the sign that is
+        unfavourable for the shield. That last figure is a test load, not a bound, and it was computed in
+        one direction only, because for a shield only under-reporting hurts; for the sentinels it is a
+        lower T that hurts. The same arithmetic run the other way gives T = 1.9×10⁻¹¹, and the only bias
+        ever measured — on the model chain, not this one — points that way, to 3.3×10⁻¹¹. No lower bound
+        is established. The sentinel network's five rows, high to low: 2.02, 1.03, 0.87, 0.66 and 0.38
+        counts/s, none of them the value. On the lowest, an ungated 10⁴-fold solar-proton neutron burst
+        would read as a ×24 rise (×31 with the statistical 2σ, past the only red-alarm magnitude registered
+        anywhere in the city), a 10³-fold one as ×3.3, and the smallest leak resolved in a minute grows
+        from ×2.2 to ×3.1 — so the sentinels' 60 s window is recorded as open, not adequate, across the
+        bracket. The ordering margin holds everywhere (190× at worst). Ruled final 2026-09-19 — and
+        superseded that evening, when the bias was measured on the machine chain itself: +5.6 percentage
+        points per joint, over-reporting, the same sign as the model chain; the hold was released and
+        the high rows retired. The unapplied T is the conservative quotation for the shield and the
+        comfortable one for the fence, so the fence now stands as two rows that are never merged — 0.87
+        counts/s as printed, 0.63 (0.45–0.90) with the chain's own bias on all six joints — and the
+        integrator, who had printed a single 0.87 that morning and taken it back, ruled against
+        returning to it. One finding of the review: the “644 independent histories” behind every error
+        bar in this chain were records, not histories; there are 642.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>The ledger</h2></div>
+    <p class="lead">Every number above, and the run or ruling that produced it.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
+      <tbody>
+        <tr><td>Surface absorbed dose, protons only vs RAD</td><td class="num">0.74× (0.94× with He + Fe)</td><td class="src">mars-glass account 16 / account 22 · Geant4 11.2.2 Shielding</td></tr>
+        <tr><td>Shape verdict on the six-point cover scan</td><td class="num">FLATTENING · λ 1022 · residual −25.1%</td><td class="src">mars_rad final_verdict.py · HARNESS 8662ba5f · JUDGE f6c251cd · INPUTS 259ef14c</td></tr>
+        <tr><td>Village model at 4.0 m vs measured</td><td class="num">0.9 vs 38.0 mSv/yr</td><td class="src">hab-village-01 berm parameters (integrator recomputation) · mars-glass account 21</td></tr>
+        <tr><td>Pinned-mean side test</td><td class="num">|Δm| 4.47 vs sd 7.48 → 0.60σ → luck</td><td class="src">mars-glass T30 pair (seeds v3 / 20260905) · mars_rad registered thresholds</td></tr>
+        <tr><td>Spatial-floor side test (excludes, never establishes)</td><td class="num">R 1.13 / 0.97 / 1.04 → UNRESOLVED</td><td class="src">mars-glass account 21 · mars_rad asymmetric rule, 3 dof</td></tr>
+        <tr><td>Surface quality factor vs RAD</td><td class="num">1.91 vs 3.05 · zone Z1 · unaudited</td><td class="src">mars-glass account 22 · three-case protocol registered 08:43:09, first result 08:46:07</td></tr>
+        <tr><td>Dose equivalent under 2 m, crown-uniform</td><td class="num">≥ 30.1 (scorers 26.9–33.5)</td><td class="src">mars-glass account 22 · 21 runs, src_sha 2a74fcfd · integrator ruling 55e2ad8</td></tr>
+        <tr><td>Lift from adding C and O</td><td class="num">+2.8 to +4.5% per bin</td><td class="src">mars-glass account 23 · pre-registered +2–8%, scorecard 10/11</td></tr>
+        <tr><td>Hydrogen lever, material basis</td><td class="num">−25% at 15% water · z −5.14 / −2.65</td><td class="src">mars-glass account 24 · criterion fixed before data</td></tr>
+        <tr><td>Bunk / living / airlock in the village's geometry</td><td class="num">≥ 27 / 52.8 / 93.7</td><td class="src">mars-glass account 25 on hab-village-01 geom-r2 · heavy tail at 20k protons per receptor</td></tr>
+        <tr><td>Polyethylene liner, 0.10 m</td><td class="num">−5% ± 9% · not established</td><td class="src">mars-glass account 26 · statistic registered first</td></tr>
+        <tr><td>Hydrated-mineral water fraction at the mine</td><td class="num">≤ 3 wt% (analogue) → 8% cover unreachable</td><td class="src">res-mine-01 assay account · Leshin 2013, Scheller 2022, Cousin 2024</td></tr>
+        <tr><td>Wet-cover heating bound</td><td class="num">k ≥ 1.95 W/mK breaks the island (2 m)</td><td class="src">pwr-grid-01 k sweep · pwr-storage-01 145 kW / 30 sol</td></tr>
+        <tr><td>Hull condensation bound</td><td class="num">k ≥ 1.8 open walls · ≥ 0.9 furniture</td><td class="src">res-eclss-01 L5_wet_cover_cabin_side.py · 4 gates</td></tr>
+        <tr><td>Zero-EVA Mars year at the bunks</td><td class="num">≥ 56.6 mSv</td><td class="src">hab-village-01 plaza rebase · 30.1 × 1.881</td></tr>
+        <tr><td>Proton-family Q from a single Timepix4 layer</td><td class="num">ledger 15 · landing S3 · not separable</td><td class="src">sci-rad-01 LET round · mars_rad efa91c6 · Q recovered −0.28, direction pre-registered the other way</td></tr>
+        <tr><td>Proton-family Q from RAD</td><td class="num">outcome 3 · not separable</td><td class="src">sci-rad-01 REPLY_sci-rad-01_proton_Q.md · mars_rad e2ed278</td></tr>
+        <tr><td>Fence figure's geometry qualifier</td><td class="num">T re-derived 4.391e-11 (×0.377) · r from the axis</td><td class="src">tokamak a6cfb92 chain3 · mars_rad_sic d4c0983 · sci-rad-01 e2ed278</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2>What broke</h2></div>
+    <p class="lead">More than usual. The round was designed to find out where the arguments leaked, and it did.</p>
+    <div class="broke">
+      <div class="broke__item">
+        <div class="broke__tag">integrator · attribution</div>
+        <h3>The 18.7 was never the village's number</h3>
+        <p>The record, a commit message and two other ledgers said the village model predicted 18.7 mSv
+        a year at 4 m. It belonged to the radiation station's own refitted branch. The village's curve
+        gives 0.9 — the error had run in the village's favour, and it was the village that corrected it
+        against itself.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">sci-rad-01 · four corrections, one direction</div>
+        <h3>The scatter was read three ways, all wrong the same way</h3>
+        <p>Scatter scaled as a standard error; three quantities' spread taken as their mean's error bar;
+        a range taken as a standard deviation. Each ordinary. Each ran the way that kept the station's own
+        branch alive. Recorded by the station itself where the non-benefiting side would read it, with the
+        conclusion that a one-directional error pattern comes from position, not carelessness — so the
+        repair is structural: the party holding a number never judges it.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">sci-rad-01 · harness digest</div>
+        <h3>The judge's digest did not cover the judge's input path</h3>
+        <p>The frozen digest covered eight functions and three tolerances, not the script that fed them —
+        which could drop a point or reorder the set without moving a bit. Found because the party asked
+        to trust the digest asked what it covered. A second digest now covers the harness; drift refuses
+        to issue a verdict.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">res-glass-01 · expectations</div>
+        <h3>The glass works underestimated its own lever and overestimated its liner</h3>
+        <p>Its hydrogen scan met one of six expectations — the effect was larger than it had written.
+        Its liner scan expected a 3–10× advantage per tonne and found none resolvable. Both scorecards
+        are printed on the same page as the results.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">pwr-grid-01 · a defect found on the way</div>
+        <h3>The village spur was sized at 90 kW against a 158 kW peak already booked</h3>
+        <p>Independent of any cover. Predicted before the wet-cover sweep ran, confirmed, re-booked to
+        158 kW, chain re-run. The compute centre found the mirror image: the grid's 40 kW for it was
+        eight drawn racks read as a meter.</p>
+      </div>
+      <div class="broke__item">
+        <div class="broke__tag">sci-rad-01 · a met expectation</div>
+        <h3>A value that lands on the prediction is not confirmation</h3>
+        <p>When the side-test statistic came out at exactly the all-statistical value, the station
+        computed what that was worth — 1.5 : 1 — and wrote the rule: a suspiciously suggestive value and
+        a satisfyingly confirmatory value are the same error in different clothes, and only the first
+        announces itself.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0 0 8px;">City record: <span class="src">dev/PREREG_fusion_leakage_reading_rule.md</span> (the dispute, the rulings and every correction, in order) ·
+      dispatches and replies under <span class="src">dev/DISPATCH_*.md</span> / <span class="src">dev/REPLY_*.md</span> ·
+      design ledgers <span class="src">mars-glass</span> (accounts 16, 21–26), <span class="src">mars_rad</span> (final_verdict.py, receipts 170–200),
+      <span class="src">mars-village</span> (berm and plaza cards, geom-r2), <span class="src">mars-mine</span>, <span class="src">mars-grid</span>, <span class="src">mars-eclss</span>.</p>
+    <p style="margin:0;">City assets: <span class="src">viewer/units/hab-village-01.js</span> · <span class="src">res-glass-01.js</span> ·
+      <span class="src">sci-rad-01.js</span>, all with bilingual info cards ·
+      <a href="environment.html">Environment Watch</a> · <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+</body>
+</html>

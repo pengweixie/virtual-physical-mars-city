@@ -1,6 +1,6 @@
 # HANDOFF · pwr-grid-01 主变电站与配电枢纽 + pwr-grid-net-01 散件包（2026-08-09）
 
-设计册真源：`E:\Claude\mars-grid`（10 本账 sim/01~10，71 闸全绿；DESIGN.md 有全账摘要）。
+设计册真源：`E:\Claude\mars-grid`（11 本账 sim/01~11，78 闸全绿；DESIGN.md 有全账摘要）。
 
 ## 交付物
 
@@ -266,3 +266,12 @@
   `pwr-grid-01` 已按建议落位 **(-205, 10)**、`sink_m 0.25`；
   `pwr-grid-net-01` 已获 **23 个 placements**，接线井落在 node-E (45,15)、node-S (150,-120)、
   以及火震支线折点 **(-684,-220)** 上——与走廊表一致。**引擎的 scatter 撒放缺口已由总控补上。**
+
+## 账 11 · 回应 DISPATCH_pwr-grid-01_wet_cover_heating（09-05）
+
+完整回复在 `dev/REPLY_pwr-grid-01_wet_cover_heating.md`。对总控要紧的两句：
+- **界**：2 m 湿覆土在 **k ≥ 1.95 W/mK** 时村子装不进现有应急配额（T1 越过储能验证的 145 kW），
+  且 1.95 落在冰胶结文献范围内；4 m 的界在 k = 3.9，范围之外。**不选 k**，代价表已在架上。
+- **既有缺陷自查**：G-L 村支线原按 90 kW 定，而账 1 记的 hab-* 就是 158 kW 峰值——与覆土无关，
+  这次派单把它翻出来。已改 **158 kW / 120 mm²**，`out/06_corridors_audited.json` 已更新。
+- 选项（非建议）：走 pwr-radiator-01 的废热而非电，140 m 管廊、0.04 kW 泵功，除孤岛界外全部消失。

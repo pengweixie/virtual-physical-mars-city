@@ -280,7 +280,9 @@ export function build(THREE) {
         mkAnchor('berth_' + cid + '_1', -1.1, 0.45, -2.3);
         mkAnchor('berth_' + cid + '_2', 1.1, 0.45, -2.3);
         // 端头舱起居位在内遮蔽墙后(前区=换服区,常驻受体不设在薄屏蔽轴上)
-        mkAnchor('living_' + cid, 0.6, 1.0, kind === 'end' ? -0.1 : 2.2);
+        // v5d(09-12 用户裁定杠杆②):起居位移到冠部深度 z=-1.0(冠 2.08 m,与床同深段)——设计变更,
+        //   剂量比值待 Run E 实测。旧位:std z=+2.2(锥减段 1.57 m)、end z=-0.1(该点落在 v5 第二道内墙带内,Run B 无法放置)。
+        mkAnchor('living_' + cid, 0.6, 1.0, -1.0);
       }
     }
     if (kind === 'commons') {
@@ -360,7 +362,7 @@ export function build(THREE) {
     // 受体锚点(臂 1 后段 2 床 + 前段起居)
     for (const [nm, ax, ay, az] of [
       ['berth_A7_1', -3.4, 0.45, -1.2], ['berth_A7_2', -1.6, 0.45, -1.2],
-      ['living_A7', -2.5, 1.0, 3.6],
+      ['living_A7', -2.5, 1.0, 0.0],        // v5d:自门斗口内 0.3 m(z 3.6)移到臂 1 冠部 z=0;旧位为全村最靠开口的起居位
     ]) { const a = new THREE.Object3D(); a.name = nm; a.position.set(ax, ay, az); c.add(a); }
     // 臂 2 后端(西)钻进土里,臂 1 后端接 A 脊廊短管
     box(c, 1.5, 2, 3.2, M.corridor, -2.5, 1.0, -4.4);

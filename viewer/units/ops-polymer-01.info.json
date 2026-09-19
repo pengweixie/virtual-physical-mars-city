@@ -1,0 +1,337 @@
+{
+  "id": "ops-polymer-01",
+  "pois": [
+    {
+      "id": "route",
+      "label": "中控屏:三条路选一条(为什么是甲醇制烯烃)",
+      "label_en": "Control screen: three routes, one chosen (why MTO)",
+      "range": 30,
+      "detail": "屏上六个色块就是全线的化学:青 CO₂ 从大气来,橙红 H₂ 从井水来,琥珀甲醇是中间站,紫是烯烃,乳白是聚乙烯,白色的氧从出厂管走。这座城没有塑料——村衬里、家电壳、打印丝材都指望进口包装。三条路都能把 CO₂ 与 H₂ 变成乙烯:铁基费托、甲醇制烯烃、甲烷氧化偶联。选了中间那条,不是因为它最便宜,是因为另外两条在「副产记零」的口径下都撞上了铸造厂的 298 kWh/kg 门槛,而它没有。",
+      "detail_en": "The six colour blocks on the screen are the whole chemistry: teal CO2 from the atmosphere, orange-red H2 from well water, amber methanol as the halfway station, violet olefins, cream polyethylene, and white oxygen leaving by the export line. This city has no plastic: the village liner, appliance housings and print filament all lean on imported packaging. Three routes turn CO2 and H2 into ethylene - iron Fischer-Tropsch, methanol-to-olefins, oxidative coupling of methane. The middle one was chosen not because it is cheapest but because, with co-products credited at zero, the other two hit the foundry's 298 kWh/kg make-or-import threshold and it does not.",
+      "specs": {
+        "选的路": "MTO:SOXE 造 CO + 2H₂ → 甲醇(Cu/ZnO,20 bar/250 °C)→ SAPO-34 流化床(450 °C)→ 乙烯 42% / 丙烯 38% 的碳",
+        "每 kg 乙烯(副产记零 / 各付各的)": "MTO 63 / 31 · 费托 292 / 59 · 氧化偶联 316 / 55 kWh(PEM 口径)",
+        "费托被否决在": "选择性:乙烯只占进料 CO 的 9%(ASF α 0.5 × C₂ 烯烃率 0.6 × WGS 丢 40%),其余要一整套裂解冷箱——催化剂 Fe/Na/S/SiO₂ 反而四种全本地,留作进口断供的退路",
+        "氧化偶联被否决在": "甲烷是 MAV 的(13.5 kg/sol 全部已分配)、单程 C₂ 收率 18%、氢过两遍电解、钨进口",
+        "2a 对 2b": "SOXE 造 CO 与 CO₂ 直接加氢的电解地板比 1.03(±20% 内),按 H₂ 通量小者取 2a"
+      },
+      "specs_en": {
+        "Route chosen": "MTO: SOXE makes CO, + 2 H2 -> methanol (Cu/ZnO, 20 bar / 250 C) -> SAPO-34 fluidised bed (450 C) -> ethylene 42 % / propylene 38 % of carbon",
+        "Per kg ethylene (co-products at zero / each paying its own)": "MTO 63 / 31 · FT 292 / 59 · OCM 316 / 55 kWh (PEM basis)",
+        "FT vetoed on": "selectivity: ethylene is 9 % of the CO fed (ASF alpha 0.5 x C2 olefinicity 0.6 x 40 % lost to CO2 by WGS); the rest needs a cracker-class cold train - yet its Fe/Na/S/SiO2 catalyst is entirely local, so FT is the fallback if imports stop",
+        "OCM vetoed on": "the methane is the MAV's (13.5 kg/sol, all committed), 18 % C2 yield per pass, hydrogen cycled twice through the electrolyser, tungsten import",
+        "2a vs 2b": "SOXE-CO versus direct CO2 hydrogenation: electrolysis floors within 3 %; 2a taken for the lower H2 throughput"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 1(mars-polymer 358d389,ledger/01_routes.py,13 闸绿):热化学全部从一张 NIST-JANAF 表算,Sabatier −165 kJ/mol 复现 res-isru-01 卡(39910b6),甲醇 −90.5、费托每 CH₂ −161、氧化偶联 −281、SOXE +283。甲醇平衡常数按等 ΔCp 范特霍夫:K(500 K)=5.6e-3 落 JANAF 带,250 °C 下 50 bar 平衡转化 53%、20 bar 22%——后者决定甲醇塔能用 20 bar 的球铁做(账 5)。",
+        "【r1 2026-09-13】决策规则在数据前登记(预注册 12d349b E1.5):选 MTO,除非其催化剂进口 >500 kg/窗口或能耗 >2× 费托。算得 107 kg/窗口(100 kg PE/sol 规模:SAPO-34 62 + Cu/ZnO 19 + 烷基铝 19 + PE 催化剂 8),能耗比 0.22——两条否决都没触发。",
+        "【r1 2026-09-13】推翻了自己什么:预注册写的电解地板 13–15 kWh/kg 是热力学地板(=HHV 12.9),忘了甲醇与 MTO 回收的水要再电解一遍——稳态里电解槽产的每个 H₂ 都付电;实际地板 PEM 23.1 / SOEC 18.3。三条路的能耗带也全偏出,因为预注册没定「副产记零还是各付各的」,两个口径差 5×。此后每个能耗数都带口径。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 1 (mars-polymer 358d389, ledger/01_routes.py, 13 gates green): all thermochemistry from one NIST-JANAF table; Sabatier -165 kJ/mol reproduces the res-isru-01 card (39910b6); methanol -90.5, FT -161 per CH2, OCM -281, SOXE +283. Methanol equilibrium by constant-dCp van't Hoff: K(500 K) = 5.6e-3 inside the JANAF band; at 250 C the equilibrium conversion is 53 % at 50 bar and 22 % at 20 bar - the latter is what lets the methanol vessel be ductile iron at 20 bar (account 5).",
+        "[r1 2026-09-13] The decision rule was registered before the data (pre-registration 12d349b E1.5): MTO unless its catalyst import exceeds 500 kg per window or its energy exceeds 2x FT. Result 107 kg/window (at 100 kg PE/sol: SAPO-34 62 + Cu/ZnO 19 + aluminium alkyl 19 + PE catalyst 8) and an energy ratio of 0.22 - neither veto fired.",
+        "[r1 2026-09-13] What broke: the pre-registered electrolysis floor of 13-15 kWh/kg was the thermodynamic floor (= HHV 12.9) and forgot that the water recovered from methanol synthesis and MTO is electrolysed again - every H2 the electrolyser makes is paid for; the practical floor is 23.1 (PEM) / 18.3 (SOEC). All three route energy bands missed too, because the pre-registration never fixed whether co-products are credited: the two bases differ 5x. Every energy figure now carries its basis."
+      ],
+      "physics": "同一个原子经济学在三条路上给出同一个净反应 CO₂ + H₂O → −CH₂− + 1.5 O₂,焓变 649 kJ/mol 与路线无关——路线之间差的只有选择性和循环:每一个没变成乙烯的碳都带着它的氢一起走,而氢是这座城里要用井水和电买来的东西。",
+      "physics_en": "Atom economy gives all three routes the same net reaction, CO2 + H2O -> -CH2- + 1.5 O2, 649 kJ/mol regardless of path. What differs between routes is only selectivity and recycle: every carbon that does not become ethylene leaves with its hydrogen, and hydrogen is the thing this city buys with well water and electricity."
+    },
+    {
+      "id": "syngas",
+      "label": "合成气撬:SOXE 造 CO + 水电解造 H₂(氢是井水)",
+      "label_en": "Syngas skid: SOXE makes CO, electrolysis makes H2 (the hydrogen is well water)",
+      "range": 25,
+      "detail": "左边白色岩棉箱里是 800 °C 的固体氧化物电解堆——MOXIE 的血统,ECLSS 那两台 SOXE 的小一号——把大气 CO₂ 拆成 CO 与氧。右边蓝白撬块是水电解,橙红罐出氢、白罐出氧。这两台设备决定了全线的电价:每公斤聚乙烯的电,四分之三花在这里。真正稀缺的不是电(城网 176 MW),是水:每公斤 PE 净耗井水 1.28 升,丙烯没去向时 3.03 升。",
+      "detail_en": "Inside the white rock-wool box on the left is an 800 C solid-oxide electrolysis stack - MOXIE lineage, one size down from the two SOXE units at the ECLSS plant - splitting atmospheric CO2 into CO and oxygen. The blue-and-white skid on the right is water electrolysis: hydrogen out of the orange-red drum, oxygen out of the white one. These two machines set the whole line's electricity price: three quarters of the electricity in a kilogram of polyethylene is spent here. What is scarce is not electricity (the grid has 176 MW) but water: 1.28 litres of well water net per kilogram of PE, 3.03 litres when the propylene has nowhere to go.",
+      "specs": {
+        "SOXE": "CO₂ → CO + ½O₂;理论 3.30、槽 5.02、整站含大气压缩 6.36 kWh/kg O₂(res-eclss-01 stack 卡口径);9.6 kg CO/h",
+        "水电解": "H₂ 通量 1.39 kg/h(50 kg PE/sol);PEM 55 kWh/kg H₂(res-isru-01 口径)或 SOEC 38.7(res-eclss-01 4.84 kWh/kg O₂ 折算,要接 600 K 余热)",
+        "每 kg PE(100% 选择性)": "CO₂ 3.14 · CO 2.00 · H₂ 0.143 · 井水 1.28 kg;副产 O₂ 3.43 kg",
+        "电解地板": "PEM 23.1 / SOEC 18.3 kWh/kg −CH₂−(热力学地板 12.9 = 聚乙烯高位热值)",
+        "水的三种读法": "井 380 L/sol,生保 30.3,ISRU「193」(井卡/回收卡)或「39」(ISRU 卡自算)——未分配 157 或 310 L/sol,本册并印不选"
+      },
+      "specs_en": {
+        "SOXE": "CO2 -> CO + 1/2 O2; theory 3.30, cell 5.02, plant with atmospheric compression 6.36 kWh/kg O2 (res-eclss-01 stack card basis); 9.6 kg CO/h",
+        "Water electrolysis": "H2 throughput 1.39 kg/h (at 50 kg PE/sol); PEM 55 kWh/kg H2 (res-isru-01 basis) or SOEC 38.7 (from res-eclss-01's 4.84 kWh/kg O2, needs the 600 K heat loop)",
+        "Per kg PE (100 % selectivity)": "CO2 3.14 · CO 2.00 · H2 0.143 · well water 1.28 kg; O2 co-product 3.43 kg",
+        "Electrolysis floor": "PEM 23.1 / SOEC 18.3 kWh/kg -CH2- (thermodynamic floor 12.9 = the HHV of polyethylene)",
+        "Three readings of the water": "well 380 L/sol, life support 30.3, ISRU '193' (well and recycle cards) or '39' (the ISRU card's own numbers) - unallocated 157 or 310 L/sol; both printed, not chosen"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 2(ledger/02_mass_energy.py,9 闸绿):元素平衡 C/H/O 逐项 1e-9 闭合;副产氧两条路径(SOXE 放氧 + 电解放氧 vs 净反应 1.5 O₂)同值;电解常数引用闸复现 4.84 / 5.19 / 6.36 / 55——这些是引的不是拟的。",
+        "【r1 2026-09-13】井:100 kg PE/sol 要 128 L/sol(烯烃基)= 井产能 34%;读法 A(井卡 193 L/sol 分配额)下未分配 157 L/sol,本线吃 82%;读法 B(ISRU 卡 2.9 kg/h × 45% 回收 → 补水 39 kg/sol)下未分配 310。三张卡差 5×,已派发 DISPATCH_ops-polymer-01_water_readings.md 问持有方;铭牌按最保守读法。",
+        "【r1 2026-09-13】G2.1c 首版红:产物谱 CH₄ 2% + 烷烃 6% 记作乙烷 + 焦 2% 记作纯碳,每碳带 2.06 H,而 CH₃OH → 「CH₂」+ H₂O 把烃+焦的平均 H/C 钉死在 2.00,少了 0.03 O/C 找不到。改模型不改闸带:重质+焦的 H/C 作闭合变量,算得 1.07(芳烃–焦区间);首版留 v1_retired 键。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 2 (ledger/02_mass_energy.py, 9 gates green): C/H/O element balances close to 1e-9; the oxygen co-product agrees by two paths (SOXE oxygen + electrolyser oxygen vs the net 1.5 O2); a citation gate reproduces 4.84 / 5.19 / 6.36 / 55 - these are cited, not fitted.",
+        "[r1 2026-09-13] The well: 100 kg PE/sol needs 128 L/sol (olefin basis) = 34 % of the well; under reading A (the well card's 193 L/sol allocation) 157 L/sol is unallocated and the line takes 82 %; under reading B (the ISRU card's 2.9 kg/h x 45 % recovery -> 39 kg/sol make-up) 310 is unallocated. The three cards differ 5x; DISPATCH_ops-polymer-01_water_readings.md asks the holders; the nameplate uses the conservative reading.",
+        "[r1 2026-09-13] G2.1c went red in its first version: a product slate of CH4 2 % + paraffins 6 % as ethane + coke 2 % as pure carbon carries 2.06 H per C, but CH3OH -> 'CH2' + H2O pins the hydrocarbon-plus-coke average at exactly 2.00, and 0.03 O per C could not be found. Model changed, gate band untouched: the heavies-plus-coke H/C became the closure variable, 1.07 (the aromatics-to-coke range); the first version stays under a v1_retired key."
+      ],
+      "physics": "稳态循环里没有免费的水:甲醇合成和 MTO 吐出来的每一摩尔水都要回到电解槽再拆一次,所以电解槽的通量是 2 H₂ 每碳,净消耗才是 1——电按通量付,水按净消耗付。这就是为什么电的账是 23 而水的账是 1.28:同一个氢,两本账。",
+      "physics_en": "There is no free water in a steady-state loop: every mole of water that methanol synthesis and MTO release goes back to the electrolyser to be split again, so the electrolyser's throughput is 2 H2 per carbon while the net consumption is 1 - electricity is paid on throughput, water on net consumption. That is why the electricity account reads 23 and the water account 1.28: the same hydrogen, two ledgers."
+    },
+    {
+      "id": "methanol",
+      "label": "甲醇塔:20 bar 的球铁塔(为什么不是 50 bar)",
+      "label_en": "Methanol converter: a ductile-iron tower at 20 bar (why not 50)",
+      "range": 25,
+      "detail": "剖开的塔里那五根墨绿色管束是 Cu/ZnO/Al₂O₃ 催化剂——铜和锌是进口的,一个会合窗口 19 公斤。地球上的甲醇塔跑 50–80 bar;这一座跑 20 bar,单程转化只有 22%(50 bar 是 53%),多循环一倍多。换来的是壳体能用铸造厂的球铁铸(球铁压力件的声明上限 24 bar / 343 °C),不用进口 Cr-Mo 钢。塔旁那只琥珀色小罐是全场唯一的甲醇存量,不超过一 sol 的料——甲醇有毒,而且它站在舱外。",
+      "detail_en": "The five dark-green tubes inside the cut-open tower are Cu/ZnO/Al2O3 catalyst - the copper and zinc are imported, 19 kg per rendezvous window. Methanol converters on Earth run at 50-80 bar; this one runs at 20, where single-pass conversion is only 22 % (53 % at 50 bar) and the recycle more than doubles. What that buys is a shell the foundry can cast in ductile iron (declared pressure-part limits 24 bar / 343 C) instead of importing Cr-Mo steel. The small amber drum beside it is the only methanol inventory on site, under one sol of feed - methanol is toxic, and it stands outside.",
+      "specs": {
+        "反应": "CO + 2H₂ → CH₃OH,ΔH −90.5 kJ/mol;250 °C 平衡 K 1.95e-3 bar⁻²",
+        "单程转化": "20 bar 22% / 50 bar 53% / 80 bar 67%(理想气,声明)",
+        "壳体": "Ø1.2 × 6 m 球铁(res-foundry-01 铸),2.0 t;规则:20 bar 转化 ≥15% 即本地",
+        "催化剂": "Cu/ZnO/Al₂O₃ 进口 19 kg/窗口(0.7 kg MeOH/(kg cat·h)、寿命 3.5 年,声明);Al₂O₃ 本地",
+        "产量": "11.0 kg 甲醇/h(50 kg PE/sol);放热 8.6 kW → 辐射板"
+      },
+      "specs_en": {
+        "Reaction": "CO + 2 H2 -> CH3OH, dH -90.5 kJ/mol; equilibrium K at 250 C 1.95e-3 bar^-2",
+        "Single-pass conversion": "20 bar 22 % / 50 bar 53 % / 80 bar 67 % (ideal gas, declared)",
+        "Shell": "1.2 m dia x 6 m ductile iron (res-foundry-01 cast), 2.0 t; rule: local if conversion at 20 bar >= 15 %",
+        "Catalyst": "Cu/ZnO/Al2O3 import 19 kg/window (0.7 kg MeOH per kg cat per hour, 3.5 yr life, declared); Al2O3 local",
+        "Output": "11.0 kg methanol/h (50 kg PE/sol); 8.6 kW of reaction heat to the radiators"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 1 G1.3:等 ΔCp 范特霍夫对 JANAF 三点(298 / 500 / 600 K)全落带;G1.4 退化闸:P→0 转化→0、K→∞ 转化→1。平衡计算是理想气(声明),50 bar 下逸度修正未做,20 bar 的 22% 偏保守方向。",
+        "【r1 2026-09-13】账 5:甲醇塔是 24 件设备里唯一由「账 1 的一个数」决定本地还是进口的:20 bar 转化 22% ≥ 15% 规则 → 球铁本地。若要 50 bar 就是进口钢壳 1.5 t;省下的不是钱是一个窗口里的一件货。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 1 G1.3: the constant-dCp van't Hoff lands inside the JANAF band at all three points (298 / 500 / 600 K); G1.4 degenerate gates: conversion -> 0 as P -> 0 and -> 1 as K -> infinity. The equilibrium is ideal-gas (declared); no fugacity correction at 50 bar, so the 22 % at 20 bar errs on the conservative side.",
+        "[r1 2026-09-13] Account 5: the methanol converter is the only one of 24 items whose make-or-import verdict hangs on a single number from account 1: 22 % at 20 bar >= the 15 % rule -> ductile iron, local. At 50 bar it would be a 1.5 t imported steel shell; what is saved is not money but one crate in a rendezvous window."
+      ],
+      "physics": "勒沙特列在这里是一张采购单:合成气变甲醇是三摩尔变一摩尔的反应,压力越高平衡越靠右,所以地球把它压到 50 bar。在火星,压力容器的钢是要发射的,球铁是能铸的——把压力降到 24 bar 以下,是用循环压缩机的电换掉一船钢。",
+      "physics_en": "Le Chatelier here is a procurement list: syngas to methanol turns three moles into one, so higher pressure pushes the equilibrium right and Earth runs it at 50 bar. On Mars pressure-vessel steel has to be launched while ductile iron can be cast - dropping below 24 bar trades a recycle compressor's electricity for a ship's worth of steel."
+    },
+    {
+      "id": "mto",
+      "label": "MTO 流化床:450 °C 的铸石衬里(乙烯 42%,丙烯 38%)",
+      "label_en": "MTO fluidised bed: a cast-stone-lined shell at 450 C (ethylene 42 %, propylene 38 %)",
+      "range": 25,
+      "detail": "全线的心脏,朝观察侧剖开:里面橙红发亮的是 450 °C 的 SAPO-34 催化剂流化床,甲醇蒸气进去,出来的是乙烯和丙烯各四成、丁烯一成、外加 CH₄、焦和一点重质。壳是铸造厂的铁,里面那层深色的是玻璃厂的铸石衬里加岩棉——把铁壳压到 300 °C 以下,球铁才扛得住,这是玻璃厂熔窑墙的同一招。旁边细一点的塔是再生器:焦烧掉,CO₂ 回进气塔,催化剂沿两根浅褐色立管循环。",
+      "detail_en": "The heart of the line, cut open toward the viewer: the glowing orange-red mass is the SAPO-34 catalyst bed at 450 C. Methanol vapour goes in; out come ethylene and propylene at roughly 40 % each, butenes at 10 %, plus methane, coke and a little heavies. The shell is foundry iron; the dark inner layer is cast stone from the glass plant with rock wool behind it, holding the iron below 300 C where ductile iron can serve - the glass plant's own furnace-wall trick. The thinner tower beside it is the regenerator: the coke is burnt off, the CO2 goes back to the intake, and catalyst circulates through the two tan standpipes.",
+      "specs": {
+        "反应": "CH₃OH → ½C₂H₄ + H₂O(−14.6 kJ/mol)/ → ⅓C₃H₆ + H₂O(−34.0);450 °C / 2 bar",
+        "碳选择性(声明,乙烯模式)": "C₂= 42 · C₃= 38 · C₄+ 10 · CH₄ 2 · 轻烷 2 · 重质+焦 6(H/C 1.07 为闭合变量)",
+        "催化剂": "SAPO-34:Si/Al 本地,P 与模板剂进口;补充 62 kg/窗口(0.15 kg/t 甲醇,声明)",
+        "壳与衬": "Ø1.8 × 8 m 铁壳 3.0 t 本地;铸石衬里 + 岩棉,壳温 <300 °C;再生烧焦用 O₂ 自产",
+        "副产(50 kg PE/sol)": "丙烯 45 · C₄+ 12 · CH₄ 2.7(= ISRU 甲烷的 20%,入 LCH₄ 罐)· 焦 2.2 kg/sol"
+      },
+      "specs_en": {
+        "Reaction": "CH3OH -> 1/2 C2H4 + H2O (-14.6 kJ/mol) / -> 1/3 C3H6 + H2O (-34.0); 450 C / 2 bar",
+        "Carbon selectivity (declared, ethylene mode)": "C2= 42 · C3= 38 · C4+ 10 · CH4 2 · light paraffins 2 · heavies + coke 6 (H/C 1.07 is the closure variable)",
+        "Catalyst": "SAPO-34: Si and Al local, P and the template imported; make-up 62 kg/window (0.15 kg per tonne methanol, declared)",
+        "Shell and lining": "1.8 m dia x 8 m iron shell, 3.0 t, local; cast-stone lining + rock wool keep the shell below 300 C; regeneration oxygen is the line's own",
+        "Co-products (at 50 kg PE/sol)": "propylene 45 · C4+ 12 · CH4 2.7 (20 % of ISRU's methane, to the LCH4 tank) · coke 2.2 kg/sol"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 1 G1.5:ASF 分布 α→0 全甲烷、质量分数和 = 1;MTO 的碳选择性是声明的文献带(DMTO 乙烯模式),不是算出来的——这是本册最大的自由参数,记在 out/01_routes.json 的 selectivity.declared 里。",
+        "【r1 2026-09-13】账 2 的氧平衡把这张谱抓了一次(见合成气卡):烃+焦的平均 H/C 必须恰是 2.00;重质+焦的 H/C 1.07 是那个闭合变量,物理上落在芳烃与焦之间。",
+        "【r1 2026-09-13】丙烯去向三选一并印不选(账 4):同釜战役制做 PP / 加氢成丙烷给铸造厂渗碳 / 回裂解到乙烯(~30% 单程)。选哪个决定井的账:丙烯放掉,每 kg PE 的水从 1.28 升到 3.03 L。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 1 G1.5: the ASF distribution gives all methane as alpha -> 0 and its mass fractions sum to 1; the MTO carbon selectivity is a declared literature band (DMTO ethylene mode), not a computed one - the dossier's largest free parameter, recorded under selectivity.declared in out/01_routes.json.",
+        "[r1 2026-09-13] Account 2's oxygen balance caught this slate once (see the syngas card): the hydrocarbon-plus-coke average H/C must be exactly 2.00; the heavies-plus-coke H/C of 1.07 is that closure variable, physically between aromatics and coke.",
+        "[r1 2026-09-13] Three sinks for the propylene, printed, not chosen (account 4): a PP campaign in the same reactor / hydrogenation to propane for the foundry's carburising / recycle cracking to ethylene (~30 % per pass). Which one is chosen sets the well's account: vent the propylene and water per kg PE rises from 1.28 to 3.03 L."
+      ],
+      "physics": "SAPO-34 的孔口只有 0.38 nm,乙烯和丙烯挤得出去,丁烯以上出不去——这就是它选择性的来源,一个分子筛的几何,不是一个催化剂的化学。而同一个孔道也把芳烃困在笼里变成焦,所以再生器不是可选件:每一克乙烯都伴着一个烧焦的循环。",
+      "physics_en": "SAPO-34's pore mouths are 0.38 nm: ethylene and propylene squeeze out, butenes and larger do not - the selectivity comes from a molecular sieve's geometry, not a catalyst's chemistry. The same cages trap aromatics until they become coke, so the regenerator is not optional: every gram of ethylene comes with a coke-burning cycle."
+    },
+    {
+      "id": "separation",
+      "label": "冷箱:−100 °C 的三座塔(进口件里最重的一件)",
+      "label_en": "Cold box: three columns at -100 C (the heaviest import on site)",
+      "range": 25,
+      "detail": "白色岩棉箱里立着三座钢塔:脱甲烷塔、脱乙烷塔、乙烯/乙烷分离塔,逐级降到 −100 °C,把 MTO 出来的混合烯烃分成聚合级乙烯(要 99.9%,CO 低于 1 ppm——聚合催化剂对这些毒物按 ppm 计)。球铁在 −20 °C 以下不评级,所以这三座塔连同旁边的级联制冷压缩机是全线最重的进口件,3.5 吨。城里唯一另一台制冷机在 200 多米外的低温罐区,没有管过来。丙烯从侧面那根紫管出去,去向还没定。",
+      "detail_en": "Three steel columns stand inside the white rock-wool box: demethaniser, deethaniser, ethylene/ethane splitter, stepping down to -100 C to turn the MTO's mixed olefins into polymer-grade ethylene (99.9 %, CO below 1 ppm - the polymerisation catalyst counts these poisons in ppm). Ductile iron is not rated below -20 C, so these columns and the cascade refrigeration compressors beside them are the line's heaviest import at 3.5 tonnes. The only other refrigerator in the city is 200-odd metres away at the cryogenic farm, with no pipe between. Propylene leaves by the violet side line, destination still open.",
+      "specs": {
+        "塔": "脱甲烷 / 脱乙烷 / C₂ 分离,−100…−30 °C,20 bar;钢,进口 2.0 t",
+        "制冷": "乙烯/丙烯级联,压缩机进口 1.5 t;分离电耗 0.6 kWh/kg 烯烃(声明)",
+        "聚合级乙烯规格": ">99.9%,CO <1 ppm、CO₂ <5、H₂O <1、含氧物 <1(催化剂毒物)",
+        "前处理": "碱洗 + 分子筛干燥(筛 = 铸造厂 0% 五类的滤芯,进口 50 kg)",
+        "产品气量": "4.8 kg 烯烃/h,其中乙烯 2.0 kg/h"
+      },
+      "specs_en": {
+        "Columns": "demethaniser / deethaniser / C2 splitter, -100 to -30 C, 20 bar; steel, imported, 2.0 t",
+        "Refrigeration": "ethylene/propylene cascade, compressors imported 1.5 t; separation electricity 0.6 kWh/kg olefin (declared)",
+        "Polymer-grade ethylene spec": ">99.9 %, CO <1 ppm, CO2 <5, H2O <1, oxygenates <1 (catalyst poisons)",
+        "Pre-treatment": "caustic wash + molecular-sieve dryer (the sieve is the foundry's 'filter' class, 50 kg imported)",
+        "Product gas": "4.8 kg olefins/h, of which ethylene 2.0 kg/h"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 5:24 件里进口 10.05 t(4.3%;几何回灌前写 23 件 / 15%),冷箱 + 级联制冷 3.5 t 是最大的一块;进口类 = 铸造厂 0% 五类 ∪ {催化剂, 低温壳, 电解堆, 螺杆/刀具},G5.2 无多出的类。判定用一处声明的球铁限(≤24 bar / ≤343 °C / ≥−20 °C)逐件布尔判,不是逐件拍。",
+        "【r1 2026-09-13】费托被否决的那一半就在这里:费托的产物是 C₁ 到 C₅₊ 全馏分,要的不是三座塔是一座裂解装置的冷箱;MTO 出来的只有 C₂–C₄ 烯烃加零头,所以这只箱子才能小到 3.6 × 3 × 10 m。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 5: of the 24 items 10.05 t (4.3 %; 23 items / 15 % before the geometry pass) are imported, and the cold box plus cascade refrigeration at 3.5 t is the largest piece; import classes = the foundry's five 0 % classes plus {catalyst, cryogenic shell, electrolysis stack, screw/knives}, with no extra class under G5.2. Each item is judged by a single declared ductile-iron limit (<= 24 bar / <= 343 C / >= -20 C), not case by case.",
+        "[r1 2026-09-13] Half of the FT veto lives here: FT products run from C1 to C5+, needing not three columns but a cracker's cold box; MTO yields only C2-C4 olefins plus scraps, which is why this box fits in 3.6 x 3 x 10 m."
+      ],
+      "physics": "乙烯与乙烷的相对挥发度只有 1.5 左右,分开它们要一座上百块塔板、−30 °C 的塔——分离的代价从来不在温度低,在两个分子太像。火星帮不上忙:600 Pa 的稀薄大气抑制对流却不抑制导热,冷箱照样要真空或岩棉,与低温罐区那句「6 mbar 不能替代真空夹套」同一条物理。",
+      "physics_en": "Ethylene and ethane have a relative volatility of only about 1.5; separating them takes a column of a hundred-odd trays at -30 C - the cost of separation is never the cold but the likeness of two molecules. Mars does not help: 600 Pa suppresses convection but not conduction, so the cold box still needs vacuum or rock wool, the same physics as the cryogenic farm's '6 mbar is no substitute for a vacuum jacket'."
+    },
+    {
+      "id": "polymer",
+      "label": "气相聚合釜:20 bar/90 °C 的球铁釜(乙烯变成粉)",
+      "label_en": "Gas-phase polymerisation reactor: a ductile-iron vessel at 20 bar / 90 C (ethylene becomes powder)",
+      "range": 25,
+      "detail": "剖开的釜里那段白色的就是产品:流化的 HDPE 粉,乙烯在催化剂颗粒上长成链。釜是 20 bar、90 °C——正好落在球铁的限内,所以壳体是铸造厂的;催化剂用 Ziegler–Natta(钛来自铸造厂的 FFC 槽,镁来自皮江炉,氯来自玻璃厂的酸循环,只有烷基铝进口)或 Phillips 铬/硅(硅胶载体是玻璃厂的白料,铬按克计进口)。釜顶那截粗的是沉降段,循环气经卧式冷却器和后面的压缩机回到釜底——聚合每公斤放热 3.3 兆焦,全靠这条循环带走。",
+      "detail_en": "The white mass in the cut-open reactor is the product: fluidised HDPE powder, ethylene growing into chains on catalyst grains. The vessel runs at 20 bar and 90 C - inside the ductile-iron limits, so the shell is the foundry's. The catalyst is Ziegler-Natta (titanium from the foundry's FFC cell, magnesium from its Pidgeon furnace, chlorine from the glass plant's acid loop, only the aluminium alkyl imported) or Phillips chromium-on-silica (the silica carrier is the glass plant's white feed, chromium imported by the gram). The wider top section is the disengagement zone; cycle gas runs through the horizontal cooler and the compressor behind it back into the base - polymerisation releases 3.3 MJ per kilogram, all of it carried off by that loop.",
+      "specs": {
+        "反应": "C₂H₄ → −CH₂CH₂−;ΔH −112 kJ/mol(HHV 反推)/ −93.6(量热文献),两值并印,散热取大者",
+        "釜": "Ø1.5 × 9 m 球铁 20 bar / 90 °C,3.0 t 本地;床约 0.1 m³,2.0 kg PE/h",
+        "催化剂": "ZN:Ti(FFC 0.5 kg/sol)+ Mg(15 g/sol)+ Cl(HCl 循环)本地,AlEt₃ 进口 19 kg/窗口;Phillips:Cr/SiO₂,SiO₂ 本地,无助催化剂",
+        "循环气": "压缩机 0.35 kWh/kg PE(声明);冷却器卧式铸铁",
+        "产品": "HDPE ρ 0.95,与 Run D 衬里用的「普通 PE 100,(CH₂)ₙ,无硼」同物"
+      },
+      "specs_en": {
+        "Reaction": "C2H4 -> -CH2CH2-; dH -112 kJ/mol (from HHV) / -93.6 (calorimetric literature), both printed, heat rejection uses the larger",
+        "Vessel": "1.5 m dia x 9 m ductile iron, 20 bar / 90 C, 3.0 t local; bed ~0.1 m3, 2.0 kg PE/h",
+        "Catalyst": "ZN: Ti (FFC 0.5 kg/sol) + Mg (15 g/sol) + Cl (HCl loop) all local, AlEt3 imported 19 kg/window; Phillips: Cr/SiO2, silica local, no cocatalyst",
+        "Cycle gas": "compressor 0.35 kWh/kg PE (declared); horizontal cast-iron cooler",
+        "Product": "HDPE, density 0.95 - the same 'plain PE, (CH2)n, no boron' the Run D liner was built from"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 1 G1.2:−CH₂− 生成焓由 HDPE 高位热值 46.3 MJ/kg 反推得 −29.9 kJ/mol,落 [−31, −25];由它得聚合焓 −112,对量热文献 −93.6 差 20%——两大数之差,HHV 差 1% 就挪 15 kJ/mol。预注册的 −92…−96 记偏出,两值并印。",
+        "【r1 2026-09-13】账 2:50 kg PE/sol 聚合放热 2.3 kW,全线过程放热 25 kW、加电解过电位 56 kW,辐射板 108 m²(0.52 kW/m²,res-isru-01 口径)。舱外 600 Pa 没有对流,每一瓦都要变成辐射离开。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 1 G1.2: the -CH2- formation enthalpy back-calculated from the HDPE HHV of 46.3 MJ/kg is -29.9 kJ/mol, inside [-31, -25]; it gives a polymerisation enthalpy of -112, 20 % off the calorimetric -93.6 - a small difference of large numbers, where 1 % on HHV moves it 15 kJ/mol. The pre-registered -92..-96 is booked as a miss; both values printed.",
+        "[r1 2026-09-13] Account 2: at 50 kg PE/sol polymerisation releases 2.3 kW; process heat 25 kW, plus electrolyser overpotential 56 kW; radiator field 108 m2 (0.52 kW/m2, res-isru-01 basis). Outside at 600 Pa there is no convection: every watt leaves as radiation."
+      ],
+      "physics": "聚合是把双键的 π 电子换成两条 σ 键,每接一个单体放 90 多千焦——同一台釜若不把热带走,粉会在几分钟内熔成一块。气相釜的循环气就是它的冷却水,压缩机是它的心脏:这台设备的安全不在压力壳,在压缩机不许停。",
+      "physics_en": "Polymerisation swaps a double bond's pi electrons for two sigma bonds and releases ninety-odd kilojoules per monomer added - left uncooled, the powder in this vessel would fuse into a block within minutes. The cycle gas is the reactor's cooling water and the compressor its heart: the safety of this machine lies not in the pressure shell but in the compressor never stopping."
+    },
+    {
+      "id": "pellets",
+      "label": "挤出造粒与料仓:粒料出厂(50 kg/sol 的战役制)",
+      "label_en": "Extrusion, pelletising and silos: pellets leave here (a 50 kg/sol campaign line)",
+      "range": 30,
+      "detail": "脱气仓用 CO₂ 吹掉粉里残留的乙烯——氮气一公斤 5.27 千瓦时,CO₂ 只要 0.15,便宜 35 倍,而且它是大气。造粒棚里挤出机的机筒是铸造厂车的,螺杆和切粒刀进口;水下切粒后气力输送到两只打印土料仓。铭牌 50 公斤一 sol,是井压出来的数;稳态需求(丝材上界 16 公斤)远小于它,所以这是一条战役制的线:接到衬里那种一次性大单就开,平时停——与玻璃厂透明线同形。",
+      "detail_en": "The degassing bin purges residual ethylene from the powder with CO2 - nitrogen costs 5.27 kWh a kilogram here, CO2 0.15, 35 times cheaper, and it is the atmosphere. In the pelletising shed the extruder barrel was turned at the foundry; the screw and cutter knives are imported. After underwater pelletising the product is conveyed pneumatically to two printed-regolith silos. The 50 kg/sol nameplate is the number the well allows; steady demand (filament, 16 kg/sol at most) is far below it, so this is a campaign line: it runs when a one-off order like the liner comes in and stands idle otherwise - the same shape as the glass plant's clear line.",
+      "specs": {
+        "铭牌": "50 kg PE/sol(井未分配 157 L/sol 压的;专用第二口井 → 100);电 106 kW 均值(SOEC 口径)",
+        "需求表(条件/一次性)": "村衬里 101 t(村口径)/ 177.7 t(Run D 口径)· 家电塑料 278 kg(现由热解丝材供)· 覆土屏蔽等氢替代 735 / 1 380 t · XLPE 电缆绝缘 2–6 t",
+        "供货(50 kg/sol,t₀ = 进口包到港 + 100–200 sol)": "衬里 101 t 2 020 sol(2.7 窗口)· 177.7 t 3 554 sol · 家电 5.6 sol",
+        "不能闭合": "家电更换率(缺失效率)· HDPE 管网长度(无卡)",
+        "料仓": "2 × Ø4 × 9 m 打印土(壁 0.2 m,ops-printer-01),两只共 96 t(原写「硫混凝土 / 打印,~20 t 各」,2026-09-13 几何回灌撤回);吹扫 CO₂ 0.15 kWh/kg"
+      },
+      "specs_en": {
+        "Nameplate": "50 kg PE/sol (held by the well's unallocated 157 L/sol; a dedicated second well -> 100); 106 kW mean electricity (SOEC basis)",
+        "Demand table (conditional / one-off)": "village liner 101 t (village basis) / 177.7 t (Run D basis) · appliance plastics 278 kg (today from pyrolysis filament) · berm shielding at equal hydrogen 735 / 1380 t · XLPE cable insulation 2-6 t",
+        "Supply (50 kg/sol, t0 = import landing + 100-200 sol)": "liner 101 t in 2020 sol (2.7 windows) · 177.7 t in 3554 sol · appliances 5.6 sol",
+        "Not closable": "appliance replacement rate (no failure rates) · HDPE pipe-network length (no card)",
+        "Silos": "2 x 4 m dia x 9 m printed regolith (0.2 m wall, ops-printer-01), 96 t for the pair (formerly 'sulfur concrete / printed, ~20 t each', retired 2026-09-13 by the geometry pass); CO2 purge 0.15 kWh/kg"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 3(ledger/03_demand_nameplate.py):铭牌规则数据前登记——{50,100,200} 里取满足水 ≤ 井未分配份额且电 ≤ 全城峰值 10%(107.5 kW)的最大者。读法 A 下 PE-only 基:50 → 151 L/sol 过、100 → 303 不过;SOEC 电 106 kW 对 107.5 余 1%,PEM 129 不过。**G3.3 按自己的规则判红**:±30% 能耗扰动把 50 也推出去,说明铭牌靠的是水,功率约定只是碰巧同值;闸留红、按名排除、结论改。",
+        "【r1 2026-09-13】前提更正:派工原句「家电 1.06 t 塑料全进口」**已撤回(2026-09-13)**——依据家电册账 8(mars-home 036a7e8)里 1 064.4 kg 进口件没有一件塑料;塑料件 278 kg 全记在热解丝材名下——真正的问题是丝材来自 29.5 kg/sol 进口包装 × 55%。G3.4 逐件折算复现 2 803 / 1 064.4。",
+        "【r1 2026-09-13】预注册一句方向错:「PE 每吨含氢比水少 22%」——14.37 wt% 对 11.19,PE 多 28%。NOT EVALUABLE ≠ PASSED:那道闸按名移出计数,换成能红的恒等闸 G3.5b。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 3 (ledger/03_demand_nameplate.py): the nameplate rule was registered before the data - the largest of {50, 100, 200} with water <= the well's unallocated share and power <= 10 % of the city peak (107.5 kW). Under reading A on the PE-only basis 50 needs 151 L/sol and passes, 100 needs 303 and fails; SOEC power 106 kW against 107.5 leaves 1 %, PEM 129 fails. G3.3 went red by its own rule: a +-30 % energy perturbation removes the 50 too, which says the nameplate rests on water and the power convention only happens to coincide; the gate stays red, excluded by name, and the conclusion changed.",
+        "[r1 2026-09-13] Premise correction: the dispatch's sentence '1.06 t of appliance plastics, all imported' is WITHDRAWN (2026-09-13): in the home ledger's account 8 (mars-home 036a7e8) none of the 1064.4 kg of imports is plastic; the 278 kg of plastic parts are booked to pyrolysis filament - the real problem being that the filament comes from 29.5 kg/sol of imported packaging x 55 %. G3.4 reproduces 2803 / 1064.4 item by item.",
+        "[r1 2026-09-13] One pre-registered sentence had its sign wrong: 'PE carries 22 % less hydrogen per tonne than water' - 14.37 wt % against 11.19, PE carries 28 % MORE. NOT EVALUABLE is not PASSED: that gate was removed from the count by name and replaced by an identity gate, G3.5b, that can go red."
+      ],
+      "physics": "一条产线的铭牌应该由最稀缺的输入定,而不是由需求定:这里最稀缺的是井里的氢。稳态需求只有铭牌的三分之一,所以产能与需求之间的差额不是浪费,是交付期——一次性的 101 吨要 2.7 个会合窗口,这个数才是村子该拿去比对进口的那个数。",
+      "physics_en": "A line's nameplate should be set by its scarcest input, not by demand: here the scarcest input is the hydrogen in the well. Steady demand is a third of the nameplate, so the gap between capacity and demand is not waste but delivery time - the one-off 101 tonnes takes 2.7 rendezvous windows, and that is the number the village should weigh against importing."
+    },
+    {
+      "id": "byproducts",
+      "label": "副产:全城最大的氧源,与一根去向未定的紫管",
+      "label_en": "By-products: the city's largest oxygen source, and a violet pipe with no destination yet",
+      "range": 35,
+      "detail": "棚后那排黑色的斜板是辐射板场,108 平方米,把甲醇塔、流化床、聚合釜和压缩机的热辐射向天空——舱外 600 Pa 没有对流。白色的出厂管走的是氧:SOXE 放一份、电解放两份,每公斤 PE 净出 3.4 公斤氧,50 kg PE/sol 时全线 400 公斤一 sol,是硫厂 200 的两倍——这条线一开,它就是全城最大的氧源,去向是低温罐区的冷箱或 ISRU 的液氧。旁边那根紫管是丙烯,每公斤乙烯出 0.9 公斤,三个去向都写了,一个没选:选哪个决定井的账。",
+      "detail_en": "The row of black tilted panels behind the shed is the radiator field, 108 m2, radiating the heat of the methanol converter, the fluidised bed, the polymerisation reactor and the compressors to the sky - at 600 Pa outside there is no convection. The white export line carries oxygen: one part from the SOXE, two from the electrolyser, 3.4 kg net per kg PE, 400 kg/sol for the whole train at 50 kg PE/sol, twice the sulfur plant's 200 - the moment this line runs it is the city's largest oxygen source, bound for the cryogenic farm's cold box or ISRU's LOX. The violet pipe beside it is propylene, 0.9 kg per kg ethylene, with three destinations written and none chosen: the choice sets the well's account.",
+      "specs": {
+        "O₂(50 kg PE/sol,全链)": "400 kg/sol = 硫厂 200 的 2×、城市呼吸 99 的 4×;冷箱液化容量 2 486 kg/sol 接得住",
+        "热": "过程 25 kW + 电解过电位 31 kW(SOXE 9 + PEM 22)→ 108 m² 辐射板(0.52 kW/m²)",
+        "丙烯": "45 kg/sol;去向:同釜 PP 战役 / 加氢成丙烷给铸造厂渗碳 / 回裂解——并印不选",
+        "CH₄ / 焦 / 水": "2.7 kg/sol 入 ISRU LCH₄ 罐 · 焦再生烧成 CO₂ 回进气 · 过程水 153 kg/sol 回电解槽",
+        "CO₂ 进料": "385 kg/sol 自 res-eclss-01 进气塔母管,压缩 60 kWh/sol = 本线电耗 1.8%"
+      },
+      "specs_en": {
+        "O2 (50 kg PE/sol, whole train)": "400 kg/sol = 2x the sulfur plant's 200, 4x the city's breathing 99; the cold box can liquefy 2486 kg/sol",
+        "Heat": "process 25 kW + electrolyser overpotential 31 kW (SOXE 9 + PEM 22) -> 108 m2 of radiator (0.52 kW/m2)",
+        "Propylene": "45 kg/sol; sinks: a PP campaign in the same reactor / hydrogenation to propane for the foundry's carburising / recycle cracking - printed, not chosen",
+        "CH4 / coke / water": "2.7 kg/sol to ISRU's LCH4 tank · coke burnt to CO2 in the regenerator and returned to the intake · 153 kg/sol process water back to the electrolyser",
+        "CO2 feed": "385 kg/sol from the res-eclss-01 intake header, 60 kWh/sol to compress = 1.8 % of the line's electricity"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 2 G2.2:副产氧两条路径同值到 0.1%——SOXE 每 CO 放 ½O₂、电解每 H₂ 放 ½O₂(每碳 2 H₂)= 1.5 O₂/碳,与净反应化学计量一致;再生烧焦吃回一点(每吨 PE 0.14 t)。全链每吨 PE 净出 8.0 t O₂(PE-only 基,含丙烯那份碳的氧)。",
+        "【r1 2026-09-13】账 2 E2.5/E2.6 偏出并如实记:预注册的热 20–40 kW 与 CO₂ 314 kg/sol 是 100% 选择性的数,全链(丙烯不计价)是 50 kW / 732 kg(100 kg PE/sol 基)——预注册混了口径。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 2 G2.2: the oxygen co-product agrees by two paths to 0.1 % - SOXE gives 1/2 O2 per CO, the electrolyser 1/2 O2 per H2 (2 H2 per carbon) = 1.5 O2 per carbon, matching the net stoichiometry; the regenerator takes a little back (0.14 t per t PE). The whole train yields 8.0 t O2 net per t PE (PE-only basis, including the oxygen of the propylene's carbon).",
+        "[r1 2026-09-13] Account 2 E2.5/E2.6 missed and are booked as such: the pre-registered 20-40 kW of heat and 314 kg/sol of CO2 were 100 %-selectivity figures; the whole train (propylene uncredited) is 50 kW / 732 kg at 100 kg PE/sol - the pre-registration mixed bases."
+      ],
+      "physics": "把 CO₂ 和水变成塑料,本质上是把它们的氧全部剥下来:聚乙烯里没有一个氧原子。所以每公斤塑料都对应三公斤多的氧——在地球这是要付钱处理的尾气,在火星是可以呼吸、可以装进火箭的产品。同一个反应,行星不同,副产的正负号翻了。",
+      "physics_en": "Turning CO2 and water into plastic is, at bottom, stripping every oxygen atom off them: there is not one oxygen atom in polyethylene. So each kilogram of plastic stands for three-odd kilograms of oxygen - on Earth a waste gas you pay to handle, on Mars something to breathe or load into a rocket. Same reaction, different planet, and the by-product's sign flips."
+    },
+    {
+      "id": "safety",
+      "label": "控制间:全线唯一的增压体(为什么产线放舱外)",
+      "label_en": "Control room: the line's only pressurised volume (why the plant lives outside)",
+      "range": 30,
+      "detail": "整条线只有这间打印土壳的小屋是加压的,进风口立在朝场外的一侧,离 CO 和甲醇设备三十米以上。理由写在账 4 里:乙烯的最小点火能 0.07 毫焦,是氢的量级;两公斤乙烯就能把村里一段 78 立方米的脊廊填到爆炸下限,而在 30% 氧当量的舱气里,一次爆燃的压力是 70 kPa 壳的 11 倍。舱外正相反:600 Pa 的二氧化碳里氧只有 0.16%,比乙烯的极限氧浓度低 62 倍,淬熄距离 21 厘米——泄漏物理上烧不起来。所以反应器、冷箱、聚合釜、脱气、造粒全部站在防尘棚下,只有粒料进舱。",
+      "detail_en": "The only pressurised space on the whole line is this small printed-regolith room, its air intake standing on the side facing away from the plant, over thirty metres from the CO and methanol equipment. The reason is in account 4: ethylene's minimum ignition energy is 0.07 mJ, hydrogen's order; two kilograms of it fill a 78 m3 village corridor to the lower flammability limit, and in cabin air at 30 % oxygen-equivalent a deflagration loads the 70 kPa hull eleven times over. Outside it is the reverse: in 600 Pa of CO2 the oxygen is 0.16 %, 62 times below ethylene's limiting oxygen concentration, and the quenching distance is 21 cm - a leak physically cannot burn. So the reactors, cold box, polymerisation, degassing and pelletising all stand under the dust shed, and only pellets enter a cabin.",
+      "specs": {
+        "乙烯在舱内": "LFL 2.7 vol%(70 kPa 不变)· UFL 41%(30.1% O₂ 当量,线性内插声明)· MIE 0.07 mJ(CH₄ 0.28,H₂ 0.017)· 自燃 490 °C",
+        "一段脊廊 78 m³": "1 kg = 1.57 vol%;1.74 kg 到 LFL;爆燃 784 kPa 绝压 = 壳的 11.2×",
+        "舱外 600 Pa": "O₂ 0.16% 对 LOC 10% 低 62×;淬熄 21 cm(甲烷复现火灾账 34 cm);总压低于维持限",
+        "PE 粉尘": "St1(Kst 100–200 bar·m/s,MIE 10–100 mJ)→ 造粒也舱外;吹扫用 CO₂",
+        "PE 制件进舱": "30% O₂ 验收口径下不自熄——三条代价(封铁壳 / 阻燃剂进口 / 限厚度面积),归 hab-home-01 / hab-village-01;衬里在壳外土里无此问题"
+      },
+      "specs_en": {
+        "Ethylene in a cabin": "LFL 2.7 vol % (unchanged at 70 kPa) · UFL 41 % (at 30.1 % O2-equivalent, linear interpolation declared) · MIE 0.07 mJ (CH4 0.28, H2 0.017) · autoignition 490 C",
+        "One 78 m3 corridor": "1 kg = 1.57 vol %; 1.74 kg reaches the LFL; deflagration 784 kPa absolute = 11.2x the hull",
+        "Outside at 600 Pa": "O2 0.16 % is 62x below the 10 % LOC; quench distance 21 cm (methane reproduces the fire ledger's 34 cm); total pressure below the sustaining limit",
+        "PE dust": "St1 (Kst 100-200 bar m/s, MIE 10-100 mJ) -> pelletising outside too; purge with CO2",
+        "PE parts indoors": "not self-extinguishing at the 30 % O2 acceptance basis - three costs (iron enclosure / imported flame retardant / thickness and area limits), owned by hab-home-01 / hab-village-01; the liner sits outside the hull in soil and has no such problem"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 4(ledger/04_safety_byproducts.py,7 闸绿):G4.1 勒沙特列纯乙烯退化到 2.7%;G4.2 淬熄 1/P 标度用甲烷复现 ops-fire-01(2d8fc57)的 2 mm → 34 cm(±3%,同一函数);G4.3 无解离绝热定容上界 10.3 压在实测带 8–9.5 之上且 <1.35× 上沿(方向 + 量级);G4.4 混合气密度 0.941 复现 mars-home cabin.py;G4.6 MIE 排序 H₂ < C₂H₄ < CH₄。",
+        "【r1 2026-09-13】火灾账的数一字未改:1.63× 蔓延、30.1% 当量、LOC 10.9%、淬熄 34 cm、焰温代理 2914 K。爆燃压比用焰温代理放大(8.75 × 2914/2277 = 11.2),预注册 8–10 记偏出——结论只变得更硬。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 4 (ledger/04_safety_byproducts.py, 7 gates green): G4.1 Le Chatelier degenerates to 2.7 % for pure ethylene; G4.2 the 1/P quench scaling reproduces ops-fire-01's (2d8fc57) 2 mm -> 34 cm for methane (+-3 %, same function); G4.3 the no-dissociation adiabatic constant-volume bound of 10.3 sits above the measured 8-9.5 band and under 1.35x its top (direction and magnitude); G4.4 the mixed-gas density 0.941 reproduces mars-home's cabin.py; G4.6 MIE ordering H2 < C2H4 < CH4.",
+        "[r1 2026-09-13] Not one figure of the fire ledger was altered: 1.63x spread, 30.1 % equivalent, LOC 10.9 %, quench 34 cm, flame-temperature proxy 2914 K. The deflagration ratio is scaled by that proxy (8.75 x 2914/2277 = 11.2); the pre-registered 8-10 is booked as a miss - the conclusion only got harder."
+      ],
+      "physics": "同一颗行星把舱内的火变贵、把舱外的火变为不可能——这是消防站那张卡的话,聚合物线是它最极端的应用:一种氢级点火敏感度的气体,放在 600 Pa 的二氧化碳里就是惰性的。所以「安全」在这里不是一套联锁,是一堵墙的位置:乙烯永远在墙的那一边。",
+      "physics_en": "The same planet makes fire inside a cabin dearer and fire outside impossible - the fire station's card says so, and the polymer line is its most extreme application: a gas with hydrogen-class ignition sensitivity is inert in 600 Pa of carbon dioxide. Safety here is therefore not a set of interlocks but the position of a wall: ethylene is always on the far side of it."
+    },
+    {
+      "id": "make",
+      "label": "进口件箱:10 吨里装的是什么(造还是运)",
+      "label_en": "The import crate: what is in the 10 tonnes (make or import)",
+      "range": 25,
+      "detail": "这只箱子和旁边的催化剂桶架就是全线要从地球运的东西:两台电解堆、四台压缩机、冷箱的三座钢塔、整流柜、仪表和阀门、挤出螺杆和切粒刀、催化剂——10 吨,占一个会合窗口约 100 吨吞吐的一成。其余 223 吨是本地的:铸造厂的球铁压力壳和铸铁管、玻璃厂的岩棉和铸石衬里、硫厂的混凝土设备基础、打印的料仓和控制间。按铸造厂的规则——300 千瓦时一公斤以内的就该本地做——PE 是 52,余 5.7 倍;而门槛管不到的那一侧照铸造厂的话说:压缩机、催化剂、仪表不是电价问题,是工序链长度问题。",
+      "detail_en": "This crate and the catalyst drum rack beside it are everything the line has to bring from Earth: two electrolysis stacks, four compressors, the cold box's three steel columns, the rectifier cabinets, instruments and valves, the extruder screw and cutter knives, the catalysts - 10 tonnes, a tenth of a rendezvous window's ~100 t. The other 223 tonnes are local: the foundry's ductile-iron pressure shells and cast-iron pipe, the glass plant's rock wool and cast-stone lining, the sulfur plant's concrete footings, the printed silos and control room. By the foundry's rule - make it locally if it costs under 300 kWh a kilogram - PE at 52 has 5.7x to spare; and on the side the threshold cannot reach, in the foundry's own words: compressors, catalysts and instruments are a process-chain-length problem, not an electricity-price problem.",
+      "specs": {
+        "全线": "24 件,233 t(原写 65.7 t,2026-09-13 几何回灌撤回);本地 223 t · 进口 10.05 t(4.3%)",
+        "本地件(来源卡)": "球铁压力壳(甲醇塔 20 bar、聚合釜 20 bar)· 铸石衬里铁壳(MTO)· 铸铁管/换热器/框架(res-foundry-01)· 岩棉(res-glass-01)· 设备基础 10 块 77 t 硫混凝土(res-sulfur-01)· 料仓 2 只 96 t 打印土与控制间(ops-printer-01)",
+        "进口件": "SOXE + PEM 堆 1.0 t · 压缩机 ×4 4.0 t · 冷箱钢塔 2.0 t · 整流柜 0.9 t · 仪表阀门 1.0 t · 螺杆/刀具/电机 0.7 t · 催化剂 0.3 t · 分子筛/门封 0.15 t",
+        "催化剂补充": "54 kg/窗口(50 kg PE/sol 规模)",
+        "门槛": "52 kWh/kg PE(SOEC,PE-only 基)对 298 → 造;费托/氧化偶联在副产记零口径下 239–316 → 不造",
+        "平台土方": "站址 (40,130) 足迹内地形起伏 1.48 m;设计挖填平衡,就地 330 m³ 不运土;若全填方 2.9 kt = 矿余量 0.847 t/sol 的 3426 sol。城内地形不能开挖,平台按填方画(高 1.65 m、sink 1.10 m)——声明的资产债"
+      },
+      "specs_en": {
+        "Whole line": "24 items, 233 t (formerly 65.7 t, retired 2026-09-13 by the geometry pass); local 223 t · imported 10.05 t (4.3 %)",
+        "Local items (source card)": "ductile-iron pressure shells (methanol 20 bar, polymerisation 20 bar) · cast-stone-lined iron shell (MTO) · cast-iron pipe, exchangers, frames (res-foundry-01) · rock wool (res-glass-01) · 10 sulfur-concrete footings 77 t (res-sulfur-01) · two printed-regolith silos 96 t and the control room (ops-printer-01)",
+        "Imports": "SOXE + PEM stacks 1.0 t · compressors x4 4.0 t · cold-box steel columns 2.0 t · rectifiers 0.9 t · instruments and valves 1.0 t · screw, knives, motors 0.7 t · catalysts 0.3 t · sieve and door seals 0.15 t",
+        "Catalyst make-up": "54 kg per window at 50 kg PE/sol",
+        "Threshold": "52 kWh/kg PE (SOEC, PE-only basis) against 298 -> make; FT and OCM at 239-316 with co-products at zero -> do not",
+        "Platform earthwork": "terrain at (40,130) varies 1.48 m across the footprint; design is balanced cut-and-fill, 330 m3 moved on site, no haul; all-fill would be 2.9 kt = 3426 sol of the mine's 0.847 t/sol spare. The city terrain cannot be cut, so the platform is drawn as fill (1.65 m high, sink 1.10 m) - a declared asset debt"
+      },
+      "sim": [
+        "【r1 2026-09-13】账 5(ledger/05_make_or_import.py,首版 5 闸绿,几何回灌后 12 闸绿):G5.1 逐件之和 = 全线;G5.2 进口类 ⊆ 铸造厂 0% 五类 ∪ {催化剂, 低温壳, 电解堆, 螺杆/刀具};G5.3 球铁限一处声明逐件判;G5.4 窗口占比用总控重述的 100 t;G5.5 门槛用 298 原数。全线质量 233 t 对预注册 30–60 偏出(原写 65.7 t,2026-09-13 几何回灌撤回:那 20 t 的「地坪」按画出的面积只有 6 mm 厚,6 t 的料仓实量 96 t;见最后一条)。",
+        "【r1 2026-09-13】三卡回引已写进 REPLY_ops-polymer-01_ledgers.md §5:res-foundry-01 的球铁与铸石衬里、res-glass-01 的岩棉与白料、res-sulfur-01 的设备基础 77 t 硫混凝土(= 其 333 kg/sol 的 232 sol;原写 32 t / 96 sol,几何回灌撤回)与 ops-printer-01 的两只料仓 96 t(= 160 sol)。",
+        "【r1 2026-09-13 几何回灌】几何反过来审了账 5:散装件的质量改由 ledger/geom_export.mjs 从模块实量(基础 33.6 m³ × 2.3 t/m³ 声明 = 77.2 t;料仓壁 44.1 m³ × 2.18 t/m³ = 96.1 t,密度取自 ops-printer-01 卡自己的逐层用料账),数与图从此只有一份。站址不平:引擎自己导出 1 m 格地形(不手抄),足迹内起伏 1.48 m,首版 1.35 m 平台被西侧地形顶穿,改 1.65 m / sink 1.10 m;新增 7 道闸(G5.6–G5.12,均数据后加、非预注册),其中 G5.9 首版「双线性对最近顶点 ≤0.05 m」判红(最大 0.082 m)——带子是在不知道顶点间距 3.70 m 时定的,错的是带子不是采样器,换成顶点精确 + 四顶点夹逼两道闸;替换闸的容差先写 1e-6 m 又错一次,改成 float32 世界坐标能分辨的 1e-4 m。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Account 5 (ledger/05_make_or_import.py, 5 gates green in the first version, 12 after the geometry pass): G5.1 the items sum to the plant; G5.2 import classes lie within the foundry's five 0 % classes plus {catalyst, cryogenic shell, electrolysis stack, screw/knives}; G5.3 one declared ductile-iron limit judges every item; G5.4 the window share uses the integrator's restated 100 t; G5.5 the threshold is the cited 298. Plant mass 233 t missed the pre-registered 30-60 (formerly 65.7 t, retired 2026-09-13 by the geometry pass: the 20 t 'floor' is 6 mm thick over its drawn area and the 6 t silos measure 96 t; see the last entry).",
+        "[r1 2026-09-13] Back-references to three cards are filed in REPLY_ops-polymer-01_ledgers.md §5: the foundry's ductile iron and cast-stone lining, the glass plant's rock wool and white feed, the sulfur plant's 77 t of footing concrete (232 sol of its 333 kg/sol; formerly 32 t / 96 sol, retired by the geometry pass) and the printer's two silos at 96 t (160 sol).",
+        "[r1 2026-09-13 geometry pass] The geometry audited account 5: bulk-item masses are now measured from the module by ledger/geom_export.mjs (footings 33.6 m3 x 2.3 t/m3 declared = 77.2 t; silo walls 44.1 m3 x 2.18 t/m3 = 96.1 t, the density from the ops-printer-01 card's own layer account), so number and drawing exist once. The site is not flat: the engine exports its own 1 m terrain grid (nothing hand-copied), the footprint varies 1.48 m, the first 1.35 m platform was pierced by terrain on the west and is now 1.65 m on a 1.10 m sink; seven gates added after the data (G5.6-G5.12, not pre-registered), of which G5.9's first version, bilinear vs nearest vertex within 0.05 m, went red (max 0.082 m) - the band was set before the 3.70 m vertex spacing was known, so the band was wrong, not the sampler; replaced by vertex-exact and four-vertex bracket gates, whose tolerance was itself first written as 1e-6 m and corrected to the 1e-4 m float32 world coordinates can resolve."
+      ],
+      "physics": "一件设备能不能本地造,不看它多重,看它的工序链有多长:一只球铁压力壳只要一炉铁和一个砂型,一台压缩机要轴承钢、绕组铜、密封橡胶和电子——每一样都是这座城还没有的一条线。所以进口清单几乎就是铸造厂那行「0% 本地」的复印件,聚合物线只往上加了三样自己特有的:催化剂、低温钢、电解堆。",
+      "physics_en": "Whether a piece of equipment can be made locally depends not on its mass but on the length of its process chain: a ductile-iron pressure shell needs one heat of iron and one sand mould, a compressor needs bearing steel, winding copper, seal rubber and electronics - each a line this city does not yet have. So the import list is almost a copy of the foundry's '0 % local' row; the polymer line adds only three items of its own: catalysts, cryogenic steel, electrolysis stacks."
+    }
+  ]
+}

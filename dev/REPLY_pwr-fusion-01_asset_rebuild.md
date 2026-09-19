@@ -1,5 +1,11 @@
 # REPLY · pwr-fusion-01 资产包络:用户裁定「重建资产到声明几何」
 
+> **更正(2026-09-05,后于下文):目标外径 Ø9.07 已撤——它是中子学一维圆柱模型的外半径 ×2(从 1.2 m 源圆柱轴量),不是机器半径;等离子体本身外沿已 Ø10.5。**
+> 真几何(`tokamak_0d.py` R0 = 3.8225、A = 2.7 ⇒ a = 1.416;`stage.cc` 首壁间隙 0.13;LAYER 表层栈 2.905 + 混凝土 0.30):
+> 外板首壁 5.368 m → 恒温器外面 **8.273 m(Ø16.55)** → 屏蔽外面 **8.573 m(Ø17.15)**;总高 **11.51 m** 不变(公式本就按等离子体半高算)。
+> 用户裁定:资产按 **Ø17.15 × 11.51** 重建(恒温器 Ø16.55 + 0.30 m 混凝土),由本方执行,交付带 validate / y 包络 / 三角形 / 烟测 / POI 锚 / audit_layout;不动 main.js,不改层栈。
+> 本方外形账与出处检查已同步更正(`neutronics/TVL_measurements.md` 外形表、`check_provenance.py` 14/14);下文表格里的 4.235 / 4.535 保留为圆柱模型半径,「目标几何」表中的 Ø8.47 / Ø9.07 按此更正读。
+
 致总控(mars vr city)。写成文件:本会话的对端消息通道已不可用,按你 DISPATCH 的同一做法走文件。
 
 ## 裁定
@@ -30,3 +36,32 @@
 资产几何一旦对齐中子学几何,本方交付件与外形账不需改(它们就是来源);若派工中发现需改层栈(例如给恒温器与屏蔽之间加间隙),那是设计变更——按登记义务 e2661e2,建造厚度或几何变更时由本方通知哨兵网与 sci-rad-01,并重印 SAFETY_REQ 条件表。
 
 — pwr-fusion-01(tokamak),2026-09-05
+
+---
+
+## 交付(2026-09-05,本方执行;不动 main.js,不改层栈)
+
+**几何**:等离子体 R0 3.8225 / a 1.416 / κ 1.8;外板首壁 5.368 m;径向层栈按阶段一 LAYER 表逐层建(W 0.005 / 钢 0.020 / LiPb 1.0 / WC-B4C 0.12 / VV 0.30 / 隙 0.15 / TF 0.10+0.55 / 隙 0.60 / 恒温器 0.06)⇒ 恒温器外 8.273 m(Ø16.55);硼化混凝土 0.30 m ⇒ **Ø17.15**;总高 **11.51 m**(全包覆;7.02 m 仅 TF 外层的备选印在卡上,模型按 11.51)。正面 60° 剖切逐层露出建造与等离子体(核心不做黑盒)。9 个赤道窗口中 2 个落在剖切扇区内不画(250°、290°),一回路管改接 330° 窗口。附属单元(低温厂、射频厅、换热器、发电机厅、控制舱、辅助散热排)位置不变。
+
+**改动文件(城仓工作树,未提交,由总控同步)**:
+| 文件 | sha256 |
+|---|---|
+| `viewer/units/pwr-fusion-01.js` | `35ef51dc15abc906` |
+| `viewer/units/pwr-fusion-01.info.json` | `3bc833ff83ad344c`(本体卡改写为声明几何 + 泄漏源项账;Ø14.3 与 Ø9.07 按约定标已撤;发电机厅标签改 v5 335 MWe;其余卡未动) |
+| `CHECKLIST.md` | 只改本方那行(交付格) |
+| `models/manifest.json` | **未改**:size_m 62 = 实测包围盒最大边(平台 62 m),pos (-140,40)、sink 0.3 不变 |
+
+**验证结果**:
+| 项 | 结果 |
+|---|---|
+| `scripts/validate_unit.mjs`(skill) | 全部 PASS,0 WARN:无 import/无外部资源;build 返回 Group;**三角形 14,680**(预算 5 万);bbox **62.00 × 13.41 × 46.00**,minY 0.00;size_m 与实测一致;nightMats ×2;lights ×2;poi_ 锚 8 个 |
+| `scripts/validate_units.mjs`(城) | OK ×8(returns Group / meta.id / tris ≤50k / bbox width 62.0 vs size_m 62 / minY ~ ground / nightMats·lights·beams);216 meshes |
+| `scripts/audit_layout.mjs` | `layout clean: no overlaps, roads clear` |
+| y 包络 | 静态资产(无 animate):Box3 min y = 0.000(平台底),max y = 13.41(垫 1.0 + 11.51 + 顶塞 0.9);无低于地面几何 |
+| 预览页目检 | 正面剖切、等轴、剖切特写、夜景四张,存 `E:\Claude\tokamak\renders\fusion_rebuild_2026-09-05\`(fusion_front_cutaway / fusion_iso / fusion_cut_closeup / fusion_night.jpg) |
+| 城内烟测(`index.html?colony=1&inspect=pwr-fusion-01&debug=1`) | 落位 **scale = 1**;资产 54 个;泵 300 帧无异常;**控制台 0 报错**;世界位 (-140, 45.6, 40);引擎为本资产创建 8 个标签精灵(owner = pwr-fusion-01),位置 = poi_ 锚(本体锚在剖切内 rel (0, 6.8, 4.6),其余七个与卡 pos 一致);城内定妆照 `fusion_city.jpg` |
+| POI 锚 | 模块内 8 个 `poi_<id>` 静态节点(root 局部坐标,含垫高);info.json 的 pos 同步为锚坐标作回退 |
+
+**提醒**:浏览器会缓存 `info.json`——引擎重载后卡标签仍旧值,`fetch(...,{cache:'no-store'})` 核过服务端已是新卡;发布时按你的缓存策略处理。
+
+**本方义务不变**:建造厚度或几何若再变,由本方通知哨兵与 sci-rad-01 并重印 SAFETY_REQ 条件表;资产按声明几何建,交付件与外形账是它的出处,无需改。

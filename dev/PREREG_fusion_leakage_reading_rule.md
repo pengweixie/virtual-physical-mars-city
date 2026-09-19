@@ -9266,3 +9266,1341 @@ walkable, its cards show, and its animations run on its own toggle
 (647fa09). The fusion asset is still built at the old envelope with
 the card saying so. The Celestial Palace's own ledger row does not
 exist in CHECKLIST; its delivery lives in dev/DELIVERY/_imperial.
+
+After the release, the file channel carried three more exchanges
+without the integrator in the loop, and that is now the normal
+case: thz dispatched com-gap directly for the input to its ruling 4
+(6f1bc9f), com-gap answered in the exact shape asked - 753 passes,
+d to thz's own reference point, every pass inside 100 km
+re-propagated at 1 s; three passes inside 18 km, none between 18
+and 81, nine in 81-400, the nearest 0.87 km at 1 s - with a
+machine-readable companion (e5a0439); the village answered the
+hydrogen lever on the design side and completed its geometry file
+to geom-r2 against glass's own checklist (c928440); glass checked
+the file, found the four required items, built account 25 and
+started Run B (80d06a9).
+
+The village's lever answer, recorded because it sets the next
+work: it reads Run C's shape before choosing anything - 2 m with
+water stays above the line, 4 m with 8% or more is the only
+configuration not excluded, and the choice between them is the
+user's because the second re-lays the village. Three routes ranked
+by whether they match the geometry Run C measured: structural
+water in minerals first (uniform, stable to about 400 K, replaces
+soil mass, water fraction from an assay the mine does not yet
+hold); ice-soil fill second and only with a vapour barrier, since
+the steady thermal profile (295 K shell, 215 K deep soil) drives
+ice outward and leaves an outside-wet, inside-dry cover that Run
+C's uniform result does not cover; a 0.10 m polyethylene liner is
+about 101 t of import with no city source and needs its own run.
+Water mass: 943 t at 8% for the present 2 m, 2.0 kt at 15%; the
+4 m configuration needs about 25 kt of cover, 2.13 times today's,
+with structural consequences listed as an account to open. The
+thermal consequence stated without a chosen value: wet or
+ice-cemented cover has a conductivity one to two orders above the
+dry 0.05 W/mK, the annual wave is no longer buffered at 2 m, and
+village heating rises from about 2 kW to 21-85 kW - the cover turns
+from insulation into a conductor. No dose number anywhere in it.
+
+Two dispatches written on that, the first two items of "what to add
+next": res-mine-01 for an assay account of structural water in the
+feed it actually mines - phases and fractions with sources (CRISM,
+PIXL / SHERLOC, analogues named as analogues), the reachable water
+fraction after any concentration its flow sheet has, dehydration
+temperatures, mass and rate against the draws it already owes, and
+the statement of what cannot be closed rather than a filled number
+(dev/DISPATCH_res-mine-01_hydrated_minerals.md); pwr-grid-01, with
+ECLSS in copy, for the heating cost per k as a design sweep put
+against the grid's allocation and margin, both 2 m and 4 m
+printed, no k chosen, and the ice-migration question bounded to
+whether it crosses the cabin envelope
+(dev/DISPATCH_pwr-grid-01_wet_cover_heating.md). Not yet started:
+the radiation-budget page on the site, which waits for Run B and
+sci-rad-01's proton-family <Q> so its numbers do not change within
+a week of publication; and the redesign choice itself, which is
+the user's once Run B, the assay and the heating cost are on the
+same page.
+
+Intake of 2026-09-06 morning. Five accounts landed through the file
+channel, three of them committed by their own sessions, and one of
+them corrects this record.
+
+Fusion asset, and a correction to this ledger's own note. The
+tokamak dossier found while rebuilding that the dia 9.07 m it had
+delivered as the machine envelope was the one-dimensional
+neutronics cylinder's outer radius doubled, measured from a 1.2 m
+source axis, not the machine radius: the machine has R0 3.8225 m,
+a 1.416 m, first wall at 5.368 m, cryostat face at 8.273 m (dia
+16.55) and shield face at 8.573 m (dia 17.15), height 11.51 m
+unchanged. The user ruled in that session to build to dia 17.15 x
+11.51; built under the unit flow, 14,680 triangles, bbox 62.00 x
+13.41 x 46.00, minY 0.00, eight anchors, manifest unchanged,
+audit_layout clean, in-city smoke at scale 1 with zero console
+errors, validate_units all OK on this side as well (3b2cadf). The
+card is rewritten to the declared geometry with dia 14.3 and dia
+9.07 both marked retired. This ledger's integrator note of
+2026-09-03 (5421da9), which called dia 9.07 the design envelope and
+the asset 1.6x oversize, was built on the dossier's earlier wrong
+figure: the asset was in fact undersize, and the note is superseded
+by the dossier's own rewrite; recorded here rather than edited
+there, since the card is theirs and they have already replaced it.
+The correction reaches the fence: the chain's LAYER table places
+the shield at 4.2-4.5 m from the axis where the machine's sits at
+8.3-8.6 m, thicknesses unchanged; the perimeter figure (62.5 at 58
+m, 2.32 counts/s) is S_n x T(0.30) / 4 pi r^2, and both T and the
+reading of the 58 m depend on where the layers are, not only how
+thick. Dispatched to the tokamak, the sentinel network and
+sci-rad-01 (dev/DISPATCH_chain_geometry_vs_machine.md): whether
+T(0.30) was derived for the cylinder or the machine and stands for
+the machine; which r the 58 m is measured from; and whether
+sci-rad-01's 0.05% reproduction used the chain's radii or the
+machine's, so the agreement is not two copies of one geometry. No
+number on the environment page moves until all three answer; the
+page's own qualifier - the figure inherits every qualifier of the
+escape value - is what this is for.
+
+Run B (glass account 25, b2077f4, its c4ca0c0): the village's
+geom-r2. Lower bounds in mSv/yr: std bunks 26.5 / 27.4 over two
+seeds, end bunks 27.9 / 35.8, living 52.8 (notch smoothed, an
+upper-direction reading), inside the airlock vestibule 93.7 - about
+three times the bunks and 0.9 of the surface; surface reference
+0.78x account 22's, a normalisation and geometry term with <Q>
+unchanged at 1.92. Scorecard 5 of 11; 21 gates, 15 green, 6
+declared failures. Can say: the village bunks and the flat 320
+g/cm2 value are the same magnitude, and the vestibule is where the
+dose is. Cannot say, by its pre-registered rule: the bunk floor
+relative to 20 - one seed put a bunk's proton track at 13.5, the
+combined mean is 27.0 with a single-bunk sigma of about 8, so 20
+sits within about one sigma. Methodological finding it flags as
+the one to carry: Q-weighted receptors at 20k protons per receptor
+are heavy-tailed, one high-LET event can be half a receptor's
+total, and account 22's 40k with a three-scorer mean had masked
+it. CAVEAT to this ledger's ruling of 55e2ad8: the ruling stands on
+the flat-crown basis and its direction argument (every open item
+raises the number) is untouched, but its margin sentence - 20 lying
+about four range-derived units below 30.1 - used a scatter that
+the heavy tail shows to be understated; the ruling is not
+overturned and is not to be cited as the village's bunk floor,
+which is not established either way in its own geometry.
+
+The three design-side accounts, all committed by their sessions.
+res-mine-01 (b9819d5): hydrated phases on the crater floor close
+qualitatively from Perseverance data but no instrument gives a
+mass fraction (no XRD, no evolved-gas); the only citable number is
+the Rocknest analogue 1.5-3 wt%; 8% water in the cover would need
+267-533% of the cover to be hydrated material, 15% needs 500-1000%
+- a ratio above one, unreachable at any feed-to-cover ratio;
+gypsum against the 295 K shell dehydrates to bassanite in days;
+the 4 m configuration's 13.2 kt of extra cover is about 16,000 sols
+at the committed feed rate; pre-registered and scored, no dose
+number. pwr-grid-01 (3ce5b97): the cost per k as a sweep, six
+expectations pre-registered and met; the bound: under 2 m at
+k >= 1.95 W/mK the survival tier exceeds pwr-storage-01's verified
+145 kW for 30 sols and the island closure stops holding - inside
+the ice-cemented literature range - while 4 m moves it to 3.9; the
+cabin cooldown clock falls from 12.5 h at k 0.05 to 19 minutes at
+k 2, so the heating cannot be shed; fusion carries every k
+trivially; and a pre-existing defect of its own, predicted before
+running and confirmed, the village spur sized at 90 kW against a
+158 kW peak already booked, re-booked and the chain re-run 78/78.
+res-eclss-01 (c984aa9): the migration never reaches the cabin -
+impermeable welded hull, vapour gradient outward, seal permeation
+bounded at 47-103 g/day for the whole village and outward - but
+the conductivity does: the hull's inner surface falls below the
+cabin dew point at k >= 1.8 with open walls or >= 0.9 with
+furniture against the shell (4 m doubles those), so the cabin's own
+moisture condenses on the pressure hull; a perchlorate brine film
+(eutectic 206 K) can sit against the outer hull in the thaw
+annulus, flagged as corrosion; and the village's kdT/L overstates
+flux by 11-20% at high k by ignoring the internal film.
+
+Synthesis, the integrator's: lever 1 as scanned is closed on the
+design side. Minerals do not exist at the mine in the needed
+fraction; the ice route is boxed by the island bound, the
+condensation bound and the brine film across the whole range of k
+it could have; the 4 m configuration is not buildable on any city
+timescale. What survives is the route the village listed third, a
+polyethylene liner against the hull - an import of about 101 t
+with no city source - and the levers that never needed material:
+interior arrangement, which Run B has now priced at about a factor
+of two between the living position and the bunks; the vestibule,
+which Run B shows to be where the dose is; and the stay limit as
+policy, which the village's plaza rebase already writes as an
+inequality. Dispatched: glass Run D, the liner at 0.05 and 0.10 m
+in geom-r2 with Run B's receptors and two seeds, pre-registered,
+with the heavy-tail reporting statistic registered first
+(dev/DISPATCH_glass_runD_liner.md); the village, the four accounts'
+effect on its levers, the surviving ones and who holds each, and
+the stay limit written per class now
+(dev/DISPATCH_village_redesign_after_runB.md). The choice among
+liner, vestibule works and a shorter stay is the user's.
+
+Intake of 2026-09-08, two deliveries through the file channel.
+
+Run D (glass account 26, dev/REPLY_glass_runD_liner.md): the
+polyethylene liner in the village's geom-r2 with Run B's receptors
+plus the village's candidate living position, two seeds, the
+heavy-tail reporting statistic registered before data - paired
+differences per receptor as the primary statistic, the absolute
+floor from the two-seed combined mean with sigma from the seed
+spread, and the explicit statement that Run D does not aim at a
+single-bunk +/-15%, which would need 150k or more protons per
+configuration. Pre-registered: direction down at both thicknesses,
+the lever criterion in Run C's asymmetric shape (bunk-level paired
+mean at or below -2 sigma_pair in both classes, same sign), and the
+per-tonne ratio to the uniform mix expected in [3, 10]. Result:
+bunk-level paired differences about -5% at 0.10 m, z -0.55 (std) and
+-1.31 (end), both negative, neither at the criterion - "not
+established at this statistics" by its own rule; slopes 0 to 0.05
+and 0.05 to 0.10 of -2.7% and -2.5%, both inside noise; the
+absolute-effect ratio to Run C's w = 0.08 is 0.38-0.50 with a
+numerator inside one sigma of zero, so the liner's effect per tonne
+of hydrogen is not clearly above the uniform mix and the [3, 10]
+expectation is not met. Its four declared gate failures are all its
+gate D3, which it had written as "same seed" for what are two
+independent 20k runs - a labelling error in its own gate, declared
+and left red. Integrator reading: with the mineral route
+non-existent at the mine, the ice route boxed by heat, and the
+liner unresolved at a statistics that would cost 9 h per
+configuration to sharpen, the hydrogen levers are exhausted as
+design at this point; what remains are the vestibule works, the
+interior arrangement Run B priced at about 2x, and the stay limit
+as policy - none of which needs another run to be decided.
+
+Compute centre refinement r1 (ops-compute-01 session in
+mars-bigram, now a repository at 4ae2dca, 130 files, no remote;
+dev/DELIVERY_ops-compute-01_r1.md with SHA-256 per file and main.js
+verified untouched; dev/REPLY_ops-compute-01_prereg.md with six
+accounts' expectations and gates registered before data;
+dev/DISPATCH_ops-compute-01_to_sci-rad-01_spectrum.md asking the
+RAD holder for the surface spectrum rather than inventing one).
+Findings it reports against its own scorecard: no card in the city
+assigns any compute load to this station - the grid's 40 / 55 kW
+for it was the installed capacity of eight drawn racks read as a
+meter, and the 4.8 kW emergency-island share was the grid's
+assumption, neither of which the station will underwrite; the
+thermal account overturned three of its four expectations (fin-gap
+escape 31%, not ~10%; dust-on-fin solar term; ground term) and the
+cavity-aperture model ran 20% high; the radiation account cannot
+close without the spectrum and says so; the MB-1 provenance audit
+of 23 card claims finds 11 supported, 5 supported with limits, 3
+partial, 2 design-not-hardware, 1 without product - the last three
+groups re-marked in its own retirement form. Asset: the big screen
+now runs the MB-1 bit-exact sampler live from the real CDF table
+(mb1-cdf-data.js, table sha256 660ebf90..., 220-character self-test
+against the Python gold standard passing in Node and in the city),
+ten poi_ anchors matching ten bilingual cards (the v0 shells for
+chip and cooling retired), 5,912 triangles, bbox 42.40 m = size_m,
+minY 0.00 static and over a 12 s cycle, no separate interior unit
+by its own judgement (the hall is walkable), and a real layout
+finding: the new 42 m envelope clashed pipe-heat-2 at x -109, so
+the position moved from (-90, 120) to (-82, 120) in manifest and
+placements together and audit_layout was re-run. Public page
+rewritten with a 27-row ledger carrying a status column
+(measured / log / report / estimate / account / declared gap) and
+eight "what broke" items. Not delivered: the turntable gif -
+capture ran twice and produced invalid 5 KB files with the browser
+pane hidden and rAF suspended, the same failure mode this session
+met, and it says so rather than shipping a stale one. It also filed
+a receipt to pwr-grid-01 re-checking the G-C north trunk by the
+grid's own village-spur method: four units' peaks sum to 5.8% of
+the trunk, no defect, two units missing from the grid's load table
+named. Its conventions row is declared in
+dev/RETIREMENT_CONVENTIONS.md.
+
+sci-rad-01 answered all three dispatches by file and committed them
+itself (21a136f; its mars_rad e2ed278 / 69b358f / 508496c).
+
+Proton-family <Q>: outcome 3, pre-registered before computing and
+as inventory, not modesty - what the station holds from RAD is two
+integrals (absorbed dose and dose equivalent, hence the aggregate
+Q of 3.05), no LET spectrum, and two integrals cannot separate a
+proton family from the rest of the field; it cannot produce one
+without inventing a spectrum, and declined to. What the integrals
+do constrain is the remainder: Q_rest = (3.05 - f_p Q_p) / (1 -
+f_p), tabulated for f_p 0.5-0.9 and Q_p 1.2-2.5 - and read as the
+gate that was asked for, a proton-family <Q> of 1.44 is consistent
+with RAD's integrals at every f_p in the table, and so is 2.0; the
+integrals do not distinguish glass's 1.44 from glass's own band,
+they say only that the aggregate is carried by a minority high-LET
+component with <Q> of roughly 5-20, which everyone already
+believed. One remark offered at CLAIMS grade and registered with
+that grade so it ages out if nobody banks it: the literature
+Geant4/HZETRN range makes glass's self-set 1.5-2.5 band the thing
+to question, leaning toward outcome 2 - exactly the grade its own
+AGREEMENTS register refuses to bank. Direction, stated either way
+as asked: nothing the station holds can rule out a proton-family
+<Q> below 1.44, and nothing supports one; the integrator's
+direction argument is untouched, and untouched is not confirmed;
+the one thing that would touch it is a proton-family <Q> from an
+actual LET spectrum, which is not in this city. Glass's six H_low
+points taken as numbers only - not re-fitted, not fed to the frozen
+judge: the shape verdict was issued on absorbed proton-only dose and
+stands on its own inputs; a dose-equivalent series is a different
+quantity and would need its own registration before any judge sees
+it. Integrator's reading: the unaudited flag on account 22 cannot be
+cleared or condemned by anything in the city, and stays; it is a
+declared limit, not a defect, and the ruling of 55e2ad8 stands as
+written with its caveat.
+
+Chain geometry: its 62.5 reproduction used the chain's radii on
+both counts - it took the chain's T as the chain's number and never
+re-derived T for any geometry, and it measured the 58 m from the
+source point, the only reading that returns 62.5 (58 m from the
+chain's shield face gives 72.8, from the machine's face 86.1, from
+the machine face expressed from the axis 54.1 - the question is
++/-40% around 62.5, and that table is the size of the question, not
+an answer). So the agreement between its 62.5 and the sentinel's
+says exactly that two parties did the same division with the same
+two inputs; by its own AGREEMENTS rule it carries no weight, and it
+registered it there. If T must be re-derived at the machine's radii,
+that is a revision of the escape value and the re-trigger it
+registered on 2026-09-02 fires - ledgers 10, 11, 12 re-run and the
+co-signed severity table and the card's 645-2630x response range
+expire with it; it will not re-run anything before the tokamak
+states whether T stands, since a re-derivation on its side first
+would be a second copy of a guess. The 1/r^2 reading is the
+sentinel's to state. Direction: a larger fence figure tightens the
+sentinel's margins and does nothing to its own criterion; it has no
+stake in which way it moves - the first question this round where
+that is true. Nothing on the page, the card or its repository
+changes; the page's qualifier now also inherits "derived on a 1-D
+cylinder whose radii are half the machine's, standing or not per
+the tokamak's answer". The fence therefore waits on two answers
+still outstanding: the tokamak's on T, the sentinel's on r.
+
+Spectrum for the compute centre: the station has no spectrum and
+says so item by item with grades - no quiet-GCR differential
+spectrum at Jezero, a surface neutron figure that is two magnitudes
+and not a spectrum, an SEP worst case that is a power-law
+extrapolation table and not a spectrum, no LET spectrum; a
+statement of basis for each, and the list of what it will not give
+in the compute centre's own words. The compute centre's radiation
+account therefore stays "cannot close" with the missing measurement
+named, which is the state its own pre-registration had reserved for
+it.
+
+The radiation budget page (docs/radiation.html), the integrator's
+own item from "what to add next", written once the numbers had
+stopped moving: the dispute and the frozen judge, the
+dose-equivalent floor with the six-point table and both bounds,
+the four levers as tested with the mine's, the grid's and ECLSS's
+bounds, the three measurements the city does not have, a
+seventeen-row ledger tracing every number to its run or ruling,
+and six "what broke" items including this ledger's own
+misattribution. Nineteen district pages now; nav chain environment
+-> radiation -> flight; index card and README row added. On the
+way, one live stale value on the environment page: its specs strip
+still showed the retired 0.21 counts/s for the fence while the
+tier and table below it carried 2.32 - the 2026-09-02 rewrite had
+missed the strip. Corrected to 2.32 on the chain basis, and the
+tier paragraph now carries the 2026-09-06 qualifier that the
+chain's radii are about half the machine's, with the answer the
+tokamak's. No E:\Claude path in the new page; every href resolves.
+
+The lift, built (2026-09-12, integrator). The 3000 m shaft between
+the foyer and the deep lab had been a door: E and a fade. The deep
+lab module had carried a complete entry cutscene since 07-18 -
+shaft descent, airlock, arc, neutrino event - with a documented
+host hook that no engine code ever called; two months of the city's
+own scenes were sitting unplayed in a delivered file. The engine
+now has a ride contract (MODELS.md 4b): a door or portal with
+ride: { from_m, to_m, seconds, cutscene } puts the player in a new
+cab interior, hab-lift-cab-01, runs the hoist on a rated-speed
+profile with depth, speed, the air-column pressure from the lift
+station's own ear-pressure account, refuge niches every 500 m and
+the time-compression ratio printed on the panel, then switches to
+the destination and, where the destination declares one, hands the
+camera to its cutscene. Numbers on the cab's four cards are cited
+from hab-lift-01's accounts, not restated. Verified by manual frame
+stepping in a hidden pane: all three rides land where they should,
+the cutscene runs its declared 12.5 s and returns control with the
+camera reset, no console error. One latent engine bug fixed
+(dataset.id read before any card had shown). The appliance show
+home's two doors landed in the same main.js change. Commits: home
+wiring, then the lift. Not done: a turntable gif of the cab, for
+the same rAF reason as every gif this fortnight.
+
+The village redesign, ruled (user, 2026-09-12): all three remaining
+levers together - the vestibule works, the living function moved to
+the crown depth, the stay limit written per cabin class as policy.
+Hydrogen closed as design on the three accounts already recorded
+and Run D's unresolved liner. What the ruling settles and what it
+does not, written into the dispatch so nobody reads it as the
+bunks reaching 20: Run B's floors stand (bunks about 27, living
+52.8, airlock 93.7), the only lever that reaches the allocation is
+the stay limit, and the village is transitional housing whose
+transition the first two levers make cheaper in dose. Dispatched:
+the village to deliver a geom-r3 with its vestibule proposal solved
+from Run B's receptors (not placed first), the living position
+adopted on the card as a design change with the dose ratio marked
+pending, and the stay-limit table per class in sols with the
+occupancy weighting it had promised; glass to run Run E on geom-r3
+with Run B's receptors plus the new living position and a
+post-works vestibule receptor, paired on shared seeds, two seeds,
+pre-registered, and stated in advance not to test the bunks or the
+policy lever. Files: dev/DISPATCH_village_ruling_three_levers.md,
+dev/DISPATCH_glass_runE_vestibule.md.
+
+The fence question answered from both remaining sides (2026-09-12).
+
+Tokamak (its 15a89f01; dev/REPLY_pwr-fusion-01_chain_geometry_vs_
+machine.md): T(0.30) was derived for the one-dimensional cylinder's
+geometry - the binary's own LAYER table places the first wall at
+1.330 m where the machine's sits at 5.368 m, every layer 4.038 m
+further out on the machine - and it does not stand for the machine
+to a citable degree: two opposing geometric effects, each worth
+about x1.7-2.0 on T, whose net sign the record cannot decide
+because it cannot tell which spectral component carries the deep
+penetration. So T must be re-derived. The re-derivation plan is
+written and not run - a machine-midplane mode in stage.cc, with the
+plasma ring source and the outboard stack from 5.368 m - and its
+prerequisite is the inboard layer stack, which the 0-D design does
+not hold; the tokamak will fill it before touching the binary. Its
+delivery and its SAFETY_REQ conditional table now carry "pending
+re-derivation, not for design citation", numbers unchanged; the
+e2661e2 obligation is read correctly - the value is not yet
+revised, this is the notice that it will be - and the sentinel
+network was notified separately.
+
+Sentinel network (its d4c0983; dev/REPLY_sci-rad-02_chain_
+geometry.md): the 58 m is measured from the machine axis in all
+three places it lives - the ledger's r_sentry, the module's arc,
+the manifest's placement - and the asset rebuild did not move the
+columns. The clean partition: phi = S_n T / 4 pi r^2 is
+source-centred, so r does not depend on where the face is and T
+does; the ring-source correction is 1.0044, and the +/-3.3% on the
+page is the chain's error on T and says nothing about geometry.
+Under the other reading, stated and not applied, the fence would
+fall to 47.5 (from the machine's face) - unfavourable to the
+network on every column, and no SEP conclusion flips under any row.
+It corrects sci-rad-01's table as it should be read: the 72.8 and
+86.1 rows evaluate 1/r^2 at column-to-face distances, which are not
+radii, and the 54.1 row is the chain's face, not the machine's; so
+the +/-40% this ledger had recorded was a misreading, and the
+question was never that wide. One defect of its own, found while
+answering and reported before fixing: its sci-rad-02 card still
+describes the retired self-set chain (a 7.1 m sphere, the void 2 m
+of concrete) beside the current 2.32 cps - the_container_vs_the_
+claim on its own public card, in both languages; the fix is staged
+and held for the freeze, with the phrase to be registered as
+retired so it cannot return.
+
+Integrator ruling on the page: the fence figure stands as printed,
+because the escape value is declared pending and not revised; the
+environment page's tier, prose and table row now say so, name the
+tokamak commit, and say "from the machine axis" at both places the
+sentinel asked for; the radiation page's fence item records both
+answers and retires the +/-40% as a misreading. When T is
+re-derived, the sentinel's registered trigger and the tokamak's
+obligation fire together and the page changes then, not before.
+The sci-rad-04 card carries an uncommitted "_probe" key in the
+working tree that no reply mentions; left uncommitted and raised
+with the sentinel session.
+
+Also in: glass's Run D final table, all 18 runs (the 0.02 m pair
+retrieved 2026-09-12): bunk-level 0.10 m std -5.2% +/- 9.4% (z
+-0.55), end -8.4% +/- 6.4% (z -1.31), both classes pooled -6.8% +/-
+5.3% (z -1.28); not established by the registered criterion; to
+resolve a -10% effect at 2 sigma would take about seven seeds per
+class, 17 h and 6 h, not queued, the user's. Glass's Run E
+pre-registration, stopped for want of geom-r3 as the dispatch
+required, with its checklist and its expectations written before
+data: vestibule works ratio 0.45-0.70 for 1 m of cover over the
+airlock box, 0.30-0.55 for 2 m, 0.85-1.00 for a longer labyrinth;
+new-to-old living ratio 0.50-0.75 against Run B's 0.51 as the only
+analogue; surprise threshold R > 1.05. The village has already
+moved its living anchors on the module (v5d: std and end to z =
+-1.0, the corner cabin from the vestibule mouth to the crown),
+marked as a design change with the dose ratio pending Run E, as the
+ruling asked.
+
+The village answers the three-lever ruling the same day (its 7f419ec
+and 83f2578; dev/REPLY_village_ruling_three_levers.md,
+dev/DELIVERY_village_geometry_r3.md). It restates the boundary
+before any number: Run B's floors stand, only the stay limit reaches
+the line, the village is transitional, the prohibition holds. Lever
+one, solved from the receptor rather than placed first: Run B's
+airlock reading of 93.7 is 0.875 of the bare surface, and the solid-
+angle account from that point puts 11.1% of 4 pi through the top and
+21.5% through the front as 3 mm of steel open to sky and plaza, so
+the works close exactly those two faces - W1r, cover over the airlock
+box to crown depth at a 1:1 slope cut by a retaining wall at z = 8.5
+to keep the west village mouth, and W2, a roofed porch with the exit
+turned to the -x side and a screen wall a metre beyond it, no
+straight line from plaza to door. Earthwork printed beside it: 164.4
+m3 / 271 t of soil plus 17.3 m3 of concrete per end cabin, 543 t of
+soil for the two - 641 sols at the mine's spare rate of 0.847 t/sol,
+201 with one hauler dedicated, 101 with two - and its own earlier
+"10-20 m3 per cabin" corrected by an order of magnitude, that having
+been wall-and-lid volume without the 1:1 slopes. Lever two, on the
+module as a design change (v5d): living anchors std +2.2 -> -1.0, end
+-0.1 -> -1.0, the corner cabin from the vestibule mouth to the crown;
+table, screen, seating and lighting move with it, the bunk row loses
+its 4.5 m of separation from the waking area, the tapered front
+becomes storage; the plaza card says "moved; dose ratio pending Run
+E" and cites no ratio. One geometry defect fixed on the way: the old
+end living point lay inside the second inner wall band, which is why
+Run B could not place it. Lever three, as policy: stay limit =
+allocation / dose per sol, with dose per sol = floor x 1.0275 /
+365.25 x (24.65 - X)/24.65 + 0.66 x X/24.65, X the EVA hours per sol
+and 0.66 mSv/sol the RAD-measured surface equivalent; every entry a
+floor with seed and sigma beside it, so the sols in the table are an
+upper bound on the stay and the true limit is shorter. geom-r3 is on
+file, so glass's Run E is no longer stopped.
+
+Sentinel follow-up (its 3bdaecc; city f32ff36, cc16e2f - it commits
+its own files now, as the other sessions do): the sci-rad-02 card's
+chain sentence, which had described the retired self-set chain (a
+7.1 m sphere and the void 2 m of concrete) beside the current 2.32
+cps, now names the chain that produced the number - S_n x cumulative
+T / 4 pi r^2, r = 58 m from the machine axis - with a correction
+note in both languages and the inherited "T declared pending
+re-derivation" qualifier; the retired description is registered as
+a withdrawn phrase with two self-test samples, and the first hit
+was a quotation in its own receipt. Its "from the machine axis"
+request for the page had already been met in caa9189. Its remark
+that the village's conventions row was the only one never asked is
+stale - that row has been holder-declared since 2026-09-02 and its
+scanner should re-read HEAD. Two disciplines taken into the city's
+memory: a withdrawn description is registered like a withdrawn
+value, since "every number right, the summary wrong" is not a blind
+spot once the phrase is in the gate; and validate before write,
+because a card written and then validated shows green on screen
+while the file on disk is already broken.
+
+Sentinel, second follow-up (its 1dc5927). The village answered it
+directly and is registered; a rescan of 56 ledgers and 2696 files
+gives 0 hits. Its stale "never asked" was structural, not a slip:
+the network had registered conventions by hand from relays and never
+read the city's table; the scanner now reads
+dev/RETIREMENT_CONVENTIONS.md every round and prints a two-way
+comparison, recognising only the word DECLARED. First run: four
+ledgers DECLARED in the table but unregistered on its side (thz,
+com-gap, bigram, home), to be registered from their own
+declarations next round and treated as unasked until then; one
+ledger it had marked asked with no DECLARED in the table -
+sci-rad-01, whose row this ledger had written from its 2026-09-02
+message with the source "asked (via integrator)". Ruled: the row's
+three forms are sci-rad-01's own wording, so the source column now
+says DECLARED by holder via the integrator, with the date the word
+was added; nothing in the row's content changed. The comparison
+caught its own first parsing error on the first run (the city row's
+parenthesis truncated by the generic regex). Its self-report: commit
+516edc6 said seven gates passed while the meta-selftest was red -
+the blinding item's anchor had been the village's "never asked"
+line, which vanished when the village registered, so the item was
+INEFFECTIVE and the meta-test exited non-zero, and that one commit
+command was not wired to the gate loop. Corrected in 1dc5927 with
+history intact: the blinding item re-anchored to something the
+independent ASKED list cannot contain, and commits gated by the
+gate's exit code. Two disciplines into the city's memory: register
+others' conventions by reading their table, not from relays - a
+relayed "asked" with no table basis is a guess; and INEFFECTIVE is
+a failure, not a skip, and a failure cannot be committed - the
+commit must be gated by the exit code, not by a person remembering
+green.
+
+The re-derivation of T for the machine geometry is running (tokamak,
+user-approved, started 15:39:56Z 2026-09-12 on the VM, chain3/,
+about four hours; its 1227357). stage.cc gained a machine_lipb mode:
+the inboard stack built radially per tokamak_0d (CS 0.85 / gap 0.05
+/ TF 0.65 / gap 0.10 / VV 0.30 + WC-B4C 0.28 / thin first wall), a
+plasma ring source over R0 +/- a and z +/- kappa a, the outboard
+stack from R0 + a + SOL; the same build adds a seed argument, a
+PROGRESS line and a parent index on the surface-source column, and
+the old mode reproduces the old binary bit for bit over 3000 events.
+A provenance correction on the way: the outboard first-wall gap is
+the 0-D design's SOL of 0.05 m, not the 0.13 the tokamak had copied
+from the model on 09-05, so first wall 5.288 m, shield outer face
+8.493 m, dia 16.99 m - 17.15 retired, provenance check 14/14. The
+asset stands as built at 17.15, 0.9% over, booked as an asset debt
+to be settled with T. Chain: reference points 6.433 / 6.733, stage
+one 500k at 6.313, segments 1-5, probes at 0.10 / 0.20 / 0.25 /
+0.30 / 0.40 m from the cryostat outer face at 8.193, segment 6. The
+smoke run already shows the inboard stack absorbing - first
+crossing of the LiPb outer face 2.1e-2 per source neutron against
+4.65e-2 in the old model - which is the direction the tokamak could
+not call in advance and is now being measured. On landing, e2661e2
+fires: sentinel and sci-rad-01 notified, SAFETY_REQ conditional
+table reprinted, the 0.30 m build declaration re-checked. Nothing
+on the page moves until then.
+
+Intake of 2026-09-19: a week of deliveries from eight sessions,
+committed per holder by path (e881b1f, d5df393, 26568d3, 00e721a,
+79bb454, bfb878b, 8f7c795, 42c9e2c, 0f59b14), then the shared files
+and the site wiring in one integrator commit.
+
+THE FENCE MOVED. The tokamak's re-derivation for the machine
+geometry landed (chain3, stage.cc 11f048af, its a6cfb92): T through
+the 0.30 m borated-concrete face is 4.391e-11 (242 of 400000
+records) against the model's 1.164e-10 - a factor of 0.377, almost
+all of it in stage one, where the inboard stack and the ring source
+halve the first crossing of the LiPb outer face; every outboard
+segment agrees with the model to within 5%. Required thickness by
+log interpolation 0.250 m (was 0.282); the 0.30 m build declaration
+stands with a margin of 4.37x against the registered target
+1.92e-10. The parent index, available for the first time, shows the
+main face's 207,977 records descend from 644 independent stage-one
+histories with a Kish N_eff of 345 - the earlier bound of 1212 was
+loose by 3.5x - and the 0.30 m probe from 130 histories, N_eff 89,
+so its own statistical error is 10.6% and not the 6.4% previously
+printed. The 0.25 m probe at 1.949e-10 falls between the registered
+1.92e-10 and the operating control 2.2e-10 and is judged "not met"
+by the registered value, printed as such. It narrowed the scope of
+the generator's threshold-flip guard to block only on chain2, where
+a threshold had been changed after the fact, and said so; accepted,
+since the verdict was taken on the stricter registered value and
+the change is dated in its lessons file. The escape value being
+revised, e2661e2 fires: its SAFETY_REQ conditional table is marked
+void pending the sentinel network's recompute at 4.391e-11 and
+sci-rad-01's co-signature; 1.164e-10 is not withdrawn but carries a
+forward pointer on the chain2 delivery. Integrator's page change:
+flux and count rate are linear in T, so the environment page now
+prints about 23.6 n/cm2/s and about 0.87 counts/s as the
+integrator's propagation with the holder's recompute pending, names
+62.5 and 2.32 as retired 2026-09-19, and carries the 10.6% and the
+Kish N_eff beside the figure; the radiation page's fence item and
+ledger row follow. The asset, by the user's ruling of 2026-09-18,
+is corrected from dia 17.15 to dia 16.99 - one constant, the
+first-wall gap 0.13 (the model's own) to the design's scrape-off
+layer 0.05 - with the measured concrete shell at r 8.493 m matching
+the chain3 binary's printed layer table face by face; 14,680
+triangles, envelope unchanged, manifest untouched.
+
+Five new lines, all pre-registered before data, all scored:
+ops-polymer-01 - it can be made, and the cost is water, not power:
+methanol-to-olefins (SOXE CO plus electrolytic H2 to methanol at 20
+bar, SAPO-34, gas-phase HDPE), 1.28 L of well water per kg of PE
+with a use for the propylene and 3.03 L without; placed at (40,
+130), plan B, accepted. ops-roster-01 - the city's first ledger
+about people: 35 beds by card (village 30, undercity 5) against
+115 people on the ECLSS card's duty roster, so 80 people have no
+bed on any card; 27 locations and only 6 with a dose number; three
+allocation lines printed and not merged; the village's stay-limit
+table reproduced by an independent rewrite to within a sol; a
+versioned roster.json. sci-rad-05 - the dE-E telescope, five rounds
+in a week: a reader (the compute centre) caught its MeV cm2/mg
+column 100x too large, checked by a gate that compared the constant
+with itself, and sci-rad-01's receipt had carried the same error;
+the telescope then caught a larger one of its own, three rows of
+the table handed to the compute centre recovering 1.02-1.04 by
+cancellation where the true recovery is 0.79-0.89; the reverse
+cross-gate against sci-rad-01's code agrees on two fields (family
+<Q> 1.435 against 1.44). ops-drill-01 - the RAD-measured storm of
+2017-09-10/11 run through the alarm bus: warning window 77.5 min
+reproduced from sci-rad-01's account, the surface cleared in 40.9
+min for 21 people with the launch site last in, the last one in
+absorbing 0.2-0.3 uGy more, a thousandth of the event; a hook
+specification (dev/HOOK_SPEC_alarm.md) dispatched to thirteen unit
+classes and a drill.json for an engine event bus that does not yet
+exist. pwr-grid-01 r2 - the load table re-read from 77 cards by a
+script that must find every quotation verbatim, the 1.54 kW
+boundary between 48 V sockets and 400 V fixed wiring, a 400 V / 40
+A arc of 0.83-1.01 m in every model so no live air-break at that
+level, the mixed-gas Paschen curve rebuilt independently (1 mm at
+70 kPa 2.33 kV against the appliance ledger's 2.3) with two gates
+kept red by name, and the island ladder reprinted with own /
+card-derived / grid-assumed shares kept apart.
+
+A STRUCTURAL FAULT FOUND AT INTAKE, not anyone's carelessness:
+seven sessions each edited "only its own row" of CHECKLIST.md by
+reading the whole file and writing the whole file back; the last
+writer won. The working tree held three row changes; the rows of
+ops-polymer-01, ops-roster-01 and ops-drill-01 and pwr-grid-01's r2
+edit were gone, the drill's placements entry was missing, and the
+file had gone from CRLF to LF. Repaired: CRLF restored, the three
+surviving changes kept, three integrator-recorded stub rows written
+from the deliveries and marked as replaceable, the placements
+mirror added. The repair that matters is the arrangement
+(dev/DISPATCH_all_checklist_rows.md): the four shared files have
+one writer, the integrator; sessions put their row, manifest entry,
+placements entry and conventions row as text in their DELIVERY
+file. This is the same conclusion the record reached about errors
+of judgement two weeks ago - a one-directional failure comes from
+position, and the fix is structural - arriving this time for files.
+
+Site: twenty-three district pages (polymer, people, drill added to
+the nav ring, the index and the README). Engine work now owed by
+the integrator and not started: the alarm event bus and crowd
+animation the drill specifies, and the "who is where" layer the
+roster's data interface defines.
+
+Second intake of 2026-09-19, and the engine work that preceded it.
+
+ENGINE (364e80b). The two pieces the previous entry named as owed
+are built. The alarm bus: one city state {level, source, t0},
+setAlarm(level, source) calls userData.alarm(level, ctx) on every
+unit that implements it, and for the unit classes the drill's hook
+specification lists that do not yet implement one, the engine owns a
+plain beacon so the city does not look indifferent - 22 beacons on
+red, none on green, and only ops-drill-01 has a hook of its own, so
+the specification is still mostly unanswered by the units. The drill
+player reads units/drill.json, re-issues the flow row every
+simulated minute at a ratio of 60 and walks per-person keyframes;
+the people layer is one InstancedMesh of capsules placed from the
+drill's origins and the roster's totals, and says on its hint line
+that 80 of the 115 have no bed on any card, since a layer that drew
+115 figures without saying so would be the first thing in the city
+to contradict the roster. Verified by stepping the loop by hand in a
+hidden pane (rAF does not run there): figures on the surface 21, 17,
+16, 6, 2 over 49 simulated minutes, console clean. MODELS.md 4d is
+the contract.
+
+THE FENCE, SECOND PASS. Three files arrived around the recompute and
+they correct the previous entry in three places, all of which this
+record had copied from the tokamak's reply without checking:
+(1) "margin 4.37x against the registered target 1.92e-10" - the
+target is a formula in the radii and was carried across the geometry
+change as a constant by everyone, sci-rad-01 (whose formula it is),
+the tokamak, the sentinels' pre-registration and this record. At the
+machine radii it is 1.8051e-10: margin 4.11x, 3.39x at 2 sigma, the
+0.25 m probe misses by 7% and not 1.5%, interpolated thickness 0.253
+and not 0.250. No verdict flips. (2) "every outboard segment agrees
+with the model to within 5%" contradicts the tokamak's own table:
+segment 1 is +8.0%, segments 2-5 are within 5%. The conclusion
+(the difference is on the source side) is unaffected; the sentence
+is withdrawn here as it was there. (3) sci-rad-01 ruled (mars_rad
+e1b4d40) that withholding condition (ii) does NOT transfer to the
+machine chain: no cut-segment family was run on chain3, the binary
+changed, the radii changed, and "a hold is not lifted by absence" is
+its own registered sentence. Under the hold "0.30 m meets the
+target" survives as arithmetic (bias at its registered ceiling on
+all six joints with the wrong sign under-reports T by 2.31x; the
+margin at 2 sigma is 3.39x); what does not survive is the
+interpolated thickness and T as an absolute value in anyone's fence
+figure. This record's page had printed exactly that - the
+integrator's linear propagation, 23.6 and 0.87, as the fence.
+
+The sentinel network's recompute landed (city 9ac7d92, 4857e7d;
+mars_rad_sic a38ac7c, pre-registered alone at 690be05): three
+columns, none of them "the" value - 0.874 cps as delivered, 1.027 on
+sci-rad-01's more conservative reading (the probes share 644 parent
+histories, the deep two fell together, the shallow two agree with
+the model to 1%), 2.02 at the upper arithmetic of the hold - with
+the observation that the bracket is one-sided and the side that
+hurts the network, a lower T, is the side nobody has bounded. It
+withdrew its own sentence of 2026-09-02 ("a visible spurious rise,
+not a catastrophic misreading") for the F = 1e4 row, which now reads
+x11.1 / x9.6 / x5.4 and straddles its own reference leak of x10;
+and it reported two registered expectations missed, the more useful
+being that no gate tied the numbers on its cards to its ledger, so a
+card could go stale with every gate green. It also found its
+self-test had been writing the live CHECKLIST.md - the arrangement
+this record described this morning, not yet gone wrong in its hands.
+
+INTEGRATOR'S RULING, INTERIM, pending sci-rad-01's co-signature of
+the two figures read from its ledger 21 (5.157e-11 and 2.31x): the
+page prints all three columns and heads them "a number without a
+verdict"; no column is chosen, because choosing the delivered one is
+what this record did this morning and it was the thing that did not
+stand. The withdrawal of the 09-02 sentence is accepted and the page
+says so. The integrator's own "roughly 530x the floor" was 1400 x
+0.377 on rounded figures; the ledger constant gives 541, printed now
+as "roughly 540x". The tokamak reprints SAFETY_REQ on the final
+ruling, not on this one. Lifting the hold takes the cut-segment
+family on chain3: the tokamak's machine time and the user's
+decision, not started, and not requested by anyone on the user's
+behalf.
+
+The void figures this record still holds (the sentinel's scan,
+section 8): the entries above this one that transcribe 62.5 / 2.32 /
+0.43 s / x4.8 / 1171x / 1433x are history and are not rewritten;
+this paragraph is their forward pointer. The closed geometry
+dispatch likewise.
+
+sci-rad-05 r6 (telescope 142f26a, pre-registered 63ef2cf) and its r7
+pre-registration: the round in which most of its registered
+mechanisms were wrong and the product became more honest for it.
+Scintillator quenching left out of the model turns 35-71% of 4He
+into 3He and leaks helium into the penetrating Z=1 class, so the
+light-output law is a requirement of the dE-E model and needs helium
+and heavy-ion beam calibration, not protons; the Z>=2 intruder
+sideband closes, but a must-go-red gate did not go red and the
+ablation it forced showed the r5 failure was species coverage, not
+the one-dimensional binning it had blamed in a committed file header
+and a pre-registration; and the ">100 row recovers 0.83" went
+through three wrong mechanisms before the count turned out to be 226
+calcium and 211 iron events, +/-7% - "count the events behind a
+deviation before explaining it" is its lesson and goes into the r7
+design. The table to the compute centre now carries its MC error on
+the two top rows. Its CHECKLIST row was written by the session
+itself into the live file, one row, line endings intact, before it
+could have read this morning's dispatch; taken as delivered, and the
+rule stands from here.
+
+CHECKLIST rows applied whole from the holders' delivered text:
+pwr-fusion-01 (corrections file) and sci-rad-02 (recompute reply) -
+the latter's live row had never received even the 09-02 figures and
+was two re-anchors stale, which is what a shared file nobody may
+safely write looks like from the inside.
+
+Same day, the co-signature (mars_rad bb33e48, city file
+REPLY_sci-rad-01_fence_cosign.md): arithmetic co-signed, heading
+co-signed, the page NOT co-signed as a fair statement of the hold.
+The hold's arithmetic is two-sided and only its upper half had been
+printed - by the sentinels, then by this record - because only the
+upper half had ever left sci-rad-01's ledger: for a shield only
+under-reporting hurts, so it computed one direction, and the number
+then travelled to a consumer for whom the other direction is the one
+that hurts, without the word "one-sided" attached. Two labels
+crossed the same border without their direction: "more conservative
+reading" is conservative for shield clearance and FAVOURABLE for the
+fence (now "shallow-probe reading"), and "upper arithmetic of the
+hold" is not a bound on T but a test load at the registered |b|
+limit (b is unmeasured on chain3; were it larger, no column would be
+quotable). The low side: the same limit-arithmetic gives 1.898e-11,
+and the only b ever measured, chain2's +4.91 pp/join, over-reports
+T, so the expected direction of the unapplied correction is
+downward, to 3.294e-11 - toward the side that hurts the sentinels.
+"No lower bound is established" stays true and stays on the page,
+but no longer alone. This is the asymmetric-reading-rule finding of
+two weeks ago arriving a third time: conservatism has a direction,
+and a number or a label that is safe for the question it was made
+for can be the comfortable one for the question it is carried to.
+The integrator printed both labels this morning without asking
+which way each pointed for the fence.
+
+Ruling stays interim. Labels corrected on both pages and the low-side
+T values printed as sci-rad-01's, count rates marked pending; the
+integrator did not scale the sentinels' pedestal a second time.
+Dispatched to the sentinel network
+(DISPATCH_fence_low_side_rows.md): the two low rows from its own
+formula, unrounded pedestal_total_cps and fusion_component_cps under
+two names (linear scaling gives 0.8733 / 0.8749 against the printed
+0.874 - the 1169-vs-1171 trap again), and its own grading of D2 on
+the low rows. The tokamak does not reprint until then.
+
+Same day, the low side and the final ruling
+(dev/RULING_fence_five_rows.md). The sentinel network filed the two
+low rows from its own code path (city 90c765b, mars_rad_sic 2296fc1):
+five rows high to low, 2.022 / 1.027 / 0.874 / 0.656 / 0.378 cps,
+with unrounded pedestal_total_cps and fusion_component_cps kept under
+two names in a JSON its ledger writes on every run. It declined a
+separate statistical row - the five rows are readings of a systematic,
+the statistics belong to every row - and printed the 2 sigma beside
+each instead; accepted, it is the better table. Graded by the network
+against its own registration 690be05: the ordering margin holds
+everywhere (190x at worst, 150x at 2 sigma); on the lowest row F = 1e4
+reads x24.3 and x30.6 at 2 sigma, past the only red-alarm magnitude
+registered anywhere in the city; F = 1e3 reads x3.3, missing its
+registered "< 3"; the smallest leak resolved in 60 s is x3.13, inside
+its registered "the integration window must be re-discussed". It
+recorded those as open rather than resolving them in the reply, and
+corrected its own earlier sentence ("nobody has bounded the low side":
+true of what is established, incomplete about what exists - "the half
+I had printed was the half favourable to my margins"). Ruled final:
+five rows, none chosen; what survives the hold is "0.30 m meets the
+target" and the gate's ordering; what does not is the interpolated
+thickness and T as a single absolute value; the 60 s window and the
+never-registered numeric leak threshold are open items owned by the
+network and do not block the tokamak's reprint. The hold itself lifts
+only on the cut-segment family on chain3 - the user's decision.
+
+sci-rad-05 r7 (telescope 91a17ce, pre-registered c6777f2): the round
+where the lesson changed direction, from wrong mechanisms to gates and
+quoted numbers that carried no statistical error. A power gate went
+red because the truth side, not the product side, was under-sampled; a
+two-seed consistency gate went red because its band was 1.5 sigma of a
+scatter nobody had measured, so every single-seed class ratio quoted in
+r4-r6 carries +/-2.5%; and an audit of fifteen hits out of fifteen
+found a truth-bookkeeping gap standing since r3 - deuterons and tritons
+above their own exit energy counted in a class that does not measure
+them, 3% - which is the second time in this record that auditing a met
+expectation paid more than a miss. The r6 table to the compute centre
+was fooled by noise in both directions (>100 row 0.82 -> 0.901 +/-
+0.014; >10 and >30 rows lower than r6 read them) and is replaced. It
+also found that five of its deliveries listed run logs as committed
+artefacts while *.log had been gitignored since day one: "a message is
+a claim, the file in the repo is the thing achieved" - violated by its
+own author for six days, and caught by it. It wrote its CHECKLIST row
+into the live file again (one row, CRLF intact), reporting "no new mail
+for this ledger": the all-sessions dispatch is not addressed to it by
+name and its mail check did not match it. Taken as delivered once
+more, and the dispatch is now sent to it by message, by name - a rule
+that lives in a file nobody is told to read has not been issued.
+
+Same day, the fence chain closes. The tokamak reprinted
+SAFETY_REQ_sep_gating.md on the ruling (tokamak 1dad3bc, city
+fce11b8): five rows read by script from the sentinels' JSON with its
+hash printed in the table head, not typed and not recomputed, the
+qualifier on the same page, no row chosen, the void marker gone, the
+09-02 figures kept and marked void, the re-trigger obligation still
+registered with it. sci-rad-01 refilled its card (mars_rad 11adb84,
+city 6dec983) as brackets over the five rows - GCR share 0.08-0.43%,
+response ratio 105-2296x, rise at gate-open 0.09-1.9%, margin
+105-563x, the gate's ordering holding on every row - and its ledger 6
+no longer types the pedestal constants: it reads the sentinels' file,
+pins its sha256, refuses to run on any other, and asserts total minus
+fusion component equals R_gcr row by row. It declared that its GCR
+share agreeing with the sentinels' column digit for digit is the same
+file and the same division and carries no weight. The refill turned up
+one stale string no gate had covered: "0.5 m more equivalent shielding"
+had disagreed with its ledger (0.77) since the re-anchor of 09-02; now
+0.57-0.75 m, generated from the bracket and gated. Its offered
+CHECKLIST line was not in the table's format; the integrator appended
+a dated, attributed clause to its existing row instead.
+
+What is left open by this chain, by owner: the sentinels' 60 s window
+and their never-registered numeric leak threshold; the cut-segment
+family on chain3, which alone lifts the hold and is the user's
+decision.
+
+Same day: the cut-segment family on chain3 is started. The tokamak
+reports the user authorised it in its session; it is the tokamak's
+machine time and the integrator neither requested nor relayed that
+decision. Its pre-run notice is in the city repo before any data
+(REPLY_pwr-fusion-01_chain3_cut_family_start.md; driver committed at
+tokamak 1ef4e89 before launch): five cuts of 0.05 m against the
+existing 0.25 m single-slab probe, same design as chain2's c5 family
+with only mode and radii changed, default seed on purpose because the
+registered reading was written for it, and the declaration that the
+five sub-segments and the reference share the main face's 644
+stage-one ancestors and are not six independent samples - quantified
+this time by the parent index. The reading is sci-rad-01's
+(evaluate_ii, 1c2da11); the tokamak reports counts to nobody until
+sci-rad-01 has answered whether it registers anything further before
+data. Whichever side it lands on, e2661e2 may fire again; whether the
+five-row table is recomputed is then for the sentinels and the
+integrator. Until a result is read by its holder, the ruling of
+RULING_fence_five_rows.md stands unchanged.
+
+Same day, before data and after it without opening it. Two
+pre-registrations went in ahead of the chain3 counts: the sentinels'
+(mars_rad_sic d01551d: the b thresholds at which each of their
+sentences changes, a disposition fixed for each of sci-rad-01's three
+possible verdicts, and "a surprise in our favour gets one more check
+than one against") and the integrator's own (284e0f0: what the pages
+print under each verdict, no scaling of anyone's pedestal, pages move
+only when the verdict file and the sentinels' JSON both exist, and a
+declared stake - having printed one number this morning and taken it
+back, the outcome that makes that page look nearly right is the one to
+distrust). The tokamak's counts then landed as a file
+(REPLY_pwr-fusion-01_chain3_cut_family_counts.md), sci-rad-01's reading
+registered before data at mars_rad 8025468; the integrator has taken it
+into the repo having read its header only, and waits for the verdict.
+
+The sentinels, on the user's instruction, took up the ruling's two open
+items (city 05b6aad; pre-registered 6d9663a, computed d86da21). "Leak
+alarm" turned out to be two questions. The limit alarm has a clean
+answer that does not depend on which row is true - 216 counts in any
+60 s sliding window, the registered escape target expressed at the
+fence - and passes all ten baselines; accepted. The change alarm does
+not: a single window fails eight of ten, a baseline-scaled window fails
+six and worst, a ladder fails two, and three parallel CUSUM charts with
+untuned design factors pass nine, missing x3-in-60-s on the lowest row
+at 2 sigma low. By its registered rule no scheme is taken, and it did
+not lower the alarm line to get the tenth. Interim ruling
+(RULING_sentinel_alarms_interim.md): red accepted; yellow not ruled -
+relaxing a registered requirement after data is not an integrator's
+signature, and the tenth baseline exists only because the bracket is
+five rows wide, which the b measurement may change; if the shortfall
+survives, it goes to the user as a design trade. Found before anything
+was computed and blocking both: there is no fusion-power signal, so a
+threefold power ramp and a threefold leak are the same event to the
+network; asked of the tokamak, and until answered both thresholds are
+design values, not alarms. By-product: ungated, F = 1e4 trips red on
+every row and F = 1e3 on none - the gate's necessity graded against a
+number for the first time.
+
+Same day, the tokamak's answer on the power signal (city file
+REPLY_pwr-fusion-01_power_signal.md): there is none. 640 MW is a set
+point from the operating-point file, S_n is that divided by the D-T
+energy; a full-repository search for diagnostics finds one line of the
+mass budget ("diagnostics + control, 120 t, engineering estimate") and
+no instrument list, no neutron-yield measurement, no calorimetry, no
+power control loop and no start-up or ramp timeline. It gave no
+numbers for what such a signal would be, because the only ones it has
+are from memory and a remembered number enters nobody's ledger here;
+it gave one argument of direction (calorimetry through the blanket's
+thermal inertia is slower than a neutron measurement, so the x10-in-
+10-s requirement probably cannot ride on it) and labelled it as that.
+And it declined to let the sentinels route around it: "a 640 MW fusion
+station with no power measurement is a gap in this design ledger, not
+something the sentinel network should work around." Closing it takes a
+new neutron-yield diagnostics account in the tokamak's ledger; not
+started, the user's decision. Until then item 3 of the interim alarm
+ruling stands as written: both thresholds are design values. The city
+has carried, since July, a fusion plant whose power nobody measures,
+and it took a fence alarm asking for a denominator to find it.
+
+Same day: the user has opened the neutron-yield diagnostics account in
+the tokamak's ledger. Dispatched (DISPATCH_neutron_yield_interface.md):
+the consumer states its requirement first - the sentinels derive, from
+their own alarm design, the error, latency and cadence each alarm
+requirement tolerates and what the columns do when the signal is
+absent - then the tokamak pre-registers its account against that, and
+the interface is one hash-pinned file co-signed by both. Three
+questions added that neither side would ask of itself: what the yield
+calibration is independent of (a monitor calibrated through the same
+transport chain as T shares the fence's error), which direction of
+signal error costs whom (reads high hides a leak, reads low raises
+false alarms), and whether an SEP reaches the yield monitor - if it
+does, the normalisation fails exactly while the gate is closed.
+
+Same day: the hold on the machine chain is released, and reviewed.
+sci-rad-01 read the chain3 cut family under a reading registered before
+the counts existed (mars_rad 8025468; verdict fc58520): b = +5.57 +/-
+3.01 pp/join, abs(b) + 2 sigma = 11.59 <= 15, condition (ii) SATISFIED;
+and it did not let condition (i) ride over from chain2 - "releasing a
+hold by an absence is the sentence I refused the tokamak two hours ago"
+- but checked it on chain3's own probes (8.68 -> 11.35 decades/m). b is
+not applied: it is a gain, measured in one material of six joins.
+Having written the rule and released under it, it asked the integrator
+to review before anyone treated it as final, and the tokamak held its
+delivery's first block until then.
+
+The review (dev/RULING_chain3_release_review.md) opens with the
+integrator's stake, because the release makes quotable the very number
+the integrator printed as the fence this morning - the outcome its own
+pre-registration named as the one to distrust. Everything was recomputed
+from the raw surface-source files with the integrator's own tracing of
+the parent index: counts, R, b, sigma, the 284-of-284 nesting and the
+four slopes all reproduce. Two findings. (1) "644 independent stage-one
+histories" were ss_0 records, not histories: the tokamak's trace stops
+one file short, 169 stage-one histories wrote more than one record into
+ss_0, and the count is 642 (Kish 342.7, not 344.6). The probes that
+carry the quoted margins are unchanged; the figure has nevertheless been
+printed by four holders including this record. (2) The verdict is not
+marginal. sci-rad-01 printed a five-board quadrature sensitivity of
+14.70 against the limit of 15; a bootstrap over the 642 histories that
+keeps the correlation between the two sides (0.91; same source
+sequence) gives sigma_b = 0.81 and abs(b) + 2 sigma = 7.20. The boards
+are nested and each relaunch renormalises, so intermediate history-mix
+errors cancel rather than add. The registered sigma was the direction
+against release, as registered; and b is positive at about 7 sigma - a
+measured over-report, not a bound around zero.
+
+That last sentence decides the page, against the integrator's interest:
+for the shield, T = 4.391e-11 unapplied is the conservative quotation;
+for the fence it is the comfortable one - the third time today a number
+has crossed that border - since the chain's own b puts the fence's T
+near 3.17e-11 (2.27 .. 4.51). The page will not return to a bare 0.87
+cps: it prints the as-delivered row as quotable and, beside it and
+unmerged, the row at chain3's own b with its interval, both from the
+sentinels' file. The two high rows leave the table. The expectation
+registered in 284e0f0 was met on every count and was audited as a met
+expectation; both findings came out of that audit.
+
+Same day: the tokamak's neutron-yield diagnostics account, opened on
+the user's direct instruction in its own session (it did not start on
+the sentinels' relay, and said so). Design only - the instrument does
+not exist and the interim alarm ruling stands. Requirements read from
+the sentinels' product, with a gate that re-solves one of their
+equations to prove the reading (0.9742 both sides). Signal: S_rel from
+neutron counting in blind tubes in the innermost 0.10 m of the
+bio-shield, three toroidal positions by two depths, 1 Hz, data age
+1.5 s, valid from 0.098% to 150% of nominal on one pulse-counting
+channel; calorimetry only as the slow absolute anchor. It chose no
+stability tier and priced each: at 1% the rated count rate must be
+3e4 cps and dead time known to 74 ns - and the sentinels'
+commissioning baseline needs 12 to 66 hours of continuous steady state,
+3 to 17 hours at 2%; "the bottleneck is not this instrument, it is your
+columns' own count rate." What it names as soft: the blanket energy
+multiplication M = 1.15 is a 0D assumption nobody has checked (the red
+level can absorb +/-17% of it); plasma position moves the local flux at
+constant S_n and is unquantified, so a third of every epsilon budget is
+an empty promise until two displaced-plasma transport cases are run (VM
+time, the user's decision); no ramp-up rate account exists, and the
+direction is stated - a fast rise reads high and false-alarms, a fast
+drop reads low and does not. And a constraint back onto its own
+shield: blind tubes and stepped cable runs only, because one straight
+tube is a duct and the delivery says "no duct streaming". The account
+was written before the integrator's dispatch reached its session, so
+the order it asked for (pre-register against the requirement file) and
+its three questions - calibration independence, which way each signal
+error costs whom, whether an SEP reaches the monitor - are unanswered
+and stay asked. Independence is half-answered by construction: the
+anchor is calorimetry, not the transport chain that produced T; the
+8.6e6 n/cm2/s that sizes the detector is from chain3 and is labelled a
+lower bound. CHECKLIST row applied whole from its file.
+
+Same day, the tokamak's answer to the interface dispatch (tokamak
+ea893dd; pre-registration of the three uncomputed items 1a1425a) and
+the sentinels' corrected requirement (city 151be43, pre-registered
+7f9cf3f). The tokamak opened with what it had not done: its account's
+first version landed with numbers before the dispatch arrived, so
+"which requirements I expect to meet" was never written ahead of them;
+it did not back-fill, labelled the after-the-fact expectations as
+non-binding, and pre-registered only what is genuinely still
+uncomputed - plasma displaced 5 cm outward moves the monitor's flux
++1..+3%, blanket multiplication M 0.95..1.15, 90% step response under
+0.1 s - all needing VM time, none started. It removed three remembered
+magnitudes from its first version.
+
+The independence question found the design's largest flaw, in the
+tokamak's own words. The absolute scale, anchored on calorimetry, is
+independent of T, (ii), b and the sentinels' response chain. The
+relative signal is not: the monitor sits outside the 3 m stack, so any
+change of transmission inside it moves the monitor and the fence
+together, and the normalised rate - T_total / T_to-monitor - CANCELS
+the part of a real leak caused by the stack thinning; "the alarm goes
+blunt exactly when it should ring." Stability pushes the monitor
+outward, independence pulls it inward. Partial mitigation: monitor over
+calorimetry drifts when the stack changes, on thermal timescales. The
+full answer is a line of sight that does not pass through the blanket,
+which its one-dimensional transport cannot compute; listed as open, and
+the interface file says the signal is blind to transmission changes
+inside the monitor. Direction: of the signal's error sources only two
+fail safe (dead-time under-correction, sensitivity burn-up read low);
+gamma pile-up, outward plasma shift, stack thinning and SEP counts all
+read high, the missed-leak side, and the worst of them coincides with
+the leak. SEP: negligible at full power, about 5% high at the validity
+floor for F = 1e4 - the normalisation degrades while the gate is
+closed, at low power, toward a missed alarm - resting on one unchecked
+assumption (equal relative response of monitor and column to the
+ambient field) which it put to sci-rad-01 as a single question:
+smaller, comparable, or possibly LARGER behind 0.30 m of concrete,
+where high-energy protons make neutrons in place.
+
+The sentinels corrected their own requirement: the epsilon table the
+tokamak had priced was "how the false-alarm bound degrades if the alarm
+line is not moved", not a requirement. Stated in both directions and
+per baseline, red tolerates S_n high by 14.7% and low by 14.8%; the 1%
+figure comes from the lowest row of the fence bracket alone. Without
+that row everything is met within about 15%, the rated count rate falls
+from 5.6e6 to 2.6e4 cps and the commissioning baseline from 12-66 hours
+to 3-18 minutes - and the driver becomes the SLEWING criterion's own
+counting noise, so "relax the requirement and the instrument becomes
+easy" is false. On a missing or stale signal the columns go to a
+non-green blind state and keep the un-normalised red as a backstop;
+hold-last-value false-reds on every ramp-up and inhibit sees nothing.
+The integrator's advice to the user an hour earlier ("do not choose an
+epsilon tier yet") addressed a choice that did not exist; withdrawn.
+Whether the lowest row survives is now the live question, and the
+integrator's bootstrap of b (0.81 pp) puts the abs(b) = 15 on which
+that row is conditioned more than ten sigma away - the sentinels'
+proposal to make, under d01551d.
+
+Same day: the release landed in the tokamak's delivery (tokamak
+bb2540e). 644 -> 642 corrected in four scripts by tracing to the event
+id; regenerated, it agrees item by item with the integrator's
+independent count. Its stated cause: it had checked that ss_0's parent
+column is the event id and then assumed one event writes one record;
+169 events wrote more (secondaries of one event each making their own
+first crossing). chain2 has no parent column and cannot be checked the
+same way. The first block now prints RESOLVED at 0.30 m with the
+release status read from sci-rad-01's product, three sigmas each under
+its owner's name and not merged, b unapplied on the load-bearing column
+with the integrator's sentence beside it - conservative for the shield,
+the comfortable side for the fence - and an information row at
+3.172e-11.
+
+It also reported an error it nearly shipped, which is the most useful
+thing in the file: its SAFETY_REQ reprint script pinned no "which
+version of the input was ruled on", so when the sentinels updated their
+JSON a rerun printed the new rows under the old ruling's words ("five
+rows, none is the value", "(ii) not established") - a page nobody had
+ruled. Caught before commit and restored. The script now pins the hash
+the ruling rested on (18a8648e...) and, on a mismatch, leaves the table
+alone and says so. A reader that regenerates from a live foreign file
+needs the ruling's hash, not only the file's path: "read, not typed"
+protects against transcription and does nothing against a ruled page
+silently becoming an unruled one. The integrator's next ruling will
+therefore name the sha256 of the sentinels' file it rests on.
+
+sci-rad-01 answered the tokamak's single question on the yield monitor
+and SEP (mars_rad f8e386e), grade stated first: it has no sourced
+number. What it can give is the direction, and it overturns the
+tokamak's "taking the ambient field equal at both places is
+conservative": the surface SEP neutron budget has two parts, neutrons
+made in the atmosphere (which the building and 0.30 m of borated
+concrete do reduce) and neutrons made in place by penetrating protons -
+and for protons the concrete, the roof and several hundred tonnes of
+LiPb, WC and steel beside the monitor are a target, not a shield. On
+hard-spectrum events, the ones where the scaling matters, "possibly
+larger" is live. Not conservative: unchecked. The interval it printed
+is marked not quotable and is not copied here.
+
+Same day, the fence after b - final (dev/RULING_fence_after_b.md,
+superseding RULING_fence_five_rows.md). The sentinels delivered under
+their SATISFIED branch (city 41e9054, ledger 8fa5a82, addendum 0d18e7b
+before the rerun): row 1 as printed and quotable, 0.874 cps; row 2 at
+chain3's own b over six joins, 0.632 cps with interval 0.453-0.898,
+conditional on concrete's b holding on all six; the three high rows
+retired. They declared a departure from their own registration - "one
+row" became two - for the integrator's reason: one row would have been
+row 1 alone, the comfortable one for the fence. For the low limit row
+they proposed, before rerunning the alarms and against their interest,
+to keep it relabelled "a conditional test load, not a reading";
+dropping it is worth a factor of ten in the signal requirement. Their
+scorecard records a miss in their own favour ("dropping row 3 would not
+rescue the requirement" - wrong by an order of magnitude), a registered
+rule found non-monotonic near the pass line and left as written, and,
+for the second time today, seven gates green against stale cards
+before the cards were touched; the card gate now pins every row.
+
+Ruled: the table as delivered, the sha256 of the sentinels' file named
+in the ruling (the tokamak's near-miss of this afternoon). Row 3 stays
+on the table under its label and is NOT a requirement baseline, for an
+arithmetic reason: its premise puts abs(b) = 15 on the two concrete
+joins where chain3 measures +5.57, three sigma away at best; the honest
+form of "the unmeasured joins could sit at the limit" is the mixed load
+- concrete at its measured b, the other four at 15 - which gives 2.25e-11,
+one per cent below the interval's low end already in the baseline set.
+Because that outcome favours the sentinels and the tokamak, they owe
+one more check: compute the mixed load with their own formula and grade
+with it where it binds. Red accepted. Yellow: the sequential test
+adopted as the design-value scheme, missing x3-within-60-s at one
+corner that stacks two 2-sigma pessimisms (63 s); printed, not relaxed;
+the 60 s is the network's own registered figure, not a city
+requirement, so whether 63 s is acceptable goes to the user with the
+integrator's recommendation to accept. Needles to be registered for the
+three retired rows: they were printed, as rows and as bracket ends, in
+five places. Pages: the environment page now carries 0.87 and 0.63 side
+by side, the state before the measurement kept below it; the radiation
+page's fence item gains the evening's paragraph, including 642.
+
+Scored against the integrator's own pre-registration (284e0f0): page
+rule followed with one declared difference (two rows, not one);
+favourable-outcome check applied twice; no pedestal scaled by the
+integrator. The day in one line, for whoever reads this next: a number
+printed in the morning as the fence, withdrawn by noon as unquotable,
+became quotable by evening - and the measurement that made it quotable
+is the same one that says it is probably 1.4 times too high for the
+purpose it was printed for.
+
+Same day, the ruling carried out. sci-rad-01 refilled its card from the
+pinned file (mars_rad 642f7f7, city 3a99863) and withdrew its own
+morning bracket: a min-max span across rows is exactly the merge the
+ruling forbids, and would now join a quotable value to a test load. The
+four quantities stand as "row 1 | row 2" (GCR share 0.18% | 0.26%,
+margin 243x | 176x), row 3 printed once under its label, and its card
+gate generates the eight strings from the ledger so that a merge or a
+missing row goes red. It re-pinned to the tokamak's corrected delivery
+(642; K_last 171.0; sigma_b moves in the fourth decimal). Its CHECKLIST
+row came as a whole row this time - the live row plus one clause - and
+was applied as delivered.
+
+The tokamak reprinted SAFETY_REQ on the new pin (tokamak 004fe2b,
+SAFETY_REQ sha256 67295690...c7d5), having checked the file on disk
+against the hash in the ruling bit for bit. It found a hole in the
+ruling and said so: the sentence about the yellow alarm's corner is read
+from two further sentinel products whose hashes the ruling did not
+name, so it pinned them itself at the versions present at reprint -
+"otherwise they move, I rerun, and that sentence changes without a
+ruling". Accepted as the right default; the integrator's omission. The
+next ruling that touches the alarms (after the sentinels' mixed-load
+check) names the hashes of every product a printed sentence is read
+from, not only the table's.
+
+Same day, the mixed load - and the integrator's form of it overruled
+(dev/RULING_fence_after_b_addendum_mixed_load.md). The sentinels
+computed the mixed load the ruling asked for (M1: the two concrete
+joins at the measured b, the four unmeasured joins at 15; pre-registered
+f6689a7, computed 156e47b, the pinned table untouched and asserted by
+hash inside the run): T = 2.253e-11, the integrator's arithmetic
+confirmed, the 10% signal requirement unchanged. And beside it, against
+their interest, they put M2: concrete at b + 2 sigma, since that is the
+convention of the very row M1 was meant to replace. M2: T = 2.016e-11,
+signal stability 3%, F = 1e3 reading x3.2 past their registered "< 3",
+the yellow corner at 71 s. Their view: a trade, not a right and a
+wrong, and one for the party that does not benefit.
+
+It is not quite a trade. The 15 is not an estimate of b; it is the pass
+limit of condition (ii), and (ii) limits abs(b) + 2 sigma. "An
+unmeasured join at 15" therefore means "at the largest 2-sigma-high
+value the release logic admits", and the same convention on a measured
+join is b + 2 sigma, not b. M1 set a central value beside four limits;
+the integrator wrote it and it was incoherent. M2 is set B's own
+convention with one assumption removed - that the unmeasured joins
+share concrete's b - and dominates the interval's low end join by join,
+where M1 sat 1% below it by coincidence. M2 binds. Nobody in the chain
+benefits from it but whoever relies on the alarm. Two ways it can be
+relaxed, neither a ruling: measure b in the other materials on chain3
+(with values like the three that exist the requirement returns to about
+10%; the user's decision), or a correlation-keeping sigma registered by
+sci-rad-01 under its own rules (the integrator's 0.81 is not the
+registered reading and was kept out).
+
+The ruling now pins by sha256 every product a printed sentence is read
+from, not only the table; the co-signed interface lapses by its own
+condition and is regenerated at 3%; SAFETY_REQ is reprinted; the
+question for the user grows from 63 s to 71 s, and the recommendation
+changes with it - do not tune the alarm line to close eleven seconds at
+a corner that stacks three pessimisms; close it by measurement. The
+sentinels registered needles for the three retired rows, withdrawing
+their own "they were never printed as values" as wrong on the fact;
+the gate went red on seventeen of their own uses, and on one line of
+the integrator's page, now marked as history. Recorded from their
+section 3b: thinning of the stack inside the yield monitor cancels in
+the normalised rate, so yellow and the normalised red are blind to it
+and only the un-normalised red backstops it, at a leak of x4.1 to x8.9.
+
+Same day, the addendum carried out by the tokamak (tokamak 64573b9):
+the three pinned products checked bit for bit before anything was
+regenerated; the interface regenerated at 3% reading high / 8% reading
+low (sha256 eb82dc9d...cea4, awaiting the sentinels' re-signature);
+SAFETY_REQ reprinted on the three pins (ee7469fe...b055) with M2, the
+three failing corners, F = 1e3 at x3.2, the two routes to relax M2 and
+the blind spot with its x4.11-x8.95 backstop. Splitting the tolerance
+by direction split the interface's own criterion by direction: the
+published value lags by one data age, so it reads high on a falling
+power and low on a rising one, and SLEWING becomes 2.0 %/s falling and
+5.3 %/s rising. It removed two numbers it had typed into the reprint
+script's prose. And it drew the consequence that matters: under M2 the
+budget left on the reads-high side for plasma position is 1.0%, and its
+own pre-registered expectation for a 5 cm outward shift is +1..+3% - if
+that expectation holds, a single-point monitor cannot meet M2, and the
+displaced-plasma case is now the run that decides whether this design
+path is open at all. Both remedies lie in the tokamak's machine time and
+the user's hands: the displaced-plasma case (does one monitor suffice),
+and cut families in the unmeasured materials (does M2 relax to about
+10%, which would reopen the budget).
+
+Same day, the chain closes for the night. The sentinels accepted M2 and
+re-signed the interface at sha256 eb82dc9d...cea4 (city 3059037, card
+aedbb2d), having checked 0.03 / 0.08 against their two pinned products
+item by item; none of their products changed. Two reservations entered
+on the record and expressly not made conditions: (1) their own
+requirement r x tau <= epsilon spends the whole tolerance on lag, so
+during a power change lag and static bias add - up to 6% high and 16%
+low - and on the binding baseline x3-within-60-s falls to 0.884 and
+about 0.76 during transients (red unaffected); "the fault is in my
+requirement", to be pre-registered and recomputed before the next
+interface version; (2) the 3 s slope window is part of what was signed,
+and a 10 s window would be a new version whose consequences in both
+directions are to be seen before signing. On the tokamak's 1.0%
+position budget they wrote that no threshold will be loosened to make
+room; the ways out are the two measurements and a second measuring
+point or a bypass line of sight. The tokamak, while estimating machine
+time for the cut families, found and corrected an old error in both
+deliveries' cost tables (segment 1's elapsed time had included stage one
+since 09-02: 40.4 min printed for 5.8, 28.3 for 6.2; no transmission,
+verdict or margin touched; city 46f3929) and replaced its offhand
+"comparable" with an estimate: four materials, about 4.0 hours, the TF
+winding sixty per cent of it.
+
+State at close of 2026-09-19. Ruled and carried out: the fence table
+(two rows and a labelled test load, pinned), M2 as the binding
+baseline, red 216 / 60 s, the sequential test as the design-value
+yellow scheme with its 71 s corner printed, SAFETY_REQ reprinted on
+three pins, the interface co-signed as a DESIGN. Open, by owner - the
+user: the displaced-plasma case (decides whether a single-point monitor
+is a path), cut families in the four unmeasured materials (about 4 h;
+would relax M2 toward 10% and close the corner), a line of sight that
+bypasses the blanket (the only cure for the normalisation's blind
+spot), whether 71 s is acceptable meanwhile; the sentinels: the
+transient form of their lag requirement; sci-rad-01: re-pin to the
+tokamak's corrected delivery hash, and, if it chooses, a registered
+correlation-keeping sigma; the tokamak: M, the step response, ramp
+rates. Nothing in the city is a deployable fence alarm, and every page
+that mentions one says so.
+
+2026-09-20. The user decided all six open items, in the integrator's
+session, in one message (DISPATCH_user_decisions_20260920.md quotes the
+words as typed): run the displaced-plasma case; run the cut families in
+the four unmeasured materials; open the design of a line of sight that
+bypasses the blanket; accept the 71 s corner for now; release v1.4.1;
+add seeds to Run D. The dispatch records what was said to the
+integrator and says it is not an authorisation issued by it - a session
+that needs the user's word before spending machine time asks in its own
+session. Order set by the integrator: the displaced-plasma case first,
+with what each outcome forces written before the run (under M2 the
+reads-high budget for position is 1.0%); then the cut families, each
+reading sci-rad-01's, after which the sentinels recompute the mixed
+load join by join and the integrator re-rules on new pins; the sight
+line as its own pre-registered account, whose first question is what it
+costs the shield - a sight line is a duct, and the delivery says "no
+duct streaming". The 71 s is accepted, not relaxed, and "for now" ends
+when the cut-family readings land.

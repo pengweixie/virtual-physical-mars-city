@@ -3,37 +3,57 @@
   "pois": [
     {
       "id": "cryostat",
-      "label": "托卡马克本体（低温恒温器 Ø14.3 m）",
-      "label_en": "Tokamak body (cryostat, dia 14.3 m)",
+      "label": "托卡马克本体（生物屏蔽 Ø16.99 m × 11.51 m，剖切露径向建造）",
+      "label_en": "Tokamak body (bio-shield dia 16.99 m x 11.51 m, cutaway showing the radial build)",
       "pos": [
         0,
-        8.5,
-        0
+        6.75,
+        4.57
       ],
       "range": 40,
-      "detail": "紧凑型托卡马克的真空低温恒温器：Ø14.3 m×15 m 钢制圆筒，外壁 18 条 D 形加强肋对应内部 18 只 TF 超导环向场线圈，9 个赤道窗口（栓接法兰）分别接加热、诊断与一回路。火星大气 0.6 kPa 近真空，恒温器外壁绝热负担远小于地球同类。【注（总控 2026-09-03）】本卡的 14.3 与 15 描述的是当前城内几何，不是现行设计包络：tokamak 设计册 2026-09-02 交付的机器包络为 Ø9.07 m × 11.51 m（另有 Ø8.47 m 与 7.02 m 高度备选），直径小约 1.6 倍。重建前请勿据本卡取设计尺寸。",
-      "detail_en": "The vacuum cryostat of a compact tokamak: a 14.3 m x 15 m steel cylinder whose 18 external D-shaped ribs mirror the 18 superconducting toroidal-field coils inside. Nine equatorial ports on bolted flanges feed heating, diagnostics and the primary loop. At 0.6 kPa the Martian atmosphere is already near-vacuum, so the outer wall carries far less insulation load than an equivalent plant on Earth. [Integrator note, 2026-09-03] The 14.3 and 15 m on this card describe the current city geometry, not the live design envelope: the tokamak dossier delivered a machine envelope of dia 9.07 m x 11.51 m on 2026-09-02 (with dia 8.47 m and a 7.02 m height as alternates), about 1.6x smaller in diameter. Do not take design dimensions from this card until the geometry is rebuilt.",
+      "detail": "紧凑型托卡马克本体，按 tokamak 设计册 2026-09-05 声明几何重建：等离子体 R0 = 3.82 m、a = 1.42 m（A = 2.7）、κ = 1.8；外板首壁 5.29 m（R0 + a + 刮削层 0.05）；径向建造自首壁向外为 钨 0.005 | 钢 0.020 | LiPb 增殖层 1.0 | WC-B4C 屏蔽 0.12 | 真空室 0.30 | 真空隙 0.15 | TF 绕组 0.65 | 恒温器隙 0.60 | 恒温器钢壁 0.06 ⇒ 恒温器外面 Ø16.39 m；外包 0.30 m 硼化混凝土生物屏蔽 ⇒ Ø16.99 m；总高 11.51 m（全部径向层竖直包覆；若仅 TF 外层竖直包覆则 7.02 m——竖直建造未定，卡上并印，模型按 11.51 建）。正面 60° 剖切把这一层层建造露出来，粉色为等离子体。9 个赤道窗口中 7 个可见，2 个落在剖切扇区内不画。【已撤】本卡旧值 Ø14.3 m × 15 m 是早期 Blender 外形；2026-09-03 注里的 Ø9.07 m 是中子学一维圆柱模型半径 ×2，不是机器半径；2026-09-05 的 Ø17.15 m（恒温器 Ø16.55 m）用了一维模型自己的 0.13 m 首壁间隙，设计的刮削层是 0.05 m，2026-09-18 改正——均已作废。",
+      "detail_en": "Compact tokamak body, rebuilt 2026-09-05 to the geometry declared in the tokamak dossier: plasma R0 = 3.82 m, a = 1.42 m (A = 2.7), kappa = 1.8; outboard first wall at 5.29 m (R0 + a + 0.05 scrape-off gap); radial build outward from the first wall: W 0.005 | steel 0.020 | LiPb breeder 1.0 | WC-B4C shield 0.12 | vacuum vessel 0.30 | vacuum gap 0.15 | TF winding 0.65 | cryostat gap 0.60 | cryostat wall 0.06 => cryostat dia 16.39 m; wrapped in 0.30 m of borated concrete => dia 16.99 m; total height 11.51 m (all layers wrapping vertically; 7.02 m if only the layers outside the TF wrap - vertical build undecided, both printed, modelled at 11.51). A 60-degree front cutaway exposes the build layer by layer; pink is the plasma. 7 of the 9 equatorial ports are shown, 2 fall inside the cut sector. [Retired] The card's old 14.3 m x 15 m was an early Blender outline; the 9.07 m in the 2026-09-03 note was the 1-D cylinder-model radius x2, not the machine radius; the 17.15 m (cryostat 16.55 m) of 2026-09-05 used the 1-D model's own 0.13 m first-wall gap where the design scrape-off gap is 0.05 m, corrected 2026-09-18 - all retired.",
       "specs": {
-        "恒温器": "Ø14.3 m × 15 m（本资产几何）→ 设计包络 Ø9.07 m × 11.51 m（tokamak 2026-09-02 交付，几何待重建）",
-        "TF 线圈": "18 只（D 形肋外显）",
-        "赤道窗口": "9 个，栓接法兰",
-        "聚变功率": "~975 MW 热"
+        "机器包络": "生物屏蔽外 Ø16.99 m × 11.51 m（恒温器 Ø16.39 m）",
+        "等离子体": "R0 3.82 m · a 1.42 m · κ 1.8 · A 2.7（tokamak_0d.py）",
+        "径向建造（首壁→外）": "W 0.005 / 钢 0.020 / LiPb 1.0 / WC-B4C 0.12 / VV 0.30 / 隙 0.15 / TF 0.10+0.55 / 隙 0.60 / 恒温器 0.06 m（Geant4 阶段一 LAYER 表）",
+        "生物屏蔽": "硼化混凝土 0.30 m（97% 混凝土 + 3% B₄C，ρ 2.35）——建造厚度声明 2026-09-02",
+        "赤道窗口": "9 个（7 个可见，2 个在剖切扇区内），栓接法兰",
+        "聚变功率": "640 MW（v5 运行点）"
       },
       "specs_en": {
-        "Cryostat": "14.3 m x 15 m dia",
-        "TF coils": "18 (D-ribs shown outside)",
-        "Equatorial ports": "9, bolted flanges",
-        "Fusion power": "~975 MW thermal"
+        "Machine envelope": "bio-shield outer dia 16.99 m x 11.51 m (cryostat dia 16.39 m)",
+        "Plasma": "R0 3.82 m, a 1.42 m, kappa 1.8, A 2.7 (tokamak_0d.py)",
+        "Radial build (first wall outward)": "W 0.005 / steel 0.020 / LiPb 1.0 / WC-B4C 0.12 / VV 0.30 / gap 0.15 / TF 0.10+0.55 / gap 0.60 / cryostat 0.06 m (Geant4 stage-1 LAYER table)",
+        "Biological shield": "borated concrete 0.30 m (97% concrete + 3% B4C, rho 2.35) - construction thickness declared 2026-09-02",
+        "Equatorial ports": "9 (7 shown, 2 inside the cut sector), bolted flanges",
+        "Fusion power": "640 MW (v5 operating point)"
       },
       "sim": [
-        "功率账本闭环：975 MW 热 × sCO₂ 循环效率 ~40% = 390 MWe 毛功率，余 585 MW 废热全部交给北带散热阵（pwr-radiator-01，4.7 万 m² 板面）——两资产的数字互为校验",
-        "火星优势：环境气压 0.6 kPa，恒温器外表面对流漏热比地面装置低两个量级，低温系统冷负荷以辐射与支撑导热为主",
-        "v5 运行点更新（2026-08，第 14–18 轮预测输运）：TORAX（QLKNN/TGLF-NN）+ 射线追踪 + ECCD/锯齿逐项交税后，官方运行点由 848 MW 改为 640 MW——本卡上游的 975 MW 热 / 390 MWe 毛功率 / 585 MW 废热均为 848 口径的派生量，v5 等价值为 837 MW 热 / 335 MWe 毛 / 502 MW 废热（×0.86），厂界净电 176→48 MWe（再循环反升：LHCD 83 MW÷0.40=208 MWe 换成 ECCD 120 MW÷0.45=267 MWe）。硬件一件未改（恒温器/磁体/包层/屏蔽/散热阵全部照旧成立），改的是运行点口径；且全线减压——壁负荷 2.35→1.77 MW/m²、氚启动库存 1.73→1.31 kg。原数保留作设计记录。出处 tokamak/sysdesign/v5_operating_point.json"
+        "中子泄漏源项（tokamak/neutronics/SOURCE_TERM_DELIVERY.md，Geant4 11.2 分段面源链 + 探针）：恒温器外 t = 0 面逃逸份额 T = 1.639e-7；0.30 m 硼化混凝土外 T = 1.164e-10（284 条记录）≤ 登记目标 1.92e-10——RESOLVED at t = 0.30 m；所需厚度按实测点插值 0.282 m，建造声明取实测面 0.30 m（富余 1.65×）。",
+        "屏蔽衰减实测（板厚口径）：0.10/0.20/0.30/0.40 m 探针累计 8.69 / 9.93 / 10.50 / 11.06 十倍/米；相邻增量 11.17 / 11.63 / 12.77——随深度上升（慢化入吸收体），谱在 0–0.40 m 仍在演化。",
+        "分段链的每接缝再表示偏差 b ≈ +4.9%/缝（WC-B4C 与混凝土一致），方向为把 T 报高；按裁定未应用（应用会使屏蔽看起来更好）。",
+        "围界哨兵（mars_rad_sic）按此屏蔽重算：58 m 处中子通量 62.5 n·cm⁻²·s⁻¹、柱底座 2.32 cps；大耀斑 F=10⁴ 时中子道读成 ×4.8（旧自设 2 m 屏蔽口径为 ×112，已作废）。",
+        "v5 运行点更新（2026-08，第 14–18 轮预测输运）：官方运行点由 848 MW 改为 640 MW——837 MW 热 / 335 MWe 毛 / 502 MW 废热，厂界净电 48 MWe（再循环 267 MWe）。硬件一件未改，改的是运行点口径；壁负荷 2.35→1.77 MW/m²、氚启动库存 1.73→1.31 kg。出处 tokamak/sysdesign/v5_operating_point.json",
+        "火星优势：环境气压 0.6 kPa，恒温器外表面对流漏热比地面装置低两个量级，低温系统冷负荷以辐射与支撑导热为主"
       ],
       "sim_en": [
-        "Power ledger closes: 975 MW thermal x ~40% sCO2-cycle efficiency = 390 MWe gross, and the remaining 585 MW of waste heat all goes to the northern radiator field (pwr-radiator-01, 4.7e4 m2 of panel) - the two assets cross-check each other's numbers.",
-        "Mars advantage: at 0.6 kPa ambient, convective heat leak across the cryostat wall is two orders of magnitude below a ground installation, so the cryoplant load is dominated by radiation and conduction through supports.",
-        "v5 operating-point update (2026-08, rounds 14-18): after TORAX predictive transport (QLKNN/TGLF-NN), LH ray tracing and ECCD-plus-sawteeth each took their tax, the official point moved from 848 MW to 640 MW. The 975 MW thermal, 390 MWe gross and 585 MW of waste heat on this card are all 848-era derivatives; the v5 equivalents are 837 MW thermal, 335 MWe gross and 502 MW rejected (x0.86), with net at the plant fence falling 176 -> 48 MWe (recirculation actually rises: 83 MW of LHCD at 0.40 wall-plug becomes 120 MW of ECCD at 0.45, i.e. 208 -> 267 MWe). No hardware changed - cryostat, magnets, blanket, shield and radiator field all still close - only the operating point, and the machine is relieved across the board (wall load 2.35 -> 1.77 MW/m2, tritium startup 1.73 -> 1.31 kg). The original figures are kept as the design record. Source: tokamak/sysdesign/v5_operating_point.json"
+        "Neutron leakage source term (tokamak/neutronics/SOURCE_TERM_DELIVERY.md, Geant4 11.2 segmented surface-source chain + probes): escape fraction T = 1.639e-7 at the t = 0 face outside the cryostat; T = 1.164e-10 (284 records) outside 0.30 m of borated concrete, below the registered target 1.92e-10 - RESOLVED at t = 0.30 m; required thickness by interpolation between measured points 0.282 m, construction declared at the measured face 0.30 m (margin 1.65x).",
+        "Measured attenuation (per slab metre): probes at 0.10/0.20/0.30/0.40 m give cumulative 8.69 / 9.93 / 10.50 / 11.06 decades/m; increments 11.17 / 11.63 / 12.77 - rising with depth (slowing-down into the absorber), the spectrum still evolving over 0-0.40 m.",
+        "Per-joint re-representation bias of the segmented chain b ~ +4.9%/joint (WC-B4C and concrete agree), direction over-reports T; not applied by ruling (applying it would make the shield look better).",
+        "Perimeter sentinel (mars_rad_sic) recomputed for this shield: 62.5 n/cm2/s at 58 m, pedestal 2.32 cps; a large flare F=1e4 reads x4.8 on the neutron channel (x112 under the old self-set 2 m shield, retired).",
+        "v5 operating-point update (2026-08, rounds 14-18): the official point moved from 848 MW to 640 MW - 837 MW thermal / 335 MWe gross / 502 MW rejected, 48 MWe net at the fence (267 MWe recirculated). No hardware changed; wall load 2.35 -> 1.77 MW/m2, tritium startup 1.73 -> 1.31 kg. Source: tokamak/sysdesign/v5_operating_point.json",
+        "Martian advantage: at 0.6 kPa the convective heat leak through the cryostat skin is two orders below an Earth plant; the cryogenic load is radiation and support conduction."
+      ],
+      "physics": [
+        "为什么 0.30 m 就够：进入混凝土的中子谱已经很软（中位能 2.7 keV，>0.1 MeV 仅 11%），在含氢混凝土里十几厘米内热化，2.35 wt% 硼把热/超热群吃掉；实测 ~10.6 十倍/米（板厚）。这是软谱 + 重硼的组合，不是快谱去除的 2.5–6 十倍/米。",
+        "为什么剖切露出层栈：核心机理不做黑盒——每一层的厚度就是中子学链里用的数，模型即出处。",
+        "厚度不覆盖的项：z 端泄漏（直筒化赝像）、孔道流、groundshine——另册。"
+      ],
+      "physics_en": [
+        "Why 0.30 m suffices: the spectrum entering the concrete is already soft (median 2.7 keV, only 11% above 0.1 MeV); it thermalises within ~10 cm in hydrogenous concrete and 2.35 wt% boron removes the thermal/epithermal groups; measured ~10.6 decades per slab metre. Soft spectrum plus heavy boron - not the 2.5-6 decades/m of fast-spectrum removal.",
+        "Why the cutaway: the core is not a black box - every layer thickness is the number used in the neutronics chain; the model is its own provenance.",
+        "Not covered by any thickness: end leakage (the straight-cylinder artefact), duct streaming, groundshine - separate accounts."
       ]
     },
     {
@@ -120,8 +140,8 @@
     },
     {
       "id": "generator_hall",
-      "label": "发电机厅（390 MWe 毛功率·发电机端母线）",
-      "label_en": "Generator hall (390 MWe gross, at the generator busbar)",
+      "label": "发电机厅（v5：335 MWe 毛功率·发电机端母线）",
+      "label_en": "Generator hall (v5: 335 MWe gross, at the generator busbar)",
       "pos": [
         22,
         3.3,
@@ -159,7 +179,13 @@
       ],
       "range": 15,
       "detail": "常态无人值守的本地控制节点：等离子体控制、失超保护与快速停堆逻辑就地闭环（毫秒级不容通信延迟），运行监视远程接入城内计算中心。",
-      "detail_en": "A normally unmanned local control node: plasma control, quench protection and fast-shutdown logic all close their loops on site (millisecond timing tolerates no comms latency), while operational monitoring links remotely to the city compute center."
+      "detail_en": "A normally unmanned local control node: plasma control, quench protection and fast-shutdown logic all close their loops on site (millisecond timing tolerates no comms latency), while operational monitoring links remotely to the city compute center.",
+      "specs": {
+        "中子产额信号(给哨兵网的归一化量)": "S_rel = S_n/S_n(640 MW);生物屏蔽内面中平面、环向三处 × 两深度(盲管预埋),该处通量约 8.6e+06 n/cm²/s、谱以超热为主;每 1 s 一条、数据龄 1.5 s;有效范围 0.098%–150% 额定;带有效性标志(跟不上/低于下限/降级/标定中)。**设计,未建**——出处 tokamak sysdesign/neutron_yield_diag_report.md(2026-09-19)"
+      },
+      "specs_en": {
+        "Neutron-yield signal (normaliser for the sentinel network)": "S_rel = S_n/S_n(640 MW); bio-shield inner face at the mid-plane, 3 toroidal positions x 2 depths (blind tubes), flux there about 8.6e+06 n/cm2/s, epithermal spectrum; one sample per 1 s, data age 1.5 s; valid 0.098%-150% of nominal; carries a validity flag (slewing / below floor / degraded / calibrating). DESIGN, NOT BUILT - source: tokamak sysdesign/neutron_yield_diag_report.md (2026-09-19)"
+      }
     },
     {
       "id": "aux_radiators",

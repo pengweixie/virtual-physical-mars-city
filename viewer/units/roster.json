@@ -1,0 +1,2592 @@
+{
+ "schema": "ops-roster-01/roster",
+ "version": "1.0.0",
+ "occupancy": "v1",
+ "generated": "2026-09-13",
+ "generated_from": {
+  "prereg": "mars-roster 4d3ee84 dev/PREREG_ops-roster-01.md",
+  "cards": {
+   "hab-village-01": "9a75308",
+   "res-eclss-01": "91f0c37",
+   "hab-quarter-01": "73e4ee7",
+   "sci-rad-01": "e2270ed"
+  },
+  "run_b": "mars b2077f4",
+  "berths": "mars-village f131f86 berths.json v5d",
+  "eclss_billets": "mars-eclss calc/L0_population.py sha256 c3ccb6049e7943d7(非 git 仓);城卡 res-eclss-01 91f0c37",
+  "ledgers": [
+   "01_census.json",
+   "02_dose_map.json",
+   "03_quota.json"
+  ]
+ },
+ "constants": {
+  "sol_h": 24.65,
+  "sol_d": 1.0275,
+  "earth_year_d": 365.25,
+  "mars_year_sol": 668.6,
+  "eva_msv_per_sol": 0.66,
+  "sleep_h": 8.0,
+  "formula": "dose/sol = Σ floor_i × h_i/24.65 × 1.0275/365.25 + 0.66 × X/24.65"
+ },
+ "quotas": {
+  "city20_msv_per_earth_yr": 20,
+  "village50_msv_per_mars_yr": 50,
+  "nasa_std_3001_rev_c_career_msv": 600,
+  "icrp103_annual_avg_msv": 20,
+  "icrp103_annual_max_msv": 50
+ },
+ "locations": [
+  {
+   "id": "village_bunk_std",
+   "unit": "hab-village-01",
+   "status": "ruled",
+   "floor_msv_per_earth_yr": 27.0,
+   "beds": 24,
+   "note": "12 std 舱 × 2 床"
+  },
+  {
+   "id": "village_bunk_end",
+   "unit": "hab-village-01",
+   "status": "ruled",
+   "floor_msv_per_earth_yr": 31.9,
+   "beds": 4,
+   "note": "A1/B1 × 2 床"
+  },
+  {
+   "id": "village_bunk_corner",
+   "unit": "hab-village-01",
+   "status": "none",
+   "floor_msv_per_earth_yr": null,
+   "beds": 2,
+   "note": "A7 × 2 床,无 Run B 数"
+  },
+  {
+   "id": "village_living_old",
+   "unit": "hab-village-01",
+   "status": "ruled",
+   "floor_msv_per_earth_yr": 52.8,
+   "beds": null,
+   "note": "醒时归类位(旧位);新位待 Run E"
+  },
+  {
+   "id": "undercity_cabin",
+   "unit": "hab-quarter-01",
+   "status": "card_shielding",
+   "floor_msv_per_earth_yr": null,
+   "beds": 5,
+   "note": "5 单人舱;绝对地板不能闭合"
+  },
+  {
+   "id": "undercity_no_card_bed",
+   "unit": "(无卡)",
+   "status": "card_shielding",
+   "floor_msv_per_earth_yr": null,
+   "beds": null,
+   "note": "ECLSS 85 人住地下城,卡上只有 5 床 → 80 人无卡床"
+  },
+  {
+   "id": "undercity_awake",
+   "unit": "hab-quarter-01/地下城工作位",
+   "status": "card_shielding",
+   "floor_msv_per_earth_yr": null,
+   "beds": null,
+   "note": "30 m 岩层,倍数有、绝对值无"
+  },
+  {
+   "id": "surface_open",
+   "unit": "(EVA)",
+   "status": "measured",
+   "floor_msv_per_earth_yr": 234.0,
+   "beds": null,
+   "note": "0.66 mSv/sol"
+  }
+ ],
+ "people": [
+  {
+   "id": "p001",
+   "home": "undercity",
+   "billet": "科研·sci-deeplab-01",
+   "sleep_location": "undercity_cabin",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p002",
+   "home": "undercity",
+   "billet": "科研·sci-deeplab-01",
+   "sleep_location": "undercity_cabin",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p003",
+   "home": "undercity",
+   "billet": "科研·sci-deeplab-01",
+   "sleep_location": "undercity_cabin",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p004",
+   "home": "undercity",
+   "billet": "科研·sci-deeplab-01",
+   "sleep_location": "undercity_cabin",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p005",
+   "home": "undercity",
+   "billet": "科研·sci-fel-01",
+   "sleep_location": "undercity_cabin",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p006",
+   "home": "undercity",
+   "billet": "科研·sci-fel-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p007",
+   "home": "undercity",
+   "billet": "科研·sci-fel-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p008",
+   "home": "undercity",
+   "billet": "科研·sci-fel-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p009",
+   "home": "undercity",
+   "billet": "科研·sci-fel-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p010",
+   "home": "undercity",
+   "billet": "科研·sci-quantum-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p011",
+   "home": "undercity",
+   "billet": "科研·sci-quantum-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p012",
+   "home": "undercity",
+   "billet": "科研·sci-quantum-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p013",
+   "home": "undercity",
+   "billet": "科研·sci-quantum-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p014",
+   "home": "undercity",
+   "billet": "科研·sci-* 地表观测群",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p015",
+   "home": "undercity",
+   "billet": "科研·sci-* 地表观测群",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p016",
+   "home": "undercity",
+   "billet": "科研·sci-* 地表观测群",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p017",
+   "home": "undercity",
+   "billet": "科研·sci-* 地表观测群",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p018",
+   "home": "undercity",
+   "billet": "科研·sci-* 地表观测群",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p019",
+   "home": "undercity",
+   "billet": "科研·sci-* 地表观测群",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p020",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p021",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p022",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p023",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p024",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p025",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p026",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p027",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p028",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p029",
+   "home": "undercity",
+   "billet": "生产·ops-fab-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p030",
+   "home": "undercity",
+   "billet": "生产·ops-compute-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p031",
+   "home": "undercity",
+   "billet": "生产·ops-compute-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p032",
+   "home": "undercity",
+   "billet": "生产·ops-compute-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p033",
+   "home": "undercity",
+   "billet": "生产·res-isru-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p034",
+   "home": "undercity",
+   "billet": "生产·res-isru-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p035",
+   "home": "undercity",
+   "billet": "生产·res-isru-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p036",
+   "home": "undercity",
+   "billet": "生产·res-isru-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p037",
+   "home": "undercity",
+   "billet": "生产·res-isru-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p038",
+   "home": "undercity",
+   "billet": "生产·res-isru-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p039",
+   "home": "undercity",
+   "billet": "生产·res-sulfur-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p040",
+   "home": "undercity",
+   "billet": "生产·res-sulfur-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p041",
+   "home": "undercity",
+   "billet": "生产·res-sulfur-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p042",
+   "home": "village",
+   "billet": "生产·res-mine-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p043",
+   "home": "village",
+   "billet": "生产·res-mine-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p044",
+   "home": "village",
+   "billet": "生产·res-mine-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p045",
+   "home": "village",
+   "billet": "生产·res-mine-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p046",
+   "home": "village",
+   "billet": "生产·ops-printer-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p047",
+   "home": "village",
+   "billet": "生产·ops-printer-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p048",
+   "home": "village",
+   "billet": "生产·ops-printer-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p049",
+   "home": "undercity",
+   "billet": "能源·pwr-fusion/radiator/storage",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p050",
+   "home": "undercity",
+   "billet": "能源·pwr-fusion/radiator/storage",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p051",
+   "home": "undercity",
+   "billet": "能源·pwr-fusion/radiator/storage",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p052",
+   "home": "undercity",
+   "billet": "能源·pwr-fusion/radiator/storage",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p053",
+   "home": "undercity",
+   "billet": "能源·pwr-fusion/radiator/storage",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p054",
+   "home": "undercity",
+   "billet": "能源·pwr-fusion/radiator/storage",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p055",
+   "home": "undercity",
+   "billet": "能源·pwr-fusion/radiator/storage",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p056",
+   "home": "undercity",
+   "billet": "能源·pwr-fusion/radiator/storage",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p057",
+   "home": "undercity",
+   "billet": "水气·res-rodwell-01 / res-tank-02",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p058",
+   "home": "undercity",
+   "billet": "水气·res-rodwell-01 / res-tank-02",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p059",
+   "home": "undercity",
+   "billet": "水气·res-eclss-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p060",
+   "home": "undercity",
+   "billet": "水气·res-eclss-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p061",
+   "home": "undercity",
+   "billet": "水气·res-eclss-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p062",
+   "home": "undercity",
+   "billet": "水气·res-eclss-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p063",
+   "home": "undercity",
+   "billet": "水气·res-eclss-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p064",
+   "home": "undercity",
+   "billet": "水气·res-recycle-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p065",
+   "home": "undercity",
+   "billet": "水气·res-recycle-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p066",
+   "home": "undercity",
+   "billet": "水气·res-recycle-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p067",
+   "home": "undercity",
+   "billet": "水气·res-recycle-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p068",
+   "home": "undercity",
+   "billet": "水气·res-recycle-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p069",
+   "home": "undercity",
+   "billet": "农业·res-dome-01 / -hall / greenrow",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p070",
+   "home": "undercity",
+   "billet": "农业·res-dome-01 / -hall / greenrow",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p071",
+   "home": "undercity",
+   "billet": "农业·res-dome-01 / -hall / greenrow",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p072",
+   "home": "undercity",
+   "billet": "农业·res-dome-01 / -hall / greenrow",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p073",
+   "home": "undercity",
+   "billet": "农业·res-dome-01 / -hall / greenrow",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p074",
+   "home": "undercity",
+   "billet": "农业·res-dome-01 / -hall / greenrow",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p075",
+   "home": "village",
+   "billet": "物流·ops-depot-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p076",
+   "home": "village",
+   "billet": "物流·ops-depot-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p077",
+   "home": "village",
+   "billet": "物流·ops-depot-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p078",
+   "home": "village",
+   "billet": "物流·ops-depot-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p079",
+   "home": "village",
+   "billet": "物流·ops-spaceport-01/-02",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p080",
+   "home": "village",
+   "billet": "物流·ops-spaceport-01/-02",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p081",
+   "home": "village",
+   "billet": "物流·ops-spaceport-01/-02",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p082",
+   "home": "village",
+   "billet": "物流·ops-spaceport-01/-02",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p083",
+   "home": "village",
+   "billet": "物流·ops-spaceport-01/-02",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p084",
+   "home": "village",
+   "billet": "物流·ops-spaceport-01/-02",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p085",
+   "home": "village",
+   "billet": "物流·ops-spaceport-01/-02",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p086",
+   "home": "village",
+   "billet": "物流·ops-spaceport-01/-02",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p087",
+   "home": "village",
+   "billet": "物流·veh-heli-01 / 车队",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p088",
+   "home": "village",
+   "billet": "物流·veh-heli-01 / 车队",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p089",
+   "home": "village",
+   "billet": "物流·veh-heli-01 / 车队",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p090",
+   "home": "undercity",
+   "billet": "医务·hab-clinic-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p091",
+   "home": "undercity",
+   "billet": "医务·hab-clinic-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p092",
+   "home": "undercity",
+   "billet": "医务·hab-clinic-01",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p093",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p094",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p095",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p096",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p097",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p098",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p099",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p100",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p101",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p102",
+   "home": "undercity",
+   "billet": "市政·hab-tunnel/foyer/lift/quarter",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p103",
+   "home": "undercity",
+   "billet": "指挥·全城",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p104",
+   "home": "undercity",
+   "billet": "指挥·全城",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p105",
+   "home": "undercity",
+   "billet": "指挥·全城",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p106",
+   "home": "undercity",
+   "billet": "指挥·全城",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p107",
+   "home": "undercity",
+   "billet": "指挥·全城",
+   "sleep_location": "undercity_no_card_bed",
+   "awake_location": "undercity_awake",
+   "eva_h_per_sol": 0.302,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": null,
+    "eva": 0.00809
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 地下城绝对地板(hab-quarter-01 卡只有倍数)"
+  },
+  {
+   "id": "p108",
+   "home": "village",
+   "billet": "过渡·hab-village-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p109",
+   "home": "village",
+   "billet": "过渡·hab-village-01",
+   "sleep_location": "village_bunk_std",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.17926,
+   "components": {
+    "habitat_sleep": 0.02465,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 111.6,
+    "village50_sol": 278.9,
+    "nasa600_sol": 3347.1
+   },
+   "rotation_sol": 111.6,
+   "gap": null
+  },
+  {
+   "id": "p110",
+   "home": "village",
+   "billet": "过渡·hab-village-01",
+   "sleep_location": "village_bunk_end",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.18373,
+   "components": {
+    "habitat_sleep": 0.02912,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 108.9,
+    "village50_sol": 272.1,
+    "nasa600_sol": 3265.7
+   },
+   "rotation_sol": 108.9,
+   "gap": null
+  },
+  {
+   "id": "p111",
+   "home": "village",
+   "billet": "过渡·hab-village-01",
+   "sleep_location": "village_bunk_end",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.18373,
+   "components": {
+    "habitat_sleep": 0.02912,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 108.9,
+    "village50_sol": 272.1,
+    "nasa600_sol": 3265.7
+   },
+   "rotation_sol": 108.9,
+   "gap": null
+  },
+  {
+   "id": "p112",
+   "home": "village",
+   "billet": "过渡·hab-village-01",
+   "sleep_location": "village_bunk_end",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.18373,
+   "components": {
+    "habitat_sleep": 0.02912,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 108.9,
+    "village50_sol": 272.1,
+    "nasa600_sol": 3265.7
+   },
+   "rotation_sol": 108.9,
+   "gap": null
+  },
+  {
+   "id": "p113",
+   "home": "village",
+   "billet": "过渡·hab-village-01",
+   "sleep_location": "village_bunk_end",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": 0.18373,
+   "components": {
+    "habitat_sleep": 0.02912,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": 108.9,
+    "village50_sol": 272.1,
+    "nasa600_sol": 3265.7
+   },
+   "rotation_sol": 108.9,
+   "gap": null
+  },
+  {
+   "id": "p114",
+   "home": "village",
+   "billet": "过渡·hab-village-01",
+   "sleep_location": "village_bunk_corner",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 corner 舱 Run B 数"
+  },
+  {
+   "id": "p115",
+   "home": "village",
+   "billet": "过渡·hab-village-01",
+   "sleep_location": "village_bunk_corner",
+   "awake_location": "village_living_old",
+   "eva_h_per_sol": 2.616,
+   "dose_msv_per_sol": null,
+   "components": {
+    "habitat_sleep": null,
+    "habitat_awake": 0.08456,
+    "eva": 0.07004
+   },
+   "remaining": {
+    "city20_sol": null,
+    "village50_sol": null,
+    "nasa600_sol": null
+   },
+   "rotation_sol": null,
+   "gap": "不能闭合:缺 corner 舱 Run B 数"
+  }
+ ],
+ "scenarios": [
+  {
+   "id": "village_X_0.0",
+   "eva_h_per_sol": 0.0,
+   "n_people": 30,
+   "n_with_number": 28,
+   "dose_msv_per_sol_std": 0.12498,
+   "city20_sol_std": 160.0,
+   "dose_msv_per_sol_end": 0.12945,
+   "city20_sol_end": 154.5,
+   "source": "hab-village-01 occupancy v1 三档"
+  },
+  {
+   "id": "village_X_0.5",
+   "eva_h_per_sol": 0.5,
+   "n_people": 30,
+   "n_with_number": 28,
+   "dose_msv_per_sol_std": 0.13535,
+   "city20_sol_std": 147.8,
+   "dose_msv_per_sol_end": 0.13983,
+   "city20_sol_end": 143.0,
+   "source": "hab-village-01 occupancy v1 三档"
+  },
+  {
+   "id": "village_X_1.0",
+   "eva_h_per_sol": 1.0,
+   "n_people": 30,
+   "n_with_number": 28,
+   "dose_msv_per_sol_std": 0.14573,
+   "city20_sol_std": 137.2,
+   "dose_msv_per_sol_end": 0.1502,
+   "city20_sol_end": 133.2,
+   "source": "hab-village-01 occupancy v1 三档"
+  },
+  {
+   "id": "village_X_2.616",
+   "eva_h_per_sol": 2.616,
+   "n_people": 30,
+   "n_with_number": 28,
+   "dose_msv_per_sol_std": 0.17926,
+   "city20_sol_std": 111.6,
+   "dose_msv_per_sol_end": 0.18373,
+   "city20_sol_end": 108.9,
+   "source": "ECLSS L0 duty_split village eva 0.26 × 10.02 h"
+  }
+ ],
+ "totals": {
+  "n_people": 115,
+  "n_with_number": 28,
+  "null_share": 0.757,
+  "n_village": 30,
+  "n_undercity": 85,
+  "eva_person_h_per_sol": 104.2,
+  "eva_person_h_eclss_card": 104,
+  "sum_dose_with_number_msv_per_sol": 5.0371,
+  "sum_dose_by_location_msv_per_sol": 5.0371,
+  "beds_residential_cards": 35,
+  "people_without_card_bed": 80
+ },
+ "gates": {
+  "G4.1 守恒 Σ人 = Σ位置×人时 (<1e-6)": true,
+  "G4.2 份额和 = 24.65 h;全零份额剂量 0(非零份额 > 0)": true,
+  "G4.3 已知答案 std+旧起居+X=0.5 → 148 sol": true,
+  "G4.6 occupancy v1 冻结:睡眠 8.0": true,
+  "G4.4 schema 校验": true
+ },
+ "lineage": {
+  "supersedes": null,
+  "note": "1.0.0 首版;任何输入变更递增版本,旧版另存 roster_v<old>.json,不覆盖"
+ }
+}

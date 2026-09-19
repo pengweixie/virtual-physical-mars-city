@@ -31,6 +31,10 @@ const T = LANG === 'en' ? {
   colony: (on) => `🌱 Future Mars: ${on ? 'ON' : 'OFF'}`,
   magic: (on) => `🔮 Magic Mars: ${on ? 'ON' : 'OFF'}`,
   imperial: (on) => `🏯 Celestial Palace: ${on ? 'ON' : 'OFF'}`,
+  people: (on) => `👥 People: ${on ? 'ON' : 'OFF'}`,
+  drillBtn: (on) => (on ? '🚨 Stop the drill' : '🚨 SEP drill'),
+  peopleHint: (o) => `People · ${o.n} on the roster: village ${o.village}, undercity ${o.under} · ${o.nobed} without a bed on any card · ${o.surface} on the surface now`,
+  drillHint: (o) => `SEP drill (RAD storm of 2017-09-10, time ×${o.ratio}) · t+${o.t} min · at post ${o.origin} · moving ${o.transit} · queue ${o.queue} · airlock ${o.lock} · lift ${o.lift} · sheltered ${o.sheltered}/${o.n}`,
   under: '⬇ Undercity', now: 'Live', langBtn: '中文',
   music: (on) => `♪ Music: ${on ? 'ON' : 'OFF'}`,
   mission: (sol, utc, n) => `Perseverance sol ${sol} · data ${utc} UTC · ${n} new photos`,
@@ -59,6 +63,8 @@ const T = LANG === 'en' ? {
   inspectHint: (n) => `Inspect: ${n} · drag to rotate · scroll to zoom · V to exit`,
   interiorHint: (n) => `${n} · WASD to walk · reach the exit or press Esc to return`,
   pressE: (l) => `Press E — enter ${l}`,
+  liftHint: (to) => `Lift cab · hold the rail · to ${to} m`,
+  cutsceneHint: 'Arriving — the last stretch of the shaft',
   timeWait: 'Computing Martian time…',
 } : {
   hudTitle: '耶泽罗撞击坑 · 毅力号着陆区',
@@ -68,6 +74,10 @@ const T = LANG === 'en' ? {
   colony: (on) => `🌱 未来火星：${on ? '开' : '关'}`,
   magic: (on) => `🔮 魔幻火星：${on ? '开' : '关'}`,
   imperial: (on) => `🏯 天宫城：${on ? '开' : '关'}`,
+  people: (on) => `👥 人员：${on ? '开' : '关'}`,
+  drillBtn: (on) => (on ? '🚨 停止演习' : '🚨 SEP 演习'),
+  peopleHint: (o) => `人员 · 花名册 ${o.n} 人：村 ${o.village}、地下城 ${o.under} · ${o.nobed} 人在任何卡上都没有床 · 此刻地表 ${o.surface} 人`,
+  drillHint: (o) => `SEP 演习（RAD 2017-09-10 风暴，时间 ×${o.ratio}）· t+${o.t} 分 · 在岗 ${o.origin} · 途中 ${o.transit} · 排队 ${o.queue} · 气闸 ${o.lock} · 电梯 ${o.lift} · 已避难 ${o.sheltered}/${o.n}`,
   under: '⬇ 地下城', now: '实时', langBtn: 'EN',
   music: (on) => `♪ 音乐：${on ? '开' : '关'}`,
   mission: (sol, utc, n) => `毅力号任务日 Sol ${sol} · 数据更新 ${utc} UTC · 最新照片 ${n} 张`,
@@ -96,6 +106,8 @@ const T = LANG === 'en' ? {
   inspectHint: (n) => `环视：${n} · 拖动旋转 · 滚轮缩放 · V 退出`,
   interiorHint: (n) => `${n} · WASD 走动 · 走到出口或按 Esc 返回地表`,
   pressE: (l) => `按 E 进入 ${l}`,
+  liftHint: (to) => `电梯轿厢 · 扶好 · 目标 ${to} m`,
+  cutsceneHint: '到站——井道最后一段',
   timeWait: '火星时间计算中…',
 };
 let musicSetScene = () => {};  // assigned in the UI block, called by toggleMagic
@@ -108,6 +120,8 @@ let musicSetScene = () => {};  // assigned in the UI block, called by toggleMagi
   document.getElementById('colonyBtn').textContent = T.colony(false);
   document.getElementById('magicBtn').textContent = T.magic(false);
   document.getElementById('imperialBtn').textContent = T.imperial(false);
+  document.getElementById('peopleBtn').textContent = T.people(false);
+  document.getElementById('drillBtn').textContent = T.drillBtn(false);
   document.getElementById('timeNow').textContent = T.now;
   document.getElementById('timeInfo').textContent = T.timeWait;
   const lb = document.getElementById('langBtn');
@@ -1449,7 +1463,8 @@ function registerMotion(g, anims = unitAnims) {
   }
   if (typeof ud.animate === 'function') {       // custom logic
     const fn = ud.animate;
-    anims.push((t, dt, night) => fn(t, dt, { t, dt, night, player: playerPos }));
+    anims.push((t, dt, night) => fn(t, dt, { t, dt, night, player: playerPos,
+      alarm: cityAlarm, drill: drill.playing ? drill : null }));
   }
   for (const s of ud.sensors || []) {           // perception cameras (MODELS.md §4c)
     const cam = resolveNode(g, s.camera);
@@ -1653,7 +1668,7 @@ function exitInspect() {
 
 addEventListener('keydown', (e) => {
   if (e.code === 'Escape') {
-    if (inInterior) { exitInterior(); return; }
+    if (inInterior) { if (!liftRide && !cutscene) exitInterior(); return; }
     if (inspectUnit) exitInspect();
   }
   if (e.code === 'KeyV') {
@@ -1668,7 +1683,8 @@ addEventListener('keydown', (e) => {
     if (bu) enterInspect(bu);
   }
   if (e.code === 'KeyE' && inInterior && nearDoor) {
-    switchInterior(nearDoor);
+    if (liftRide || cutscene) return;
+    if (nearDoor.ride) rideLift(nearDoor); else switchInterior(nearDoor);
     return;
   }
   if (e.code === 'KeyU' && !inInterior && !orbitMode && !inspectUnit) {
@@ -1676,7 +1692,9 @@ addEventListener('keydown', (e) => {
     return;
   }
   if (e.code === 'KeyE' && nearPortal && !inInterior) {
-    enterInterior(nearPortal.interior, nearPortal);
+    if (nearPortal.ride) rideLift({ to: nearPortal.interior, entry: nearPortal.entry, ride: nearPortal.ride,
+      label: nearPortal.label, label_en: nearPortal.label_en }, nearPortal);
+    else enterInterior(nearPortal.interior, nearPortal);
   }
 });
 
@@ -1697,7 +1715,9 @@ const savedEnv = {};
 // surface trigger zones: walk near -> press E to enter (tied to hab-tunnel door)
 const PORTALS = [
   { pos: [-330, -12], radius: 7, interior: 'hab-foyer-01', label: '地下城', label_en: 'Undercity' },
-  { pos: [-372, -18], radius: 5, interior: 'hab-foyer-01', label: '地下城（电梯）', label_en: 'Undercity (lift)' },
+  // the lift station: a short ride (0 -> -30 m) in the cab, arriving beside the foyer's lift doors
+  { pos: [-372, -18], radius: 5, interior: 'hab-foyer-01', label: '地下城（电梯）', label_en: 'Undercity (lift)',
+    ride: { from_m: 0, to_m: -30, seconds: 5 }, entry: { pos: [4.6, 0, -15.5], yaw: Math.PI } },
   // 温室穹顶气闸门廊(res-dome-01 @ (95,70) rot180,门廊朝城)
   { pos: [95, 53], radius: 5.5, interior: 'res-dome-hall-01', label: '温室穹顶', label_en: 'Greenhouse dome' },
   { pos: [-262, -159.4], radius: 4.5, interior: 'hab-museum-hall-01', label: '博物馆', label_en: 'Museum' },
@@ -1713,12 +1733,21 @@ const INTERIOR_DOORS = [
     label: '医务室', label_en: 'Clinic', entry: { pos: [0, 0, -1.6], yaw: 0 } },
   { from: 'hab-clinic-01', pos: [0, -0.1], radius: 1.5, to: 'hab-foyer-01',
     label: '玄关', label_en: 'Foyer', entry: { pos: [3.9, 0, -18.2], yaw: Math.PI } },
-  // foyer lift doors descend 3000 m to the deep dark-matter lab
+  // foyer lift doors descend 3000 m to the deep dark-matter lab: a ride in the cab
+  // (hab-lift-cab-01), then the lab's own entry cutscene covers the last stretch
   { from: 'hab-foyer-01', pos: [5.4, -15.5], radius: 1.6, to: 'sci-deeplab-01',
-    label: '深地实验室（电梯 −3000 m）', label_en: 'Deep lab (lift, −3000 m)' },
+    label: '深地实验室（电梯 −3000 m）', label_en: 'Deep lab (lift, −3000 m)',
+    ride: { from_m: -30, to_m: -3000, seconds: 16, cutscene: true } },
   { from: 'sci-deeplab-01', pos: [0, 3.2], radius: 1.6, to: 'hab-foyer-01',
     label: '玄关（电梯 ↑）', label_en: 'Foyer (lift up)',
-    entry: { pos: [4.6, 0, -15.5], yaw: Math.PI } },
+    entry: { pos: [4.6, 0, -15.5], yaw: Math.PI },
+    ride: { from_m: -3000, to_m: -30, seconds: 16 } },
+  // 玄关右墙中段 → 家用电器样板间(厨房/卫浴/洗衣角/床位/记分屏)
+  { from: 'hab-foyer-01', pos: [5.4, -8], radius: 1.6, to: 'hab-home-01',
+    label: '样板间(家电)', label_en: 'Show home (appliances)' },
+  { from: 'hab-home-01', pos: [0, 4.0], radius: 1.5, to: 'hab-foyer-01',
+    label: '玄关', label_en: 'Foyer',
+    entry: { pos: [4.6, 0, -8], yaw: Math.PI / 2 } },
   // 玄关左墙 → 量子计算中心「玄枢」(QP-20)
   { from: 'hab-foyer-01', pos: [-5.4, -8], radius: 1.6, to: 'sci-quantum-01',
     label: '量子计算中心', label_en: 'Quantum computing center' },
@@ -1933,6 +1962,81 @@ function updateInteriorPois() {
 
 // hop between interiors through a declared door (keeps savedEnv: Esc still
 // returns to the original surface spot)
+// ---- the lift ride: a door (or the lift-station portal) with a `ride` field puts the
+// player in the cab interior (hab-lift-cab-01), runs depth/speed/doors on the cab's
+// indicator for `seconds` (time-compressed; the ratio is printed on the panel), then
+// switches to the destination. `cutscene: true` hands the arrival to the destination
+// module's own userData.playEntryCutscene (the deep lab's shaft descent), during which
+// the module drives the camera and the player's controls are held.
+const RIDE_CAB = 'hab-lift-cab-01';
+let liftRide = null;                          // { cab, door, phase, t, seconds, from, to }
+let cutscene = null;                          // { rec, t, dur, camPos }
+async function rideLift(door, portal) {
+  if (liftRide || cutscene || interiorExiting) return;   // one ride at a time
+  const ride = door.ride;
+  if (inInterior) await switchInterior({ to: RIDE_CAB, label: door.label, label_en: door.label_en });
+  else await enterInterior(RIDE_CAB, portal);
+  if (!inInterior || inInterior.id !== RIDE_CAB) return;
+  const cab = inInterior;
+  const realSeconds = Math.abs(ride.to_m - ride.from_m) / 12;   // rated 12 m/s (hab-lift-01 card)
+  cab.group.userData.ride.set({ depth: ride.from_m, v: 0, doors: 1, refuge: 0,
+    ratio: Math.max(1, realSeconds / ride.seconds) });
+  liftRide = { cab, door, phase: 'closing', t: 0, seconds: ride.seconds,
+    from: ride.from_m, to: ride.to_m, done: false };
+  hintEl.textContent = T.liftHint(ride.to_m);
+}
+function updateLiftRide(dt) {
+  const r = liftRide;
+  if (r.phase === 'arriving') return;          // the switch to the destination is in flight
+  r.t += dt;
+  const ud = r.cab.group.userData.ride;
+  if (r.phase === 'closing') {
+    ud.set({ doors: Math.max(0, 1 - r.t / 0.9) });
+    if (r.t >= 0.9) { r.phase = 'moving'; r.t = 0; }
+    return;
+  }
+  if (r.phase === 'moving') {
+    const p = Math.min(1, r.t / r.seconds), span = r.to - r.from;
+    const sm = p * p * (3 - 2 * p);                       // ease in/out: the hoist ramps
+    const depth = r.from + span * sm;
+    const v = Math.sign(span) * 12 * (6 * p * (1 - p)) / 1.5;   // peaks at the rated 12 m/s
+    const dm = Math.abs(depth) % 500;                      // refuge niches every 500 m
+    const refuge = (p > 0.02 && p < 0.98 && (dm < 20 || dm > 480)) ? 1 : 0;
+    ud.set({ depth, v, refuge, doors: 0 });
+    if (p >= 1) { r.phase = 'opening'; r.t = 0; ud.set({ depth: r.to, v: 0, refuge: 0 }); }
+    return;
+  }
+  ud.set({ doors: Math.min(1, r.t / 0.9) });
+  if (r.t >= 0.9 && !r.done) { r.done = true; finishRide(r); }
+}
+async function finishRide(r) {
+  r.phase = 'arriving';                       // liftRide stays set until the switch lands, so E and Esc stay held
+  await switchInterior(r.door);              // r.door carries `to` and, optionally, `entry`
+  liftRide = null;
+  if (r.door.ride.cutscene && inInterior && inInterior.id === r.door.to) startCutscene(inInterior);
+}
+function startCutscene(rec) {
+  const ud = rec.group.userData;
+  if (typeof ud.playEntryCutscene !== 'function') return;
+  cutscene = { rec, t: 0, dur: ud.entryCutsceneDuration || 12, camPos: camera.position.clone() };
+  // the module positions the camera in its own frame: park the rig at the origin, unrotated
+  rig.position.set(0, 0, 0); rig.rotation.y = 0; yaw = 0; pitch = 0;
+  camera.rotation.set(0, 0, 0);
+  ud.playEntryCutscene(camera);
+  hintEl.textContent = T.cutsceneHint;
+}
+function updateCutscene(dt) {
+  cutscene.t += dt;
+  if (cutscene.t < cutscene.dur) return;
+  const { rec, camPos } = cutscene; cutscene = null;
+  if (typeof rec.group.userData.stopEntryCutscene === 'function') rec.group.userData.stopEntryCutscene();
+  camera.position.copy(camPos); camera.rotation.set(0, 0, 0);
+  const en = rec.entry;
+  rig.position.set(en.pos[0], 0, en.pos[2]); yaw = en.yaw || 0; pitch = 0; rig.rotation.y = yaw;
+  rec.exitArmed = false;
+  hintEl.textContent = T.interiorHint(pick(rec.meta, 'name'));
+}
+
 async function switchInterior(door) {
   if (!inInterior || interiorExiting) return;
   const from = inInterior;
@@ -1951,7 +2055,7 @@ async function switchInterior(door) {
   interiorExiting = false;
   nearDoor = null;
   portalPromptEl.style.display = 'none';
-  if (poiCardEl.dataset.id.startsWith('int:')) {
+  if ((poiCardEl.dataset.id || '').startsWith('int:')) {   // undefined until a card has shown
     poiCardEl.style.display = 'none'; poiCardEl.dataset.id = '';
   }
   hintEl.textContent = T.interiorHint(pick(rec.meta, 'name'));
@@ -2013,7 +2117,7 @@ async function exitInterior() {
   interiorExiting = false;
   nearDoor = null;
   portalPromptEl.style.display = 'none';
-  if (poiCardEl.dataset.id.startsWith('int:')) {
+  if ((poiCardEl.dataset.id || '').startsWith('int:')) {   // undefined until a card has shown
     poiCardEl.style.display = 'none'; poiCardEl.dataset.id = '';
   }
   hintEl.textContent = hintDefault;
@@ -2026,6 +2130,7 @@ function updateInterior(dt) {
   rig.position.x = THREE.MathUtils.clamp(rig.position.x, -half, half);
   rig.position.z = THREE.MathUtils.clamp(rig.position.z, -half, half);
   rig.position.y = 0;
+  if (liftRide) return;                       // riding: the cab has no doors to take
   // exit zone only fires after the player has been outside it once — a direct
   // ?interior= entry (or a module without entry/exitZone) may spawn inside it
   const ez = inInterior.exitZone;
@@ -2151,7 +2256,209 @@ loadUnits()
   .then(() => {
     try { collectColliders(colonyGroup, 1); }
     catch (e) { console.warn('[collide] colony collect failed', e); }
+    if (q.get('people') === '1') people.toggle(true);
+    if (q.get('drill') === '1') { if (!colonyGroup.visible) toggleColony(true); drill.start(60); }
   });
+
+// ------------------------------------------------ city alarm, SEP drill, people
+// dev/HOOK_SPEC_alarm.md section 4 (ops-drill-01) and the roster's data interface
+// (ops-roster-01). A unit declares group.userData.alarm; the engine calls
+// alarm.set(level, frame, ctx) on level changes and on every whole drill minute. A
+// unit listed in drill.json with no hook of its own gets an engine-owned beacon above
+// it, so the drill reads city-wide today and each unit's own hook replaces the beacon
+// as it lands. People: the 21 surface posts of drill.json are the everyday surface
+// population too; the roster supplies the totals (most of the city is underground).
+const cityAlarm = { level: 'green', source: null, t0: null };
+const ALARM_COLOR = { green: 0x3ee06a, yellow: 0xffb030, red: 0xff3020 };
+const alarmBeacons = new Map();
+const doorTweens = [];
+const drillListed = new Set();
+function alarmTargets() {
+  const out = units.map((u) => ({ id: u.id, group: u.group, center: u.center, radius: u.radius }));
+  for (const id in interiorCache) out.push({ id, group: interiorCache[id].group });
+  if (imperialGroup.userData.alarm) out.push({ id: 'imperial-city', group: imperialGroup });
+  return out;
+}
+function alarmCtx() {
+  return { t: clock.elapsedTime, player: playerPos, alarm: cityAlarm, drill: drill.playing ? drill : null };
+}
+function applyAlarm(target, level, frame) {
+  const al = target.group.userData.alarm;
+  if (al) {
+    if (al.levels && !al.levels.includes(level)) return;
+    try {
+      if (typeof al.set === 'function') al.set(level, frame, alarmCtx());
+      else {                                   // declarative tables
+        al.level = level;
+        for (const l of (al.lights && al.lights[level]) || []) {
+          const m = target.group.getObjectByName(l.node)?.material;
+          if (!m) continue;
+          if (l.color !== undefined && m.emissive) m.emissive.setHex(l.color);
+          if (l.intensity !== undefined) m.emissiveIntensity = l.intensity;
+        }
+        for (const d of (al.doors && al.doors[level]) || []) {
+          const n = target.group.getObjectByName(d.node);
+          if (n) doorTweens.push({ n, prop: d.prop, axis: d.axis, from: n[d.prop][d.axis], to: d.value, t: 0 });
+        }
+      }
+    } catch (e) { console.warn('[alarm] hook failed', target.id, e); }
+    return;
+  }
+  if (!target.center || (drillListed.size && !drillListed.has(target.id))) return;
+  let b = alarmBeacons.get(target.id);
+  if (!b) {
+    b = new THREE.Sprite(new THREE.SpriteMaterial({ map: poiDotTex, transparent: true, depthWrite: false }));
+    b.scale.set(3.2, 3.2, 1);
+    b.position.set(target.center.x, target.center.y + target.radius * 0.6 + 5, target.center.z);
+    b.raycast = () => {};
+    colonyGroup.add(b);
+    alarmBeacons.set(target.id, b);
+  }
+  b.visible = level !== 'green';
+  b.material.color.setHex(ALARM_COLOR[level] ?? ALARM_COLOR.red);
+}
+function setAlarm(level, source = null) {
+  cityAlarm.level = level; cityAlarm.source = source;
+  cityAlarm.t0 = level === 'green' ? null : clock.elapsedTime;
+  for (const t of alarmTargets()) applyAlarm(t, level, null);
+}
+
+const drill = {
+  data: null, playing: false, t_min: 0, ratio: 60, minute: -1, cursor: new Map(), level: new Map(),
+  async load(url = 'units/drill.json') {
+    if (this.data) return this.data;
+    const r = await fetch(url);
+    this.data = await r.json();
+    for (const u of this.data.units || []) drillListed.add(u.id);
+    return this.data;
+  },
+  async start(ratio = 60) {
+    await this.load();
+    await people.ensure();
+    this.ratio = ratio; this.t_min = 0; this.minute = -1; this.playing = true;
+    this.cursor.clear(); this.level.clear();
+    cityAlarm.level = 'red'; cityAlarm.source = 'exercise'; cityAlarm.t0 = clock.elapsedTime;
+    this.targets = new Map(alarmTargets().map((t) => [t.id, t]));
+    document.getElementById('drillBtn').textContent = T.drillBtn(true);
+  },
+  stop() {
+    if (!this.playing) return;
+    this.playing = false;
+    setAlarm('green');
+    document.getElementById('drillBtn').textContent = T.drillBtn(false);
+    hintEl.textContent = people.on ? people.hint() : hintDefault;
+  },
+  flowRow() {
+    const f = this.data.flow;
+    return f[Math.max(0, Math.min(f.length - 1, Math.floor(this.t_min)))];
+  },
+  update(dt) {
+    if (!this.playing) return;
+    this.t_min += dt * this.ratio / 60;
+    const d = this.data;
+    for (const u of d.units) {                     // keyframes crossed since last frame
+      let i = this.cursor.get(u.id) ?? 0;
+      while (i < u.keyframes.length && u.keyframes[i].t_min <= this.t_min) {
+        const kf = u.keyframes[i++];
+        this.level.set(u.id, kf.level);
+        const tg = this.targets.get(u.id);
+        if (tg) applyAlarm(tg, kf.level, kf);
+      }
+      this.cursor.set(u.id, i);
+    }
+    const m = Math.floor(this.t_min);
+    if (m !== this.minute) {                       // once per drill minute: counts to every hook
+      this.minute = m;
+      const row = this.flowRow();
+      for (const tg of this.targets.values()) {
+        if (!tg.group.userData.alarm) continue;
+        applyAlarm(tg, this.level.get(tg.id) ?? cityAlarm.level, { t_min: m, flow: row.counts, note: 'exercise' });
+      }
+      const c = row.counts;
+      hintEl.textContent = T.drillHint({ ratio: this.ratio, t: m, n: d.N_surface, origin: c.origin,
+        transit: c.transit, queue: c.queue, lock: c.lock, lift: c.lift, sheltered: c.sheltered });
+    }
+    if (this.t_min >= d.T_end_min + 3) this.stop();
+  },
+};
+
+const people = {
+  on: false, mesh: null, paths: null, origin: [], roster: null, _m: new THREE.Matrix4(),
+  async ensure() {
+    if (this.mesh) return;
+    const d = await drill.load();
+    this.paths = d.paths || [];
+    const byId = new Map(units.map((u) => [u.id, u]));
+    this.origin = this.paths.map((p, i) => {     // stand outside the post, not inside its geometry
+      const u = byId.get(p.origin), at = p.legs[0].at || p.legs[0].from;
+      const a = i * 2.399963, r = u ? Math.min(u.radius, 14) * 0.7 + 2.5 : 2.5;
+      return [at[0] + Math.cos(a) * r, at[1] + Math.sin(a) * r];
+    });
+    const geo = new THREE.CapsuleGeometry(0.27, 1.12, 3, 8);
+    const mat = new THREE.MeshStandardMaterial({ color: 0xf0ece4, roughness: 0.7,
+      emissive: 0xff7a30, emissiveIntensity: 0.25 });
+    const mesh = new THREE.InstancedMesh(geo, mat, Math.max(1, this.paths.length));
+    mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);   // animated: the collider skips it
+    mesh.userData.noCollide = true;
+    mesh.frustumCulled = false; mesh.name = 'city-people'; mesh.visible = false;
+    colonyGroup.add(mesh);
+    this.mesh = mesh;
+    try { this.roster = await (await fetch('units/roster.json')).json(); } catch { this.roster = null; }
+  },
+  hint() {
+    const t = this.roster?.totals || {};
+    return T.peopleHint({ n: t.n_people ?? '?', village: t.n_village ?? '?', under: t.n_undercity ?? '?',
+      nobed: t.people_without_card_bed ?? '?', surface: this.paths ? this.paths.length : 0 });
+  },
+  async toggle(force) {
+    this.on = force ?? !this.on;
+    document.getElementById('peopleBtn').textContent = T.people(this.on);
+    if (this.on) { await this.ensure(); if (!drill.playing) hintEl.textContent = this.hint(); }
+    else if (!drill.playing) hintEl.textContent = hintDefault;
+  },
+  posAt(i, tMin, t) {                              // -> [x, z] or null when out of sight
+    const p = this.paths[i], o = this.origin[i];
+    if (tMin === null) return [o[0] + Math.sin(t * 0.21 + i) * 1.3, o[1] + Math.cos(t * 0.17 + i * 1.7) * 1.3];
+    let leg = p.legs[0];
+    for (const l of p.legs) if (l.t0 <= tMin) leg = l;
+    if (leg.state === 'sheltered' || leg.state === 'lift') return null;
+    if (leg.state === 'origin') return o;
+    if (leg.state === 'transit') {
+      const f = Math.min(1, Math.max(0, (tMin - leg.t0) / Math.max(1e-6, leg.t1 - leg.t0)));
+      return [o[0] + (leg.to[0] - o[0]) * f, o[1] + (leg.to[1] - o[1]) * f];
+    }
+    const k = (i % 7) - 3;                         // queue / lock: a short line at the door
+    return [leg.at[0] + k * 0.8, leg.at[1] + ((i * 3) % 4) * 0.7 + (leg.state === 'lock' ? -1.2 : 1.5)];
+  },
+  update(t) {
+    if (!this.mesh) return;
+    const show = (this.on || drill.playing) && colonyGroup.visible;
+    this.mesh.visible = show;
+    if (!show) return;
+    const tMin = drill.playing ? drill.t_min : null;
+    for (let i = 0; i < this.paths.length; i++) {
+      const xz = this.posAt(i, tMin, t);
+      if (!xz) { this._m.makeScale(0, 0, 0); }
+      else this._m.makeTranslation(xz[0], sampleHeight(xz[0], xz[1]) + 0.85, xz[1]);
+      this.mesh.setMatrixAt(i, this._m);
+    }
+    this.mesh.instanceMatrix.needsUpdate = true;
+  },
+};
+function updateCity(dt) {
+  for (let i = doorTweens.length - 1; i >= 0; i--) {
+    const w = doorTweens[i]; w.t = Math.min(1, w.t + dt);
+    w.n[w.prop][w.axis] = w.from + (w.to - w.from) * w.t;
+    if (w.t >= 1) doorTweens.splice(i, 1);
+  }
+  drill.update(dt);
+  people.update(clock.elapsedTime);
+}
+document.getElementById('peopleBtn').addEventListener('click', () => people.toggle());
+document.getElementById('drillBtn').addEventListener('click', () => {
+  if (drill.playing) drill.stop();
+  else { if (!colonyGroup.visible) toggleColony(true); drill.start(60); }
+});
 
 // ------------------------------------------------------------- collision
 // Static AABB colliders derived at load time from geometry that already
@@ -3443,8 +3750,13 @@ renderer.setAnimationLoop(() => {
     updateRelayCards();
     posEl.textContent = T.posOrbit((camera.position.length() - ORBIT_R).toFixed(0));
   } else if (inInterior) {                    // underground/indoor scene
-    moveDesktop(dt);                          // walk; y is pinned in updateInterior
-    updateInterior(dt);
+    updateCity(dt);                           // the drill clock keeps running underground
+    if (cutscene) updateCutscene(dt);         // the module drives the camera; controls held
+    else {
+      if (liftRide) updateLiftRide(dt);
+      moveDesktop(dt);                        // walk; y is pinned in updateInterior
+      updateInterior(dt);
+    }
     if (inInterior) {                         // may have exited during update
       if (!renderer.xr.isPresenting) driveSensors(clock.elapsedTime);
       for (const f of inInterior.anims || []) f(clock.elapsedTime, dt, 1);
@@ -3465,6 +3777,7 @@ renderer.setAnimationLoop(() => {
       for (const f of unitAnims) f(clock.elapsedTime, dt, lastNight);
       for (const m of mixers) m.update(dt);
     }
+    updateCity(dt);
     updatePois();
     updatePortals();
     if (inspectUnit) orbitControls.update();
@@ -3519,7 +3832,12 @@ function updateRelayCards() {
 if (q.has('debug')) {
   window.__mars = { units, unitSensors, unitAnims, orbitAnims, colonyGroup, scene,
     renderer, camera, rig, driveSensors, clock, sampleHeight, updateRelayCards,
-    updateSun, orbitControls, updatePois, pois, get inInterior() { return inInterior; } };
+    updateSun, orbitControls, updatePois, pois, get inInterior() { return inInterior; },
+    get liftRide() { return liftRide; }, get cutscene() { return cutscene; },
+    rideLift, INTERIOR_DOORS, PORTALS, cityAlarm, setAlarm, drill, people, updateCity, alarmBeacons,
+    // frame pieces, so a hidden tab (no rAF) can still be stepped by a test
+    step(dt) { if (!inInterior) return; if (cutscene) updateCutscene(dt); else { if (liftRide) updateLiftRide(dt); moveDesktop(dt); updateInterior(dt); }
+      if (inInterior) for (const f of inInterior.anims || []) f(clock.elapsedTime, dt, 1); } };
   // turntable helper for headless capture: park the flying rig on a circle
   // around (cx,cz) at angDeg, aim at the centre, and render synchronously so
   // the very next CDP screenshot sees this exact frame (headless background

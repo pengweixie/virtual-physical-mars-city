@@ -1,0 +1,129 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "ops-drill-01 drill timeline",
+ "type": "object",
+ "required": [
+  "schema",
+  "version",
+  "generated_from",
+  "t0_definition",
+  "dt_min",
+  "T_clear_min",
+  "N_surface",
+  "levels",
+  "units",
+  "flow",
+  "paths"
+ ],
+ "properties": {
+  "schema": {
+   "const": "ops-drill-01/drill"
+  },
+  "version": {
+   "type": "string",
+   "pattern": "^\\d+\\.\\d+\\.\\d+$"
+  },
+  "dt_min": {
+   "type": "integer",
+   "minimum": 1
+  },
+  "T_clear_min": {
+   "type": "number",
+   "minimum": 0
+  },
+  "N_surface": {
+   "type": "integer",
+   "minimum": 0
+  },
+  "levels": {
+   "type": "array",
+   "items": {
+    "enum": [
+     "green",
+     "yellow",
+     "red"
+    ]
+   }
+  },
+  "units": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "hook",
+     "keyframes"
+    ],
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "hook": {
+      "const": "userData.alarm"
+     },
+     "keyframes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+       "type": "object",
+       "required": [
+        "t_min",
+        "level"
+       ],
+       "properties": {
+        "t_min": {
+         "type": "number"
+        },
+        "level": {
+         "enum": [
+          "green",
+          "yellow",
+          "red"
+         ]
+        },
+        "lights": {
+         "type": "string"
+        },
+        "doors": {
+         "type": "string"
+        },
+        "vent": {
+         "type": "string"
+        },
+        "flow": {
+         "type": "object"
+        },
+        "note": {
+         "type": "string"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "flow": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "t_min",
+     "counts"
+    ]
+   }
+  },
+  "paths": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "origin",
+     "entrance",
+     "shelter",
+     "legs"
+    ]
+   }
+  }
+ }
+}

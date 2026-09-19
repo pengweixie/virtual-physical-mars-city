@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The People — Virtual-Physical Mars City</title>
+<meta name="description" content="A city of 82 assets and no people layer: bed census, dose map, three quota lines, a machine-readable roster, and two stress tests — every number cited, every gap left open.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    /* ▸ REPLACE: district accent (must match your card in index.html) */
+    --accent:var(--amber);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .pipe{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;max-width:var(--textw);}
+  .pipe span{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.04em;padding:7px 12px;
+    border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-dim);}
+  .pipe span b{color:var(--accent);font-weight:600;}
+  .broke{max-width:var(--textw);margin-top:26px;display:grid;gap:18px;}
+  .broke .item{border-left:2px solid var(--accent);padding:2px 0 2px 18px;}
+  .broke .item h3{font-size:1.02rem;font-weight:600;}
+  .broke .item p{margin:.4rem 0 0;color:var(--ink-dim);font-size:.98rem;}
+  .try{max-width:var(--textw);margin-top:22px;}
+  .try li{margin:.5rem 0;color:var(--ink-dim);}
+  .try code,.prose code,.acct code{font-family:var(--f-mono);font-size:.85em;background:var(--bg-3);
+    border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink);}
+  .acct{max-width:var(--textw);margin-top:22px;display:grid;gap:14px;}
+  .acct .row{display:grid;grid-template-columns:8.5rem 1fr;gap:14px;border-top:1px solid var(--line);padding-top:12px;}
+  .acct .row .k{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding-top:4px;}
+  .acct .row p{margin:0;color:var(--ink-dim);font-size:.98rem;}
+  .acct .row p strong{color:var(--ink);}
+  @media(max-width:560px){.acct .row{grid-template-columns:1fr;gap:4px;}}
+  td.state{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.06em;}
+  .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 18px;margin-top:18px;max-width:var(--textw);font-size:.9rem;color:var(--ink-dim);}
+  .legend i{display:inline-block;width:.85em;height:.85em;border-radius:2px;margin-right:.5em;vertical-align:-1px;}
+  .legend i.o{background:transparent;border:1.5px solid currentColor;}
+  pre.iface{font-family:var(--f-mono);font-size:.78rem;line-height:1.5;background:var(--bg-3);border:1px solid var(--line);border-radius:10px;padding:14px 18px;overflow-x:auto;max-width:var(--textw);color:var(--ink);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="home.html">← Prev</a>
+    <a href="perception.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">ops-roster-01 · people &amp; dose roster · round 1</div>
+    <h1>The People</h1>
+    <p class="phead__sub">The city has 79 registered assets, 80 knowledge cards and, until this round, no layer for the people
+      who live in it: who sleeps where, for how long, how much of a dose allowance each person has left, how EVA hours are
+      shared. This page is five ledgers that ask those questions of the cards as written - a bed and workstation census, a
+      dose map, three quota lines printed side by side, a machine-readable roster, and two stress tests - with every
+      expectation registered before the first card was opened, every number traced to a card commit or a run, and every
+      number the cards do not hold left as <em>null</em>, never estimated.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">People on the only card that counts them</div><div class="spec__v">115<small>85 undercity + 30 village · derived, not self-reported</small></div></div>
+    <div class="spec"><div class="spec__k">Beds on the cards</div><div class="spec__v">35<small>+2 temporary · 80 people with no card bed</small></div></div>
+    <div class="spec"><div class="spec__k">Positions with a dose number</div><div class="spec__v">6 / 27<small>all village Run B floors + RAD surface</small></div></div>
+    <div class="spec"><div class="spec__k">Pre-registered gates</div><div class="spec__v">23 / 23<small>green · 16 hit · 2 miss · 4 not closable or declared</small></div></div>
+  </div>
+</div>
+
+<!-- 01 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">A dossier with no measurement of its own. Every number here is a citation - a city card at a named
+      commit, the village's berth file, the life-support dossier's staffing script, the RAD instrument's published surface
+      dose - or arithmetic on citations. What it adds is the arithmetic nobody had done across cards, and the blanks nobody
+      had printed.</p>
+    <div class="prose">
+      <p>The village had just written its stay limit as policy - a floor per cabin class from the glass works' Run B, a
+        formula that turns a floor and an EVA share into sols, and a set of occupancy weights it calls <strong>occupancy
+        v1</strong>. That covers one living area. The undercity quarter, the surface duty cabins, the airlock hall, the
+        deep laboratory: none has a dose floor a person could be assigned to, and no card in the city says how many
+        people each unit needs. The census found <strong>ten</strong> cards that state their own crew - eight of them say
+        "unmanned" - and one card, the life-support ledger, that states the city's population by a billet method:
+        115 people, 85 sleeping in the undercity, 30 in the village. The undercity's only residential card describes
+        <strong>five single cabins</strong>.</p>
+      <p>So the roster is mostly empty on purpose. Of 115 people, 87 carry a dose of <em>null</em>: 85 because the
+        30 m rock layer has a shielding factor on its cards but no absolute floor, 2 because the village's corner cabin
+        has no Run B number. The board built from it draws those people as empty frames. The rule from the first commit
+        is that a blank is a finding, and filling it would be the error.</p>
+    </div>
+    <div class="pipe">
+      <span><b>5</b> ledgers</span><span><b>23</b> gates</span><span><b>22</b> pre-registered expectations</span>
+      <span><b>16</b> hit · <b>2</b> miss · <b>4</b> not closable / declared</span><span><b>1</b> roster.json</span><span><b>1</b> board part</span>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/people/r1-board-day.jpg" alt="The roster and quota board standing in front of the compute centre by day: three bands of bars and a 23 by 5 grid of person tiles, most of them empty frames" loading="lazy">
+        <figcaption>The board in the city, daytime. Top: dose floors per position, surface in red at full width. Middle: 115 person tiles, 28 filled. Bottom: sols to the 20 mSv line for four EVA shares; the red tick is one Earth year, and no bar reaches it.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/people/r1-board-night.jpg" alt="The same board at night, its bars and tiles emissive against the stars, the compute centre's screen glow behind" loading="lazy">
+        <figcaption>Night. Emissive bars only; the empty frames stay dark because a null is not a number.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">Five ledgers in the order each feeds the next. Each script carries its gates in its docstring and refuses
+      to write a result if any gate is red; the runner exits non-zero on any red and on a roster that is not byte-identical
+      on a second run.</p>
+    <div class="acct">
+      <div class="row"><div class="k">1 · census</div><p><strong>Beds and workstations from the cards, nothing from geometry.</strong> Two regex passes over 80 cards produced 829 candidate sentences, 86 with a number next to a people-word, each read by a person. Residential beds: the village's 30 (24 in standard cabins, 4 in the two end cabins, 2 in the corner cabin - the berth file is the source of truth and a gate demands it counts to 30) plus the quarter's five single cabins - <strong>35</strong>, with 2 temporary and 5 non-residential (a show-home bed, four Starship sleep pods). The clinic has a module with a scanner couch and no card, so it is a gap, not a bed. Ten cards state a crew, eight of them "unmanned"; the fire station says zero full-time and sixteen part-time drawn from the population. Capacities that are not people - a 12-person lift cab, "3-7 crew (inferred)" on the CZ-10B, 15 cinema seats, 12 seats at the commons tables - are printed in their own column and never summed. Expectation E1.1 (40-70 beds) missed at 35, and the miss stands.</p></div>
+      <div class="row"><div class="k">2 · dose map</div><p><strong>27 positions, 6 with a number.</strong> The village's four Run B receptors (standard bunk 27.0 mSv/yr, end bunk 31.9, old living position 52.8, airlock box 93.7 - all lower bounds, seeds and sigma beside them), the RAD surface 234 mSv/yr and its per-sol EVA form 0.66 mSv. Eleven undercity positions and the deep laboratory have shielding factors on their cards - 5000 g/cm², 52 hadronic e-folds, muons ×0.03, ×10⁻⁶ at 3 km - but no absolute floor: the 0.3 mSv/yr muon floor the surface station quotes is marked by the village's own berm card as a self-set order of magnitude, so the map does not use it. Every surface building interior is "no basis". A known-answer gate checks that 234 ÷ 365.25 × 1.0275 returns 0.658, within 1% of the 0.66 the policy uses; an ablation removes each village floor in turn and requires the blank share only to rise.</p></div>
+      <div class="row"><div class="k">3 · quota</div><p><strong>Three lines, printed side by side, never merged.</strong> The city's 20 mSv per Earth year indoors; the village's own 50 mSv per Mars year; and the occupational limits by version - NASA-STD-3001 Vol. 1 Rev. C, 600 mSv career for every age and sex, and ICRP Publication 103, 20 mSv/yr averaged over five years with no year above 50. An independent rewrite of the village formula reproduces its table exactly (263 / 228 / 201 sols to 20 mSv for a standard bunk at 0 / 0.5 / 1 h EVA; 160 / 148 / 137 under occupancy v1). Per sol, the village line is 1.33× looser than the city's, so the village's sentence that its own line is "stricter than 20" holds only in its zero-EVA indoor conversion. The career line binds nobody who stays under thirty years: at occupancy v1 with half an hour of EVA it is spent in 4,431 sols, 12.5 Earth years; living on the surface, 2.56 years. The ICRP five-year average cannot be met in the village under any schedule, since the bunk floor alone is 27.</p></div>
+      <div class="row"><div class="k">4 · roster</div><p><strong>roster.json 1.0.0: 115 people, 76% null.</strong> The life-support dossier's 22 billet rows expand into individuals; villagers take berths in the order the berth file lists them; EVA hours are the only per-person number any card gives - the life-support duty split puts a villager at <strong>2.6 h/sol</strong> and an undercity resident at 0.3. The dose per sol follows occupancy v1 exactly (8.0 h asleep at the bunk floor, the rest awake at the living floor, EVA at 0.66/24.65), and a person whose sleep or awake floor is null gets a null dose with a <code>gap</code> field naming what is missing and whose card could fill it. A conservation gate sums the roster two ways (per person, per location × person-hours) and demands agreement to 10⁻⁶; a known-answer gate demands 148 sols for the standard bunk at X = 0.5; a schema gate validates the file; the runner checks determinism. What scheduling can change is X alone: from 0.5 h to zero buys 8% more stay. The floor is geometry's.</p></div>
+      <div class="row"><div class="k">5 · stress</div><p><strong>Full village; one measured solar particle event.</strong> Dose is not a shared resource, so filling all 30 beds changes no one's floor - it changes the EVA share, because the life-support card does give a city-wide EVA demand, 104 person-hours per sol, 78 of them the village's: at 24 occupants that is 3.3 h each and 104 sols to the line, at 32 it is 2.4 h and 114. The only SEP this dossier will cite is the one RAD measured on the surface: 10-11 September 2017, <strong>418 µGy in silicon</strong>, peak rate 2-3× the GCR background. Converted with a declared silicon-to-water factor of 1.3 and a quality factor scanned from 1.0 to 1.5 - not chosen - that is 0.54-0.82 mSv, under one sol of ordinary surface dose, 2.7-4.1% of the 20 mSv line. The asymmetric conclusion registered in advance: this rules out "a RAD-class event triggers a rotation"; it does not license "SEP is safe", because the larger historical events were never measured on Mars and the attenuation under 2 m of soil or 30 m of rock has no run.</p></div>
+    </div>
+    <p class="lead" style="margin-top:34px;">What the board draws</p>
+    <div class="legend">
+      <div><i style="background:#e0aa48"></i>Run B floor, lower bound (village)</div>
+      <div><i style="background:#d86153"></i>RAD measured (surface 234)</div>
+      <div><i class="o" style="color:#8a7a6a"></i>no basis / shielding factor only / pending Run E</div>
+      <div><i style="background:#e0aa48"></i>villager, standard bunk (24)</div>
+      <div><i style="background:#e07a48"></i>villager, end bunk (4)</div>
+      <div><i class="o" style="color:#6a5a4a"></i>villager, corner bunk, no number (2)</div>
+      <div><i style="background:#63b4d8"></i>undercity, one of the five carded cabins</div>
+      <div><i class="o" style="color:#3a3a44"></i>undercity, no card bed (80)</div>
+      <div><i style="background:#7fb069"></i>sols to 20 mSv · green tick = 20 mSv/yr line</div>
+      <div><i style="background:#d86153"></i>red tick = one Earth year (355.5 sols)</div>
+    </div>
+    <figure class="figure">
+      <img src="assets/people/r1-board-wide.jpg" alt="Wide view: the freestanding board in front of the compute centre's glass wall, the storage farm and fusion radiator to the left" loading="lazy">
+      <figcaption>Where it stood for the smoke test: 14 m in front of the compute centre. Whether it lives there, in the quarter's commons, or nowhere is the hosts' call; the part is offered, not placed.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
+    <p class="lead">Every headline number on this page, the state it is in, and the script that produced it. Scripts live in the
+      dossier <span class="src">mars-roster/ledger/</span> and write <span class="src">mars-roster/ledger/out/</span>; the
+      pre-registration is the dossier's first commit.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Claim</th><th class="num">Value</th><th>State</th><th>Produced by</th></tr></thead>
+        <tbody>
+          <tr><td>Registered assets / unit modules / cards</td><td class="num">79 / 78 / 80</td><td class="state">measured · brief said 82, not reconciled</td><td class="src">mars-roster/ledger/01_census.py</td></tr>
+          <tr><td>Residential beds on the cards</td><td class="num">35 (+2 temp, +5 non-res.)</td><td class="state">census · E1.1 miss (40-70)</td><td class="src">01_census.py · hab-village-01 plaza · hab-quarter-01 cabin</td></tr>
+          <tr><td>Village beds vs berth file</td><td class="num">30 = 24 std + 4 end + 2 corner</td><td class="state">known-answer gate G1.3</td><td class="src">01_census.py · mars-village berths.json v5d</td></tr>
+          <tr><td>City population</td><td class="num">115 = 85 + 30</td><td class="state">derived by another card, not self-reported</td><td class="src">res-eclss-01 screen · mars-eclss calc/L0_population.py</td></tr>
+          <tr><td>Cards stating their own crew</td><td class="num">10 of 79 (8 unmanned)</td><td class="state">census</td><td class="src">01_census.py</td></tr>
+          <tr><td>Units whose crew count is a gap</td><td class="num">42</td><td class="state">declared gap · per-unit list in json</td><td class="src">01_census.py</td></tr>
+          <tr><td>People without a card bed</td><td class="num">80</td><td class="state">census · 85 vs 5 cabins</td><td class="src">01_census.py · 04_roster.py</td></tr>
+          <tr><td>Dose-map positions with a number</td><td class="num">6 of 27</td><td class="state">map · E2.1 hit</td><td class="src">02_dose_map.py</td></tr>
+          <tr><td>Village floors: std / end / living(old) / airlock</td><td class="num">27.0 / 31.9 / 52.8 / 93.7 mSv/yr</td><td class="state">ruled · Run B lower bounds</td><td class="src">hab-village-01 plaza card · Run B b2077f4</td></tr>
+          <tr><td>Surface dose; EVA per sol</td><td class="num">234 mSv/yr · 0.66 mSv/sol</td><td class="state">measured · RAD</td><td class="src">sci-rad-01 rack card (RAD anchor)</td></tr>
+          <tr><td>234/365.25 × 1.0275 vs 0.66</td><td class="num">0.658 · 0.26%</td><td class="state">known-answer gate G2.2</td><td class="src">02_dose_map.py</td></tr>
+          <tr><td>Undercity absolute floor</td><td class="num">null</td><td class="state">not closable · missing rock γ background and a measured muon floor</td><td class="src">02_dose_map.py · hab-quarter-01 · sci-rad-03</td></tr>
+          <tr><td>Deep-lab absolute floor</td><td class="num">null</td><td class="state">not closable · µ ×10⁻⁶ only</td><td class="src">02_dose_map.py · sci-deeplab-01 · sci-rad-04</td></tr>
+          <tr><td>Village table reproduced</td><td class="num">263/228/201 · 160/148/137</td><td class="state">cross-implementation gate G3.1</td><td class="src">03_quota.py</td></tr>
+          <tr><td>City line vs village line, per sol</td><td class="num">0.0563 vs 0.0748 mSv · 1.33×</td><td class="state">account</td><td class="src">03_quota.py</td></tr>
+          <tr><td>Career 600 mSv, occupancy v1, X = 0.5</td><td class="num">4,431 sol · 12.5 yr</td><td class="state">account · NASA-STD-3001 Rev. C</td><td class="src">03_quota.py</td></tr>
+          <tr><td>Career 600 mSv on the surface</td><td class="num">2.56 yr</td><td class="state">account</td><td class="src">03_quota.py</td></tr>
+          <tr><td>ICRP 103 five-year average in the village</td><td class="num">not satisfiable</td><td class="state">asymmetric · 27 &gt; 20 before EVA</td><td class="src">03_quota.py</td></tr>
+          <tr><td>Roster people / with a number / null share</td><td class="num">115 / 28 / 76%</td><td class="state">roster.json 1.0.0</td><td class="src">04_roster.py</td></tr>
+          <tr><td>Conservation, two summation routes</td><td class="num">5.0369 = 5.0369 mSv/sol</td><td class="state">gate G4.1 · first version red on rounding</td><td class="src">04_roster.py</td></tr>
+          <tr><td>Villager EVA share, life-support split</td><td class="num">2.6 h/sol</td><td class="state">cited · not in the village's v1 table</td><td class="src">mars-eclss L0 duty_split · 04_roster.py</td></tr>
+          <tr><td>Std bunk to 20 mSv at X = 2.6</td><td class="num">112 sol</td><td class="state">account · v1 structure, fourth column</td><td class="src">04_roster.py · 05_stress.py</td></tr>
+          <tr><td>Stay bought by X 0.5 → 0</td><td class="num">148 → 160 sol · +8%</td><td class="state">account · E4.4</td><td class="src">04_roster.py</td></tr>
+          <tr><td>City EVA demand; village share</td><td class="num">104 · 78 person-h/sol</td><td class="state">cited</td><td class="src">res-eclss-01 screen card</td></tr>
+          <tr><td>Full village 24 → 32 occupants</td><td class="num">X 3.3 → 2.4 h · 104 → 114 sol</td><td class="state">account · floors unchanged (gate G5.4)</td><td class="src">05_stress.py</td></tr>
+          <tr><td>RAD SEP of Sept 2017, surface</td><td class="num">418 µGy (Si)</td><td class="state">literature · Zeitlin et al. 2018 GRL</td><td class="src">05_stress.py constants</td></tr>
+          <tr><td>Same event as tissue dose equivalent</td><td class="num">0.54-0.82 mSv · 2.7-4.1% of 20</td><td class="state">declared conversion (1.3 × Q 1.0-1.5) · E5.1 miss on the letter</td><td class="src">05_stress.py</td></tr>
+          <tr><td>SEP under soil or rock</td><td class="num">≤ surface value</td><td class="state">bound only · no run</td><td class="src">05_stress.py</td></tr>
+          <tr><td>Board geometry</td><td class="num">5,136 tris · 2.52 × 2.45 × 0.60 m · minY 0</td><td class="state">measured · validate_unit</td><td class="src">viewer/units/roster-board.js</td></tr>
+          <tr><td>In-city smoke test</td><td class="num">scale 1 · 54 assets · 0 console errors</td><td class="state">measured · ?colony=1&amp;debug=1</td><td class="src">viewer/index.html</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">Twenty-two expectations were written before the first card was opened. Two missed, four could not be
+      decided, and two gates went red on their first version. These are the ones worth reading.</p>
+    <div class="broke">
+      <div class="item"><h3>I expected 40-70 beds. The cards hold 35.</h3><p>The pre-registration guessed one to four beds per undercity cabin and up to fifteen temporary bunks. The quarter's card says five single cabins; the only temporary bunks are two in the village and four sleep pods in a landed Starship that is a museum piece. The band stays where it was written; the miss is the finding: the city's residential capacity on paper is a third of its stated population.</p></div>
+      <div class="item"><h3>The undercity floor cannot be closed, and I had expected a number under 5.</h3><p>The quarter's card gives a shielding factor and the phrase "about Earth background"; the sentinel column gives 52 hadronic e-folds and muons ×0.03; the surface station's 0.3 mSv/yr muon floor is, on the village's own berm card, a self-set order of magnitude with no measurement. Eighty-five people therefore carry a null dose. Writing 0.3 would have filled the roster and hidden the gap.</p></div>
+      <div class="item"><h3>Two cards disagree about the propellant plant and the roster does not rule.</h3><p>The ISRU card describes a 480-sol unmanned production period; the life-support staffing script bills it six people on continuous shifts, housed in the undercity. Both are cited in the same census row with "registered, not ruled". A roster that picked one would be manufacturing a fact.</p></div>
+      <div class="item"><h3>The conservation gate went red on its first run, and the model was right.</h3><p>Summing per-person doses after rounding to five decimals and comparing with a per-location sum missed by 2×10⁻⁴ over 28 people. The gate now sums unrounded components; the band (10⁻⁶) did not move, and the reason is in the script. A second gate - "a person with zero shares gets zero dose" - had been written so it could not fail; it now also requires a non-zero share to give a non-zero dose.</p></div>
+      <div class="item"><h3>The village's occupancy table stops at 1 h of EVA. The life-support split gives its residents 2.6.</h3><p>Not a contradiction in any one card, but a cross-ledger difference nobody had multiplied out: at 2.6 h/sol a standard-bunk villager reaches 20 mSv in 112 sols, not 148. The roster prints it as a fourth column inside the v1 structure and sends the difference to both holders.</p></div>
+      <div class="item"><h3>The SEP share came out at 4.1% against a registered 2-4%, and is judged a miss.</h3><p>The upper edge of the declared conversion (silicon-to-water 1.3, Q 1.5) gives 0.815 mSv, 4.08% of 20. The letter of the expectation says 4%. It is scored as a miss rather than rounded into a hit, because a band that is stretched after the fact is not a band.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
+    <ul class="try">
+      <li>Read the roster directly: <code>viewer/units/roster.json</code> - 115 people, 8 locations, 4 scenarios, gates, and a <code>gap</code> string on every null.</li>
+      <li>Put the board anywhere in a unit: <code>import { RosterBoard } from './roster-board.js'</code>, <code>import { ROSTER } from './roster-data.js'</code>, then <code>host.add(RosterBoard(THREE, ROSTER))</code> and merge its <code>nightMats</code>. No three.js import, no textures, no DOM.</li>
+      <li>Re-run everything: <code>python ledger/run_all.py</code> in the dossier. A red gate or a non-deterministic roster exits non-zero, and the commit command is chained on that exit code.</li>
+      <li>Change one input - a new Run E living floor, an absolute undercity floor from the quarter's card - and the roster version increments; the old file is kept as <code>roster_v1.0.0.json</code> with a lineage pointer.</li>
+    </ul>
+    <p class="lead" style="margin-top:30px;">Data interface for the engine's "where people are" layer</p>
+    <pre class="iface">roster.json
+  schema        "ops-roster-01/roster"        version "1.0.0"        occupancy "v1"
+  locations[]   { id, unit, status: ruled|measured|card_shielding|pending|none, floor_msv_per_earth_yr|null, beds|null }
+  people[]      { id p001..p115, home: undercity|village, billet, sleep_location, awake_location,
+                  eva_h_per_sol, dose_msv_per_sol|null, components{habitat_sleep, habitat_awake, eva},
+                  remaining{city20_sol, village50_sol, nasa600_sol}|nulls, rotation_sol|null, gap|null }
+  scenarios[]   { id, eva_h_per_sol, city20_sol_std, city20_sol_end, source }
+  totals        { n_people, n_with_number, null_share, eva_person_h_per_sol, people_without_card_bed, ... }
+  gates         { name: true|false }          lineage { supersedes|null }</pre>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0 0 10px;"><strong>Sources.</strong> Design ledgers: <span class="src">mars-roster/ledger/01_census.py … 05_stress.py</span>, shared constants <span class="src">mars-roster/ledger/constants.py</span>, outputs <span class="src">mars-roster/ledger/out/*.json</span>, pre-registration <span class="src">mars-roster/dev/PREREG_ops-roster-01.md</span> (first commit). Cited city cards: <span class="src">viewer/units/hab-village-01.info.json · hab-quarter-01 · hab-home-01 · res-eclss-01 · sci-rad-01 · sci-rad-03 · sci-rad-04 · sci-deeplab-01 · hab-tunnel-01 · hab-lift-01 · ops-fire-01 · veh-rocket-01 · veh-rocket-02 · env-scatter-01 · hab-rec-01</span>; village berths <span class="src">mars-village/berths.json (v5d)</span>; staffing <span class="src">mars-eclss/calc/L0_population.py</span>. Standards: NASA-STD-3001 Vol. 1 Rev. C (2022), ICRP Publication 103 (2007). SEP: Zeitlin et al., Geophys. Res. Lett. 45, 5845 (2018). Part and data: <span class="src">viewer/units/roster-board.js · roster-data.js · roster.json</span>.</p>
+    <p style="margin:0;">The silicon-to-tissue factor and the quality-factor range used for the SEP conversion are declared parameters, not measurements; the 115-person population is another dossier's derivation; both are labelled as such in the table above.</p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+</body>
+</html>

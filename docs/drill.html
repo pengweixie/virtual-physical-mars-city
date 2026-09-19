@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Solar Proton Event Drill — Virtual-Physical Mars City</title>
+<meta name="description" content="The city's first end-to-end solar particle event drill: a RAD-measured event as input, the warning chain's four clocks, a deterministic evacuation model, shelter doses, and drill.json for the engine.">
+<style>
+  /* ============ shared tokens — DO NOT EDIT (SITE.md §2) ============ */
+  :root{
+    --bg:#0d0a08; --bg-2:#151009; --bg-3:#1d1710; --ink:#efe9e2; --ink-dim:#a99f93;
+    --line:rgba(255,244,230,.10); --line-strong:rgba(255,244,230,.20);
+    --rust:#e07a48; --rust-dim:#a85a34; --amber:#e0aa48; --cyan:#63b4d8;
+    --green:#7fb069; --violet:#a97fd8; --red:#d86153;
+    --f-display:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-body:"Segoe UI","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    --f-mono:ui-monospace,"Cascadia Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1120px; --textw:44rem;
+    /* ▸ REPLACE: district accent (must match your card in index.html) */
+    --accent:var(--red);
+  }
+  :root[data-theme="light"]{
+    --bg:#f2ede6; --bg-2:#ffffff; --bg-3:#f7f3ec; --ink:#211a13; --ink-dim:#6d635a;
+    --line:rgba(40,24,10,.12); --line-strong:rgba(40,24,10,.24);
+    --rust:#b0521f; --rust-dim:#c96f3d; --amber:#96690f; --cyan:#22688f;
+    --green:#4a7a38; --violet:#7a4fb0; --red:#b3453a;
+  }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{text-wrap:balance;margin:0;} a{color:inherit;} img{max-width:100%;display:block;}
+  .label{font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:12px clamp(20px,4vw,40px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav__brand{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-decoration:none;}
+  .nav__links{display:flex;gap:20px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;}
+  .nav__links a{color:var(--ink-dim);text-decoration:none;} .nav__links a:hover{color:var(--accent);}
+  .phead{padding:clamp(60px,9vw,110px) 0 clamp(30px,4vw,50px);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg)),var(--bg));}
+  .phead h1{font-weight:700;font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1.02;margin:.2em 0 .15em;}
+  .phead__sub{max-width:var(--textw);color:var(--ink-dim);font-size:1.1rem;}
+  .specs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);}
+  .specs__grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .spec{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim);}
+  .spec__v{font-weight:700;font-size:1.4rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .spec__v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);}
+  @media(max-width:640px){.specs__grid{grid-template-columns:repeat(2,1fr);}
+    .spec:nth-child(2){border-right:none;}.spec:nth-child(-n+2){border-bottom:1px solid var(--line);}}
+  section.band{padding:clamp(48px,7vw,90px) 0;}
+  .band--alt{background:var(--bg-2);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-head .num{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em;}
+  h2{font-weight:700;font-size:clamp(1.6rem,3.3vw,2.3rem);}
+  .lead{max-width:var(--textw);font-size:1.1rem;margin-top:12px;}
+  .prose{max-width:var(--textw);color:var(--ink-dim);}
+  .prose p{margin:1rem 0;} .prose strong{color:var(--ink);font-weight:600;}
+  .figure{margin:30px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-3);}
+  .figure figcaption{padding:12px 18px;font-family:var(--f-mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--ink-dim);border-top:1px solid var(--line);}
+  .fig2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  @media(max-width:720px){.fig2{grid-template-columns:1fr;}}
+  .fig2 .figure{margin:0;}
+  .tablewrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem;}
+  th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);}
+  thead th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);background:var(--bg-3);}
+  tbody tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600;color:var(--ink);}
+  td.num,th.num{font-variant-numeric:tabular-nums;}
+  .hl{color:var(--accent);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;background:var(--bg-2);
+    color:var(--ink-dim);font-size:.9rem;}
+  footer a{color:var(--amber);text-decoration:none;} footer a:hover{text-decoration:underline;}
+  .src{font-family:var(--f-mono);font-size:.78rem;}
+  .theme-btn{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid var(--line-strong);
+    background:var(--bg-3);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;
+    font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;}
+  /* ============ end shared — page-specific styles go BELOW ============ */
+  .clocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:24px;}
+  .clock{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--bg-3);}
+  .clock .k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);}
+  .clock .v{font-weight:700;font-size:1.25rem;margin-top:4px;font-variant-numeric:tabular-nums;}
+  .clock .v small{font-size:.7rem;font-family:var(--f-mono);color:var(--ink-dim);font-weight:400;}
+  .broke{max-width:var(--textw);counter-reset:b;}
+  .broke li{margin:0 0 14px;color:var(--ink-dim);} .broke li strong{color:var(--ink);}
+  td.st{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;white-space:nowrap;}
+  .st--lit{color:var(--violet);} .st--acc{color:var(--green);} .st--dec{color:var(--amber);} .st--gap{color:var(--red);} .st--x{color:var(--cyan);}
+  code{font-family:var(--f-mono);font-size:.85em;background:var(--bg-3);padding:1px 5px;border-radius:4px;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="index.html">MARS&nbsp;CITY</a>
+  <div class="nav__links">
+    <a href="index.html#districts">All districts</a>
+    <a href="radiation.html">← Prev</a>
+    <a href="flight.html">Next →</a>
+    <a href="https://github.com/pengweixie/virtual-physical-mars-city">GitHub</a>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <div class="label">ops-drill-01 · sci-rad-01 · sci-rad-02/03/04 · hab-tunnel-01 · hab-lift-01 · hab-village-01</div>
+    <h1>The Solar Proton Event Drill</h1>
+    <p class="phead__sub">The alarm bus was wired months ago — the weather station's shared sign, the radiation station's 3×/30× rule, the three-depth sentinel network — but nobody had ever run it as one event. This is the first time: a RAD-measured storm as the input, the warning chain's four clocks re-derived, every surface person's path to shielding simulated minute by minute, and the honest result that the run is not the hard part.</p>
+  </div>
+</header>
+
+<div class="specs">
+  <div class="specs__grid wrap" style="padding:0;">
+    <div class="spec"><div class="spec__k">Surface cleared</div><div class="spec__v">40.9<small>min · N=21, roster pending</small></div></div>
+    <div class="spec"><div class="spec__k">Ground's own lead</div><div class="spec__v">0<small>min · an identity</small></div></div>
+    <div class="spec"><div class="spec__k">Input event dose</div><div class="spec__v">418<small>µGy (Si) · RAD, Sept 2017</small></div></div>
+    <div class="spec"><div class="spec__k">Dose before shelter</div><div class="spec__v">0.3<small>µGy · last person in</small></div></div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>What it is</h2></div>
+    <p class="lead">Five accounts, pre-registered before any number was computed, then a JSON timeline the engine can play.</p>
+    <div class="prose">
+      <p>The input is not invented. It is the largest solar energetic particle event that the Radiation Assessment Detector on Curiosity has measured on the Martian surface: onset 10 September 2017 at 19:50 UT, peak fluxes the next morning, a plateau of about ten hours, an event-integrated absorbed dose of <strong>418 µGy in silicon</strong>, and a peak dose rate two to three times the galactic background (Zeitlin, Ehresmann and Hassler, 2018). The hourly dose-rate table is not in hand, so the curve's shape is a declared parameter and the two literature integrals are the gates.</p>
+      <p>The five accounts are the event curve, the warning clocks, the evacuation capacity, the shelter dose per position, and the drill timeline itself. Expectations and gates for all five were written and committed before the first script ran; where a result missed the expectation the miss is printed and the conclusion changed, not the expectation. Thirty-one gates, all green; four pre-registered expectations missed.</p>
+      <p>The deliverable to the engine is <code>drill.json</code>: for 27 units, the alarm level and the people counts at each minute from the injected red alert to the last person in; for each of the 21 surface people, a contiguous path from post to shelter. A small console unit on the surface, next to the radiation station, is the reference implementation of the response hook every unit is asked to declare.</p>
+    </div>
+    <figure class="figure">
+      <img src="assets/drill/console-hero-red-20min.jpg" alt="The SEP drill console close up: three-colour mast on red, siren horn, the board with six location-count bars, twenty minutes into the drill" loading="lazy">
+      <figcaption>THE CONSOLE, 20 MIN INTO THE DRILL — MAST RED, BOARD BARS = LOCATION COUNTS; 1006 TRIANGLES BESIDE THE RADIATION STATION</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="assets/drill/flow.png" alt="Stacked area chart of where every surface person is, minute by minute, during the drill" loading="lazy">
+      <figcaption>WHERE EVERYONE IS, MINUTE BY MINUTE — 21 PEOPLE, SURFACE CLEARED AT 40.9 MIN; THE DOTTED LINE IS THE 26.7 MIN A 1972-CLASS EVENT ALLOWS</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>How it works</h2></div>
+    <p class="lead">Four clocks, one identity, and a queue that never forms.</p>
+    <div class="prose">
+      <p><strong>The clocks.</strong> Protons released at the Sun arrive in order of energy along a 2.04 AU Parker spiral. Re-deriving the radiation station's account from the kinematics: multi-GeV first arrivals at 17.0 min, the 166 MeV atmospheric cutoff complete at 32.2 min, the orbital detector's 100 MeV front at 39.6 min, its 10 MeV population at 117.1 min. The Jezero atmosphere, 20.7 g/cm², is a high-pass filter at 166 MeV, so the surface sees the earliest particles and never has a lead over its own dose: the particles that trip the alarm are the particles that start the dose. The orbital tier's 100 MeV trigger therefore runs 7 to 23 minutes <em>behind</em> the surface dose onset, depending on which arrival you call the onset. The only positive lead anywhere in the chain is the L4 coronagraph's one-to-three-day structural forecast.</p>
+    </div>
+    <div class="clocks">
+      <div class="clock"><div class="k">First arrival</div><div class="v">17.0<small> min</small></div></div>
+      <div class="clock"><div class="k">245 MeV bulk</div><div class="v">27.8<small> min</small></div></div>
+      <div class="clock"><div class="k">166 MeV full band</div><div class="v">32.2<small> min</small></div></div>
+      <div class="clock"><div class="k">EPS 100 MeV front</div><div class="v">39.6<small> min</small></div></div>
+      <div class="clock"><div class="k">EPS 10 MeV</div><div class="v">117.1<small> min</small></div></div>
+      <div class="clock"><div class="k">Sentinel 5σ, 2017-class</div><div class="v">35–188<small> s</small></div></div>
+    </div>
+    <div class="prose">
+      <p><strong>The alarm.</strong> The surface station counts penetrating particles in a one-minute sliding window; yellow at three times quiet, red above thirty. The 2017 event raised protons above 135 MeV by a factor of four at most, so its count peak sits between two and four: red is excluded, yellow cannot be established without the near-cutoff spectrum. The drill's red at t = 0 is therefore an exercise injection, and the event curve is aligned to it — the most conservative alignment, since the ground has no lead.</p>
+      <p><strong>The evacuation.</strong> A deterministic discrete-event simulation moves every surface person: suit-up (declared 15 min), walk at 1 m/s to the nearest shielded entrance, queue, a 6 m³ airlock cycle of 3 min carrying two suited people, and at the lift station a 12-person cab down 30 m to the foyer. The village's thirty residents shelter in place under two metres of cover; their vestibule closes. The last one in comes from the launch pad, 1.36 km away: 15 min suiting up, 22.6 walking, no wait, 3 in the lock. The pre-registration bet that the airlock's serial queue would be the bottleneck. It came third: thirteen posts arrive staggered and the locks sit idle most of the time. The cab, rated for twelve, never fills — the vestibule meters people two at a time.</p>
+      <p><strong>The dose.</strong> Integrating the event curve to each person's sheltering time, the last one in receives 0.2 to 0.3 µGy more than someone already underground — a thousandth of the event. Ninety percent of the 418 µGy arrives 32 to 82 hours after onset. For a RAD-class event the run does not change the dose; the stay does. For a 1972-class event, at the radiation station's cited 44.9 mSv/h, the same 41 minutes on the surface is 30.6 mSv, past the occupational annual limit — and nobody from the far posts reaches the tunnel inside the 26.7 minutes that event allows.</p>
+    </div>
+    <div class="fig2">
+      <figure class="figure">
+        <img src="assets/drill/event_curve.png" alt="Surface absorbed dose rate versus hours after onset for the September 2017 event, two peak-factor cases" loading="lazy">
+        <figcaption>THE INPUT — 2017-09-10/11 AT THE SURFACE, LITERATURE SHAPE, INTEGRAL-CONSTRAINED TO 418 µGy</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/drill/scan_N.png" alt="Clearance time versus number of people on the surface, with the 26.7 minute line and the rover lever" loading="lazy">
+        <figcaption>CLEARANCE TIME VS POPULATION — THE FAR WALK, NOT THE AIRLOCK, SETS IT; ROVERS AT THE FAR POSTS ARE THE LEVER</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>The ledger</h2></div>
+    <p class="lead">Every number above, and which run produced it. Status: literature · cited card · account · cross-implementation · declared parameter · bound only · declared gap.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Event-integrated absorbed dose, RAD-B</td><td class="num">418 µGy (Si)</td><td class="src">Ehresmann 2018 GRL 45:5305; Zeitlin 2018 GRL 45:5845; Hassler 2018 Sp. Weather</td><td class="st st--lit">literature</td></tr>
+        <tr><td>Onset / peak / plateau</td><td class="num">19:50 UT 10 Sep · next morning · ~10 h</td><td class="src">Ehresmann 2018 (abstract)</td><td class="st st--lit">literature</td></tr>
+        <tr><td>Peak dose rate over background; proton flux &gt;135 MeV</td><td class="num">2–3× · ×4</td><td class="src">Zeitlin 2018; Ehresmann 2018</td><td class="st st--lit">literature</td></tr>
+        <tr><td>Quiet surface rate used as baseline</td><td class="num">0.21 mGy/day = 8.75 µGy/h</td><td class="src">sci-rad-01 card, account 1 (RAD)</td><td class="st st--x">cited card</td></tr>
+        <tr><td>Decay constant after a 12 h rise + 10 h plateau (peak 2× / 3×)</td><td class="num">31.8 / 7.9 h</td><td class="src">mars-drill/ledger/01_event.py</td><td class="st st--dec">account, shape declared</td></tr>
+        <tr><td>Event in quiet-sol equivalents</td><td class="num">1.94 sol</td><td class="src">ledger/01_event.py</td><td class="st st--acc">account</td></tr>
+        <tr><td>Count peak factor at the surface station; red (30×) excluded</td><td class="num">2–4×</td><td class="src">ledger/01_event.py</td><td class="st st--acc">asymmetric</td></tr>
+        <tr><td>Arrival clocks 17.0 / 32.2 / 39.6 / 117.1 min; window 77.5</td><td class="num">&lt;1% of sci-rad-01 account 5</td><td class="src">ledger/02_warning.py</td><td class="st st--x">cross-implementation</td></tr>
+        <tr><td>EPS 100 MeV front vs surface dose onset</td><td class="num">−22.7 / −11.8 / −7.4 min</td><td class="src">ledger/02_warning.py</td><td class="st st--acc">account</td></tr>
+        <tr><td>Ground yellow after first arrival, 4× event, hard→soft spectrum</td><td class="num">12.5–13.8 min</td><td class="src">ledger/02_warning.py</td><td class="st st--acc">account</td></tr>
+        <tr><td>Sentinel 5σ confirmation, F=2 / 10</td><td class="num">188 / 8.5 s</td><td class="src">ledger/02_warning.py (reproduces sci-rad-02)</td><td class="st st--x">cross-implementation</td></tr>
+        <tr><td>Personnel airlock / lift throughput</td><td class="num">40 / 698 persons·h⁻¹</td><td class="src">ledger/03_evacuation.py</td><td class="st st--dec">p=2 declared</td></tr>
+        <tr><td>Surface cleared, base case</td><td class="num">40.9 min (N=21)</td><td class="src">ledger/03_evacuation.py</td><td class="st st--dec">placement declared, roster pending</td></tr>
+        <tr><td>Last person's clock (launch pad → tunnel lock)</td><td class="num">15 + 22.6 + 0 + 3 + 0.3 min</td><td class="src">ledger/03_evacuation.py</td><td class="st st--acc">account</td></tr>
+        <tr><td>Bottleneck ranking (pre-registered: queue first)</td><td class="num">walk 22.6 &gt; suit 15 &gt; wait 2.5</td><td class="src">ledger/03_evacuation.py</td><td class="st st--gap">prereg miss</td></tr>
+        <tr><td>Against the 26.7 min of a 1972-class event</td><td class="num">fails from N=7; suit 0 → 25.9; rovers → 31.7/22.3/17.3</td><td class="src">ledger/03_evacuation.py; rate cited from sci-rad-01 account 5</td><td class="st st--acc">asymmetric</td></tr>
+        <tr><td>Vehicle gate with 0 / 4 / 8 seats</td><td class="num">40.9 / 39.4 / 39.4 min</td><td class="src">ledger/03_evacuation.py</td><td class="st st--acc">ablation</td></tr>
+        <tr><td>Full 12-person lift loads</td><td class="num">0 of 5 trips</td><td class="src">ledger/03_evacuation.py</td><td class="st st--acc">account</td></tr>
+        <tr><td>Roster brackets: all duty at pwr-grid-01 / at the launch pad</td><td class="num">30.7 / 49.9 min</td><td class="src">ledger/03_evacuation.py</td><td class="st st--acc">bounds</td></tr>
+        <tr><td>Roster-proportional placement (66 surface billets → 16)</td><td class="num">41.2 min</td><td class="src">ledger/03_evacuation.py; ops-roster-01 roster.json (r1)</td><td class="st st--x">cited × declared peak</td></tr>
+        <tr><td>Last person's extra dose, literature shape / 2 h-rise shape</td><td class="num">0.2–0.3 / 1.0–2.0 µGy</td><td class="src">ledger/04_shelter_dose.py</td><td class="st st--acc">account, both shapes</td></tr>
+        <tr><td>90% of the event delivered after</td><td class="num">82 / 32 h</td><td class="src">ledger/04_shelter_dose.py</td><td class="st st--acc">account</td></tr>
+        <tr><td>Same 41 min on the surface at F=10³ / 10⁴</td><td class="num">3.1 / 30.6 mSv</td><td class="src">ledger/04_shelter_dose.py; rates from sci-rad-01 account 5</td><td class="st st--x">cited × account</td></tr>
+        <tr><td>Village bunk SEP dose per event</td><td class="num">≤ 48 µGy</td><td class="src">ledger/04_shelter_dose.py (Run B 27.0 mSv/yr floor)</td><td class="st st--gap">bound only</td></tr>
+        <tr><td>Undercity (30 m rock) / deep lab SEP increment</td><td class="num">≤ 4 µGy / 0</td><td class="src">sci-rad-03 / sci-rad-04 cards</td><td class="st st--x">cited card</td></tr>
+        <tr><td>Known answer: 0.66 ÷ (0.21 × 1.0275)</td><td class="num">3.06 vs ⟨Q⟩ 3.05</td><td class="src">ledger/04_shelter_dose.py G4.4</td><td class="st st--acc">gate</td></tr>
+        <tr><td>drill.json: units with keyframes / minutes / paths / gates</td><td class="num">27 / 47 / 21 / 31 green</td><td class="src">ledger/05_drill.py; ledger/run_all.py</td><td class="st st--acc">account</td></tr>
+        <tr><td>Console unit: triangles / bbox / static and full-cycle minY</td><td class="num">1006 / 3.25×4.37×2.10 m / 0</td><td class="src">validate_unit.mjs; mars-drill/tools/measure.mjs</td><td class="st st--x">measured</td></tr>
+        <tr><td>Undercity bed count · duty-room wall density · crew-vehicle seats · cover vs an SEP spectrum · the roster</td><td class="num">—</td><td class="src">ops-roster-01 · surface holders · veh-ground-01 · res-glass-01</td><td class="st st--gap">declared gap</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band band--alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>What broke</h2></div>
+    <p class="lead">What the drill exposed, and what the ledger got wrong about itself.</p>
+    <ol class="broke">
+      <li><strong>For the event that matters, nobody reaches the tunnel.</strong> A 1972-class hard event allows 26.7 minutes to the annual limit (the radiation station's cited table). Under the declared 15-minute suit-up the surface fails to clear from seven people upward; with instant suit-up it just passes at 25.9 minutes, carried entirely by a 22.6-minute walk from the launch pad. Shelter-in-place is the only action that fits inside the window — and not one surface duty room has a wall areal density on its card, so its dose cannot be written. That is the largest gap this drill found, and it is dispatched.</li>
+      <li><strong>The bottleneck was pre-registered in the wrong place.</strong> The expectation ranked the airlock's serial queue first. Measured: the longest wait at any lock is 2.5 minutes; the walk and the suit-up come first. The declared placement spreads sixteen people over thirteen posts, so arrivals stagger. The queue only dominates if everyone starts near the gate (30.7 minutes with all sixteen at the substation).</li>
+      <li><strong>The measured event would not ring the bell.</strong> Under the city's own 30× rule the September 2017 storm never reaches red, and its 2–4× count peak straddles the 3× yellow line. The city had defined no "exercise" alarm state; the drill's red is an injection, and the radiation station is asked how an injected state should be displayed.</li>
+      <li><strong>"Full lift" cannot happen.</strong> The brief asked for the lift running full. The vestibule in front of it is a 6 m³ airlock cycling two suited people every three minutes; the twelve-person cab makes five trips with two aboard each. Holding the cab for a minute or two changes nothing. The metering is upstream of the cab.</li>
+      <li><strong>The event shape was declared before the abstract was read.</strong> The pre-registration declared a two-hour rise. Ehresmann's abstract gives a rise to the next morning and a ten-hour plateau. The base case uses the literature shape and keeps the two-hour case as the ablation; the first-hour sheltered dose is six times shape-sensitive, so both are printed and the verdict ("the run does not change the dose") is checked under both.</li>
+      <li><strong>One pre-registered line used two baselines.</strong> The effective-duration expectation was written with 0.25 mGy/day while the neighbouring line used 0.21; the miss (47.8 h against an expected 20–40) is the ledger's own arithmetic, not the physics, and is left printed as a miss.</li>
+      <li><strong>Ventilation switching has no radiological reason.</strong> A proton event does not travel with the air. The switch stays in the timeline as a domain-seal action after the doors close, labelled as such; the tunnel's holder is asked whether it should stay at all.</li>
+      <li><strong>The sentinel's 188 s reproduces only one way.</strong> The card's 5σ times come from the variance of a background-subtracted difference; the background-only form gives 62 s. Registered so the next reader does not "correct" a correct card.</li>
+      <li><strong>A card contradicts itself.</strong> The foyer card lists the personnel airlock at "~22 kWh / ~24 min" in its spec table while its own text and the tunnel card say 0.2 kWh / 3 min — a copy of the vehicle row. Reported to the holder; this ledger uses 3 min.</li>
+      <li><strong>The roster arrived, and it has no surface.</strong> The personnel roster delivered the same day places all 85 undercity residents "awake underground" and the 30 villagers in the village: its location model has no surface-duty room, although the life-support card it is built from books 197 person-hours a sol there. Its billet table does say which surface facilities are staffed, so a roster-proportional placement was run: 41.2 min against 40.9 — same headline. The instantaneous surface head count therefore remains a declared number; the drill is flagged 'roster pending' until the roster carries a surface location.</li>
+      <li><strong>More units carry keyframes than expected.</strong> Twenty-seven against a pre-registered 14–18, because each of thirteen surface duty units takes its own row. Printed as a miss.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
+    <p class="lead">The console runs the drill by itself until the engine's player is wired.</p>
+    <div class="prose">
+      <p>Open the viewer with <code>?colony=1&amp;inspect=ops-drill-01</code>. The console stands beside the surface radiation station in the environment-warning cluster. Press <strong>V</strong> to look around and use the <strong>SEP drill</strong> button on the left edge of the screen (or the console's own start action): the mast turns red, the siren horn stirs, and the six bars on the board replay the city's per-minute location counts at sixty times real speed — one real minute per second, the ratio printed on the plaque rather than passed off as real time. After 47 seconds the last person is in and the mast returns to green.</p>
+      <p>Every unit in the timeline is asked to declare its own reaction to the alarm level through a <code>userData.alarm</code> hook; the spec and the dispatch to the thirteen unit classes are in the sources below. Once the integrator wires the engine's event bus, <code>?drill=1</code> will play the whole city: gate lamps, cycling airlocks, a sealed village vestibule, grounded aircraft, a frozen launch window, a cleared palace — and two sentinel screens thirty and three thousand metres underground that, correctly, do not change at all.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="label" style="margin-bottom:10px;">Sources</div>
+    <p style="margin:0;">Design ledger: <span class="src">mars-drill/ledger/01_event.py … 05_drill.py</span>, outputs <span class="src">mars-drill/ledger/out/*.json</span>, pre-registration <span class="src">mars-drill/dev/PREREG_ops-drill-01.md</span> (first commit 2d2ab3c) ·
+      Engine data: <span class="src">mars-drill/drill.json</span> + <span class="src">drill.schema.json</span> ·
+      Hook spec: <span class="src">mars-drill/dev/HOOK_SPEC_alarm.md</span> ·
+      City asset: <span class="src">viewer/units/ops-drill-01.js</span> ·
+      Cited: sci-rad-01 account 5 (<span class="src">mars_rad/outputs/sep_warning_chain.json</span>), Run B floors, res-eclss-01 population ·
+      Literature: Zeitlin et al. 2018 GRL doi:10.1029/2018GL077760; Ehresmann et al. 2018 GRL doi:10.1029/2018GL077801; Hassler et al. 2018 Space Weather doi:10.1029/2018SW001959 ·
+      <a href="index.html">Back to the city</a></p>
+  </div>
+</footer>
+
+<button class="theme-btn" onclick="
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')==='light'?'dark':'light';
+  r.setAttribute('data-theme',cur);localStorage.setItem('mc-theme',cur);">LIGHT / DARK</button>
+<script>
+  const t=localStorage.getItem('mc-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+</script>
+
+</body>
+</html>

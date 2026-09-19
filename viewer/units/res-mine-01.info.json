@@ -24,7 +24,15 @@
         "Strata": "6 colour bands, faintly self-lit for night reading"
       },
       "physics": "露天矿台阶采掘法（bench mining）：台阶立面同时暴露矿体与地层记录，采掘推进即地质测绘。",
-      "physics_en": "Bench mining: every bench face exposes the ore body and the stratigraphic record at the same time, so advancing the excavation is itself geological mapping."
+      "physics_en": "Bench mining: every bench face exposes the ore body and the stratigraphic record at the same time, so advancing the excavation is itself geological mapping.",
+      "sim": [
+        "供料结构水检定(09-05,答村含氢杠杆;dev/REPLY_res-mine-01_hydrated_minerals.md):坑底风化层含硫酸盐/Mg-Fe 页硅酸盐/含水盐/非晶相(Scheller 2022, Hausrath 2023, Cousin 2024),但毅力号无 XRD 与热释气,**任何质量分数都不存在**;唯一可引定量数是类比 Rocknest SAM 1.5–3 wt% H2O(Leshin 2013)。",
+        "可达性:覆土含水 w 需含水物料占覆土 w/m_w;按 m_w≤3 wt%,w=0.08 要占 267–533%、0.15 要 500–1000%——**矿物路在本矿不可达,与配比无关**;筛分/磁鼓对含水相无杠杆;贴壳 295 K 低 RH 石膏数日脱成半水(Vaniman 2018)。产率本卡此前无账:按 RASSOR 2.0 设计目标 2.7 t/sol/台、扣已认领 1.85 t/sol,4 m 方案增量 13.2 kt 覆土需 1.6 万 sol(独占单机 4.9 千、双机 2.4 千)。"
+      ],
+      "sim_en": [
+        "Structural-water assay of the feed (09-05, answering the village hydrogen lever; dev/REPLY_res-mine-01_hydrated_minerals.md): crater-floor regolith carries sulfates, Mg-Fe phyllosilicates, hydrated salts and an amorphous component (Scheller 2022, Hausrath 2023, Cousin 2024), but Perseverance has no XRD and no evolved-gas analysis, so **no mass fraction exists**; the only citable number is the Rocknest analogue, 1.5-3 wt% H2O by SAM (Leshin 2013).",
+        "Reachability: a cover at water fraction w needs hydrated material at w/m_w of the cover; with m_w <= 3 wt%, w = 0.08 needs 267-533% and 0.15 needs 500-1000% - **the mineral route cannot reach either at this mine, at any ratio**; screening and the magnetic drum give no leverage on hydrated phases, and gypsum next to the 295 K shell dehydrates to bassanite in days at low RH (Vaniman 2018). Feed rate had no ledger before: at the RASSOR 2.0 design target of 2.7 t/sol per unit minus 1.85 t/sol already committed, the 13.2 kt extra cover of the 4 m option takes 16,000 sol (4,900 with one unit exclusive, 2,400 with two)."
+      ]
     },
     {
       "id": "rassor",

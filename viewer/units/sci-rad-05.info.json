@@ -1,0 +1,413 @@
+{
+  "id": "sci-rad-05",
+  "pois": [
+    {
+      "id": "head",
+      "label": "ΔE–E 主望远镜",
+      "label_en": "dE-E Main Telescope",
+      "range": 25,
+      "detail": "塔顶壳体开了四分之一剖切,里面是真尺寸的探测叠层:三片 300 µm 硅(A/B/C,Ø3 cm,间距 2 cm)测粒子穿过时丢下的能量 ΔE,下面 3 cm 碘化铯(D)和 2 cm 塑料闪烁体(E)把停下来的粒子的剩余能量 E 全部吃掉,外面一层反符合壳(F)标出漏出去的。ΔE 乘 E 正比于质量乘电荷平方,所以质子、氘、氚、氦 3、氦 4 在 ΔE–E 图上各走一条线。A 和 C 的内圈分段把入射角钉在 20° 以内,这是分同位素的前提。架构借自 MSL RAD,尺寸放大了一倍多以换统计。所有数字是设计仿真在合成测试场上的结果,没有任何火星数据。",
+      "detail_en": "The shell on the tower top is cut open by a quarter. Inside is the stack at true size: three 300 um silicon detectors (A/B/C, 3 cm across, 2 cm apart) record the energy a particle loses on the way through, dE. Below them 3 cm of caesium iodide (D) and 2 cm of plastic scintillator (E) absorb the remaining energy E of a particle that stops, and an anticoincidence shell (F) flags anything that leaks out. dE times E scales with mass times charge squared, so protons, deuterons, tritons, helium-3 and helium-4 each follow their own line on the dE-E plot. Inner segments on A and C pin the incidence angle within 20 degrees, which is what makes isotopes separable. The architecture is borrowed from MSL RAD and scaled up for statistics. Every number here is a design simulation on a synthetic test field, not Mars data.",
+      "specs": {
+        "叠层": "A/B/C 300 µm Si Ø3 cm · D CsI(Tl) Ø4×3 cm · E 塑闪 Ø4×2 cm · F 反符合",
+        "几何因子": "A·C 2.47 cm² sr(RAD 公开值约 0.9)· 内圈 A1·C1 0.183 cm² sr · 视场半角 36.9°",
+        "质子停止能段": "11.4–97.5 MeV 停在 D(正入射),113 MeV 穿出 E",
+        "铁核停止能段": "436–511 MeV/n",
+        "同位素正确率(内圈)": "p 1.00 · d 0.97 · t 0.94 · ³He 1.00 · ⁴He 0.97 · Z≥3 1.00",
+        "等级": "设计仿真产品,无数据"
+      },
+      "specs_en": {
+        "Stack": "A/B/C 300 um Si 3 cm dia · D CsI(Tl) 4 x 3 cm · E plastic 4 x 2 cm · F anticoincidence",
+        "Geometric factor": "A.C 2.47 cm2 sr (RAD published ~0.9) · inner A1.C1 0.183 cm2 sr · half-angle 36.9 deg",
+        "Proton stopping band": "11.4-97.5 MeV stop in D (normal incidence), exits E at 113 MeV",
+        "Iron stopping band": "436-511 MeV/n",
+        "Isotope accuracy (inner segments)": "p 1.00 · d 0.97 · t 0.94 · 3He 1.00 · 4He 0.97 · Z>=3 1.00",
+        "Grade": "design simulation product, no data"
+      },
+      "sim": [
+        "【r1 2026-09-13】种类分离账(账 01,sim/01_species_separation.py → out/01_species.json;预注册 f2d7cb7):等先验混淆矩阵,10–95 MeV/n,内圈分段类 21910 个事件:p 1.00、d 0.971、t 0.940、³He 0.998、⁴He 0.975、Z≥3 1.00。d、t、³He 三格高于预注册区间,记偏出,区间不动。全接受度类 ⁴He 0.847、t 0.921。",
+        "【r1 2026-09-13】首版把拟合角度放到 cos 0.62,超出几何接受边 0.80,拟合用路径长换质量:t 读 0.54、⁴He 读 0.56。那是没用上仪器自带分段的计算壳,已撤回;数字留在账文件头。",
+        "【r1 2026-09-13】失配注入:预注册那一档(增益 +3%、厚度 +5%、噪声 ×1.5)只把 d/t 混淆移动 +0.1 个百分点,闸 G1.5 红;三倍注入移动 +3.6 个百分点,证明闸能红。结论是内圈同位素分离对这一档失配稳健。G1.5 按名排除,理由写在 json。",
+        "【r1 2026-09-13】已知答案闸:5 MeV 质子在硅中射程 215.5 µm(PSTAR 级 221,−2.5%);100 MeV 质子在水中 7.71 g/cm²(7.72);ΔE·E 在同速度下 d/p 2.07、t/p 3.14、⁴He/p 15.9(理论 2/3/16);两同轴圆盘几何因子解析式与蒙卡差 0.2%。",
+        "【r1 2026-09-13】对照 RAD(Hassler 2014,只引量级):几何因子约 0.9 cm² sr、质子与 ⁴He 停止谱到 95 MeV/n、⁵⁶Fe 到 450 MeV/n;本站 2.47 cm² sr、97.5 MeV、436 MeV/n。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Species ledger (ledger 01, sim/01_species_separation.py -> out/01_species.json; pre-registered f2d7cb7): equal-prior confusion matrix, 10-95 MeV/n, inner-segment class, 21910 events: p 1.00, d 0.971, t 0.940, 3He 0.998, 4He 0.975, Z>=3 1.00. d, t and 3He sit above their pre-registered bands and are recorded as misses; the bands are not moved. Full-acceptance class: 4He 0.847, t 0.921.",
+        "[r1 2026-09-13] The first version searched fit angles down to cos 0.62, beyond the geometric acceptance edge at 0.80, so the fit traded path length for mass: t read 0.54 and 4He 0.56. That harness ignored the instrument's own segments and is retracted; the numbers stay in the ledger's header.",
+        "[r1 2026-09-13] Mismatch injection: the registered size (gain +3%, thickness +5%, noise x1.5) moved d/t confusion by +0.1 point and gate G1.5 is red; three times that injection moved it +3.6 points, which proves the gate can fire. Inner-segment isotope separation is robust at the registered size. G1.5 is excluded by name with the reason in the json.",
+        "[r1 2026-09-13] Known-answer gates: 5 MeV proton range in silicon 215.5 um (PSTAR-grade 221, -2.5%); 100 MeV proton in water 7.71 g/cm2 (7.72); dE*E at equal velocity d/p 2.07, t/p 3.14, 4He/p 15.9 (theory 2/3/16); two-disk geometric factor closed form agrees with Monte Carlo to 0.2%.",
+        "[r1 2026-09-13] Against RAD (Hassler 2014, magnitudes only): geometric factor ~0.9 cm2 sr, stopping spectra for protons and 4He to 95 MeV/n, 56Fe to 450 MeV/n; this station 2.47 cm2 sr, 97.5 MeV, 436 MeV/n."
+      ],
+      "physics": [
+        "Bethe 能损正比于 z²/β²,剩余能量 E 正比于 A·β²,两者相乘就是 A·z²——ΔE–E 图上的一条条香蕉线就是质量数乘电荷平方的等值线。",
+        "斜着穿过的粒子在薄层里走的路是 t/cosθ,丢的能量也跟着多,于是轻同位素斜着来和重同位素正着来长得一样。内圈分段把 cosθ 限在 0.937 以上,路径不确定度 7%,小于相邻同位素 33–50% 的质量台阶,这就是分得开的原因。"
+      ],
+      "physics_en": [
+        "Bethe energy loss scales as z^2/beta^2 and the residual energy as A*beta^2, so their product is A*z^2: each banana line on the dE-E plot is a contour of mass number times charge squared.",
+        "A slanted track crosses a thin layer along t/cos(theta) and loses more energy, so a light isotope arriving at an angle looks like a heavier one at normal incidence. The inner segments hold cos(theta) above 0.937, a 7% path uncertainty, smaller than the 33-50% mass step between neighbouring isotopes. That is why they separate."
+      ]
+    },
+    {
+      "id": "lowe",
+      "label": "低能段望远镜",
+      "label_en": "Low-Energy Telescope",
+      "range": 18,
+      "detail": "主壳侧面的细筒是专为 sci-rad-01 留下的那个问题做的:一层 300 µm 的硅里,几 MeV 的停止质子和靶碎片反冲是分不开的。这里第一层只有 20 µm 厚(T0),1 MeV 以上的质子能穿过去进入下面的 300 µm(T1)和 1500 µm(T2),重的反冲碎片只走几微米,永远停在 T0 里。仿真表明这个设计分质子够用,分同位素不够,而且 T0 单层事件里几乎全是大角度进来的轻离子,不是反冲。平台下方那根黄色小筒是朝地的备份,还只是设计修订项。",
+      "detail_en": "The slim tube on the side of the main shell answers the question sci-rad-01 left open: in one 300 um silicon layer a stopping proton of a few MeV and a target-fragment recoil cannot be told apart. Here the first layer is only 20 um thick (T0). Protons above 1 MeV cross it into 300 um (T1) and 1500 um (T2) layers, while heavy recoil fragments travel a few microns and always stop inside T0. The simulation shows this design separates protons well enough but not isotopes, and that T0-only events are almost all light ions arriving at wide angles, not recoils. The small yellow tube under the platform is a downward-looking copy and is still only a design revision.",
+      "specs": {
+        "叠层": "T0 20 µm / T1 300 µm / T2 1500 µm Si · 1 cm² · 间距 0.2 cm",
+        "质子能段": "0.97 MeV 到达 T1 · 6.28 MeV 到达 T2 · 17.1 MeV 穿出",
+        "几何因子 T0·T1": "2.21 cm² sr(预注册 0.5–1.5,偏出)",
+        "正确率(基线)": "p 0.80 · d 0.52 · t 0.50",
+        "T0 单层类里的反冲纯度": "0.011(预注册 ≥0.9,偏出)",
+        "设计修订:间距改 1 cm": "p 1.00 · d 0.96 · t 0.68,几何因子降到 0.64"
+      },
+      "specs_en": {
+        "Stack": "T0 20 um / T1 300 um / T2 1500 um Si · 1 cm2 · gaps 0.2 cm",
+        "Proton band": "0.97 MeV reaches T1 · 6.28 MeV reaches T2 · 17.1 MeV exits",
+        "Geometric factor T0.T1": "2.21 cm2 sr (pre-registered 0.5-1.5, miss)",
+        "Accuracy (baseline)": "p 0.80 · d 0.52 · t 0.50",
+        "Recoil purity of the T0-only class": "0.011 (pre-registered >=0.9, miss)",
+        "Design revision: 1 cm gap": "p 1.00 · d 0.96 · t 0.68, geometric factor down to 0.64"
+      },
+      "sim": [
+        "【r1 2026-09-13】种类分离账(账 01,out/01_species.json):1.5–12 MeV/n 等先验矩阵,69746 个事件,p 0.797、d 0.524、t 0.503。0.2 cm 间距让视场一直开到 cosθ 0.17,路径长与质量的简并在这里拆不开。p 与 d 两格低于预注册区间,记偏出。",
+        "【r1 2026-09-13】预注册的机制是「反冲穿不过 T0、1.5 MeV 以上质子穿得过」。机制本身对,但纯度的预期错了:T0 单层、0.3–6 MeV 这一类事件里碎片只占 1.1%,其余是大角度进来、从侧面漏出去的轻离子。T0 单层类不能当反冲计数器用,反冲只能给界(见质子族牌)。",
+        "【r1 2026-09-13】设计修订,不计分:T0–T1 间距改为 1.0 cm,p 0.999、d 0.965、t 0.680、³He 0.905,代价是几何因子从 2.21 降到 0.635 cm² sr。建议采纳。",
+        "【r1 2026-09-13】首版低能段拟合的角度网格用了主望远镜的 0.62–1,而这里的几何边到 0.17;按几何重做后才得到上面的数。",
+        "【r2 2026-09-14】账 07/09:这台望远镜在 r1 里多计的族剂量,一半是账 03 映射的错(正入射对余弦律场),一半是它自己的种类串扰(真氘 52%、真氚 54% 判对;质子被判成氘 13%)。联合反解后基线剂量 0.959 对真值;1 cm 间距对照案 0.902,Q 偏 +0.06。预注册的 σ 比 1.6–2.2(按几何因子平方根)偏出,实测 0.78:量得出的族 ⟨Q⟩ 的统计误差由各部分 Q 的离散度决定,不只由事件数。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Species ledger (ledger 01, out/01_species.json): equal-prior matrix at 1.5-12 MeV/n, 69746 events, p 0.797, d 0.524, t 0.503. The 0.2 cm gap leaves the view open to cos(theta) 0.17, and path length cannot be separated from mass there. The p and d cells fall below their pre-registered bands and are recorded as misses.",
+        "[r1 2026-09-13] The registered mechanism was that recoils cannot cross T0 while protons above 1.5 MeV can. The mechanism holds but the purity expectation was wrong: in the T0-only 0.3-6 MeV class fragments are only 1.1%, the rest are light ions arriving at wide angles and leaving through the side. The T0-only class cannot serve as a recoil counter; recoils can only be bounded (see the proton-family plaque).",
+        "[r1 2026-09-13] Design revision, not scored: a 1.0 cm T0-T1 gap gives p 0.999, d 0.965, t 0.680, 3He 0.905, at the cost of the geometric factor falling from 2.21 to 0.635 cm2 sr. Recommended.",
+        "[r1 2026-09-13] The first version fitted the low-energy telescope over the main telescope's 0.62-1 angle grid while its own geometric edge is at 0.17; the numbers above come from the geometric grid.",
+        "[r2 2026-09-14] Ledgers 07/09: the family dose this telescope over-counted in r1 was half ledger 3's mapping (normal incidence against a cosine-law field) and half its own species cross-talk (true d 52%, true t 54% identified; protons called deuterons 13%). After joint unfolding the baseline dose is 0.959 of truth; the 1 cm-gap counterfactual 0.902, Q +0.06. The registered sigma ratio 1.6-2.2 (square root of the geometric factors) missed, measured 0.78: the statistical error of the measured family <Q> is set by the spread of the parts' Q, not only by the event count."
+      ],
+      "physics": [
+        "20 µm 硅刚好是 1 MeV 质子的射程,而一个几 MeV 的硅反冲核射程只有几微米:厚度就是判别器——穿得过的不是反冲。",
+        "判别器没说谁会进来:视场越宽,从侧面斜穿 T0 又漏出去的轻离子越多,它们在 T0 里丢的能量和反冲一样多。收窄视场要拿几何因子换。"
+      ],
+      "physics_en": [
+        "20 um of silicon is the range of a 1 MeV proton, while a silicon recoil nucleus of a few MeV travels a few microns: the thickness is the discriminator, and whatever gets through is not a recoil.",
+        "The discriminator says nothing about what comes in. The wider the view, the more light ions cross T0 at a slant and leave through its side, depositing as much energy in T0 as a recoil would. Narrowing the view costs geometric factor."
+      ]
+    },
+    {
+      "id": "ebox",
+      "label": "读出链电子箱",
+      "label_en": "Readout-Chain Electronics Box",
+      "range": 20,
+      "detail": "箱子里是每路探测器的前端:电荷灵敏放大器、2 微秒成形、再分成 ×1 和 ×32 两档增益送进 14 位模数转换器。它按脉冲幅度记电荷,不按过阈时间记。sci-rad-01 在它的账 19 里量出自己的 Timepix4 前端在 1 万个电子以下根本不认电荷、50 万个电子处钳位;这条链就是为了绕开那两个坑。行为级仿真表明,从阈值到 1.35 亿个电子当量没有钳位,铁核在 300 µm 硅里的 86 MeV 读回误差 0.03%。",
+      "detail_en": "The box holds one front end per detector: a charge-sensitive amplifier, 2 microsecond shaping, then two gains (x1 and x32) into a 14-bit converter. It records charge as pulse amplitude, not as time over threshold. sci-rad-01 measured in its ledger 19 that its Timepix4 front end does not see charge at all below 10 thousand electrons and clamps near 500 thousand; this chain exists to avoid both. The behavioural simulation shows no clamp from threshold up to the equivalent of 37 million electrons, and an iron nucleus depositing 86 MeV in 300 um of silicon reads back within 0.03%.",
+      "specs": {
+        "链": "CSA C_f 4 pF → CR-RC² 2 µs → ×1 / ×32 → 14 bit",
+        "硅道量程": "阈值 10 keV(2.8 ke)到 134.8 MeV(3.7e7 e),无钳位",
+        "对 sci-rad-01 钳位点": "满量程是 500 ke 的 74.9 倍",
+        "线性": "47.7 keV 以上 ≤1%;阈值附近 −1.7%",
+        "碘化铯弹道亏损": "6.65%,10 MeV–10 GeV 恒定到四位",
+        "死时间占比": "平静 2.4e-5 · 暴风 ×30 7.2e-4",
+        "等级": "行为级 L2;晶体管级双脉冲看不见"
+      },
+      "specs_en": {
+        "Chain": "CSA C_f 4 pF -> CR-RC^2 2 us -> x1 / x32 -> 14 bit",
+        "Silicon range": "threshold 10 keV (2.8 ke) to 134.8 MeV (3.7e7 e), no clamp",
+        "Against sci-rad-01's clamp": "full scale is 74.9 times 500 ke",
+        "Linearity": "<=1% above 47.7 keV; -1.7% near threshold",
+        "CsI ballistic deficit": "6.65%, constant to four digits from 10 MeV to 10 GeV",
+        "Dead-time fraction": "quiet 2.4e-5 · storm x30 7.2e-4",
+        "Grade": "behavioural L2; transistor-level double pulses not visible"
+      },
+      "sim": [
+        "【r1 2026-09-13】前端与饱和账(账 05,sim/05_afe_chain.py → out/05_afe.json):×1 档从交叠点到 0.9 满量程误差 ≤0.11%,×32 档在 47.7 keV 以上 ≤1%,最低点 6 keV 处 5.3%(预注册「3σ 起 ≤1%」偏出);两档交叠区读数差 0.25%。",
+        "【r1 2026-09-13】sci-rad-01 账 19(其册 e2019b8)的三个坑逐条对表:1 万电子以下不认电荷——本链在 2.8 ke 与 5.6 ke 读回 −1.7%,1 万电子处 −0.5%,电荷信息在;50 万电子钳位——本链满量程 3.75e7 e;2–5 倍阈值处双脉冲——行为级模型看不见,这是 L2 的盲区,写明不算已排除。",
+        "【r1 2026-09-13】两道必须红的支都红了:单增益 ×32 读铁核 86 MeV 为 5.75 MeV(−93%);把输入保护轨压到 0.5 V,读 45.0 MeV(−48%)。首版第二支是「过阈时间编码在 1 万电子以下斜率≈0」,那是定义上必然成立、不可能红的闸,已撤换。",
+        "【r1 2026-09-13】碘化铯 1 µs 衰减对 2 µs 成形的弹道亏损 6.65%,解析卷积 6.35%,两路差 0.30%;预注册 8–15% 偏出,但恒定,当标定常数扣除后 25 GeV 读回 −0.04%。",
+        "【r1 2026-09-13】死时间按整条成形脉冲宽 8 µs 算:平静 3 次/秒 2.4e-5、×30 7.2e-4、×1e4 0.24。预注册用 2τ 得 8e-6 与 2.4e-4,两格偏出,原因是分辨时间取法不同。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Front-end ledger (ledger 05, sim/05_afe_chain.py -> out/05_afe.json): the x1 range is within 0.11% from the crossover to 0.9 of full scale; the x32 range is within 1% above 47.7 keV and 5.3% at its lowest point, 6 keV (pre-registered '<=1% from 3 sigma', miss); the two ranges agree to 0.25% where they overlap.",
+        "[r1 2026-09-13] The three traps of sci-rad-01's ledger 19 (its dossier e2019b8), one by one: no charge information below 10 thousand electrons - this chain reads back -1.7% at 2.8 ke and 5.6 ke and -0.5% at 10 ke, so the charge information is there; the 500 ke clamp - full scale here is 3.75e7 e; double pulses at 2-5 times threshold - a behavioural model cannot see them, a declared L2 blind spot, not counted as excluded.",
+        "[r1 2026-09-13] Both must-red branches went red: single gain x32 reads the 86 MeV iron deposit as 5.75 MeV (-93%); an input-protection rail lowered to 0.5 V reads 45.0 MeV (-48%). The first second branch ('time-over-threshold slope ~0 below 10 ke') was true by definition and could never go red; it was replaced.",
+        "[r1 2026-09-13] Ballistic deficit of the 1 us CsI decay under 2 us shaping: 6.65% simulated, 6.35% by analytic convolution, 0.30% apart; pre-registered 8-15%, miss, but constant, and after removing it as a calibration constant a 25 GeV deposit reads back -0.04%.",
+        "[r1 2026-09-13] Dead time with the full 8 us shaped width: quiet at 3 per second 2.4e-5, x30 7.2e-4, x1e4 0.24. The pre-registration used 2 tau and wrote 8e-6 and 2.4e-4; both cells miss, for a different choice of resolving time."
+      ],
+      "physics": [
+        "电荷灵敏放大器的输出幅度等于 Q/C_f:幅度对电荷线性是电容定律给的,不靠任何复位逻辑。量程上限是放大器电源轨,不是时间窗——所以两档增益就能盖住从一个最小电离粒子到一个铁核的 1 万倍动态范围。",
+        "过阈时间编码的毛病在于:小电荷的脉冲宽度由复位电路定,不由电荷定;大电荷的宽度被计数窗截断。两头都丢信息,而剂量当量恰恰取决于两头。"
+      ],
+      "physics_en": [
+        "A charge-sensitive amplifier's output amplitude is Q/C_f: linearity in charge comes from the capacitor law, not from any reset logic. The upper limit is the amplifier's supply rail, not a time window, so two gains cover the ten-thousand-fold range from a minimum-ionizing particle to an iron nucleus.",
+        "Time-over-threshold encoding loses at both ends: for small charges the pulse width is set by the reset circuit, not by the charge, and for large charges it is cut off by the counting window. Dose equivalent depends on exactly those two ends."
+      ]
+    },
+    {
+      "id": "let",
+      "label": "LET 谱产品面板",
+      "label_en": "LET-Spectrum Product Panel",
+      "range": 25,
+      "detail": "左边这块屏是本站的第一产品:硅中线能量转移 φ(LET_Si),24 个对数箱,0.1–1000 keV/µm。柱形只是产品形状的示意,本站没有一条实测谱。每个事件的 LET 由 B 层沉积除以径长得到,径长来自 A·C 符合的角度:停止粒子用 ΔE–E 拟合出的角度,穿透粒子用内圈 A1·C1 的平均路径加三层中值。屏上蓝柱是最小电离峰和幂律下落,橙柱是铁组。旁边的 sci-rad-01 单层相机在 1 keV/µm 处直接读高 46%,因为一层硅不知道径长;这里同一处读低 1%。",
+      "detail_en": "The left screen is this station's first product: the linear energy transfer spectrum in silicon, 24 logarithmic bins from 0.1 to 1000 keV/um. The bars only sketch the product's shape; the station has no measured spectrum. Each event's LET is the B-layer deposit over the path length, and the path comes from the A.C coincidence: a fitted angle for stoppers, the mean inner-cone path and the median of three layers for penetrators. Blue bars are the minimum-ionizing peak and the power-law fall, orange the iron group. The single-layer camera next door, sci-rad-01, reads 46% high at 1 keV/um because one silicon layer does not know the path; here the same point reads 1% low.",
+      "specs": {
+        "φ(>L) 回收(锥内,对合成场)": "r2 对分层真值:1 keV/µm 1.07 · 3 1.01 · 10 1.02 · 30 1.04 · 100 1.03(原写 0.99 · 0.94 · 0.96 · 1.17 · 1.32,2026-09-14 撤回:r1 的真值样本未分层,>100 处种子噪声 ±32%;账 08)",
+        "剂量闭合(锥内)": "r2 对分层真值:D -8.2% · H -1.5%(原写 D −7.8% · H +9.7%,2026-09-14 H 那一格撤回:真值噪声;预注册 ≤3% / ≤8%,D 偏出)",
+        "事件率": "A·C 符合 1.73 /s(解析 1.734)· 可用产品事件 0.144 /s = 1.28 万/sol",
+        "统计到 10%": "0.2–30 keV/µm 各箱 ≤2 sol · 30–100 keV/µm 7–14 sol · 150–300 keV/µm 23–146 sol",
+        "暴风 ×30": "⟨Q⟩ 1.16(硬)/ 1.11(软)· >10 keV/µm 剂量份额 0.334 → 0.020 / 0.014 · 10 分钟分硬软 20σ",
+        "无方向的对照": "只用 B 层、径长取 300 µm 时 >1 keV/µm 的形状比偏 +65%;有方向 +7%",
+        "等级": "设计仿真产品,无数据"
+      },
+      "specs_en": {
+        "phi(>L) recovery (cone, synthetic field)": "r2 against the stratified truth: 1 keV/um 1.07 · 3 1.01 · 10 1.02 · 30 1.04 · 100 1.03 (formerly 0.99 · 0.94 · 0.96 · 1.17 · 1.32, retired 2026-09-14: r1's truth sample was unstratified, seed noise ±32% at >100; ledger 08)",
+        "Dose closure (cone)": "r2 against the stratified truth: D -8.2% · H -1.5% (formerly D -7.8% · H +9.7%, the H cell retired 2026-09-14: truth noise; pre-registered <=3% / <=8%, D miss)",
+        "Event rates": "A.C coincidence 1.73 /s (analytic 1.734) · usable product events 0.144 /s = 12.8k per sol",
+        "Statistics to 10%": "0.2-30 keV/um bins <=2 sol · 30-100 keV/um 7-14 sol · 150-300 keV/um 23-146 sol",
+        "Storm x30": "<Q> 1.16 (hard) / 1.11 (soft) · >10 keV/um dose share 0.334 -> 0.020 / 0.014 · hard/soft in 10 min at 20 sigma",
+        "No-direction control": "B alone with a 300 um path: the >1 keV/um shape ratio is +65%; with direction +7%",
+        "Grade": "design simulation product, no data"
+      },
+      "sim": [
+        "【r1 2026-09-13】LET 谱账(账 02,sim/02_let_spectrum.py → out/02_let.json;预注册 f2d7cb7):形状闸——水中最小电离峰 0.162 keV/µm(预注册 0.15–0.40,命中),1–100 keV/µm 对数斜率 −1.98(命中),>1000 keV/µm 为零(命中);铁组抬升判据 0.18 对预注册 ≥0.5 偏出,同一判据在合成场真值上也只有 0.12,偏出的是我对合成场形状的预期,不是仪器。",
+        "【r1 2026-09-13】φ(>L) 回收:1 keV/µm 0.99、3 0.94、10 0.96、30 1.17、100 1.32。低端由仪器响应(含容器逃逸的有效几何因子)闭合;高端 +17%/+32% 来自 Z≥20 组的响应(钙按铁的效率算、组别由涨落的中值分配),是标定项,写在给计算中心的表注里。【2026-09-14 撤回「来自 Z≥20 组的响应,是标定项」一句:那是未分层真值样本的种子噪声(±32%);对分层真值 >30 / >100 回收 1.04 / 1.03,见 r2 条目与账 08】",
+        "【r1 2026-09-13】首版把「穿透」类定义成 A·C 符合且无反符合,而每个穿透粒子都触发反符合:那个类结构上是空的,A·C 率读 0.218/s(解析 1.7/s),φ(>L) 回收 0.1–0.4,十分钟 γ 直方图零事件。第一次完整跑发现,当天改正。之后又改了四版:锥内采样(重离子每种只有五个事件)、E 层与反符合都触发才算穿透、按种类的响应表、穿透标定从各组自己的穿出能起算(首版从 200 MeV/n 起,铁核 35% 的标定样本根本穿不出叠层,铁读 1.69)。",
+        "【r1 2026-09-13】统计:A·C 符合 1.73/s(几何因子 2.47 cm² sr × 0.70 /cm²/s/sr),可用产品事件 0.144/s;D 到 1% 要 39 sol、H 到 5% 要 57 sol(预注册 0.2 / 0.5–3,偏出):锥内、经判别的产品类是慢产品;B 层单击的 D 到 1% 只要 0.31 sol,那才是剂量道,与 RAD 的做法一致。",
+        "【r1 2026-09-13】暴风 ×30(>166 MeV 质子,谱指数 1.5 / 3.5):⟨Q⟩ 1.16 / 1.11(预注册 1.05–1.4 命中),>10 keV/µm 剂量份额降 17× / 24×(预注册 ≥10× 命中),10 分钟窗 ~1750 个穿透事件分硬软 20σ / 23σ(预注册 ≥5σ 命中)。",
+        "【r1 2026-09-13】必须红的支红了:去掉方向信息只用 B 层,>1 keV/µm 的形状比 1.65(预注册 ≥1.30);有方向 1.07。",
+        "【r2 2026-09-14】账 08(sim/08_pen_groups.py → out/08_pen_groups.json;预注册 9f09de4):r1 那句「高端 +17%/+32% 来自 Z≥20 组的响应,是标定项」撤回。r1 的真值由 15 万条未分层径迹估计,锥内的铁核只有几个事件,>100 keV/µm 的真值在五个种子间散布 32%;按分量分层抽样后散布 1%。对分层真值,r1 的五组阶梯响应在 >100 处读 1.10,r2 的连续插值响应读 1.03;五行全在 ±7% 内。预注册的必须红支「退回五组阶梯必须回到 ≥1.25」因此作废(前提被证伪),替换闸是「未分层真值的种子散布 ≥15% 而分层 ≤5%」,绿。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] LET ledger (ledger 02, sim/02_let_spectrum.py -> out/02_let.json; pre-registered f2d7cb7): shape gates - water minimum-ionizing peak 0.162 keV/um (registered 0.15-0.40, hit), log slope 1-100 keV/um -1.98 (hit), zero above 1000 (hit); the iron-group rise metric reads 0.18 against the registered >=0.5, a miss, and the same metric on the synthetic field's own truth reads 0.12: the miss is my expectation of the field's shape, not the instrument.",
+        "[r1 2026-09-13] phi(>L) recovery: 1 keV/um 0.99, 3 0.94, 10 0.96, 30 1.17, 100 1.32. The low end closes through an instrument response (effective geometric factors including containment losses); the +17%/+32% at the top is the Z>=20 group response (calcium at iron's efficiency, group assigned by a fluctuating median), a calibration item stated in the table note for the compute centre. [2026-09-14: the clause \"the Z>=20 group response, a calibration item\" is withdrawn - it was the seed noise of an unstratified truth sample (±32%); against the stratified truth >30 / >100 recover 1.04 / 1.03, see the r2 entry and ledger 08]",
+        "[r1 2026-09-13] The first version defined 'penetrating' as A.C with no anticoincidence, and every penetrating particle fires the anticoincidence: that class was empty by construction, the A.C rate read 0.218/s (analytic 1.7/s), phi(>L) recovery 0.1-0.4, the 10-minute gamma histogram had zero events. Found on the first full run and corrected the same day. Four more versions followed: cone sampling (five events per heavy species before), E and F both fired for penetrating, per-species response tables, penetrator calibration from each group's own exit energy (the first started at 200 MeV/n, where 35% of the iron sample could not leave the stack; iron read 1.69).",
+        "[r1 2026-09-13] Statistics: A.C coincidence 1.73/s (geometric factor 2.47 cm2 sr x 0.70 /cm2/s/sr), usable product events 0.144/s; D to 1% needs 39 sol and H to 5% 57 sol (registered 0.2 / 0.5-3, miss): the identified, in-cone product class is a slow product; B-layer singles reach 1% on D in 0.31 sol and are the dose channel, as in RAD.",
+        "[r1 2026-09-13] Storm x30 (protons above 166 MeV, spectral index 1.5 / 3.5): <Q> 1.16 / 1.11 (registered 1.05-1.4, hit), >10 keV/um dose share down 17x / 24x (registered >=10x, hit), ~1750 penetrating events in a 10-minute window separate hard from soft at 20 / 23 sigma (registered >=5, hit).",
+        "[r1 2026-09-13] The must-red branch went red: with direction removed and B alone, the >1 keV/um shape ratio is 1.65 (registered >=1.30); with direction 1.07.",
+        "[r2 2026-09-14] Ledger 08 (sim/08_pen_groups.py -> out/08_pen_groups.json; pre-registered 9f09de4): r1's sentence 'the +17%/+32% at the top is the Z>=20 group response, a calibration item' is withdrawn. r1's truth was estimated from 150000 unstratified tracks, with a handful of iron events inside the cone: the >100 keV/um truth scattered 32% between five seeds; sampled per component it scatters 1%. Against the stratified truth r1's five-group response reads 1.10 at >100 and r2's continuous interpolation 1.03; all five rows within 7%. The registered must-red branch ('reverting to five groups must return >= 1.25') is retired, its premise falsified; the replacement gate (unstratified-truth seed scatter >= 15% while stratified <= 5%) is green."
+      ],
+      "physics": [
+        "LET 是每单位径长的能量,径长是望远镜给的,不是层给的:一层硅只知道沉积了多少,不知道走了多远,于是斜穿的最小电离粒子被读成高 LET。A·C 符合把入射角钉在 37° 以内,内圈钉在 20° 以内,径长的不确定度从无界变成 7%。",
+        "在锥内、经种类判别的产品事件只有 0.14 个每秒,因为大多数停在 D 里的粒子先从 4 cm 的碘化铯侧面漏出去了。所以谱是慢产品,而剂量要从 B 层单击取:那里每秒 11 次击中。"
+      ],
+      "physics_en": [
+        "LET is energy per unit path, and the path is what the telescope supplies, not the layer: a single silicon layer knows how much was deposited, not how far the particle travelled, so a minimum-ionizing particle crossing at a slant reads as high LET. The A.C coincidence pins the incidence angle within 37 degrees and the inner segments within 20, taking the path uncertainty from unbounded to 7%.",
+        "The identified, in-cone product events come at only 0.14 per second, because most particles that would stop in D leave the 4 cm caesium iodide through its side first. The spectrum is therefore a slow product, and dose has to come from B-layer singles, where there are 11 hits per second."
+      ]
+    },
+    {
+      "id": "family",
+      "label": "质子族分类牌",
+      "label_en": "Proton-Family Plaque",
+      "range": 20,
+      "detail": "右上这块三色牌回答玻璃厂的问题:质子族(p/d/t 含靶碎片反冲)的 ⟨Q⟩ 是多少。本站把族拆成三块——蓝:主望远镜和低能段望远镜逐个判出的停止 p/d/t,量得出;绿:穿透的 Z=1,Q 恒为 1,量得出;橙:反冲和 1.5 MeV 以下的质子,没有一个硅事件能判它的种类,只能给界。仿真的答案是一个区间而不是一个数,而且区间宽到装得下玻璃厂的 1.44 和它自设带的 2.0:区间的宽度来自反冲的截面与碎片沉积,不来自统计。sci-rad-01 说一层硅分不出族;本站补一句,叠层能量族的大头,但量不到族的品质因子所依赖的那一小块。",
+      "detail_en": "The three-colour plaque at the upper right answers the glass works' question: what is <Q> of the proton family (p/d/t including target-fragment recoils). This station splits the family in three. Blue: stopping p/d/t identified one by one in the main and low-energy telescopes, measured. Green: penetrating Z=1 with Q fixed at 1, measured. Orange: recoils and protons below 1.5 MeV, whose species no silicon event can name, bounded only. The simulated answer is an interval, not a number, and the interval is wide enough to hold both the glass works' 1.44 and the 2.0 of its own band: its width comes from the recoil cross-section and fragment deposits, not from statistics. sci-rad-01 said one silicon layer cannot separate the family; this station adds that a stack measures the bulk of the family and still cannot measure the small piece the family's quality factor depends on.",
+      "specs": {
+        "区间(1.44 合成族,硅口径)": "r4:[1.09, 2.11](预注册路径)/ [1.08, 2.07](数据后声明的路径);r3 [1.09, 2.17];r2 [1.16, 3.00];r1 [1.32, 3.05];四版都包住场的值 1.46",
+        "量得出的部分": "r4:1.08,对自身真值 1.07 偏 +0.005(r3 1.08 偏 +0.01;r2 1.14 偏 +0.07;r1 1.31 偏 +0.23)。r4 的命中是弱检验:被修的两类 Q 都是 1,剂量错 10% 只动族 ⟨Q⟩ 0.007",
+        "宽度来自": "硅非弹截面 ±30% · 碎片沉积 ×0.5–2 · 反冲入射立体角 2π–4π · 碎片种类 Q 3–17",
+        "落点": "S3(量得出的部分偏差 0.34 > 两族之差 0.19;预注册 S2,偏出)",
+        "预注册的 T0 单层四角法": "宽 7.0,不可用;作废",
+        "低能段望远镜对区间的作用": "拿掉后区间变宽 1.08–1.46×(预注册 ≥2×,偏出);1 cm 间距对照案见 r2 条目",
+        "看不见的那一半": "朝上的族剂量占 15%(合成场声明值),本站朝天,不算在区间里",
+        "等级": "设计仿真产品,无数据;硅口径,不换算到组织",
+        "组织口径换算带(声明模型)": "×[0.969, 1.075] → 组织口径区间 [1.06, 2.34];带宽由水中反冲截面 ±30% 承重,不是值"
+      },
+      "specs_en": {
+        "Interval (1.44 synthetic family, silicon convention)": "r4: [1.09, 2.11] (registered path) / [1.08, 2.07] (path declared after data); r3 [1.09, 2.17]; r2 [1.16, 3.00]; r1 [1.32, 3.05]; all four contain the field value 1.46",
+        "Measured part": "r4: 1.08, +0.005 against its own truth 1.07 (r3 1.08 at +0.01; r2 1.14 at +0.07; r1 1.31 at +0.23). The r4 hit is a weak test: both repaired classes have Q = 1, a 10% dose error moves the family <Q> by 0.007",
+        "Width from": "silicon inelastic cross-section +-30% · fragment deposit x0.5-2 · recoil solid angle 2pi-4pi · fragment species Q 3-17",
+        "Landing": "S3 (measured-part bias 0.34 > the 0.19 gap between families; pre-registered S2, miss)",
+        "Registered T0-only four-corner method": "width 7.0, unusable; retired",
+        "Effect of the low-energy telescope on the interval": "removing it widens the interval 1.08-1.46x (pre-registered >=2x, miss)",
+        "The unseen half": "the up-going family dose is 15% (a declared value of the synthetic field); the station looks up, it is not in the interval",
+        "Grade": "design simulation product, no data; silicon convention, not converted to tissue",
+        "Tissue-convention band (declared model)": "x[0.969, 1.075] -> tissue-convention interval [1.06, 2.34]; the band is carried by the water recoil cross-section +-30%, not a value"
+      },
+      "sim": [
+        "【r1 2026-09-13】质子族账(账 03,sim/03_proton_family_Q.py → out/03_family_Q.json;预注册 f2d7cb7):合成场里造得出的族 ⟨Q⟩ 最高 1.64,预注册的 2.0 与 2.5 族造不出来(账 00),预注册的「1.44 对 2.0」分离检验不可评估,改用 1.44 对 1.6(数据后声明)。三个造得出的族上,区间都包住了场自己的值:1.2 族 [1.14, 3.29],1.44 族 [1.32, 3.05],1.6 族 [1.45, 2.81];失配注入(增益 +3%、厚度 +5%、噪声 ×1.5)后仍包住。",
+        "【r1 2026-09-13】量得出的部分(判出的停止 p/d/t 加穿透 Z=1)在 1.44 族读 1.31,对它自己的真值 1.07 偏高 0.23。逐部分对账:主望远镜停止类的剂量只有真值的 0.60,穿透 Z=1 类 0.42,低能段望远镜类 1.26 且 Q 2.2 对真值 1.6。偏差在低能段望远镜:T0 阈值附近效率陡变处的箱间迁移,响应表没有反解,本轮没做。这一条预注册偏出记在这里,不移进预期。",
+        "【r1 2026-09-13】预注册的界是「T0 单层类四角法」:宽 7.0,因为那一类里 99% 是大角度轻离子而不是反冲,×15 的体积角把它撑爆。作废;现行的界(数据后声明)由量到的强子强度乘硅非弹截面带、碎片沉积带、立体角两端与碎片种类 Q 的两端构成,加上最低一个判出箱向零的平延外推。它的正确性闸是包含性:三个族、标称加失配加无低能段,全包住。",
+        "【r1 2026-09-13】预注册的必须红支「拿掉低能段望远镜,区间 ≥2× 变宽」:方向对,量级错——1.08× / 1.25× / 1.46×。记偏出;结论改:族 ⟨Q⟩ 区间由反冲截面带承重,低能段望远镜的理由在它的 p/d/t 谱(账 01),不在这块牌。",
+        "【r1 2026-09-13】首版求 Poisson 误差时把每平方厘米的权重平方后除以 sol,量纲错,读 0.000/sol;现行 0.019/sol。首版下角用碎片混合 Q(14.6)当下界,不是界,1.2 族被漏掉 0.004;改用最低种类 Q 后包住。",
+        "【r1 2026-09-13】对玻璃厂的不对称结论,句型事先写死:在合成场上,本仪器交付的族 ⟨Q⟩ 区间为 [1.32, 3.05];火星值落在区间外的话 10 sol 能看出,落在区间内的话分不出。本站不能确立任何值,也不能清或定账 22 的标记。",
+        "【r2 2026-09-14】账 07(sim/07_lowe_unfold.py → out/07_lowe_unfold.json;预注册 9f09de4):r1 量得出的部分偏高 +0.23 的来源找到了两层。第一层是账 03 的参考映射:把判出的粒子按正入射映射回硅片,而参考量是余弦律入射场里的剂量加权 Q——斜入射的 6–12 MeV 质子在硅片里停下、以 Q≈1 沉积全部能量;把映射作用在场自己的谱上,正入射映射把这一类的剂量读成 0.66、Q 偏 +0.16,场角度映射读 0.95、Q 偏 −0.03(闸 G7.5,绿)。第二层是种类串扰:0.2 cm 间距下真氘只有 52%、真氚只有 54% 被判对,质子被判成氘 13%、氚 3%,而质子通量是氘的 8 倍——氘的直方图 3.6 倍、氚的 7.5 倍是错判的质子。按种类分开反解看不见这个,联合(种类×能量箱)反解才看得见。预注册的按种类反解把低能段类剂量从 1.26 修到 1.06,但 Q 不动(2.27 对 1.60,偏出);联合反解加场角度映射(数据后声明):剂量 0.959、Q 1.68(偏 +0.08),量得出的族部分偏 +0.07。",
+        "【r2 2026-09-14】联合反解在混合标定样本(p:d:t = 1:0.12:0.03,独立种子)上的闭合(闸 G7.6):p 0.99、d 0.85、t 1.30——氘氚仍差 15–20%,这是仪器 0.2 cm 间距的串扰,不是反解。账 09 在 1 cm 间距的对照案上重跑同一条链:p 1.02、d 0.99、t 0.85;量得出的族部分偏 +0.06(1.44 族),区间宽度变化 +1.2%。两案并印,不选:1 cm 间距换来的是氘氚分得开,付出的是几何因子 2.21 → 0.64 cm² sr。",
+        "【r3 2026-09-15】账 10(sim/10_field_mapping_all.py → out/10_field_mapping.json;预注册 3313c85):r2 只把余弦律场角度映射用在低能段类;主望远镜停止类与穿透 Z=1 类还按锥内角度映射,剂量只回收 0.60 与 0.42。全部映射后:主望远镜类 1.157(偏出,预注册 0.90–1.10;多出的 15% 是被判成 p/d/t 的氦,真源分解在 json;原写「全接受度下」,2026-09-17 更正:机理是高于出射能的氦在 D 里核作用,内圈分段类同样有,见 r4 条目)、穿透 Z=1 类 0.858(命中);映射闭合闸 G10.1 在场自己的谱上 D 1.04–1.05、Q ±0.01(绿),必须红支(退回正入射映射)红。量得出的族部分 1.08(偏 +0.01),区间 [1.09, 2.17]:穿透类的权重翻倍后反冲项相对减半,区间比 r2 窄 40%,下限却往下走了 0.23(预注册写「上移 ≤0.10」,方向错,偏出)。玻璃厂的 1.44 与 2.0 仍在区间内,2.5 不在。",
+        "【r3 2026-09-15】账 11(sim/11_tissue_conversion.py → out/11_tissue.json):硅口径到水口径的换算带,来自账 00 同一合成场在水硅片上的族 ⟨Q⟩,扫水中反冲重碎片份额 0.25–0.65 与氧非弹截面 ×0.7–1.3 九点:1.44 族比值 [0.969, 1.075],带宽由截面承重(重碎片份额只动 0.001,预注册写反,偏出)。必须红支(水中反冲率归零)红:比值 0.84。作用在账 10 区间上得组织口径 [1.06, 2.34]。**这是声明模型的换算带,不是组织里的值**:水中反冲谱形与碎片能谱本册没有测量也没有文献锚。首版扫描的 σ 没在求值时生效(计算壳 bug,带宽读 0.001),当轮改正。",
+        "【r3 2026-09-15】账 12(sim/12_no_triton_option.py → out/12_no_triton.json):放弃氚的逐个判别、把氚并进界的选项。对量得出的部分与区间几乎无影响(氚只占族剂量 0.4–1%,区间宽度变化 ≤0.001),但它买不到想买的东西:0.2 cm 间距下氘的闭合仍是 0.85(氘氚串扰是对称的,把氚并进界不清氘列);1 cm 间距下 p 1.01、d 0.99。选项只在 1 cm 间距下有意义;两案并印,不选。",
+        "【r4 2026-09-17】账 13(sim/13_he_intruders.py → out/13_he_intruders.json;预注册 1ccf309,先登记了对 r3 归因的怀疑):主望远镜 Z=1 停止类里的氦闯入者 100% 是高于出射能(113 MeV/n)且在 D/E 里发生核作用的氦。相对论氦在 300 µm 硅里沉积 4 × 最小电离,等于 40–110 MeV/n 停止质子的 ΔE;核作用在本册模型里就地结束径迹、不触发反符合,留下一个任意的 E,拟合就在 p/d/t 里找到一条线。关掉核作用的氦束闯入为 0(必须红支红)。内圈分段类的氦份额 0.10 / 0.08 / 0.07(全接受度类 0.15 / 0.15 / 0.11),类剂量对宽片真值 1.13–1.14:内圈类没有修好它,统计误差还大 2.7–3.2 倍。",
+        "【r4 2026-09-17】账 13 旁带扣除:仪器自己量到的穿透 Z≥2 类,乘氦束标定的转移表(按三层硅中值分箱),预测漏进 Z=1 停止类的氦并扣掉。转移表在谱不同的独立氦样本上闭合 1.07(闸 G13.1 绿)。预注册的旁带里三分之一是 113–165 MeV 的慢质子,预测的氦份额多出 20–53%(闸 G13.4 红,按名排除),E13.3 的三个命中是扣多了——被满足的预期没人审,这条是自己审出来的。数据后声明的路径:旁带里剔掉账 14 判为 Z=1 的事件;类剂量比 1.23 / 1.18 / 1.14 → 1.05 / 1.06 / 1.04,转移表在场自己的氦谱上高统计闭合 1.05 / 0.99 / 1.12。氦在 CsI/塑闪里的截面 ±30% 失配下 0.99–1.15。边界:真实仪器里核作用的次级会打到反符合上,闯入率会更低;低多少本册没有测量,不造「否决效率」参数,这里给的是无次级否决的保守端。",
+        "【r4 2026-09-17】账 14(sim/14_pen_z1_joint.py → out/14_pen_z1.json):穿透 Z=1 类 r3 只回收 0.82。预注册的判断(113–165 MeV 的慢质子被「中值 <0.30」切走,占缺口 ≥60%)错:那一段只占类真值的 3–4%、缺口的 15–21%。缺口 = 强度 0.92 × 每粒子剂量 0.89:三层硅的中值低估平均沉积(Landau 偏度;真值硅片积分的是平均),按估计能量分箱的响应依赖谱形(箱比估计量的分辨率窄)。(D, E) 两层沉积的判据把修订类里的氦份额压到 0.000;不加它只放宽中值判据,氦份额 0.11–0.13(必须红支红)。预注册路径 0.899 / 0.927 / 0.930(预注册 0.93–1.05,两族偏出);数据后声明的路径(对估计能量做反解 + 三层平均)0.95 / 0.98 / 0.97,余差点名两项:初级粒子在参考片里的核作用沉积(类真值的 2–3%,穿透类结构上看不见)与 δ 电子逃逸随路径长变(正入射沉积/CSDA 0.88,掠射 0.95)。两次错的假设都记在账文件头:一次以为一致性判据切掉了 Landau 尾(本模型里没有这种事件),一次拿 CSDA 映射当闭合参照(量到的是 δ 逃逸)。",
+        "【r4 2026-09-17】账 15(sim/15_family_r4.py → out/15_family_r4.json):把账 13、14 装回账 10 的链。1.2 / 1.44 / 1.6 族:量得出的部分 1.03 / 1.08 / 1.12(偏 +0.004 / +0.005 / +0.017);区间 [1.04, 2.21] / [1.09, 2.11] / [1.13, 2.02](预注册路径),[1.04, 2.15] / [1.08, 2.07] / [1.12, 1.99](数据后路径);三族都包住场值,2.5 都在区间外。1.6 族的数据后路径上限 1.99,把 2.0 也排除了——但本站分不出场是哪个族,所以 2.0 仍不能排除。十二条预期全部命中,其中量得出的部分那条是弱检验(见 specs)。低能段部分与账 10 逐位相同(闸 G15.2)。",
+        "【r7 2026-09-19】账 24(sim/24_fiducial.py → out/24_fiducial.json):给停止类响应表加基准体积切割——响应低于平台 25% 的边缘箱不计,被切掉的一段(占类 3–4%)用相邻两箱的测得强度平推内插。事件权重的最大/中位比 54–60 → 2.5;r6 留下的毛病(两种闪烁体都猝灭时主望远镜部分 1.16)回到 1.05(同口径)。十五条预期全部命中,所以审了命中:「主望远镜部分 1.01–1.02」被一个记账漏洞美化了 3–3.6%——r3 起的类真值(p/d/t,12–113 MeV/n)里含有高于自身出射能(氘 76、氚 60 MeV/n)的氘氚,它们穿透、由穿透类量;同口径比值 1.05,与 r4 相同。切割买到的是稳,不是准。三族区间 [1.04, 2.15] / [1.08, 2.07] / [1.12, 1.99],与 r4 数据后路径相差 ≤0.003。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Proton-family ledger (ledger 03, sim/03_proton_family_Q.py -> out/03_family_Q.json; pre-registered f2d7cb7): the synthetic field can build a family <Q> up to 1.64, the registered 2.0 and 2.5 families cannot be built (ledger 00), so the registered '1.44 versus 2.0' separation test is not evaluable and the pair 1.44 versus 1.6 was used (declared after data). On the three families that can be built the interval contains the field's own value: 1.2 family [1.14, 3.29], 1.44 family [1.32, 3.05], 1.6 family [1.45, 2.81]; still contained after mismatch injection (gain +3%, thickness +5%, noise x1.5).",
+        "[r1 2026-09-13] The measured part (identified stopping p/d/t plus penetrating Z=1) reads 1.31 on the 1.44 family, +0.23 above its own truth of 1.07. Part by part: the main telescope's stopping class carries 0.60 of the true dose, the penetrating Z=1 class 0.42, the low-energy telescope's class 1.26 with Q 2.2 against a true 1.6. The bias sits in the low-energy telescope: bin migration where the efficiency changes steeply near the T0 threshold, which a response table does not unfold; not done this round. The pre-registered miss is recorded here and not moved into the expectation.",
+        "[r1 2026-09-13] The registered bound was the 'T0-only four-corner method': width 7.0, because 99% of that class is wide-angle light ions rather than recoils and the x15 volume corner blows it up. Retired; the current bound (declared after data) is built from the measured hadron intensity times a band on the silicon inelastic cross-section, a band on fragment deposit, both ends of the solid angle and both ends of the fragment-species Q, plus a flat extrapolation of the lowest identified bin to zero. Its correctness gate is containment: three families, nominal plus mismatched plus without the low-energy telescope, all contained.",
+        "[r1 2026-09-13] The registered must-red branch 'remove the low-energy telescope and the interval widens >= 2x': right direction, wrong size - 1.08x / 1.25x / 1.46x. Recorded as a miss; conclusion changed: the family <Q> interval is carried by the recoil cross-section band, and the low-energy telescope's case is its p/d/t spectra (ledger 01), not this plaque.",
+        "[r1 2026-09-13] The first Poisson error squared per-cm2 weights and divided by a sol, a dimensional slip, and read 0.000 per sol; current 0.019 per sol. The first lower corner used the fragment mixture Q (14.6), which is not a bound, and missed the 1.2 family by 0.004; with the lowest species Q it is contained.",
+        "[r1 2026-09-13] The asymmetric sentence for the glass works, fixed in advance: on the synthetic field this instrument delivers the family <Q> as the interval [1.32, 3.05]; a Mars value outside it would be seen in 10 sol, inside it cannot be resolved. This station can establish no value and can neither clear nor set the flag on ledger 22.",
+        "[r2 2026-09-14] Ledger 07 (sim/07_lowe_unfold.py -> out/07_lowe_unfold.json; pre-registered 9f09de4): the +0.23 of r1's measured part has two layers. First, ledger 3's reference mapping: identified particles were mapped back to the slab at normal incidence, while the reference quantity is the dose-weighted Q of a slab in a cosine-law field - a 6-12 MeV proton arriving at a slant stops in the slab and deposits all of its energy at Q ~ 1; applied to the field's own spectrum, the normal-incidence mapping reads this class's dose at 0.66 with Q +0.16, the field-angle mapping 0.95 with Q -0.03 (gate G7.5, green). Second, species cross-talk: at the 0.2 cm gap only 52% of true deuterons and 54% of true tritons are identified correctly, and protons are called deuterons 13% and tritons 3% of the time while the proton flux is eight times the deuteron flux - the deuteron histogram was 3.6x and the triton histogram 7.5x misidentified protons. A per-species unfolding cannot see this; a joint (species x energy bin) unfolding can. The registered per-species unfolding took the low-energy class dose from 1.26 to 1.06 but left Q at 2.27 against 1.60 (miss); joint unfolding plus field-angle mapping (declared after data): dose 0.959, Q 1.68 (+0.08), measured family part +0.07.",
+        "[r2 2026-09-14] Closure of the joint unfolding on a mixed calibration sample (p:d:t = 1:0.12:0.03, independent seed; gate G7.6): p 0.99, d 0.85, t 1.30 - deuterons and tritons still off by 15-20%, the instrument's cross-talk at the 0.2 cm gap, not the unfolding. Ledger 09 reruns the same chain on the 1 cm-gap counterfactual: p 1.02, d 0.99, t 0.85; measured family part +0.06 (1.44 family), interval width change +1.2%. Both cases printed, none chosen: the 1 cm gap buys deuteron/triton separation and pays with the geometric factor, 2.21 -> 0.64 cm2 sr.",
+        "[r3 2026-09-15] Ledger 10 (sim/10_field_mapping_all.py -> out/10_field_mapping.json; pre-registered 3313c85): r2 applied the cosine-law field-angle mapping to the low-energy class only; the main-telescope stopper class and the penetrating Z=1 class were still mapped at their in-cone angles and recovered 0.60 and 0.42 of their dose. With every class mapped: main 1.157 (miss, registered 0.90-1.10; the 15% excess is helium identified as p/d/t, true-source breakdown in the json; formerly attributed to the full acceptance, corrected 2026-09-17: the mechanism is above-exit helium interacting in D and the inner-segment class has it too, see the r4 entries), penetrating Z=1 0.858 (hit); the mapping-closure gate G10.1 on the field's own spectra reads D 1.04-1.05, Q +-0.01 (green), and the must-red branch (normal-incidence mapping) goes red. Measured family part 1.08 (+0.01), interval [1.09, 2.17]: with the penetrating class doubled the recoil term halves in relative weight, the interval is 40% narrower than r2's, and its lower end moved DOWN by 0.23 (the registration said 'up <= 0.10', wrong direction, miss). The glass works' 1.44 and 2.0 stay inside, 2.5 does not.",
+        "[r3 2026-09-15] Ledger 11 (sim/11_tissue_conversion.py -> out/11_tissue.json): a silicon-to-water conversion band from the same synthetic field on a water slab (ledger 00's table), scanning the water recoil heavy-fragment share 0.25-0.65 and the oxygen inelastic cross-section x0.7-1.3 over nine points: 1.44 family ratio [0.969, 1.075], carried by the cross-section (the fragment share moves it by 0.001; the registration had the axes the wrong way round, miss). The must-red branch (water recoil rate set to zero) goes red: ratio 0.84. Applied to ledger 10's interval: tissue convention [1.06, 2.34]. This is a declared-model conversion band, not a tissue value: the water recoil spectrum shape and fragment energy law have neither a measurement nor a literature anchor here. The first run's sigma scan was not live at evaluation (harness bug, band read 0.001), corrected in the same round.",
+        "[r3 2026-09-15] Ledger 12 (sim/12_no_triton_option.py -> out/12_no_triton.json): the option of dropping per-event triton identification and folding tritons into the bound. It barely touches the measured part or the interval (tritons are 0.4-1% of the family dose, width change <= 0.001) and does not buy what it was meant to: at the 0.2 cm gap the deuteron closure stays at 0.85 (the d/t cross-talk is symmetric, folding t into the bound leaves the d column contaminated); at 1 cm p 1.01, d 0.99. The option is meaningful only with the 1 cm gap; both cases printed, none chosen.",
+        "[r4 2026-09-17] Ledger 13 (sim/13_he_intruders.py -> out/13_he_intruders.json; pre-registered 1ccf309, with a doubt about r3's attribution written down first): the helium intruders in the main-telescope Z=1 stopper class are 100% helium above the exit energy (113 MeV/n) that interacts in D/E. Relativistic helium deposits 4 x minimum ionisation in 300 um of silicon, the dE of a 40-110 MeV/n stopping proton; in this dossier's model a nuclear interaction ends the track in place without firing the anticoincidence and leaves an arbitrary E, so the fit finds one of the p/d/t lines. A helium beam with interactions switched off leaks nothing (must-red branch red). The inner-segment class carries 0.10 / 0.08 / 0.07 helium (full acceptance 0.15 / 0.15 / 0.11) and reads 1.13-1.14 of the wide-slab truth: it does not repair this, and its statistical error is 2.7-3.2x larger.",
+        "[r4 2026-09-17] Ledger 13, sideband subtraction: the penetrating Z>=2 class the instrument itself measures, times a transfer table from a helium calibration beam (binned in the median silicon deposit), predicts the helium leaking into the Z=1 stopper class. The table closes at 1.07 on an independent helium sample with a different spectrum (G13.1 green). One third of the registered sideband is slow 113-165 MeV protons, the predicted helium share came out 20-53% high (G13.4 red, excluded by name), and the three E13.3 hits were hits by over-subtraction - a satisfied expectation that would not have been audited. Path declared after data: sideband minus what ledger 14 calls Z=1; class ratio 1.23 / 1.18 / 1.14 -> 1.05 / 1.06 / 1.04, and the table closes on the field's own helium at high statistics at 1.05 / 0.99 / 1.12. Under a +-30% mismatch of the helium cross-section in CsI/PVT: 0.99-1.15. Boundary: in a real instrument interaction secondaries fire the anticoincidence and the leak is smaller; by how much this dossier has no measurement, no veto-efficiency parameter is invented, and the numbers here are the conservative no-veto end.",
+        "[r4 2026-09-17] Ledger 14 (sim/14_pen_z1_joint.py -> out/14_pen_z1.json): the penetrating Z=1 class recovered 0.82 in r3. The registered judgement (slow 113-165 MeV protons cut away by \"median < 0.30\" carry >= 60% of the deficit) was wrong: that band is 3-4% of the class truth and 15-21% of the deficit. The deficit is intensity 0.92 x dose per particle 0.89: the median of three silicon deposits under-states the mean (Landau skew; the truth slab integrates the mean), and a response binned in the estimated energy is spectrum-dependent (bins narrower than the estimator's resolution). A cut on the (D, E) deposits brings the helium share of the revised class to 0.000; loosening the median cut without it gives 0.11-0.13 (must-red branch red). Registered path 0.899 / 0.927 / 0.930 (registered 0.93-1.05, two misses); path declared after data (unfolding in the estimated energy + mean of three) 0.95 / 0.98 / 0.97, the remainder named as two terms: primaries' interaction deposits in the reference slab (2-3% of the class truth, invisible to a penetrating class by construction) and the path-length dependence of delta-ray escape (deposit/CSDA 0.88 at normal incidence, 0.95 at grazing). Two wrong hypotheses are kept in the ledger header: that the consistency cut removed the Landau tail (no such events in this model), and a closure reference that used a CSDA mapping (it measured delta escape).",
+        "[r4 2026-09-17] Ledger 15 (sim/15_family_r4.py -> out/15_family_r4.json): ledgers 13 and 14 put back into ledger 10's chain. Families 1.2 / 1.44 / 1.6: measured part 1.03 / 1.08 / 1.12 (+0.004 / +0.005 / +0.017); interval [1.04, 2.21] / [1.09, 2.11] / [1.13, 2.02] (registered path), [1.04, 2.15] / [1.08, 2.07] / [1.12, 1.99] (path declared after data); all contain the field value, 2.5 is outside all of them. On the 1.6 family the after-data path ends at 1.99 and excludes 2.0 too - but the station cannot tell which family the field is, so 2.0 still cannot be excluded. All twelve expectations hit; the measured-part one is a weak test (see specs). The low-energy part is bit-identical to ledger 10 (G15.2).",
+        "[r7 2026-09-19] Ledger 24 (sim/24_fiducial.py -> out/24_fiducial.json): a fiducial cut on the stopper response - edge bins below 25% of the plateau are not counted and the band they remove (3-4% of the class) is interpolated flat from the two adjacent bins. The max/median event weight goes 54-60 -> 2.5 and the defect r6 left (main part 1.16 when both scintillators quench) returns to 1.05, like for like. All fifteen expectations hit, so the hits were audited: the \"main part 1.01-1.02\" was flattered by 3-3.6% through a bookkeeping hole - since r3 the class truth (p/d/t, 12-113 MeV/n) has contained deuterons and tritons above their own exit energy (76 and 60 MeV/n), which penetrate and are measured by the penetrating class; like for like the ratio is 1.05, as in r4. The cut buys stability, not accuracy. Intervals [1.04, 2.15] / [1.08, 2.07] / [1.12, 1.99], within 0.003 of the r4 after-data path."
+      ],
+      "physics": [
+        "⟨Q⟩_p = 1 + f_hi(Q_hi − 1):族的品质因子全由高 LET 那一小块的剂量份额决定。那一块是反冲和几 MeV 以下的质子,恰好是望远镜判不出种类的那一块;望远镜能把 f_hi 以外的 90% 剂量量准,却对 ⟨Q⟩ 帮不上多少。",
+        "反冲是在探测器材料里产生的:硅望远镜里的反冲是硅核碎片,组织里的是碳氧碎片。所以「组织里的族 ⟨Q⟩」在原则上就不是硅仪器能直接量的量,它要靠输运计算,仪器只能给它一个界。"
+      ],
+      "physics_en": [
+        "<Q>_p = 1 + f_hi(Q_hi - 1): the family's quality factor is decided entirely by the dose share of the small high-LET piece. That piece is recoils and protons below a few MeV, exactly the piece whose species a telescope cannot name; the telescope measures the other 90% of the family dose accurately and it helps <Q> little.",
+        "Recoils are made in the detector material: in a silicon telescope they are silicon fragments, in tissue carbon and oxygen fragments. So the family <Q> in tissue is in principle not a quantity a silicon instrument measures directly; it needs a transport calculation, and the instrument can only bound it."
+      ]
+    },
+    {
+      "id": "cutaway",
+      "label": "叠层 10 倍剖切教具",
+      "label_en": "Stack Cutaway, 10x Scale",
+      "range": 18,
+      "detail": "塔顶的真叠层只有 6 厘米高,站在地上看不见,所以旁边立了一个放大十倍的剖切模型。三片黑色的是 300 µm 硅,奶白的是碘化铯,蓝色的是塑料闪烁体,灰色外壳是反符合。橙色细棒是一个在碘化铯里停下来的质子,红色粗棒是一个把整个叠层都穿透的高能铁核。",
+      "detail_en": "The real stack on the tower is only 6 cm tall and cannot be seen from the ground, so a ten-times cutaway stands beside it. The three black disks are 300 um silicon, the cream block is caesium iodide, the blue one is plastic scintillator and the grey shell is the anticoincidence. The thin orange rod is a proton that stops in the caesium iodide; the thick red rod is an energetic iron nucleus that crosses the whole stack.",
+      "specs": {
+        "为什么硅是 300 µm": "最小电离粒子在 300 µm 里最概然沉积 79 keV,是 10 keV 阈值的 8 倍",
+        "为什么 D 用碘化铯": "100 MeV 质子射程 31.7 mm,塑闪要 75.1 mm",
+        "铁核 1 GeV/n 在硅里": "LET 284 keV/µm",
+        "穿透类的质子/氦判别": "平衡正确率 0.994;r4:0.30–0.60 MeV 的重叠带改用 (D, E) 两层沉积判,修订类氦份额 0.000(账 14)",
+        "闪烁体猝灭(r6,灵敏度)": "算法不知情时 ⁴He 正确率 0.98 → 0.65 / 0.29、穿透 Z=1 类进氦 3–6%;p/d/t 不动。光输出律必须写进 ΔE–E 模型并用氦束与重离子束标定;写进去后回到基线。kB 取值:塑闪为转述的常用值、未核原文,碘化铯为无锚的声明带"
+      },
+      "specs_en": {
+        "Why 300 um silicon": "most probable deposit of a minimum-ionizing particle 79 keV, eight times the 10 keV threshold",
+        "Why CsI for D": "100 MeV proton range 31.7 mm; plastic would need 75.1 mm",
+        "1 GeV/n iron in silicon": "LET 284 keV/um",
+        "Proton/helium split for penetrating tracks": "balanced accuracy 0.994; r4: the 0.30-0.60 MeV overlap band is decided on the (D, E) deposits, helium share of the revised class 0.000 (ledger 14)",
+        "Scintillator quenching (r6, a sensitivity)": "with an algorithm that ignores it, He4 identification 0.98 -> 0.65 / 0.29 and 3-6% helium enters the penetrating Z=1 class; p/d/t do not move. The light-output law has to be in the dE-E model and calibrated with helium and heavy-ion beams; with it in, everything returns to the baseline. kB values: relayed common value for the plastic (source not checked), an unanchored declared band for the CsI"
+      },
+      "sim": [
+        "【r1 2026-09-13】共享阻止本领模块(sim/stopping.py 自检):最小电离粒子在 300 µm 硅中 Landau 最概然沉积 79 keV(参考 84,−6%),最概然值与均值之比 0.80;受限均值与沉积均值差 1.3%;100 MeV 质子在碘化铯中射程 31.66 mm、塑闪 75.1 mm。",
+        "【r1 2026-09-13】首版能量歧离用 Moyal 近似,均值低 9%;第二版在 δ 电子逃逸处硬截断,把事件堆进一个箱子,读出最概然值 228 keV。两版都撤回,现行是数值 Landau 分布加平滑逃逸。",
+        "【r1 2026-09-13】穿透粒子按电荷分(账 01):阈值 0.34 MeV/300 µm 时质子误判为氦 0.5%、氦误判为质子 0.6%,预注册 ≤5% 命中。",
+        "【r4 2026-09-17】叠层的一个盲点(账 13):高于出射能的氦有一部分在 3 cm 碘化铯里发生核作用并停在 D 里(锥内入射的氦标定束里占 2.6%);它在三片硅里的 ΔE 与 40–110 MeV/n 的停止质子相同,于是被 ΔE–E 拟合读成停止的 p/d/t,占 Z=1 停止类强度的 11–15%。内圈分段解不了它(机理不是角度)。修法是用穿透 Z≥2 类做旁带扣除;本册核作用模型不出次级,真实仪器里反符合会否决其中一部分,多少没有测量。",
+        "【r6 2026-09-19】账 21(sim/21_quenching.py → out/21_quenching.json):到 r5 为止碘化铯与塑闪都是「线性 + 常数分辨率」。r6 加 Birks 型猝灭(光输出 = ∫dE/(1+kB·S),用本册阻止表沿径迹积分)与 −5% 的光收集不均匀,只做灵敏度:塑闪 kB 0.0126 g·cm⁻²·MeV⁻¹ 是转述的常用值、本册未核原文,碘化铯 0 / 0.0015 / 0.003 是没有锚的声明带。预注册的物理判断:同一速度下 p/d/t 的 S(E) 相同、能量按质量成比例,所以氢同位素判别不受影响——命中(变化 ≤0.02);我接着写的「氦线下移但 ³He/⁴He 的 33% 台阶不动」——错,⁴He 被读成 ³He(0.98 → 0.65 / 0.29):6% 的光输出亏损加上内圈 7% 的角度余地,够跨过半个台阶(这句是我的解释,没有单独验证)。穿透 Z=1 类的 (D,E) 判据放进 3–6% 的氦。必须红支(碘化铯 kB 0.02)⁴He 正确率 0.002,红;旋钮到达数字的闸用一条不共用代码的直接积分核对(氦/质子光输出比 0.9381 对 0.9384)。数据后路径:把光输出律写进判别与 (D,E) 假设——精确知情时回到基线(自证,不计),真值在上角而算法信中心时 ⁴He 0.84、氦份额 0.002。未修的一处:两种闪烁体都猝灭时,停在 E 层的氦闯入者落进响应表近出射能的边缘箱(响应小、权重大),主望远镜类扣氦后的剂量比 1.06 → 1.16;该给响应表加一道基准体积切割,本轮没做。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Shared stopping module (sim/stopping.py self-test): Landau most probable deposit of a minimum-ionizing particle in 300 um silicon 79 keV (reference 84, -6%), most probable over mean 0.80; restricted mean and deposited mean agree to 1.3%; 100 MeV proton range 31.66 mm in CsI, 75.1 mm in plastic.",
+        "[r1 2026-09-13] The first straggling model used a Moyal approximation and ran 9% low in the mean; the second clipped hard at delta-ray escape, piled events into one bin and read a most probable value of 228 keV. Both are retracted; the current model is a numeric Landau distribution with smooth escape.",
+        "[r1 2026-09-13] Penetrating tracks split by charge (ledger 01): with a 0.34 MeV per 300 um threshold, protons called helium 0.5% and helium called protons 0.6%; pre-registered <=5%, hit.",
+        "[r4 2026-09-17] A blind spot of the stack (ledger 13): part of the helium above the exit energy interacts in the 3 cm of CsI and ends in D (2.6% of a helium calibration beam incident in the cone); its dE in the three silicon layers equals that of a 40-110 MeV/n stopping proton, so the dE-E fit reads it as a stopping p/d/t - 11-15% of the Z=1 stopper class intensity. The inner segments do not help (the mechanism is not angle). The repair is a sideband subtraction from the penetrating Z>=2 class; this dossier's interaction model emits no secondaries, a real anticoincidence would veto part of these, by how much is not measured.",
+        "[r6 2026-09-19] Ledger 21 (sim/21_quenching.py -> out/21_quenching.json): until r5 the CsI and the plastic were 'linear + constant resolution'. r6 adds Birks-type quenching (light = integral dE/(1+kB S) along the track from this dossier's stopping tables) and a -5% light-collection non-uniformity, as a sensitivity only: kB 0.0126 g cm-2 MeV-1 for the plastic is a relayed common value whose source this dossier has not checked, 0 / 0.0015 / 0.003 for the CsI is an unanchored declared band. The registered physical judgement - at equal velocity p/d/t share S(E) and their energies scale with mass, so hydrogen isotope identification is unaffected - hit (change <= 0.02); the next sentence, 'the helium lines move down but the 33% He3/He4 step does not', was wrong: He4 is read as He3 (0.98 -> 0.65 / 0.29), a 6% light deficit plus the 7% angular freedom of the inner segments is enough to cross half the step (my explanation, not separately verified). The (D, E) rule lets 3-6% helium into the penetrating Z=1 class. The must-red branch (CsI kB 0.02) gives He4 0.002, red; the knob gate checks the helium/proton light ratio against a direct integration sharing no code (0.9381 vs 0.9384). Path declared after data: the light-output law inside the identification and the (D, E) hypotheses - back to the baseline when informed exactly (a self-proof, not counted), He4 0.84 and helium share 0.002 when the truth sits at the upper corner while the algorithm believes the centre. One thing not repaired: with both scintillators quenching, helium intruders stopping in E land in the response table's edge bins near the exit energy (small response, large weight) and the helium-corrected main class ratio goes 1.06 -> 1.16; the response needs a fiducial cut, not done this round."
+      ],
+      "physics": [
+        "薄硅里的能损是 Landau 分布:大多数穿越丢得比平均少,少数撞出高能 δ 电子丢得多。所以最概然值只有均值的八成,而三层取中值能压掉单层里偶然的一大发。",
+        "碘化铯密度 4.51 g/cm³,原子序数高,单位长度的阻止本领是塑料的两倍多:要在几厘米内停住 100 MeV 质子,只能用它。"
+      ],
+      "physics_en": [
+        "Energy loss in thin silicon follows a Landau distribution: most crossings lose less than the mean and a few knock out an energetic delta electron and lose much more. The most probable value is therefore only about eight tenths of the mean, and taking the median of three layers suppresses a chance large hit in one of them.",
+        "Caesium iodide has a density of 4.51 g/cm3 and a high atomic number, with more than twice the stopping power of plastic per unit length: stopping a 100 MeV proton within a few centimetres takes it."
+      ]
+    },
+    {
+      "id": "cal",
+      "label": "标定柜",
+      "label_en": "Calibration Cabinet",
+      "range": 16,
+      "detail": "黄柜子代表这台仪器离不开的标定。读出链的增益常数由脉冲发生器定,碘化铯的弹道亏损是一个恒定的扣除项。判断一个事件是干净停止还是在碘化铯里撞碎了,靠拟合优度的切割值,这个值只能从没有核反应的标定数据里定。仿真里这些常数都能算出来,真仪器上每一个都要先量。",
+      "detail_en": "The yellow cabinet stands for the calibrations this instrument cannot do without. The chain's gain constants come from a pulser, and the caesium iodide ballistic deficit is a constant to subtract. Whether an event is a clean stop or broke up inside the caesium iodide is decided by a cut on the fit quality, and that cut can only be set from calibration data without nuclear interactions. In the simulation every one of these constants can be computed; on a real instrument each one has to be measured first.",
+      "specs": {
+        "增益常数(脉冲发生器)": "硅 0.977 · 碘化铯 0.977 · 塑闪 0.976",
+        "弹道亏损扣除": "6.65%",
+        "反馈衰减对峰值": "0.17%",
+        "厚度表失配 +5%": "内圈同位素分离不变(三倍时 d/t 混淆 +3.6 个百分点)",
+        "在轨标定(r5,账 20)": "硅:任意 A·C 三层符合的层间中位数比,0.16%/sol;碘化铯:停在 D 的内圈质子,0.7 sol 到 1%;要求:碘化铯约 ±2%(r1 的「±5%」对它偏松)",
+        "失配容忍(r7,账 26)": "增益 +3% → 主望远镜类 +0.07、φ(>1) +6%;厚度表 +5% → φ(>1) −3.6%;噪声 ×1.5 无作用。增益要标到 1% 量级(账 20 的硅层间比 0.16%/sol 够)"
+      },
+      "specs_en": {
+        "Gain constants (pulser)": "silicon 0.977 · CsI 0.977 · plastic 0.976",
+        "Ballistic-deficit correction": "6.65%",
+        "Feedback decay on the peak": "0.17%",
+        "Thickness-table mismatch +5%": "inner-segment isotope separation unchanged (d/t confusion +3.6 points at three times)",
+        "In-flight calibration (r5, ledger 20)": "silicon: ratio of layer medians over any three-layer A.C coincidence, 0.16%/sol; CsI: inner protons stopping in D, 1% in 0.7 sol; requirement: about +-2% on the CsI (the r1 \"+-5%\" was too loose for it)",
+        "Mismatch tolerance (r7, ledger 26)": "gain +3% -> main class +0.07, phi(>1) +6%; thickness table +5% -> phi(>1) -3.6%; noise x1.5 nothing. Gain needs the 1% level (the silicon layer ratio of ledger 20, 0.16%/sol, is enough)"
+      },
+      "sim": [
+        "【r1 2026-09-13】前端账(账 05,out/05_afe.json):CSA 反馈时间常数 100 µs 在 4 µs 峰值时间下让整条链读低 2.3%,各道恒定,用 1 MeV(硅)、100 MeV(碘化铯)、50 MeV(塑闪)的脉冲标定得常数 0.977/0.977/0.976。首版先扣增益再扣弹道亏损,碘化铯被扣了两遍读高 7.1%,已改顺序。",
+        "【r1 2026-09-13】种类分离账(账 01):厚度表 +5%、增益 +3%、噪声 ×1.5 同时注入时内圈矩阵不变;三倍注入时 d 0.918、t 0.905、⁴He 0.921。标定精度要求因此落在「厚度与增益都在 ±5% 内」这一档,不是更紧。",
+        "【r5 2026-09-18】账 20(sim/20_inflight_cal.py → out/20_inflight_cal.json):这块牌子第一次有了自己的账——不加硬件,用场自己的粒子标定。硅各层增益:取三层沉积中位数之比(比值消掉未知入射角);预注册用内圈穿透 Z=1 类,每 sol 6.8 千个事件,2% 漂移一个 sol 里只有 3.0σ——无功效(闸红,按名排除);改用任何三层都有信号的 A·C 符合(数据后声明),每 sol 10.9 万个事件、0.16%/sol、2% 漂移 12.5σ,注入 +2% 回收 +2.00%。碘化铯能标:内圈停在 D 的质子,由硅沉积反推入射能、预测 E_D,估计量自身偏 −1.1%,0.7 个 sol 到 1%,注入 +3% 回收 +2.96%。产品能容忍多大:D 增益 +2…+3% 就让扣氦后的主望远镜类剂量比移 +0.05(负向只移 −0.02…−0.03,不对称),所以卡上 r1 写的「±5% 这一档」对碘化铯要收紧到约 ±2%;修订 Z=1 类的氦份额在 D/E ±5% 下仍是 0.000。没算的:脉冲发生器线性(账 05)、闪烁体猝灭与光收集不均匀(本册 D/E 响应是线性的)。",
+        "【r7 2026-09-19】账 26(sim/26_task_sim_r7.py → out/26_task_r7.json):把失配注入搬到 r4–r6 的新链上(标定表全部保持标称,只有场样本的读出与重建用的厚度表带失配)。增益是六个产品共同的主导失配:+3% 让主望远镜类扣氦后的比值 +0.07(预注册 ≤0.05,偏出)、φ(>1) +6%(命中);厚度表 +5% 让 φ(>1) −3.6%(预注册 ≤3%,偏出);噪声 ×1.5 几乎无作用;×3 注入四个产品越过 3σ(闸能红)。双关对照首跑红:两个标称种子的穿透类比值差 0.060——六个种子的相对标准差 2.5%,0.05 的带对两格之差只是 1.5σ,这道闸是在不知道散布多大时写的(按名排除,改用六种子)。连带后果:r4–r6 引用的单种子类比值都带 ±2.5%;六种子均值是主望远镜类 1.01、穿透 Z=1 类 0.96、φ(>1) 0.95。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] Front-end ledger (ledger 05, out/05_afe.json): the 100 us CSA feedback time constant under a 4 us peaking time makes the whole chain read 2.3% low, constant per channel; pulser calibration at 1 MeV (silicon), 100 MeV (CsI) and 50 MeV (plastic) gives constants 0.977/0.977/0.976. The first version applied the gain constant before the ballistic-deficit constant, corrected CsI twice and read 7.1% high; the order was fixed.",
+        "[r1 2026-09-13] Species ledger (ledger 01): thickness table +5%, gain +3% and noise x1.5 injected together leave the inner-segment matrix unchanged; at three times that, d 0.918, t 0.905, 4He 0.921. The calibration requirement therefore sits at thickness and gain within +-5%, no tighter.",
+        "[r5 2026-09-18] Ledger 20 (sim/20_inflight_cal.py -> out/20_inflight_cal.json): the first ledger behind this plaque - calibration from the field's own particles, no added hardware. Silicon gain per layer: the ratio of the three layer medians (the ratio cancels the unknown angle); the registered class (inner penetrating Z=1, 6.8k events/sol) sees a 2% drift at only 3.0 sigma in one sol - no power (gate red, excluded by name); any A.C coincidence with three silicon hits (declared after data) gives 109k events/sol, 0.16%/sol, 12.5 sigma, +2% injected recovered as +2.00%. CsI scale: inner protons stopping in D, incident energy from the silicon deposits, predicted E_D; estimator bias -1.1%, 1% in 0.7 sol, +3% recovered as +2.96%. Tolerance: a D gain error of +2..+3% already moves the helium-corrected main class ratio by +0.05 (negative errors only -0.02..-0.03, asymmetric), so the r1 statement 'within +-5%' tightens to about +-2% for the CsI; the helium share of the revised Z=1 class stays 0.000 under D/E +-5%. Not computed: pulser linearity (ledger 05), scintillator quenching and light-collection non-uniformity (D/E are linear here).",
+        "[r7 2026-09-19] Ledger 26 (sim/26_task_sim_r7.py -> out/26_task_r7.json): mismatch injection moved onto the r4-r6 chain (all calibration tables nominal; only the readout of the field sample and the thickness table used by the reconstruction are off). Gain is the dominant mismatch for all six products: +3% moves the helium-corrected main class ratio by +0.07 (registered <= 0.05, miss) and phi(>1) by +6% (hit); thickness table +5% moves phi(>1) by -3.6% (registered <= 3%, miss); noise x1.5 does almost nothing; at x3 four products cross 3 sigma (the gate can fire). The both-off control went red on the first run: the two nominal seeds differ by 0.060 in the penetrating class ratio - six seeds give a relative sd of 2.5%, so a 0.05 band is 1.5 sigma of a two-cell difference; the gate was written blind to the scatter it polices (excluded by name, six seeds now). Consequence: single-seed class ratios quoted in r4-r6 carry +-2.5%; six-seed means are 1.01 (main class), 0.96 (penetrating Z=1), 0.95 (phi(>1))."
+      ],
+      "physics": [
+        "仿真器知道每个事件的真相,真仪器不知道。所以这里每一个常数都必须写成「从什么测量得到」:脉冲发生器给增益,无核反应的束流数据给拟合切割,已知厚度的样片给厚度表。"
+      ],
+      "physics_en": [
+        "A simulator knows the truth of every event and a real instrument does not. So every constant here has to be written as 'obtained from which measurement': a pulser for the gains, beam data without nuclear interactions for the fit cut, samples of known thickness for the thickness table."
+      ]
+    },
+    {
+      "id": "seu",
+      "label": "SEU/SEL 输入表",
+      "label_en": "SEU/SEL Input Table",
+      "range": 20,
+      "detail": "右下这块表牌是给计算中心的:硅中 LET 高于某阈值的粒子通量 φ(>L),五行,阈值从 1 到 100 keV/µm,旁边同时写成集成电路界惯用的 MeV·cm²/mg。三种口径并列:望远镜视锥内实测口径、假设各向同性外推到整个下半球、太阳质子事件 ×30 的硬谱与软谱。每一行都是合成场上的设计仿真,没有数据;计算中心的辐射账因此仍登记为「不能闭合」,这张表只说明数据存在之后它会长什么样。",
+      "detail_en": "The lower-right board is for the compute centre: the flux of particles whose LET in silicon exceeds a threshold, phi(>L), five rows from 1 to 100 keV/um, written alongside in the MeV cm2/mg the chip community uses. Three bases side by side: inside the telescope's cone as measured, extrapolated to the whole downward hemisphere assuming isotropy, and a solar-proton event at thirty times quiet for a hard and a soft spectrum. Every row is a design simulation on a synthetic field, no data; the compute centre's radiation ledger therefore stays 'not closable', and this table only says what its shape will be once data exist.",
+      "specs": {
+        "视锥内(/cm²/s)": "r7(高统计,全部闯入者已扣,对直接电离真值):1 keV/µm(0.00429 MeV·cm²/mg):0.0642 · 3(0.0129):0.0116 · 10(0.0429):5.95e-03 · 30(0.129):1.08e-03 · 100(0.429):1.41e-04;回收 0.96 ± 0.02 / 0.93 ± 0.02 / 0.885 ± 0.011 / 0.841 ± 0.015 / 0.901 ± 0.014。r6 的值(60 万事件,上两行带 ±5–7% 噪声):0.0644 / 0.0118 / 6.14e-03 / 1.10e-03 / 1.31e-04。原印的 MeV·cm²/mg 一列大了 100 倍(0.429 / 1.288 / 4.292 / 12.876 / 42.918),2026-09-18 更正,ops-compute-01 指出",
+        "暴风 ×30 硬/软(/cm²/s)": "r2:1:0.367/0.946 · 3:0.012/0.011 · 10:6.37e-03/6.70e-03 · 30:1.34e-03/1.28e-03 · 100:1.91e-04/1.86e-04",
+        "换算": "1 keV/µm(硅)= 0.00429 MeV·cm²/mg(原印 0.429,大了 100 倍,2026-09-18 更正;新闸经硅最小电离 1.664 MeV·cm²/g 核对,旧常数过同一道闸必红)",
+        "对合成场真值的回收": "r2 对分层真值:1 keV/µm 1.07 · 3 1.01 · 10 1.02 · 30 1.04 · 100 1.03(原写 1.06 · 0.97 · 0.94 · 1.15 · 1.35,2026-09-14 撤回:真值样本未分层;账 08)",
+        "反冲类": "B 层单击、无 A 无 C 的事件另计为每 300 µm 硅的产生率,不进这张表",
+        "不给": "器件截面 σ(E)、sky130 SRAM 的 SEL 阈、建议值",
+        "等级": "设计仿真产品,无数据",
+        "上三行的回收是怎么绿的(r5)": ">10 / >30 / >100 三行回收 1.02 / 1.04 / 1.03 是抵消出来的:低于出射能的高 LET 粒子到不了 C 层(结构性看不见,真停止类只回收其 0.20 / 0.08 / 0.00),高于出射能、在碘化铯里核作用的重离子被停止类重复计入(占该行 12% / 18% / 23%)。全部真闯入者去掉后 0.89 / 0.85 / 0.79"
+      },
+      "specs_en": {
+        "Inside the cone (/cm2/s)": "r7 (high statistics, every intruder subtracted, against the direct-ionisation truth): 1 keV/um (0.00429 MeV cm2/mg): 0.0642 · 3 (0.0129): 0.0116 · 10 (0.0429): 5.95e-03 · 30 (0.129): 1.08e-03 · 100 (0.429): 1.41e-04; recovery 0.96 +- 0.02 / 0.93 +- 0.02 / 0.885 +- 0.011 / 0.841 +- 0.015 / 0.901 +- 0.014. r6 values (600k events, top two rows with +-5-7% noise): 0.0644 / 0.0118 / 6.14e-03 / 1.10e-03 / 1.31e-04. The MeV cm2/mg column was first printed 100x too large (0.429 / 1.288 / 4.292 / 12.876 / 42.918), corrected 2026-09-18, found by ops-compute-01",
+        "Storm x30 hard/soft (/cm2/s)": "r2: 1:0.367/0.946 · 3:0.012/0.011 · 10:6.37e-03/6.70e-03 · 30:1.34e-03/1.28e-03 · 100:1.91e-04/1.86e-04",
+        "Conversion": "1 keV/um (silicon) = 0.00429 MeV cm2/mg (first printed as 0.429, 100x too large, corrected 2026-09-18; the new gate checks it against the silicon minimum-ionising 1.664 MeV cm2/g, and the old constant goes red through the same gate)",
+        "Recovery against the synthetic field": "r2 against the stratified truth: 1 keV/um 1.07 · 3 1.01 · 10 1.02 · 30 1.04 · 100 1.03 (formerly 1.06 · 0.97 · 0.94 · 1.15 · 1.35, retired 2026-09-14: unstratified truth sample; ledger 08)",
+        "Recoil class": "B-only events (no A, no C) are quoted as a production rate per 300 um of silicon, not in this table",
+        "Not given": "device cross-sections sigma(E), the sky130 SRAM SEL threshold, recommended values",
+        "Grade": "design simulation product, no data",
+        "How the top three rows came out green (r5)": "the 1.02 / 1.04 / 1.03 recoveries of the >10 / >30 / >100 rows are a cancellation: high-LET particles below the exit energy never reach layer C (structurally invisible; genuine stoppers recover 0.20 / 0.08 / 0.00 of them) while heavy ions above the exit energy that interact in the CsI are counted a second time by the stopper class (12% / 18% / 23% of the row). With every true intruder removed: 0.89 / 0.85 / 0.79"
+      },
+      "sim": [
+        "【r1 2026-09-13】SEU/SEL 输入账(账 04,sim/04_seu_sel_table.py → out/04_seu_table.json;预注册 f2d7cb7):视锥内 φ(>1) 0.070、(>3) 0.012、(>10) 0.0063、(>30) 1.4e-3、(>100) 2.0e-4 /cm²/s。前三行低于预注册区间(0.1–0.6 / 0.03–0.2 / 0.01–0.06),记偏出:预注册的量级是按全半球估的,视锥只占下半球投影立体角的 36%。>30 与 >100 两行命中。",
+        "【r1 2026-09-13】对合成场真值的回收:1 keV/µm 1.06(预注册 0.9–1.1 命中)、100 keV/µm 1.35(预注册 ≥0.8,单侧带命中,实际读高 35%)。读高来自 Z≥20 组的响应:钙按铁的效率算,组别由涨落的中值分配。表注里写明,引 >100 那一行要带这个系统差。",
+        "【r1 2026-09-13】预注册写的机制是「关掉三层 ΔE 一致性判别,φ(>100) 回收必须掉到 0.5 以下」。数据说:一致性判别每秒只剔 4e-5 个事件,关掉它什么都不变;把 A·C 符合整个关掉、只看 B 层单击,>100 处读 1.40 对有符合的 1.35,也不掉。原因是读出单元是 300 µm 的整片而不是像素:反冲在整片里的表观 LET 是沉积除以 300 µm,永远到不了 100 keV/µm,所以「单层丢 >100 群体」这个前提(sci-rad-01 单层相机的 0.10)在整片读出里不成立。单层真正多计的是低 LET 端:>1 keV/µm 处单击读 1.22,有符合 1.06,差的是径长。这条预注册机制作废,理由与替换闸(>1 处方向信息的作用 ≥0.10)都记在 json 里。",
+        "【r1 2026-09-13】暴风 ×30 视锥内:>1 keV/µm 硬谱 0.32、软谱 1.05 /cm²/s(平静 0.070);>100 两案都约 2e-4,与平静持平:太阳质子事件抬的是低 LET 端,SEL 判据关心的高 LET 端几乎不动。",
+        "【r2 2026-09-14】账 08:>100 那一行不再带 ×1.35 的系统差。r1 写的「读高 35% 来自 Z≥20 组的响应,标定项」撤回——那是未分层真值样本的种子噪声(±32%),不是响应;r2 用七个标定种类(p/He/C/O/Si/Ca/Fe)按三层硅中值与 E 层沉积的联合观测量连续插值,对分层真值五行回收 1.07/1.01/1.02/1.04/1.03;钙/铁通量比的回收 0.36 对场声明值 0.28(预注册 ±30% 命中)。暴风 ×30 时 >30 与 >100 两行与平静持平的结论不变。",
+        "【r5 2026-09-18】账 16/17(out/16_units.json、out/17_let_intruders.json;预注册 49ebf12):计算中心指出 MeV·cm²/mg 一列大了 100 倍(1/2.33 应为 10/2330),成立;原来核这个常数的闸是拿它和它自己的字面值比,不可能变红,换成了经硅最小电离的已知答案闸。表重算:氦闯入者占 φ(>1) 的 6.3%(我预注册估 ≤1%,错 6 倍),扣掉后 >1 行回收 1.066 → 0.990。没预料到的发现:上三行的回收是靠抵消绿的(见 specs);一条全电荷旁带扣除的数据后路径不闭合(预测/真值 1.07–2.42),已撤回、不交付。",
+        "【r6 2026-09-19】账 22/23(out/22_heavy_intruders.json、out/23_direct_truth.json;预注册 63ef2cf):r5 撤回的全电荷旁带扣除做成了——标定束换成场里实际有的十二种,预测的闯入通量对仿真真值 0.90–1.04。r5 写的失败原因(只按三层中值分箱)是错的:十二种时只按中值的表同样闭合,五种时加第二个观测量也救不了,是标定物种覆盖不够;预注册的必须红支因此没红,按名排除。>100 行穿透类只回收 0.83 这件事,我先后写下三个机理假设(参考片内核作用抬高真值:实际只占 0.6%;标定从 1.2 倍出射能起:场里的铁从 1.67 倍起,那一段是空的;……)全错;最后发现 60 万事件里每个重物种只有约 200 个穿透事件,高统计重跑钙 0.93 ± 0.02、铁 0.99 ± 0.02——主要是抽样噪声。",
+        "【r7 2026-09-19】账 25(sim/25_table_highstat.py → out/25_table_highstat.json;预注册 c6777f2):上两行用高统计重算——场的 Z≥3 各分量单独抽 15 万事件,与原 60 万事件里的轻粒子做事件级并集,穿透类 Z≥10 事件 1280 → 13003;每个回收数同行印 MC 误差。>100 行 0.82 → 0.90(r6 的值是噪声),>10 与 >30 两行反而比 r6 读的低(0.885、0.841):回收低于 1 的部分几乎就是结构上看不见的份额(低于出射能的慢重离子到不了 C 层,14.8% / 14.1% / 3.8%)。首跑功效闸红:>30 行误差 3.3%,拆开看是真值一侧 3.0%——重的一半加密了、真值的轻分量没加密;补了样本,带子没动,重跑 1.5%。"
+      ],
+      "sim_en": [
+        "[r1 2026-09-13] SEU/SEL input ledger (ledger 04, sim/04_seu_sel_table.py -> out/04_seu_table.json; pre-registered f2d7cb7): inside the cone phi(>1) 0.070, (>3) 0.012, (>10) 0.0063, (>30) 1.4e-3, (>100) 2.0e-4 /cm2/s. The first three rows sit below their registered bands (0.1-0.6 / 0.03-0.2 / 0.01-0.06), recorded as misses: the registered magnitudes were estimated for the full hemisphere, and the cone is 36% of the downward hemisphere's projected solid angle. The >30 and >100 rows hit.",
+        "[r1 2026-09-13] Recovery against the synthetic field: 1 keV/um 1.06 (registered 0.9-1.1, hit), 100 keV/um 1.35 (registered >=0.8, a hit on a one-sided band that actually reads 35% high). The excess is the Z>=20 group response: calcium carried at iron's efficiency, group assigned by a fluctuating median. The table note says to quote the >100 row with that systematic.",
+        "[r1 2026-09-13] The registered mechanism read: with the three-layer dE consistency off, phi(>100) recovery must fall below 0.5. The data: the consistency cut rejects 4e-5 events per second, so removing it changes nothing; removing the whole A.C coincidence and reading B singles gives 1.40 at >100 against 1.35 with it, no fall either. The reason is that the readout unit is a 300 um pad, not a pixel: a recoil's apparent LET in a pad is its deposit over 300 um and never reaches 100 keV/um, so the premise that a single layer loses the >100 population (sci-rad-01's 0.10, per pixel) does not hold for a pad. What a single layer over-counts is the LOW-LET end: at >1 keV/um singles read 1.22 against 1.06 with the coincidence, the path length. The registered mechanism is retired; the reason and the replacement gate (direction knowledge at >1, >=0.10) are in the json.",
+        "[r1 2026-09-13] Storm x30 inside the cone: >1 keV/um hard 0.32, soft 1.05 /cm2/s (quiet 0.070); >100 keV/um about 2e-4 in both cases, level with quiet: a solar-proton event lifts the low-LET end and barely moves the high-LET end the SEL criterion depends on.",
+        "[r2 2026-09-14] Ledger 08: the >100 row no longer carries a x1.35 systematic. r1's 'the 35% excess is the Z>=20 group response, a calibration item' is withdrawn: it was the seed noise of an unstratified truth sample (±32%), not the response. r2 interpolates a continuous response over seven calibration species (p/He/C/O/Si/Ca/Fe) in the joint observable of the median silicon deposit and the E-layer deposit; against the stratified truth the five rows recover 1.07/1.01/1.02/1.04/1.03; the Ca/Fe flux ratio recovers 0.36 against the field's declared 0.28 (registered ±30%, hit). The storm conclusion (>30 and >100 rows level with quiet) stands.",
+        "[r5 2026-09-18] Ledgers 16/17 (out/16_units.json, out/17_let_intruders.json; pre-registered 49ebf12): the compute centre found the MeV cm2/mg column 100x too large (1/2.33 instead of 10/2330); confirmed. The gate that checked the constant compared it with its own literal and could not go red; it is now a known-answer gate through the silicon minimum-ionising value. Table recomputed: intruding helium is 6.3% of phi(>1) (the pre-registration guessed <= 1%, wrong by 6x); removing it takes the >1 recovery from 1.066 to 0.990. Unplanned finding: the top three rows were green by cancellation (see specs); an all-charge sideband subtraction declared after data does not close (predicted/true 1.07-2.42), withdrawn and not delivered.",
+        "[r6 2026-09-19] Ledgers 22/23 (out/22_heavy_intruders.json, out/23_direct_truth.json; pre-registered 63ef2cf): the all-charge sideband subtraction withdrawn in r5 now works - calibration beams for the twelve species the field actually holds, predicted intruder flux 0.90-1.04 of the simulation truth. The reason r5 gave for its failure (binning in the median silicon deposit alone) was wrong: with twelve species the median-only table closes as well, with five a second observable does not rescue it; it was calibration-species coverage. The registered must-red branch therefore did not fire and is excluded by name. For the 0.83 of the penetrating class at >100 keV/um three mechanisms were written down and all three were wrong (interactions inside the reference slab inflating the truth: 0.6% only; calibration starting at 1.2x the exit energy: the iron in the field starts at 1.67x, that band is empty; ...); in the end the 600k-event run holds about 200 penetrating events per heavy species, and a high-statistics rerun gives calcium 0.93 +- 0.02 and iron 0.99 +- 0.02 - mostly sampling noise.",
+        "[r7 2026-09-19] Ledger 25 (sim/25_table_highstat.py -> out/25_table_highstat.json; pre-registered c6777f2): the top rows recomputed at high statistics - every Z>=3 component of the field sampled on its own (150k events each) and joined, event by event, with the light particles of the original 600k run; penetrating events with Z>=10 go from 1280 to 13003 and every recovery is printed with its Monte Carlo error. The >100 row goes 0.82 -> 0.90 (the r6 value was noise) while the >10 and >30 rows read LOWER than in r6 (0.885, 0.841): what is missing below 1 is almost exactly the structurally invisible share (slow heavy ions below the exit energy never reach layer C: 14.8% / 14.1% / 3.8%). The power gate went red on the first run: 3.3% on the >30 row, of which 3.0% from the truth - the heavy half had been densified and the light components of the truth had not; samples were added, no band was moved, 1.5% on the rerun."
+      ],
+      "physics": [
+        "单粒子翻转和闩锁看的是一条径迹在灵敏体积里沉积的电荷密度,也就是 LET;所以这张表的自变量是 LET 阈值,不是粒子能量。硅中 keV/µm 除以硅的密度 2.33 g/cm³ 就是器件手册里的 MeV·cm²/mg。",
+        "太阳质子事件里来的是 166 MeV 以上的质子,它们在硅里的 LET 不到 1 keV/µm;所以事件期间 >1 keV/µm 那一行涨十几倍,>100 那一行纹丝不动:闩锁风险不随暴风走,翻转风险随。"
+      ],
+      "physics_en": [
+        "Single-event upset and latch-up depend on the charge density a track deposits in the sensitive volume, which is its LET; so the table's variable is an LET threshold, not a particle energy. keV/um in silicon divided by silicon's density of 2.33 g/cm3 is the MeV cm2/mg of the device datasheets.",
+        "A solar-proton event brings protons above 166 MeV, whose LET in silicon is below 1 keV/um; so during an event the >1 keV/um row rises more than tenfold while the >100 row does not move: latch-up risk does not follow the storm, upset risk does."
+      ]
+    }
+  ]
+}

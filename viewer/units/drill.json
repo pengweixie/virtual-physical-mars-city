@@ -1,0 +1,5639 @@
+{
+ "schema": "ops-drill-01/drill",
+ "version": "1.0.0",
+ "generated_from": {
+  "mars": "c5510dc",
+  "cards": {
+   "sci-rad-01": "e2270ed",
+   "sci-rad-02": "cc16e2f",
+   "sci-rad-03": "ab79f31",
+   "sci-rad-04": "ab79f31",
+   "hab-tunnel-01": "73e4ee7",
+   "hab-lift-01": "ca57e42",
+   "hab-village-01": "9a75308",
+   "res-eclss-01": "91f0c37",
+   "imperial-city": "53bf29d",
+   "main.js": "852c321"
+  },
+  "ledgers": [
+   "01_event.json",
+   "02_warning.json",
+   "03_evacuation.json",
+   "04_shelter_dose.json"
+  ]
+ },
+ "t0_definition": "exercise-injected RED at t=0; event dose curve (account 1, 2017-09-10/11 RAD event) aligned to t=0 because the ground has no lead (account 2)",
+ "event_input": {
+  "name": "10-12 September 2017 SEP at Gale crater (MSL/RAD)",
+  "onset_utc": "2017-09-10T19:50Z",
+  "total_dose_uGy_Si": 418.0,
+  "peak_factor": [
+   2.0,
+   3.0
+  ],
+  "surface_D_uGy_h_hourly_peak2x": [
+   [
+    0,
+    8.75
+   ],
+   [
+    1,
+    9.479
+   ],
+   [
+    2,
+    10.208
+   ],
+   [
+    3,
+    10.938
+   ],
+   [
+    4,
+    11.667
+   ],
+   [
+    5,
+    12.396
+   ],
+   [
+    6,
+    13.125
+   ],
+   [
+    7,
+    13.854
+   ],
+   [
+    8,
+    14.583
+   ],
+   [
+    9,
+    15.312
+   ],
+   [
+    10,
+    16.042
+   ],
+   [
+    11,
+    16.771
+   ],
+   [
+    12,
+    17.5
+   ],
+   [
+    13,
+    17.5
+   ],
+   [
+    14,
+    17.5
+   ],
+   [
+    15,
+    17.5
+   ],
+   [
+    16,
+    17.5
+   ],
+   [
+    17,
+    17.5
+   ],
+   [
+    18,
+    17.5
+   ],
+   [
+    19,
+    17.5
+   ],
+   [
+    20,
+    17.5
+   ],
+   [
+    21,
+    17.5
+   ],
+   [
+    22,
+    17.5
+   ],
+   [
+    23,
+    17.229
+   ],
+   [
+    24,
+    16.966
+   ],
+   [
+    25,
+    16.712
+   ],
+   [
+    26,
+    16.465
+   ],
+   [
+    27,
+    16.226
+   ],
+   [
+    28,
+    15.994
+   ],
+   [
+    29,
+    15.77
+   ],
+   [
+    30,
+    15.552
+   ],
+   [
+    31,
+    15.341
+   ],
+   [
+    32,
+    15.137
+   ],
+   [
+    33,
+    14.939
+   ],
+   [
+    34,
+    14.748
+   ],
+   [
+    35,
+    14.562
+   ],
+   [
+    36,
+    14.382
+   ],
+   [
+    37,
+    14.207
+   ],
+   [
+    38,
+    14.038
+   ],
+   [
+    39,
+    13.874
+   ],
+   [
+    40,
+    13.715
+   ],
+   [
+    41,
+    13.562
+   ],
+   [
+    42,
+    13.413
+   ],
+   [
+    43,
+    13.268
+   ],
+   [
+    44,
+    13.128
+   ],
+   [
+    45,
+    12.992
+   ],
+   [
+    46,
+    12.861
+   ],
+   [
+    47,
+    12.734
+   ],
+   [
+    48,
+    12.61
+   ],
+   [
+    49,
+    12.491
+   ],
+   [
+    50,
+    12.375
+   ],
+   [
+    51,
+    12.262
+   ],
+   [
+    52,
+    12.154
+   ],
+   [
+    53,
+    12.048
+   ],
+   [
+    54,
+    11.946
+   ],
+   [
+    55,
+    11.847
+   ],
+   [
+    56,
+    11.751
+   ],
+   [
+    57,
+    11.658
+   ],
+   [
+    58,
+    11.568
+   ],
+   [
+    59,
+    11.481
+   ]
+  ],
+  "surface_D_uGy_h_hourly_peak3x": [
+   [
+    0,
+    8.75
+   ],
+   [
+    1,
+    10.208
+   ],
+   [
+    2,
+    11.667
+   ],
+   [
+    3,
+    13.125
+   ],
+   [
+    4,
+    14.583
+   ],
+   [
+    5,
+    16.042
+   ],
+   [
+    6,
+    17.5
+   ],
+   [
+    7,
+    18.958
+   ],
+   [
+    8,
+    20.417
+   ],
+   [
+    9,
+    21.875
+   ],
+   [
+    10,
+    23.333
+   ],
+   [
+    11,
+    24.792
+   ],
+   [
+    12,
+    26.25
+   ],
+   [
+    13,
+    26.25
+   ],
+   [
+    14,
+    26.25
+   ],
+   [
+    15,
+    26.25
+   ],
+   [
+    16,
+    26.25
+   ],
+   [
+    17,
+    26.25
+   ],
+   [
+    18,
+    26.25
+   ],
+   [
+    19,
+    26.25
+   ],
+   [
+    20,
+    26.25
+   ],
+   [
+    21,
+    26.25
+   ],
+   [
+    22,
+    26.25
+   ],
+   [
+    23,
+    24.166
+   ],
+   [
+    24,
+    22.33
+   ],
+   [
+    25,
+    20.712
+   ],
+   [
+    26,
+    19.288
+   ],
+   [
+    27,
+    18.033
+   ],
+   [
+    28,
+    16.927
+   ],
+   [
+    29,
+    15.953
+   ],
+   [
+    30,
+    15.095
+   ],
+   [
+    31,
+    14.34
+   ],
+   [
+    32,
+    13.674
+   ],
+   [
+    33,
+    13.087
+   ],
+   [
+    34,
+    12.571
+   ],
+   [
+    35,
+    12.116
+   ],
+   [
+    36,
+    11.715
+   ],
+   [
+    37,
+    11.362
+   ],
+   [
+    38,
+    11.051
+   ],
+   [
+    39,
+    10.777
+   ],
+   [
+    40,
+    10.535
+   ],
+   [
+    41,
+    10.323
+   ],
+   [
+    42,
+    10.135
+   ],
+   [
+    43,
+    9.97
+   ],
+   [
+    44,
+    9.825
+   ],
+   [
+    45,
+    9.697
+   ],
+   [
+    46,
+    9.584
+   ],
+   [
+    47,
+    9.485
+   ],
+   [
+    48,
+    9.397
+   ],
+   [
+    49,
+    9.32
+   ],
+   [
+    50,
+    9.252
+   ],
+   [
+    51,
+    9.192
+   ],
+   [
+    52,
+    9.14
+   ],
+   [
+    53,
+    9.093
+   ],
+   [
+    54,
+    9.052
+   ],
+   [
+    55,
+    9.016
+   ],
+   [
+    56,
+    8.985
+   ],
+   [
+    57,
+    8.957
+   ],
+   [
+    58,
+    8.932
+   ],
+   [
+    59,
+    8.91
+   ]
+  ]
+ },
+ "alarm_rule": {
+  "window_min": 1.0,
+  "yellow_x": 3.0,
+  "red_x": 30.0,
+  "quiet_counts_per_min": 1249.3333333333333,
+  "red_actions": [
+   "EVA return",
+   "veh-heli-01 grounded",
+   "launch window frozen"
+  ]
+ },
+ "dt_min": 1,
+ "T_clear_min": 40.94046038576287,
+ "T_end_min": 46,
+ "N_surface": 21,
+ "population_basis": "res-eclss-01 91f0c37 (待花名册: ops-roster-01)",
+ "levels": [
+  "green",
+  "yellow",
+  "red"
+ ],
+ "units": [
+  {
+   "id": "sci-rad-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "tower red, siren on, screen 'SEP RED (exercise)'",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "alert card e2270ed: 1-min sliding count, red > 30x quiet; for the 2017 input the real count factor is 2-4x (account 1) -> injected"
+    }
+   ]
+  },
+  {
+   "id": "sci-weather-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "shared sign: RED (SEP) beside amber (tau>2)",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "the sign is described on sci-rad-01's layers card; sci-weather-01's own card has no SEP field -> DISPATCH asks which unit draws it"
+    }
+   ]
+  },
+  {
+   "id": "sci-rad-02",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "charged channel x1-4 (2017-class), neutron channel gated OPEN (flag, not subtract)",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "5-sigma confirmation 35-188 s after arrival for 2-4x (account 2)"
+    },
+    {
+     "t_min": 1,
+     "level": "red",
+     "lights": "charged channel x2-4 (2017-class), neutron channel gated OPEN (flag, not subtract)",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "5-sigma confirmation 35-188 s after arrival for 2-4x (account 2)"
+    }
+   ]
+  },
+  {
+   "id": "sci-rad-03",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "green",
+     "lights": "screen unchanged (~83 s per count)",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "known answer: <1% change for any F (card ab79f31)"
+    }
+   ]
+  },
+  {
+   "id": "sci-rad-04",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "green",
+     "lights": "screen unchanged (~26 d per count)",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "known answer: no SEP channel at 3000 m"
+    }
+   ]
+  },
+  {
+   "id": "hab-tunnel-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP)",
+     "doors": "personnel airlock: ready; queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "sheltered_via": 0
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 2,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 1,
+      "sheltered_via": 0
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 5,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 1,
+      "sheltered_via": 1
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 8,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP)",
+     "doors": "personnel airlock: ready; queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "sheltered_via": 2
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 11,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 1,
+      "sheltered_via": 2
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 14,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP)",
+     "doors": "personnel airlock: ready; queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "sheltered_via": 3
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 18,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 1,
+      "sheltered_via": 3
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 19,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 2; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 2,
+      "in_lock": 1,
+      "sheltered_via": 3
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 21,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (2 inside); queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 2,
+      "sheltered_via": 4
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 23,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (2 inside); queue 1; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 1,
+      "in_lock": 2,
+      "sheltered_via": 4
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 24,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 1,
+      "sheltered_via": 6
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 25,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 2; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 2,
+      "in_lock": 1,
+      "sheltered_via": 6
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 27,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (2 inside); queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 2,
+      "sheltered_via": 7
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 30,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP)",
+     "doors": "personnel airlock: ready; queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "sheltered_via": 9
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 33,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 1,
+      "sheltered_via": 9
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 35,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 1; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 1,
+      "in_lock": 1,
+      "sheltered_via": 9
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 36,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP), personnel lock lamp cycling",
+     "doors": "personnel airlock: CYCLING (1 inside); queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 1,
+      "sheltered_via": 10
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    },
+    {
+     "t_min": 39,
+     "level": "red",
+     "lights": "gate lintel: red/amber (SEP)",
+     "doors": "personnel airlock: ready; queue 0; vehicle gate CLOSED (no personnel vehicle on the cards)",
+     "vent": "towers: closed-loop (domain seal after doors close; NOT a radiological action - SEP does not travel with air)",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "sheltered_via": 11
+     },
+     "note": "6 m3 / 3 min / p=2 declared (card 73e4ee7)"
+    }
+   ]
+  },
+  {
+   "id": "hab-lift-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "vestibule lintel: ready; column amber = cab at surface",
+     "doors": "vestibule: ready; queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 0
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 19,
+     "level": "red",
+     "lights": "vestibule lintel: cycling",
+     "doors": "vestibule: CYCLING (1 inside); queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 1,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 0
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 22,
+     "level": "red",
+     "lights": "vestibule lintel: ready; column amber = cab at surface",
+     "doors": "vestibule: ready; queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 1
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 23,
+     "level": "red",
+     "lights": "vestibule lintel: cycling",
+     "doors": "vestibule: CYCLING (1 inside); queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 1,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 1
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 25,
+     "level": "red",
+     "lights": "vestibule lintel: cycling",
+     "doors": "vestibule: CYCLING (1 inside); queue 2",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 2,
+      "in_lock": 1,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 1
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 26,
+     "level": "red",
+     "lights": "vestibule lintel: cycling",
+     "doors": "vestibule: CYCLING (2 inside); queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 2,
+      "aboard": 1,
+      "cab_full": false,
+      "sheltered_via": 1
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 27,
+     "level": "red",
+     "lights": "vestibule lintel: cycling",
+     "doors": "vestibule: CYCLING (2 inside); queue 2",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 2,
+      "in_lock": 2,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 2
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 29,
+     "level": "red",
+     "lights": "vestibule lintel: cycling",
+     "doors": "vestibule: CYCLING (2 inside); queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 2,
+      "aboard": 2,
+      "cab_full": false,
+      "sheltered_via": 2
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 30,
+     "level": "red",
+     "lights": "vestibule lintel: cycling",
+     "doors": "vestibule: CYCLING (2 inside); queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 2,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 4
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 32,
+     "level": "red",
+     "lights": "vestibule lintel: ready; column amber = cab at surface",
+     "doors": "vestibule: ready; queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "aboard": 2,
+      "cab_full": false,
+      "sheltered_via": 4
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 33,
+     "level": "red",
+     "lights": "vestibule lintel: ready; column amber = cab at surface",
+     "doors": "vestibule: ready; queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 6
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 38,
+     "level": "red",
+     "lights": "vestibule lintel: cycling",
+     "doors": "vestibule: CYCLING (2 inside); queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 2,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 6
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "vestibule lintel: ready; column amber = cab at surface",
+     "doors": "vestibule: ready; queue 0",
+     "vent": "shaft pressurised, unchanged",
+     "flow": {
+      "queue": 0,
+      "in_lock": 0,
+      "aboard": 0,
+      "cab_full": false,
+      "sheltered_via": 8
+     },
+     "note": "cab 12 persons (card ca57e42); ride 0 -> -30 m (main.js 852c321); the cab never fills because the vestibule meters 2 per 3 min (account 3)"
+    }
+   ]
+  },
+  {
+   "id": "hab-lift-cab-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "panel: 'SEP RED - descend' banner",
+     "doors": "closed while moving",
+     "vent": "n/a",
+     "flow": {
+      "aboard": 0
+     },
+     "note": ""
+    },
+    {
+     "t_min": 26,
+     "level": "red",
+     "lights": "panel: 'SEP RED - descend' banner",
+     "doors": "closed while moving",
+     "vent": "n/a",
+     "flow": {
+      "aboard": 1
+     },
+     "note": ""
+    },
+    {
+     "t_min": 27,
+     "level": "red",
+     "lights": "panel: 'SEP RED - descend' banner",
+     "doors": "closed while moving",
+     "vent": "n/a",
+     "flow": {
+      "aboard": 0
+     },
+     "note": ""
+    },
+    {
+     "t_min": 29,
+     "level": "red",
+     "lights": "panel: 'SEP RED - descend' banner",
+     "doors": "closed while moving",
+     "vent": "n/a",
+     "flow": {
+      "aboard": 2
+     },
+     "note": ""
+    },
+    {
+     "t_min": 30,
+     "level": "red",
+     "lights": "panel: 'SEP RED - descend' banner",
+     "doors": "closed while moving",
+     "vent": "n/a",
+     "flow": {
+      "aboard": 0
+     },
+     "note": ""
+    },
+    {
+     "t_min": 32,
+     "level": "red",
+     "lights": "panel: 'SEP RED - descend' banner",
+     "doors": "closed while moving",
+     "vent": "n/a",
+     "flow": {
+      "aboard": 2
+     },
+     "note": ""
+    },
+    {
+     "t_min": 33,
+     "level": "red",
+     "lights": "panel: 'SEP RED - descend' banner",
+     "doors": "closed while moving",
+     "vent": "n/a",
+     "flow": {
+      "aboard": 0
+     },
+     "note": ""
+    }
+   ]
+  },
+  {
+   "id": "hab-foyer-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 0
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 5,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 1
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 8,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 2
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 14,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 3
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 21,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 4
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 22,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 5
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 24,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 7
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 27,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 9
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 30,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 13
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 33,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 15
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 36,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 16
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 39,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 17
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "gate2 lintel amber; arrivals board",
+     "doors": "inner door open to the city",
+     "vent": "n/a",
+     "flow": {
+      "arrived": 19
+     },
+     "note": "arrivals = via tunnel lock + via lift"
+    }
+   ]
+  },
+  {
+   "id": "hab-village-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "vestibule lamps red; plaza flag mast beacon",
+     "doors": "end airlocks: CYCLING (2 inside); queue 0",
+     "vent": "corridor segment seals ready (card: sectional seal rings)",
+     "flow": {
+      "inside": 28,
+      "plaza": 2
+     },
+     "note": "residents shelter in place under 2 m cover (Run B floors b2077f4); SEP reduction under the cover NOT CLOSABLE (account 4)"
+    },
+    {
+     "t_min": 3,
+     "level": "red",
+     "lights": "vestibule lamps red; plaza flag mast beacon",
+     "doors": "end airlocks: CLOSED - vestibule sealed; queue 0",
+     "vent": "corridor segment seals ready (card: sectional seal rings)",
+     "flow": {
+      "inside": 30,
+      "plaza": 0
+     },
+     "note": "residents shelter in place under 2 m cover (Run B floors b2077f4); SEP reduction under the cover NOT CLOSABLE (account 4)"
+    }
+   ]
+  },
+  {
+   "id": "veh-heli-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "pad beacon red",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "grounded (red action, sci-rad-01 card)"
+    }
+   ]
+  },
+  {
+   "id": "veh-uav-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "pad beacon red",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "grounded (same rule; UAV not named on the card - DISPATCH)"
+    }
+   ]
+  },
+  {
+   "id": "ops-spaceport-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 1,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 1,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 2,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 2,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 3,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 3,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 4,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 4,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 5,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 5,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 6,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 6,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 7,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 7,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 8,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 8,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 9,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 9,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 10,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 10,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 11,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 11,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 12,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 12,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 13,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 13,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 14,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 14,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 16,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 16,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 17,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 17,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 18,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 18,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 19,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 19,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 20,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 20,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 21,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 21,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 22,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 22,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 23,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 23,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 24,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 24,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 25,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 25,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 26,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 26,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 27,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 27,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 28,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 28,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 29,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 29,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 30,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 30,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 31,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 31,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 32,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 32,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 33,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 33,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 34,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 34,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 35,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 35,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 36,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 36,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 37,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 37,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 38,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 38,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 39,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 39,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 40,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 40,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 42,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 42,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 43,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 43,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 44,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 44,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 45,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 45,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 46,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "red action (sci-rad-01 card)"
+    },
+    {
+     "t_min": 46,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "ops-spaceport-02",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "pad status red: launch window frozen",
+     "doors": "n/a",
+     "vent": "n/a",
+     "note": "same"
+    }
+   ]
+  },
+  {
+   "id": "imperial-city",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "normal",
+     "doors": "open",
+     "vent": "n/a",
+     "flow": {
+      "visitors": 0
+     },
+     "note": "card 53bf29d has no people; clearing = lights + gates; visitors declared 0 (scan 4 in account 3 bounds)"
+    },
+    {
+     "t_min": 1,
+     "level": "red",
+     "lights": "terrace lamps dimmed to 30%, gate lamps red",
+     "doors": "gates closed",
+     "vent": "n/a",
+     "flow": {
+      "visitors": 0
+     },
+     "note": "card 53bf29d has no people; clearing = lights + gates; visitors declared 0 (scan 4 in account 3 bounds)"
+    }
+   ]
+  },
+  {
+   "id": "pwr-fusion-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "pwr-storage-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "pwr-grid-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "res-eclss-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "res-isru-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "res-mine-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "res-foundry-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "res-glass-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "res-dome-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 2
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "ops-vab-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "ops-payload-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  },
+  {
+   "id": "ops-fire-01",
+   "hook": "userData.alarm",
+   "keyframes": [
+    {
+     "t_min": 0,
+     "level": "red",
+     "lights": "interior lamps amber (suit-up) ",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 1
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 15,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "airlock in use",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    },
+    {
+     "t_min": 41,
+     "level": "red",
+     "lights": "interior lamps: unoccupied",
+     "doors": "closed",
+     "vent": "unchanged",
+     "flow": {
+      "suiting_up": 0
+     },
+     "note": "duty room; wall shielding not on the card -> shelter-in-place dose not closable"
+    }
+   ]
+  }
+ ],
+ "flow": [
+  {
+   "t_min": 0,
+   "counts": {
+    "origin": 16,
+    "transit": 3,
+    "queue": 0,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 0
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 0
+    }
+   }
+  },
+  {
+   "t_min": 1,
+   "counts": {
+    "origin": 16,
+    "transit": 3,
+    "queue": 0,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 0
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 0
+    }
+   }
+  },
+  {
+   "t_min": 2,
+   "counts": {
+    "origin": 16,
+    "transit": 2,
+    "queue": 0,
+    "lock": 3,
+    "lift": 0,
+    "sheltered": 0
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 0
+    }
+   }
+  },
+  {
+   "t_min": 3,
+   "counts": {
+    "origin": 16,
+    "transit": 2,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 2
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 4,
+   "counts": {
+    "origin": 16,
+    "transit": 2,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 2
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 5,
+   "counts": {
+    "origin": 16,
+    "transit": 1,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 3
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 1
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 6,
+   "counts": {
+    "origin": 16,
+    "transit": 1,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 3
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 1
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 7,
+   "counts": {
+    "origin": 16,
+    "transit": 1,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 3
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 1
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 8,
+   "counts": {
+    "origin": 16,
+    "transit": 1,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 4
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 9,
+   "counts": {
+    "origin": 16,
+    "transit": 1,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 4
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 10,
+   "counts": {
+    "origin": 16,
+    "transit": 1,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 4
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 11,
+   "counts": {
+    "origin": 16,
+    "transit": 0,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 4
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 2
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 12,
+   "counts": {
+    "origin": 16,
+    "transit": 0,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 4
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 2
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 13,
+   "counts": {
+    "origin": 16,
+    "transit": 0,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 4
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 2
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 14,
+   "counts": {
+    "origin": 16,
+    "transit": 0,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 5
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 3
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 15,
+   "counts": {
+    "origin": 0,
+    "transit": 16,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 5
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 3
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 16,
+   "counts": {
+    "origin": 0,
+    "transit": 16,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 5
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 3
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 17,
+   "counts": {
+    "origin": 0,
+    "transit": 16,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 5
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 3
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 18,
+   "counts": {
+    "origin": 0,
+    "transit": 15,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 5
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 3
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 19,
+   "counts": {
+    "origin": 0,
+    "transit": 12,
+    "queue": 2,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 5
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 2,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 3
+    },
+    "C": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 20,
+   "counts": {
+    "origin": 0,
+    "transit": 12,
+    "queue": 2,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 5
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 2,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 3
+    },
+    "C": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 21,
+   "counts": {
+    "origin": 0,
+    "transit": 12,
+    "queue": 0,
+    "lock": 3,
+    "lift": 0,
+    "sheltered": 6
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 4
+    },
+    "C": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 0
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 22,
+   "counts": {
+    "origin": 0,
+    "transit": 12,
+    "queue": 0,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 7
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 4
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 1
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 23,
+   "counts": {
+    "origin": 0,
+    "transit": 10,
+    "queue": 1,
+    "lock": 3,
+    "lift": 0,
+    "sheltered": 7
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 1,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 4
+    },
+    "C": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 1
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 24,
+   "counts": {
+    "origin": 0,
+    "transit": 10,
+    "queue": 0,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 9
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "C": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 1
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 25,
+   "counts": {
+    "origin": 0,
+    "transit": 6,
+    "queue": 4,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 9
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 2,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "C": {
+     "queue": 2,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 1
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 26,
+   "counts": {
+    "origin": 0,
+    "transit": 6,
+    "queue": 2,
+    "lock": 3,
+    "lift": 1,
+    "sheltered": 9
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 2,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "C": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 1,
+     "sheltered": 1
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 27,
+   "counts": {
+    "origin": 0,
+    "transit": 4,
+    "queue": 2,
+    "lock": 4,
+    "lift": 0,
+    "sheltered": 11
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 7
+    },
+    "C": {
+     "queue": 2,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 2
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 28,
+   "counts": {
+    "origin": 0,
+    "transit": 4,
+    "queue": 2,
+    "lock": 4,
+    "lift": 0,
+    "sheltered": 11
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 7
+    },
+    "C": {
+     "queue": 2,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 2
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 29,
+   "counts": {
+    "origin": 0,
+    "transit": 4,
+    "queue": 0,
+    "lock": 4,
+    "lift": 2,
+    "sheltered": 11
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 7
+    },
+    "C": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 2,
+     "sheltered": 2
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 30,
+   "counts": {
+    "origin": 0,
+    "transit": 4,
+    "queue": 0,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 15
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 9
+    },
+    "C": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 4
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 31,
+   "counts": {
+    "origin": 0,
+    "transit": 4,
+    "queue": 0,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 15
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 9
+    },
+    "C": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 4
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 32,
+   "counts": {
+    "origin": 0,
+    "transit": 4,
+    "queue": 0,
+    "lock": 0,
+    "lift": 2,
+    "sheltered": 15
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 9
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 2,
+     "sheltered": 4
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 33,
+   "counts": {
+    "origin": 0,
+    "transit": 3,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 17
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 9
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 34,
+   "counts": {
+    "origin": 0,
+    "transit": 3,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 17
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 9
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 35,
+   "counts": {
+    "origin": 0,
+    "transit": 2,
+    "queue": 1,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 17
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 1,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 9
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 36,
+   "counts": {
+    "origin": 0,
+    "transit": 2,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 18
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 10
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 37,
+   "counts": {
+    "origin": 0,
+    "transit": 2,
+    "queue": 0,
+    "lock": 1,
+    "lift": 0,
+    "sheltered": 18
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 10
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 38,
+   "counts": {
+    "origin": 0,
+    "transit": 0,
+    "queue": 0,
+    "lock": 3,
+    "lift": 0,
+    "sheltered": 18
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 1,
+     "lift": 0,
+     "sheltered": 10
+    },
+    "C": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 39,
+   "counts": {
+    "origin": 0,
+    "transit": 0,
+    "queue": 0,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 19
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 11
+    },
+    "C": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 40,
+   "counts": {
+    "origin": 0,
+    "transit": 0,
+    "queue": 0,
+    "lock": 2,
+    "lift": 0,
+    "sheltered": 19
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 11
+    },
+    "C": {
+     "queue": 0,
+     "lock": 2,
+     "lift": 0,
+     "sheltered": 6
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 41,
+   "counts": {
+    "origin": 0,
+    "transit": 0,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 21
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 11
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 8
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 42,
+   "counts": {
+    "origin": 0,
+    "transit": 0,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 21
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 11
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 8
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 43,
+   "counts": {
+    "origin": 0,
+    "transit": 0,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 21
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 11
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 8
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 44,
+   "counts": {
+    "origin": 0,
+    "transit": 0,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 21
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 11
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 8
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 45,
+   "counts": {
+    "origin": 0,
+    "transit": 0,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 21
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 11
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 8
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  },
+  {
+   "t_min": 46,
+   "counts": {
+    "origin": 0,
+    "transit": 0,
+    "queue": 0,
+    "lock": 0,
+    "lift": 0,
+    "sheltered": 21
+   },
+   "per_entrance": {
+    "A": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 11
+    },
+    "C": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 8
+    },
+    "V": {
+     "queue": 0,
+     "lock": 0,
+     "lift": 0,
+     "sheltered": 2
+    }
+   }
+  }
+ ],
+ "paths": [
+  {
+   "id": "d00",
+   "kind": "duty",
+   "origin": "pwr-fusion-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      -140,
+      40
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 18.94,
+     "from": [
+      -140,
+      40
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 18.94,
+     "t1": 20.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 20.538,
+     "t1": 23.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 23.538,
+     "t1": 23.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 23.538,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d01",
+   "kind": "duty",
+   "origin": "pwr-fusion-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      -140,
+      40
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 18.94,
+     "from": [
+      -140,
+      40
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 18.94,
+     "t1": 20.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 20.538,
+     "t1": 23.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 23.538,
+     "t1": 23.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 23.538,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d02",
+   "kind": "duty",
+   "origin": "pwr-storage-01",
+   "entrance": "hab-lift-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      -230,
+      90
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 18.568,
+     "from": [
+      -230,
+      90
+     ],
+     "to": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 18.568,
+     "t1": 18.568,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 18.568,
+     "t1": 21.568,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lift",
+     "t0": 21.568,
+     "t1": 21.917,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 21.917,
+     "t1": null,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d03",
+   "kind": "duty",
+   "origin": "pwr-grid-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      -205,
+      10
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 17.538,
+     "from": [
+      -205,
+      10
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 17.538,
+     "t1": 17.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 17.538,
+     "t1": 20.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 20.538,
+     "t1": 20.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 20.538,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d04",
+   "kind": "duty",
+   "origin": "res-eclss-01",
+   "entrance": "hab-lift-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      5,
+      60
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 22.7,
+     "from": [
+      5,
+      60
+     ],
+     "to": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 22.7,
+     "t1": 22.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 22.7,
+     "t1": 25.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lift",
+     "t0": 25.7,
+     "t1": 26.049,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 26.049,
+     "t1": null,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d05",
+   "kind": "duty",
+   "origin": "res-isru-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      40,
+      25
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 22.437,
+     "from": [
+      40,
+      25
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 22.437,
+     "t1": 23.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 23.538,
+     "t1": 26.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 26.538,
+     "t1": 26.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 26.538,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d06",
+   "kind": "duty",
+   "origin": "res-mine-01",
+   "entrance": "hab-lift-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      180,
+      -120
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 26.227,
+     "from": [
+      180,
+      -120
+     ],
+     "to": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 26.227,
+     "t1": 28.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 28.7,
+     "t1": 31.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lift",
+     "t0": 31.7,
+     "t1": 32.049,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 32.049,
+     "t1": null,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d07",
+   "kind": "duty",
+   "origin": "res-foundry-01",
+   "entrance": "hab-lift-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      170,
+      -260
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 26.871,
+     "from": [
+      170,
+      -260
+     ],
+     "to": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 26.871,
+     "t1": 28.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 28.7,
+     "t1": 31.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lift",
+     "t0": 31.7,
+     "t1": 32.049,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 32.049,
+     "t1": null,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d08",
+   "kind": "duty",
+   "origin": "res-glass-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      120,
+      -225
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 24.957,
+     "from": [
+      120,
+      -225
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 24.957,
+     "t1": 26.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 26.538,
+     "t1": 29.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 29.538,
+     "t1": 29.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 29.538,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d09",
+   "kind": "duty",
+   "origin": "res-dome-01",
+   "entrance": "hab-lift-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      95,
+      70
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 24.504,
+     "from": [
+      95,
+      70
+     ],
+     "to": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 24.504,
+     "t1": 25.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 25.7,
+     "t1": 28.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lift",
+     "t0": 28.7,
+     "t1": 29.049,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 29.049,
+     "t1": null,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d10",
+   "kind": "duty",
+   "origin": "res-dome-01",
+   "entrance": "hab-lift-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      95,
+      70
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 24.504,
+     "from": [
+      95,
+      70
+     ],
+     "to": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 24.504,
+     "t1": 25.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 25.7,
+     "t1": 28.7,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lift",
+     "t0": 28.7,
+     "t1": 29.049,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 29.049,
+     "t1": null,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d11",
+   "kind": "duty",
+   "origin": "ops-spaceport-01",
+   "entrance": "hab-lift-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      500,
+      700
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 37.591,
+     "from": [
+      500,
+      700
+     ],
+     "to": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 37.591,
+     "t1": 37.591,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 37.591,
+     "t1": 40.591,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lift",
+     "t0": 40.591,
+     "t1": 40.94,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 40.94,
+     "t1": null,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d12",
+   "kind": "duty",
+   "origin": "ops-spaceport-01",
+   "entrance": "hab-lift-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      500,
+      700
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 37.591,
+     "from": [
+      500,
+      700
+     ],
+     "to": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 37.591,
+     "t1": 37.591,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 37.591,
+     "t1": 40.591,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "lift",
+     "t0": 40.591,
+     "t1": 40.94,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 40.94,
+     "t1": null,
+     "at": [
+      -372.0,
+      -18.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d13",
+   "kind": "duty",
+   "origin": "ops-vab-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      600,
+      300
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 34.619,
+     "from": [
+      600,
+      300
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 34.619,
+     "t1": 35.508,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 35.508,
+     "t1": 38.508,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 38.508,
+     "t1": 38.508,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 38.508,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d14",
+   "kind": "duty",
+   "origin": "ops-payload-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      480,
+      320
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 32.508,
+     "from": [
+      480,
+      320
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 32.508,
+     "t1": 32.508,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 32.508,
+     "t1": 35.508,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 35.508,
+     "t1": 35.508,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 35.508,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d15",
+   "kind": "duty",
+   "origin": "ops-fire-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 15.0,
+     "at": [
+      95,
+      -160
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 15.0,
+     "t1": 24.001,
+     "from": [
+      95,
+      -160
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 24.001,
+     "t1": 26.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 26.538,
+     "t1": 29.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 29.538,
+     "t1": 29.538,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 29.538,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "e16",
+   "kind": "eva",
+   "origin": "res-mine-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 0.0,
+     "at": [
+      180,
+      -120
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 0.0,
+     "t1": 10.426,
+     "from": [
+      180,
+      -120
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 10.426,
+     "t1": 10.426,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 10.426,
+     "t1": 13.426,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 13.426,
+     "t1": 13.426,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 13.426,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "e17",
+   "kind": "eva",
+   "origin": "ops-depot-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 0.0,
+     "at": [
+      55,
+      -165
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 0.0,
+     "t1": 1.657,
+     "from": [
+      55,
+      -165
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 1.657,
+     "t1": 1.657,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 1.657,
+     "t1": 4.657,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 4.657,
+     "t1": 4.657,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 4.657,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "e18",
+   "kind": "eva",
+   "origin": "veh-ground-01",
+   "entrance": "hab-tunnel-01",
+   "shelter": "hab-foyer-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 0.0,
+     "at": [
+      700,
+      370
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 0.0,
+     "t1": 4.394,
+     "from": [
+      700,
+      370
+     ],
+     "to": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 4.394,
+     "t1": 4.657,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 4.657,
+     "t1": 7.657,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 7.657,
+     "t1": 7.657,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 7.657,
+     "t1": null,
+     "at": [
+      -330.0,
+      -12.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p19",
+   "kind": "plaza",
+   "origin": "hab-village-01(plaza)",
+   "entrance": "hab-village-01",
+   "shelter": "hab-village-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 0.0,
+     "at": [
+      -250,
+      -46
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 0.0,
+     "t1": 0.0,
+     "from": [
+      -250,
+      -46
+     ],
+     "to": [
+      -250.0,
+      -46.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 0.0,
+     "t1": 0.0,
+     "at": [
+      -250.0,
+      -46.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 0.0,
+     "t1": 3.0,
+     "at": [
+      -250.0,
+      -46.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 3.0,
+     "t1": 3.0,
+     "at": [
+      -250.0,
+      -46.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 3.0,
+     "t1": null,
+     "at": [
+      -250.0,
+      -46.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p20",
+   "kind": "plaza",
+   "origin": "hab-village-01(plaza)",
+   "entrance": "hab-village-01",
+   "shelter": "hab-village-01",
+   "legs": [
+    {
+     "state": "origin",
+     "t0": 0.0,
+     "t1": 0.0,
+     "at": [
+      -250,
+      -46
+     ]
+    },
+    {
+     "state": "transit",
+     "t0": 0.0,
+     "t1": 0.0,
+     "from": [
+      -250,
+      -46
+     ],
+     "to": [
+      -250.0,
+      -46.0
+     ]
+    },
+    {
+     "state": "queue",
+     "t0": 0.0,
+     "t1": 0.0,
+     "at": [
+      -250.0,
+      -46.0
+     ]
+    },
+    {
+     "state": "lock",
+     "t0": 0.0,
+     "t1": 3.0,
+     "at": [
+      -250.0,
+      -46.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 3.0,
+     "t1": 3.0,
+     "at": [
+      -250.0,
+      -46.0
+     ]
+    },
+    {
+     "state": "sheltered",
+     "t0": 3.0,
+     "t1": null,
+     "at": [
+      -250.0,
+      -46.0
+     ]
+    }
+   ]
+  }
+ ],
+ "stay_needed": {
+  "peak2x": {
+   "hours_until_90pct_delivered": 82.25,
+   "sols": 3.335401485014011
+  },
+  "peak3x": {
+   "hours_until_90pct_delivered": 31.5,
+   "sols": 1.2773878027713232
+  }
+ },
+ "stand_down": "not modelled: red clears when sci-rad-01's 1-min count falls below 3x quiet (card); for the 2017 input that is 1-2 sol after onset (account 4 stay_needed)"
+}

@@ -9,9 +9,11 @@
 // 设计输入(E:\Claude\mars_rad_sic 五本账;原写「四本账」,账5 SEP 接口 08-06 新增后漏改):
 //   探测叠层 = HDPE 慢化帽 → ⁶LiF 转换层 30 µm(效率峰 4.72%,账1)
 //   → 4H-SiC PiN 片 ×4(2 热道贴 LiF + 2 裸快道)→ 铜读出板 → 前放。
-//   预期计数 2.32 cps(2026-09-02 按**已分辨**屏蔽重算:S_n 2.271e20 @640 MW ×
-//   累计 T 1.164e-10 @t=0.30 m 硼化混凝土面 ⇒ 58 m 处 62.5 n·cm⁻²·s⁻¹ ±3.3%),
-//   屏显持续闪烁(~0.43 s 周期,确定性哈希,禁 Math.random)。
+//   预期计数 0.87 cps(2026-09-19 按**机器几何 T** 重算:S_n 2.2722e20 @640 MW ×
+//   累计 T 4.391e-11 @t=0.30 m 硼化混凝土面 ⇒ 58 m(自堆心)处 23.6 n·cm⁻²·s⁻¹ ±10.6%;
+//   sci-rad-01 裁定条件 (ii) 在该链未确立 ⇒ 这是**交付件所印 T 下的数,不是「那个值」**),
+//   屏显约每秒一跳(~1.1 s 周期,确定性哈希,禁 Math.random)。
+//   模型几何 T 下的那组旧值(计数、通量、周期)已作废;模型几何的 T 本身不撤,只是不再作机器引用。
 //   **旧值 0.08 cps / ~12 s 已作废** —— 那是本网**自设 2 m 屏蔽**下的值,不是界;
 //   已分辨设计只有 0.30 m ⇒ 薄 6.7 倍,这就是 29 倍差的全部来处。
 //   器件与 E:\Claude\LGAD 同外延栈(PiN 版免增益层)——同源器件、两种部署。
@@ -205,13 +207,13 @@ export function build(THREE) {
   [M.body, M.trim, M.steel, M.orange, M.concrete, M.hdpe].forEach((m) => m.color.lerp(dust, 0.05));
 
   /* ==========================================================
-   * 动画:确定性计数 blip(围界节奏 ~0.43 s;2.32 cps 的屏上化身)
+   * 动画:确定性计数 blip(围界节奏 ~1.1 s;0.87 cps 的屏上化身)
    * 【2026-08-08 修】本行原写 “~5 s;0.21 cps” —— 源项按托卡马克 v5 回执重建后,
    *   周期常数与账本都改了,**这行注释漏改**。注释是结论的容器,
    *   代码改了不会带着它一起改。
    * 只驱动 blipMat(专属材质),不碰 nightMats/blinkMats。
    * ========================================================== */
-  const BLIP_PERIOD_S = 0.432;   // = 1/2.32 cps(账本 RESOLVED_blip_period_s),见下方出处注
+  const BLIP_PERIOD_S = 1.144;   // = 1/0.874 cps(账本 FENCE_blip_period_s),见下方出处注
 
   function blipLevel(t, T, p, seed) {
     const k = Math.floor(t / T);
@@ -222,9 +224,12 @@ export function build(THREE) {
   }
   group.userData.animate = (t) => {
     for (const s of sentinels) {
-      // 【周期是从数导出的,不是选的】BLIP_PERIOD_S = 1/2.33 cps。
-      //   出处:PREREG_perimeter_recompute_20260902.md(0.30 m 已分辨面档)。
-      //   **换档只改这一个常量**;对照档 0.282 m 插值面为 3.84 cps ⇒ 0.261 s。
+      // 【周期是从数导出的,不是选的】BLIP_PERIOD_S = 1/0.874 cps。
+      //   出处:PREREG_fence_recompute_T_machine_20260919.md(机器几何 T)。2026-09-19 b 已在 chain3 上测出,
+      //   (ii) SATISFIED、扣留解除:所印 T 可引用、b 不应用(sci-rad-01 fc58520)——本常量取的就是可引用的这一行。
+      //   **换档只改这一个常量**。围界表两行并列:所印 0.874 cps ⇒ 1.14 s(本常量;对围界是舒服的那一个);
+      //   chain3 自己的 b 过六缝 0.632 ⇒ 1.58 s(区间 0.453–0.898);有条件的试验载荷行 0.378 ⇒ 2.65 s。
+      //   同日较早的五行读法里,极限高侧、浅探针、chain2 转移三行已退出现行表(账本 retired_rows 留痕)。
       //   数变了动画不跟,卡就在说谎。
       const lv = blipLevel(t, BLIP_PERIOD_S, 0.95, s.seed);
       s.blipMat.emissiveIntensity = 0.2 + 3.2 * lv;

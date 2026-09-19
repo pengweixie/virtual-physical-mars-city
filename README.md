@@ -20,7 +20,7 @@ a fabbed PCB) seated in the rack beside it.
 
 **<https://pengweixie.github.io/virtual-physical-mars-city/>**
 
-The heart of this release. Eighteen district pages, each telling one part of
+The heart of this release. Twenty-three district pages, each telling one part of
 the build as an engineering story: what it is, how the mechanism works, a
 ledger table tracing **every number on the page to the simulation run that
 produced it**, and an honest *What broke* section. English, offline-complete,
@@ -39,12 +39,17 @@ no external resources.
 | [Quantum](https://pengweixie.github.io/virtual-physical-mars-city/quantum.html) | A 20-qubit transmon machine in service mode, fridge fully exposed |
 | [Chip Fab](https://pengweixie.github.io/virtual-physical-mars-city/fab.html) | One cleanroom, three process lines, 21 simulation rounds |
 | [Undercity](https://pengweixie.github.io/virtual-physical-mars-city/undercity.html) | Foyer, quarter, clinic and lounge under 30 m of rock |
+| [The Home](https://pengweixie.github.io/virtual-physical-mars-city/home.html) | Eight appliance ledgers for a 70 kPa cabin, and a walk-in show home built from them |
+| [The People](https://pengweixie.github.io/virtual-physical-mars-city/people.html) | 115 people on one card, 35 beds on the rest, and a dose map that is 78% blank |
 | [Perception & Robots](https://pengweixie.github.io/virtual-physical-mars-city/perception.html) | Robots that navigate by sight; a MuJoCo-baked humanoid gait |
 | [The Spectrum Net](https://pengweixie.github.io/virtual-physical-mars-city/spectrum.html) | Six observatories in one sol — 15 decades of wavelength |
 | [Gravitational Waves](https://pengweixie.github.io/virtual-physical-mars-city/gravity.html) | TT-1: a three-satellite laser interferometer, exhibited 1:1 |
 | [Environment Watch](https://pengweixie.github.io/virtual-physical-mars-city/environment.html) | One storm read at three depths — weather mast to deep-lab silence |
+| [The Radiation Budget](https://pengweixie.github.io/virtual-physical-mars-city/radiation.html) | A buried village, a frozen judge, a dose floor above the city's line, and three measurements the city does not have |
+| [The Drill](https://pengweixie.github.io/virtual-physical-mars-city/drill.html) | A RAD-measured solar storm run through the alarm bus - 40.9 minutes to clear the surface |
 | [Flight Ops](https://pengweixie.github.io/virtual-physical-mars-city/flight.html) | The coaxial scout helicopter and its electro-thermal battery ledger |
 | [The Town](https://pengweixie.github.io/virtual-physical-mars-city/town.html) | The densification pass: village, depot, crop tunnels, pipe corridors |
+| [Polymers](https://pengweixie.github.io/virtual-physical-mars-city/polymer.html) | CO2 and well water to polyethylene - it can be made, and the cost is water, not power |
 | [The Origin](https://pengweixie.github.io/virtual-physical-mars-city/origin.html) | The notebook page the whole city traces back to |
 
 ## Quick start (the 3-D city itself)
