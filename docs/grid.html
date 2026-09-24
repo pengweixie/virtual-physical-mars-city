@@ -111,7 +111,7 @@
 
 <div class="specs">
   <div class="specs__grid wrap" style="padding:0;">
-    <div class="spec"><div class="spec__k">City load</div><div class="spec__v">679<small>kW mean, priced &mdash; 916 with assumptions</small></div></div>
+    <div class="spec"><div class="spec__k">City load</div><div class="spec__v">932<small>kW mean, priced &mdash; 1,169 with assumptions (updated 2026-09-23)</small></div></div>
     <div class="spec"><div class="spec__k">Trunk</div><div class="spec__v">&plusmn;10<small>kV DC</small></div></div>
     <div class="spec"><div class="spec__k">Buried corridors</div><div class="spec__v">7,058<small>m</small></div></div>
     <div class="spec"><div class="spec__k">Overhead line</div><div class="spec__v">0<small>m &mdash; and that is the design</small></div></div>
@@ -169,8 +169,8 @@
       the fence is 176. Recirculating fraction 54.9%, engineering Q<sub>e</sub> 1.82.</p>
       <p>Totalled item by item across fifty assets, the first round drew 707&nbsp;kW mean and
       1,075&nbsp;kW at coincident peak &mdash; figures the second round retired (2026-09-13, ledger 12).
-      Read card by card, the <strong>priced total is 679&nbsp;kW mean and
-      885&nbsp;kW coincident</strong>, 916 / 1,405&nbsp;kW with this
+      Read card by card, the <strong>priced total is 932&nbsp;kW mean and
+      1,168&nbsp;kW coincident</strong> (09-13 printed 679 / 885; ECLSS, the polymer line and ISRU priced or corrected their rows on 09-22 / 23), 1,169 / 1,687&nbsp;kW with this
       dossier's own assumptions added &mdash; and the largest single load in the city, the
       staple-crop hall at 260&nbsp;kW, had never been in the table. Where a card
       stated no power, r1 closed the load against the asset's heat-rejection geometry &mdash; on Mars
@@ -406,7 +406,7 @@
       card counts 115. Split into what the cards actually state, it is a gas plant at 32&nbsp;kW,
       appliances at 4, village heating at 2 &mdash; and cabin services, undercity heating and the
       CO&#8322; and water loops are <em>gaps</em>: listed, not estimated. Two totals are now printed
-      and never blended: priced 679&nbsp;kW, with assumptions 916.</p>
+      and never blended: priced 932&nbsp;kW, with assumptions 1,169.</p>
       <p><strong>The socket tier (ledger 13).</strong> The boundary between 48&nbsp;V sockets and
       400&nbsp;V hard-wiring is not a borrowed 1.5&nbsp;kW: it is <strong>1.54&nbsp;kW</strong>, set
       by the 32&nbsp;A plug family, with the largest practical branch cable binding only above it.
@@ -441,7 +441,7 @@
       source: the unit's own card, a priced mean with no emergency mode, or this ledger's factor. The
       compute centre's 4.8&nbsp;kW goes to zero on its own ledger. The survival tier on the units'
       own bases is <strong>8.7&nbsp;kW plus five unpriced gaps</strong> (11.7 with my factors); the
-      &ldquo;quench plus black storm&rdquo; case closes on card bases at 1.53&times; and fails
+      &ldquo;quench plus black storm&rdquo; case closes on card bases at 1.23&times; (1.53&times; until ECLSS priced its loops on 09-22) and fails
       only when my assumed quantum-centre and deep-lab loads are put back (0.68&times;) &mdash;
       the fission dossier's 63.7&nbsp;kW gap is made of two loads no card prices. What the city needs
       next is three numbers from three cards, not another factor from this one.</p>
@@ -477,8 +477,8 @@
     <div class="tablewrap"><table>
       <thead><tr><th>Claim</th><th class="num">Value</th><th>Produced by</th></tr></thead>
       <tbody>
-        <tr><td>City load, priced (card + derived), mean / coincident peak</td><td class="num">679 / 885 kW</td><td class="src">grid_12_load_reaudit.py</td></tr>
-        <tr><td>&hellip; with this dossier's assumptions added</td><td class="num">916 / 1,405 kW</td><td class="src">grid_12_load_reaudit.py</td></tr>
+        <tr><td>City load, priced (card + derived), mean / coincident peak</td><td class="num">932 / 1,168 kW</td><td class="src">grid_12_load_reaudit.py</td></tr>
+        <tr><td>&hellip; with this dossier's assumptions added</td><td class="num">1,169 / 1,687 kW</td><td class="src">grid_12_load_reaudit.py</td></tr>
         <tr><td>r1 city load (retired 2026-09-13: 30-crew guess, capacity read as meter)</td><td class="num">707 / 1,075 kW</td><td class="src">grid_01_load_ledger.py</td></tr>
         <tr><td>Gross-to-net reconciliation</td><td class="num">390 &minus; 208 &minus; 6.5 = 176 MWe</td><td class="src">grid_01_load_ledger.py</td></tr>
         <tr><td>City share of its own reactor</td><td class="num">0.40%</td><td class="src">grid_01_load_ledger.py</td></tr>
@@ -489,7 +489,7 @@
         <tr><td>Bipolar DC vs 3-phase, equal loss</td><td class="num">0.50&times; conductor</td><td class="src">grid_03_transmission.py</td></tr>
         <tr><td>T1 survival tier on the units' own bases</td><td class="num">8.7 kW + 5 unpriced gaps</td><td class="src">grid_16_island_reprint.py</td></tr>
         <tr><td>Storage 145 kW vs T1 (own basis)</td><td class="num">16.63&times;</td><td class="src">grid_16_island_reprint.py</td></tr>
-        <tr><td>Quench + black storm, 153 kW vs T1+T2+T2c: card bases / with my assumptions</td><td class="num">1.53&times; / 0.68&times;</td><td class="src">grid_16_island_reprint.py</td></tr>
+        <tr><td>Quench + black storm, 153 kW vs T1+T2+T2c: card bases / with my assumptions</td><td class="num">1.23&times; / 0.61&times;</td><td class="src">grid_16_island_reprint.py</td></tr>
         <tr><td>r1 T1 survival, endurance, closure (retired 2026-09-13: own per-crew factor on 30 crew)</td><td class="num">78 kW &middot; 10.3 sol &middot; 1.85&times;</td><td class="src">grid_04_islanding.py</td></tr>
         <tr><td>Socket tier boundary (32 A plug family)</td><td class="num">1.54 kW at 48 V</td><td class="src">grid_13_cabin_distribution.py</td></tr>
         <tr><td>48 V share of commons conductor mass / power</td><td class="num">87% / 27%</td><td class="src">grid_13_cabin_distribution.py</td></tr>

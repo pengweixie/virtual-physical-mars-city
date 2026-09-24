@@ -206,7 +206,7 @@
         <tr><td>Last person's extra dose, literature shape / 2 h-rise shape</td><td class="num">0.2–0.3 / 1.0–2.0 µGy</td><td class="src">ledger/04_shelter_dose.py</td><td class="st st--acc">account, both shapes</td></tr>
         <tr><td>90% of the event delivered after</td><td class="num">82 / 32 h</td><td class="src">ledger/04_shelter_dose.py</td><td class="st st--acc">account</td></tr>
         <tr><td>Same 41 min on the surface at F=10³ / 10⁴</td><td class="num">3.1 / 30.6 mSv</td><td class="src">ledger/04_shelter_dose.py; rates from sci-rad-01 account 5</td><td class="st st--x">cited × account</td></tr>
-        <tr><td>Village bunk SEP dose per event</td><td class="num">≤ 48 µGy</td><td class="src">ledger/04_shelter_dose.py (Run B 27.0 mSv/yr floor)</td><td class="st st--gap">bound only</td></tr>
+        <tr><td>Village bunk SEP dose per event (from the Run B 27.0 mSv/yr floor, which since 2026-09-21 carries the qualifier <em>model void under the floor</em>: glass addendum A, village card v2)</td><td class="num">≤ 48 µGy</td><td class="src">ledger/04_shelter_dose.py</td><td class="st st--gap">bound only · qualified</td></tr>
         <tr><td>Undercity (30 m rock) / deep lab SEP increment</td><td class="num">≤ 4 µGy / 0</td><td class="src">sci-rad-03 / sci-rad-04 cards</td><td class="st st--x">cited card</td></tr>
         <tr><td>Known answer: 0.66 ÷ (0.21 × 1.0275)</td><td class="num">3.06 vs ⟨Q⟩ 3.05</td><td class="src">ledger/04_shelter_dose.py G4.4</td><td class="st st--acc">gate</td></tr>
         <tr><td>drill.json: units with keyframes / minutes / paths / gates</td><td class="num">27 / 47 / 21 / 31 green</td><td class="src">ledger/05_drill.py; ledger/run_all.py</td><td class="st st--acc">account</td></tr>
@@ -232,6 +232,7 @@
       <li><strong>The sentinel's 188 s reproduces only one way.</strong> The card's 5σ times come from the variance of a background-subtracted difference; the background-only form gives 62 s. Registered so the next reader does not "correct" a correct card.</li>
       <li><strong>A card contradicts itself.</strong> The foyer card lists the personnel airlock at "~22 kWh / ~24 min" in its spec table while its own text and the tunnel card say 0.2 kWh / 3 min — a copy of the vehicle row. Reported to the holder; this ledger uses 3 min.</li>
       <li><strong>The roster arrived, and it has no surface.</strong> The personnel roster delivered the same day places all 85 undercity residents "awake underground" and the 30 villagers in the village: its location model has no surface-duty room, although the life-support card it is built from books 197 person-hours a sol there. Its billet table does say which surface facilities are staffed, so a roster-proportional placement was run: 41.2 min against 40.9 — same headline. The instantaneous surface head count therefore remains a declared number; the drill is flagged 'roster pending' until the roster carries a surface location.</li>
+      <li><strong>The village floor this ledger cites now carries a qualifier.</strong> The glass plant found (addendum A, 2026-09-21) that since Run B its transport model has built the village hull as a whole cylinder, with a ~50 m³ air void under the floor instead of the declared native ground. The 27.0 mSv/yr bunk floor is unchanged and no substitute exists; every number derived from it here (the ≤ 48 µGy bound) is labelled, not re-derived, and the direction of the correction is not guessed.</li>
       <li><strong>More units carry keyframes than expected.</strong> Twenty-seven against a pre-registered 14–18, because each of thirteen surface duty units takes its own row. Printed as a miss.</li>
     </ol>
   </div>
@@ -240,10 +241,10 @@
 <section class="band">
   <div class="wrap">
     <div class="sec-head"><span class="num">05</span><h2>Try it</h2></div>
-    <p class="lead">The console runs the drill by itself until the engine's player is wired.</p>
+    <p class="lead">The engine's player is wired (MODELS.md §4d); the console also runs the drill by itself when the player is idle.</p>
     <div class="prose">
       <p>Open the viewer with <code>?colony=1&amp;inspect=ops-drill-01</code>. The console stands beside the surface radiation station in the environment-warning cluster. Press <strong>V</strong> to look around and use the <strong>SEP drill</strong> button on the left edge of the screen (or the console's own start action): the mast turns red, the siren horn stirs, and the six bars on the board replay the city's per-minute location counts at sixty times real speed — one real minute per second, the ratio printed on the plaque rather than passed off as real time. After 47 seconds the last person is in and the mast returns to green.</p>
-      <p>Every unit in the timeline is asked to declare its own reaction to the alarm level through a <code>userData.alarm</code> hook; the spec and the dispatch to the thirteen unit classes are in the sources below. Once the integrator wires the engine's event bus, <code>?drill=1</code> will play the whole city: gate lamps, cycling airlocks, a sealed village vestibule, grounded aircraft, a frozen launch window, a cleared palace — and two sentinel screens thirty and three thousand metres underground that, correctly, do not change at all.</p>
+      <p>Every unit in the timeline is asked to declare its own reaction to the alarm level through a <code>userData.alarm</code> hook; the spec and the dispatch to the thirteen unit classes are in the sources below. Since 2026-09-19 the engine's alarm bus and drill player are wired (<code>?drill=1&amp;colony=1</code>, or the SEP drill button) and play the whole city: gate lamps, cycling airlocks, a sealed village vestibule, grounded aircraft, a frozen launch window, a cleared palace — and two sentinel screens thirty and three thousand metres underground that, correctly, do not change at all.</p>
     </div>
   </div>
 </section>
